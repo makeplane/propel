@@ -1,0 +1,224 @@
+@theme {
+  /* slide up */
+  --animate-slide-up: slide-up 0.3s ease-out forwards;
+  @keyframes slide-up {
+    from {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* slide in from bottom */
+  --animate-slide-in-from-bottom: slideInFromBottom 0.25s ease-out forwards;
+  @keyframes slideInFromBottom {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* slide in from top */
+  --animate-slide-in-from-top: slideInFromTop 0.25s ease-out forwards;
+  @keyframes slideInFromTop {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* slide out */
+  --animate-slide-out: slideOut 0.25s ease-out forwards;
+  @keyframes slideOut {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+
+  /* slide out down */
+  --animate-slide-out-down: slideOutDown 0.25s ease-out forwards;
+  @keyframes slideOutDown {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  /* fade out */
+  --animate-fade-out: fadeOut 0.25s ease-out forwards;
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  /* fade in */
+  --animate-fade-in: fadeIn 0.25s ease-out forwards;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  /* tour carousel animations */
+  --animate-tour-carousel-slide-in-right: tourCarouselSlideInRight 0.4s
+    cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  @keyframes tourCarouselSlideInRight {
+    0% {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  --animate-tour-carousel-slide-in-left: tourCarouselSlideInLeft 0.4s
+    cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  @keyframes tourCarouselSlideInLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  --animate-tour-carousel-slide-out-right: tourCarouselSlideOutRight 0.4s
+    cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  @keyframes tourCarouselSlideOutRight {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+  }
+
+  --animate-tour-carousel-slide-out-left: tourCarouselSlideOutLeft 0.4s
+    cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  @keyframes tourCarouselSlideOutLeft {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+  }
+
+  --animate-tour-carousel-fade-in: tourCarouselFadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    forwards;
+  @keyframes tourCarouselFadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  --animate-tour-popover-enter: tourPopoverEnter 0.2s cubic-bezier(0.21, 1.02, 0.48, 1) forwards;
+  @keyframes tourPopoverEnter {
+    0% {
+      opacity: 0;
+      transform: translateY(8px) scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  --animate-tour-popover-exit: tourPopoverExit 0.15s ease-in forwards;
+  @keyframes tourPopoverExit {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(8px) scale(0.95);
+    }
+  }
+
+  /* this '--animate-notification-bell-ring' used for workspace notifications for reminders */
+  --animate-notification-bell-ring: notification-bell-ring 2.2s cubic-bezier(0.45, 0.05, 0.55, 0.95)
+    infinite;
+  @keyframes notification-bell-ring {
+    /* burst ~0–18%: damped rotation around top center */
+    0% {
+      transform-origin: top center;
+      transform: rotate(0deg);
+    }
+    2% {
+      transform-origin: top center;
+      transform: rotate(-8deg);
+    }
+    4% {
+      transform-origin: top center;
+      transform: rotate(8deg);
+    }
+    6% {
+      transform-origin: top center;
+      transform: rotate(-6deg);
+    }
+    8% {
+      transform-origin: top center;
+      transform: rotate(6deg);
+    }
+    10% {
+      transform-origin: top center;
+      transform: rotate(-4deg);
+    }
+    12% {
+      transform-origin: top center;
+      transform: rotate(4deg);
+    }
+    14% {
+      transform-origin: top center;
+      transform: rotate(-2deg);
+    }
+    16% {
+      transform-origin: top center;
+      transform: rotate(2deg);
+    }
+    18%,
+    100% {
+      transform-origin: top center;
+      transform: rotate(0deg);
+    }
+  }
+}

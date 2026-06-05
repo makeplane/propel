@@ -1,0 +1,91 @@
+# @plane/propel
+
+Plane's open-source React component library, built on [Base UI](https://base-ui.com) and [Tailwind CSS v4](https://tailwindcss.com).
+
+## Installation
+
+```bash
+pnpm add @plane/propel
+# or
+npm install @plane/propel
+```
+
+Propel has three peer dependencies you install in your app: `react` and
+`react-dom` (v18 or v19), and `tailwindcss` (v4). Tailwind v4 targets Safari
+16.4+, Chrome 111+, and Firefox 128+.
+
+## Usage
+
+Propel ships its design tokens as Tailwind v4 _source_ CSS. It does **not**
+import Tailwind itself, so your app stays in control of its own Tailwind build —
+just import propel's styles after Tailwind in your app's entry CSS:
+
+```css
+/* app.css */
+@import "tailwindcss";
+@import "@plane/propel/styles";
+```
+
+That single import registers propel's tokens **and** registers propel's compiled
+components as a Tailwind source, so the utility classes propel uses are generated
+automatically — no manual `@source` needed.
+
+Then import each component or hook from its own subpath — there is no root
+barrel, so you only ever pull in (and tree-shake to) what you use:
+
+```tsx
+import { Button } from "@plane/propel/components/button";
+import { useDisclosure } from "@plane/propel/hooks/use-disclosure";
+
+export function Example() {
+  const disclosure = useDisclosure();
+  return <Button variant="primary">Click me</Button>;
+}
+```
+
+| Import pattern                    | Resolves to        |
+| --------------------------------- | ------------------ |
+| `@plane/propel/components/<name>` | a single component |
+| `@plane/propel/hooks/<name>`      | a single hook      |
+
+### Styles
+
+| Import                            | Contents                                                  |
+| --------------------------------- | --------------------------------------------------------- |
+| `@plane/propel/styles`            | Everything — design tokens + animations (`propel.css`)    |
+| `@plane/propel/styles/variables`  | Design tokens only (`:root` custom properties + `@theme`) |
+| `@plane/propel/styles/animations` | Keyframes / animation utilities only                      |
+
+The tokens use the Tailwind v4 multi-theme pattern (light/dark/high-contrast via
+`[data-theme]`), so theming is driven by a `data-theme` attribute on a host
+element.
+
+## Development
+
+This package is built with [`vp pack`](https://viteplus.dev/guide/pack) (tsdown).
+
+```bash
+vp install          # install workspace dependencies
+vp run build        # build the library (JS + .d.ts + CSS) into dist/
+vp run dev          # rebuild on change (watch mode)
+vp check            # format, lint, type-check
+vp test             # run tests
+```
+
+- **No root barrel.** Each component lives in `src/components/<name>/index.ts`
+  and each hook in `src/hooks/<name>/index.ts`. The build emits one entry per
+  folder; static wildcard `exports` (`./components/*`, `./hooks/*`) expose them
+  as `@plane/propel/components/<name>` / `hooks/<name>` automatically — no
+  `exports` edits and no barrel to maintain when you add a folder.
+- `vp pack` needs at least one component or hook to build (a component library
+  with zero entries has nothing to compile).
+- Compose classes with [`clsx`](https://github.com/lukeed/clsx) only — **do not
+  add `tailwind-merge`**. Component variants should be expressed with stable,
+  non-conflicting class sets (e.g. `class-variance-authority`) rather than merged
+  at runtime.
+- Design tokens live in `src/styles/` and are copied unprocessed into
+  `dist/styles/` (they must stay as Tailwind source for the consumer to compile).
+
+## License
+
+[AGPL-3.0-only](./LICENSE) © Plane

@@ -1,0 +1,93 @@
+{
+  "name": "@plane/propel",
+  "version": "0.0.0",
+  "description": "Plane's React component library built on Base UI and Tailwind CSS v4.",
+  "keywords": [
+    "base-ui",
+    "components",
+    "design-system",
+    "plane",
+    "react",
+    "tailwindcss",
+    "ui"
+  ],
+  "homepage": "https://github.com/makeplane/propel/tree/main/packages/propel#readme",
+  "bugs": "https://github.com/makeplane/propel/issues",
+  "license": "AGPL-3.0-only",
+  "author": "Plane (https://plane.so)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makeplane/propel.git",
+    "directory": "packages/propel"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./components/*": {
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/components/*/index.js"
+    },
+    "./hooks/*": {
+      "types": "./dist/hooks/*/index.d.ts",
+      "import": "./dist/hooks/*/index.js"
+    },
+    "./styles": "./dist/styles/propel.css",
+    "./styles/*": "./dist/styles/*.css",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "vp pack",
+    "dev": "vp pack --watch",
+    "test": "vitest --project storybook run",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.5.0",
+    "class-variance-authority": "^0.7.1",
+    "cmdk": "^1.1.1",
+    "framer-motion": "^12.40.0",
+    "lottie-react": "^2.4.1",
+    "lucide-react": "^1.17.0",
+    "react-day-picker": "^10.0.1"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/core": "^0.18.3",
+    "@storybook/addon-docs": "^10.4.2",
+    "@storybook/addon-mcp": "^0.6.0",
+    "@storybook/addon-themes": "^10.4.2",
+    "@storybook/addon-vitest": "^10.4.2",
+    "@storybook/react-vite": "^10.4.2",
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/react": "^19.2.16",
+    "@types/react-dom": "^19.2.3",
+    "@vitest/browser-playwright": "4.1.8",
+    "@vitest/coverage-v8": "4.1.8",
+    "playwright": "^1.60.0",
+    "publint": "^0.3.21",
+    "react": "^19",
+    "react-dom": "^19",
+    "storybook": "^10.4.2",
+    "tailwindcss": "^4.3.0",
+    "vitest": "4.1.8"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}

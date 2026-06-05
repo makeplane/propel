@@ -1,0 +1,24 @@
+/*
+ * @plane/propel — design tokens + component styles.
+ *
+ * This file is Tailwind v4 *source* CSS (it uses @theme, @utility,
+ * @custom-variant). It is meant to be imported into an app that already pulls
+ * in Tailwind, so the app's Tailwind compiler processes these tokens:
+ *
+ *   @import "tailwindcss";
+ *   @import "@plane/propel/styles";
+ *
+ * It intentionally does NOT `@import "tailwindcss"` itself, so the consuming
+ * app stays in full control of its own Tailwind setup.
+ */
+
+@import "./variables.css";
+@import "./animations.css";
+
+/*
+ * Register propel's own compiled output as a Tailwind source so the consuming
+ * app generates the utility classes propel's components use, with zero config.
+ * Paths are resolved relative to this file; once published this resolves to the
+ * package's `dist/` directory (node_modules is otherwise ignored by Tailwind).
+ */
+@source "../";
