@@ -64,6 +64,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.3",
+    "@storybook/addon-a11y": "^10.4.2",
     "@storybook/addon-docs": "^10.4.2",
     "@storybook/addon-mcp": "^0.6.0",
     "@storybook/addon-themes": "^10.4.2",

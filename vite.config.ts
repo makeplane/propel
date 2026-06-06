@@ -21,6 +21,8 @@ export default defineConfig({
       "**/vitest.config.ts",
     ],
     options: { typeAware: true, typeCheck: true },
+    // Project convention: always use `type`, never `interface`.
+    rules: { "typescript/consistent-type-definitions": ["error", "type"] },
   },
   run: {
     cache: true,

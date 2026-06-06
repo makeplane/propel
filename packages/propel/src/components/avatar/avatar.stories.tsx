@@ -52,7 +52,7 @@ export const Magnitudes: Story = {
 };
 
 /**
- * The single project-wide CSS check: an `md` avatar is `size-8` (32px). A
+ * The single project-wide CSS check: an `md` avatar is `size-7` (28px). A
  * concrete computed width proves the shared preview actually compiled Tailwind +
  * propel's tokens — a plain render would pass even with no styles loaded.
  */
@@ -60,6 +60,6 @@ export const CssCheck: Story = {
   args: { magnitude: "md", src: undefined },
   play: async ({ canvasElement }) => {
     const root = canvasElement.firstElementChild as HTMLElement;
-    await expect(getComputedStyle(root).width).toBe("32px");
+    await expect(getComputedStyle(root).width).toBe("28px");
   },
 };
