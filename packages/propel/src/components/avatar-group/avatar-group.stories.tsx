@@ -31,9 +31,8 @@ export const ThreeMembers: Story = {
       <Avatar magnitude="sm" alt="Linus" fallback="LT" />
     </AvatarGroup>
   ),
-  play: async ({ canvasElement }) => {
-    // Proves the group composes and renders all three member avatars.
-    const group = canvasElement.firstElementChild as HTMLElement;
-    await expect(group.children).toHaveLength(3);
+  play: async ({ canvas }) => {
+    // Each avatar exposes role="img"; querying by role proves all three rendered.
+    await expect(canvas.getAllByRole("img")).toHaveLength(3);
   },
 };

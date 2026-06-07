@@ -8,8 +8,8 @@ export type AvatarGroupProps = Omit<React.ComponentProps<"div">, "className">;
 // compose with equally-sized `Avatar`s:
 //
 //   <AvatarGroup>
-//     <Avatar size="small" src={a} />
-//     <Avatar size="small" src={b} />
+//     <Avatar magnitude="sm" src={a} />
+//     <Avatar magnitude="sm" src={b} />
 //   </AvatarGroup>
 export function AvatarGroup({ children, ...props }: AvatarGroupProps) {
   return (

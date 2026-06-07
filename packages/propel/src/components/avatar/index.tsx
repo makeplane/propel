@@ -34,7 +34,7 @@ export type AvatarProps = Omit<
 > & {
   /** Image URL. When omitted, or while it is loading/failing, the fallback shows. */
   src?: string;
-  /** Accessible description for the image. */
+  /** Accessible name for the avatar (the person it represents). */
   alt?: string;
   /** Initials shown when there is no image. When omitted too, a person icon shows. */
   fallback?: React.ReactNode;
@@ -46,6 +46,11 @@ export function Avatar({ magnitude, src, alt, fallback, ...props }: AvatarProps)
   const hasInitials = src == null && fallback != null;
   return (
     <BaseAvatar.Root
+      // `role="img"` + `aria-label` give the avatar one accessible name in every
+      // state (image / initials / icon); the inner image is decorative so there's
+      // exactly one named image. Consumers can override via spread props.
+      role="img"
+      aria-label={alt}
       // Initials sit on a static label color (Figma `label/orange/bg-strong`) with
       // white text; image/icon use the neutral layer with a muted icon. The label
       // primitive is referenced directly because only some label colors are wired
@@ -56,7 +61,7 @@ export function Avatar({ magnitude, src, alt, fallback, ...props }: AvatarProps)
       )}
       {...props}
     >
-      {src ? <BaseAvatar.Image src={src} alt={alt} className="size-full object-cover" /> : null}
+      {src ? <BaseAvatar.Image src={src} alt="" className="size-full object-cover" /> : null}
       <BaseAvatar.Fallback className="flex size-full items-center justify-center leading-none">
         {fallback ?? <User aria-hidden className="size-1/2" />}
       </BaseAvatar.Fallback>

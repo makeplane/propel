@@ -31,7 +31,9 @@ export const WithImage: Story = {
 export const Fallback: Story = {
   args: { src: undefined },
   play: async ({ canvas }) => {
-    // Proves the `fallback` prop is rendered when there is no image.
+    // Queried by role so the assertion survives DOM refactors and also checks the
+    // accessible name; getByText confirms the `fallback` initials render.
+    await expect(canvas.getByRole("img", { name: "Ada Lovelace" })).toBeVisible();
     await expect(canvas.getByText("AL")).toBeVisible();
   },
 };
@@ -58,8 +60,8 @@ export const Magnitudes: Story = {
  */
 export const CssCheck: Story = {
   args: { magnitude: "md", src: undefined },
-  play: async ({ canvasElement }) => {
-    const root = canvasElement.firstElementChild as HTMLElement;
-    await expect(getComputedStyle(root).width).toBe("28px");
+  play: async ({ canvas }) => {
+    // Query by role (typed `HTMLElement`, no cast) and assert the computed size.
+    await expect(canvas.getByRole("img", { name: "Ada Lovelace" })).toHaveStyle({ width: "28px" });
   },
 };

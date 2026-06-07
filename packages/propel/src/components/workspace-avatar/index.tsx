@@ -36,7 +36,7 @@ export type WorkspaceAvatarProps = Omit<
 > & {
   /** Workspace logo URL. Falls back to the initial when absent/loading/failed. */
   src?: string;
-  /** Accessible description for the logo. */
+  /** Accessible name for the workspace avatar. */
   alt?: string;
   /** Shown when there is no logo — typically the workspace's initial. */
   fallback?: React.ReactNode;
@@ -49,13 +49,17 @@ export function WorkspaceAvatar({ magnitude, src, alt, fallback, ...props }: Wor
   const hasInitials = src == null && fallback != null;
   return (
     <BaseAvatar.Root
+      // One accessible name for the avatar in every state; the inner logo image is
+      // decorative. Consumers can override via spread props.
+      role="img"
+      aria-label={alt}
       className={cx(
         workspaceAvatarVariants({ magnitude }),
         hasInitials ? "bg-(--label-indigo-bg-strong) text-on-color" : "bg-layer-1 text-primary",
       )}
       {...props}
     >
-      {src ? <BaseAvatar.Image src={src} alt={alt} className="size-full object-cover" /> : null}
+      {src ? <BaseAvatar.Image src={src} alt="" className="size-full object-cover" /> : null}
       <BaseAvatar.Fallback className="flex size-full items-center justify-center leading-none">
         {fallback}
       </BaseAvatar.Fallback>
