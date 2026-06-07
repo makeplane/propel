@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
-import { Avatar, type AvatarMagnitude } from "./index";
+import { AVATAR_TONES, Avatar, type AvatarMagnitude } from "./index";
 
 const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
@@ -14,6 +14,7 @@ const meta = {
   },
   argTypes: {
     magnitude: { control: "select", options: MAGNITUDES },
+    tone: { control: "select", options: AVATAR_TONES },
     src: { control: "text" },
   },
 } satisfies Meta<typeof Avatar>;
@@ -34,7 +35,11 @@ export const Fallback: Story = {
     // Queried by role so the assertion survives DOM refactors and also checks the
     // accessible name; getByText confirms the `fallback` initials render.
     await expect(canvas.getByRole("img", { name: "Ada Lovelace" })).toBeVisible();
-    await expect(canvas.getByText("AL")).toBeVisible();
+    const initials = canvas.getByText("AL");
+    await expect(initials).toBeVisible();
+    // Proves the `bg-label-*-bg-strong` tone utility actually compiled to a color
+    // (not just that the class string was emitted).
+    await expect(getComputedStyle(initials).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
   },
 };
 
@@ -48,6 +53,21 @@ export const Magnitudes: Story = {
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
         <Avatar key={magnitude} {...args} magnitude={magnitude} />
+      ))}
+    </div>
+  ),
+};
+
+/**
+ * The initials background follows `tone`. When `tone` is omitted it's derived
+ * from `alt`, so every person gets a stable color automatically.
+ */
+export const Tones: Story = {
+  args: { src: undefined },
+  render: (args) => (
+    <div className="flex items-center gap-3">
+      {AVATAR_TONES.map((tone) => (
+        <Avatar key={tone} {...args} tone={tone} magnitude="lg" fallback={tone[0]?.toUpperCase()} />
       ))}
     </div>
   ),

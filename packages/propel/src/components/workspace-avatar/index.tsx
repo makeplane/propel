@@ -46,7 +46,7 @@ export type WorkspaceAvatarProps = Omit<
 export function WorkspaceAvatar({ magnitude, src, alt, fallback, ...props }: WorkspaceAvatarProps) {
   // The fallback shows whenever the logo is absent, loading, or failed, so its
   // styling lives on the Fallback element (not derived from `src`). Initials sit
-  // on a static label color (Figma `label/indigo/bg-strong`) with white text.
+  // on the indigo label color (Figma `label/indigo/bg-strong`) with white text.
   const hasInitials = fallback != null;
   return (
     <BaseAvatar.Root
@@ -61,7 +61,7 @@ export function WorkspaceAvatar({ magnitude, src, alt, fallback, ...props }: Wor
       <BaseAvatar.Fallback
         className={cx(
           "flex size-full items-center justify-center leading-none",
-          hasInitials ? "bg-(--label-indigo-bg-strong) text-on-color" : "bg-layer-1 text-primary",
+          hasInitials ? "bg-label-indigo-bg-strong text-on-color" : "bg-layer-1 text-primary",
         )}
       >
         {fallback}

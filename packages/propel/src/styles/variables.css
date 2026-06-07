@@ -1206,6 +1206,27 @@
   --color-label-yellow-text: var(--label-yellow-text);
   --color-label-yellow-border: var(--label-yellow-border);
   --color-label-yellow-focus: var(--label-yellow-focus);
+  --color-label-orange-bg: var(--label-orange-bg);
+  --color-label-orange-bg-strong: var(--label-orange-bg-strong);
+  --color-label-orange-hover: var(--label-orange-hover);
+  --color-label-orange-icon: var(--label-orange-icon);
+  --color-label-orange-text: var(--label-orange-text);
+  --color-label-orange-border: var(--label-orange-border);
+  --color-label-orange-focus: var(--label-orange-focus);
+  --color-label-pink-bg: var(--label-pink-bg);
+  --color-label-pink-bg-strong: var(--label-pink-bg-strong);
+  --color-label-pink-hover: var(--label-pink-hover);
+  --color-label-pink-icon: var(--label-pink-icon);
+  --color-label-pink-text: var(--label-pink-text);
+  --color-label-pink-border: var(--label-pink-border);
+  --color-label-pink-focus: var(--label-pink-focus);
+  --color-label-purple-bg: var(--label-purple-bg);
+  --color-label-purple-bg-strong: var(--label-purple-bg-strong);
+  --color-label-purple-hover: var(--label-purple-hover);
+  --color-label-purple-icon: var(--label-purple-icon);
+  --color-label-purple-text: var(--label-purple-text);
+  --color-label-purple-border: var(--label-purple-border);
+  --color-label-purple-focus: var(--label-purple-focus);
   /* ---------- Priority colors ---------- */
   /* Text */
   --text-color-priority-urgent: var(--priority-urgent);

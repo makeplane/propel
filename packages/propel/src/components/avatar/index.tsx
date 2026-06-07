@@ -28,6 +28,47 @@ const avatarVariants = cva(
 
 export type AvatarMagnitude = NonNullable<VariantProps<typeof avatarVariants>["magnitude"]>;
 
+// The initials tone palette the designer defined for avatars (Figma label colors).
+export const AVATAR_TONES = ["orange", "indigo", "emerald", "crimson", "pink", "purple"] as const;
+export type AvatarTone = (typeof AVATAR_TONES)[number];
+
+// Initials background per tone. The label colors are wired into `@theme inline`,
+// so these are plain utilities.
+const initialsToneClass: Record<AvatarTone, string> = {
+  orange: "bg-label-orange-bg-strong",
+  indigo: "bg-label-indigo-bg-strong",
+  emerald: "bg-label-emerald-bg-strong",
+  crimson: "bg-label-crimson-bg-strong",
+  pink: "bg-label-pink-bg-strong",
+  purple: "bg-label-purple-bg-strong",
+};
+
+/**
+ * Deterministically pick a tone from a seed (e.g. a name or user id) so the same
+ * person always gets the same color — the "system picks it" behavior. Used as the
+ * default when `tone` is not set; pass `tone` to override.
+ */
+export function getAvatarTone(seed: string): AvatarTone {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) | 0;
+  }
+  return AVATAR_TONES[Math.abs(hash) % AVATAR_TONES.length];
+}
+
+// Person-icon (anonymous) sizes per magnitude, straight from Figma's "icon"
+// values — an explicit px size at each step, not a fixed fraction of the avatar.
+const iconSizeByMagnitude: Record<AvatarMagnitude, string> = {
+  "2xs": "size-3.5", // 14px
+  xs: "size-3.5", // 14px
+  sm: "size-4", // 16px
+  md: "size-5", // 20px
+  lg: "size-6", // 24px
+  xl: "size-6", // 24px
+  "2xl": "size-8", // 32px
+  "3xl": "size-8", // 32px
+};
+
 export type AvatarProps = Omit<
   React.ComponentProps<typeof BaseAvatar.Root>,
   "className" | "render"
@@ -38,17 +79,21 @@ export type AvatarProps = Omit<
   alt?: string;
   /** Initials shown when there is no image. When omitted too, a person icon shows. */
   fallback?: React.ReactNode;
+  /** Initials background color. Defaults to a stable color derived from `alt`. */
+  tone?: AvatarTone;
   magnitude?: AvatarMagnitude;
 };
 
-export function Avatar({ magnitude, src, alt, fallback, ...props }: AvatarProps) {
+export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: AvatarProps) {
   // Base UI shows the fallback whenever the image is absent, loading, or failed,
   // so the colored-initials styling lives on the Fallback element itself — keying
-  // it off `src` would miss the load/error case. Initials = a static label color
-  // (Figma `label/orange/bg-strong`) + white text; the person icon = the neutral
-  // layer + a muted icon. The label primitive is referenced directly because only
-  // some label colors are wired into `@theme inline` as utilities (orange is not).
+  // it off `src` would miss the load/error case. Initials = a label tone color +
+  // white text; the person icon = the neutral layer + a muted placeholder icon.
   const hasInitials = fallback != null;
+  const resolvedMagnitude = magnitude ?? "md";
+  // The tone is auto-derived from the name unless explicitly set, so each person
+  // gets a stable color without the caller having to choose one.
+  const resolvedTone = tone ?? getAvatarTone(alt ?? "");
   return (
     <BaseAvatar.Root
       // `role="img"` + `aria-label` give the avatar one accessible name in every
@@ -63,10 +108,14 @@ export function Avatar({ magnitude, src, alt, fallback, ...props }: AvatarProps)
       <BaseAvatar.Fallback
         className={cx(
           "flex size-full items-center justify-center leading-none",
-          hasInitials ? "bg-(--label-orange-bg-strong) text-on-color" : "bg-layer-1 text-secondary",
+          // Initials: tone label color + white text. Icon (anonymous): neutral
+          // layer + the muted `placeholder` icon color (Figma `icon/placeholder`).
+          hasInitials
+            ? `${initialsToneClass[resolvedTone]} text-on-color`
+            : "bg-layer-1 text-placeholder",
         )}
       >
-        {fallback ?? <User aria-hidden className="size-1/2" />}
+        {fallback ?? <User aria-hidden className={iconSizeByMagnitude[resolvedMagnitude]} />}
       </BaseAvatar.Fallback>
     </BaseAvatar.Root>
   );
