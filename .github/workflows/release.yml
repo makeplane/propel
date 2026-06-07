@@ -17,7 +17,7 @@ jobs:
       pull-requests: write # open/update the release PR
       id-token: write # npm provenance (publishConfig.provenance)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: voidzero-dev/setup-vp@v1
         with:
@@ -31,8 +31,9 @@ jobs:
       - name: Create release PR or publish
         uses: changesets/action@v1
         with:
-          version: pnpm run version-packages
-          publish: pnpm run release
+          # `pnpm` isn't on PATH under setup-vp; drive the scripts through `vp run`.
+          version: vp run version-packages
+          publish: vp run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

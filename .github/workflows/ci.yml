@@ -16,7 +16,7 @@ jobs:
     name: Check & Test & Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # setup-vp installs the Vite+ CLI, Node, and the package manager, and
       # caches dependency installs. See https://viteplus.dev/guide/ci
@@ -28,7 +28,8 @@ jobs:
       - run: vp install
       - run: vp check
       # Storybook stories run as browser tests (Vitest + Playwright), so CI needs
-      # the Chromium binary + its system deps.
-      - run: pnpm --filter @plane/propel exec playwright install --with-deps chromium
+      # the Chromium binary + its system deps. `pnpm` isn't on PATH under
+      # setup-vp, so run the package binary via `vp exec` (see viteplus.dev/guide/ci).
+      - run: vp exec --filter @plane/propel playwright install --with-deps chromium
       - run: vp run -r test
       - run: vp run -r build
