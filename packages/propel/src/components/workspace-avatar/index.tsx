@@ -44,23 +44,26 @@ export type WorkspaceAvatarProps = Omit<
 };
 
 export function WorkspaceAvatar({ magnitude, src, alt, fallback, ...props }: WorkspaceAvatarProps) {
-  // Initials sit on a static label color (Figma `label/indigo/bg-strong`) with
-  // white text; with a logo, the neutral layer shows behind it.
-  const hasInitials = src == null && fallback != null;
+  // The fallback shows whenever the logo is absent, loading, or failed, so its
+  // styling lives on the Fallback element (not derived from `src`). Initials sit
+  // on a static label color (Figma `label/indigo/bg-strong`) with white text.
+  const hasInitials = fallback != null;
   return (
     <BaseAvatar.Root
       // One accessible name for the avatar in every state; the inner logo image is
       // decorative. Consumers can override via spread props.
       role="img"
       aria-label={alt}
-      className={cx(
-        workspaceAvatarVariants({ magnitude }),
-        hasInitials ? "bg-(--label-indigo-bg-strong) text-on-color" : "bg-layer-1 text-primary",
-      )}
+      className={cx(workspaceAvatarVariants({ magnitude }), "bg-layer-1")}
       {...props}
     >
       {src ? <BaseAvatar.Image src={src} alt="" className="size-full object-cover" /> : null}
-      <BaseAvatar.Fallback className="flex size-full items-center justify-center leading-none">
+      <BaseAvatar.Fallback
+        className={cx(
+          "flex size-full items-center justify-center leading-none",
+          hasInitials ? "bg-(--label-indigo-bg-strong) text-on-color" : "bg-layer-1 text-primary",
+        )}
+      >
         {fallback}
       </BaseAvatar.Fallback>
     </BaseAvatar.Root>

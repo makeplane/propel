@@ -42,8 +42,13 @@ export type AvatarProps = Omit<
 };
 
 export function Avatar({ magnitude, src, alt, fallback, ...props }: AvatarProps) {
-  // Fallback chain (per the Figma docs): image → initials → person icon.
-  const hasInitials = src == null && fallback != null;
+  // Base UI shows the fallback whenever the image is absent, loading, or failed,
+  // so the colored-initials styling lives on the Fallback element itself — keying
+  // it off `src` would miss the load/error case. Initials = a static label color
+  // (Figma `label/orange/bg-strong`) + white text; the person icon = the neutral
+  // layer + a muted icon. The label primitive is referenced directly because only
+  // some label colors are wired into `@theme inline` as utilities (orange is not).
+  const hasInitials = fallback != null;
   return (
     <BaseAvatar.Root
       // `role="img"` + `aria-label` give the avatar one accessible name in every
@@ -51,18 +56,16 @@ export function Avatar({ magnitude, src, alt, fallback, ...props }: AvatarProps)
       // exactly one named image. Consumers can override via spread props.
       role="img"
       aria-label={alt}
-      // Initials sit on a static label color (Figma `label/orange/bg-strong`) with
-      // white text; image/icon use the neutral layer with a muted icon. The label
-      // primitive is referenced directly because only some label colors are wired
-      // into `@theme inline` as utilities (orange is not).
-      className={cx(
-        avatarVariants({ magnitude }),
-        hasInitials ? "bg-(--label-orange-bg-strong) text-on-color" : "bg-layer-1 text-secondary",
-      )}
+      className={cx(avatarVariants({ magnitude }), "bg-layer-1")}
       {...props}
     >
       {src ? <BaseAvatar.Image src={src} alt="" className="size-full object-cover" /> : null}
-      <BaseAvatar.Fallback className="flex size-full items-center justify-center leading-none">
+      <BaseAvatar.Fallback
+        className={cx(
+          "flex size-full items-center justify-center leading-none",
+          hasInitials ? "bg-(--label-orange-bg-strong) text-on-color" : "bg-layer-1 text-secondary",
+        )}
+      >
         {fallback ?? <User aria-hidden className="size-1/2" />}
       </BaseAvatar.Fallback>
     </BaseAvatar.Root>
