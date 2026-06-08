@@ -69,7 +69,7 @@ export function Badge({ children, tone, magnitude, icon, ...props }: BadgeProps)
   // the prop is left at the cva default.
   const effectiveMagnitude = magnitude ?? "md";
   return (
-    <span className={badgeVariants({ tone, magnitude })} {...props}>
+    <span className={badgeVariants({ tone, magnitude: effectiveMagnitude })} {...props}>
       {icon != null ? (
         <span
           aria-hidden
