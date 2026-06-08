@@ -1084,6 +1084,37 @@
   --text-color-warning-secondary: var(--txt-warning-secondary);
   --text-color-danger-primary: var(--txt-danger-primary);
   --text-color-danger-secondary: var(--txt-danger-secondary);
+  /* Icon colors (generate `text-icon-*`; SVGs follow `currentColor`) */
+  --text-color-icon-primary: var(--txt-icon-primary);
+  --text-color-icon-secondary: var(--txt-icon-secondary);
+  --text-color-icon-tertiary: var(--txt-icon-tertiary);
+  --text-color-icon-placeholder: var(--txt-icon-placeholder);
+  --text-color-icon-disabled: var(--txt-icon-disabled);
+  --text-color-icon-accent-subtle: var(--txt-icon-accent-subtle);
+  --text-color-icon-accent-primary: var(--txt-icon-accent-primary);
+  --text-color-icon-accent-primary-inverse: var(--txt-icon-accent-primary-inverse);
+  --text-color-icon-accent-secondary: var(--txt-icon-accent-secondary);
+  --text-color-icon-blue-primary: var(--txt-icon-blue-primary);
+  --text-color-icon-blue-secondary: var(--txt-icon-blue-secondary);
+  --text-color-icon-info-primary: var(--txt-icon-info-primary);
+  --text-color-icon-info-secondary: var(--txt-icon-info-secondary);
+  --text-color-icon-danger: var(--txt-icon-danger);
+  --text-color-icon-danger-primary: var(--txt-icon-danger-primary);
+  --text-color-icon-danger-secondary: var(--txt-icon-danger-secondary);
+  --text-color-icon-success-primary: var(--txt-icon-success-primary);
+  --text-color-icon-success-secondary: var(--txt-icon-success-secondary);
+  --text-color-icon-warning-primary: var(--txt-icon-warning-primary);
+  --text-color-icon-warning-secondary: var(--txt-icon-warning-secondary);
+  --text-color-icon-warning-subtle: var(--txt-icon-warning-subtle);
+  --text-color-icon-on-color: var(--txt-icon-on-color);
+  --text-color-icon-on-color-disabled: var(--txt-icon-on-color-disabled);
+  --text-color-icon-inverse: var(--txt-icon-inverse);
+  --text-color-icon-states-completed: var(--txt-icon-states-completed);
+  --text-color-icon-states-unstarted: var(--txt-icon-states-unstarted);
+  --text-color-icon-states-backlog: var(--txt-icon-states-backlog);
+  --text-color-icon-states-cancelled: var(--txt-icon-states-cancelled);
+  --text-color-icon-states-started: var(--txt-icon-states-started);
+  --text-color-icon-states-monitoring: var(--txt-icon-states-monitoring);
   /* Stroke colors */
   --stroke-primary: var(--text-color-primary);
   --stroke-secondary: var(--text-color-secondary);

@@ -124,7 +124,7 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
           // layer + the muted `placeholder` icon color (Figma `icon/placeholder`).
           hasInitials
             ? `${initialsToneClass[resolvedTone]} text-on-color`
-            : "bg-layer-1 text-placeholder",
+            : "bg-layer-1 text-icon-placeholder",
         )}
       >
         {fallback ?? (
