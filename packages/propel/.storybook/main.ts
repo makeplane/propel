@@ -5,12 +5,31 @@ const config: StorybookConfig = {
   framework: "@storybook/react-vite",
   // Stories live next to the components/hooks they document.
   stories: ["../src/**/*.stories.@(ts|tsx)", "../src/**/*.mdx"],
+  features: {
+    // RCM (Volar + TS Language Server) — faster, higher-quality component metadata.
+    // Today it only powers addon-mcp (AI docs); Storybook plans to extend it to the
+    // Docs prop table, at which point `react-docgen-typescript` below can be dropped.
+    experimentalReactComponentMeta: true,
+  },
   addons: [
     "@storybook/addon-docs", // autodocs from stories + TSDoc'd props
     "@storybook/addon-mcp", // exposes the component manifest to AI agents
     "@storybook/addon-vitest", // runs stories as browser tests
     "@storybook/addon-themes", // toolbar toggle for light/dark/contrast themes
+    "@storybook/addon-a11y", // accessibility checks in the a11y panel
   ],
+  // Resolve prop types with the TypeScript compiler so the autodocs table shows
+  // real unions (e.g. `"2xs" | … | "3xl"`, the tone union, `ReactNode`) instead of
+  // the default react-docgen's `NonNullable` / `unknown[number]` placeholders.
+  typescript: {
+    reactDocgen: "react-docgen-typescript",
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      shouldRemoveUndefinedFromOptional: true,
+      // Only document propel's own props, not the spread DOM / Base UI attributes.
+      propFilter: (prop) => !prop.parent || !prop.parent.fileName.includes("node_modules"),
+    },
+  },
   // Storybook runs its own Vite build; add the Tailwind v4 plugin so propel's
   // design-token source CSS compiles inside Storybook just like in a consumer app.
   viteFinal: async (viteConfig) => {

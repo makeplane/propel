@@ -1,23 +1,33 @@
 import type * as React from "react";
+import { AvatarGroupContext, type AvatarMagnitude } from "../avatar";
 
-export type AvatarGroupProps = Omit<React.ComponentProps<"div">, "className">;
+// Figma's "Avatar Groups" component only defines three sizes (Small/Base/Large =
+// 16/20/24px), so groups are limited to the matching magnitudes — narrower than a
+// standalone Avatar's full scale.
+export type AvatarGroupMagnitude = Extract<AvatarMagnitude, "2xs" | "xs" | "sm">;
 
-// Overlapping stack of avatars. Each child gets a white ring so overlapping
-// avatars stay visually separated — mirrors the Figma "Avatar groups" -6px
-// overlap with a `border/inverse` ring. Children carry their own size, so
-// compose with equally-sized `Avatar`s:
+export type AvatarGroupProps = Omit<React.ComponentProps<"div">, "className" | "style"> & {
+  /** Shared size for every avatar in the group; an avatar's own `magnitude` overrides it. */
+  magnitude: AvatarGroupMagnitude;
+};
+
+// Overlapping stack of avatars — mirrors the Figma "Avatar groups" -6px overlap
+// with a white `border/inverse` ring separating them. `-space-x-1.5` handles the
+// overlap (negative margin between siblings); `--avatar-ring` is an inherited CSS
+// var that tells each `Avatar` to draw its own 1px separator ring; and `magnitude`
+// flows through context so the whole group stays one size. None of these reach
+// into the children directly:
 //
-//   <AvatarGroup>
-//     <Avatar size="small" src={a} />
-//     <Avatar size="small" src={b} />
+//   <AvatarGroup magnitude="sm">
+//     <Avatar src={a} />
+//     <Avatar src={b} />
 //   </AvatarGroup>
-export function AvatarGroup({ children, ...props }: AvatarGroupProps) {
+export function AvatarGroup({ children, magnitude, ...props }: AvatarGroupProps) {
   return (
-    <div
-      className="flex items-center [&>*]:ring [&>*]:ring-inverse [&>*:not(:first-child)]:-ml-1.5"
-      {...props}
-    >
-      {children}
-    </div>
+    <AvatarGroupContext.Provider value={magnitude}>
+      <div className="inline-flex items-center -space-x-1.5 [--avatar-ring:1px]" {...props}>
+        {children}
+      </div>
+    </AvatarGroupContext.Provider>
   );
 }
