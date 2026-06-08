@@ -14,7 +14,7 @@ export type AvatarGroupProps = Omit<React.ComponentProps<"div">, "className">;
 export function AvatarGroup({ children, ...props }: AvatarGroupProps) {
   return (
     <div
-      className="flex items-center [&>*]:ring [&>*]:ring-inverse [&>*:not(:first-child)]:-ml-1.5"
+      className="inline-flex items-center [&>*]:ring [&>*]:ring-inverse [&>*:not(:first-child)]:-ml-1.5"
       {...props}
     >
       {children}
