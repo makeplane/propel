@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, userEvent, waitFor } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Tooltip } from "./index";
 
 const meta = {
@@ -8,8 +8,6 @@ const meta = {
   tags: ["ai-generated"],
   args: {
     content: "Tooltip text",
-    // Focus opens instantly; a 0ms hover delay keeps the play tests deterministic.
-    delay: 0,
     children: <button type="button">Hover or focus me</button>,
   },
 } satisfies Meta<typeof Tooltip>;
@@ -39,24 +37,29 @@ export const WithShortcut: Story = {
  */
 export const ShowsOnFocus: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { content: "Tooltip text" },
+  // A 0ms hover delay keeps this behavior test deterministic; focus opens instantly
+  // regardless, but scoping the override here (not on meta) lets docs/examples use
+  // the real 600ms default.
+  args: { content: "Tooltip text", delay: 0 },
   play: async ({ canvas }) => {
     const trigger = canvas.getByRole("button", { name: "Hover or focus me" });
+    // The popup renders in a Portal outside the story canvas, so query the document.
+    const screen = within(document.body);
 
     // Nothing is shown until the trigger is interacted with.
-    await expect(canvas.queryByRole("tooltip")).toBeNull();
+    await expect(screen.queryByRole("tooltip")).toBeNull();
 
     // Focusing the trigger opens the tooltip with the label text.
     await userEvent.tab();
     await expect(trigger).toHaveFocus();
     await waitFor(async () => {
-      await expect(document.querySelector('[role="tooltip"]')).toHaveTextContent("Tooltip text");
+      await expect(await screen.findByRole("tooltip")).toHaveTextContent("Tooltip text");
     });
 
     // Blurring the trigger hides the tooltip again.
     await userEvent.tab();
     await waitFor(async () => {
-      await expect(document.querySelector('[role="tooltip"]')).toBeNull();
+      await expect(screen.queryByRole("tooltip")).toBeNull();
     });
   },
 };

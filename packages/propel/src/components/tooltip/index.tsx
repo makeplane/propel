@@ -13,7 +13,7 @@ export const TooltipProvider = BaseTooltip.Provider;
 
 export type TooltipProps = Omit<
   React.ComponentProps<typeof BaseTooltip.Root>,
-  "children" | "render"
+  "children" | "className" | "render" | "style"
 > & {
   /** The text (or rich content) shown inside the tooltip popup. */
   content: React.ReactNode;
@@ -65,7 +65,7 @@ export function Tooltip({
   children,
   side = "top",
   sideOffset = 8,
-  delay,
+  delay = 600,
   ...rootProps
 }: TooltipProps) {
   return (
