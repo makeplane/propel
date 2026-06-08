@@ -649,7 +649,7 @@
       --txt-link-secondary: var(--neutral-1100);
       /* Label colors */
       --label-indigo-bg: var(--extended-color-indigo-900);
-      --label-indigo-bg-strong: var(--extended-color-indigo-700);
+      --label-indigo-bg-strong: var(--extended-color-indigo-600);
       --label-indigo-hover: var(--extended-color-indigo-800);
       --label-indigo-icon: var(--extended-color-indigo-400);
       --label-indigo-text: var(--extended-color-indigo-300);
