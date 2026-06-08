@@ -11,6 +11,7 @@ const meta = {
   args: {
     magnitude: "md",
     defaultChecked: true,
+    "aria-label": "Notifications",
   },
 } satisfies Meta<typeof Switch>;
 
@@ -25,7 +26,7 @@ export const Magnitudes: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <Switch key={magnitude} {...args} magnitude={magnitude} />
+        <Switch key={magnitude} {...args} magnitude={magnitude} aria-label={`Size ${magnitude}`} />
       ))}
     </div>
   ),
@@ -36,10 +37,10 @@ export const States: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <Switch {...args} defaultChecked />
-      <Switch {...args} defaultChecked={false} />
-      <Switch {...args} defaultChecked disabled />
-      <Switch {...args} defaultChecked={false} disabled />
+      <Switch {...args} defaultChecked aria-label="On" />
+      <Switch {...args} defaultChecked={false} aria-label="Off" />
+      <Switch {...args} defaultChecked disabled aria-label="Disabled on" />
+      <Switch {...args} defaultChecked={false} disabled aria-label="Disabled off" />
     </div>
   ),
 };
