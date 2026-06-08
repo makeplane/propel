@@ -38,17 +38,19 @@ export const States: Story = {
       <Checkbox label="Disabled checked" disabled defaultChecked />
     </div>
   ),
+  play: async ({ canvas }) => {
+    const [unchecked, checked] = canvas.getAllByRole("checkbox");
+    // No tick is rendered while unchecked (the indicator is not mounted).
+    await expect(unchecked).toBeEmptyDOMElement();
+    // The checked box renders its check icon.
+    await expect(checked).not.toBeEmptyDOMElement();
+  },
 };
 
-/** A standalone box and a labeled box side by side. */
+/** A single labeled checkbox; the whole row is the clickable label. */
 export const WithLabel: Story = {
   parameters: { controls: { disable: true } },
-  render: () => (
-    <div className="flex items-center gap-4">
-      <Checkbox aria-label="Standalone checkbox" />
-      <Checkbox label="Send me product updates" defaultChecked />
-    </div>
-  ),
+  render: () => <Checkbox label="Send me product updates" defaultChecked />,
 };
 
 /** The mixed state renders `aria-checked="mixed"` and shows a dash. */
@@ -60,7 +62,10 @@ export const Indeterminate: Story = {
   },
 };
 
-/** The Figma "Error" state: a danger-toned border. */
+/**
+ * The Figma "Error" state. The danger tone only colors the *unchecked* border
+ * red; once checked, the fill is the same accent blue as every other tone.
+ */
 export const Error: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
@@ -69,6 +74,15 @@ export const Error: Story = {
       <Checkbox tone="danger" label="Required (checked)" defaultChecked />
     </div>
   ),
+  play: async ({ canvas }) => {
+    const [unchecked, checked] = canvas.getAllByRole("checkbox");
+    // Unchecked danger box: red border, no accent fill.
+    await expect(unchecked).toHaveAttribute("aria-checked", "false");
+    await expect(unchecked).toHaveClass("border-danger-strong");
+    // Checked danger box: accent-blue fill, like every other tone.
+    await expect(checked).toHaveAttribute("aria-checked", "true");
+    await expect(checked).toHaveClass("data-[checked]:bg-accent-primary");
+  },
 };
 
 /**

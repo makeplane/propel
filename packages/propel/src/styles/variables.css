@@ -1025,6 +1025,8 @@
   --border-color-warning-subtle: var(--border-warning-subtle);
   --border-color-danger-strong: var(--border-danger-strong);
   --border-color-danger-subtle: var(--border-danger-subtle);
+  /* Icon color used as a border (e.g. the unchecked Checkbox box in Figma). */
+  --border-color-icon-tertiary: var(--txt-icon-tertiary);
   /* Outline colors */
   --outline-color-subtle: var(--border-color-subtle);
   --outline-color-subtle-1: var(--border-color-subtle-1);

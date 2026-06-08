@@ -24,13 +24,15 @@ const checkboxVariants = cva(
   {
     variants: {
       tone: {
-        // Neutral: resting border while unchecked; accent fill once checked.
-        neutral:
-          "border-strong data-[checked]:bg-accent-primary data-[indeterminate]:bg-accent-primary",
-        // The Figma "Error" state: a danger border while unchecked; danger fill
+        // Neutral: resting `icon-tertiary` border while unchecked; accent fill
         // once checked.
+        neutral:
+          "border-icon-tertiary data-[checked]:bg-accent-primary data-[indeterminate]:bg-accent-primary",
+        // The Figma "Error" state: only the *unchecked* border turns danger/red.
+        // Once checked the fill is the same accent blue as every other tone
+        // (the inherited `data-[checked]`/`data-[indeterminate]` rules below).
         danger:
-          "border-danger-strong data-[checked]:bg-danger-primary data-[indeterminate]:bg-danger-primary",
+          "border-danger-strong data-[checked]:bg-accent-primary data-[indeterminate]:bg-accent-primary",
       },
     },
     defaultVariants: {
@@ -68,11 +70,10 @@ export function Checkbox({ tone, label, id, ...props }: CheckboxProps) {
       {...props}
     >
       <BaseCheckbox.Indicator
-        // Kept mounted in every state (`keepMounted`) so the check/dash can
-        // transition in and out. The dash wins for the mixed state; otherwise a
-        // check. Decorative — the Root carries the a11y state.
+        // Only mounted while checked / indeterminate (no `keepMounted`), so the
+        // box is empty when unchecked. The dash wins for the mixed state;
+        // otherwise a check. Decorative — the Root carries the a11y state.
         className="flex items-center justify-center"
-        keepMounted
       >
         {props.indeterminate ? (
           <Minus aria-hidden className="size-3" />
