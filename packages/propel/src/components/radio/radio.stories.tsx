@@ -5,6 +5,9 @@ import { Radio, RadioGroup } from "./index";
 const meta = {
   title: "Components/Radio",
   component: RadioGroup,
+  // RadioGroup is composed of Radios, so document Radio's props alongside it
+  // (adds a Radio tab to the args table + records the relationship in the manifest).
+  subcomponents: { Radio },
   tags: ["ai-generated"],
 } satisfies Meta<typeof RadioGroup>;
 
