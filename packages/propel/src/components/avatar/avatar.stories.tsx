@@ -73,6 +73,17 @@ export const Tones: Story = {
   ),
 };
 
+/** The three states side by side: image, initials, and the anonymous person icon. */
+export const States: Story = {
+  render: (args) => (
+    <div className="flex items-center gap-3">
+      <Avatar {...args} magnitude="lg" src="https://i.pravatar.cc/128?img=47" />
+      <Avatar {...args} magnitude="lg" src={undefined} />
+      <Avatar {...args} magnitude="lg" src={undefined} fallback={undefined} />
+    </div>
+  ),
+};
+
 /**
  * The single project-wide CSS check: an `md` avatar is `size-7` (28px). A
  * concrete computed width proves the shared preview actually compiled Tailwind +

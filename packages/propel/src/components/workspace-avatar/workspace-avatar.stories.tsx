@@ -35,3 +35,17 @@ export const Magnitudes: Story = {
     </div>
   ),
 };
+
+/** The two states side by side: logo and the initial fallback. */
+export const States: Story = {
+  render: (args) => (
+    <div className="flex items-center gap-3">
+      <WorkspaceAvatar
+        {...args}
+        magnitude="lg"
+        src="https://avatars.githubusercontent.com/u/73642778?s=128"
+      />
+      <WorkspaceAvatar {...args} magnitude="lg" src={undefined} />
+    </div>
+  ),
+};
