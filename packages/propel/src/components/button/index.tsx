@@ -31,13 +31,6 @@ const buttonVariants = cva(
         neutral: "",
         danger: "",
       },
-      // Figma fill style. `solid` is a filled button, `outline` is a bordered
-      // button on a layer surface, `soft` is a tinted fill with no border.
-      emphasis: {
-        solid: "",
-        outline: "border-strong",
-        soft: "",
-      },
       magnitude: {
         xs: "h-4 min-w-7 px-1.5 text-11 leading-none",
         sm: "h-5 min-w-10 px-1.5 text-12 leading-none",
@@ -51,7 +44,6 @@ const buttonVariants = cva(
       {
         variant: "primary",
         tone: "neutral",
-        emphasis: "solid",
         className: cx(
           "bg-accent-primary text-on-color",
           "hover:bg-accent-primary-hover active:bg-accent-primary-active",
@@ -88,7 +80,7 @@ const buttonVariants = cva(
           "disabled:bg-transparent disabled:text-disabled",
         ),
       },
-      // ----- Neutral link (Figma Type=Link, Emphasis=Default) -----
+      // ----- Neutral link (Figma Type=Link) -----
       {
         variant: "link",
         tone: "neutral",
@@ -103,18 +95,10 @@ const buttonVariants = cva(
       { variant: "link", magnitude: "md", className: "h-auto" },
       { variant: "link", magnitude: "lg", className: "h-auto" },
       { variant: "link", magnitude: "xl", className: "h-auto" },
-      // Subtle link emphasis (Figma Type=Link, Emphasis=Subtle) → secondary color.
-      {
-        variant: "link",
-        tone: "neutral",
-        emphasis: "soft",
-        className: "text-link-secondary hover:text-link-primary-hover",
-      },
       // ----- Danger solid (Figma Type=Error Fill) -----
       {
         variant: "primary",
         tone: "danger",
-        emphasis: "solid",
         className: cx(
           "bg-danger-primary text-on-color",
           "hover:bg-danger-primary-hover active:bg-danger-primary-active",
@@ -135,7 +119,6 @@ const buttonVariants = cva(
     defaultVariants: {
       variant: "primary",
       tone: "neutral",
-      emphasis: "solid",
       magnitude: "md",
     },
   },
@@ -143,7 +126,6 @@ const buttonVariants = cva(
 
 export type ButtonVariant = NonNullable<VariantProps<typeof buttonVariants>["variant"]>;
 export type ButtonTone = NonNullable<VariantProps<typeof buttonVariants>["tone"]>;
-export type ButtonEmphasis = NonNullable<VariantProps<typeof buttonVariants>["emphasis"]>;
 export type ButtonMagnitude = NonNullable<VariantProps<typeof buttonVariants>["magnitude"]>;
 
 // Leading/trailing slot icon size per magnitude, straight from Figma's per-size
@@ -159,7 +141,6 @@ const iconSizeByMagnitude: Record<ButtonMagnitude, string> = {
 type ButtonOwnProps = {
   variant?: ButtonVariant;
   tone?: ButtonTone;
-  emphasis?: ButtonEmphasis;
   magnitude?: ButtonMagnitude;
   /** Icon rendered before the label. Decorative — kept out of the accessible name. */
   leadingIcon?: React.ReactNode;
@@ -175,14 +156,12 @@ export type ButtonProps = Omit<React.ComponentProps<"button">, "className" | "st
 /**
  * A plain accessible button built on propel's design tokens. Pick a look with
  * `variant` (Figma Type), select the error palette with `tone`, and size it with
- * `magnitude`. `emphasis` distinguishes the solid/outline danger fills and the
- * subtle link. Content — `children`, `leadingIcon`/`trailingIcon`, `loading` — is
+ * `magnitude`. Content — `children`, `leadingIcon`/`trailingIcon`, `loading` — is
  * not a variant.
  */
 export function Button({
   variant,
   tone,
-  emphasis,
   magnitude = "md",
   leadingIcon,
   trailingIcon,
@@ -205,7 +184,7 @@ export function Button({
       aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
       onClick={loading ? undefined : onClick}
-      className={buttonVariants({ variant, tone, emphasis, magnitude })}
+      className={buttonVariants({ variant, tone, magnitude })}
       {...props}
     >
       {loading ? (
@@ -244,14 +223,13 @@ export type IconButtonProps = Omit<ButtonProps, "leadingIcon" | "trailingIcon" |
 
 /**
  * The icon-only form of {@link Button}: a square button with a single glyph and
- * no label. It shares every styling axis (`variant`/`tone`/`emphasis`/`magnitude`)
- * and REQUIRES an `aria-label` for its accessible name.
+ * no label. It shares every styling axis (`variant`/`tone`/`magnitude`) and
+ * REQUIRES an `aria-label` for its accessible name.
  */
 export function IconButton({
   icon,
   variant,
   tone,
-  emphasis,
   magnitude = "md",
   loading = false,
   disabled,
@@ -268,7 +246,7 @@ export function IconButton({
       aria-busy={loading || undefined}
       onClick={loading ? undefined : onClick}
       className={cx(
-        buttonVariants({ variant, tone, emphasis, magnitude }),
+        buttonVariants({ variant, tone, magnitude }),
         // Override the text-button box with a square, padding-driven one.
         "h-auto min-w-0 px-0",
         iconButtonSizeByMagnitude[magnitude],
