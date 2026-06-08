@@ -1,7 +1,7 @@
 import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { User } from "lucide-react";
-import type * as React from "react";
+import * as React from "react";
 
 // Magnitudes follow the Figma "Avatar" component scale (px): 2xs 16 → 3xl 64.
 // Border is 1px (`border-sm`) up to 32px and 2px (`border-lg`) from 40px up.
@@ -27,6 +27,12 @@ const avatarVariants = cva(
 );
 
 export type AvatarMagnitude = NonNullable<VariantProps<typeof avatarVariants>["magnitude"]>;
+
+/**
+ * Set by `AvatarGroup` to give every avatar inside it the same `magnitude`, so a
+ * group stays consistently sized. An avatar's own `magnitude` prop takes precedence.
+ */
+export const AvatarGroupContext = React.createContext<AvatarMagnitude | undefined>(undefined);
 
 // The initials tone palette the designer defined for avatars (Figma label colors).
 export const AVATAR_TONES = ["orange", "indigo", "emerald", "crimson", "pink", "purple"] as const;
@@ -90,7 +96,10 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
   // it off `src` would miss the load/error case. Initials = a label tone color +
   // white text; the person icon = the neutral layer + a muted placeholder icon.
   const hasInitials = fallback != null;
-  const resolvedMagnitude = magnitude ?? "md";
+  // An explicit `magnitude` wins; otherwise inherit the group's (if inside one).
+  const groupMagnitude = React.useContext(AvatarGroupContext);
+  const effectiveMagnitude = magnitude ?? groupMagnitude;
+  const resolvedMagnitude = effectiveMagnitude ?? "md";
   // The tone is auto-derived from the name unless explicitly set, so each person
   // gets a stable color without the caller having to choose one.
   const resolvedTone = tone ?? getAvatarTone(alt ?? "");
@@ -105,7 +114,7 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
       // inherited CSS var so each avatar draws its own white separator ring,
       // without the group reaching into its children.
       className={cx(
-        avatarVariants({ magnitude }),
+        avatarVariants({ magnitude: effectiveMagnitude }),
         "bg-layer-1 ring-[length:var(--avatar-ring,0px)] ring-inverse",
       )}
       {...props}
