@@ -86,7 +86,7 @@ export type BannerProps = Omit<React.ComponentProps<"div">, "className" | "style
   tone?: BannerTone;
   /** Leading icon. Defaults to a tone-appropriate lucide icon; pass `null` to hide it. */
   icon?: React.ReactNode;
-  /** The banner's message. Rendered alongside / above any `children`. */
+  /** The banner's headline. Rendered as its own block above any `children` body. */
   title?: React.ReactNode;
   /** Trailing actions (e.g. buttons), placed after the message. */
   actions?: React.ReactNode;
@@ -120,13 +120,15 @@ export function Banner({
       {icon === undefined ? (
         <DefaultIcon aria-hidden className={cx("shrink-0", iconSize, toneIconClass[tone])} />
       ) : icon ? (
-        <span className={cx("flex shrink-0 items-center", toneIconClass[tone])}>{icon}</span>
+        <span aria-hidden className={cx("flex shrink-0 items-center", toneIconClass[tone])}>
+          {icon}
+        </span>
       ) : null}
       <div
         className={cx("min-w-0 flex-1 text-14 leading-relaxed", textWeight, toneTextClass[tone])}
       >
-        {title}
-        {children}
+        {title ? <div>{title}</div> : null}
+        {children ? <div className={cx(title ? "mt-1" : undefined)}>{children}</div> : null}
       </div>
       {actions ? <div className="flex shrink-0 items-center gap-2">{actions}</div> : null}
       {onDismiss ? (
