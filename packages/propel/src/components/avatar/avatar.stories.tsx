@@ -60,9 +60,11 @@ export const States: Story = {
  * The single project-wide CSS check: an `md` avatar is `size-7` (28px) and the
  * tone utility resolves to a real color. Concrete computed values prove the shared
  * preview actually compiled Tailwind + propel's tokens — a plain render would pass
- * even with no styles loaded.
+ * even with no styles loaded. Hidden from the sidebar/docs (`!dev`, `!autodocs`):
+ * it's a test, not a designer-facing example, but still runs via the `test` tag.
  */
 export const CssCheck: Story = {
+  tags: ["!dev", "!autodocs"],
   args: { magnitude: "md", src: undefined },
   play: async ({ canvas }) => {
     // Query by role (typed `HTMLElement`, no cast) and assert the computed size.
