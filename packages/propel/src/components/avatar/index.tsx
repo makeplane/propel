@@ -101,7 +101,13 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
       // exactly one named image. Consumers can override via spread props.
       role="img"
       aria-label={alt}
-      className={cx(avatarVariants({ magnitude }), "bg-layer-1")}
+      // `--avatar-ring` defaults to 0 (no ring); AvatarGroup sets it via an
+      // inherited CSS var so each avatar draws its own white separator ring,
+      // without the group reaching into its children.
+      className={cx(
+        avatarVariants({ magnitude }),
+        "bg-layer-1 ring-[length:var(--avatar-ring,0px)] ring-inverse",
+      )}
       {...props}
     >
       {src ? <BaseAvatar.Image src={src} alt="" className="size-full object-cover" /> : null}
