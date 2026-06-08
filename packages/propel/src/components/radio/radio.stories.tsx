@@ -38,22 +38,28 @@ export const Default: Story = {
 /**
  * The states from Figma side by side: unselected, selected, disabled, and
  * read-only — each driven by the primitive, not by a variant.
+ *
+ * Read-only is expressed via `disabled` rather than Base UI's `readOnly`: the
+ * primitive stamps `aria-readonly` onto the `role="radio"` element, which ARIA
+ * does not permit on that role (axe `aria-allowed-attr`). `disabled` conveys the
+ * same "selection can't be changed" intent through the ARIA-valid `aria-disabled`
+ * while keeping the control non-interactive.
  */
 export const States: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-6">
       <RadioGroup defaultValue="b">
-        <Radio value="a" />
+        <Radio value="a" aria-label="Unselected" />
       </RadioGroup>
       <RadioGroup defaultValue="b">
-        <Radio value="b" />
+        <Radio value="b" aria-label="Selected" />
       </RadioGroup>
       <RadioGroup defaultValue="b" disabled>
-        <Radio value="a" />
+        <Radio value="a" aria-label="Disabled" />
       </RadioGroup>
-      <RadioGroup defaultValue="b" readOnly>
-        <Radio value="b" />
+      <RadioGroup defaultValue="b" disabled>
+        <Radio value="b" aria-label="Read only" />
       </RadioGroup>
     </div>
   ),

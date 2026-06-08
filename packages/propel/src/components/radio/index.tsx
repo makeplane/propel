@@ -5,22 +5,25 @@ import * as React from "react";
 
 // The Figma "Radiobutton" component (node 2159-4535) defines a single 16px control
 // with three states — Default (empty ring), Selected (accent ring + 8px inner dot),
-// and Read only (muted grey dot). States come from the Base UI primitive's data
-// attributes (`data-checked` / `data-disabled` / `data-readonly`), not from variants.
+// and a non-editable state (muted grey dot). States come from the Base UI primitive's
+// data attributes (`data-checked` / `data-disabled`), not from variants.
+//
+// Note on "read only": Base UI's `readOnly` stamps `aria-readonly` onto the
+// `role="radio"` element, which ARIA does not allow on that role (axe
+// `aria-allowed-attr`). The non-editable state is therefore expressed via `disabled`,
+// which maps to the ARIA-valid `aria-disabled` and keeps the control non-interactive.
 //
 // Color strategy: the ring stroke and the inner dot both inherit `currentColor`, so
 // flipping the Root's text color in one place recolors the whole control.
-//   - resting / read-only → `icon/tertiary` (the muted grey from Figma)
-//   - selected            → `icon/accent/primary` (the brand accent from Figma)
-// Read-only keeps the grey even when checked because it is non-interactive.
+//   - resting    → `icon/tertiary` (the muted grey from Figma)
+//   - selected   → `icon/accent/primary` (the brand accent from Figma)
+//   - disabled   → dimmed `icon/disabled`, non-interactive
 const radioVariants = cva(
   cx(
     "flex size-4 shrink-0 items-center justify-center rounded-full border-sm border-current bg-layer-1",
     "text-icon-tertiary outline-none transition-colors",
     // Selected uses the accent color for both the ring and the dot.
     "data-[checked]:text-icon-accent-primary",
-    // Read-only stays muted grey even when selected, since it can't be changed.
-    "data-[readonly]:text-icon-tertiary",
     // Keyboard focus ring, drawn outside the control so it never clips the dot.
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2",
     // Disabled is dimmed and non-interactive.
@@ -49,8 +52,10 @@ export type RadioProps = Omit<
 
 /**
  * A single radio option (Base UI `Radio.Root` + `Radio.Indicator`). The 16px ring
- * and 8px inner dot follow Figma node 2159-4535; selection, disabled, and read-only
- * states all come from the primitive. Must be rendered inside a `RadioGroup`.
+ * and 8px inner dot follow Figma node 2159-4535; the selected and disabled states
+ * come from the primitive. Use `disabled` for a non-editable (read-only) option —
+ * see the module comment above for why `readOnly` is avoided. Must be rendered
+ * inside a `RadioGroup`.
  *
  * @param value - The unique value this option contributes to its `RadioGroup`.
  */
