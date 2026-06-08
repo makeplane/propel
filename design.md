@@ -38,6 +38,13 @@ Text, images, and icons are **content**, not style variants. Expose them as text
 properties or instance-swaps (e.g. `label`, `name`, `icon`, `src`) — never bake
 specific people, copy, or images into variants.
 
+**How many things are inside is also content, not a variant.** Don't make a
+property for quantity — member count on an avatar group, the number of list items,
+tabs, or steps. The designer adds or removes instances inside the component (like a
+real list), and the component just lays out whatever it's given. A `2 members` /
+`3 members` variant is the tell to avoid: it explodes the variant matrix and
+doesn't match how the component is built in code. Reserve variants for _styling_.
+
 ## 4. Format values consistently
 
 - **lowercase, no spaces or hyphens** — `initials`, not `Fallback - initials`
@@ -56,5 +63,6 @@ to use and keep the component honest.
 - [ ] Property names reused from the shared axis list (not one-offs)
 - [ ] No `size` / `type` / `color` / `width` / `height`
 - [ ] Content is content properties, not variants
+- [ ] Quantity/repetition is instances you add or remove, not a variant (no `2/3 members`)
 - [ ] Values lowercase, consistent spelling, t-shirt sizes
 - [ ] No nonsensical variant combinations
