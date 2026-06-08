@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch: # manual redeploy (e.g. to restore production)
 
 # One deploy per ref; a newer push supersedes an in-flight one.
 concurrency:
@@ -60,7 +61,11 @@ jobs:
           # Prefer the stable `pr-<n>` alias URL (constant across pushes) over the
           # per-version URL that wrangler-action surfaces as deployment-url.
           url=$(printf '%s' "$OUTPUT" | sed -E 's/\x1b\[[0-9;]*m//g' \
-            | grep -oE 'https://pr-[0-9]+-[a-z0-9.-]+\.workers\.dev' | head -1)
+            | grep -oE 'https://pr-[0-9]+-[a-z0-9.-]+\.workers\.dev' | head -1 || true)
           url=${url:-$FALLBACK}
-          [ -n "$url" ] && gh pr comment "$PR" --edit-last --create-if-none \
-            --body "📚 **Storybook preview:** $url"
+          if [ -n "$url" ]; then
+            gh pr comment "$PR" --edit-last --create-if-none \
+              --body "📚 **Storybook preview:** $url"
+          else
+            echo "No preview URL produced (deploy may have failed) — skipping comment."
+          fi
