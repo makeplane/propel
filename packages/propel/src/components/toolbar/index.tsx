@@ -7,11 +7,13 @@ import { ChevronDown } from "lucide-react";
 import * as React from "react";
 
 // The Figma "Toolbar" component has a single `variant` axis describing where the
-// toolbar is placed (Figma: Floater / Pages - Topbar / Comments bottom bar). Only
-// the floater is a self-contained surface — a white `surface-1` card with a subtle
-// border, `radius/lg` corners and an `Overlay-100` shadow — so it can hover over
-// content. Topbar and bottom-bar sit flush inside an existing bar, so they're flat
-// (no surface, no shadow); they only differ in default padding/gap.
+// toolbar is placed (Figma: Floater / Pages - Topbar / Comments bottom bar). The
+// variants differ only in their *surface*, not in spacing — every placement uses
+// the same `p-1` padding and `gap-1` item gap. Only the floater is a self-contained
+// surface — a white `surface-1` card with a subtle border, `radius/lg` corners and
+// an `Overlay-100` shadow — so it can hover over content. Topbar and bottom-bar sit
+// flush inside an existing bar, so they're flat (no surface, no shadow) and are
+// therefore visually identical to each other.
 const toolbarVariants = cva("flex w-fit items-center text-secondary", {
   variants: {
     variant: {
@@ -84,10 +86,10 @@ export type ToolbarButtonProps = Omit<
   "className" | "render" | "style"
 > & {
   /**
-   * Accessible name for the button. Required when the button's content is an
+   * Accessible name for the button. Required because the button's content is an
    * icon (icons are `aria-hidden`), so the control is still named for assistive tech.
    */
-  "aria-label"?: string;
+  "aria-label": string;
 };
 
 /**
@@ -107,7 +109,7 @@ export type ToolbarToggleProps = Omit<
    * Accessible name for the toggle. Required because toggles hold an icon
    * (`aria-hidden`); without it the control has no accessible name.
    */
-  "aria-label"?: string;
+  "aria-label": string;
 };
 
 /**
