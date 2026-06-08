@@ -1008,6 +1008,8 @@
   --background-color-inverse-selected: var(--bg-inverse-selected);
   /* Icon-as-background (e.g. Switch track off = icon/placeholder) */
   --background-color-icon-placeholder: var(--txt-icon-placeholder);
+  /* On-color background (e.g. Switch thumb on accent track) — always white, every theme */
+  --background-color-on-color: var(--txt-icon-on-color);
   /* Border colors */
   --border-color-subtle: var(--border-subtle);
   --border-color-subtle-1: var(--border-subtle-1);
