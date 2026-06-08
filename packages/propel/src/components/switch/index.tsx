@@ -1,5 +1,6 @@
 import { Switch as BaseSwitch } from "@base-ui/react/switch";
 import { cva, cx, type VariantProps } from "class-variance-authority";
+import type * as React from "react";
 
 // Magnitudes follow the Figma "Toggle" Size scale (track w×h, px):
 //   L 30×18 → lg · M 27×16 → md · S 23×14 → sm.
