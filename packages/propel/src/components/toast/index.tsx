@@ -72,7 +72,7 @@ export function ToastProvider({ children, ...props }: ToastProviderProps) {
     <BaseToast.Provider {...props}>
       {children}
       <BaseToast.Portal>
-        <BaseToast.Viewport className="fixed right-4 bottom-4 z-50 flex w-[340px] max-w-[calc(100vw-2rem)] flex-col gap-2 outline-none">
+        <BaseToast.Viewport className="fixed right-4 bottom-4 z-50 flex w-[340px] max-w-[calc(100vw-2rem)] flex-col gap-2 rounded-lg outline-none focus-visible:outline-md focus-visible:outline-offset-2 focus-visible:outline-accent-strong">
           <ToastList />
         </BaseToast.Viewport>
       </BaseToast.Portal>
@@ -100,7 +100,10 @@ export type ToastProps = Omit<
 export function Toast({ toast, ...props }: ToastProps) {
   const tone = (toast.data as ToastData | undefined)?.tone ?? "info";
   const StatusIcon = STATUS_ICON[tone];
-  const action = toast.actionProps;
+  // Only render the action wrapper when there's real action content. `actionProps`
+  // can carry no `children` (e.g. just an `onClick`), in which case `BaseToast.Action`
+  // renders null — guarding here avoids leaving an empty `<div>` gap in the layout.
+  const hasAction = toast.actionProps?.children != null;
   return (
     <BaseToast.Root
       toast={toast}
@@ -121,7 +124,7 @@ export function Toast({ toast, ...props }: ToastProps) {
           <BaseToast.Title className="text-14 font-medium text-primary" />
           <BaseToast.Description className="text-13 text-tertiary" />
         </div>
-        {action ? (
+        {hasAction ? (
           <div className="flex gap-1.5 pl-[15px]">
             <BaseToast.Action className="inline-flex h-6 min-w-10 items-center justify-center gap-1 rounded-md px-2 text-13 font-medium text-secondary transition-colors hover:bg-layer-transparent-hover" />
           </div>
