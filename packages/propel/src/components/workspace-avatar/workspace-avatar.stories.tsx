@@ -6,7 +6,7 @@ const MAGNITUDES: WorkspaceAvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "
 const meta = {
   title: "Components/WorkspaceAvatar",
   component: WorkspaceAvatar,
-  tags: ["autodocs", "ai-generated"],
+  tags: ["ai-generated"],
   args: {
     alt: "Plane workspace",
     fallback: "P",

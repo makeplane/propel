@@ -7,7 +7,7 @@ const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl
 const meta = {
   title: "Components/Avatar",
   component: Avatar,
-  tags: ["autodocs", "ai-generated"],
+  tags: ["ai-generated"],
   args: {
     alt: "Ada Lovelace",
     fallback: "AL",

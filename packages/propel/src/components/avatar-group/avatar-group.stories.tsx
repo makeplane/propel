@@ -6,7 +6,7 @@ import { AvatarGroup } from "./index";
 const meta = {
   title: "Components/AvatarGroup",
   component: AvatarGroup,
-  tags: ["autodocs", "ai-generated"],
+  tags: ["ai-generated"],
 } satisfies Meta<typeof AvatarGroup>;
 
 export default meta;
