@@ -48,15 +48,15 @@ export function Tabs({ variant = "contained", ...props }: TabsProps) {
   );
 }
 
-// `contained` is a pill: a neutral layer-1 fill with a thin border and a small
-// inset padding so the raised active tab sits within it. `underline` is just a
-// flat row with a hairline baseline that the indicator rides along. `relative`
-// on both lets the indicator position against the list.
+// `contained` is a pill: a neutral layer-1 fill with 2px inset padding (no
+// container border) so the raised active tab sits within it, rounded to 8px.
+// `underline` is just a flat row with a hairline baseline that the indicator
+// rides along. `relative` on both lets the indicator position against the list.
 const tabsListVariants = cva("relative inline-flex items-center", {
   variants: {
     variant: {
-      contained: "gap-1 rounded-md border-sm border-subtle-1 bg-layer-1 p-1",
-      underline: "gap-2 border-b-sm border-subtle-1",
+      contained: "gap-px rounded-lg bg-layer-1 p-0.5",
+      underline: "gap-px border-b-sm border-subtle-1",
     },
   },
 });
@@ -86,9 +86,9 @@ const tabVariants = cva(
     variants: {
       variant: {
         contained:
-          "rounded-md px-2 py-1 text-13 text-secondary hover:text-primary data-[active]:bg-layer-2 data-[active]:text-primary data-[active]:shadow-raised-200",
+          "rounded-md border-sm border-transparent px-2 py-1 text-13 text-secondary hover:text-primary data-[active]:border-subtle-1 data-[active]:bg-layer-2 data-[active]:text-primary data-[active]:shadow-raised-200",
         underline:
-          "rounded-md px-2 py-1.5 text-14 text-tertiary hover:bg-layer-transparent-active hover:text-primary data-[active]:text-primary",
+          "rounded-md px-2 py-0.5 text-14 text-tertiary hover:bg-layer-transparent-hover hover:text-secondary data-[active]:bg-layer-transparent-selected data-[active]:text-primary",
       },
     },
   },
@@ -118,11 +118,12 @@ export function TabsPanel(props: TabsPanelProps) {
 }
 
 // The underline rides along the bottom of the list, sized and positioned to the
-// active tab via Base UI's `--active-tab-*` CSS vars. `bg-inverse` is the dark
-// (neutral-1200) bar matching the active-tab text.
+// active tab via Base UI's `--active-tab-*` CSS vars. Per Figma the bar is 3px
+// tall, fully rounded, and uses `bg-inverse` (neutral-1200 = icon/primary) to
+// match the active-tab text.
 const tabsIndicatorVariants = cva(
   cx(
-    "-bottom-px absolute left-[var(--active-tab-left)] h-0.5 w-[var(--active-tab-width)]",
+    "-bottom-px absolute left-[var(--active-tab-left)] h-[3px] w-[var(--active-tab-width)]",
     "rounded-full bg-inverse transition-all duration-150",
   ),
 );
