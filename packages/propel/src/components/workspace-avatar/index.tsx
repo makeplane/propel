@@ -20,9 +20,6 @@ const workspaceAvatarVariants = cva(
         "3xl": "size-16 rounded-lg border-lg text-32",
       },
     },
-    defaultVariants: {
-      magnitude: "md",
-    },
   },
 );
 
@@ -40,7 +37,8 @@ export type WorkspaceAvatarProps = Omit<
   alt?: string;
   /** Shown when there is no logo — typically the workspace's initial. */
   fallback?: React.ReactNode;
-  magnitude?: WorkspaceAvatarMagnitude;
+  /** Size of the avatar. Required — there is no default. */
+  magnitude: WorkspaceAvatarMagnitude;
 };
 
 export function WorkspaceAvatar({ magnitude, src, alt, fallback, ...props }: WorkspaceAvatarProps) {

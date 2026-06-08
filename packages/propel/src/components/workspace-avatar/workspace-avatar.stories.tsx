@@ -8,6 +8,7 @@ const meta = {
   component: WorkspaceAvatar,
   tags: ["ai-generated"],
   args: {
+    magnitude: "md",
     alt: "Plane workspace",
     fallback: "P",
   },

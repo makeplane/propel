@@ -9,6 +9,7 @@ const meta = {
   component: Avatar,
   tags: ["ai-generated"],
   args: {
+    magnitude: "md",
     alt: "Ada Lovelace",
     fallback: "AL",
   },

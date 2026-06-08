@@ -20,9 +20,6 @@ const avatarVariants = cva(
         "3xl": "size-16 border-lg text-32",
       },
     },
-    defaultVariants: {
-      magnitude: "md",
-    },
   },
 );
 
@@ -97,9 +94,9 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
   // white text; the person icon = the neutral layer + a muted placeholder icon.
   const hasInitials = fallback != null;
   // An explicit `magnitude` wins; otherwise inherit the group's (if inside one).
+  // There is no default — size must come from the prop or an enclosing AvatarGroup.
   const groupMagnitude = React.useContext(AvatarGroupContext);
   const effectiveMagnitude = magnitude ?? groupMagnitude;
-  const resolvedMagnitude = effectiveMagnitude ?? "md";
   // The tone is auto-derived from the name unless explicitly set, so each person
   // gets a stable color without the caller having to choose one.
   const resolvedTone = tone ?? getAvatarTone(alt ?? "");
@@ -130,7 +127,12 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
             : "bg-layer-1 text-placeholder",
         )}
       >
-        {fallback ?? <User aria-hidden className={iconSizeByMagnitude[resolvedMagnitude]} />}
+        {fallback ?? (
+          <User
+            aria-hidden
+            className={effectiveMagnitude ? iconSizeByMagnitude[effectiveMagnitude] : undefined}
+          />
+        )}
       </BaseAvatar.Fallback>
     </BaseAvatar.Root>
   );

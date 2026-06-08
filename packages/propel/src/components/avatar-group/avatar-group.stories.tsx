@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
-import { Avatar, type AvatarMagnitude } from "../avatar/index";
-import { AvatarGroup } from "./index";
+import { Avatar } from "../avatar/index";
+import { AvatarGroup, type AvatarGroupMagnitude } from "./index";
 
-const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
+const MAGNITUDES: AvatarGroupMagnitude[] = ["2xs", "xs", "sm"];
 
 const meta = {
   title: "Components/AvatarGroup",
