@@ -74,7 +74,7 @@ const iconSizeByMagnitude: Record<AvatarMagnitude, string> = {
 
 export type AvatarProps = Omit<
   React.ComponentProps<typeof BaseAvatar.Root>,
-  "className" | "render"
+  "className" | "render" | "style"
 > & {
   /** Image URL. When omitted, or while it is loading/failing, the fallback shows. */
   src?: string;

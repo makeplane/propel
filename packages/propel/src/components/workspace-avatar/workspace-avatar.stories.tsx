@@ -19,10 +19,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-export const WithLogo: Story = {
-  args: { src: "https://avatars.githubusercontent.com/u/73642778?s=128" },
-};
-
 export const Magnitudes: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">

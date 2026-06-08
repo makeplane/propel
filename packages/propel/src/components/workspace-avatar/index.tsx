@@ -29,7 +29,7 @@ export type WorkspaceAvatarMagnitude = NonNullable<
 
 export type WorkspaceAvatarProps = Omit<
   React.ComponentProps<typeof BaseAvatar.Root>,
-  "className" | "render"
+  "className" | "render" | "style"
 > & {
   /** Workspace logo URL. Falls back to the initial when absent/loading/failed. */
   src?: string;

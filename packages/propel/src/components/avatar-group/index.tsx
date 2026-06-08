@@ -6,7 +6,7 @@ import { AvatarGroupContext, type AvatarMagnitude } from "../avatar";
 // standalone Avatar's full scale.
 export type AvatarGroupMagnitude = Extract<AvatarMagnitude, "2xs" | "xs" | "sm">;
 
-export type AvatarGroupProps = Omit<React.ComponentProps<"div">, "className"> & {
+export type AvatarGroupProps = Omit<React.ComponentProps<"div">, "className" | "style"> & {
   /** Shared size for every avatar in the group; an avatar's own `magnitude` overrides it. */
   magnitude: AvatarGroupMagnitude;
 };
