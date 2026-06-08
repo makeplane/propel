@@ -1,15 +1,79 @@
 import { Toast as BaseToast } from "@base-ui/react/toast";
 import { cva, cx, type VariantProps } from "class-variance-authority";
-import {
-  CircleAlert,
-  CircleCheck,
-  CircleX,
-  Info,
-  type LucideIcon,
-  TriangleAlert,
-  X,
-} from "lucide-react";
+import { X } from "lucide-react";
 import * as React from "react";
+
+// Solid status icons. Figma's toast (node 1144-3158) uses *filled* status glyphs —
+// a tone-colored disc/triangle with the symbol knocked out of it — not lucide's
+// stroke-based outlines. lucide-react ships no filled equivalents (every status
+// icon is outline-only), so these are hand-authored on the same 24×24 grid lucide
+// uses. The shape fills with `currentColor` (set per-tone via `text-icon-*`) and
+// the inner symbol is a true cut-out (even-odd fill rule), so it shows the card
+// surface behind it — reading as white on light, dark on dark, with no hardcoded
+// color. Signature matches lucide so the rest of the component is unchanged.
+type StatusIconProps = React.SVGProps<SVGSVGElement>;
+
+function SolidIcon({ children, ...props }: StatusIconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      fillRule="evenodd"
+      clipRule="evenodd"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      {children}
+    </svg>
+  );
+}
+
+// Filled disc + white check (cut-out).
+function SolidCircleCheck(props: StatusIconProps) {
+  return (
+    <SolidIcon {...props}>
+      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm4.768 7.64a1 1 0 0 0-1.536-1.28l-4.3 5.159-2.225-2.226a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.475-.067l5-6Z" />
+    </SolidIcon>
+  );
+}
+
+// Filled disc + white cross (cut-out).
+function SolidCircleX(props: StatusIconProps) {
+  return (
+    <SolidIcon {...props}>
+      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm3.707 7.707a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293Z" />
+    </SolidIcon>
+  );
+}
+
+// Filled disc + white "i" (cut-out dot + stem).
+function SolidInfo(props: StatusIconProps) {
+  return (
+    <SolidIcon {...props}>
+      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm0 5a1.25 1.25 0 1 0 0 2.5A1.25 1.25 0 0 0 12 7Zm1 4a1 1 0 1 0-2 0v5a1 1 0 1 0 2 0v-5Z" />
+    </SolidIcon>
+  );
+}
+
+// Filled rounded triangle + white "!" (cut-out stem + dot).
+function SolidTriangleAlert(props: StatusIconProps) {
+  return (
+    <SolidIcon {...props}>
+      <path d="M10.23 3.16a2.06 2.06 0 0 1 3.54 0l8.02 13.78A2.06 2.06 0 0 1 20.02 20H3.98a2.06 2.06 0 0 1-1.77-3.06L10.23 3.16ZM13 9a1 1 0 1 0-2 0v4a1 1 0 1 0 2 0V9Zm-1 6.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z" />
+    </SolidIcon>
+  );
+}
+
+// Filled disc + white "!" (cut-out stem + dot) — neutral fallback.
+function SolidCircleAlert(props: StatusIconProps) {
+  return (
+    <SolidIcon {...props}>
+      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm1 5a1 1 0 1 0-2 0v6a1 1 0 1 0 2 0V7Zm-1 8.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z" />
+    </SolidIcon>
+  );
+}
+
+type StatusIcon = (props: StatusIconProps) => React.JSX.Element;
 
 // Re-export Base UI's toast manager hook + global manager factory so consumers can
 // queue toasts from anywhere (a button handler, a global store, outside React).
@@ -21,12 +85,12 @@ export const useToast = BaseToast.useToastManager;
 // = success / danger / info). `warning` and `neutral` round out the standard set.
 // Each tone auto-selects a filled status icon and its color token — the caller never
 // passes an icon. `tone` lives in the toast's `data` payload (see `ToastData`).
-const STATUS_ICON: Record<ToastTone, LucideIcon> = {
-  success: CircleCheck,
-  danger: CircleX,
-  info: Info,
-  warning: TriangleAlert,
-  neutral: CircleAlert,
+const STATUS_ICON: Record<ToastTone, StatusIcon> = {
+  success: SolidCircleCheck,
+  danger: SolidCircleX,
+  info: SolidInfo,
+  warning: SolidTriangleAlert,
+  neutral: SolidCircleAlert,
 };
 
 // Status-icon color per tone, straight from propel's `icon/*` tokens. The icon is
