@@ -24,7 +24,12 @@ export const Default: Story = {
   render: () => {
     const [selected, setSelected] = React.useState<Date | undefined>(new Date(2025, 0, 24));
     return (
-      <Calendar mode="single" defaultMonth={JANUARY_2025} selected={selected} onSelect={setSelected} />
+      <Calendar
+        mode="single"
+        defaultMonth={JANUARY_2025}
+        selected={selected}
+        onSelect={setSelected}
+      />
     );
   },
 };
@@ -39,7 +44,9 @@ export const RangeSelection: Story = {
       from: new Date(2025, 0, 13),
       to: new Date(2025, 0, 20),
     });
-    return <Calendar mode="range" defaultMonth={JANUARY_2025} selected={range} onSelect={setRange} />;
+    return (
+      <Calendar mode="range" defaultMonth={JANUARY_2025} selected={range} onSelect={setRange} />
+    );
   },
 };
 
@@ -92,7 +99,9 @@ export const Behavior: Story = {
     // Clicking a day marks its grid cell selected (react-day-picker sets
     // `aria-selected` on the gridcell, and the button's label gains "selected").
     await userEvent.click(day15);
-    await expect(canvas.getByRole("button", { name: /January 15th, 2025, selected$/ })).toBeVisible();
+    await expect(
+      canvas.getByRole("button", { name: /January 15th, 2025, selected$/ }),
+    ).toBeVisible();
     const selectedCell = canvas.getByRole("gridcell", { selected: true });
     await expect(selectedCell).toHaveAttribute("data-day", "2025-01-15");
 

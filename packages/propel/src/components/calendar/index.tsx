@@ -54,7 +54,11 @@ const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"]>> = {
  * (`mode`, `selected`, `onSelect`, `disabled`, `month`, `defaultMonth`, …) but
  * drops `className`/`style`/`classNames` — styling is owned by propel tokens.
  */
-export type CalendarProps = Omit<DayPickerProps, "className" | "style" | "classNames">;
+// `DayPickerProps` is a discriminated union over `mode`; a plain `Omit` collapses
+// it and de-correlates `selected`/`onSelect`. Omit distributively so each union
+// member (and its mode↔selected↔onSelect relationship) is preserved.
+type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
+export type CalendarProps = DistributiveOmit<DayPickerProps, "className" | "style" | "classNames">;
 
 /**
  * A date picker built on react-day-picker and styled entirely with propel
