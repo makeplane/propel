@@ -49,7 +49,7 @@ export function AccordionTrigger({ children, ...props }: AccordionTriggerProps) 
     <BaseAccordion.Header className="flex">
       <BaseAccordion.Trigger
         className={cx(
-          "flex flex-1 items-center gap-2 p-3 text-left",
+          "group flex flex-1 items-center gap-2 p-3 text-left",
           "text-14 font-medium text-primary",
           "bg-layer-transparent hover:bg-layer-transparent-hover",
           "cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
@@ -60,7 +60,7 @@ export function AccordionTrigger({ children, ...props }: AccordionTriggerProps) 
         <span className="flex-1">{children}</span>
         <ChevronDown
           aria-hidden
-          className="size-3.5 shrink-0 text-icon-placeholder transition-transform duration-200 data-[panel-open]:rotate-180"
+          className="size-3.5 shrink-0 text-icon-placeholder transition-transform duration-200 group-data-[panel-open]:rotate-180"
         />
       </BaseAccordion.Trigger>
     </BaseAccordion.Header>
