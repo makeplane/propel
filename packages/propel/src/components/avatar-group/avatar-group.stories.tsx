@@ -43,3 +43,18 @@ export const ThreeMembers: Story = {
     await expect(avatars[0]).toHaveStyle({ width: "24px" });
   },
 };
+
+/**
+ * Overflow pattern: show a few members as images, then a final avatar with a
+ * "+N" count for the rest. The counter is just an `Avatar` with a `fallback`.
+ */
+export const OverflowCount: Story = {
+  render: (args) => (
+    <AvatarGroup {...args}>
+      <Avatar alt="Ada Lovelace" src="https://i.pravatar.cc/64?img=47" />
+      <Avatar alt="Grace Hopper" src="https://i.pravatar.cc/64?img=32" />
+      <Avatar alt="Linus Torvalds" src="https://i.pravatar.cc/64?img=12" />
+      <Avatar alt="4 more members" fallback="+4" />
+    </AvatarGroup>
+  ),
+};
