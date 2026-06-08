@@ -60,7 +60,7 @@ export function AccordionTrigger({ children, ...props }: AccordionTriggerProps) 
         <span className="flex-1">{children}</span>
         <ChevronDown
           aria-hidden
-          className="size-3.5 shrink-0 text-icon-placeholder transition-transform duration-200 group-data-[panel-open]:rotate-180"
+          className="size-3.5 shrink-0 text-icon-secondary transition-transform duration-200 group-data-[panel-open]:rotate-180"
         />
       </BaseAccordion.Trigger>
     </BaseAccordion.Header>
