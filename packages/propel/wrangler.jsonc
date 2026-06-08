@@ -1,0 +1,13 @@
+{
+  // Storybook is deployed as a static site on Cloudflare Workers (Static Assets).
+  // No Worker script is needed — `assets.directory` alone serves the built output.
+  // https://developers.cloudflare.com/workers/static-assets/
+  "name": "propel-storybook",
+  "compatibility_date": "2026-06-06",
+  "assets": {
+    "directory": "./storybook-static",
+    // Storybook routes stories via `index.html?path=…`, so unmatched paths should
+    // fall back to index.html rather than 404.
+    "not_found_handling": "single-page-application",
+  },
+}
