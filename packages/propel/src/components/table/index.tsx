@@ -104,6 +104,10 @@ export function TableHead({
   ...props
 }: TableHeadProps) {
   const isSortable = variant === "sortable";
+  // Only render the interactive sort control when there's a handler to drive it;
+  // a sortable-styled header without `onSort` falls back to a plain label so we
+  // never expose a focusable button that does nothing.
+  const hasSortControl = isSortable && onSort != null;
   const SortGlyph = sortIcon[sort];
   return (
     <th
@@ -112,7 +116,7 @@ export function TableHead({
       className={tableHeadVariants({ variant })}
       {...props}
     >
-      {isSortable ? (
+      {hasSortControl ? (
         <button
           type="button"
           onClick={onSort}
@@ -122,7 +126,7 @@ export function TableHead({
           <ChevronGlyphSlot Glyph={SortGlyph} />
         </button>
       ) : (
-        <span className="block truncate">{children}</span>
+        <div className="truncate">{children}</div>
       )}
     </th>
   );
@@ -139,7 +143,7 @@ export type TableCellProps = Omit<React.ComponentProps<"td">, "className" | "sty
 export function TableCell({ children, ...props }: TableCellProps) {
   return (
     <td className="h-[38px] px-4 py-2 align-middle" {...props}>
-      <span className="block truncate">{children}</span>
+      <div className="truncate">{children}</div>
     </td>
   );
 }
