@@ -7,7 +7,7 @@ import { type AvatarTone, getAvatarTone, initialsToneClass } from "../avatar";
 // → 3xl 64. Square with a radius that grows with size: rounded-sm (16–24),
 // rounded-md (28–40), rounded-lg (56–64). Border 1px up to 32px, 2px from 40px up.
 const workspaceAvatarVariants = cva(
-  "relative inline-flex shrink-0 items-center justify-center overflow-hidden border-subtle",
+  "relative inline-flex shrink-0 items-center justify-center overflow-clip border-subtle",
   {
     variants: {
       magnitude: {

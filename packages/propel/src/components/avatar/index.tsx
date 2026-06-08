@@ -6,7 +6,7 @@ import * as React from "react";
 // Magnitudes follow the Figma "Avatar" component scale (px): 2xs 16 → 3xl 64.
 // Border is 1px (`border-sm`) up to 32px and 2px (`border-lg`) from 40px up.
 const avatarVariants = cva(
-  "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full border-subtle",
+  "relative inline-flex shrink-0 items-center justify-center overflow-clip rounded-full border-subtle",
   {
     variants: {
       magnitude: {
