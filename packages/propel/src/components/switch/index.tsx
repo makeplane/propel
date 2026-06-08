@@ -33,18 +33,24 @@ const trackVariants = cva(
 
 // Thumb diameter per magnitude (track height − 2px gap) and the travel distance
 // when checked (track width − thumb − 2px of gutters).
-const thumbVariants = cva("rounded-full bg-surface-1 shadow-sm transition-transform", {
-  variants: {
-    magnitude: {
-      lg: "size-4 data-[checked]:translate-x-[12px]",
-      md: "size-3.5 data-[checked]:translate-x-[11px]",
-      sm: "size-3 data-[checked]:translate-x-[9px]",
+// The thumb reads white on the accent track; `surface-1` is white in light mode
+// but flips dark in dark mode, so the checked thumb pins to the on-color token
+// (the white-on-tone color) to stay white in every theme.
+const thumbVariants = cva(
+  "rounded-full bg-surface-1 shadow-sm transition-transform data-[checked]:bg-on-color",
+  {
+    variants: {
+      magnitude: {
+        lg: "size-4 data-[checked]:translate-x-[12px]",
+        md: "size-3.5 data-[checked]:translate-x-[11px]",
+        sm: "size-3 data-[checked]:translate-x-[9px]",
+      },
+    },
+    defaultVariants: {
+      magnitude: "md",
     },
   },
-  defaultVariants: {
-    magnitude: "md",
-  },
-});
+);
 
 export type SwitchMagnitude = NonNullable<VariantProps<typeof trackVariants>["magnitude"]>;
 
