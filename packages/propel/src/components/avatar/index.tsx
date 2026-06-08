@@ -10,14 +10,14 @@ const avatarVariants = cva(
   {
     variants: {
       magnitude: {
-        "2xs": "size-4 border-sm text-11",
-        xs: "size-5 border-sm text-13",
-        sm: "size-6 border-sm text-16",
-        md: "size-7 border-sm text-16",
-        lg: "size-8 border-sm text-20",
-        xl: "size-10 border-lg text-24",
-        "2xl": "size-14 border-lg text-28",
-        "3xl": "size-16 border-lg text-32",
+        "2xs": "size-4 border-sm text-10",
+        xs: "size-5 border-sm text-11",
+        sm: "size-6 border-sm text-12",
+        md: "size-7 border-sm text-13",
+        lg: "size-8 border-sm text-16",
+        xl: "size-10 border-lg text-18",
+        "2xl": "size-14 border-lg text-24",
+        "3xl": "size-16 border-lg text-28",
       },
     },
   },
@@ -36,8 +36,8 @@ export const AVATAR_TONES = ["orange", "indigo", "emerald", "crimson", "pink", "
 export type AvatarTone = (typeof AVATAR_TONES)[number];
 
 // Initials background per tone. The label colors are wired into `@theme inline`,
-// so these are plain utilities.
-const initialsToneClass: Record<AvatarTone, string> = {
+// so these are plain utilities. Exported so WorkspaceAvatar shares the same palette.
+export const initialsToneClass: Record<AvatarTone, string> = {
   orange: "bg-label-orange-bg-strong",
   indigo: "bg-label-indigo-bg-strong",
   emerald: "bg-label-emerald-bg-strong",

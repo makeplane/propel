@@ -1,6 +1,7 @@
 import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
+import { type AvatarTone, getAvatarTone, initialsToneClass } from "../avatar";
 
 // Magnitudes follow the same scale as Avatar (Figma "Workspace avatar"): 2xs 16
 // → 3xl 64. Square with a radius that grows with size: rounded-sm (16–24),
@@ -10,14 +11,14 @@ const workspaceAvatarVariants = cva(
   {
     variants: {
       magnitude: {
-        "2xs": "size-4 rounded-sm border-sm text-11",
-        xs: "size-5 rounded-sm border-sm text-13",
-        sm: "size-6 rounded-sm border-sm text-16",
-        md: "size-7 rounded-md border-sm text-20",
-        lg: "size-8 rounded-md border-sm text-20",
-        xl: "size-10 rounded-md border-lg text-24",
-        "2xl": "size-14 rounded-lg border-lg text-28",
-        "3xl": "size-16 rounded-lg border-lg text-32",
+        "2xs": "size-4 rounded-sm border-sm text-10",
+        xs: "size-5 rounded-sm border-sm text-10",
+        sm: "size-6 rounded-sm border-sm text-12",
+        md: "size-7 rounded-md border-sm text-13",
+        lg: "size-8 rounded-md border-sm text-16",
+        xl: "size-10 rounded-md border-lg text-18",
+        "2xl": "size-14 rounded-lg border-lg text-24",
+        "3xl": "size-16 rounded-lg border-lg text-28",
       },
     },
   },
@@ -37,15 +38,25 @@ export type WorkspaceAvatarProps = Omit<
   alt?: string;
   /** Shown when there is no logo — typically the workspace's initial. */
   fallback?: React.ReactNode;
+  /** Initials background color. Defaults to a stable color derived from `alt`. */
+  tone?: AvatarTone;
   /** Size of the avatar. Required — there is no default. */
   magnitude: WorkspaceAvatarMagnitude;
 };
 
-export function WorkspaceAvatar({ magnitude, src, alt, fallback, ...props }: WorkspaceAvatarProps) {
+export function WorkspaceAvatar({
+  magnitude,
+  src,
+  alt,
+  fallback,
+  tone,
+  ...props
+}: WorkspaceAvatarProps) {
   // The fallback shows whenever the logo is absent, loading, or failed, so its
   // styling lives on the Fallback element (not derived from `src`). Initials sit
-  // on the indigo label color (Figma `label/indigo/bg-strong`) with white text.
+  // on a label tone color (same palette as Avatar), auto-derived from `alt`.
   const hasInitials = fallback != null;
+  const resolvedTone = tone ?? getAvatarTone(alt ?? "");
   return (
     <BaseAvatar.Root
       // One accessible name for the avatar in every state; the inner logo image is
@@ -59,7 +70,9 @@ export function WorkspaceAvatar({ magnitude, src, alt, fallback, ...props }: Wor
       <BaseAvatar.Fallback
         className={cx(
           "flex size-full items-center justify-center leading-none",
-          hasInitials ? "bg-label-indigo-bg-strong text-on-color" : "bg-layer-1 text-primary",
+          hasInitials
+            ? `${initialsToneClass[resolvedTone]} text-on-color`
+            : "bg-layer-1 text-primary",
         )}
       >
         {fallback}
