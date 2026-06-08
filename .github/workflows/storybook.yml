@@ -41,6 +41,9 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: packages/propel
+          # The action defaults to an old wrangler that lacks `--preview-alias`;
+          # pin to v4 (preview aliases + static-assets support).
+          wranglerVersion: "4.98.0"
           command: >-
             ${{ github.event_name == 'push'
               && 'deploy'
