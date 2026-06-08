@@ -11,10 +11,11 @@ const checkboxVariants = cva(
     "inline-flex size-4 shrink-0 items-center justify-center rounded-sm border-sm",
     "outline-none transition-colors",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1",
-    // Unchecked: just the border. Checked / indeterminate: the accent fill with a
-    // white icon. Base UI exposes these via `data-*` state attributes.
-    "data-[checked]:border-transparent data-[checked]:bg-accent-primary data-[checked]:text-icon-on-color",
-    "data-[indeterminate]:border-transparent data-[indeterminate]:bg-accent-primary data-[indeterminate]:text-icon-on-color",
+    // Unchecked: just the border. Checked / indeterminate: a tone-specific fill
+    // (see the `tone` variants) with a white icon. Base UI exposes these via
+    // `data-*` state attributes. Only the shared border/text live here.
+    "data-[checked]:border-transparent data-[checked]:text-icon-on-color",
+    "data-[indeterminate]:border-transparent data-[indeterminate]:text-icon-on-color",
     // Disabled: muted border/fill and no pointer; overrides the checked fill.
     "data-[disabled]:cursor-not-allowed data-[disabled]:border-disabled data-[disabled]:bg-transparent",
     "data-[disabled]:data-[checked]:border-transparent data-[disabled]:data-[checked]:bg-layer-disabled data-[disabled]:data-[checked]:text-icon-disabled",
@@ -23,9 +24,11 @@ const checkboxVariants = cva(
   {
     variants: {
       tone: {
-        // Neutral resting border for an unchecked, enabled box.
-        neutral: "border-strong",
-        // The Figma "Error" state: a danger border while unchecked.
+        // Neutral: resting border while unchecked; accent fill once checked.
+        neutral:
+          "border-strong data-[checked]:bg-accent-primary data-[indeterminate]:bg-accent-primary",
+        // The Figma "Error" state: a danger border while unchecked; danger fill
+        // once checked.
         danger:
           "border-danger-strong data-[checked]:bg-danger-primary data-[indeterminate]:bg-danger-primary",
       },
@@ -65,8 +68,9 @@ export function Checkbox({ tone, label, id, ...props }: CheckboxProps) {
       {...props}
     >
       <BaseCheckbox.Indicator
-        // Mounted only when checked or indeterminate. The dash wins for the mixed
-        // state; otherwise a check. Decorative — the Root carries the a11y state.
+        // Kept mounted in every state (`keepMounted`) so the check/dash can
+        // transition in and out. The dash wins for the mixed state; otherwise a
+        // check. Decorative — the Root carries the a11y state.
         className="flex items-center justify-center"
         keepMounted
       >
@@ -83,7 +87,10 @@ export function Checkbox({ tone, label, id, ...props }: CheckboxProps) {
 
   return (
     <label
-      className="inline-flex cursor-pointer items-center gap-2 text-13 text-secondary"
+      className={cx(
+        "inline-flex items-center gap-2 text-13 text-secondary",
+        props.disabled ? "cursor-not-allowed" : "cursor-pointer",
+      )}
       htmlFor={checkboxId}
     >
       {box}
