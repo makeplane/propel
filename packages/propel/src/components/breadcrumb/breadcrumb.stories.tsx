@@ -21,6 +21,7 @@ const meta = {
     BreadcrumbSeparator,
     BreadcrumbPage,
     BreadcrumbDropdown,
+    BreadcrumbDropdownItem,
   },
   tags: ["ai-generated"],
 } satisfies Meta<typeof Breadcrumb>;
