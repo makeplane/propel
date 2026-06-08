@@ -21,6 +21,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const Magnitudes: Story = {
+  // A fixed showcase of every size — controls would be inert, so hide the panel.
+  parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
@@ -36,6 +38,7 @@ export const Magnitudes: Story = {
  */
 export const Tones: Story = {
   args: { src: undefined },
+  parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {AVATAR_TONES.map((tone) => (
@@ -47,6 +50,7 @@ export const Tones: Story = {
 
 /** The three states side by side: image, initials, and the anonymous person icon. */
 export const States: Story = {
+  parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
       <Avatar {...args} magnitude="lg" src="https://i.pravatar.cc/128?img=47" />

@@ -20,6 +20,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const Magnitudes: Story = {
+  // A fixed showcase of every size — controls would be inert, so hide the panel.
+  parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
@@ -31,6 +33,7 @@ export const Magnitudes: Story = {
 
 /** The two states side by side: logo and the initial fallback. */
 export const States: Story = {
+  parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
       <WorkspaceAvatar
