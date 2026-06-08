@@ -190,18 +190,21 @@ export function Button({
   disabled,
   type = "button",
   children,
+  onClick,
   ...props
 }: ButtonProps) {
   // `loading` is a soft-disabled state: it shows a spinner and must not fire
   // clicks, but stays a real (focusable) button so screen readers announce the
-  // busy state. `disabled` is the hard, non-focusable state.
-  const isDisabled = disabled || loading;
+  // busy state via `aria-busy` + `aria-disabled`. `disabled` is the hard,
+  // non-focusable state and is the only thing that sets the native attribute.
   const iconClass = iconSizeByMagnitude[magnitude];
   return (
     <button
       type={type}
-      disabled={isDisabled}
+      disabled={disabled}
+      aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
+      onClick={loading ? undefined : onClick}
       className={buttonVariants({ variant, tone, emphasis, magnitude })}
       {...props}
     >
@@ -253,15 +256,17 @@ export function IconButton({
   loading = false,
   disabled,
   type = "button",
+  onClick,
   ...props
 }: IconButtonProps) {
-  const isDisabled = disabled || loading;
   const iconClass = iconSizeByMagnitude[magnitude];
   return (
     <button
       type={type}
-      disabled={isDisabled}
+      disabled={disabled}
+      aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
+      onClick={loading ? undefined : onClick}
       className={cx(
         buttonVariants({ variant, tone, emphasis, magnitude }),
         // Override the text-button box with a square, padding-driven one.

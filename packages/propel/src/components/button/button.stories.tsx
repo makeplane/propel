@@ -18,6 +18,7 @@ const MAGNITUDES: ButtonMagnitude[] = ["xs", "sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/Button",
   component: Button,
+  subcomponents: { IconButton },
   tags: ["ai-generated"],
   args: {
     children: "Button",
@@ -191,15 +192,25 @@ export const DisabledBlocksClick: Story = {
   },
 };
 
-/** A `loading` button shows the spinner, is `aria-busy`, and blocks clicks. */
+/**
+ * A `loading` button shows the spinner, is `aria-busy` + `aria-disabled`, and
+ * blocks clicks — but stays a real, focusable button (NOT natively `disabled`)
+ * so assistive tech can land on it and announce the busy state.
+ */
 export const LoadingBlocksClick: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { onClick: fn(), loading: true },
   play: async ({ args, canvas, userEvent }) => {
     const button = canvas.getByRole("button", { name: "Button" });
     await expect(button).toHaveAttribute("aria-busy", "true");
+    await expect(button).toHaveAttribute("aria-disabled", "true");
+    // Not natively disabled: it must remain in the tab order and focusable.
+    await expect(button).not.toBeDisabled();
     // The spinner is present (lucide renders an <svg>).
     await expect(button.querySelector("svg")).not.toBeNull();
+    // It can receive focus.
+    button.focus();
+    await expect(button).toHaveFocus();
     await userEvent.click(button);
     await expect(args.onClick).not.toHaveBeenCalled();
   },
