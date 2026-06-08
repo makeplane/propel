@@ -4,6 +4,10 @@
   // https://developers.cloudflare.com/workers/static-assets/
   "name": "propel-storybook",
   "compatibility_date": "2026-06-06",
+  // Serve on the account's workers.dev subdomain and enable per-version preview
+  // URLs (used for the PR previews via `versions upload --preview-alias`).
+  "workers_dev": true,
+  "preview_urls": true,
   "assets": {
     "directory": "./storybook-static",
     // Storybook routes stories via `index.html?path=…`, so unmatched paths should
