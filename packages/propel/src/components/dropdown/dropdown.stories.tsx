@@ -25,6 +25,7 @@ const meta = {
     DropdownItem,
     DropdownCheckboxItem,
     DropdownSeparator,
+    DropdownGroup,
     DropdownLabel,
   },
   tags: ["ai-generated"],
@@ -68,8 +69,9 @@ export const Default: Story = {
     await step("opening the trigger reveals the menu", async () => {
       await userEvent.click(canvas.getByRole("button", { name: "Actions" }));
       // The popup renders in a portal, so query the document body and wait for it.
-      const menu = await waitFor(() => document.body.querySelector('[role="menu"]'));
-      await expect(menu).toBeInTheDocument();
+      // Assert inside the callback so waitFor retries until the menu actually exists
+      // (a returned null would resolve immediately).
+      await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
     });
 
     await step("all items are present", async () => {
