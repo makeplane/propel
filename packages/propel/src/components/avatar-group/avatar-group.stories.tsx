@@ -1,18 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 import { Avatar } from "../avatar/index";
-import { AvatarGroup, type AvatarGroupMagnitude } from "./index";
-
-const MAGNITUDES: AvatarGroupMagnitude[] = ["2xs", "xs", "sm"];
+import { AvatarGroup } from "./index";
 
 const meta = {
   title: "Components/AvatarGroup",
   component: AvatarGroup,
   tags: ["ai-generated"],
   args: { magnitude: "sm" },
-  argTypes: {
-    magnitude: { control: "select", options: MAGNITUDES },
-  },
 } satisfies Meta<typeof AvatarGroup>;
 
 export default meta;

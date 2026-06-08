@@ -13,11 +13,6 @@ const meta = {
     alt: "Ada Lovelace",
     fallback: "AL",
   },
-  argTypes: {
-    magnitude: { control: "select", options: MAGNITUDES },
-    tone: { control: "select", options: AVATAR_TONES },
-    src: { control: "text" },
-  },
 } satisfies Meta<typeof Avatar>;
 
 export default meta;

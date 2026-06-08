@@ -12,10 +12,6 @@ const meta = {
     alt: "Plane workspace",
     fallback: "P",
   },
-  argTypes: {
-    magnitude: { control: "select", options: MAGNITUDES },
-    src: { control: "text" },
-  },
 } satisfies Meta<typeof WorkspaceAvatar>;
 
 export default meta;
