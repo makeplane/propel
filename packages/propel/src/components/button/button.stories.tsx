@@ -1,18 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus, Search, Settings } from "lucide-react";
 import { expect, fn } from "storybook/test";
-import {
-  Button,
-  type ButtonEmphasis,
-  IconButton,
-  type ButtonMagnitude,
-  type ButtonTone,
-  type ButtonVariant,
-} from "./index";
+import { Button, IconButton, type ButtonMagnitude, type ButtonVariant } from "./index";
 
 const VARIANTS: ButtonVariant[] = ["primary", "secondary", "tertiary", "ghost", "link"];
-const TONES: ButtonTone[] = ["neutral", "danger"];
-const EMPHASES: ButtonEmphasis[] = ["solid", "outline", "soft"];
 const MAGNITUDES: ButtonMagnitude[] = ["xs", "sm", "md", "lg", "xl"];
 
 const meta = {
@@ -24,7 +15,6 @@ const meta = {
     children: "Button",
     variant: "primary",
     tone: "neutral",
-    emphasis: "solid",
     magnitude: "md",
   },
 } satisfies Meta<typeof Button>;
@@ -59,41 +49,11 @@ export const Tones: Story = {
       <Button {...args} tone="neutral" variant="primary">
         Neutral
       </Button>
-      <Button {...args} tone="danger" variant="primary" emphasis="solid">
+      <Button {...args} tone="danger" variant="primary">
         Danger fill
       </Button>
-      <Button {...args} tone="danger" variant="secondary" emphasis="outline">
+      <Button {...args} tone="danger" variant="secondary">
         Danger outline
-      </Button>
-    </div>
-  ),
-};
-
-/** Emphasis distinguishes the danger fills and the subtle link. */
-export const Emphasis: Story = {
-  parameters: { controls: { disable: true } },
-  render: (args) => (
-    <div className="flex items-center gap-3">
-      {TONES.map((tone) =>
-        EMPHASES.filter((e) =>
-          tone === "danger" ? e !== "soft" : e === "soft" ? false : true,
-        ).map((emphasis) => (
-          <Button
-            key={`${tone}-${emphasis}`}
-            {...args}
-            tone={tone}
-            variant={emphasis === "outline" ? "secondary" : "primary"}
-            emphasis={emphasis}
-          >
-            {tone} {emphasis}
-          </Button>
-        )),
-      )}
-      <Button {...args} variant="link" emphasis="solid">
-        Link
-      </Button>
-      <Button {...args} variant="link" emphasis="soft">
-        Link subtle
       </Button>
     </div>
   ),
