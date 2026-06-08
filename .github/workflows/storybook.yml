@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch: # manual redeploy (e.g. to restore production)
 
 # One deploy per ref; a newer push supersedes an in-flight one.
 concurrency:
@@ -15,8 +16,9 @@ jobs:
   deploy:
     name: Build & deploy Storybook
     runs-on: ubuntu-latest
-    # Fork PRs can't read the Cloudflare secrets, so skip them instead of failing.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    # Run for push + manual dispatch; for PRs only same-repo ones (forks can't
+    # read the Cloudflare secrets, so skip them instead of failing).
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       contents: read
       pull-requests: write # post the preview URL back on the PR
@@ -31,9 +33,10 @@ jobs:
       - run: vp install
       - run: vp run -r build-storybook
 
-      # main → production deploy; PR → a versioned upload aliased to the PR number,
-      # which yields a stable preview URL (pr-<n>-propel-storybook.<subdomain>.workers.dev)
-      # without touching production. https://developers.cloudflare.com/workers/configuration/previews/
+      # PR → a versioned upload aliased to the PR number, which yields a stable
+      # preview URL (pr-<n>-propel-storybook.<subdomain>.workers.dev) without
+      # touching production. push + manual dispatch → production deploy.
+      # https://developers.cloudflare.com/workers/configuration/previews/
       - name: Deploy to Cloudflare Workers
         id: deploy
         uses: cloudflare/wrangler-action@v4
@@ -45,9 +48,9 @@ jobs:
           # pin to v4 (preview aliases + static-assets support).
           wranglerVersion: "4.98.0"
           command: >-
-            ${{ github.event_name == 'push'
-              && 'deploy'
-              || format('versions upload --preview-alias pr-{0}', github.event.pull_request.number) }}
+            ${{ github.event_name == 'pull_request'
+              && format('versions upload --preview-alias pr-{0}', github.event.pull_request.number)
+              || 'deploy' }}
 
       - name: Comment preview URL on the PR
         if: github.event_name == 'pull_request'
@@ -60,7 +63,11 @@ jobs:
           # Prefer the stable `pr-<n>` alias URL (constant across pushes) over the
           # per-version URL that wrangler-action surfaces as deployment-url.
           url=$(printf '%s' "$OUTPUT" | sed -E 's/\x1b\[[0-9;]*m//g' \
-            | grep -oE 'https://pr-[0-9]+-[a-z0-9.-]+\.workers\.dev' | head -1)
+            | grep -oE 'https://pr-[0-9]+-[a-z0-9.-]+\.workers\.dev' | head -1 || true)
           url=${url:-$FALLBACK}
-          [ -n "$url" ] && gh pr comment "$PR" --edit-last --create-if-none \
-            --body "📚 **Storybook preview:** $url"
+          if [ -n "$url" ]; then
+            gh pr comment "$PR" --edit-last --create-if-none \
+              --body "📚 **Storybook preview:** $url"
+          else
+            echo "No preview URL produced (deploy may have failed) — skipping comment."
+          fi
