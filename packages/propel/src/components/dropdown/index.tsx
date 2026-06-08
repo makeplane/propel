@@ -204,9 +204,9 @@ export function DropdownCheckboxItem({
       )}
       {...props}
     >
-      <span className="flex size-4 shrink-0 items-center justify-center text-icon-accent-primary">
+      <span className="flex size-4 shrink-0 items-center justify-center text-icon-accent-primary group-data-disabled/item:text-icon-disabled">
         <Menu.CheckboxItemIndicator>
-          <Check className="size-4" />
+          <Check className="size-4" aria-hidden="true" />
         </Menu.CheckboxItemIndicator>
       </span>
       {icon ? (
