@@ -66,8 +66,9 @@ export const States: Story = {
 };
 
 /**
- * Selecting an option checks it and clears any previously-selected one, so the
- * group always has exactly one checked radio. Tagged so it stays out of the
+ * With no `value`/`defaultValue`, the group starts with nothing checked.
+ * Selecting an option checks it and clears any previously-selected one, so at
+ * most one radio is checked at a time. Tagged so it stays out of the
  * sidebar, docs, and AI manifest while still running under the default `test` tag.
  */
 export const SelectionBehavior: Story = {

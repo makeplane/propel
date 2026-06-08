@@ -37,7 +37,8 @@ export type RadioGroupProps = Omit<
 >;
 
 /**
- * Groups a set of `Radio` options so exactly one can be selected at a time. Wrap
+ * Groups a set of `Radio` options so at most one can be selected at a time (none
+ * is selected until a `value`/`defaultValue` is set). Wrap
  * `Radio` children in it and drive the selection with `value`/`defaultValue` +
  * `onValueChange`. Renders a `<div>` with `role="radiogroup"`.
  */
