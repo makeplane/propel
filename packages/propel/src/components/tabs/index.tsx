@@ -1,5 +1,5 @@
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
-import { cva, cx, type VariantProps } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
 import * as React from "react";
 
 // The Figma "Tabs" component defines two visual treatments. `contained` wraps
@@ -72,17 +72,7 @@ export function TabsList({ children, ...props }: TabsListProps) {
   return (
     <BaseTabs.List className={tabsListVariants({ variant })} {...props}>
       {children}
-      {variant === "underline" ? (
-        // The underline rides along the bottom of the list, sized and positioned
-        // to the active tab via Base UI's `--active-tab-*` CSS vars. `bg-inverse`
-        // is the dark (neutral-1200) bar matching the active-tab text.
-        <BaseTabs.Indicator
-          className={cx(
-            "-bottom-px absolute left-[var(--active-tab-left)] h-0.5 w-[var(--active-tab-width)]",
-            "rounded-full bg-inverse transition-all duration-150",
-          )}
-        />
-      ) : null}
+      {variant === "underline" ? <TabsIndicator /> : null}
     </BaseTabs.List>
   );
 }
@@ -103,8 +93,6 @@ const tabVariants = cva(
     },
   },
 );
-
-export type TabVariant = NonNullable<VariantProps<typeof tabVariants>["variant"]>;
 
 export type TabProps = Omit<
   React.ComponentProps<typeof BaseTabs.Tab>,
@@ -129,8 +117,25 @@ export function TabsPanel(props: TabsPanelProps) {
   return <BaseTabs.Panel className={tabsPanelVariants()} {...props} />;
 }
 
+// The underline rides along the bottom of the list, sized and positioned to the
+// active tab via Base UI's `--active-tab-*` CSS vars. `bg-inverse` is the dark
+// (neutral-1200) bar matching the active-tab text.
+const tabsIndicatorVariants = cva(
+  cx(
+    "-bottom-px absolute left-[var(--active-tab-left)] h-0.5 w-[var(--active-tab-width)]",
+    "rounded-full bg-inverse transition-all duration-150",
+  ),
+);
+
+export type TabsIndicatorProps = Omit<
+  React.ComponentProps<typeof BaseTabs.Indicator>,
+  "className" | "render" | "style"
+>;
+
 /**
- * The underline bar, re-exported so `TabsList` can place it. Surfaced for callers
- * composing a custom list; the built-in `TabsList` already renders it for `underline`.
+ * The underline bar. Surfaced for callers composing a custom list; the built-in
+ * `TabsList` already renders it for the `underline` variant.
  */
-export const TabsIndicator = BaseTabs.Indicator;
+export function TabsIndicator(props: TabsIndicatorProps) {
+  return <BaseTabs.Indicator className={tabsIndicatorVariants()} {...props} />;
+}

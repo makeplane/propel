@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
-import { Tab, Tabs, TabsList, TabsPanel } from "./index";
+import { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./index";
 
 const meta = {
   title: "Components/Tabs",
   component: Tabs,
-  subcomponents: { TabsList, Tab, TabsPanel },
+  subcomponents: { TabsList, Tab, TabsPanel, TabsIndicator },
   tags: ["ai-generated"],
   args: {
     variant: "contained",
