@@ -326,7 +326,7 @@
     --txt-success-primary: var(--green-900);
     --txt-success-secondary: var(--green-700);
     --txt-warning-primary: var(--amber-900);
-    --txt-warning-secondary: var(--amber-700);
+    --txt-warning-secondary: var(--amber-800);
     --txt-danger-primary: var(--red-900);
     --txt-danger-secondary: var(--red-700);
     /* Icon colors */
@@ -839,7 +839,7 @@
       --txt-plans-neutral-color: var(--alpha-white-300);
       --txt-plans-neutral-primary: var(--alpha-white-200);
       --txt-warning-primary: var(--amber-900);
-      --txt-warning-secondary: var(--amber-700);
+      --txt-warning-secondary: var(--amber-800);
     }
 
     /* -------------------- Light high contrast mode color tokens -------------------- */
