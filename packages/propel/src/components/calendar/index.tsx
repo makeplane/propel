@@ -25,23 +25,34 @@ const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"]>> = {
   // Weekday column headers: tertiary text on a 40px cell, matching the day grid.
   weekday: "flex size-10 items-center justify-center text-14 font-normal text-tertiary",
   week: "flex w-full",
-  // The cell is the range backdrop; round only the outer corners of an endpoint
-  // so a continuous range reads as one pill. Middle cells have no radius.
-  day: "relative size-10 p-0 text-center [&:has([aria-selected])]:bg-accent-subtle-hover [&:has(.range-start)]:rounded-s-full [&:has(.range-end)]:rounded-e-full",
+  // react-day-picker v10 applies the modifier classNames (`selected`, `today`,
+  // `range_*`) and `aria-selected` to the gridcell (this `td`) itself — NOT to a
+  // descendant — so we target the cell directly with `[&.foo]`/`[&[aria-selected]]`
+  // and reach the inner button with `[&>button]`.
+  //
+  // The cell is the range backdrop: range cells (start/middle/end) get the soft
+  // in-range fill, and only the outer corners of an endpoint round off so a
+  // continuous range reads as one pill. A plain single-selected cell stays
+  // transparent (its solid pill comes from the button below).
+  day: "relative size-10 p-0 text-center [&.range-start]:bg-accent-subtle-hover [&.range-middle]:bg-accent-subtle-hover [&.range-end]:bg-accent-subtle-hover [&.range-start]:rounded-s-full [&.range-end]:rounded-e-full",
   // The actual button: 40px round, body-sm text, primary color.
   day_button:
-    "relative inline-flex size-10 items-center justify-center rounded-full text-14 text-primary hover:bg-layer-transparent-hover aria-selected:hover:bg-transparent",
-  // Selected single day / range endpoints: solid accent, white text.
+    "relative inline-flex size-10 items-center justify-center rounded-full text-14 text-primary hover:bg-layer-transparent-hover",
+  // Selected single day / range endpoints: solid accent button, white text.
+  // (`selected` is set on the cell for every day in a range; `range_middle`
+  // below resets the button back to transparent for the in-between days.)
   selected:
-    "[&>button]:bg-accent-primary [&>button]:text-on-color [&>button]:hover:bg-accent-primary",
-  // Endpoints are tagged so the cell can square off the inner edge of the range.
+    "[&>button]:bg-accent-primary [&>button]:text-on-color [&>button:hover]:bg-accent-primary",
+  // Endpoints are tagged so the cell can round the outer edge of the range.
   range_start: "range-start",
   range_end: "range-end",
-  // Middle of a range: keep the button transparent, the cell shows the soft fill.
+  // Middle of a range: keep the button transparent so only the cell's soft fill
+  // shows, and square the cell (the marker class also drives the fill above).
   range_middle:
-    "[&>button]:bg-transparent [&>button]:text-primary [&:has([aria-selected])]:rounded-none",
-  // Today (when not selected): accent text so the current date stands out.
-  today: "[&>button:not([aria-selected])]:text-accent-primary [&>button]:font-semibold",
+    "range-middle [&>button]:bg-transparent [&>button]:text-primary [&>button:hover]:bg-transparent",
+  // Today (when not selected): accent text so the current date stands out. When
+  // the cell is also selected, the solid accent button (above) wins.
+  today: "[&:not([aria-selected])>button]:text-accent-primary [&>button]:font-semibold",
   // Disabled days read as muted, non-interactive text.
   disabled: "[&>button]:text-disabled [&>button]:pointer-events-none",
   // Days from the adjacent month: dimmed.
