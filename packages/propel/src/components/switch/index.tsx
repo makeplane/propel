@@ -24,10 +24,6 @@ const trackVariants = cva(
         sm: "h-[14px] w-[23px]",
       },
     },
-    defaultVariants: {
-      // Figma's default Toggle is Size=M.
-      magnitude: "md",
-    },
   },
 );
 
@@ -44,9 +40,6 @@ const thumbVariants = cva("rounded-full bg-on-color shadow-sm transition-transfo
       sm: "size-3 data-[checked]:translate-x-[9px]",
     },
   },
-  defaultVariants: {
-    magnitude: "md",
-  },
 });
 
 export type SwitchMagnitude = NonNullable<VariantProps<typeof trackVariants>["magnitude"]>;
@@ -57,9 +50,9 @@ export type SwitchProps = Omit<
 > & {
   /**
    * Track + thumb size, from the Figma "Toggle" Size scale:
-   * `lg` 30×18, `md` 27×16, `sm` 23×14. Defaults to `md`.
+   * `lg` 30×18, `md` 27×16, `sm` 23×14.
    */
-  magnitude?: SwitchMagnitude;
+  magnitude: SwitchMagnitude;
 };
 
 /**
