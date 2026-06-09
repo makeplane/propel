@@ -27,9 +27,6 @@ const toolbarVariants = cva("flex w-fit items-center gap-2 p-1.5 text-secondary"
       "bottom-bar": "",
     },
   },
-  defaultVariants: {
-    variant: "floater",
-  },
 });
 
 export type ToolbarVariant = NonNullable<VariantProps<typeof toolbarVariants>["variant"]>;
@@ -54,11 +51,11 @@ export type ToolbarProps = Omit<
 > & {
   /**
    * Where the toolbar is placed, which controls its surface and density. `floater`
-   * (default) is a self-contained card with a border + shadow that hovers over
-   * content and packs its controls tightly (24px). `topbar` and `bottom-bar` are
-   * flat, sit flush inside an existing bar, and use the roomier 28px density.
+   * is a self-contained card with a border + shadow that hovers over content and
+   * packs its controls tightly (24px). `topbar` and `bottom-bar` are flat, sit flush
+   * inside an existing bar, and use the roomier 28px density.
    */
-  variant?: ToolbarVariant;
+  variant: ToolbarVariant;
 };
 
 /**
@@ -68,7 +65,7 @@ export type ToolbarProps = Omit<
  * carries `role="toolbar"`. Compose it from `ToolbarGroup`, `ToolbarButton`,
  * `ToolbarToggle`, `ToolbarSeparator` and `ToolbarDropdown`.
  */
-export function Toolbar({ variant = "floater", ...props }: ToolbarProps) {
+export function Toolbar({ variant, ...props }: ToolbarProps) {
   return (
     <ToolbarDensityContext.Provider value={DENSITY_BY_VARIANT[variant]}>
       <BaseToolbar.Root className={toolbarVariants({ variant })} {...props} />
