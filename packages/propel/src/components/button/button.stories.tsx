@@ -11,6 +11,12 @@ const meta = {
   component: Button,
   subcomponents: { IconButton },
   tags: ["ai-generated"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1143-19597",
+    },
+  },
   args: {
     children: "Button",
     variant: "primary",
