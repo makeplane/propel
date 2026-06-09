@@ -489,7 +489,7 @@ export function DropdownSubTrigger({
       <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
       {trailing != null ? <span className="flex shrink-0 items-center">{trailing}</span> : null}
       <ChevronRight
-        className="size-4 shrink-0 text-icon-tertiary group-data-disabled/item:text-icon-disabled"
+        className="size-4 shrink-0 text-icon-tertiary group-data-disabled/item:text-icon-disabled rtl:-scale-x-100"
         aria-hidden="true"
       />
     </Menu.SubmenuTrigger>
