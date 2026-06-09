@@ -10,6 +10,12 @@ const meta = {
     tone: "neutral",
     "aria-label": "Example",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1281-33726",
+    },
+  },
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;
