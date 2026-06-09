@@ -122,11 +122,14 @@ function TooltipArrow() {
         "data-[side=left]:right-[-3px] data-[side=left]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
         "data-[side=right]:left-[-3px] data-[side=right]:[clip-path:polygon(0_0,0_100%,100%_100%)]",
         // Base UI's Positioner also emits the logical sides `inline-start`/`inline-end`
-        // (the `side` prop accepts them). Mirror left/right so the arrow still gets a
-        // clip-path and edge offset. The polygon clip is physical, so the LTR mapping
-        // is encoded directly: inline-start ≡ left, inline-end ≡ right.
-        "data-[side=inline-start]:right-[-3px] data-[side=inline-start]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
-        "data-[side=inline-end]:left-[-3px] data-[side=inline-end]:[clip-path:polygon(0_0,0_100%,100%_100%)]",
+        // (the `side` prop accepts them), and Plane runs both LTR and RTL — so these
+        // must flip with writing direction. The edge offset uses logical insets
+        // (`end`/`start` = inset-inline-end/start), which flip automatically; the
+        // polygon clip is physical, so a `rtl:` variant mirrors the triangle. LTR:
+        // inline-start sits left (apex points right), inline-end sits right (apex
+        // points left); RTL swaps both. Physical left/right above stay fixed.
+        "data-[side=inline-start]:end-[-3px] data-[side=inline-start]:[clip-path:polygon(0_0,100%_0,100%_100%)] rtl:data-[side=inline-start]:[clip-path:polygon(0_0,0_100%,100%_100%)]",
+        "data-[side=inline-end]:start-[-3px] data-[side=inline-end]:[clip-path:polygon(0_0,0_100%,100%_100%)] rtl:data-[side=inline-end]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
       )}
     />
   );
