@@ -59,6 +59,25 @@ export const Tones: Story = {
   ),
 };
 
+/**
+ * `emphasis` is link-only (Figma "Emphasis"): `solid` is the blue `link/primary`
+ * affordance, `subtle` is the muted gray inline link (uses `text-secondary`).
+ * Every non-link variant ignores it.
+ */
+export const LinkEmphasis: Story = {
+  parameters: { controls: { disable: true } },
+  render: (args) => (
+    <div className="flex items-center gap-3">
+      <Button {...args} variant="link" emphasis="solid">
+        Solid link
+      </Button>
+      <Button {...args} variant="link" emphasis="subtle">
+        Subtle link
+      </Button>
+    </div>
+  ),
+};
+
 /** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl; xs is an extra dense step). */
 export const Magnitudes: Story = {
   parameters: { controls: { disable: true } },
