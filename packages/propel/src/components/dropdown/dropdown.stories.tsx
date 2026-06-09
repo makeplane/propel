@@ -3,6 +3,7 @@ import {
   ArrowDownUp,
   ArrowUpDown,
   ChevronDown,
+  ChevronRight,
   ChevronUp,
   Circle,
   CircleCheck,
@@ -15,6 +16,7 @@ import {
   Link2,
   Lock,
   Pencil,
+  Plus,
   SignalHigh,
   SignalLow,
   SignalMedium,
@@ -152,6 +154,34 @@ function ColorSwatch({ className }: { className: string }) {
   return <span className={`size-3.5 shrink-0 rounded-xs ${className}`} aria-hidden />;
 }
 
+// A selectable display-property pill matching Figma `56-366` (default / hover /
+// selected). NOTE: the real propel Pills component isn't built yet — this is a
+// minimal demo-local stand-in, flagged in the PR.
+function DisplayPill({
+  label,
+  selected,
+  onClick,
+}: {
+  label: string;
+  selected: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onClick}
+      className={`cursor-pointer rounded-md border px-2 py-1 text-13 outline-none ${
+        selected
+          ? "border-subtle-1 bg-layer-2-active text-primary shadow-raised-100"
+          : "border-subtle-1 bg-layer-2 text-tertiary hover:border-subtle hover:bg-layer-2-hover hover:text-secondary hover:shadow-raised-100"
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
 // Initials for an Avatar fallback ("Amelia Parker" -> "AP").
 function initials(name: string) {
   return name
@@ -259,14 +289,19 @@ export const Status: Story = {
 
 /**
  * Demo 2 — **Labels**. Multi-select: each row is a `DropdownCheckboxItem` (the propel
- * `Checkbox` as the leading control) plus a color swatch, with a search header and a
- * "Type to add a new label." footer.
+ * `Checkbox` as the leading control) plus a color swatch, with a search header. When
+ * the typed query has no exact match, an "Add label" option (Figma `64-626`) appears,
+ * separated from the search by a double divider line.
  */
 export const Labels: Story = {
   render: function LabelsStory() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({ customer: true });
     const [query, setQuery] = React.useState("");
+    const trimmed = query.trim();
     const visible = LABELS.filter((l) => l.label.toLowerCase().includes(query.toLowerCase()));
+    // Offer "Add label" whenever the query doesn't exactly match an existing label.
+    const canAdd =
+      trimmed.length > 0 && !LABELS.some((l) => l.label.toLowerCase() === trimmed.toLowerCase());
     return (
       <Dropdown>
         <DropdownTrigger render={<button type="button" className={triggerClass} />}>
@@ -275,8 +310,21 @@ export const Labels: Story = {
         <DropdownContent
           width="sm"
           search={<DropdownSearch value={query} onValueChange={setQuery} />}
-          footer={<DropdownFooter>Type to add a new label.</DropdownFooter>}
         >
+          {canAdd ? (
+            <>
+              {/* Two horizontal divider lines between the search and the new-label
+                  item (Figma 64-626): the sticky search already draws a bottom rule;
+                  this adds the second one directly above the add-label row. */}
+              <div className="-mx-1 mb-1 border-t border-subtle" />
+              <DropdownItem
+                variant="default"
+                icon={<Plus className="text-icon-secondary" />}
+                label={`Add label "${trimmed}"`}
+                closeOnClick={false}
+              />
+            </>
+          ) : null}
           {visible.map((l) => (
             <DropdownCheckboxItem
               key={l.key}
@@ -301,6 +349,11 @@ export const Labels: Story = {
       await waitFor(() => expect(feedback).toHaveAttribute("aria-checked", "true"));
       // Multi-select stays open.
       await expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument();
+    });
+    await step("typing a new name reveals the Add label option", async () => {
+      const search = document.body.querySelector('input[type="text"]') as HTMLInputElement;
+      await userEvent.type(search, "Product");
+      await waitFor(() => expect(findItem("menuitem", 'Add label "Product"')).toBeDefined());
     });
   },
 };
@@ -414,7 +467,7 @@ export const Assignees: Story = {
           {visible.map((a) => (
             <DropdownCheckboxItem
               key={a.key}
-              icon={<Avatar magnitude="sm" fallback={initials(a.name)} alt={a.name} />}
+              icon={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
               label={a.name}
               checked={Boolean(checked[a.key])}
               disabled={a.disabled}
@@ -534,23 +587,36 @@ export const Priority: Story = {
 };
 
 /**
- * Demo 8 — **Filters**. Multi-select across several titled sections (Priority, State,
- * Assignee, …), each section heading carrying a "View all" link, with a search header
- * and a long scroll.
+ * Demo 8 — **Filters**. Multi-select across several titled, collapsible sections
+ * (Priority, State, Assignee, …). Each item carries a leading icon; a chevron on the
+ * heading collapses/expands the category; categories are separated by a divider; and
+ * the "View all" link sits in the heading's trailing slot (no hover background,
+ * `cursor-pointer`).
  */
 export const Filters: Story = {
   render: function FiltersStory() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({});
+    const [collapsed, setCollapsed] = React.useState<Record<string, boolean>>({});
     const [query, setQuery] = React.useState("");
     const toggle = (key: string) => (next: boolean) => setChecked((c) => ({ ...c, [key]: next }));
     const match = (label: string) => label.toLowerCase().includes(query.toLowerCase());
     const sections = [
-      { title: "Priority", items: PRIORITIES.map((p) => ({ key: `p-${p.key}`, label: p.label })) },
-      { title: "State", items: STATUSES.map((s) => ({ key: `s-${s.key}`, label: s.label })) },
+      {
+        title: "Priority",
+        items: PRIORITIES.map((p) => ({ key: `p-${p.key}`, label: p.label, icon: p.icon })),
+      },
+      {
+        title: "State",
+        items: STATUSES.map((s) => ({ key: `s-${s.key}`, label: s.label, icon: s.icon })),
+      },
       {
         title: "Assignee",
         viewAll: true,
-        items: ASSIGNEES.map((a) => ({ key: `a-${a.key}`, label: a.name })),
+        items: ASSIGNEES.map((a) => ({
+          key: `a-${a.key}`,
+          label: a.name,
+          icon: <Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />,
+        })),
       },
     ];
     return (
@@ -562,29 +628,55 @@ export const Filters: Story = {
           width="sm"
           search={<DropdownSearch value={query} onValueChange={setQuery} />}
         >
-          {sections.map((section) => {
+          {sections.map((section, index) => {
             const items = section.items.filter((i) => match(i.label));
             if (items.length === 0) return null;
+            const isCollapsed = Boolean(collapsed[section.title]);
             return (
-              <DropdownGroup key={section.title}>
-                <DropdownLabel>{section.title}</DropdownLabel>
-                {items.map((i) => (
-                  <DropdownCheckboxItem
-                    key={i.key}
-                    label={i.label}
-                    checked={Boolean(checked[i.key])}
-                    onCheckedChange={toggle(i.key)}
-                  />
-                ))}
-                {/* "View all" is itself a menuitem so it stays a valid child of role="menu" */}
-                {section.viewAll ? (
+              <React.Fragment key={section.title}>
+                {/* Divider between categories. */}
+                {index > 0 ? <DropdownSeparator /> : null}
+                <DropdownGroup>
+                  {/* The category heading is itself a menuitem (valid `role="menu"`
+                      child) so its collapse chevron stays interactive without breaking
+                      ARIA. The label is the section title; the chevron is the endIcon. */}
                   <DropdownItem
                     variant="default"
-                    label={<span className="text-accent-primary">View all</span>}
+                    label={section.title}
+                    aria-expanded={!isCollapsed}
+                    endIcon={
+                      isCollapsed ? (
+                        <ChevronRight aria-hidden="true" />
+                      ) : (
+                        <ChevronDown aria-hidden="true" />
+                      )
+                    }
                     closeOnClick={false}
+                    onClick={() => setCollapsed((c) => ({ ...c, [section.title]: !isCollapsed }))}
                   />
-                ) : null}
-              </DropdownGroup>
+                  {!isCollapsed
+                    ? items.map((i) => (
+                        <DropdownCheckboxItem
+                          key={i.key}
+                          icon={i.icon}
+                          label={i.label}
+                          checked={Boolean(checked[i.key])}
+                          onCheckedChange={toggle(i.key)}
+                        />
+                      ))
+                    : null}
+                  {/* "View all" is its own menuitem with link emphasis: no hover
+                      background + cursor-pointer. */}
+                  {!isCollapsed && section.viewAll ? (
+                    <DropdownItem
+                      variant="default"
+                      emphasis="link"
+                      label={<span className="text-accent-primary">View all</span>}
+                      closeOnClick={false}
+                    />
+                  ) : null}
+                </DropdownGroup>
+              </React.Fragment>
             );
           })}
         </DropdownContent>
@@ -597,6 +689,16 @@ export const Filters: Story = {
       await waitFor(() => expect(findItem("menuitemcheckbox", "Urgent")).toBeDefined());
       await expect(findItem("menuitemcheckbox", "Backlog")).toBeDefined();
       await expect(findItem("menuitemcheckbox", "David Wilson")).toBeDefined();
+    });
+    await step("collapse a category from its heading", async () => {
+      const heading = (await waitFor(() =>
+        Array.from(document.body.querySelectorAll('[role="menuitem"]')).find(
+          (el) =>
+            el.getAttribute("aria-expanded") === "true" && el.textContent?.includes("Priority"),
+        ),
+      )) as HTMLElement;
+      await userEvent.click(heading);
+      await waitFor(() => expect(findItem("menuitemcheckbox", "Urgent")).toBeUndefined());
     });
   },
 };
@@ -638,24 +740,14 @@ export const DisplayProperties: Story = {
         <DropdownContent width="md" role="group" aria-label="Display options">
           <PanelLabel>Display Properties</PanelLabel>
           <div className="flex flex-wrap gap-1.5 px-2 py-1.5">
-            {PILLS.map((p) => {
-              const on = Boolean(pills[p]);
-              return (
-                <button
-                  key={p}
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => setPills((s) => ({ ...s, [p]: !on }))}
-                  className={`rounded-md border px-2 py-0.5 text-12 outline-none ${
-                    on
-                      ? "border-accent-strong bg-accent-subtle text-accent-primary"
-                      : "border-subtle text-secondary"
-                  }`}
-                >
-                  {p}
-                </button>
-              );
-            })}
+            {PILLS.map((p) => (
+              <DisplayPill
+                key={p}
+                label={p}
+                selected={Boolean(pills[p])}
+                onClick={() => setPills((s) => ({ ...s, [p]: !s[p] }))}
+              />
+            ))}
           </div>
           <DropdownSeparator />
           <PanelLabel>Group by</PanelLabel>
@@ -792,23 +884,27 @@ export const DisplayAccordion: Story = {
                   )}
                 </button>
                 {isOpen && key === "order" ? (
-                  <RadioGroup value={order} onValueChange={(v) => setOrder(String(v))}>
-                    {ORDER.map((o) => {
-                      const v = o.toLowerCase();
-                      return (
-                        <PanelRadioRow
-                          key={o}
-                          value={v}
-                          label={o}
-                          trailing={
-                            order === v ? (
-                              <SortDirectionToggle value={dir} onValueChange={setDir} />
-                            ) : undefined
-                          }
-                        />
-                      );
-                    })}
-                  </RadioGroup>
+                  // Items within an expanded category sit flush (0 spacing): collapse
+                  // RadioGroup's default row gap from the parent.
+                  <div className="[&>[role=radiogroup]]:gap-0">
+                    <RadioGroup value={order} onValueChange={(v) => setOrder(String(v))}>
+                      {ORDER.map((o) => {
+                        const v = o.toLowerCase();
+                        return (
+                          <PanelRadioRow
+                            key={o}
+                            value={v}
+                            label={o}
+                            trailing={
+                              order === v ? (
+                                <SortDirectionToggle value={dir} onValueChange={setDir} />
+                              ) : undefined
+                            }
+                          />
+                        );
+                      })}
+                    </RadioGroup>
+                  </div>
                 ) : null}
               </div>
             );
@@ -976,7 +1072,7 @@ export const Submenu: Story = {
               <DropdownItem
                 key={a.key}
                 variant="default"
-                icon={<Avatar magnitude="sm" fallback={initials(a.name)} alt={a.name} />}
+                icon={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
                 label={a.name}
                 closeOnClick={false}
               />

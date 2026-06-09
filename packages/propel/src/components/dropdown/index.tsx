@@ -41,7 +41,7 @@ export function DropdownTrigger(props: DropdownTriggerProps) {
 const dropdownSurfaceVariants = cva(
   cx(
     "flex max-h-(--available-height) flex-col overflow-hidden",
-    "rounded-md border border-subtle bg-surface-1 shadow-overlay-200 outline-none",
+    "rounded-lg border border-subtle bg-surface-1 shadow-overlay-200 outline-none",
     "origin-(--transform-origin) transition-[transform,opacity]",
     "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
     "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
@@ -128,23 +128,34 @@ export function DropdownContent({
 // keyboard-highlight share the subtle transparent overlay; disabled fades the row.
 const dropdownItemVariants = cva(
   cx(
-    "group/item flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 text-13 outline-none",
+    // Items are 34px tall (Figma); `rounded-md` radius per design.
+    "group/item flex w-full select-none gap-2 rounded-md px-2 text-13 outline-none",
     "text-secondary",
-    "data-highlighted:bg-layer-transparent-hover",
     "data-disabled:pointer-events-none data-disabled:text-disabled",
   ),
   {
     variants: {
       variant: {
-        default: "h-8",
-        "with-description": "py-1.5",
-        "with-value": "h-8",
+        // Single-line rows: fixed 34px, content vertically centered.
+        default: "h-[34px] items-center",
+        // Two-line rows: 6px top padding (Figma) with the leading icon top-aligned
+        // (align-start) so it sits with the first line; the row grows for the
+        // description and keeps a matching 6px bottom.
+        "with-description": "min-h-[34px] items-start py-1.5",
+        "with-value": "h-[34px] items-center",
+      },
+      // `default` is a normal selectable row (highlight on hover/keyboard). `link`
+      // is a "View all"-style affordance: a pointer cursor and no hover background.
+      emphasis: {
+        default: "cursor-default data-highlighted:bg-layer-transparent-hover",
+        link: "cursor-pointer",
       },
     },
   },
 );
 
 type DropdownItemVariant = NonNullable<VariantProps<typeof dropdownItemVariants>["variant"]>;
+type DropdownItemEmphasis = NonNullable<VariantProps<typeof dropdownItemVariants>["emphasis"]>;
 
 export type DropdownItemProps = Omit<
   React.ComponentProps<typeof Menu.Item>,
@@ -183,11 +194,17 @@ export type DropdownItemProps = Omit<
   /** Trailing content after the value slot, typically an icon or shortcut. */
   endIcon?: React.ReactNode;
   /**
-   * Single-select selected state: renders a leading checkmark in the icon column on
-   * the selected row only (no per-row control on the others). Distinct from the
+   * Single-select selected state: keeps the row's own icon and marks the selection
+   * with a trailing checkmark (the row's icon is never replaced). Distinct from the
    * multi-select `DropdownCheckboxItem`, which shows a `Checkbox` on every row.
    */
   selected?: boolean;
+  /**
+   * Row emphasis. `default` is a normal selectable row (highlights on hover/keyboard
+   * focus). `link` is a "View all"-style affordance — a pointer cursor and no hover
+   * background. @default "default"
+   */
+  emphasis?: DropdownItemEmphasis;
 };
 
 /**
@@ -198,6 +215,7 @@ export type DropdownItemProps = Omit<
  */
 export function DropdownItem({
   variant,
+  emphasis = "default",
   icon,
   leading,
   label,
@@ -211,15 +229,13 @@ export function DropdownItem({
   ...props
 }: DropdownItemProps) {
   return (
-    <Menu.Item className={dropdownItemVariants({ variant })} {...props}>
+    <Menu.Item className={dropdownItemVariants({ variant, emphasis })} {...props}>
       {leading != null ? <span className="flex shrink-0 items-center">{leading}</span> : null}
-      {selected != null || icon ? (
-        <span className="flex size-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
-          {selected ? (
-            <Check className="size-4 text-icon-accent-primary" aria-hidden="true" />
-          ) : (
-            icon
-          )}
+      {icon ? (
+        // 16px icon centered in a 20px-tall box so it aligns with the first text line
+        // even when the row is align-start (top-aligned) for a two-line layout.
+        <span className="flex h-5 w-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
+          {icon}
         </span>
       ) : null}
       <span className="flex min-w-0 flex-1 flex-col">
@@ -240,8 +256,14 @@ export function DropdownItem({
       {value != null ? <span className="shrink-0 text-12 text-tertiary">{value}</span> : null}
       {trailing != null ? <span className="flex shrink-0 items-center">{trailing}</span> : null}
       {endIcon ? (
-        <span className="flex size-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
+        <span className="flex h-5 w-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
           {endIcon}
+        </span>
+      ) : null}
+      {/* Selection is marked with a trailing check — the row's own icon is kept. */}
+      {selected ? (
+        <span className="flex h-5 w-4 shrink-0 items-center justify-center">
+          <Check className="size-4 text-icon-accent-primary" aria-hidden="true" />
         </span>
       ) : null}
     </Menu.Item>
@@ -292,7 +314,7 @@ export function DropdownCheckboxItem({
   return (
     <Menu.CheckboxItem
       className={cx(
-        "group/item flex h-8 w-full cursor-default select-none items-center gap-2 rounded-sm px-2 text-13 outline-none",
+        "group/item flex h-[34px] w-full cursor-default select-none items-center gap-2 rounded-md px-2 text-13 outline-none",
         "text-secondary",
         "data-highlighted:bg-layer-transparent-hover",
         "data-disabled:pointer-events-none data-disabled:text-disabled",
@@ -474,7 +496,7 @@ export function DropdownSubTrigger({
   return (
     <Menu.SubmenuTrigger
       className={cx(
-        "group/item flex h-8 w-full cursor-default select-none items-center gap-2 rounded-sm px-2 text-13 outline-none",
+        "group/item flex h-[34px] w-full cursor-default select-none items-center gap-2 rounded-md px-2 text-13 outline-none",
         "text-secondary",
         "data-highlighted:bg-layer-transparent-hover data-popup-open:bg-layer-transparent-hover",
         "data-disabled:pointer-events-none data-disabled:text-disabled",
