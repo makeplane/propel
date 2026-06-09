@@ -5,10 +5,13 @@ import * as React from "react";
 
 // Shared scale across Input + TextArea, taken from the Figma "Input fields"
 // component (node 1582-168). The box has 12px horizontal padding at every
-// magnitude; vertical padding and text sizes step up with `magnitude`.
-//   md → text-14 value / text-13 label / text-12 helper, 6px v-padding
-//   lg → text-14 value / text-14 label / text-13 helper, 12px v-padding
-//   xl → text-16 value / text-14 label / text-13 helper, 12px v-padding
+// magnitude; label/helper text and the Input's value text + vertical padding
+// step up with `magnitude`.
+//   md → label text-13 / helper text-12; Input value text-14, v-padding 6px
+//   lg → label text-14 / helper text-13; Input value text-14, v-padding 8px
+//   xl → label text-14 / helper text-13; Input value text-16, v-padding 12px
+// TextArea value text differs at md (text-13 vs Input's text-14) — see
+// `textAreaTextVariants` — and TextArea keeps a constant 8px v-padding.
 
 const labelVariants = cva("font-medium text-primary", {
   variants: {
@@ -30,12 +33,26 @@ const helperVariants = cva("", {
   },
 });
 
-// The control's text size. The placeholder/value colors live on the element so
-// they react to the empty/filled state without a prop.
+// The control's text size for the single-line `Input`. The placeholder/value
+// colors live on the element so they react to the empty/filled state without a
+// prop. (Figma: md value text-14, lg text-14, xl text-16.)
 const controlTextVariants = cva("", {
   variants: {
     magnitude: {
       md: "text-14",
+      lg: "text-14",
+      xl: "text-16",
+    },
+  },
+});
+
+// The control's text size for the multi-line `TextArea`. This differs from
+// `Input` at `md`: the Figma "Text area" component (node 1582-168) uses a
+// text-13 value at md, text-14 at lg, text-16 at xl.
+const textAreaTextVariants = cva("", {
+  variants: {
+    magnitude: {
+      md: "text-13",
       lg: "text-14",
       xl: "text-16",
     },
@@ -49,27 +66,38 @@ export type InputMagnitude = NonNullable<VariantProps<typeof labelVariants>["mag
 export type InputTone = "neutral" | "danger";
 
 /**
- * The box chrome shared by `Input` and `TextArea`: background, 1px border whose
- * color swaps on hover / `:focus-within` / error, and horizontal padding. There
- * is NO ring or shadow — focus is a 1px border-color change (Figma). The radius
- * and vertical rhythm differ between the two, so they are passed in by each
- * component rather than baked in here.
+ * The box chrome shared by `Input` and `TextArea`: background, 1px border, and
+ * horizontal padding. The border color is owned entirely by the `tone` variant
+ * (rather than overriding a base color, which is order-fragile in Tailwind) so
+ * the error treatment always wins:
+ *
+ *   neutral → subtle border; hover darkens it; on `:focus-within` it becomes
+ *             `accent-strong` plus a 2px accent ring at 20% opacity (Figma's
+ *             "active" state: border-accent-strong + 0 0 0 2px rgba(accent,.2)).
+ *   danger  → `danger-strong` border at ALL times — resting, hover, and focus —
+ *             with no accent ring (Figma's "error" state).
+ *
+ * Disabled resets the border to subtle and removes hover/ring affordances. The
+ * radius and vertical rhythm differ between Input and TextArea, so they are
+ * passed in by each component rather than baked in here.
  */
 const boxVariants = cva(
   cx(
-    "flex w-full items-center gap-1.5 bg-layer-2 px-3 transition-colors",
-    "border-sm border-subtle hover:border-subtle-1 hover:bg-layer-2-hover",
-    // `:focus-within` swaps the border to the accent color — no ring/shadow.
-    "focus-within:border-accent-strong focus-within:bg-layer-2",
-    // Disabled chrome: muted border, no hover, not-allowed cursor.
-    "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:hover:border-subtle",
+    "flex w-full items-center gap-1.5 bg-layer-2 px-3 transition-[color,background-color,border-color,box-shadow]",
+    "border-sm",
+    // Disabled chrome: muted border, no hover/ring, not-allowed cursor.
+    "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
   ),
   {
     variants: {
       tone: {
-        neutral: "",
-        // Error wins over hover/focus: the border stays danger-red.
-        danger: "border-danger-strong hover:border-danger-strong focus-within:border-danger-strong",
+        neutral: cx(
+          "border-subtle hover:border-subtle-1 hover:bg-layer-2-hover",
+          // Figma "active": accent border + 2px accent ring at 20% opacity.
+          "focus-within:border-accent-strong focus-within:bg-layer-2 focus-within:ring-2 focus-within:ring-accent-strong/20",
+        ),
+        // Error border persists regardless of hover/focus, with no accent ring.
+        danger: "border-danger-strong",
       },
     },
   },
@@ -214,8 +242,9 @@ export function Input({
           className={cx(
             boxVariants({ tone }),
             "rounded-md",
-            // md = 6px vertical padding; lg/xl = 12px.
-            magnitude === "md" ? "py-1.5" : "py-3",
+            // Vertical padding per Figma: md 6px, lg 8px, xl 12px.
+            // (Side padding is a constant 12px via `px-3` in boxVariants.)
+            magnitude === "md" ? "py-1.5" : magnitude === "lg" ? "py-2" : "py-3",
           )}
         >
           {leadingIcon ? (
@@ -262,11 +291,14 @@ export function Input({
 export type TextAreaProps = Omit<FieldControlProps, "className" | "render" | "style"> &
   SharedFieldProps;
 
-// Min-height per magnitude. md ≈ 130px box (Figma); lg/xl a touch taller.
+// Min-height of the control per magnitude. The Figma "Text area" component
+// (node 1582-168) sizes the *box* to 82px at md and 100px at lg/xl; subtracting
+// the box's 16px vertical padding (8px top + 8px bottom) gives the control's
+// min-height below, so the rendered box matches Figma.
 const textAreaMinHeight: Record<InputMagnitude, string> = {
-  md: "min-h-[130px]",
-  lg: "min-h-[154px]",
-  xl: "min-h-[154px]",
+  md: "min-h-[66px]",
+  lg: "min-h-[84px]",
+  xl: "min-h-[84px]",
 };
 
 /**
@@ -311,11 +343,14 @@ export function TextArea({
           required={required}
           render={<textarea />}
           className={cx(
-            "min-w-0 flex-1 resize-none bg-transparent text-primary outline-none",
+            // `overflow-y-auto` matches the Dropdown popup's scroll behavior: a
+            // native scrollbar that only appears once the content overflows,
+            // instead of the textarea's default always-reserved gutter.
+            "min-w-0 flex-1 resize-none overflow-y-auto bg-transparent text-primary outline-none",
             "placeholder:text-placeholder",
             "disabled:cursor-not-allowed disabled:text-disabled",
             textAreaMinHeight[magnitude],
-            controlTextVariants({ magnitude }),
+            textAreaTextVariants({ magnitude }),
           )}
           {...controlProps}
         />

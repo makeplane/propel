@@ -152,6 +152,53 @@ export const TextAreaStory: Story = {
   ),
 };
 
+/**
+ * `TextArea` across every magnitude (`md` / `lg` / `xl`). Magnitude steps the
+ * value font-size (13 / 14 / 16) and the box min-height (82 / 100 / 100px); the
+ * 12px side / 8px vertical padding and 8px radius stay constant (Figma).
+ */
+export const TextAreaMagnitudes: Story = {
+  name: "TextArea Magnitudes",
+  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex w-80 flex-col gap-4">
+      {MAGNITUDES.map((magnitude) => (
+        <TextArea
+          key={magnitude}
+          magnitude={magnitude}
+          tone="neutral"
+          label={magnitude}
+          placeholder="Leave a comment…"
+        />
+      ))}
+    </div>
+  ),
+};
+
+/**
+ * Overflowing `TextArea` content scrolls with a native scrollbar that only
+ * appears once the text exceeds the box (matching the Dropdown popup), rather
+ * than reserving a permanent gutter.
+ */
+export const TextAreaScroll: Story = {
+  name: "TextArea Scroll",
+  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="w-80">
+      <TextArea
+        magnitude="md"
+        tone="neutral"
+        label="Comment"
+        defaultValue={Array.from({ length: 12 }, (_, i) => `Line ${i + 1} of a long comment.`).join(
+          "\n",
+        )}
+      />
+    </div>
+  ),
+};
+
 /** The error treatment: danger border, danger helper text, and `aria-invalid`. */
 export const Error: Story = {
   args: {
