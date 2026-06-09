@@ -17,6 +17,11 @@ const config: StorybookConfig = {
     "@storybook/addon-vitest", // runs stories as browser tests
     "@storybook/addon-themes", // toolbar toggle for light/dark/contrast themes
     "@storybook/addon-a11y", // accessibility checks in the a11y panel
+    // Design-review aids (see each component's stories):
+    "@storybook/addon-designs", // embeds the Figma frame in the story's "Design" panel
+    "storybook-addon-pseudo-states", // forces :hover/:focus/:active/etc. for static States stories
+    // NB: the element-outline toolbar toggle is built into Storybook 10 core
+    // ("Outline tool"), so no separate @storybook/addon-outline is needed.
   ],
   // Resolve prop types with the TypeScript compiler so the autodocs table shows
   // real unions (e.g. `"2xs" | … | "3xl"`, the tone union, `ReactNode`) instead of

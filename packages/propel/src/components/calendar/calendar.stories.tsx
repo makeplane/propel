@@ -11,6 +11,12 @@ const meta = {
   title: "Components/Calendar",
   component: Calendar,
   tags: ["ai-generated"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1286-12844",
+    },
+  },
 } satisfies Meta<typeof Calendar>;
 
 export default meta;

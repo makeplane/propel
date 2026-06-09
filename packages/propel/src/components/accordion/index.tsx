@@ -49,7 +49,7 @@ export function AccordionTrigger({ children, ...props }: AccordionTriggerProps) 
     <BaseAccordion.Header className="flex">
       <BaseAccordion.Trigger
         className={cx(
-          "group flex flex-1 items-center gap-2 p-3 text-left",
+          "group flex flex-1 items-center gap-2 p-3 text-start",
           "text-14 font-medium text-primary",
           "bg-layer-transparent hover:bg-layer-transparent-hover",
           "cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
