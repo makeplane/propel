@@ -13,6 +13,12 @@ const meta = {
     alt: "Ada Lovelace",
     fallback: "AL",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=40-46",
+    },
+  },
 } satisfies Meta<typeof Avatar>;
 
 export default meta;
