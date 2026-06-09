@@ -42,8 +42,9 @@ export const Sides: Story = {
       style={{
         display: "grid",
         gridTemplateColumns: "repeat(3, max-content)",
-        gap: "4rem",
-        padding: "6rem",
+        columnGap: "12rem",
+        rowGap: "8rem",
+        padding: "8rem 14rem",
         placeItems: "center",
       }}
     >
