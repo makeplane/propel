@@ -87,9 +87,39 @@ export const Variants: Story = {
   ),
 };
 
+/**
+ * Three-digit page numbers must render in full. The slot keeps its 24px minimum so
+ * single digits stay square, but grows to fit wider content — `100` is not clipped.
+ */
+export const ThreeDigit: Story = {
+  args: { page: 100, pageCount: 100 },
+};
+
 /** The current page can render as a spinner while navigating to it is in flight. */
 export const Loading: Story = {
   args: { page: 3, pageCount: 25, loading: true },
+};
+
+/**
+ * A single skipped page is rendered as its own number rather than hidden behind an
+ * ellipsis: with `pageCount=8, page=4` the gap on the leading side is exactly one
+ * page (page 2), so the run reads `1 2 3 4 5 … 8` — page 2 stays reachable and only
+ * the 2+-page trailing gap (pages 6, 7) collapses to a `…`.
+ */
+export const SingleGap: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { page: 4, pageCount: 8 },
+  play: async ({ canvas }) => {
+    // The lone skipped page on the leading side is shown, not ellided.
+    await expect(canvas.getByRole("button", { name: "Go to page 2" })).toBeInTheDocument();
+    // The 2+-page trailing gap (pages 6 and 7) collapses to a single ellipsis.
+    await expect(canvas.queryByRole("button", { name: "Go to page 6" })).not.toBeInTheDocument();
+    await expect(canvas.queryByRole("button", { name: "Go to page 7" })).not.toBeInTheDocument();
+    // Anchors and window are present: 1 2 3 4 5 … 8.
+    for (const n of [1, 3, 4, 5, 8]) {
+      await expect(canvas.getByRole("button", { name: `Go to page ${n}` })).toBeInTheDocument();
+    }
+  },
 };
 
 /**
