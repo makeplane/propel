@@ -128,9 +128,13 @@ export function Checkbox({ tone, label, id, ...props }: CheckboxProps) {
 
   return (
     <label
+      // Figma "Checkbox with label" (node 1274:109) wraps the row in a clickable
+      // chip: `px-2 py-1` (8px/4px) padding and a `rounded-sm` corner, with a
+      // transparent-layer hover background (hover state 1276:15 →
+      // `bg-layer-transparent-hover`). The standalone box owns its own styling.
       className={cx(
-        "inline-flex items-center gap-2 text-13 text-secondary",
-        props.disabled ? "cursor-not-allowed" : "cursor-pointer",
+        "inline-flex items-center gap-2 rounded-sm px-2 py-1 text-13 text-secondary transition-colors",
+        props.disabled ? "cursor-not-allowed" : "cursor-pointer hover:bg-layer-transparent-hover",
       )}
       htmlFor={checkboxId}
     >
