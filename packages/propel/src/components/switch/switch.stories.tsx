@@ -52,7 +52,7 @@ export const States: Story = {
  */
 export const TogglesOnClick: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { defaultChecked: false },
+  args: { magnitude: "md", defaultChecked: false },
   play: async ({ canvas, userEvent }) => {
     const sw = canvas.getByRole("switch");
     await expect(sw).toHaveAttribute("aria-checked", "false");
@@ -66,7 +66,7 @@ export const TogglesOnClick: Story = {
 /** A disabled switch does not toggle when clicked. */
 export const DisabledDoesNotToggle: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { defaultChecked: false, disabled: true },
+  args: { magnitude: "md", defaultChecked: false, disabled: true },
   play: async ({ canvas, userEvent }) => {
     const sw = canvas.getByRole("switch");
     await expect(sw).toHaveAttribute("aria-checked", "false");
