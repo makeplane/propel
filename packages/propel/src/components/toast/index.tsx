@@ -84,7 +84,7 @@ export const useToast = BaseToast.useToastManager;
 // The semantic intent of a toast (Figma "Property 1": Default / Variant2 / Variant3
 // = success / danger / info). `warning` and `neutral` round out the standard set.
 // Each tone auto-selects a filled status icon and its color token — the caller never
-// passes an icon. `tone` lives in the toast's `data` payload (see `ToastData`).
+// passes an icon. `tone` is required and lives in the toast's `data` payload (see `ToastData`).
 const STATUS_ICON: Record<ToastTone, StatusIcon> = {
   success: SolidCircleCheck,
   danger: SolidCircleX,
@@ -105,18 +105,18 @@ const statusIconVariants = cva("size-4 shrink-0", {
       neutral: "text-icon-tertiary",
     },
   },
-  defaultVariants: { tone: "info" },
 });
 
 export type ToastTone = NonNullable<VariantProps<typeof statusIconVariants>["tone"]>;
 
 /**
  * Custom data carried on every toast queued through this component. `add({ ... data:
- * { tone } })` selects the status icon + color; omit it to fall back to `info`.
+ * { tone } })` selects the status icon + color; `tone` is required so the caller
+ * always chooses the intent explicitly.
  */
 export type ToastData = {
-  /** Semantic intent — drives the status icon and its color. @default "info" */
-  tone?: ToastTone;
+  /** Semantic intent — drives the status icon and its color. */
+  tone: ToastTone;
 };
 
 export type ToastProviderProps = Omit<
@@ -162,7 +162,8 @@ export type ToastProps = Omit<
  * normally don't render this directly.
  */
 export function Toast({ toast, ...props }: ToastProps) {
-  const tone = (toast.data as ToastData | undefined)?.tone ?? "info";
+  // `tone` is a required field of `ToastData`, supplied when the toast is queued.
+  const { tone } = toast.data as ToastData;
   const StatusIcon = STATUS_ICON[tone];
   // Only render the action wrapper when there's real action content. `actionProps`
   // can carry no `children` (e.g. just an `onClick`), in which case `BaseToast.Action`
