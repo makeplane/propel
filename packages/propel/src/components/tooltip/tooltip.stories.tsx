@@ -10,6 +10,12 @@ const meta = {
     content: "Tooltip text",
     children: <button type="button">Hover or focus me</button>,
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1162-346",
+    },
+  },
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;

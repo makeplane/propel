@@ -39,6 +39,12 @@ const meta = {
       </ToastProvider>
     ),
   ],
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1146-61689",
+    },
+  },
 } satisfies Meta<typeof ToastProvider>;
 
 export default meta;

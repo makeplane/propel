@@ -15,6 +15,12 @@ const meta = {
       </div>
     ),
   ],
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=2053-281",
+    },
+  },
 } satisfies Meta<typeof Accordion>;
 
 export default meta;

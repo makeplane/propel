@@ -11,6 +11,12 @@ const meta = {
   args: {
     title: "There is something that needs your attention",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1838-14322",
+    },
+  },
 } satisfies Meta<typeof Banner>;
 
 export default meta;
