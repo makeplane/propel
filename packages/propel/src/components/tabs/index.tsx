@@ -13,7 +13,10 @@ type TabsVariant = "contained" | "underline";
 // sets it; the parts read it.
 const TabsVariantContext = React.createContext<TabsVariant>("contained");
 
-const rootVariants = cva("flex flex-col gap-3");
+// `inline-flex` (not block `flex`) so the root hugs its tabs instead of
+// spanning the full width of its parent — the tab set should be as wide as its
+// content, matching the Figma group which is an inline row.
+const rootVariants = cva("inline-flex flex-col gap-3");
 
 export type TabsProps = Omit<
   React.ComponentProps<typeof BaseTabs.Root>,
@@ -50,13 +53,15 @@ export function Tabs({ variant = "contained", ...props }: TabsProps) {
 
 // `contained` is a pill: a neutral layer-1 fill with 2px inset padding (no
 // container border) so the raised active tab sits within it, rounded to 8px.
-// `underline` is just a flat row with a hairline baseline that the indicator
-// rides along. `relative` on both lets the indicator position against the list.
+// `underline` is a flat inline row that hugs its tabs (no baseline border per
+// Figma `Underline Tab group` 1162:321 — `gap-px px-0.5`); the indicator rides
+// flush under the active tab. `relative` lets the indicator position against
+// the list; `inline-flex` keeps the row sized to its content.
 const tabsListVariants = cva("relative inline-flex items-center", {
   variants: {
     variant: {
       contained: "gap-px rounded-lg bg-layer-1 p-0.5",
-      underline: "gap-px border-b-sm border-subtle-1",
+      underline: "gap-px px-0.5",
     },
   },
 });
@@ -117,13 +122,18 @@ export function TabsPanel(props: TabsPanelProps) {
   return <BaseTabs.Panel className={tabsPanelVariants()} {...props} />;
 }
 
-// The underline rides along the bottom of the list, sized and positioned to the
-// active tab via Base UI's `--active-tab-*` CSS vars. Per Figma the bar is 3px
-// tall, fully rounded, and uses `bg-inverse` (neutral-1200 = icon/primary) to
-// match the active-tab text.
+// The underline sits flush against the bottom edge of the active tab (no gap),
+// sized and positioned to it via Base UI's `--active-tab-*` CSS vars. Its `top`
+// is pinned to the tab's bottom (`--active-tab-top` + `--active-tab-height`), so
+// the bar connects directly to the selected tab with no spacing. Per the Figma
+// `Underline Tab group` (1162:321) the bar's track is inset `px-2` (8px) from
+// the tab box, so it hugs the label rather than bleeding under the tab's
+// horizontal padding: left = tab-left + 8px, width = tab-width - 16px. The bar
+// is 3px tall, fully rounded, and uses `bg-inverse` (neutral-1200 =
+// icon/primary) to match the active-tab text.
 const tabsIndicatorVariants = cva(
   cx(
-    "-bottom-px absolute left-[var(--active-tab-left)] h-[3px] w-[var(--active-tab-width)]",
+    "absolute top-[calc(var(--active-tab-top)+var(--active-tab-height))] left-[calc(var(--active-tab-left)+0.5rem)] h-[3px] w-[calc(var(--active-tab-width)-1rem)]",
     "rounded-full bg-inverse transition-all duration-150",
   ),
 );
