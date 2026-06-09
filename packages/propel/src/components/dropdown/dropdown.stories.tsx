@@ -921,7 +921,14 @@ export const Submenu: Story = {
       </DropdownTrigger>
       <DropdownContent width="sm">
         <DropdownSub>
-          <DropdownSubTrigger label="Priority" trailing={<Badge magnitude="sm">5</Badge>} />
+          <DropdownSubTrigger
+            label="Priority"
+            trailing={
+              <Badge magnitude="sm" tone="neutral">
+                5
+              </Badge>
+            }
+          />
           <DropdownSubContent width="sm">
             {PRIORITIES.map((p) => (
               <DropdownItem
@@ -935,7 +942,14 @@ export const Submenu: Story = {
           </DropdownSubContent>
         </DropdownSub>
         <DropdownSub>
-          <DropdownSubTrigger label="State" trailing={<Badge magnitude="sm">5</Badge>} />
+          <DropdownSubTrigger
+            label="State"
+            trailing={
+              <Badge magnitude="sm" tone="neutral">
+                5
+              </Badge>
+            }
+          />
           <DropdownSubContent width="sm">
             {STATUSES.map((s) => (
               <DropdownItem
@@ -949,7 +963,14 @@ export const Submenu: Story = {
           </DropdownSubContent>
         </DropdownSub>
         <DropdownSub>
-          <DropdownSubTrigger label="Assignee" trailing={<Badge magnitude="sm">5</Badge>} />
+          <DropdownSubTrigger
+            label="Assignee"
+            trailing={
+              <Badge magnitude="sm" tone="neutral">
+                5
+              </Badge>
+            }
+          />
           <DropdownSubContent width="sm">
             {ASSIGNEES.map((a) => (
               <DropdownItem
