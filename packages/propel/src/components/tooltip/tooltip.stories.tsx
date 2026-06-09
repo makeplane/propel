@@ -1,6 +1,18 @@
+import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Tooltip } from "./index";
+
+const sidesGridStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(3, max-content)",
+  columnGap: "12rem",
+  rowGap: "8rem",
+  padding: "8rem 14rem",
+  placeItems: "center",
+} as const;
+
+const ALL_SIDES = ["top", "bottom", "left", "right", "inline-start", "inline-end"] as const;
 
 const meta = {
   title: "Components/Tooltip",
@@ -38,22 +50,46 @@ export const Sides: Story = {
     },
   },
   render: () => (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, max-content)",
-        columnGap: "12rem",
-        rowGap: "8rem",
-        padding: "8rem 14rem",
-        placeItems: "center",
-      }}
-    >
-      {(["top", "bottom", "left", "right", "inline-start", "inline-end"] as const).map((side) => (
+    <div style={sidesGridStyle}>
+      {ALL_SIDES.map((side) => (
         <Tooltip key={side} side={side} content={side} delay={0} open>
           <button type="button">{side}</button>
         </Tooltip>
       ))}
     </div>
+  ),
+};
+
+/**
+ * The same matrix in right-to-left. Plane runs both LTR and RTL, so the logical
+ * sides must flip with writing direction. Wrapped in Base UI's `DirectionProvider`
+ * (which the Positioner reads to resolve `inline-start`/`inline-end` to a physical
+ * edge) and `dir="rtl"` (which the arrow's logical insets + `rtl:` clip-path variant
+ * react to). In RTL, `inline-start` sits to the *right* of its trigger with the arrow
+ * pointing left, and `inline-end` mirrors it — both still pointing back at the trigger.
+ * The physical `left`/`right`/`top`/`bottom` sides are direction-independent and
+ * render the same as LTR.
+ */
+export const SidesRtl: Story = {
+  name: "Sides (RTL)",
+  tags: ["!autodocs", "!manifest"],
+  parameters: {
+    controls: { disable: true },
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/?node-id=1162-346",
+    },
+  },
+  render: () => (
+    <DirectionProvider direction="rtl">
+      <div dir="rtl" style={sidesGridStyle}>
+        {ALL_SIDES.map((side) => (
+          <Tooltip key={side} side={side} content={side} delay={0} open>
+            <button type="button">{side}</button>
+          </Tooltip>
+        ))}
+      </div>
+    </DirectionProvider>
   ),
 };
 
