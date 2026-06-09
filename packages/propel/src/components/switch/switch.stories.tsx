@@ -8,6 +8,12 @@ const meta = {
   title: "Components/Switch",
   component: Switch,
   tags: ["ai-generated"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1838-14347",
+    },
+  },
   args: {
     magnitude: "md",
     defaultChecked: true,
