@@ -7,6 +7,12 @@ const meta = {
   component: Tabs,
   subcomponents: { TabsList, Tab, TabsPanel, TabsIndicator },
   tags: ["ai-generated"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1144-3157",
+    },
+  },
   args: {
     variant: "contained",
     defaultValue: "overview",
