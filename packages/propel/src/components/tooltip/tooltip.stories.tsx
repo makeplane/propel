@@ -1,5 +1,6 @@
 import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { useLayoutEffect } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Tooltip } from "./index";
 
@@ -80,9 +81,28 @@ export const SidesRtl: Story = {
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/?node-id=1162-346",
     },
   },
+  // The popup portals to <body>, so the arrow's logical insets + `rtl:` clip only
+  // flip when `dir="rtl"` lives on a portal ancestor (`<html>`) — a nested wrapper
+  // wouldn't reach it. Mirror a real RTL app: set it on the root, restore on unmount.
+  // `DirectionProvider` (below) is what tells Base UI's Positioner to resolve the
+  // logical sides; it crosses the portal via React context.
+  decorators: [
+    (Story) => {
+      useLayoutEffect(() => {
+        const html = document.documentElement;
+        const prev = html.getAttribute("dir");
+        html.setAttribute("dir", "rtl");
+        return () => {
+          if (prev) html.setAttribute("dir", prev);
+          else html.removeAttribute("dir");
+        };
+      }, []);
+      return <Story />;
+    },
+  ],
   render: () => (
     <DirectionProvider direction="rtl">
-      <div dir="rtl" style={sidesGridStyle}>
+      <div style={sidesGridStyle}>
         {ALL_SIDES.map((side) => (
           <Tooltip key={side} side={side} content={side} delay={0} open>
             <button type="button">{side}</button>
