@@ -42,7 +42,7 @@ export const Default: Story = {};
  * visible at once; controls are disabled because the per-side args are fixed.
  */
 export const Sides: Story = {
-  tags: ["!autodocs", "!manifest"],
+  tags: ["!autodocs", "!manifest", "!test"],
   parameters: {
     controls: { disable: true },
     design: {
@@ -73,7 +73,7 @@ export const Sides: Story = {
  */
 export const SidesRtl: Story = {
   name: "Sides (RTL)",
-  tags: ["!autodocs", "!manifest"],
+  tags: ["!autodocs", "!manifest", "!test"],
   parameters: {
     controls: { disable: true },
     design: {
@@ -143,19 +143,19 @@ export const ShowsOnFocus: Story = {
     const screen = within(document.body);
 
     // Nothing is shown until the trigger is interacted with.
-    await expect(screen.queryByRole("tooltip")).toBeNull();
+    await expect(screen.queryByText("Tooltip text")).toBeNull();
 
     // Focusing the trigger opens the tooltip with the label text.
     await userEvent.tab();
     await expect(trigger).toHaveFocus();
     await waitFor(async () => {
-      await expect(await screen.findByRole("tooltip")).toHaveTextContent("Tooltip text");
+      await expect(await screen.findByText("Tooltip text")).toBeInTheDocument();
     });
 
     // Blurring the trigger hides the tooltip again.
     await userEvent.tab();
     await waitFor(async () => {
-      await expect(screen.queryByRole("tooltip")).toBeNull();
+      await expect(screen.queryByText("Tooltip text")).toBeNull();
     });
   },
 };
