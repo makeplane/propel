@@ -45,6 +45,12 @@ import {
 const meta = {
   title: "Components/Dropdown",
   component: Dropdown,
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=30-1078",
+    },
+  },
   // Dropdown is a compound component; document every menu part alongside the root so
   // their props appear in the args table and the relationship is recorded in the
   // manifest (the same pattern AvatarGroup uses for Avatar).
