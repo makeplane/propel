@@ -55,9 +55,6 @@ const tableHeadVariants = cva("h-[38px] px-4 py-2 text-start align-middle text-1
       sortable: "bg-surface-1 text-tertiary",
     },
   },
-  defaultVariants: {
-    variant: "default",
-  },
 });
 
 /** Sort direction of a sortable `TableHead`. `none` shows the neutral affordance. */
@@ -81,7 +78,7 @@ export type TableHeadProps = Omit<React.ComponentProps<"th">, "className" | "sty
      * Visual treatment. `sortable` switches to the surface background and renders
      * a clickable button with a sort chevron; set it whenever you pass `sort`.
      */
-    variant?: NonNullable<VariantProps<typeof tableHeadVariants>["variant"]>;
+    variant: NonNullable<VariantProps<typeof tableHeadVariants>["variant"]>;
     /**
      * Current sort state for a sortable header. Drives both the chevron icon
      * (`asc`→up, `desc`→down, `none`→up/down) and the cell's `aria-sort`.
@@ -96,13 +93,7 @@ export type TableHeadProps = Omit<React.ComponentProps<"th">, "className" | "sty
  * the label into an interactive sort control: it renders a lucide chevron
  * (aria-hidden) and reflects the order via `aria-sort` for assistive tech.
  */
-export function TableHead({
-  variant = "default",
-  sort = "none",
-  onSort,
-  children,
-  ...props
-}: TableHeadProps) {
+export function TableHead({ variant, sort = "none", onSort, children, ...props }: TableHeadProps) {
   const isSortable = variant === "sortable";
   // Only render the interactive sort control when there's a handler to drive it;
   // a sortable-styled header without `onSort` falls back to a plain label so we

@@ -35,9 +35,9 @@ export const Default: Story = {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Role</TableHead>
-          <TableHead>Email</TableHead>
+          <TableHead variant="default">Name</TableHead>
+          <TableHead variant="default">Role</TableHead>
+          <TableHead variant="default">Email</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -75,8 +75,8 @@ export const Sortable: Story = {
             <TableHead variant="sortable" sort={sort} onSort={cycle}>
               Name
             </TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Email</TableHead>
+            <TableHead variant="default">Role</TableHead>
+            <TableHead variant="default">Email</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
