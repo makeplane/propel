@@ -1,7 +1,8 @@
 import { Menu } from "@base-ui/react/menu";
 import { cva, cx, type VariantProps } from "class-variance-authority";
-import { Check } from "lucide-react";
+import { Check, ChevronRight, Search } from "lucide-react";
 import * as React from "react";
+import { CheckboxVisual } from "../checkbox/index";
 
 /**
  * The dropdown menu root — a Base UI `Menu.Root`. Holds open state and wires the
@@ -32,19 +33,35 @@ export function DropdownTrigger(props: DropdownTriggerProps) {
   return <Menu.Trigger {...props} />;
 }
 
-// The floating surface: Base UI `Popup` on white `surface-1` with the overlay
-// shadow, a subtle hairline border, and a small radius — the Figma menu container.
-// `origin-(--transform-origin)` + the open/closed data attributes drive a quick
-// scale/fade so the menu grows from the side it's anchored to.
-const dropdownContentVariants = cva(
+// The visible floating surface (`Positioner` child): white `surface-1`, overlay
+// shadow, hairline border, small radius, and the scale/fade transition. The sticky
+// search/footer and the scrollable `role="menu"` list (`Menu.Popup`) all live inside
+// it, so non-menuitem chrome stays outside the menu role and the surface is
+// ARIA-valid.
+const dropdownSurfaceVariants = cva(
   cx(
-    "min-w-(--anchor-width) max-h-(--available-height) overflow-y-auto",
-    "rounded-md border border-subtle bg-surface-1 p-1 shadow-overlay-200 outline-none",
+    "flex max-h-(--available-height) flex-col overflow-hidden",
+    "rounded-md border border-subtle bg-surface-1 shadow-overlay-200 outline-none",
     "origin-(--transform-origin) transition-[transform,opacity]",
     "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
     "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
   ),
+  {
+    variants: {
+      // Fixed menu widths from the Figma demos: `anchor` matches the trigger
+      // (`default`), the rest are the popup widths the design uses for picker menus.
+      width: {
+        anchor: "min-w-(--anchor-width)",
+        sm: "w-64", // 256px — the standard picker menu (Status / Labels / …)
+        md: "w-72", // 288px — display-options menus
+        lg: "w-96", // 384px — the wide two-line "Description" menu
+      },
+    },
+    defaultVariants: { width: "anchor" },
+  },
 );
+
+type DropdownContentWidth = NonNullable<VariantProps<typeof dropdownSurfaceVariants>["width"]>;
 
 export type DropdownContentProps = Omit<
   React.ComponentProps<typeof Menu.Popup>,
@@ -56,27 +73,51 @@ export type DropdownContentProps = Omit<
   sideOffset?: React.ComponentProps<typeof Menu.Positioner>["sideOffset"];
   /** Alignment of the menu relative to the trigger along `side`. @default "start" */
   align?: React.ComponentProps<typeof Menu.Positioner>["align"];
+  /**
+   * Fixed menu width. `anchor` matches the trigger; `sm`/`md`/`lg` are the picker
+   * widths from Figma (256 / 288 / 384px). @default "anchor"
+   */
+  width?: DropdownContentWidth;
+  /**
+   * A sticky `DropdownSearch` pinned above the list, *outside* the `role="menu"`
+   * element so the menu only contains menu items (ARIA `aria-required-children`).
+   */
+  search?: React.ReactNode;
+  /**
+   * A sticky `DropdownFooter` pinned below the list, *outside* the `role="menu"`
+   * element (same ARIA reasoning as `search`).
+   */
+  footer?: React.ReactNode;
 };
 
 /**
- * The menu surface. Bundles Base UI's `Portal` + `Positioner` + `Popup` so the
- * menu renders in a portal, is positioned against the trigger, and carries propel's
- * popover styling. Place `DropdownItem`/`DropdownCheckboxItem`/`DropdownSeparator`/
- * `DropdownLabel` as children.
+ * The menu surface. Bundles Base UI's `Portal` + `Positioner` + `Popup` so the menu
+ * renders in a portal, positioned against the trigger, with propel's popover styling.
+ * Place `DropdownItem`/`DropdownCheckboxItem`/`DropdownSeparator`/`DropdownGroup` as
+ * children — they become the `role="menu"` list. Non-menuitem chrome (a search input,
+ * a footer note) must go through the `search`/`footer` props so it sits outside the
+ * menu role and keeps the surface ARIA-valid.
  */
 export function DropdownContent({
   children,
   side = "bottom",
   sideOffset = 4,
   align = "start",
+  width,
+  search,
+  footer,
   ...props
 }: DropdownContentProps) {
   return (
     <Menu.Portal>
       <Menu.Positioner side={side} sideOffset={sideOffset} align={align} className="outline-none">
-        <Menu.Popup className={dropdownContentVariants()} {...props}>
-          {children}
-        </Menu.Popup>
+        <div className={dropdownSurfaceVariants({ width })}>
+          {search}
+          <Menu.Popup className="flex-1 overflow-y-auto p-1 outline-none" {...props}>
+            {children}
+          </Menu.Popup>
+          {footer}
+        </div>
       </Menu.Positioner>
     </Menu.Portal>
   );
@@ -109,7 +150,7 @@ type DropdownItemVariant = NonNullable<VariantProps<typeof dropdownItemVariants>
 
 export type DropdownItemProps = Omit<
   React.ComponentProps<typeof Menu.Item>,
-  "className" | "style"
+  "className" | "style" | "label"
 > & {
   /**
    * Row layout. `default` is a single line; `with-description` stacks a muted
@@ -120,47 +161,87 @@ export type DropdownItemProps = Omit<
   variant?: DropdownItemVariant;
   /** Leading content, typically an icon. Rendered before the label. */
   icon?: React.ReactNode;
+  /**
+   * Leading control rendered *before* the icon at full size (no icon box) — use
+   * for a composed propel control such as a `Checkbox`, `Radio`, `Avatar`, or a
+   * color swatch. Single-select rows should use `selected` instead.
+   */
+  leading?: React.ReactNode;
   /** The primary text of the row. */
   label?: React.ReactNode;
   /** Muted secondary line under the label (use with `variant="with-description"`). */
   description?: React.ReactNode;
+  /**
+   * Muted text shown inline after the label (e.g. a language's English name). Sits
+   * between the label and any trailing value, on the same line.
+   */
+  secondaryText?: React.ReactNode;
   /** Trailing value text (use with `variant="with-value"`). */
   value?: React.ReactNode;
+  /**
+   * Trailing content after the value slot (e.g. a `Badge` count, a chevron, or a
+   * keyboard shortcut). Use instead of (or alongside) `value` for rich content.
+   */
+  trailing?: React.ReactNode;
   /** Trailing content after the value slot, typically an icon or shortcut. */
   endIcon?: React.ReactNode;
+  /**
+   * Single-select selected state: renders a leading checkmark in the icon column on
+   * the selected row only (no per-row control on the others). Distinct from the
+   * multi-select `DropdownCheckboxItem`, which shows a `Checkbox` on every row.
+   */
+  selected?: boolean;
 };
 
 /**
  * A selectable menu row. Closes the menu when clicked (Base UI default). An item is
- * an optional leading icon + label (+ optional description / trailing value / end
- * icon) — all of it content, laid out by `variant`.
+ * an optional leading control/icon + label (+ optional description / inline
+ * secondary text / trailing value / badge / end icon) — all of it content, laid out
+ * by `variant`. Pass `selected` for the single-select leading-checkmark pattern.
  */
 export function DropdownItem({
   variant = "default",
   icon,
+  leading,
   label,
   description,
+  secondaryText,
   value,
+  trailing,
   endIcon,
+  selected,
   children,
   ...props
 }: DropdownItemProps) {
   return (
     <Menu.Item className={dropdownItemVariants({ variant })} {...props}>
-      {icon ? (
+      {leading != null ? <span className="flex shrink-0 items-center">{leading}</span> : null}
+      {selected != null || icon ? (
         <span className="flex size-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
-          {icon}
+          {selected ? (
+            <Check className="size-4 text-icon-accent-primary" aria-hidden="true" />
+          ) : (
+            icon
+          )}
         </span>
       ) : null}
       <span className="flex min-w-0 flex-1 flex-col">
-        <span className="truncate">{label ?? children}</span>
+        <span className="flex min-w-0 items-baseline gap-1.5">
+          <span className="truncate">{label ?? children}</span>
+          {secondaryText != null ? (
+            <span className="shrink-0 truncate text-12 text-tertiary group-data-disabled/item:text-disabled">
+              {secondaryText}
+            </span>
+          ) : null}
+        </span>
         {description != null ? (
           <span className="truncate text-12 text-tertiary group-data-disabled/item:text-disabled">
             {description}
           </span>
         ) : null}
       </span>
-      {value != null ? <span className="shrink-0 text-12 text-placeholder">{value}</span> : null}
+      {value != null ? <span className="shrink-0 text-12 text-tertiary">{value}</span> : null}
+      {trailing != null ? <span className="flex shrink-0 items-center">{trailing}</span> : null}
       {endIcon ? (
         <span className="flex size-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
           {endIcon}
@@ -172,9 +253,13 @@ export function DropdownItem({
 
 export type DropdownCheckboxItemProps = Omit<
   React.ComponentProps<typeof Menu.CheckboxItem>,
-  "className" | "style"
+  "className" | "style" | "label"
 > & {
-  /** Leading content shown after the checkbox, typically an icon. */
+  /**
+   * Leading content shown after the checkbox — typically an icon, a color swatch,
+   * an `Avatar`, or a priority glyph. Use it to compose the propel components a
+   * multi-select demo calls for (Avatar for assignees, swatch for labels, etc.).
+   */
   icon?: React.ReactNode;
   /** The primary text of the row. */
   label?: React.ReactNode;
@@ -183,17 +268,30 @@ export type DropdownCheckboxItemProps = Omit<
 };
 
 /**
- * A toggleable menu row with a leading checkbox indicator. Use for multi-select
- * menus; it stays open on click (Base UI's checkbox-item default). Control it with
- * `checked` + `onCheckedChange`, or leave it uncontrolled with `defaultChecked`.
+ * A toggleable multi-select menu row. The leading control is the propel `Checkbox`
+ * component (driven by this row's Base UI checkbox-item state, so the box reflects
+ * `checked`/`indeterminate`/`disabled` without owning its own state). The row keeps
+ * the `role="menuitemcheckbox"` a11y semantics and stays open on click. Control it
+ * with `checked` + `onCheckedChange`, or leave it uncontrolled with `defaultChecked`.
  */
 export function DropdownCheckboxItem({
   icon,
   label,
   value,
+  checked,
+  defaultChecked,
+  onCheckedChange,
   children,
   ...props
 }: DropdownCheckboxItemProps) {
+  // Mirror the row's checked state so the visual propel Checkbox stays in sync for
+  // both controlled (`checked`) and uncontrolled (`defaultChecked`) usage. When
+  // controlled, the prop is the source of truth; when uncontrolled, we track it
+  // locally and forward changes through `onCheckedChange`.
+  const isControlled = checked !== undefined;
+  const [internalChecked, setInternalChecked] = React.useState(defaultChecked ?? false);
+  const isChecked = isControlled ? checked : internalChecked;
+
   return (
     <Menu.CheckboxItem
       className={cx(
@@ -202,12 +300,23 @@ export function DropdownCheckboxItem({
         "data-highlighted:bg-layer-transparent-hover",
         "data-disabled:pointer-events-none data-disabled:text-disabled",
       )}
+      checked={checked}
+      defaultChecked={defaultChecked}
+      onCheckedChange={(next, details) => {
+        if (!isControlled) setInternalChecked(next);
+        onCheckedChange?.(next, details);
+      }}
       {...props}
     >
-      <span className="flex size-4 shrink-0 items-center justify-center text-icon-accent-primary group-data-disabled/item:text-icon-disabled">
-        <Menu.CheckboxItemIndicator>
-          <Check className="size-4" aria-hidden="true" />
-        </Menu.CheckboxItemIndicator>
+      {/*
+        Compose the propel Checkbox *appearance* via its presentational sibling
+        `CheckboxVisual` (a non-interactive `<span>`), so the row keeps a single
+        interactive control (`role="menuitemcheckbox"`) and stays ARIA-valid — a real
+        Checkbox here would be a `nested-interactive` violation. The row owns the
+        toggle; the box just mirrors `isChecked`.
+      */}
+      <span className="flex shrink-0 items-center">
+        <CheckboxVisual checked={isChecked} disabled={props.disabled} />
       </span>
       {icon ? (
         <span className="flex size-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
@@ -215,7 +324,7 @@ export function DropdownCheckboxItem({
         </span>
       ) : null}
       <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
-      {value != null ? <span className="shrink-0 text-12 text-placeholder">{value}</span> : null}
+      {value != null ? <span className="shrink-0 text-12 text-tertiary">{value}</span> : null}
     </Menu.CheckboxItem>
   );
 }
@@ -246,17 +355,175 @@ export function DropdownGroup(props: DropdownGroupProps) {
 export type DropdownLabelProps = Omit<
   React.ComponentProps<typeof Menu.GroupLabel>,
   "className" | "style"
->;
+> & {
+  /**
+   * Optional trailing slot on the heading row — e.g. a "View all" link or a count.
+   * Sits at the end of the label line (the Figma "Dropdown header" trailing slot).
+   */
+  action?: React.ReactNode;
+  children?: React.ReactNode;
+};
 
 /**
- * A non-interactive heading for a group of items. Must be rendered inside a
- * `DropdownGroup`, as the first child, to label the items that follow it.
+ * A non-interactive section heading for a group of items (the Figma "Dropdown
+ * header": `text/12`, `text/tertiary`, title-case). Must be rendered inside a
+ * `DropdownGroup`, as the first child, to label the items that follow it. Pass
+ * `action` for a trailing "View all" link or count.
  */
-export function DropdownLabel(props: DropdownLabelProps) {
+export function DropdownLabel({ action, children, ...props }: DropdownLabelProps) {
   return (
     <Menu.GroupLabel
-      className="px-2 py-1.5 text-11 font-medium uppercase tracking-wide text-tertiary"
+      className="flex items-center gap-1.5 px-2 py-1.5 text-12 text-tertiary"
+      {...props}
+    >
+      <span className="min-w-0 flex-1 truncate">{children}</span>
+      {action != null ? <span className="shrink-0">{action}</span> : null}
+    </Menu.GroupLabel>
+  );
+}
+
+// A sticky search header for filterable menus — the Figma "Search-Dropdown" row.
+// Pinned to the top of the popup (so it stays put while the list scrolls) on the
+// surface-1 background with a hairline bottom border. Owns no state; pass `value`
+// + `onValueChange` to filter the list in the parent story/component.
+export type DropdownSearchProps = Omit<
+  React.ComponentProps<"input">,
+  "className" | "style" | "onChange" | "value" | "type"
+> & {
+  /** Current search text. */
+  value?: string;
+  /** Called with the new text on each keystroke. */
+  onValueChange?: (value: string) => void;
+  /** Placeholder text. @default "Search" */
+  placeholder?: string;
+};
+
+/**
+ * A sticky search input pinned to the top of a `DropdownContent`. Use it as the
+ * first child of the content for filterable menus (Status, Labels, Assignees, …).
+ * It keeps focus inside the menu and does not steal Base UI's typeahead because it
+ * is a real text input. Drive filtering with `value` + `onValueChange`.
+ */
+export function DropdownSearch({
+  value,
+  onValueChange,
+  placeholder = "Search",
+  ...props
+}: DropdownSearchProps) {
+  return (
+    <div className="flex shrink-0 items-center gap-1.5 border-b border-subtle bg-surface-1 px-3 py-2">
+      <Search className="size-4 shrink-0 text-icon-tertiary" aria-hidden="true" />
+      <input
+        type="text"
+        // Stop arrow/typeahead keys from being hijacked by the menu while typing,
+        // but let Escape bubble so the menu can still close.
+        onKeyDown={(event) => event.stopPropagation()}
+        value={value}
+        onChange={(event) => onValueChange?.(event.target.value)}
+        placeholder={placeholder}
+        className="min-w-0 flex-1 bg-transparent text-13 text-secondary outline-none placeholder:text-placeholder"
+        {...props}
+      />
+    </div>
+  );
+}
+
+export type DropdownFooterProps = Omit<React.ComponentProps<"div">, "className" | "style">;
+
+/**
+ * A non-interactive footer pinned to the bottom of a `DropdownContent` — e.g.
+ * "Type to add a new label." Render it as the last child of the content.
+ */
+export function DropdownFooter(props: DropdownFooterProps) {
+  return (
+    <div
+      className="shrink-0 border-t border-subtle bg-layer-2 px-3 py-2 text-12 text-tertiary"
       {...props}
     />
+  );
+}
+
+/**
+ * A submenu root. Wrap a `DropdownSubTrigger` + `DropdownSubContent` in it to nest
+ * a second menu that opens from a row. Built on Base UI `Menu.SubmenuRoot`.
+ */
+export const DropdownSub = Menu.SubmenuRoot;
+export type DropdownSubProps = React.ComponentProps<typeof Menu.SubmenuRoot>;
+
+export type DropdownSubTriggerProps = Omit<
+  React.ComponentProps<typeof Menu.SubmenuTrigger>,
+  "className" | "style" | "label"
+> & {
+  /** Leading content, typically an icon. */
+  icon?: React.ReactNode;
+  /** The primary text of the row. */
+  label?: React.ReactNode;
+  /** Trailing content before the chevron — e.g. a `Badge` count. */
+  trailing?: React.ReactNode;
+};
+
+/**
+ * The row that opens a submenu. Looks like a `DropdownItem` with a trailing chevron;
+ * pass `trailing` for a count `Badge` before the chevron. Must be rendered inside a
+ * `DropdownSub`, paired with a `DropdownSubContent`.
+ */
+export function DropdownSubTrigger({
+  icon,
+  label,
+  trailing,
+  children,
+  ...props
+}: DropdownSubTriggerProps) {
+  return (
+    <Menu.SubmenuTrigger
+      className={cx(
+        "group/item flex h-8 w-full cursor-default select-none items-center gap-2 rounded-sm px-2 text-13 outline-none",
+        "text-secondary",
+        "data-highlighted:bg-layer-transparent-hover data-popup-open:bg-layer-transparent-hover",
+        "data-disabled:pointer-events-none data-disabled:text-disabled",
+      )}
+      {...props}
+    >
+      {icon ? (
+        <span className="flex size-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
+          {icon}
+        </span>
+      ) : null}
+      <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
+      {trailing != null ? <span className="flex shrink-0 items-center">{trailing}</span> : null}
+      <ChevronRight
+        className="size-4 shrink-0 text-icon-tertiary group-data-disabled/item:text-icon-disabled"
+        aria-hidden="true"
+      />
+    </Menu.SubmenuTrigger>
+  );
+}
+
+/**
+ * The floating surface for a submenu. Same styling as `DropdownContent` but defaults
+ * to opening to the right (`side="right"`). Place submenu items inside it.
+ */
+export function DropdownSubContent({
+  children,
+  side = "right",
+  sideOffset = 4,
+  align = "start",
+  width,
+  search,
+  footer,
+  ...props
+}: DropdownContentProps) {
+  return (
+    <Menu.Portal>
+      <Menu.Positioner side={side} sideOffset={sideOffset} align={align} className="outline-none">
+        <div className={dropdownSurfaceVariants({ width })}>
+          {search}
+          <Menu.Popup className="flex-1 overflow-y-auto p-1 outline-none" {...props}>
+            {children}
+          </Menu.Popup>
+          {footer}
+        </div>
+      </Menu.Positioner>
+    </Menu.Portal>
   );
 }
