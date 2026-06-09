@@ -108,7 +108,12 @@ function FieldLabelRow({
         </span>
       ) : null}
       {info ? (
-        <span className="ml-0.5 inline-flex text-icon-secondary" aria-hidden>
+        // Only the default decorative icon is `aria-hidden`. A custom `info`
+        // node may be interactive, so it stays exposed to assistive tech.
+        <span
+          className="ml-0.5 inline-flex text-icon-secondary"
+          aria-hidden={info === true || undefined}
+        >
           {info === true ? <Info className="size-3.5" /> : info}
         </span>
       ) : null}
@@ -295,7 +300,10 @@ export function TextArea({
       <div
         className={cx(
           boxVariants({ tone }),
-          // TextArea uses the larger radius and 8px vertical padding (Figma).
+          // TextArea uses the larger radius and a FIXED 8px vertical padding at
+          // every magnitude (Figma: `py spacing/2` for md/lg/xl). Unlike the
+          // single-line Input, magnitude does NOT change the box's vertical
+          // padding here — it drives the control's font-size + min-height.
           "items-stretch rounded-lg py-2",
         )}
       >
