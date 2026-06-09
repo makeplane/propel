@@ -143,12 +143,6 @@ const buttonVariants = cva(
         ),
       },
     ],
-    defaultVariants: {
-      variant: "primary",
-      tone: "neutral",
-      magnitude: "md",
-      emphasis: "solid",
-    },
   },
 );
 
@@ -168,13 +162,14 @@ const iconSizeByMagnitude: Record<ButtonMagnitude, string> = {
 };
 
 type ButtonOwnProps = {
-  variant?: ButtonVariant;
-  tone?: ButtonTone;
-  magnitude?: ButtonMagnitude;
+  variant: ButtonVariant;
+  tone: ButtonTone;
+  magnitude: ButtonMagnitude;
   /**
-   * Link-only: picks the `link` look. `solid` (default) is the blue
-   * `link/primary` style; `subtle` is the muted gray inline link. Ignored by
-   * every other `variant`.
+   * Link-only: picks the `link` look. `solid` is the blue `link/primary` style;
+   * `subtle` is the muted gray inline link. Optional and additive — it only
+   * affects `variant="link"`, so it has no default and every other `variant`
+   * ignores it.
    */
   emphasis?: ButtonEmphasis;
   /** Icon rendered before the label. Decorative — kept out of the accessible name. */
@@ -190,15 +185,16 @@ export type ButtonProps = Omit<React.ComponentProps<"button">, "className" | "st
 
 /**
  * A plain accessible button built on propel's design tokens. Pick a look with
- * `variant` (Figma Type), select the error palette with `tone`, size it with
- * `magnitude`, and — for `variant="link"` only — choose `solid` (blue) or
- * `subtle` (gray) with `emphasis`. Content — `children`,
- * `leadingIcon`/`trailingIcon`, `loading` — is not a variant.
+ * `variant` (Figma Type), select the error palette with `tone`, and size it with
+ * `magnitude` — all required, so consumers choose explicitly. For
+ * `variant="link"` only, optionally choose `solid` (blue) or `subtle` (gray)
+ * with `emphasis`. Content — `children`, `leadingIcon`/`trailingIcon`,
+ * `loading` — is not a variant.
  */
 export function Button({
   variant,
   tone,
-  magnitude = "md",
+  magnitude,
   emphasis,
   leadingIcon,
   trailingIcon,
@@ -267,7 +263,7 @@ export function IconButton({
   icon,
   variant,
   tone,
-  magnitude = "md",
+  magnitude,
   loading = false,
   disabled,
   type = "button",

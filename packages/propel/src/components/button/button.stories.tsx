@@ -198,7 +198,15 @@ export const LoadingBlocksClick: Story = {
 /** An IconButton exposes its `aria-label` as the accessible name. */
 export const IconButtonHasAccessibleName: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => <IconButton aria-label="Add item" icon={<Plus />} />,
+  render: () => (
+    <IconButton
+      variant="primary"
+      tone="neutral"
+      magnitude="md"
+      aria-label="Add item"
+      icon={<Plus />}
+    />
+  ),
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("button", { name: "Add item" })).toBeInTheDocument();
   },
