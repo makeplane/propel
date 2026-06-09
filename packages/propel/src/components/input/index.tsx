@@ -111,7 +111,7 @@ function FieldLabelRow({
         // Only the default decorative icon is `aria-hidden`. A custom `info`
         // node may be interactive, so it stays exposed to assistive tech.
         <span
-          className="ml-0.5 inline-flex text-icon-secondary"
+          className="ms-0.5 inline-flex text-icon-secondary"
           aria-hidden={info === true || undefined}
         >
           {info === true ? <Info className="size-3.5" /> : info}
