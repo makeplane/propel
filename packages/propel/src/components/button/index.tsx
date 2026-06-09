@@ -5,7 +5,8 @@ import * as React from "react";
 // Magnitudes follow the Figma "Buttons" Size scale. Figma ships S/Base/L/XL; those
 // map to sm/md/lg/xl by their px heights (20/24/28/32). `xs` is an extra smaller
 // step (16px) extrapolated below the Figma scale for dense toolbars. Per Figma:
-// S → text-12/leading-1.2/px-1.5; Base & L → text-13/leading-snug; XL → text-14.
+// S → text-12/px-1.5; Base & L → text-13; XL → text-14. All chrome'd magnitudes
+// use leading-none so the flex-centered label sits dead-center in the fixed height.
 const buttonVariants = cva(
   // Shared chrome: inline flex row, centered, focus-visible ring on the brand
   // accent token, real disabled affordance, and a snug medium label.
@@ -31,12 +32,17 @@ const buttonVariants = cva(
         neutral: "",
         danger: "",
       },
+      // `leading-none` collapses each label's line box to the glyph height so
+      // the flex `items-center` truly centers it inside the fixed-height button;
+      // any larger line-height (e.g. `leading-snug`) inflates the line box and
+      // makes the top/bottom padding read as uneven. Link overrides below opt
+      // back into a taller line-height since inline link text may wrap.
       magnitude: {
         xs: "h-4 min-w-7 px-1.5 text-11 leading-none",
         sm: "h-5 min-w-10 px-1.5 text-12 leading-none",
-        md: "h-6 min-w-10 px-2 text-13 leading-snug",
-        lg: "h-7 min-w-12 px-2 text-13 leading-snug",
-        xl: "h-8 min-w-13 px-2 text-14 leading-snug",
+        md: "h-6 min-w-10 px-2 text-13 leading-none",
+        lg: "h-7 min-w-12 px-2 text-13 leading-none",
+        xl: "h-8 min-w-13 px-2 text-14 leading-none",
       },
     },
     compoundVariants: [
