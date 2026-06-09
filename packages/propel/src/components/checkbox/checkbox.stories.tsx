@@ -8,14 +8,18 @@ const meta = {
   tags: ["ai-generated"],
   args: {
     tone: "neutral",
-    label: "Accept terms",
+    "aria-label": "Example",
   },
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Interactive checkbox — toggle it from the controls or by clicking. */
+/**
+ * Interactive, label-less checkbox — just the box. Toggle it from the controls
+ * or by clicking. With no visible `label`, the accessible name comes from
+ * `aria-label`.
+ */
 export const Default: Story = {
   play: async ({ canvas, userEvent }) => {
     const checkbox = canvas.getByRole("checkbox");
@@ -46,6 +50,16 @@ export const States: Story = {
     // The checked box renders its check icon.
     await expect(checked).not.toBeEmptyDOMElement();
   },
+};
+
+/**
+ * Label-less usage: omit `label` to render the bare box. Give it an accessible
+ * name with `aria-label` (or `aria-labelledby`) — e.g. a checkbox in a table
+ * row that selects the row.
+ */
+export const WithoutLabel: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => <Checkbox tone="neutral" aria-label="Select row" />,
 };
 
 /** A single labeled checkbox; the whole row is the clickable label. */

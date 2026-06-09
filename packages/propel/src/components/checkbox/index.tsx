@@ -48,7 +48,11 @@ export type CheckboxProps = Omit<
 > & {
   /** Resting color of the box. `danger` is the Figma "Error" state. */
   tone: CheckboxTone;
-  /** Optional text shown beside the box; the whole row becomes the label. */
+  /**
+   * Optional text shown beside the box; the whole row becomes the clickable
+   * label. Omit it for a bare checkbox (just the box) — in that case give the
+   * box an accessible name with `aria-label` or `aria-labelledby`.
+   */
   label?: React.ReactNode;
 };
 
