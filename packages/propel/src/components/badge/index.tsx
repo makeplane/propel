@@ -34,11 +34,6 @@ const badgeVariants = cva(
         orange: "bg-label-orange-bg text-label-orange-text",
       },
     },
-    // Figma defaults: Color=Neutral, Size=Base.
-    defaultVariants: {
-      magnitude: "md",
-      tone: "neutral",
-    },
   },
 );
 
@@ -57,26 +52,20 @@ export type BadgeProps = Omit<React.ComponentProps<"span">, "className" | "style
   /** The badge label — text, a count, or any inline content. */
   children?: React.ReactNode;
   /** Color/intent of the badge. */
-  tone?: BadgeTone;
+  tone: BadgeTone;
   /** Size of the badge. */
-  magnitude?: BadgeMagnitude;
+  magnitude: BadgeMagnitude;
   /** Optional leading icon (e.g. a lucide icon), sized to the magnitude and tinted to the tone. */
   icon?: React.ReactNode;
 };
 
 export function Badge({ children, tone, magnitude, icon, ...props }: BadgeProps) {
-  // Resolve magnitude once so the icon box matches the badge's own scale even when
-  // the prop is left at the cva default.
-  const effectiveMagnitude = magnitude ?? "md";
   return (
-    <span className={badgeVariants({ tone, magnitude: effectiveMagnitude })} {...props}>
+    <span className={badgeVariants({ tone, magnitude })} {...props}>
       {icon != null ? (
         <span
           aria-hidden
-          className={cx(
-            "inline-flex shrink-0 [&>svg]:size-full",
-            iconSizeByMagnitude[effectiveMagnitude],
-          )}
+          className={cx("inline-flex shrink-0 [&>svg]:size-full", iconSizeByMagnitude[magnitude])}
         >
           {icon}
         </span>

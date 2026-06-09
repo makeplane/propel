@@ -10,6 +10,8 @@ const meta = {
   tags: ["ai-generated"],
   args: {
     title: "There is something that needs your attention",
+    variant: "page",
+    tone: "neutral",
   },
   parameters: {
     design: {
