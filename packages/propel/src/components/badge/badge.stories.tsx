@@ -20,6 +20,12 @@ const TONES: BadgeTone[] = [
 
 const MAGNITUDES: BadgeMagnitude[] = ["sm", "md", "lg"];
 
+// Design-review convention for every propel component:
+//   1. `parameters.design` links the story to its Figma frame, so the Storybook
+//      "Design" panel (@storybook/addon-designs) shows code + Figma side by side.
+//   2. A `States` story uses storybook-addon-pseudo-states to force
+//      :hover/:active/:focus/:focus-visible at once, so every interactive state is
+//      reviewable statically — no manual interaction, and snapshot-able.
 const meta = {
   title: "Components/Badge",
   component: Badge,
@@ -29,12 +35,54 @@ const meta = {
     tone: "neutral",
     magnitude: "md",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1532-1177",
+    },
+  },
 } satisfies Meta<typeof Badge>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+/**
+ * Default + hover + active + focus side by side, with storybook-addon-pseudo-states
+ * forcing each column's pseudo-class so all states are visible at once (no hovering).
+ * Each badge has a unique id so the addon can target one state per column.
+ */
+export const States: Story = {
+  parameters: {
+    controls: { disable: true },
+    pseudo: {
+      hover: "#badge-hover",
+      active: "#badge-active",
+      focus: "#badge-focus",
+      focusVisible: "#badge-focus",
+    },
+  },
+  render: (args) => (
+    <div className="flex items-center gap-6">
+      {(
+        [
+          ["Default", undefined],
+          ["Hover", "badge-hover"],
+          ["Active", "badge-active"],
+          ["Focus", "badge-focus"],
+        ] as const
+      ).map(([label, id]) => (
+        <div key={label} className="flex flex-col items-center gap-2">
+          <span className="text-11 text-label-grey-text">{label}</span>
+          <Badge {...args} id={id} tabIndex={0}>
+            {label}
+          </Badge>
+        </div>
+      ))}
+    </div>
+  ),
+};
 
 /** Every color/intent the badge supports, side by side at the default magnitude. */
 export const Tones: Story = {
