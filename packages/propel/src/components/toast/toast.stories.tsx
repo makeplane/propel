@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, waitFor, within } from "storybook/test";
-import { type ToastTone, ToastProvider, useToast } from "./index";
+import { type ToastData, type ToastTone, ToastProvider, useToast } from "./index";
 
 const TONES: ToastTone[] = ["success", "danger", "info", "warning", "neutral"];
 
 // A small trigger that queues a toast via the manager hook — the real way a
 // consumer raises a toast. Lives inside the provider (the meta-level decorator).
-function Trigger({ tone = "info", onAdd }: { tone?: ToastTone; onAdd?: () => void }) {
-  const { add } = useToast();
+function Trigger({ tone, onAdd }: { tone: ToastTone; onAdd?: () => void }) {
+  const { add } = useToast<ToastData>();
   return (
     <button
       type="button"
