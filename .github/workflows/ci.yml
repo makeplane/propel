@@ -23,7 +23,7 @@ jobs:
       # See https://viteplus.dev/guide/ci
       - uses: voidzero-dev/setup-vp@v1
         with:
-          node-version: "24"
+          node-version-file: .node-version
           cache: true
 
       - run: vp check

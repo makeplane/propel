@@ -21,7 +21,7 @@ jobs:
 
       - uses: voidzero-dev/setup-vp@v1
         with:
-          node-version: "24"
+          node-version-file: .node-version
           cache: true
 
       # Opens/updates a "Version Packages" PR when changesets are present, and
