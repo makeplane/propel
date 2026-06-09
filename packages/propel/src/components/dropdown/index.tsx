@@ -57,7 +57,6 @@ const dropdownSurfaceVariants = cva(
         lg: "w-96", // 384px — the wide two-line "Description" menu
       },
     },
-    defaultVariants: { width: "anchor" },
   },
 );
 
@@ -142,7 +141,6 @@ const dropdownItemVariants = cva(
         "with-value": "h-8",
       },
     },
-    defaultVariants: { variant: "default" },
   },
 );
 
@@ -153,12 +151,11 @@ export type DropdownItemProps = Omit<
   "className" | "style" | "label"
 > & {
   /**
-   * Row layout. `default` is a single line; `with-description` stacks a muted
-   * second line under the label; `with-value` reserves a trailing value slot.
+   * Row layout (required). `default` is a single line; `with-description` stacks a
+   * muted second line under the label; `with-value` reserves a trailing value slot.
    * Selected/disabled are state props, not variants.
-   * @default "default"
    */
-  variant?: DropdownItemVariant;
+  variant: DropdownItemVariant;
   /** Leading content, typically an icon. Rendered before the label. */
   icon?: React.ReactNode;
   /**
@@ -200,7 +197,7 @@ export type DropdownItemProps = Omit<
  * by `variant`. Pass `selected` for the single-select leading-checkmark pattern.
  */
 export function DropdownItem({
-  variant = "default",
+  variant,
   icon,
   leading,
   label,
