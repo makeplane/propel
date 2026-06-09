@@ -8,37 +8,54 @@ import * as React from "react";
 
 // The Figma "Toolbar" component has a single `variant` axis describing where the
 // toolbar is placed (Figma: Floater / Pages - Topbar / Comments bottom bar). The
-// variants differ only in their *surface*, not in spacing — every placement uses
-// the same `p-1` padding and `gap-1` item gap. Only the floater is a self-contained
-// surface — a white `surface-1` card with a subtle border, `radius/lg` corners and
-// an `Overlay-100` shadow — so it can hover over content. Topbar and bottom-bar sit
-// flush inside an existing bar, so they're flat (no surface, no shadow) and are
-// therefore visually identical to each other.
-const toolbarVariants = cva("flex w-fit items-center text-secondary", {
+// variants differ in two ways: their *surface* and their *density*. Only the
+// floater is a self-contained surface — a white `surface-1` card with a subtle
+// border, `radius/lg` corners and an `Overlay-100` shadow — so it can hover over
+// content. Topbar and bottom-bar sit flush inside an existing bar, so they're flat
+// (no surface, no shadow) and are therefore visually identical to each other.
+//
+// Density differs too: the floater packs controls tighter (24px hit targets, a
+// 14px chevron) while the topbar/bottom-bar are roomier (28px hit targets, a 16px
+// chevron). Every placement shares the root `p-1.5` (6px) padding and `gap-2` (8px)
+// item gap; clusters inside `ToolbarGroup`/`ToolbarToggleGroup` keep a tight
+// `gap-0.5` (2px).
+const toolbarVariants = cva("flex w-fit items-center gap-2 p-1.5 text-secondary", {
   variants: {
     variant: {
-      floater: "gap-1 rounded-lg border-sm border-subtle bg-surface-1 p-1 shadow-overlay-100",
-      topbar: "gap-1",
-      "bottom-bar": "gap-1",
+      floater: "rounded-lg border-sm border-subtle bg-surface-1 shadow-overlay-100",
+      topbar: "",
+      "bottom-bar": "",
     },
-  },
-  defaultVariants: {
-    variant: "floater",
   },
 });
 
 export type ToolbarVariant = NonNullable<VariantProps<typeof toolbarVariants>["variant"]>;
+
+// The density of a toolbar follows its placement: the `floater` is compact (24px
+// hit targets), while `topbar`/`bottom-bar` are comfortable (28px). It's derived
+// from `variant` and shared with the child controls (buttons, toggles, dropdown
+// trigger) through context so they size themselves to match the root.
+type ToolbarDensity = "compact" | "comfortable";
+
+const DENSITY_BY_VARIANT: Record<ToolbarVariant, ToolbarDensity> = {
+  floater: "compact",
+  topbar: "comfortable",
+  "bottom-bar": "comfortable",
+};
+
+const ToolbarDensityContext = React.createContext<ToolbarDensity>("compact");
 
 export type ToolbarProps = Omit<
   React.ComponentProps<typeof BaseToolbar.Root>,
   "className" | "render" | "style"
 > & {
   /**
-   * Where the toolbar is placed, which controls its surface. `floater` (default)
-   * is a self-contained card with a border + shadow that hovers over content;
-   * `topbar` and `bottom-bar` are flat and sit flush inside an existing bar.
+   * Where the toolbar is placed, which controls its surface and density. `floater`
+   * is a self-contained card with a border + shadow that hovers over content and
+   * packs its controls tightly (24px). `topbar` and `bottom-bar` are flat, sit flush
+   * inside an existing bar, and use the roomier 28px density.
    */
-  variant?: ToolbarVariant;
+  variant: ToolbarVariant;
 };
 
 /**
@@ -49,7 +66,11 @@ export type ToolbarProps = Omit<
  * `ToolbarToggle`, `ToolbarSeparator` and `ToolbarDropdown`.
  */
 export function Toolbar({ variant, ...props }: ToolbarProps) {
-  return <BaseToolbar.Root className={toolbarVariants({ variant })} {...props} />;
+  return (
+    <ToolbarDensityContext.Provider value={DENSITY_BY_VARIANT[variant]}>
+      <BaseToolbar.Root className={toolbarVariants({ variant })} {...props} />
+    </ToolbarDensityContext.Provider>
+  );
 }
 
 export type ToolbarGroupProps = Omit<
@@ -66,19 +87,33 @@ export function ToolbarGroup(props: ToolbarGroupProps) {
   return <BaseToolbar.Group className="flex items-center gap-0.5" {...props} />;
 }
 
-// Shared item styling: a 28px square hit target with the secondary icon color,
-// a transparent default background that fills in on hover/active, and a selected
+// Shared item styling: a square hit target with the secondary icon color, a
+// transparent default background that fills in on hover/active, and a selected
 // (pressed) background for the "on" state. `data-pressed` is set by Base UI's
-// Toggle; disabled items dim and stop reacting to the pointer. Icons inside follow
-// `currentColor` and are sized to Figma's 16px (`size-4`).
-const itemClass = cx(
-  "inline-flex size-7 shrink-0 items-center justify-center rounded-md",
-  "bg-layer-transparent text-icon-secondary outline-none",
-  "hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
-  "focus-visible:ring-2 focus-visible:ring-accent-strong",
-  "data-[pressed]:bg-layer-transparent-selected data-[pressed]:text-icon-accent-primary",
-  "disabled:pointer-events-none disabled:text-icon-disabled",
-  "[&_svg]:size-4 [&_svg]:shrink-0",
+// Toggle; disabled items dim and stop reacting to the pointer. The square size and
+// the icon size follow the toolbar's density — `compact` is 24px with a 14px icon,
+// `comfortable` is 28px with a 16px icon (Figma).
+const itemVariants = cva(
+  cx(
+    "inline-flex shrink-0 items-center justify-center rounded-md",
+    "bg-layer-transparent text-icon-secondary outline-none",
+    "hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
+    "focus-visible:ring-2 focus-visible:ring-accent-strong",
+    "data-[pressed]:bg-layer-transparent-selected data-[pressed]:text-icon-accent-primary",
+    "disabled:pointer-events-none disabled:text-icon-disabled",
+    "[&_svg]:shrink-0",
+  ),
+  {
+    variants: {
+      density: {
+        compact: "size-6 [&_svg]:size-3.5",
+        comfortable: "size-7 [&_svg]:size-4",
+      },
+    },
+    defaultVariants: {
+      density: "compact",
+    },
+  },
 );
 
 export type ToolbarButtonProps = Omit<
@@ -98,7 +133,8 @@ export type ToolbarButtonProps = Omit<
  * `ToolbarToggle` instead.
  */
 export function ToolbarButton(props: ToolbarButtonProps) {
-  return <BaseToolbar.Button className={itemClass} {...props} />;
+  const density = React.useContext(ToolbarDensityContext);
+  return <BaseToolbar.Button className={itemVariants({ density })} {...props} />;
 }
 
 export type ToolbarToggleProps = Omit<
@@ -119,7 +155,10 @@ export type ToolbarToggleProps = Omit<
  * make it a member of a `ToolbarToggleGroup`.
  */
 export function ToolbarToggle(props: ToolbarToggleProps) {
-  return <BaseToolbar.Button render={<Toggle />} className={itemClass} {...props} />;
+  const density = React.useContext(ToolbarDensityContext);
+  return (
+    <BaseToolbar.Button render={<Toggle />} className={itemVariants({ density })} {...props} />
+  );
 }
 
 export type ToolbarToggleGroupProps = Omit<
@@ -157,6 +196,43 @@ export function ToolbarSeparator(props: ToolbarSeparatorProps) {
   );
 }
 
+// The dropdown trigger height and chevron size also follow the toolbar's density:
+// `compact` is a 24px trigger with a 14px chevron, `comfortable` is a 28px trigger
+// with a 16px chevron (Figma).
+const dropdownTriggerVariants = cva(
+  cx(
+    "inline-flex shrink-0 items-center gap-1 rounded-md px-2",
+    "bg-layer-transparent text-13 text-secondary outline-none",
+    "hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
+    "focus-visible:ring-2 focus-visible:ring-accent-strong",
+    "data-[popup-open]:bg-layer-transparent-selected",
+    "disabled:pointer-events-none disabled:text-disabled",
+  ),
+  {
+    variants: {
+      density: {
+        compact: "h-6",
+        comfortable: "h-7",
+      },
+    },
+    defaultVariants: {
+      density: "compact",
+    },
+  },
+);
+
+const dropdownChevronVariants = cva("shrink-0 text-icon-secondary", {
+  variants: {
+    density: {
+      compact: "size-3.5",
+      comfortable: "size-4",
+    },
+  },
+  defaultVariants: {
+    density: "compact",
+  },
+});
+
 export type ToolbarDropdownItem = {
   /** Stable identifier passed to `onValueChange` when this row is chosen. */
   value: string;
@@ -189,23 +265,17 @@ export function ToolbarDropdown({
   disabled,
   ...props
 }: ToolbarDropdownProps) {
+  const density = React.useContext(ToolbarDensityContext);
   return (
     <Menu.Root>
       <BaseToolbar.Button
         render={<Menu.Trigger />}
         disabled={disabled}
-        className={cx(
-          "inline-flex h-7 shrink-0 items-center gap-1 rounded-md px-2",
-          "bg-layer-transparent text-13 text-secondary outline-none",
-          "hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
-          "focus-visible:ring-2 focus-visible:ring-accent-strong",
-          "data-[popup-open]:bg-layer-transparent-selected",
-          "disabled:pointer-events-none disabled:text-disabled",
-        )}
+        className={dropdownTriggerVariants({ density })}
         {...props}
       >
         {label}
-        <ChevronDown aria-hidden className="size-3.5 shrink-0 text-icon-secondary" />
+        <ChevronDown aria-hidden className={dropdownChevronVariants({ density })} />
       </BaseToolbar.Button>
       <Menu.Portal>
         <Menu.Positioner sideOffset={6} className="z-50 outline-none">
