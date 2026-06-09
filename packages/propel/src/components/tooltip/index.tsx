@@ -119,14 +119,14 @@ function TooltipArrow() {
         // adjacent borders so the visible part reads as a clean triangle.
         "data-[side=bottom]:top-[-3px] data-[side=bottom]:[clip-path:polygon(0_0,100%_0,0_100%)]",
         "data-[side=top]:bottom-[-3px] data-[side=top]:[clip-path:polygon(100%_0,100%_100%,0_100%)]",
-        "data-[side=left]:right-[-3px] data-[side=left]:[clip-path:polygon(100%_0,100%_100%,0_100%)]",
-        "data-[side=right]:left-[-3px] data-[side=right]:[clip-path:polygon(0_0,100%_0,0_100%)]",
+        "data-[side=left]:right-[-3px] data-[side=left]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
+        "data-[side=right]:left-[-3px] data-[side=right]:[clip-path:polygon(0_0,0_100%,100%_100%)]",
         // Base UI's Positioner also emits the logical sides `inline-start`/`inline-end`
         // (the `side` prop accepts them). Mirror left/right so the arrow still gets a
         // clip-path and edge offset. The polygon clip is physical, so the LTR mapping
         // is encoded directly: inline-start ≡ left, inline-end ≡ right.
-        "data-[side=inline-start]:right-[-3px] data-[side=inline-start]:[clip-path:polygon(100%_0,100%_100%,0_100%)]",
-        "data-[side=inline-end]:left-[-3px] data-[side=inline-end]:[clip-path:polygon(0_0,100%_0,0_100%)]",
+        "data-[side=inline-start]:right-[-3px] data-[side=inline-start]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
+        "data-[side=inline-end]:left-[-3px] data-[side=inline-end]:[clip-path:polygon(0_0,0_100%,100%_100%)]",
       )}
     />
   );
