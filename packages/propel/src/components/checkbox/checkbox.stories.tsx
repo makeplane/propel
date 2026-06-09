@@ -7,6 +7,7 @@ const meta = {
   component: Checkbox,
   tags: ["ai-generated"],
   args: {
+    tone: "neutral",
     label: "Accept terms",
   },
 } satisfies Meta<typeof Checkbox>;
@@ -31,11 +32,11 @@ export const States: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-4">
-      <Checkbox label="Unchecked" />
-      <Checkbox label="Checked" defaultChecked />
-      <Checkbox label="Indeterminate" indeterminate />
-      <Checkbox label="Disabled" disabled />
-      <Checkbox label="Disabled checked" disabled defaultChecked />
+      <Checkbox tone="neutral" label="Unchecked" />
+      <Checkbox tone="neutral" label="Checked" defaultChecked />
+      <Checkbox tone="neutral" label="Indeterminate" indeterminate />
+      <Checkbox tone="neutral" label="Disabled" disabled />
+      <Checkbox tone="neutral" label="Disabled checked" disabled defaultChecked />
     </div>
   ),
   play: async ({ canvas }) => {
@@ -50,13 +51,13 @@ export const States: Story = {
 /** A single labeled checkbox; the whole row is the clickable label. */
 export const WithLabel: Story = {
   parameters: { controls: { disable: true } },
-  render: () => <Checkbox label="Send me product updates" defaultChecked />,
+  render: () => <Checkbox tone="neutral" label="Send me product updates" defaultChecked />,
 };
 
 /** The mixed state renders `aria-checked="mixed"` and shows a dash. */
 export const Indeterminate: Story = {
   parameters: { controls: { disable: true } },
-  render: () => <Checkbox label="Select all" indeterminate />,
+  render: () => <Checkbox tone="neutral" label="Select all" indeterminate />,
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("checkbox")).toHaveAttribute("aria-checked", "mixed");
   },

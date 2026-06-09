@@ -35,9 +35,6 @@ const checkboxVariants = cva(
           "border-danger-strong data-[checked]:bg-accent-primary data-[indeterminate]:bg-accent-primary",
       },
     },
-    defaultVariants: {
-      tone: "neutral",
-    },
   },
 );
 
@@ -94,7 +91,7 @@ export type CheckboxProps = Omit<
   "className" | "render" | "style"
 > & {
   /** Resting color of the box. `danger` is the Figma "Error" state. */
-  tone?: CheckboxTone;
+  tone: CheckboxTone;
   /** Optional text shown beside the box; the whole row becomes the label. */
   label?: React.ReactNode;
 };
