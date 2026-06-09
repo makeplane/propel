@@ -32,10 +32,6 @@ const bannerVariants = cva("flex items-center overflow-clip", {
     { tone: "warning", class: "bg-warning-subtle border-warning-subtle" },
     { tone: "danger", class: "bg-danger-subtle border-danger-subtle" },
   ],
-  defaultVariants: {
-    variant: "page",
-    tone: "neutral",
-  },
 });
 
 type BannerVariant = NonNullable<VariantProps<typeof bannerVariants>["variant"]>;
@@ -81,9 +77,9 @@ const toneRole: Record<BannerTone, "status" | "alert"> = {
 
 export type BannerProps = Omit<React.ComponentProps<"div">, "className" | "style"> & {
   /** Figma Scope: a full-width page strip (`page`) or a self-contained card (`inline`). */
-  variant?: BannerVariant;
-  /** Figma Intent: the banner's meaning/color. Defaults to `neutral`. */
-  tone?: BannerTone;
+  variant: BannerVariant;
+  /** Figma Intent: the banner's meaning/color. */
+  tone: BannerTone;
   /** Leading icon. Defaults to a tone-appropriate lucide icon; pass `null` to hide it. */
   icon?: React.ReactNode;
   /** The banner's headline. Rendered as its own block above any `children` body. */
@@ -95,8 +91,8 @@ export type BannerProps = Omit<React.ComponentProps<"div">, "className" | "style
 };
 
 export function Banner({
-  variant = "page",
-  tone = "neutral",
+  variant,
+  tone,
   icon,
   title,
   actions,
