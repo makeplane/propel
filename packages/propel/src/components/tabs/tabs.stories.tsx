@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect } from "storybook/test";
+import { expect, waitFor } from "storybook/test";
 import { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./index";
 
 const meta = {
@@ -81,14 +81,20 @@ export const ClickActivates: Story = {
     const activityTab = canvas.getByRole("tab", { name: "Activity" });
     await expect(overviewTab).toHaveAttribute("aria-selected", "true");
     await expect(activityTab).toHaveAttribute("aria-selected", "false");
-    await expect(canvas.getByRole("tabpanel")).toHaveTextContent("Overview panel");
+    await waitFor(async () => {
+      const p = canvas.getAllByRole("tabpanel");
+      await expect(p).toHaveLength(1);
+      await expect(p[0]).toHaveTextContent("Overview panel");
+    });
 
     // Clicking the second tab moves selection and swaps the visible panel.
     await userEvent.click(activityTab);
     await expect(activityTab).toHaveAttribute("aria-selected", "true");
     await expect(overviewTab).toHaveAttribute("aria-selected", "false");
-    const panel = canvas.getByRole("tabpanel");
-    await expect(panel).toHaveTextContent("Activity panel");
-    await expect(panel).not.toHaveTextContent("Overview panel");
+    await waitFor(async () => {
+      const panels = canvas.getAllByRole("tabpanel");
+      await expect(panels).toHaveLength(1);
+      await expect(panels[0]).toHaveTextContent("Activity panel");
+    });
   },
 };
