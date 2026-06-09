@@ -32,6 +32,13 @@ const buttonVariants = cva(
         neutral: "",
         danger: "",
       },
+      // Link-only axis (Figma "Emphasis"). `solid` is the blue `link/primary`
+      // affordance; `subtle` is the muted gray inline link. It only changes the
+      // appearance of `variant="link"`; every other variant ignores it.
+      emphasis: {
+        solid: "",
+        subtle: "",
+      },
       // `leading-none` collapses each label's line box to the glyph height so
       // the flex `items-center` truly centers it inside the fixed-height button;
       // any larger line-height (e.g. `leading-snug`) inflates the line box and
@@ -86,12 +93,26 @@ const buttonVariants = cva(
           "disabled:bg-transparent disabled:text-disabled",
         ),
       },
-      // ----- Neutral link (Figma Type=Link) -----
+      // ----- Neutral link, solid (Figma Type=Link, Emphasis=solid) -----
+      // The blue `link/primary` affordance.
       {
         variant: "link",
         tone: "neutral",
+        emphasis: "solid",
         className: cx(
           "min-w-0 px-0 text-link-primary hover:text-link-primary-hover",
+          "disabled:text-disabled disabled:no-underline",
+        ),
+      },
+      // ----- Neutral link, subtle (Figma Type=Link, Emphasis=subtle) -----
+      // The muted gray inline link. Uses `text-secondary` (#4e5355) to match
+      // Figma and clear AA contrast — NOT the lighter `link-secondary` token.
+      {
+        variant: "link",
+        tone: "neutral",
+        emphasis: "subtle",
+        className: cx(
+          "min-w-0 px-0 text-secondary hover:text-primary",
           "disabled:text-disabled disabled:no-underline",
         ),
       },
@@ -126,6 +147,7 @@ const buttonVariants = cva(
       variant: "primary",
       tone: "neutral",
       magnitude: "md",
+      emphasis: "solid",
     },
   },
 );
@@ -133,6 +155,7 @@ const buttonVariants = cva(
 export type ButtonVariant = NonNullable<VariantProps<typeof buttonVariants>["variant"]>;
 export type ButtonTone = NonNullable<VariantProps<typeof buttonVariants>["tone"]>;
 export type ButtonMagnitude = NonNullable<VariantProps<typeof buttonVariants>["magnitude"]>;
+export type ButtonEmphasis = NonNullable<VariantProps<typeof buttonVariants>["emphasis"]>;
 
 // Leading/trailing slot icon size per magnitude, straight from Figma's per-size
 // icon values (14px up to Base, 16px from L up). 16px extra-small step uses 12px.
@@ -148,6 +171,12 @@ type ButtonOwnProps = {
   variant?: ButtonVariant;
   tone?: ButtonTone;
   magnitude?: ButtonMagnitude;
+  /**
+   * Link-only: picks the `link` look. `solid` (default) is the blue
+   * `link/primary` style; `subtle` is the muted gray inline link. Ignored by
+   * every other `variant`.
+   */
+  emphasis?: ButtonEmphasis;
   /** Icon rendered before the label. Decorative — kept out of the accessible name. */
   leadingIcon?: React.ReactNode;
   /** Icon rendered after the label. Decorative — kept out of the accessible name. */
@@ -161,14 +190,16 @@ export type ButtonProps = Omit<React.ComponentProps<"button">, "className" | "st
 
 /**
  * A plain accessible button built on propel's design tokens. Pick a look with
- * `variant` (Figma Type), select the error palette with `tone`, and size it with
- * `magnitude`. Content — `children`, `leadingIcon`/`trailingIcon`, `loading` — is
- * not a variant.
+ * `variant` (Figma Type), select the error palette with `tone`, size it with
+ * `magnitude`, and — for `variant="link"` only — choose `solid` (blue) or
+ * `subtle` (gray) with `emphasis`. Content — `children`,
+ * `leadingIcon`/`trailingIcon`, `loading` — is not a variant.
  */
 export function Button({
   variant,
   tone,
   magnitude = "md",
+  emphasis,
   leadingIcon,
   trailingIcon,
   loading = false,
@@ -190,7 +221,7 @@ export function Button({
       aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
       onClick={loading ? undefined : onClick}
-      className={buttonVariants({ variant, tone, magnitude })}
+      className={buttonVariants({ variant, tone, magnitude, emphasis })}
       {...props}
     >
       {loading ? (
