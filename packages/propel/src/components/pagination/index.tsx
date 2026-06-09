@@ -18,10 +18,13 @@ import * as React from "react";
 // - per-page selector: a `layer-3` pill, 24px tall, radius/md, "50" + chevron-down,
 //   followed by "per page" tertiary text.
 
-// Shared 24px square slot used by page numbers, the prev/next buttons and the
-// ellipsis. `radius/sm` for page numbers, `radius/md` for the arrow buttons.
+// Shared 24px slot used by page numbers, the prev/next buttons and the ellipsis.
+// 24px tall with a 24px minimum width so single digits stay square (per Figma),
+// but the slot grows for wider content — multi-digit page numbers like `100` get
+// their own width plus horizontal padding rather than clipping a fixed square.
+// `radius/sm` for page numbers, `radius/md` for the arrow buttons.
 const slotBase = cx(
-  "inline-flex size-6 shrink-0 items-center justify-center px-1",
+  "inline-flex h-6 w-auto min-w-6 shrink-0 items-center justify-center px-1",
   "text-13 text-primary outline-none",
 );
 
@@ -69,7 +72,9 @@ function PaginationEllipsis() {
 
 // Builds the sequence of visible page tokens. Always shows the first and last page;
 // shows up to one neighbour either side of the current page; inserts an ellipsis
-// wherever the run skips pages. This reproduces the four Figma layouts:
+// only where the run skips 2+ pages. A gap of exactly one page renders that page
+// number instead, since a `…` standing in for a single page just hides a reachable
+// page. This reproduces the four Figma layouts:
 //   1 2 3 4              (all visible)
 //   1 2 3 … 100          (near start)
 //   1 … 44 45 46 … 100   (middle)
@@ -97,11 +102,16 @@ function buildPageTokens(page: number, pageCount: number): PageToken[] {
     windowStart = pageCount - 2;
   }
   const tokens: PageToken[] = [1];
-  // Show a leading ellipsis only when the window skips past page 2.
-  if (windowStart > 2) tokens.push("ellipsis-start");
+  // Bridge the gap between the `1` anchor and the window. An ellipsis is only worth
+  // it when 2+ pages are hidden; a lone skipped page (here, page 2) is rendered as
+  // its own number so it isn't buried under `…` — `1 2 3 4 5 …` instead of `1 … 3 …`.
+  if (windowStart === 3) tokens.push(2);
+  else if (windowStart > 3) tokens.push("ellipsis-start");
   for (let p = windowStart; p <= windowEnd; p++) tokens.push(p);
-  // Show a trailing ellipsis only when the window stops short of the last anchor.
-  if (windowEnd < pageCount - 1) tokens.push("ellipsis-end");
+  // Likewise on the trailing side: a single skipped page (pageCount - 1) is shown
+  // rather than hidden behind a trailing ellipsis.
+  if (windowEnd === pageCount - 2) tokens.push(pageCount - 1);
+  else if (windowEnd < pageCount - 2) tokens.push("ellipsis-end");
   tokens.push(pageCount);
   return tokens;
 }
