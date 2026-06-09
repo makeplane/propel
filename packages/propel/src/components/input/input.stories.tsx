@@ -166,6 +166,103 @@ export const Error: Story = {
 };
 
 /**
+ * RTL smoke check: the same stories rendered inside `dir="rtl"`. Text aligns to
+ * the right, the leading (start) icon sits on the right edge and the trailing
+ * (end) icon on the left, and the horizontal label sits to the right of its
+ * control. Excluded from autodocs/manifest — it exists for visual review.
+ */
+export const RtlVerify: Story = {
+  name: "RTL Verify",
+  tags: ["!autodocs", "!manifest"],
+  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div dir="rtl" className="flex w-80 flex-col gap-6">
+      <Input
+        magnitude="md"
+        tone="neutral"
+        variant="vertical"
+        label="البريد الإلكتروني"
+        info
+        placeholder="you@example.com"
+        description="لن نشارك بريدك الإلكتروني."
+      />
+      <Input
+        magnitude="md"
+        tone="neutral"
+        variant="horizontal"
+        label="البريد"
+        placeholder="you@example.com"
+      />
+      <Input
+        magnitude="md"
+        tone="neutral"
+        variant="vertical"
+        label="بحث"
+        placeholder="Search…"
+        leadingIcon={<Search />}
+        trailingIcon={<Mail />}
+      />
+      <Input
+        magnitude="md"
+        variant="vertical"
+        tone="danger"
+        label="البريد الإلكتروني"
+        required
+        defaultValue="not-an-email"
+        error="أدخل بريدًا إلكترونيًا صالحًا."
+      />
+    </div>
+  ),
+};
+
+/** LTR counterpart of {@link RtlVerify} for side-by-side comparison. */
+export const LtrVerify: Story = {
+  name: "LTR Verify",
+  tags: ["!autodocs", "!manifest"],
+  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div dir="ltr" className="flex w-80 flex-col gap-6">
+      <Input
+        magnitude="md"
+        tone="neutral"
+        variant="vertical"
+        label="Email"
+        info
+        placeholder="you@example.com"
+        description="We'll never share your email."
+      />
+      <Input
+        magnitude="md"
+        tone="neutral"
+        variant="horizontal"
+        label="Email"
+        placeholder="you@example.com"
+      />
+      <Input
+        magnitude="md"
+        tone="neutral"
+        variant="vertical"
+        label="Search"
+        placeholder="Search…"
+        leadingIcon={<Search />}
+        trailingIcon={<Mail />}
+      />
+      <Input
+        magnitude="md"
+        variant="vertical"
+        tone="danger"
+        label="Email"
+        required
+        defaultValue="not-an-email"
+        error="Enter a valid email address."
+      />
+    </div>
+  ),
+};
+
+/**
  * Typing into the control updates its value. Query by role (`textbox`) and drive
  * it with `userEvent`; an `onChange` spy proves the change handler fires.
  */
