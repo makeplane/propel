@@ -21,6 +21,9 @@ type Story = StoryObj<typeof meta>;
 /** Vertical layout (label above) with a placeholder and helper text. */
 export const Default: Story = {
   args: {
+    magnitude: "md",
+    tone: "neutral",
+    variant: "vertical",
     label: "Email",
     placeholder: "you@example.com",
     description: "We'll never share your email.",
@@ -30,6 +33,8 @@ export const Default: Story = {
 /** Horizontal layout: the label sits beside the control. */
 export const Horizontal: Story = {
   args: {
+    magnitude: "md",
+    tone: "neutral",
     variant: "horizontal",
     label: "Email",
     placeholder: "you@example.com",
@@ -39,6 +44,9 @@ export const Horizontal: Story = {
 /** Leading and trailing 16px icon slots wrap the control. */
 export const WithIcons: Story = {
   args: {
+    magnitude: "md",
+    tone: "neutral",
+    variant: "vertical",
     label: "Search",
     placeholder: "Search…",
     leadingIcon: <Search />,
@@ -52,25 +60,68 @@ export const WithIcons: Story = {
  * treatment (`tone="danger"`) are shown statically.
  */
 export const States: Story = {
+  // Required axes for the args table; the custom `render` ignores them.
+  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex w-72 flex-col gap-4">
-      <Input label="Default" placeholder="Placeholder" />
-      <Input label="Focus / hover (interact)" placeholder="Click me" />
-      <Input label="Filled" defaultValue="Ada Lovelace" />
-      <Input label="Disabled" placeholder="Placeholder" disabled />
-      <Input label="Error" tone="danger" defaultValue="not-an-email" error="Enter a valid email." />
+      <Input
+        magnitude="md"
+        tone="neutral"
+        variant="vertical"
+        label="Default"
+        placeholder="Placeholder"
+      />
+      <Input
+        magnitude="md"
+        tone="neutral"
+        variant="vertical"
+        label="Focus / hover (interact)"
+        placeholder="Click me"
+      />
+      <Input
+        magnitude="md"
+        tone="neutral"
+        variant="vertical"
+        label="Filled"
+        defaultValue="Ada Lovelace"
+      />
+      <Input
+        magnitude="md"
+        tone="neutral"
+        variant="vertical"
+        label="Disabled"
+        placeholder="Placeholder"
+        disabled
+      />
+      <Input
+        magnitude="md"
+        tone="danger"
+        variant="vertical"
+        label="Error"
+        defaultValue="not-an-email"
+        error="Enter a valid email."
+      />
     </div>
   ),
 };
 
 /** Every magnitude (`md` / `lg` / `xl`) stacked. */
 export const Magnitudes: Story = {
+  // Required axes for the args table; the custom `render` ignores them.
+  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex w-72 flex-col gap-4">
       {MAGNITUDES.map((magnitude) => (
-        <Input key={magnitude} magnitude={magnitude} label={magnitude} placeholder="Placeholder" />
+        <Input
+          key={magnitude}
+          magnitude={magnitude}
+          tone="neutral"
+          variant="vertical"
+          label={magnitude}
+          placeholder="Placeholder"
+        />
       ))}
     </div>
   ),
@@ -79,10 +130,14 @@ export const Magnitudes: Story = {
 /** Multi-line `TextArea` — the primitive the Comment composer builds on. */
 export const TextAreaStory: Story = {
   name: "TextArea",
+  // Required axes for the args table; the custom `render` ignores them.
+  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="w-80">
       <TextArea
+        magnitude="md"
+        tone="neutral"
         label="Comment"
         placeholder="Leave a comment…"
         description="Markdown is supported."
@@ -94,6 +149,8 @@ export const TextAreaStory: Story = {
 /** The error treatment: danger border, danger helper text, and `aria-invalid`. */
 export const Error: Story = {
   args: {
+    magnitude: "md",
+    variant: "vertical",
     label: "Email",
     tone: "danger",
     defaultValue: "not-an-email",
@@ -108,7 +165,14 @@ export const Error: Story = {
  */
 export const TypingUpdatesValue: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { label: "Name", placeholder: "Your name", onChange: fn() },
+  args: {
+    magnitude: "md",
+    tone: "neutral",
+    variant: "vertical",
+    label: "Name",
+    placeholder: "Your name",
+    onChange: fn(),
+  },
   play: async ({ args, canvas }) => {
     const input = canvas.getByRole<HTMLInputElement>("textbox", { name: "Name" });
     await userEvent.type(input, "Grace");
@@ -120,7 +184,14 @@ export const TypingUpdatesValue: Story = {
 /** A `disabled` control rejects input — the value stays empty after typing. */
 export const DisabledBlocksInput: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { label: "Name", placeholder: "Your name", disabled: true },
+  args: {
+    magnitude: "md",
+    tone: "neutral",
+    variant: "vertical",
+    label: "Name",
+    placeholder: "Your name",
+    disabled: true,
+  },
   play: async ({ canvas }) => {
     const input = canvas.getByRole<HTMLInputElement>("textbox", { name: "Name" });
     await expect(input).toBeDisabled();
@@ -133,6 +204,8 @@ export const DisabledBlocksInput: Story = {
 export const ErrorAnnouncesInvalid: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: {
+    magnitude: "md",
+    variant: "vertical",
     label: "Email",
     tone: "danger",
     defaultValue: "x",

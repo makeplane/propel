@@ -18,7 +18,6 @@ const labelVariants = cva("font-medium text-primary", {
       xl: "text-14",
     },
   },
-  defaultVariants: { magnitude: "md" },
 });
 
 const helperVariants = cva("", {
@@ -29,7 +28,6 @@ const helperVariants = cva("", {
       xl: "text-13",
     },
   },
-  defaultVariants: { magnitude: "md" },
 });
 
 // The control's text size. The placeholder/value colors live on the element so
@@ -42,7 +40,6 @@ const controlTextVariants = cva("", {
       xl: "text-16",
     },
   },
-  defaultVariants: { magnitude: "md" },
 });
 
 export type InputMagnitude = NonNullable<VariantProps<typeof labelVariants>["magnitude"]>;
@@ -75,7 +72,6 @@ const boxVariants = cva(
         danger: "border-danger-strong hover:border-danger-strong focus-within:border-danger-strong",
       },
     },
-    defaultVariants: { tone: "neutral" },
   },
 );
 
@@ -149,10 +145,10 @@ type FieldControlProps = React.ComponentProps<typeof BaseField.Control>;
 // Props every text field shares. `className`/`style` are intentionally omitted:
 // the components own their styling so every field looks the same.
 type SharedFieldProps = {
-  /** Magnitude scale. `md` (default) | `lg` | `xl`. */
-  magnitude?: InputMagnitude;
-  /** Resting treatment. `danger` is the Figma "error" state. */
-  tone?: InputTone;
+  /** Magnitude scale. `md` | `lg` | `xl`. */
+  magnitude: InputMagnitude;
+  /** Resting treatment. `neutral` | `danger` (the Figma "error" state). */
+  tone: InputTone;
   /** Label text shown above (or beside) the control. */
   label?: React.ReactNode;
   /** Marks the field required: adds a `*` asterisk and sets `required`. */
@@ -167,8 +163,8 @@ type SharedFieldProps = {
 
 export type InputProps = Omit<FieldControlProps, "className" | "render" | "style"> &
   SharedFieldProps & {
-    /** `vertical` (label above, default) | `horizontal` (label beside). */
-    variant?: "vertical" | "horizontal";
+    /** `vertical` (label above) | `horizontal` (label beside). */
+    variant: "vertical" | "horizontal";
     /** A 16px lucide icon rendered before the control. */
     leadingIcon?: React.ReactNode;
     /** A 16px lucide icon rendered after the control. */
@@ -182,9 +178,9 @@ export type InputProps = Omit<FieldControlProps, "className" | "render" | "style
  * props — only `tone="danger"` forces the error treatment.
  */
 export function Input({
-  magnitude = "md",
-  tone = "neutral",
-  variant = "vertical",
+  magnitude,
+  tone,
+  variant,
   label,
   required,
   info,
@@ -275,8 +271,8 @@ const textAreaMinHeight: Record<InputMagnitude, string> = {
  * composer builds on.
  */
 export function TextArea({
-  magnitude = "md",
-  tone = "neutral",
+  magnitude,
+  tone,
   label,
   required,
   info,
