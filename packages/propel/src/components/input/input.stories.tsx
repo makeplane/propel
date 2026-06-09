@@ -13,6 +13,12 @@ const meta = {
   // relationship in the manifest).
   subcomponents: { Input, TextArea, Field },
   tags: ["ai-generated"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1582-168",
+    },
+  },
 } satisfies Meta<typeof Input>;
 
 export default meta;
