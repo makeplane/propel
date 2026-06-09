@@ -227,6 +227,7 @@ export const Status: Story = {
           {visible.map((s) => (
             <DropdownItem
               key={s.key}
+              variant="default"
               icon={s.icon}
               label={s.label}
               selected={selected === s.key}
@@ -309,10 +310,10 @@ export const ActionMenu: Story = {
         Actions
       </DropdownTrigger>
       <DropdownContent width="sm">
-        <DropdownItem icon={<Pencil />} label="Edit" />
-        <DropdownItem icon={<Copy />} label="Make a copy" />
-        <DropdownItem icon={<ExternalLink />} label="Open in new tab" />
-        <DropdownItem icon={<Link2 />} label="Copy link" value="⌘L" />
+        <DropdownItem variant="default" icon={<Pencil />} label="Edit" />
+        <DropdownItem variant="default" icon={<Copy />} label="Make a copy" />
+        <DropdownItem variant="default" icon={<ExternalLink />} label="Open in new tab" />
+        <DropdownItem variant="with-value" icon={<Link2 />} label="Copy link" value="⌘L" />
         <DropdownSeparator />
         <DropdownItem
           icon={<Trash2 />}
@@ -323,6 +324,7 @@ export const ActionMenu: Story = {
         />
         <DropdownSeparator />
         <DropdownItem
+          variant="default"
           icon={<Trash2 className="text-danger-primary" />}
           label={<span className="text-danger-primary">Delete</span>}
         />
@@ -456,6 +458,7 @@ export const LanguagePicker: Story = {
           {visible.map((l) => (
             <DropdownItem
               key={l.key}
+              variant="default"
               label={l.label}
               secondaryText={l.secondary}
               selected={selected === l.key}
@@ -570,6 +573,7 @@ export const Filters: Story = {
                 {/* "View all" is itself a menuitem so it stays a valid child of role="menu" */}
                 {section.viewAll ? (
                   <DropdownItem
+                    variant="default"
                     label={<span className="text-accent-primary">View all</span>}
                     closeOnClick={false}
                   />
@@ -863,7 +867,9 @@ export const EmptyState: Story = {
           search={<DropdownSearch value={query} onValueChange={setQuery} />}
         >
           {visible.length > 0 ? (
-            visible.map((s) => <DropdownItem key={s.key} icon={s.icon} label={s.label} />)
+            visible.map((s) => (
+              <DropdownItem key={s.key} variant="default" icon={s.icon} label={s.label} />
+            ))
           ) : (
             <div className="px-2 py-2 text-13 text-tertiary">No matching results</div>
           )}
@@ -912,7 +918,13 @@ export const Submenu: Story = {
           <DropdownSubTrigger label="Priority" trailing={<Badge magnitude="sm">5</Badge>} />
           <DropdownSubContent width="sm">
             {PRIORITIES.map((p) => (
-              <DropdownItem key={p.key} icon={p.icon} label={p.label} closeOnClick={false} />
+              <DropdownItem
+                key={p.key}
+                variant="default"
+                icon={p.icon}
+                label={p.label}
+                closeOnClick={false}
+              />
             ))}
           </DropdownSubContent>
         </DropdownSub>
@@ -920,7 +932,13 @@ export const Submenu: Story = {
           <DropdownSubTrigger label="State" trailing={<Badge magnitude="sm">5</Badge>} />
           <DropdownSubContent width="sm">
             {STATUSES.map((s) => (
-              <DropdownItem key={s.key} icon={s.icon} label={s.label} closeOnClick={false} />
+              <DropdownItem
+                key={s.key}
+                variant="default"
+                icon={s.icon}
+                label={s.label}
+                closeOnClick={false}
+              />
             ))}
           </DropdownSubContent>
         </DropdownSub>
@@ -930,6 +948,7 @@ export const Submenu: Story = {
             {ASSIGNEES.map((a) => (
               <DropdownItem
                 key={a.key}
+                variant="default"
                 icon={<Avatar magnitude="sm" fallback={initials(a.name)} alt={a.name} />}
                 label={a.name}
                 closeOnClick={false}
