@@ -27,10 +27,9 @@ jobs:
 
       - uses: voidzero-dev/setup-vp@v1
         with:
-          node-version: "24"
+          node-version-file: .node-version
           cache: true
 
-      - run: vp install
       - run: vp run -r build-storybook
 
       # PR → a versioned upload aliased to the PR number, which yields a stable
@@ -44,30 +43,28 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: packages/propel
-          # The action defaults to an old wrangler that lacks `--preview-alias`;
-          # pin to v4 (preview aliases + static-assets support).
-          wranglerVersion: "4.98.0"
+          # Run our lockfile wrangler (a @plane/propel devDep), not the action's
+          # own. `packageManager: npm` makes the action invoke `npx wrangler …`,
+          # and under setup-vp `npx` is a symlink to `vp` — so it runs the
+          # installed wrangler. Omitting `wranglerVersion` skips the action's
+          # install (and the npx fetch that flaked on @cloudflare/workerd-*).
+          packageManager: npm
           command: >-
             ${{ github.event_name == 'pull_request'
               && format('versions upload --preview-alias pr-{0}', github.event.pull_request.number)
               || 'deploy' }}
 
+      # The action's deployment-url is the per-version URL
+      # (https://<version>-propel-storybook.<subdomain>.workers.dev). Swap the
+      # version prefix for the stable `pr-<n>` alias (created by --preview-alias),
+      # which stays constant across pushes.
       - name: Comment preview URL on the PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.deploy.outputs.deployment-url != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR: ${{ github.event.pull_request.number }}
-          OUTPUT: ${{ steps.deploy.outputs.command-output }}
-          FALLBACK: ${{ steps.deploy.outputs.deployment-url }}
+          URL: ${{ steps.deploy.outputs.deployment-url }}
         run: |
-          # Prefer the stable `pr-<n>` alias URL (constant across pushes) over the
-          # per-version URL that wrangler-action surfaces as deployment-url.
-          url=$(printf '%s' "$OUTPUT" | sed -E 's/\x1b\[[0-9;]*m//g' \
-            | grep -oE 'https://pr-[0-9]+-[a-z0-9.-]+\.workers\.dev' | head -1 || true)
-          url=${url:-$FALLBACK}
-          if [ -n "$url" ]; then
-            gh pr comment "$PR" --edit-last --create-if-none \
-              --body "📚 **Storybook preview:** $url"
-          else
-            echo "No preview URL produced (deploy may have failed) — skipping comment."
-          fi
+          alias=$(printf '%s' "$URL" | sed -E "s#^https://[^-]+-#https://pr-${PR}-#")
+          gh pr comment "$PR" --edit-last --create-if-none \
+            --body "📚 **Storybook preview:** $alias"
