@@ -18,6 +18,45 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 /**
+ * The arrow on every side. Base UI's Positioner accepts both physical
+ * (`top`/`bottom`/`left`/`right`) and logical (`inline-start`/`inline-end`) sides, and
+ * emits the chosen value as `data-side` on the arrow. This story renders one tooltip
+ * per side so the arrow's clip-path and edge offset can be reviewed for each — in
+ * particular the logical `inline-start`/`inline-end` sides, which previously had no
+ * per-side rule and rendered as a full rotated square offset away from the popup.
+ *
+ * Tooltips open instantly (`delay: 0`) and stay open (`open`) so all arrows are
+ * visible at once; controls are disabled because the per-side args are fixed.
+ */
+export const Sides: Story = {
+  tags: ["!autodocs", "!manifest"],
+  parameters: {
+    controls: { disable: true },
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/?node-id=1162-346",
+    },
+  },
+  render: () => (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, max-content)",
+        gap: "4rem",
+        padding: "6rem",
+        placeItems: "center",
+      }}
+    >
+      {(["top", "bottom", "left", "right", "inline-start", "inline-end"] as const).map((side) => (
+        <Tooltip key={side} side={side} content={side} delay={0} open>
+          <button type="button">{side}</button>
+        </Tooltip>
+      ))}
+    </div>
+  ),
+};
+
+/**
  * A keyboard-shortcut hint sits to the right of the label, dimmed at the smaller
  * caption scale — the Figma "Cmd + K" slot. Pass any node to `shortcut`.
  */
