@@ -190,7 +190,7 @@ export type ToolbarSeparatorProps = Omit<
 export function ToolbarSeparator(props: ToolbarSeparatorProps) {
   return (
     <BaseToolbar.Separator
-      className="mx-1 h-5 w-0 shrink-0 border-l-sm border-subtle-1"
+      className="mx-1 h-5 w-0 shrink-0 border-s-sm border-subtle-1"
       {...props}
     />
   );
