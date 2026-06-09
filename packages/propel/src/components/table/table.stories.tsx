@@ -18,6 +18,12 @@ const meta = {
   // args table gets a tab per part and the manifest records the relationship.
   subcomponents: { TableHeader, TableBody, TableRow, TableHead, TableCell },
   tags: ["ai-generated"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=4017-653",
+    },
+  },
 } satisfies Meta<typeof Table>;
 
 export default meta;
