@@ -51,17 +51,19 @@ export function Tabs({ variant = "contained", ...props }: TabsProps) {
   );
 }
 
-// `contained` is a pill: a neutral layer-1 fill with 2px inset padding (no
-// container border) so the raised active tab sits within it, rounded to 8px.
+// `contained` is a pill: a neutral layer-3 fill with 2px inset padding (no
+// container border, per Figma `Contained Tab group` 1144:3856), `gap-px` (1px)
+// between tabs, rounded to 8px (`radius/lg`). The raised active tab sits within.
 // `underline` is a flat inline row that hugs its tabs (no baseline border per
-// Figma `Underline Tab group` 1162:321 — `gap-px px-0.5`); the indicator rides
-// flush under the active tab. `relative` lets the indicator position against
-// the list; `inline-flex` keeps the row sized to its content.
-const tabsListVariants = cva("relative inline-flex items-center", {
+// Figma `Underline Tab group` 1162:321 — `gap-px px-0.5`). The active bar rides
+// under the active tab as the JS-measured `TabsIndicator`. `relative` lets that
+// indicator position against the list; `inline-flex` keeps the row sized to its
+// content. Underline uses `items-start` so every tab column shares a top edge.
+const tabsListVariants = cva("relative inline-flex", {
   variants: {
     variant: {
-      contained: "gap-px rounded-lg bg-layer-1 p-0.5",
-      underline: "gap-px px-0.5",
+      contained: "items-center gap-px rounded-lg bg-layer-3 p-0.5",
+      underline: "items-start gap-px px-0.5",
     },
   },
 });
@@ -82,32 +84,88 @@ export function TabsList({ children, ...props }: TabsListProps) {
   );
 }
 
-// Tabs share the inactive look (secondary/tertiary text) and flip to primary
-// text when active. `contained` additionally lifts the active tab onto a raised
-// layer-2 card; `underline` only changes text color (the bar is the indicator).
+// Both variants share the inactive look (muted text) and flip to primary text
+// when active. `contained` lifts the active tab onto a raised layer-2 card; the
+// tab box is `h-6` (24px) with `px-1.5` (6px) and `gap-1` (4px) so the whole
+// container is 28px (24 + 2px padding top/bottom). `underline` is a vertical
+// column: a `h-7` (28px) label box with `px-2` (8px) / `py-0.5` (2px) /
+// `gap-1.5` (6px), then an 8px (`gap-2`) gap, then a 3px bar track — totaling
+// 40px. The per-tab bar handles the hover affordance (placeholder gray); the
+// active bar is the JS-measured `TabsIndicator` overlaid on top.
 const tabVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-1.5 font-medium whitespace-nowrap outline-none transition-colors select-none focus-visible:ring-2 focus-visible:ring-accent-strong disabled:cursor-not-allowed disabled:text-disabled",
+  "cursor-pointer font-medium whitespace-nowrap outline-none transition-colors select-none focus-visible:ring-2 focus-visible:ring-accent-strong disabled:cursor-not-allowed disabled:text-disabled",
   {
     variants: {
       variant: {
         contained:
-          "rounded-md border-sm border-transparent px-2 py-1 text-13 text-secondary hover:text-primary data-[active]:border-subtle-1 data-[active]:bg-layer-2 data-[active]:text-primary data-[active]:shadow-raised-200",
-        underline:
-          "rounded-md px-2 py-0.5 text-14 text-tertiary hover:bg-layer-transparent-hover hover:text-secondary data-[active]:bg-layer-transparent-selected data-[active]:text-primary",
+          "inline-flex h-6 items-center justify-center gap-1 rounded-md border-sm border-transparent px-1.5 text-13 text-secondary hover:text-primary data-[active]:border-subtle-1 data-[active]:bg-layer-2 data-[active]:text-primary data-[active]:shadow-raised-200",
+        underline: "group/tab inline-flex flex-col items-stretch gap-2 text-14",
       },
     },
   },
 );
 
+// The label box inside an `underline` tab. Carries the interaction states
+// (hover/selected backgrounds + text color); the surrounding column owns the
+// layout and the bar track. `contained` renders its label inline, so this is
+// only used for `underline`.
+const underlineLabelVariants = cva(
+  "flex h-7 items-center justify-center gap-1.5 rounded-md px-2 py-0.5 text-tertiary transition-colors group-hover/tab:bg-layer-transparent-hover group-hover/tab:text-secondary group-data-[active]/tab:bg-layer-transparent-selected group-data-[active]/tab:text-primary",
+);
+
+// The 3px bar track under an `underline` tab. The track is inset `px-2` (8px)
+// from the tab box so the bar hugs the label rather than bleeding under the
+// horizontal padding, matching Figma `1162:321`. The bar uses `bg-current` with
+// transparent text by default and `text-icon-placeholder` on hover, so the
+// hover affordance is a gray bar. The active bar is drawn by `TabsIndicator`
+// (primary), so the active tab's own bar stays transparent to avoid doubling.
+const underlineBarTrackVariants = cva("flex px-2");
+const underlineBarVariants = cva(
+  "h-[3px] w-full rounded-full bg-current text-transparent transition-colors group-hover/tab:text-icon-placeholder group-data-[active]/tab:text-transparent",
+);
+
+// The leading-icon box. Sized to 16px (`Icon`) and tinted via `currentColor`,
+// matching the Figma `placeholder` slot present on both variants.
+const tabIconVariants = cva(
+  "inline-flex size-4 shrink-0 items-center justify-center [&>svg]:size-full",
+);
+
 export type TabProps = Omit<
   React.ComponentProps<typeof BaseTabs.Tab>,
   "className" | "render" | "style"
->;
+> & {
+  /** Optional leading icon (e.g. a lucide icon), sized to 16px and tinted to the tab's text color. */
+  icon?: React.ReactNode;
+};
 
 /** A single tab button. `value` ties it to the `TabsPanel` of the same `value`. */
-export function Tab(props: TabProps) {
+export function Tab({ icon, children, ...props }: TabProps) {
   const variant = React.useContext(TabsVariantContext);
-  return <BaseTabs.Tab className={tabVariants({ variant })} {...props} />;
+  const iconNode =
+    icon != null ? (
+      <span aria-hidden className={tabIconVariants()}>
+        {icon}
+      </span>
+    ) : null;
+  if (variant === "underline") {
+    return (
+      <BaseTabs.Tab className={tabVariants({ variant })} {...props}>
+        <span className={underlineLabelVariants()}>
+          {iconNode}
+          {children}
+        </span>
+        <span className={underlineBarTrackVariants()}>
+          <span aria-hidden className={underlineBarVariants()} />
+        </span>
+      </BaseTabs.Tab>
+    );
+  }
+  return (
+    <BaseTabs.Tab className={tabVariants({ variant })} {...props}>
+      {iconNode}
+      {children}
+    </BaseTabs.Tab>
+  );
 }
 
 const tabsPanelVariants = cva("text-14 text-secondary outline-none");
@@ -122,18 +180,17 @@ export function TabsPanel(props: TabsPanelProps) {
   return <BaseTabs.Panel className={tabsPanelVariants()} {...props} />;
 }
 
-// The underline sits flush against the bottom edge of the active tab (no gap),
-// sized and positioned to it via Base UI's `--active-tab-*` CSS vars. Its `top`
-// is pinned to the tab's bottom (`--active-tab-top` + `--active-tab-height`), so
-// the bar connects directly to the selected tab with no spacing. Per the Figma
-// `Underline Tab group` (1162:321) the bar's track is inset `px-2` (8px) from
-// the tab box, so it hugs the label rather than bleeding under the tab's
-// horizontal padding: left = tab-left + 8px, width = tab-width - 16px. The bar
-// is 3px tall, fully rounded, and uses `bg-inverse` (neutral-1200 =
+// The active underline bar. Per Figma `1162:321` the bar sits 8px below the
+// 28px label box, so its `top` is pinned to `--active-tab-top + 28px label +
+// 8px gap` (`+ 1.75rem + 0.5rem`). The horizontal placement uses Base UI's
+// JS-measured `--active-tab-left` / `--active-tab-width` (the documented RTL
+// exception, kept physical) and is inset `px-2` (8px / 0.5rem each side) to
+// match the per-tab bar track: left = tab-left + 8px, width = tab-width - 16px.
+// The bar is 3px tall, fully rounded, `bg-inverse` (neutral-1200 =
 // icon/primary) to match the active-tab text.
 const tabsIndicatorVariants = cva(
   cx(
-    "absolute top-[calc(var(--active-tab-top)+var(--active-tab-height))] left-[calc(var(--active-tab-left)+0.5rem)] h-[3px] w-[calc(var(--active-tab-width)-1rem)]",
+    "absolute top-[calc(var(--active-tab-top)+1.75rem+0.5rem)] left-[calc(var(--active-tab-left)+0.5rem)] h-[3px] w-[calc(var(--active-tab-width)-1rem)]",
     "rounded-full bg-inverse transition-all duration-150",
   ),
 );
