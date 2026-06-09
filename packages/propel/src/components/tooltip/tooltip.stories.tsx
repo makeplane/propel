@@ -148,14 +148,13 @@ export const ShowsOnFocus: Story = {
     // Focusing the trigger opens the tooltip with the label text.
     await userEvent.tab();
     await expect(trigger).toHaveFocus();
-    await waitFor(async () => {
-      await expect(await screen.findByText("Tooltip text")).toBeInTheDocument();
-    });
+    // `findByText` already retries until the portaled tooltip appears.
+    await expect(await screen.findByText("Tooltip text")).toBeInTheDocument();
 
-    // Blurring the trigger hides the tooltip again.
+    // Blurring the trigger hides the tooltip again (it leaves asynchronously, so
+    // retry until it's gone). The callback returns the expectation rather than
+    // `await`-ing it in an async body — satisfies no-floating-promises lint.
     await userEvent.tab();
-    await waitFor(async () => {
-      await expect(screen.queryByText("Tooltip text")).toBeNull();
-    });
+    await waitFor(() => expect(screen.queryByText("Tooltip text")).toBeNull());
   },
 };
