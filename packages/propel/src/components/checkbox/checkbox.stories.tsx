@@ -7,14 +7,25 @@ const meta = {
   component: Checkbox,
   tags: ["ai-generated"],
   args: {
-    label: "Accept terms",
+    tone: "neutral",
+    "aria-label": "Example",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1281-33726",
+    },
   },
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Interactive checkbox — toggle it from the controls or by clicking. */
+/**
+ * Interactive, label-less checkbox — just the box. Toggle it from the controls
+ * or by clicking. With no visible `label`, the accessible name comes from
+ * `aria-label`.
+ */
 export const Default: Story = {
   play: async ({ canvas, userEvent }) => {
     const checkbox = canvas.getByRole("checkbox");
@@ -31,11 +42,11 @@ export const States: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-4">
-      <Checkbox label="Unchecked" />
-      <Checkbox label="Checked" defaultChecked />
-      <Checkbox label="Indeterminate" indeterminate />
-      <Checkbox label="Disabled" disabled />
-      <Checkbox label="Disabled checked" disabled defaultChecked />
+      <Checkbox tone="neutral" label="Unchecked" />
+      <Checkbox tone="neutral" label="Checked" defaultChecked />
+      <Checkbox tone="neutral" label="Indeterminate" indeterminate />
+      <Checkbox tone="neutral" label="Disabled" disabled />
+      <Checkbox tone="neutral" label="Disabled checked" disabled defaultChecked />
     </div>
   ),
   play: async ({ canvas }) => {
@@ -47,16 +58,26 @@ export const States: Story = {
   },
 };
 
+/**
+ * Label-less usage: omit `label` to render the bare box. Give it an accessible
+ * name with `aria-label` (or `aria-labelledby`) — e.g. a checkbox in a table
+ * row that selects the row.
+ */
+export const WithoutLabel: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => <Checkbox tone="neutral" aria-label="Select row" />,
+};
+
 /** A single labeled checkbox; the whole row is the clickable label. */
 export const WithLabel: Story = {
   parameters: { controls: { disable: true } },
-  render: () => <Checkbox label="Send me product updates" defaultChecked />,
+  render: () => <Checkbox tone="neutral" label="Send me product updates" defaultChecked />,
 };
 
 /** The mixed state renders `aria-checked="mixed"` and shows a dash. */
 export const Indeterminate: Story = {
   parameters: { controls: { disable: true } },
-  render: () => <Checkbox label="Select all" indeterminate />,
+  render: () => <Checkbox tone="neutral" label="Select all" indeterminate />,
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("checkbox")).toHaveAttribute("aria-checked", "mixed");
   },

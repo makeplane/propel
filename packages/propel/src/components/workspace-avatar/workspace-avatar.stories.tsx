@@ -13,6 +13,12 @@ const meta = {
     alt: "Plane workspace",
     fallback: "PV",
   },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=40-46",
+    },
+  },
 } satisfies Meta<typeof WorkspaceAvatar>;
 
 export default meta;

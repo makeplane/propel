@@ -20,6 +20,14 @@ const TONES: BadgeTone[] = [
 
 const MAGNITUDES: BadgeMagnitude[] = ["sm", "md", "lg"];
 
+// Design-review convention for every propel component:
+//   1. `parameters.design` links the story to its Figma frame, so the Storybook
+//      "Design" panel (@storybook/addon-designs) shows code + Figma side by side.
+//   2. Components that style interaction via CSS `hover:`/`active:`/`focus-visible:`
+//      utilities get a `States` story using storybook-addon-pseudo-states to force
+//      those pseudo-classes side by side (see e.g. Accordion). Badge is static — it
+//      has no interaction-state styling — so it gets NO pseudo-states story; its
+//      variation is fully covered by Tones + Magnitudes.
 const meta = {
   title: "Components/Badge",
   component: Badge,
@@ -28,6 +36,12 @@ const meta = {
     children: "Badge",
     tone: "neutral",
     magnitude: "md",
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1532-1177",
+    },
   },
 } satisfies Meta<typeof Badge>;
 

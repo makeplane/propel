@@ -86,9 +86,9 @@ export function Calendar(props: CalendarProps) {
       components={{
         Chevron: ({ orientation }) =>
           orientation === "left" ? (
-            <ChevronLeft aria-hidden className="size-4" />
+            <ChevronLeft aria-hidden className="size-4 rtl:-scale-x-100" />
           ) : (
-            <ChevronRight aria-hidden className="size-4" />
+            <ChevronRight aria-hidden className="size-4 rtl:-scale-x-100" />
           ),
       }}
       {...props}

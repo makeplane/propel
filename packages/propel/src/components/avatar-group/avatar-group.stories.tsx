@@ -11,6 +11,12 @@ const meta = {
   subcomponents: { Avatar },
   tags: ["ai-generated"],
   args: { magnitude: "sm" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=40-46",
+    },
+  },
 } satisfies Meta<typeof AvatarGroup>;
 
 export default meta;

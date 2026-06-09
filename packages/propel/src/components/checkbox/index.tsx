@@ -35,9 +35,6 @@ const checkboxVariants = cva(
           "border-danger-strong data-[checked]:bg-accent-primary data-[indeterminate]:bg-accent-primary",
       },
     },
-    defaultVariants: {
-      tone: "neutral",
-    },
   },
 );
 
@@ -45,13 +42,61 @@ type CheckboxVariantProps = VariantProps<typeof checkboxVariants>;
 
 export type CheckboxTone = NonNullable<CheckboxVariantProps["tone"]>;
 
+// The check / dash glyph for the box, shared by the interactive Checkbox and the
+// presentational CheckboxVisual.
+function CheckboxGlyph({ indeterminate }: { indeterminate?: boolean }) {
+  return indeterminate ? (
+    <Minus aria-hidden className="size-3" />
+  ) : (
+    <Check aria-hidden className="size-3" />
+  );
+}
+
+export type CheckboxVisualProps = {
+  /** Resting color of the box. `danger` is the Figma "Error" state. */
+  tone?: CheckboxTone;
+  /** Whether the box shows as checked. */
+  checked?: boolean;
+  /** Whether the box shows the indeterminate dash (wins over `checked`). */
+  indeterminate?: boolean;
+  /** Whether the box shows as disabled. */
+  disabled?: boolean;
+};
+
+/**
+ * A purely presentational copy of the `Checkbox` box — same tokens and states, but a
+ * non-interactive `<span>` with no `role`/focus. Use it when a checkbox *appearance*
+ * is needed inside another interactive control (e.g. a menu `menuitemcheckbox` row),
+ * where nesting a real checkbox would be an ARIA `nested-interactive` violation. The
+ * parent control owns the state and the a11y semantics.
+ */
+export function CheckboxVisual({ tone, checked, indeterminate, disabled }: CheckboxVisualProps) {
+  return (
+    <span
+      aria-hidden
+      // Mirror Base UI's data attributes so `checkboxVariants` styles the box the same
+      // way it does the interactive Checkbox.
+      data-checked={checked && !indeterminate ? "" : undefined}
+      data-indeterminate={indeterminate ? "" : undefined}
+      data-disabled={disabled ? "" : undefined}
+      className={checkboxVariants({ tone })}
+    >
+      {checked || indeterminate ? <CheckboxGlyph indeterminate={indeterminate} /> : null}
+    </span>
+  );
+}
+
 export type CheckboxProps = Omit<
   React.ComponentProps<typeof BaseCheckbox.Root>,
   "className" | "render" | "style"
 > & {
   /** Resting color of the box. `danger` is the Figma "Error" state. */
-  tone?: CheckboxTone;
-  /** Optional text shown beside the box; the whole row becomes the label. */
+  tone: CheckboxTone;
+  /**
+   * Optional text shown beside the box; the whole row becomes the clickable
+   * label. Omit it for a bare checkbox (just the box) — in that case give the
+   * box an accessible name with `aria-label` or `aria-labelledby`.
+   */
   label?: React.ReactNode;
 };
 
@@ -75,11 +120,7 @@ export function Checkbox({ tone, label, id, ...props }: CheckboxProps) {
         // otherwise a check. Decorative — the Root carries the a11y state.
         className="flex items-center justify-center"
       >
-        {props.indeterminate ? (
-          <Minus aria-hidden className="size-3" />
-        ) : (
-          <Check aria-hidden className="size-3" />
-        )}
+        <CheckboxGlyph indeterminate={props.indeterminate} />
       </BaseCheckbox.Indicator>
     </BaseCheckbox.Root>
   );
@@ -88,9 +129,13 @@ export function Checkbox({ tone, label, id, ...props }: CheckboxProps) {
 
   return (
     <label
+      // Figma "Checkbox with label" (node 1274:109) wraps the row in a clickable
+      // chip: `px-2 py-1` (8px/4px) padding and a `rounded-sm` corner, with a
+      // transparent-layer hover background (hover state 1276:15 →
+      // `bg-layer-transparent-hover`). The standalone box owns its own styling.
       className={cx(
-        "inline-flex items-center gap-2 text-13 text-secondary",
-        props.disabled ? "cursor-not-allowed" : "cursor-pointer",
+        "inline-flex items-center gap-2 rounded-sm px-2 py-1 text-13 text-secondary transition-colors",
+        props.disabled ? "cursor-not-allowed" : "cursor-pointer hover:bg-layer-transparent-hover",
       )}
       htmlFor={checkboxId}
     >
