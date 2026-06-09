@@ -81,7 +81,7 @@ export function BreadcrumbSeparator({ children, ...props }: BreadcrumbSeparatorP
       className="flex items-center px-1 text-icon-tertiary"
       {...props}
     >
-      {children ?? <ChevronRight className="size-3.5" />}
+      {children ?? <ChevronRight className="size-3.5 rtl:-scale-x-100" />}
     </li>
   );
 }
