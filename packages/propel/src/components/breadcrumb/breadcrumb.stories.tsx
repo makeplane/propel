@@ -24,6 +24,12 @@ const meta = {
     BreadcrumbDropdownItem,
   },
   tags: ["ai-generated"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1143-19575",
+    },
+  },
 } satisfies Meta<typeof Breadcrumb>;
 
 export default meta;
