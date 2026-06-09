@@ -21,10 +21,8 @@ jobs:
 
       - uses: voidzero-dev/setup-vp@v1
         with:
-          node-version: "24"
+          node-version-file: .node-version
           cache: true
-
-      - run: vp install
 
       # Opens/updates a "Version Packages" PR when changesets are present, and
       # publishes to npm when that PR is merged (i.e. when no changesets remain).
