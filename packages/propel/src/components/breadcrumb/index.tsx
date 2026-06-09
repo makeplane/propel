@@ -19,7 +19,6 @@ const crumbVariants = cva(
         false: "",
       },
     },
-    defaultVariants: { interactive: false },
   },
 );
 
@@ -59,7 +58,13 @@ export type BreadcrumbPageProps = Omit<React.ComponentProps<"span">, "className"
  * so assistive tech announces it, and styled with the stronger `text/primary` token.
  */
 export function BreadcrumbPage(props: BreadcrumbPageProps) {
-  return <span aria-current="page" className={cx(crumbVariants(), "text-primary")} {...props} />;
+  return (
+    <span
+      aria-current="page"
+      className={cx(crumbVariants({ interactive: false }), "text-primary")}
+      {...props}
+    />
+  );
 }
 
 export type BreadcrumbSeparatorProps = Omit<React.ComponentProps<"li">, "className" | "style">;
