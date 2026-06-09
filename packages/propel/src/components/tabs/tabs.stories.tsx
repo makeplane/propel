@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Activity, LayoutGrid, Settings } from "lucide-react";
 import { expect, waitFor } from "storybook/test";
 import { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./index";
 
@@ -48,6 +49,52 @@ export const Underline: Story = {
         <Tab value="overview">Overview</Tab>
         <Tab value="activity">Activity</Tab>
         <Tab value="settings">Settings</Tab>
+      </TabsList>
+      <TabsPanel value="overview">A high-level summary of the project.</TabsPanel>
+      <TabsPanel value="activity">The latest activity feed.</TabsPanel>
+      <TabsPanel value="settings">Configuration and preferences.</TabsPanel>
+    </Tabs>
+  ),
+};
+
+/** Both variants accept an optional leading `icon` (a 16px slot tinted to the tab's text color). */
+export const WithIcons: Story = {
+  args: { variant: "contained" },
+  render: (args) => (
+    <Tabs {...args}>
+      <TabsList>
+        <Tab icon={<LayoutGrid />} value="overview">
+          Overview
+        </Tab>
+        <Tab icon={<Activity />} value="activity">
+          Activity
+        </Tab>
+        <Tab icon={<Settings />} value="settings">
+          Settings
+        </Tab>
+      </TabsList>
+      <TabsPanel value="overview">A high-level summary of the project.</TabsPanel>
+      <TabsPanel value="activity">The latest activity feed.</TabsPanel>
+      <TabsPanel value="settings">Configuration and preferences.</TabsPanel>
+    </Tabs>
+  ),
+};
+
+/** The leading `icon` slot on the underline variant. */
+export const UnderlineWithIcons: Story = {
+  args: { variant: "underline" },
+  render: (args) => (
+    <Tabs {...args}>
+      <TabsList>
+        <Tab icon={<LayoutGrid />} value="overview">
+          Overview
+        </Tab>
+        <Tab icon={<Activity />} value="activity">
+          Activity
+        </Tab>
+        <Tab icon={<Settings />} value="settings">
+          Settings
+        </Tab>
       </TabsList>
       <TabsPanel value="overview">A high-level summary of the project.</TabsPanel>
       <TabsPanel value="activity">The latest activity feed.</TabsPanel>
