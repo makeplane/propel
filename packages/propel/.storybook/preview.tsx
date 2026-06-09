@@ -1,6 +1,30 @@
+import { DirectionProvider } from "@base-ui/react/direction-provider";
 import { withThemeByDataAttribute } from "@storybook/addon-themes";
-import type { Preview } from "@storybook/react-vite";
+import type { Decorator, Preview } from "@storybook/react-vite";
+import { useLayoutEffect } from "react";
 import "./preview.css";
+
+// Toolbar Direction switcher → drives both the DOM `dir` attribute (which powers
+// CSS logical properties + Tailwind `rtl:` utilities, and reaches portaled popups)
+// AND Base UI's DirectionProvider (which the Positioner reads to flip popup
+// alignment). Default LTR is a no-op so existing stories are visually unchanged.
+const withDirection: Decorator = (Story, context) => {
+  const direction = (context.globals.direction ?? "ltr") as "ltr" | "rtl";
+
+  useLayoutEffect(() => {
+    const previous = document.documentElement.dir;
+    document.documentElement.dir = direction;
+    return () => {
+      document.documentElement.dir = previous;
+    };
+  }, [direction]);
+
+  return (
+    <DirectionProvider direction={direction}>
+      <Story />
+    </DirectionProvider>
+  );
+};
 
 const preview: Preview = {
   // Auto-generate a Docs page for every component (Storybook's recommended global
@@ -20,7 +44,24 @@ const preview: Preview = {
         "dark-contrast": "dark-contrast",
       },
     }),
+    withDirection,
   ],
+  globalTypes: {
+    // Toolbar Direction dropdown (LTR / RTL) for reviewing layout mirroring.
+    direction: {
+      description: "Writing direction (LTR / RTL)",
+      defaultValue: "ltr",
+      toolbar: {
+        title: "Direction",
+        icon: "transfer",
+        items: [
+          { value: "ltr", title: "LTR", right: "Left to right" },
+          { value: "rtl", title: "RTL", right: "Right to left" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
   parameters: {
     // Center components in the canvas so they're framed cleanly for review
     // instead of pinned to the top-left corner.

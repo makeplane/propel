@@ -136,7 +136,7 @@ export function ToastProvider({ children, ...props }: ToastProviderProps) {
     <BaseToast.Provider {...props}>
       {children}
       <BaseToast.Portal>
-        <BaseToast.Viewport className="fixed right-4 bottom-4 z-50 flex w-[340px] max-w-[calc(100vw-2rem)] flex-col gap-2 rounded-lg outline-none focus-visible:outline-md focus-visible:outline-offset-2 focus-visible:outline-accent-strong">
+        <BaseToast.Viewport className="fixed end-4 bottom-4 z-50 flex w-[340px] max-w-[calc(100vw-2rem)] flex-col gap-2 rounded-lg outline-none focus-visible:outline-md focus-visible:outline-offset-2 focus-visible:outline-accent-strong">
           <ToastList />
         </BaseToast.Viewport>
       </BaseToast.Portal>
@@ -189,14 +189,14 @@ export function Toast({ toast, ...props }: ToastProps) {
           <BaseToast.Description className="text-13 text-tertiary" />
         </div>
         {hasAction ? (
-          <div className="flex gap-1.5 pl-[15px]">
+          <div className="flex gap-1.5 ps-[15px]">
             <BaseToast.Action className="inline-flex h-6 min-w-10 items-center justify-center gap-1 rounded-md px-2 text-13 font-medium text-secondary transition-colors hover:bg-layer-transparent-hover" />
           </div>
         ) : null}
       </div>
       <BaseToast.Close
         aria-label="Dismiss"
-        className="absolute top-1 right-1 inline-flex size-5 items-center justify-center rounded-sm text-icon-tertiary transition-colors hover:bg-layer-transparent-hover"
+        className="absolute top-1 end-1 inline-flex size-5 items-center justify-center rounded-sm text-icon-tertiary transition-colors hover:bg-layer-transparent-hover"
       >
         <X aria-hidden className="size-3.5" />
       </BaseToast.Close>
