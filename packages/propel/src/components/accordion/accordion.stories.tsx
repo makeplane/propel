@@ -2,6 +2,18 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 import { Accordion, AccordionItem, AccordionPanel, AccordionTrigger } from "./index";
 
+// Design-review convention — when to add a pseudo-states "States" story:
+//   * Only components that style interaction via CSS `hover:` / `active:` /
+//     `focus-visible:` utilities get a `States` matrix; storybook-addon-pseudo-states
+//     can only force CSS pseudo-classes (it rewrites stylesheets), so those are the
+//     states it can show. Accordion is the canonical example (see `States` below).
+//   * Components with only `focus-visible` styling (checkbox/radio) show a focus
+//     column plus their prop-driven states (checked / disabled / error).
+//   * Static components with no interaction-state styling (badge / banner / avatar /
+//     tooltip-popup) get NO pseudo-states story.
+//   * Base UI `data-[checked]` / `data-[disabled]` states are NOT forced by the
+//     pseudo addon — those are attribute selectors, not pseudo-classes — so they must
+//     be shown via real props, not the `pseudo` parameter.
 const meta = {
   title: "Components/Accordion",
   component: Accordion,
@@ -15,6 +27,12 @@ const meta = {
       </div>
     ),
   ],
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=2053-281",
+    },
+  },
 } satisfies Meta<typeof Accordion>;
 
 export default meta;
@@ -46,6 +64,44 @@ export const Default: Story = {
         <AccordionItem key={item.value} value={item.value}>
           <AccordionTrigger>{item.label}</AccordionTrigger>
           <AccordionPanel>{item.body}</AccordionPanel>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  ),
+};
+
+/**
+ * The trigger's interaction states side by side. The accordion trigger styles
+ * interaction purely with CSS utilities (`hover:bg-layer-transparent-hover` and
+ * `focus-visible:ring-2 focus-visible:ring-accent-strong`), so
+ * storybook-addon-pseudo-states can force them statically — no real pointer/keyboard.
+ *
+ * One accordion with a row per state: each trigger `<button>` carries a unique id
+ * (Base UI forwards it from `AccordionTrigger`), and `parameters.pseudo` maps that id
+ * to the pseudo-class to force. A single `Accordion` root keeps a single `region`
+ * landmark (multiple roots would collide on the axe `landmark-unique` rule). The Hover
+ * row should show the transparent-hover background; the Focus row the accent focus ring.
+ */
+export const States: Story = {
+  parameters: {
+    controls: { disable: true },
+    pseudo: {
+      hover: "#trigger-hover",
+      focusVisible: "#trigger-focus",
+    },
+  },
+  render: () => (
+    <Accordion>
+      {(
+        [
+          ["Default", "trigger-default"],
+          ["Hover", "trigger-hover"],
+          ["Focus-visible", "trigger-focus"],
+        ] as const
+      ).map(([label, id]) => (
+        <AccordionItem key={label} value={id}>
+          <AccordionTrigger id={id}>{label} — What is Plane?</AccordionTrigger>
+          <AccordionPanel>Plane is an open-source project management tool.</AccordionPanel>
         </AccordionItem>
       ))}
     </Accordion>

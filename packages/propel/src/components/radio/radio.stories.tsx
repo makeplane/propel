@@ -9,6 +9,12 @@ const meta = {
   // (adds a Radio tab to the args table + records the relationship in the manifest).
   subcomponents: { Radio },
   tags: ["ai-generated"],
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1838-11057",
+    },
+  },
 } satisfies Meta<typeof RadioGroup>;
 
 export default meta;

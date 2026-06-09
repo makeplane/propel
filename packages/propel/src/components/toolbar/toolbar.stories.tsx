@@ -100,6 +100,12 @@ const meta = {
   tags: ["ai-generated"],
   args: { variant: "floater" },
   render: (args) => <FormattingToolbar {...args} />,
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1166-12213",
+    },
+  },
 } satisfies Meta<typeof Toolbar>;
 
 export default meta;
