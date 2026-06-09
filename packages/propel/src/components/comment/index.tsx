@@ -44,9 +44,9 @@ const bodyVariants = cva(
 const toolbarRowVariants = cva("flex items-center justify-between gap-2", {
   variants: {
     magnitude: {
-      base: "min-h-9 py-1 pr-1.5 pl-1",
-      sm: "min-h-9 py-1 pr-1.5 pl-1",
-      xs: "min-h-9 py-1 pr-1.5 pl-1",
+      base: "min-h-9 py-1 pe-1.5 ps-1",
+      sm: "min-h-9 py-1 pe-1.5 ps-1",
+      xs: "min-h-9 py-1 pe-1.5 ps-1",
     },
   },
 });
