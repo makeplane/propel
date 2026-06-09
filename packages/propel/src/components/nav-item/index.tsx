@@ -28,7 +28,7 @@ const navItemVariants = cva(
     "group/nav-item flex h-8 w-full items-center gap-2 rounded-lg pe-2 ps-2 text-start",
     "bg-layer-transparent text-secondary outline-none transition-colors",
     "cursor-pointer select-none",
-    "hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
+    "hover:bg-layer-transparent-hover active:bg-layer-transparent-active active:text-primary",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
     // Selected (Figma "Selected" state): filled surface + primary text.
     "data-[active]:bg-layer-transparent-selected data-[active]:text-primary",
@@ -118,6 +118,8 @@ export function NavItem({
                 "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
                 // Selected/pressed pull the leading icon up to the primary tone.
                 "group-data-[active]/nav-item:text-icon-primary group-active/nav-item:text-icon-primary",
+                // Disabled dims the icon to match the dimmed label.
+                "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
               )}
             >
               {icon}
