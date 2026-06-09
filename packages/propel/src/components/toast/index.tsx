@@ -163,8 +163,14 @@ export type ToastProps = Omit<
  */
 export function Toast({ toast, ...props }: ToastProps) {
   // `tone` is a required field of `ToastData`, supplied when the toast is queued.
-  const { tone } = toast.data as ToastData;
-  const StatusIcon = STATUS_ICON[tone];
+  // We intentionally have NO default tone — fail loud with guidance if it's missing.
+  const data = toast.data as ToastData | undefined;
+  if (data?.tone == null) {
+    throw new Error(
+      'propel Toast requires a `tone` in the toast\'s data payload, e.g. toast.add({ title, data: { tone: "info" } }).',
+    );
+  }
+  const StatusIcon = STATUS_ICON[data.tone];
   // Only render the action wrapper when there's real action content. `actionProps`
   // can carry no `children` (e.g. just an `onClick`), in which case `BaseToast.Action`
   // renders null — guarding here avoids leaving an empty `<div>` gap in the layout.
@@ -182,7 +188,7 @@ export function Toast({ toast, ...props }: ToastProps) {
     >
       {/* Status icon sits in a 2px-padded column so it baselines with the title. */}
       <span className="flex items-center py-0.5">
-        <StatusIcon aria-hidden className={statusIconVariants({ tone })} />
+        <StatusIcon aria-hidden className={statusIconVariants({ tone: data.tone })} />
       </span>
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <div className="flex flex-col gap-1">
