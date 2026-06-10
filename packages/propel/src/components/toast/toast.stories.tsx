@@ -4,9 +4,24 @@ import { type ToastData, type ToastTone, ToastProvider, useToast } from "./index
 
 const TONES: ToastTone[] = ["success", "danger", "info", "warning", "neutral"];
 
+// Stable spies shared between the ActionsInteraction story's render and play fn so the
+// test can assert the action handlers fired. Cleared at the start of each play run.
+const actionSpies = { onPrimary: fn(), onLeft: fn() };
+
 // A small trigger that queues a toast via the manager hook — the real way a
 // consumer raises a toast. Lives inside the provider (the meta-level decorator).
-function Trigger({ tone, onAdd }: { tone: ToastTone; onAdd?: () => void }) {
+// `data` lets a story queue actions (left cluster and/or right-aligned primary action).
+function Trigger({
+  tone,
+  label,
+  data,
+  onAdd,
+}: {
+  tone: ToastTone;
+  label?: string;
+  data?: Omit<ToastData, "tone">;
+  onAdd?: () => void;
+}) {
   const { add } = useToast<ToastData>();
   return (
     <button
@@ -16,12 +31,12 @@ function Trigger({ tone, onAdd }: { tone: ToastTone; onAdd?: () => void }) {
         add({
           title: "Toast title",
           description: "Description of the toast alert",
-          data: { tone },
+          data: { tone, ...data },
         });
         onAdd?.();
       }}
     >
-      Show {tone} toast
+      {label ?? `Show ${tone} toast`}
     </button>
   );
 }
@@ -70,6 +85,60 @@ export const Tones: Story = {
 };
 
 /**
+ * A single left-aligned action (Figma's `button` boolean). Pass one entry in
+ * `data.actions` — it renders as a transparent pill under the description.
+ */
+export const WithAction: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Trigger
+      tone="info"
+      label="Show toast with action"
+      data={{ actions: [{ label: "Undo", onClick: fn() }] }}
+    />
+  ),
+};
+
+/**
+ * Two left-aligned actions (Figma's `button` + `button2` on the danger/info/warning
+ * treatments). The cluster sits inline-start; there is no right-aligned button.
+ */
+export const WithTwoActions: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Trigger
+      tone="danger"
+      label="Show toast with two actions"
+      data={{
+        actions: [
+          { label: "Retry", onClick: fn() },
+          { label: "Details", onClick: fn() },
+        ],
+      }}
+    />
+  ),
+};
+
+/**
+ * The success treatment: a left cluster plus a right-aligned primary action
+ * (`data.primaryAction`). The primary button pins to the inline-end edge while the
+ * left cluster grows to fill — matching Figma's success tone.
+ */
+export const WithPrimaryAction: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Trigger
+      tone="success"
+      label="Show toast with primary action"
+      data={{
+        actions: [{ label: "Dismiss all", onClick: fn() }],
+        primaryAction: { label: "View", onClick: fn() },
+      }}
+    />
+  ),
+};
+
+/**
  * Real interaction test: clicking the trigger queues a toast whose title and
  * description become visible inside the live region (Base UI renders the viewport
  * as a polite `role="region"` live area and each toast as a `dialog`); clicking its
@@ -100,6 +169,49 @@ export const QueueAndDismiss: Story = {
     // Closing the toast removes it from the live region.
     await userEvent.click(dismiss);
     await waitFor(() => expect(body.queryByText("Toast title")).not.toBeInTheDocument());
+  },
+};
+
+/**
+ * Interaction test for action buttons: queue a toast carrying a left action and a
+ * right-aligned primary action, then verify both fire their handlers: the primary on
+ * click, and the left action on Enter once focused. The viewport's keyboard tab flow
+ * is covered separately by KeyboardDismiss. Tagged so it stays out of the
+ * sidebar/docs/manifest.
+ */
+export const ActionsInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <Trigger
+      tone="success"
+      label="Show toast with actions"
+      data={{
+        actions: [{ label: "Undo", onClick: actionSpies.onLeft }],
+        primaryAction: { label: "View", onClick: actionSpies.onPrimary },
+      }}
+    />
+  ),
+  play: async ({ canvas, userEvent }) => {
+    const body = within(document.body);
+    const { onPrimary, onLeft } = actionSpies;
+    onPrimary.mockClear();
+    onLeft.mockClear();
+
+    await userEvent.click(canvas.getByRole("button", { name: /show toast with actions/i }));
+    await waitFor(() => body.getByRole("dialog"));
+
+    // The right-aligned primary action fires its handler on click.
+    const view = await waitFor(() => body.getByRole("button", { name: "View" }));
+    await userEvent.click(view);
+    await expect(onPrimary).toHaveBeenCalledTimes(1);
+
+    // The left action is a real button: focus it and confirm Enter fires its handler.
+    // (Tab order into the toast viewport is covered by KeyboardDismiss.)
+    const undo = body.getByRole("button", { name: "Undo" });
+    undo.focus();
+    await expect(undo).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await expect(onLeft).toHaveBeenCalledTimes(1);
   },
 };
 
