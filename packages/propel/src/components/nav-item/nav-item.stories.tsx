@@ -2,6 +2,7 @@ import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, Inbox } from "lucide-react";
 import { expect, fn, userEvent, within } from "storybook/test";
+import { iconControl } from "../../storybook/icon-control";
 import { NavItem, NavItemChevron, NavItemCount, type NavItemMagnitude } from "./index";
 
 const MAGNITUDES: NavItemMagnitude[] = ["lg", "md"];
@@ -10,6 +11,8 @@ const meta = {
   title: "Components/NavItem",
   component: NavItem,
   subcomponents: { NavItemCount, NavItemChevron },
+  // Icon picker control for the leading icon.
+  argTypes: { leadingIcon: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -19,7 +22,7 @@ const meta = {
   args: {
     children: "Inbox",
     magnitude: "lg",
-    icon: <Inbox />,
+    leadingIcon: <Inbox />,
   },
   // The row stretches to its container; constrain it to a sidebar-like width.
   decorators: [
@@ -127,7 +130,7 @@ export const States: Story = {
 
 /** The Figma `Level` axis: each step indents the row 8px further from the inline-start. */
 export const Levels: Story = {
-  parameters: { controls: { disable: true } },
+  argTypes: { level: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex flex-col gap-1">
       {([1, 2, 3, 4, 5] as const).map((level) => (

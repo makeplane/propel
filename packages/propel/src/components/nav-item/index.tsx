@@ -76,12 +76,14 @@ export type NavItemProps = Omit<useRender.ComponentProps<"button">, "className" 
   active?: boolean;
   /**
    * Leading icon (e.g. a lucide icon), shown at the inline-start. Sized to 16px and
-   * `aria-hidden` (the label is the accessible name).
+   * `aria-hidden` (the label is the accessible name). Named `leadingIcon` (not `icon`)
+   * to match Button/Input; `trailing` already covers the inline-end.
    */
-  icon?: React.ReactNode;
+  leadingIcon?: React.ReactNode;
   /**
    * Optional trailing content placed after the label — typically a `NavItemCount`
-   * and/or a `NavItemChevron`. Sits at the inline-end.
+   * and/or a `NavItemChevron`. Sits at the inline-end. A generic content slot (not just
+   * an icon), so it stays `trailing` rather than `trailingIcon`.
    */
   trailing?: React.ReactNode;
 };
@@ -98,7 +100,7 @@ export function NavItem({
   magnitude,
   level = 1,
   active = false,
-  icon,
+  leadingIcon,
   trailing,
   render,
   ...props
@@ -111,7 +113,7 @@ export function NavItem({
       className: navItemVariants({ magnitude, level }),
       children: (
         <>
-          {icon != null ? (
+          {leadingIcon ? (
             <span
               aria-hidden
               className={cx(
@@ -122,13 +124,11 @@ export function NavItem({
                 "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
               )}
             >
-              {icon}
+              {leadingIcon}
             </span>
           ) : null}
           <span className="min-w-0 flex-1 truncate font-medium leading-snug">{children}</span>
-          {trailing != null ? (
-            <span className="flex shrink-0 items-center gap-2">{trailing}</span>
-          ) : null}
+          {trailing ? <span className="flex shrink-0 items-center gap-2">{trailing}</span> : null}
         </>
       ),
     },

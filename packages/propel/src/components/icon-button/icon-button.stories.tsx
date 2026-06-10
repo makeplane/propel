@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus } from "lucide-react";
 import { expect, fn } from "storybook/test";
+import { iconControl } from "../../storybook/icon-control";
 import { IconButton, type IconButtonMagnitude, type IconButtonVariant } from "./index";
 
 const VARIANTS: IconButtonVariant[] = ["primary", "secondary", "tertiary", "ghost"];
@@ -9,6 +10,8 @@ const MAGNITUDES: IconButtonMagnitude[] = ["xs", "sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/IconButton",
   component: IconButton,
+  // Icon picker control for the single glyph.
+  argTypes: { icon: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -35,7 +38,7 @@ export const Default: Story = {};
  * (Error fill) and `secondary` (Error outline) — see {@link Tones}.
  */
 export const Variants: Story = {
-  parameters: { controls: { disable: true } },
+  argTypes: { variant: { control: false }, "aria-label": { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {VARIANTS.map((variant) => (
@@ -62,7 +65,7 @@ export const Tones: Story = {
 
 /** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl; xs is an extra dense step). */
 export const Magnitudes: Story = {
-  parameters: { controls: { disable: true } },
+  argTypes: { magnitude: { control: false }, "aria-label": { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (

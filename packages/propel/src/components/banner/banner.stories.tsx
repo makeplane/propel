@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn } from "storybook/test";
+import { iconControl } from "../../storybook/icon-control";
 import { Banner, type BannerTone } from "./index";
 
 const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
@@ -7,6 +8,8 @@ const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
 const meta = {
   title: "Components/Banner",
   component: Banner,
+  // Icon picker control for the leading icon (None keeps the default tone icon).
+  argTypes: { leadingIcon: iconControl },
   args: {
     title: "There is something that needs your attention",
     variant: "page",
@@ -27,7 +30,9 @@ export const Default: Story = {};
 
 /** Every intent (`tone`) side by side — the soft surface + foreground color per meaning. */
 export const Tones: Story = {
-  parameters: { controls: { disable: true } },
+  // Iterates `tone` (and pins `variant` to inline for the showcase), so disable those
+  // controls; the rest stay live and update every banner at once.
+  argTypes: { tone: { control: false }, variant: { control: false } },
   render: (args) => (
     <div className="flex w-[640px] flex-col gap-3">
       {TONES.map((tone) => (
@@ -39,7 +44,9 @@ export const Tones: Story = {
 
 /** The two scopes (`variant`): the full-width page strip vs the rounded inline card. */
 export const Variants: Story = {
-  parameters: { controls: { disable: true } },
+  // Iterates `variant` (and pins `tone` to info for the comparison), so disable those
+  // controls; the rest stay live and update both banners at once.
+  argTypes: { variant: { control: false }, tone: { control: false } },
   render: (args) => (
     <div className="flex w-[640px] flex-col gap-4">
       <Banner {...args} variant="page" tone="info" />

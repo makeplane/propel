@@ -26,8 +26,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const Magnitudes: Story = {
-  // A fixed showcase of every size — controls would be inert, so hide the panel.
-  parameters: { controls: { disable: true } },
+  // Iterates `magnitude`; disable just that control so the rest stay live and
+  // update every avatar at once.
+  argTypes: { magnitude: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
@@ -43,7 +44,9 @@ export const Magnitudes: Story = {
  */
 export const Tones: Story = {
   args: { src: undefined },
-  parameters: { controls: { disable: true } },
+  // Iterates `tone` and derives each label (`fallback`) from the tone name, so
+  // disable those two controls; the rest stay live and update every avatar at once.
+  argTypes: { tone: { control: false }, fallback: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {AVATAR_TONES.map((tone) => (
