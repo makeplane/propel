@@ -4,44 +4,44 @@ import { Comment, type CommentMagnitude } from "./index";
 
 const MAGNITUDES: CommentMagnitude[] = ["base", "sm", "xs"];
 
-// A stand-in for consumer-provided formatting controls. The shell renders whatever
-// is passed to `toolbar`; it ships no editor of its own.
-function ExampleToolbar() {
-  return (
-    <div className="flex items-center gap-1 text-tertiary">
-      <span className="grid size-6 place-items-center rounded-md text-13 font-medium">B</span>
-      <span className="grid size-6 place-items-center rounded-md text-13 italic">I</span>
-      <span className="grid size-6 place-items-center rounded-md text-13 underline">U</span>
-    </div>
-  );
-}
-
 const meta = {
   title: "Components/Comment",
   component: Comment,
   args: {
     magnitude: "base",
-    toolbar: <ExampleToolbar />,
+  },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=2163-9916",
+    },
   },
 } satisfies Meta<typeof Comment>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** The composer shell with a placeholder toolbar in its formatting slot. */
+/**
+ * The composer: a body input over a bottom bar that pairs propel's formatting
+ * Toolbar with a "Comment" submit Button.
+ */
 export const Default: Story = {
   render: (args) => (
-    <div className="w-[420px]">
+    <div className="w-[640px]">
       <Comment {...args} />
     </div>
   ),
 };
 
-/** Every magnitude side by side: `base`, `sm`, `xs`. */
+/**
+ * Every magnitude side by side. `base` ends in a text "Comment" Button, `sm`
+ * collapses that to a send IconButton, and `xs` is a single compact row with an
+ * attach + send cluster and no formatting Toolbar.
+ */
 export const Magnitudes: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="flex w-[420px] flex-col gap-4">
+    <div className="flex w-[640px] flex-col gap-6">
       {MAGNITUDES.map((magnitude) => (
         <Comment key={magnitude} {...args} magnitude={magnitude} />
       ))}
