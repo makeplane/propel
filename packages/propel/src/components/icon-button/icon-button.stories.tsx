@@ -39,7 +39,7 @@ export const Default: Story = {};
  * (Error fill) and `secondary` (Error outline) — see {@link Tones}.
  */
 export const Variants: Story = {
-  parameters: { controls: { disable: true } },
+  argTypes: { variant: { control: false }, "aria-label": { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {VARIANTS.map((variant) => (
@@ -66,7 +66,7 @@ export const Tones: Story = {
 
 /** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl; xs is an extra dense step). */
 export const Magnitudes: Story = {
-  parameters: { controls: { disable: true } },
+  argTypes: { magnitude: { control: false }, "aria-label": { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (

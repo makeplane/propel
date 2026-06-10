@@ -27,8 +27,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const Magnitudes: Story = {
-  // A fixed showcase of every size — controls would be inert, so hide the panel.
-  parameters: { controls: { disable: true } },
+  argTypes: { magnitude: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (

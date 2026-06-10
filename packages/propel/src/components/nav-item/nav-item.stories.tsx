@@ -131,7 +131,7 @@ export const States: Story = {
 
 /** The Figma `Level` axis: each step indents the row 8px further from the inline-start. */
 export const Levels: Story = {
-  parameters: { controls: { disable: true } },
+  argTypes: { level: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex flex-col gap-1">
       {([1, 2, 3, 4, 5] as const).map((level) => (

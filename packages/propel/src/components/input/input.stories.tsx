@@ -117,20 +117,12 @@ export const States: Story = {
 
 /** Every magnitude (`md` / `lg` / `xl`) stacked. */
 export const Magnitudes: Story = {
-  // Required axes for the args table; the custom `render` ignores them.
-  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
-  parameters: { controls: { disable: true } },
-  render: () => (
+  args: { magnitude: "md", tone: "neutral", variant: "vertical", placeholder: "Placeholder" },
+  argTypes: { magnitude: { control: false }, label: { control: false } },
+  render: (args) => (
     <div className="flex w-72 flex-col gap-4">
       {MAGNITUDES.map((magnitude) => (
-        <Input
-          key={magnitude}
-          magnitude={magnitude}
-          tone="neutral"
-          variant="vertical"
-          label={magnitude}
-          placeholder="Placeholder"
-        />
+        <Input key={magnitude} {...args} magnitude={magnitude} label={magnitude} />
       ))}
     </div>
   ),
