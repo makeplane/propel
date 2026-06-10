@@ -292,7 +292,7 @@ export const Status: Story = {
  * Demo 2 — **Labels**. Multi-select: each row is a `DropdownCheckboxItem` (the propel
  * `Checkbox` as the leading control) plus a color swatch, with a search header. When
  * the typed query has no exact match, an "Add label" option (Figma `64-626`) appears,
- * separated from the search by a double divider line.
+ * separated from the search by a single divider line.
  */
 export const Labels: Story = {
   render: function LabelsStory() {
@@ -313,18 +313,15 @@ export const Labels: Story = {
           search={<DropdownSearch value={query} onValueChange={setQuery} />}
         >
           {canAdd ? (
-            <>
-              {/* Two horizontal divider lines between the search and the new-label
-                  item (Figma 64-626): the sticky search already draws a bottom rule;
-                  this adds the second one directly above the add-label row. */}
-              <div className="-mx-1 mb-1 border-t border-subtle" />
-              <DropdownItem
-                variant="default"
-                icon={<Plus className="text-icon-secondary" />}
-                label={`Add label "${trimmed}"`}
-                closeOnClick={false}
-              />
-            </>
+            // A single horizontal divider separates the search from the new-label item
+            // (Figma 64-626): the sticky DropdownSearch already draws its own bottom
+            // rule, so the "Add label" row mounts directly beneath it with no extra line.
+            <DropdownItem
+              variant="default"
+              icon={<Plus className="text-icon-secondary" />}
+              label={`Add label "${trimmed}"`}
+              closeOnClick={false}
+            />
           ) : null}
           {visible.map((l) => (
             <DropdownCheckboxItem
@@ -587,17 +584,23 @@ export const Priority: Story = {
   },
 };
 
+// How many rows a `viewAll` section shows before the "View all" toggle. The rest stay
+// collapsed inline until the toggle is activated.
+const VIEW_ALL_PREVIEW = 2;
+
 /**
  * Demo 8 — **Filters**. Multi-select across several titled, collapsible sections
  * (Priority, State, Assignee, …). Each item carries a leading icon; a chevron on the
  * heading collapses/expands the category; categories are separated by a divider; and
- * the "View all" link sits in the heading's trailing slot (no hover background,
- * `cursor-pointer`).
+ * a long category previews only its first few rows with a "View all" toggle that
+ * expands the remaining rows inline (and collapses back to "Show less").
  */
 export const Filters: Story = {
   render: function FiltersStory() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({});
     const [collapsed, setCollapsed] = React.useState<Record<string, boolean>>({});
+    // Which `viewAll` sections have been expanded to show every row.
+    const [expandedAll, setExpandedAll] = React.useState<Record<string, boolean>>({});
     const [query, setQuery] = React.useState("");
     const toggle = (key: string) => (next: boolean) => setChecked((c) => ({ ...c, [key]: next }));
     const match = (label: string) => label.toLowerCase().includes(query.toLowerCase());
@@ -633,6 +636,12 @@ export const Filters: Story = {
             const items = section.items.filter((i) => match(i.label));
             if (items.length === 0) return null;
             const isCollapsed = Boolean(collapsed[section.title]);
+            const isExpandedAll = Boolean(expandedAll[section.title]);
+            // A `viewAll` section previews only its first rows until expanded; the
+            // toggle appears only when there are more rows than the preview shows.
+            const hasOverflow = Boolean(section.viewAll) && items.length > VIEW_ALL_PREVIEW;
+            const visibleItems =
+              hasOverflow && !isExpandedAll ? items.slice(0, VIEW_ALL_PREVIEW) : items;
             return (
               <React.Fragment key={section.title}>
                 {/* Divider between categories. */}
@@ -656,7 +665,7 @@ export const Filters: Story = {
                     onClick={() => setCollapsed((c) => ({ ...c, [section.title]: !isCollapsed }))}
                   />
                   {!isCollapsed
-                    ? items.map((i) => (
+                    ? visibleItems.map((i) => (
                         <DropdownCheckboxItem
                           key={i.key}
                           icon={i.icon}
@@ -666,14 +675,24 @@ export const Filters: Story = {
                         />
                       ))
                     : null}
-                  {/* "View all" is its own menuitem with link emphasis: no hover
-                      background + cursor-pointer. */}
-                  {!isCollapsed && section.viewAll ? (
+                  {/* "View all" is its own menuitem (keyboard-focusable like any row)
+                      with link emphasis: no hover background + cursor-pointer. Clicking
+                      it reveals the remaining rows inline; once expanded it becomes
+                      "Show less". `aria-expanded` reflects the inline-expansion state. */}
+                  {!isCollapsed && hasOverflow ? (
                     <DropdownItem
                       variant="default"
                       emphasis="link"
-                      label={<span className="text-accent-primary">View all</span>}
+                      aria-expanded={isExpandedAll}
+                      label={
+                        <span className="text-accent-primary">
+                          {isExpandedAll ? "Show less" : `View all (${items.length})`}
+                        </span>
+                      }
                       closeOnClick={false}
+                      onClick={() =>
+                        setExpandedAll((s) => ({ ...s, [section.title]: !isExpandedAll }))
+                      }
                     />
                   ) : null}
                 </DropdownGroup>
@@ -689,7 +708,23 @@ export const Filters: Story = {
       await openMenu(canvas, "Filters");
       await waitFor(() => expect(findItem("menuitemcheckbox", "Urgent")).toBeDefined());
       await expect(findItem("menuitemcheckbox", "Backlog")).toBeDefined();
-      await expect(findItem("menuitemcheckbox", "David Wilson")).toBeDefined();
+      // The Assignee section previews only its first rows; later assignees are hidden
+      // behind "View all" until it is activated.
+      await expect(findItem("menuitemcheckbox", "Amelia Parker")).toBeDefined();
+      await expect(findItem("menuitemcheckbox", "Ethan Parker")).toBeUndefined();
+    });
+    await step("View all expands the remaining rows inline", async () => {
+      const viewAll = (await waitFor(() => findItem("menuitem", "View all"))) as HTMLElement;
+      await expect(viewAll).toHaveAttribute("aria-expanded", "false");
+      // Keyboard-accessible: activate the menuitem with Enter rather than a pointer.
+      viewAll.focus();
+      await userEvent.keyboard("{Enter}");
+      await waitFor(() => expect(findItem("menuitemcheckbox", "Ethan Parker")).toBeDefined());
+      // The toggle now offers to collapse again.
+      const showLess = findItem("menuitem", "Show less") as HTMLElement;
+      await expect(showLess).toHaveAttribute("aria-expanded", "true");
+      await userEvent.click(showLess);
+      await waitFor(() => expect(findItem("menuitemcheckbox", "Ethan Parker")).toBeUndefined());
     });
     await step("collapse a category from its heading", async () => {
       const heading = (await waitFor(() =>
