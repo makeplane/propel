@@ -7,7 +7,6 @@ const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
 const meta = {
   title: "Components/Banner",
   component: Banner,
-  tags: ["ai-generated"],
   args: {
     title: "There is something that needs your attention",
     variant: "page",

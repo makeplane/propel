@@ -18,7 +18,6 @@ const meta = {
   title: "Components/Accordion",
   component: Accordion,
   subcomponents: { AccordionItem, AccordionTrigger, AccordionPanel },
-  tags: ["ai-generated"],
   // Give the centered canvas a sensible width so the full-width accordion has room.
   decorators: [
     (Story) => (

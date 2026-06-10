@@ -12,7 +12,6 @@ const meta = {
   // primitives alongside Input (adds their tabs to the args table + records the
   // relationship in the manifest).
   subcomponents: { Input, TextArea, Field },
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",

@@ -10,7 +10,6 @@ const meta = {
   title: "Components/NavItem",
   component: NavItem,
   subcomponents: { NavItemCount, NavItemChevron },
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",
