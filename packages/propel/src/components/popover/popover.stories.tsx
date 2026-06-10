@@ -69,9 +69,11 @@ function DisplayPill({
 }
 
 // A row whose leading control is a propel Radio, for single-select sort lists.
+// Sized to match a DropdownItem (34px tall, `rounded-md`) so the panel reads like
+// the dropdown menu.
 function PanelRadioRow({ value, label }: { value: string; label: string }) {
   return (
-    <label className="flex h-8 cursor-pointer items-center gap-2 rounded-sm px-2 text-13 text-secondary hover:bg-layer-transparent-hover">
+    <label className="flex h-[34px] cursor-pointer items-center gap-2 rounded-md px-2 text-13 text-secondary hover:bg-layer-transparent-hover">
       <Radio value={value} />
       <span className="min-w-0 flex-1 truncate">{label}</span>
     </label>
@@ -93,7 +95,7 @@ export const Default: Story = {
           Options
         </PopoverTrigger>
         <PopoverContent width="md" aria-label="Options">
-          <div className="flex flex-col gap-2 px-2 py-1.5">
+          <div className="flex flex-col">
             <Checkbox
               tone="neutral"
               checked={Boolean(toggles.sub)}
@@ -178,13 +180,17 @@ export const DisplayProperties: Story = {
           </div>
           <PanelSeparator />
           <PanelLabel>Group by</PanelLabel>
-          <RadioGroup value={groupBy} onValueChange={(v) => setGroupBy(String(v))}>
-            {["Priority", "State", "Cycle", "Labels"].map((g) => (
-              <PanelRadioRow key={g} value={g.toLowerCase()} label={g} />
-            ))}
-          </RadioGroup>
+          {/* Collapse RadioGroup's default row gap so the rows sit flush like the
+              dropdown's menu items. */}
+          <div className="[&>[role=radiogroup]]:gap-0">
+            <RadioGroup value={groupBy} onValueChange={(v) => setGroupBy(String(v))}>
+              {["Priority", "State", "Cycle", "Labels"].map((g) => (
+                <PanelRadioRow key={g} value={g.toLowerCase()} label={g} />
+              ))}
+            </RadioGroup>
+          </div>
           <PanelSeparator />
-          <div className="flex flex-col gap-2 px-2 py-1.5">
+          <div className="flex flex-col">
             <Checkbox
               tone="neutral"
               checked={Boolean(toggles.sub)}
@@ -250,7 +256,7 @@ export const DisplayAccordion: Story = {
                   type="button"
                   aria-expanded={isOpen}
                   onClick={() => setOpen(isOpen ? null : key)}
-                  className="flex h-8 w-full items-center gap-2 rounded-sm px-2 text-13 text-secondary outline-none hover:bg-layer-transparent-hover"
+                  className="flex h-[34px] w-full items-center gap-2 rounded-md px-2 text-13 text-secondary outline-none hover:bg-layer-transparent-hover"
                 >
                   <span className="min-w-0 flex-1 truncate text-left">{title}</span>
                   {isOpen ? (
@@ -274,7 +280,7 @@ export const DisplayAccordion: Story = {
             );
           })}
           <PanelSeparator />
-          <div className="flex flex-col gap-2 px-2 py-1.5">
+          <div className="flex flex-col">
             <Checkbox
               tone="neutral"
               checked={Boolean(toggles.sub)}
