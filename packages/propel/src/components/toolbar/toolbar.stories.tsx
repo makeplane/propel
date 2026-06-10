@@ -97,7 +97,6 @@ const meta = {
     ToolbarSeparator,
     ToolbarDropdown,
   },
-  tags: ["ai-generated"],
   args: { variant: "floater" },
   render: (args) => <FormattingToolbar {...args} />,
   parameters: {
@@ -144,5 +143,65 @@ export const Behavior: Story = {
     await expect(bold).toHaveAttribute("aria-pressed", "false");
     await userEvent.click(bold);
     await expect(bold).toHaveAttribute("aria-pressed", "true");
+  },
+};
+
+/**
+ * Keyboard ARIA pattern (WAI-ARIA toolbar, roving tabindex): the toolbar is a single
+ * tab stop — only the active item has `tabindex=0`, the rest `tabindex=-1` — so Tab
+ * enters the toolbar once. **Arrow Left/Right** roam focus between items, and a
+ * focused button activates with **Enter/Space**. A simple all-button toolbar keeps
+ * the navigation deterministic. Tagged out of the sidebar/docs/manifest while still
+ * running under the default `test` tag.
+ */
+export const KeyboardRovingFocus: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <Toolbar variant="floater">
+      <ToolbarToggle aria-label="Bold">
+        <Bold aria-hidden />
+      </ToolbarToggle>
+      <ToolbarToggle aria-label="Italic">
+        <Italic aria-hidden />
+      </ToolbarToggle>
+      <ToolbarToggle aria-label="Underline">
+        <Underline aria-hidden />
+      </ToolbarToggle>
+    </Toolbar>
+  ),
+  play: async ({ canvas, userEvent }) => {
+    const bold = canvas.getByRole("button", { name: "Bold" });
+    const italic = canvas.getByRole("button", { name: "Italic" });
+    const underline = canvas.getByRole("button", { name: "Underline" });
+
+    // Roving tabindex: exactly one item is in the tab order (tabindex=0), the rest
+    // are -1, so the whole toolbar is a single tab stop.
+    await expect(bold).toHaveAttribute("tabindex", "0");
+    await expect(italic).toHaveAttribute("tabindex", "-1");
+    await expect(underline).toHaveAttribute("tabindex", "-1");
+
+    // Tab enters the toolbar on the active item.
+    await userEvent.tab();
+    await expect(bold).toHaveFocus();
+
+    // Arrow Right moves focus to the next item (and the roving 0 follows).
+    await userEvent.keyboard("{ArrowRight}");
+    await expect(italic).toHaveFocus();
+    await expect(italic).toHaveAttribute("tabindex", "0");
+    await expect(bold).toHaveAttribute("tabindex", "-1");
+
+    await userEvent.keyboard("{ArrowRight}");
+    await expect(underline).toHaveFocus();
+
+    // Arrow Left moves focus back.
+    await userEvent.keyboard("{ArrowLeft}");
+    await expect(italic).toHaveFocus();
+
+    // The focused toggle activates with the keyboard (flips aria-pressed).
+    await expect(italic).toHaveAttribute("aria-pressed", "false");
+    await userEvent.keyboard("{Enter}");
+    await expect(italic).toHaveAttribute("aria-pressed", "true");
+    await userEvent.keyboard(" ");
+    await expect(italic).toHaveAttribute("aria-pressed", "false");
   },
 };

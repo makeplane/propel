@@ -18,7 +18,6 @@ const ALL_SIDES = ["top", "bottom", "left", "right", "inline-start", "inline-end
 const meta = {
   title: "Components/Tooltip",
   component: Tooltip,
-  tags: ["ai-generated"],
   args: {
     content: "Tooltip text",
     children: <button type="button">Hover or focus me</button>,
@@ -162,5 +161,31 @@ export const ShowsOnFocus: Story = {
     // `await`-ing it in an async body — satisfies no-floating-promises lint.
     await userEvent.tab();
     await waitFor(() => expect(screen.queryByText("Tooltip text")).toBeNull());
+  },
+};
+
+/**
+ * Keyboard ARIA pattern (WAI-ARIA tooltip): once a focused trigger has opened the
+ * tooltip, **Escape** dismisses it while focus stays on the trigger. Focus (not
+ * hover) keeps the open/close deterministic regardless of Base UI's hover delays.
+ * Tagged out of the sidebar/docs/manifest while still running under the default
+ * `test` tag.
+ */
+export const EscapeCloses: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { content: "Tooltip text", delay: 0 },
+  play: async ({ canvas }) => {
+    const trigger = canvas.getByRole("button", { name: "Hover or focus me" });
+    const screen = within(document.body);
+
+    // Focusing the trigger opens the tooltip.
+    await userEvent.tab();
+    await expect(trigger).toHaveFocus();
+    await expect(await screen.findByText("Tooltip text")).toBeInTheDocument();
+
+    // Escape closes the tooltip but leaves focus on the trigger.
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(screen.queryByText("Tooltip text")).toBeNull());
+    await expect(trigger).toHaveFocus();
   },
 };

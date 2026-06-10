@@ -1,7 +1,8 @@
 import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, Inbox } from "lucide-react";
-import { expect, within } from "storybook/test";
+import { expect, fn, userEvent, within } from "storybook/test";
+import { iconControl } from "../../storybook/icon-control";
 import { NavItem, NavItemChevron, NavItemCount, type NavItemMagnitude } from "./index";
 
 const MAGNITUDES: NavItemMagnitude[] = ["lg", "md"];
@@ -10,7 +11,8 @@ const meta = {
   title: "Components/NavItem",
   component: NavItem,
   subcomponents: { NavItemCount, NavItemChevron },
-  tags: ["ai-generated"],
+  // Icon picker control for the leading icon.
+  argTypes: { leadingIcon: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -20,7 +22,7 @@ const meta = {
   args: {
     children: "Inbox",
     magnitude: "lg",
-    icon: <Inbox />,
+    leadingIcon: <Inbox />,
   },
   // The row stretches to its container; constrain it to a sidebar-like width.
   decorators: [
@@ -72,6 +74,35 @@ export const AsLink: Story = {
 };
 
 /**
+ * Keyboard ARIA pattern: NavItem renders a native `<button>`, so Tab moves focus to
+ * the row and both **Enter** and **Space** activate it (fire its click handler). The
+ * active row also exposes `aria-current="page"`. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const KeyboardActivation: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { active: true, onClick: fn() },
+  play: async ({ canvasElement, args }) => {
+    const item = within(canvasElement).getByRole("button", { name: "Inbox" });
+
+    // The selected row exposes aria-current for assistive tech.
+    await expect(item).toHaveAttribute("aria-current", "page");
+
+    // Tab moves focus onto the row.
+    await userEvent.tab();
+    await expect(item).toHaveFocus();
+
+    // Enter activates the row (native button behavior).
+    await userEvent.keyboard("{Enter}");
+    await expect(args.onClick).toHaveBeenCalledTimes(1);
+
+    // Space activates it too.
+    await userEvent.keyboard(" ");
+    await expect(args.onClick).toHaveBeenCalledTimes(2);
+  },
+};
+
+/**
  * The prop-driven states side by side at both magnitudes. Hover and pressed are
  * CSS-driven (`hover:` / `active:`) — interact with the rows above to see them.
  */
@@ -99,7 +130,7 @@ export const States: Story = {
 
 /** The Figma `Level` axis: each step indents the row 8px further from the inline-start. */
 export const Levels: Story = {
-  parameters: { controls: { disable: true } },
+  argTypes: { level: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex flex-col gap-1">
       {([1, 2, 3, 4, 5] as const).map((level) => (
