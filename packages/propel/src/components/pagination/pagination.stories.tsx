@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
-import { expect } from "storybook/test";
+import { expect, fn, userEvent } from "storybook/test";
 import { Pagination } from "./index";
 
 const meta = {
@@ -146,5 +146,114 @@ export const Behavior: Story = {
       "page",
     );
     await expect(canvas.getByRole("button", { name: "Go to previous page" })).toBeEnabled();
+  },
+};
+
+/**
+ * Keyboard operation: Tab reaches the prev button and the page-number buttons, and
+ * Enter / Space activate a focused page button — each reporting the target page
+ * through `onPageChange`. The disabled current page and the disabled prev/next ends
+ * are skipped by Tab (not focusable) and never fire `onPageChange`.
+ */
+export const KeyboardNavigation: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { page: 3, pageCount: 25, onPageChange: fn() },
+  // Spy on `onPageChange` while still driving `page` from state so the current
+  // marker / disabled-end behaviour stays live as we navigate.
+  render: function Render(args) {
+    const [page, setPage] = React.useState(args.page);
+    React.useEffect(() => setPage(args.page), [args.page]);
+    const spy = args.onPageChange as (next: number) => void;
+    const onPageChange = (next: number) => {
+      spy(next);
+      setPage(next);
+    };
+    return <Pagination {...args} page={page} onPageChange={onPageChange} />;
+  },
+  play: async ({ args, canvas, step }) => {
+    const onPageChange = args.onPageChange as ReturnType<typeof fn>;
+
+    // Landmark + list semantics: the controls live in a named <nav> wrapping a list.
+    const nav = canvas.getByRole("navigation", { name: "Pagination" });
+    await expect(nav).toBeInTheDocument();
+    await expect(canvas.getByRole("list")).toBeInTheDocument();
+    await expect(canvas.getAllByRole("listitem").length).toBeGreaterThan(0);
+
+    // The current page is marked aria-current and is disabled (not re-activatable).
+    const currentPage = canvas.getByRole("button", { name: "Go to page 3" });
+    await expect(currentPage).toHaveAttribute("aria-current", "page");
+    await expect(currentPage).toBeDisabled();
+
+    await step("Tab reaches prev then the focusable page buttons", async () => {
+      const prev = canvas.getByRole("button", { name: "Go to previous page" });
+      // Start from the document body so the first Tab lands on the first control.
+      (document.activeElement as HTMLElement | null)?.blur();
+      await userEvent.tab();
+      await expect(prev).toHaveFocus();
+      // The disabled current page (3) is not in the tab order; tabbing forward from
+      // prev reaches the first focusable page button (1).
+      await userEvent.tab();
+      await expect(canvas.getByRole("button", { name: "Go to page 1" })).toHaveFocus();
+    });
+
+    await step("Enter on a focused page button fires onPageChange with that page", async () => {
+      // page 1 is always shown (the first anchor) and is enabled while we sit on 3.
+      const page1 = canvas.getByRole("button", { name: "Go to page 1" });
+      page1.focus();
+      await expect(page1).toHaveFocus();
+      await userEvent.keyboard("{Enter}");
+      await expect(onPageChange).toHaveBeenLastCalledWith(1);
+      // page is now 1 → page 1 becomes the current/disabled marker.
+      await expect(canvas.getByRole("button", { name: "Go to page 1" })).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
+    });
+
+    await step("Space on a focused page button fires onPageChange with that page", async () => {
+      // We're on page 1; the last anchor (25) is always shown and enabled. Space
+      // activates it the same as Enter / a click.
+      const last = canvas.getByRole("button", { name: "Go to page 25" });
+      last.focus();
+      await expect(last).toHaveFocus();
+      await userEvent.keyboard("[Space]");
+      await expect(onPageChange).toHaveBeenLastCalledWith(25);
+    });
+
+    await step("Next is disabled at the last page and never fires", async () => {
+      // Space took us to the last page (25), so Next is now at its bound.
+      const next = canvas.getByRole("button", { name: "Go to next page" });
+      await expect(next).toBeDisabled();
+      onPageChange.mockClear();
+      // A disabled button is not focusable and ignores keyboard activation.
+      next.focus();
+      await expect(next).not.toHaveFocus();
+      await userEvent.keyboard("{Enter}");
+      await expect(onPageChange).not.toHaveBeenCalled();
+    });
+
+    await step("Prev is disabled at the first page and never fires", async () => {
+      // Jump back to the first page via its anchor, then assert Prev is dead.
+      await userEvent.click(canvas.getByRole("button", { name: "Go to page 1" }));
+      const prev = canvas.getByRole("button", { name: "Go to previous page" });
+      await expect(prev).toBeDisabled();
+      onPageChange.mockClear();
+      prev.focus();
+      await expect(prev).not.toHaveFocus();
+      await userEvent.keyboard("{Enter}");
+      await expect(onPageChange).not.toHaveBeenCalled();
+    });
+
+    await step("The current page is disabled and not re-activatable", async () => {
+      // page is now 1 → page 1 is the aria-current, disabled marker.
+      const page1 = canvas.getByRole("button", { name: "Go to page 1" });
+      await expect(page1).toHaveAttribute("aria-current", "page");
+      await expect(page1).toBeDisabled();
+      onPageChange.mockClear();
+      page1.focus();
+      await expect(page1).not.toHaveFocus();
+      await userEvent.keyboard("{Enter}");
+      await expect(onPageChange).not.toHaveBeenCalled();
+    });
   },
 };
