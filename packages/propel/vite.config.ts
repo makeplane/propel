@@ -84,6 +84,13 @@ export default defineConfig({
         ],
         test: {
           name: "storybook",
+          // Retry once on failure. On a cold start, Vite's dep optimizer can re-bundle
+          // a Storybook internal dep (e.g. @storybook/react-dom-shim) mid-run and
+          // invalidate the cached module URL, so a story file intermittently fails to
+          // import with "Failed to fetch dynamically imported module". It's a dep-
+          // optimizer timing race, not a product failure (the dep is cached by the
+          // retry), so a single retry clears it and keeps CI deterministic.
+          retry: 1,
           browser: {
             enabled: true,
             headless: true,
