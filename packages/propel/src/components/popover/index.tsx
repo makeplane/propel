@@ -6,13 +6,15 @@ import * as React from "react";
  * The popover root — a Base UI `Popover.Root`. Holds open state and wires the trigger
  * to the floating panel. Compose it with `PopoverTrigger` + `PopoverContent`:
  *
- *   <Popover>
- *     <PopoverTrigger>Display</PopoverTrigger>
- *     <PopoverContent>
- *       <RadioGroup>…</RadioGroup>
- *       <Checkbox label="Show empty groups" />
- *     </PopoverContent>
- *   </Popover>
+ * ```tsx
+ * <Popover>
+ *   <PopoverTrigger>Display</PopoverTrigger>
+ *   <PopoverContent>
+ *     <RadioGroup>…</RadioGroup>
+ *     <Checkbox label="Show empty groups" />
+ *   </PopoverContent>
+ * </Popover>
+ * ```
  *
  * Unlike `Dropdown`, the surface is a generic floating panel (NOT a `role="menu"`), so
  * it can host arbitrary settings-panel content — radios, checkboxes, pills, forms — as
