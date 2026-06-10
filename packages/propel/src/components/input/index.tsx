@@ -126,6 +126,15 @@ const iconSlotClass = cx(
 );
 
 /**
+ * The default icon for a field's `info` slot: a small, decorative (`aria-hidden`)
+ * lucide `Info` glyph. Pass it as `info={<InfoIcon />}` for the standard affordance,
+ * or pass any other node (text, a tooltip trigger) to render custom info content.
+ */
+export function InfoIcon() {
+  return <Info aria-hidden className="size-3.5" />;
+}
+
+/**
  * The label row: label text, the required `*` asterisk in danger, and an
  * optional info icon. Rendered by `Input`/`TextArea` from their props, but also
  * usable directly when composing a field by hand.
@@ -161,14 +170,10 @@ function FieldLabelRow({
         </span>
       ) : null}
       {info ? (
-        // Only the default decorative icon is `aria-hidden`. A custom `info`
-        // node may be interactive, so it stays exposed to assistive tech.
-        <span
-          className="ms-0.5 inline-flex text-icon-secondary"
-          aria-hidden={info === true || undefined}
-        >
-          {info === true ? <Info className="size-3.5" /> : info}
-        </span>
+        // Renders whatever node the `info` slot is given. The default `InfoIcon` is
+        // decorative (it carries its own `aria-hidden`); a custom node may be
+        // interactive and carries its own semantics.
+        <span className="ms-0.5 inline-flex text-icon-secondary">{info}</span>
       ) : null}
     </BaseField.Label>
   );
@@ -211,7 +216,7 @@ type SharedFieldProps = {
   label?: React.ReactNode;
   /** Marks the field required: adds a `*` asterisk and sets `required`. */
   required?: boolean;
-  /** Optional info icon beside the label. Pass `true` for the default icon. */
+  /** Optional info affordance beside the label. Pass `<InfoIcon />` for the standard icon, or any node. */
   info?: React.ReactNode;
   /** Helper / description text below the control. */
   description?: React.ReactNode;
