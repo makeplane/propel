@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { DropdownContent, DropdownItem } from "../dropdown/index";
+import { Pagination } from "../pagination/index";
 import {
   Table,
   TableBody,
@@ -240,6 +241,81 @@ export const EditableCells: Story = {
     const member = await menu.findByRole("menuitem", { name: "Member" });
     await userEvent.click(member);
     await expect(trigger).toHaveTextContent("Member");
+  },
+};
+
+// A larger directory so the table has enough rows to page through.
+const DIRECTORY: Person[] = Array.from({ length: 23 }, (_, i) => {
+  const base = PEOPLE[i % PEOPLE.length];
+  return {
+    ...base,
+    name: `${base.name} ${i + 1}`,
+    email: `user${i + 1}@example.com`,
+  };
+});
+
+/**
+ * **With Pagination.** The Table and `Pagination` are separate components: the table
+ * renders only the current page of rows, and the pagination below drives `page` and
+ * `pageSize`. Changing the page size resets to the first page and the range label
+ * updates. This is the designer follow-up on composing the two.
+ */
+export const WithPagination: Story = {
+  args: { variant: "table" },
+  render: (args) => {
+    const [page, setPage] = React.useState(1);
+    const [pageSize, setPageSize] = React.useState(5);
+    const pageCount = Math.ceil(DIRECTORY.length / pageSize);
+    const start = (page - 1) * pageSize;
+    const rows = DIRECTORY.slice(start, start + pageSize);
+    return (
+      <div className="flex flex-col gap-3">
+        <Table {...args}>
+          <TableHeader>
+            <TableRow>
+              <TableHead variant="default">Name</TableHead>
+              <TableHead variant="default">Email</TableHead>
+              <TableHead variant="default">Account type</TableHead>
+              <TableHead variant="default">Billing status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {rows.map((person) => (
+              <TableRow key={person.email}>
+                <TableCell>{person.name}</TableCell>
+                <TableCell>{person.email}</TableCell>
+                <TableCell>{person.role}</TableCell>
+                <TableCell>{person.billing}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <Pagination
+          page={page}
+          pageCount={pageCount}
+          onPageChange={setPage}
+          pageSize={{
+            value: pageSize,
+            options: [5, 10, 25],
+            onChange: (next) => {
+              setPageSize(next);
+              setPage(1);
+            },
+          }}
+          range={{
+            current: `${start + 1}-${Math.min(start + pageSize, DIRECTORY.length)}`,
+            total: DIRECTORY.length,
+          }}
+        />
+      </div>
+    );
+  },
+  play: async ({ canvas }) => {
+    // Page 1 shows the first slice; advancing the pagination swaps the table's rows.
+    await expect(canvas.getByText("user1@example.com")).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole("button", { name: "Go to next page" }));
+    await waitFor(() => expect(canvas.queryByText("user1@example.com")).not.toBeInTheDocument());
+    await expect(canvas.getByText("user6@example.com")).toBeInTheDocument();
   },
 };
 
