@@ -8,7 +8,12 @@ import * as React from "react";
 // one size in Figma, so there is no `magnitude` axis.
 const checkboxVariants = cva(
   cx(
-    "inline-flex size-4 shrink-0 items-center justify-center rounded-sm border-sm",
+    // `align-top` keeps the inline-level box anchored to the top of its line box
+    // so it does NOT move vertically when the check/dash indicator mounts. An
+    // empty `inline-flex` element and one with a flex child baseline-align to the
+    // surrounding text differently; pinning the alignment makes the box geometry
+    // identical across unchecked / checked / indeterminate (no shift).
+    "inline-flex size-4 shrink-0 items-center justify-center rounded-sm border-sm align-top",
     "outline-none transition-colors",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1",
     // Unchecked: just the tone-specific border (see the `tone` variants).
