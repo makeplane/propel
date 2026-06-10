@@ -10,7 +10,6 @@ const MAGNITUDES: ButtonMagnitude[] = ["xs", "sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/Button",
   component: Button,
-  tags: ["ai-generated"],
   // Icon picker controls for the two icon slots.
   argTypes: { leadingIcon: iconControl, trailingIcon: iconControl },
   parameters: {

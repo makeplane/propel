@@ -8,7 +8,6 @@ const meta = {
   // RadioGroup is composed of Radios, so document Radio's props alongside it
   // (adds a Radio tab to the args table + records the relationship in the manifest).
   subcomponents: { Radio },
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",

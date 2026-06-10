@@ -13,7 +13,6 @@ const meta = {
   // primitives alongside Input (adds their tabs to the args table + records the
   // relationship in the manifest).
   subcomponents: { Input, TextArea, Field },
-  tags: ["ai-generated"],
   // Icon picker controls for the leading/trailing slots.
   argTypes: { leadingIcon: iconControl, trailingIcon: iconControl },
   parameters: {

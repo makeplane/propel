@@ -8,7 +8,6 @@ const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
 const meta = {
   title: "Components/Banner",
   component: Banner,
-  tags: ["ai-generated"],
   // Icon picker control for the leading icon (None keeps the default tone icon).
   argTypes: { leadingIcon: iconControl },
   args: {

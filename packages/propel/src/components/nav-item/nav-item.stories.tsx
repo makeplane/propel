@@ -11,7 +11,6 @@ const meta = {
   title: "Components/NavItem",
   component: NavItem,
   subcomponents: { NavItemCount, NavItemChevron },
-  tags: ["ai-generated"],
   // Icon picker control for the leading icon.
   argTypes: { leadingIcon: iconControl },
   parameters: {

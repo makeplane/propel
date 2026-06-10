@@ -10,7 +10,6 @@ const MAGNITUDES: IconButtonMagnitude[] = ["xs", "sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/IconButton",
   component: IconButton,
-  tags: ["ai-generated"],
   // Icon picker control for the single glyph.
   argTypes: { icon: iconControl },
   parameters: {

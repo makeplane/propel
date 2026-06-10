@@ -6,7 +6,6 @@ import { Pagination } from "./index";
 const meta = {
   title: "Components/Pagination",
   component: Pagination,
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",
