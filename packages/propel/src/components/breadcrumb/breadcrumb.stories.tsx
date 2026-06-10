@@ -231,8 +231,20 @@ export const KeyboardNavigation: Story = {
             Plane Design
           </BreadcrumbMenuTrigger>
           <BreadcrumbMenuContent>
-            <BreadcrumbMenuItem variant="default" render={<a href="#" />} label="Plane Web" />
-            <BreadcrumbMenuItem variant="default" render={<a href="#" />} label="Plane Mobile" />
+            {/* In a real breadcrumb the sibling switcher navigates via a router
+                (preventDefault + client-side nav). Activating a bare `href="#"`
+                here would perform a full document navigation, which tears down the
+                test page in the browser runner — so swallow the default. */}
+            <BreadcrumbMenuItem
+              variant="default"
+              render={<a href="#" onClick={(event) => event.preventDefault()} />}
+              label="Plane Web"
+            />
+            <BreadcrumbMenuItem
+              variant="default"
+              render={<a href="#" onClick={(event) => event.preventDefault()} />}
+              label="Plane Mobile"
+            />
           </BreadcrumbMenuContent>
         </BreadcrumbMenu>
       </BreadcrumbItem>
