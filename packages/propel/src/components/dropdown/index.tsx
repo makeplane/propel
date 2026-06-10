@@ -335,7 +335,7 @@ export function DropdownCheckboxItem({
         toggle; the box just mirrors `isChecked`.
       */}
       <span className="flex shrink-0 items-center">
-        <CheckboxVisual checked={isChecked} disabled={props.disabled} />
+        <CheckboxVisual tone="neutral" checked={isChecked} disabled={props.disabled} />
       </span>
       {icon ? (
         <span className="flex size-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
