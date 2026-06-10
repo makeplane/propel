@@ -19,7 +19,6 @@ function ExampleToolbar() {
 const meta = {
   title: "Components/Comment",
   component: Comment,
-  tags: ["ai-generated"],
   args: {
     magnitude: "base",
     toolbar: <ExampleToolbar />,
