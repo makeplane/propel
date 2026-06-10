@@ -15,8 +15,12 @@ const TabsVariantContext = React.createContext<TabsVariant>("contained");
 
 // `inline-flex` (not block `flex`) so the root hugs its tabs instead of
 // spanning the full width of its parent — the tab set should be as wide as its
-// content, matching the Figma group which is an inline row.
-const rootVariants = cva("inline-flex flex-col gap-3");
+// content, matching the Figma group which is an inline row. `items-start` stops
+// the column's default cross-axis stretch: without it a wide `TabsPanel` below
+// would pull the `TabsList` to the panel's width, leaving empty padding after
+// the last tab. With it the list hugs its tabs and the panel keeps its own
+// width, independent of each other.
+const rootVariants = cva("inline-flex flex-col items-start gap-3");
 
 export type TabsProps = Omit<
   React.ComponentProps<typeof BaseTabs.Root>,
