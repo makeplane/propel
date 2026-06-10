@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { CircleHelp } from "lucide-react";
 import { expect } from "storybook/test";
 import { Accordion, AccordionItem, AccordionPanel, AccordionTrigger } from "./index";
 
@@ -63,6 +64,22 @@ export const Default: Story = {
       {ITEMS.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
           <AccordionTrigger>{item.label}</AccordionTrigger>
+          <AccordionPanel>{item.body}</AccordionPanel>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  ),
+};
+
+/** Each trigger can carry a leading `icon`, matching the Figma header icon. */
+export const WithIcon: Story = {
+  render: (args) => (
+    <Accordion {...args} defaultValue={["what"]}>
+      {ITEMS.map((item) => (
+        <AccordionItem key={item.value} value={item.value}>
+          <AccordionTrigger icon={<CircleHelp aria-hidden className="size-4" />}>
+            {item.label}
+          </AccordionTrigger>
           <AccordionPanel>{item.body}</AccordionPanel>
         </AccordionItem>
       ))}

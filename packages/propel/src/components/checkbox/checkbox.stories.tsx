@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Repeat } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent } from "storybook/test";
 import { Checkbox } from "./index";
@@ -73,6 +74,22 @@ export const WithoutLabel: Story = {
 export const WithLabel: Story = {
   parameters: { controls: { disable: true } },
   render: () => <Checkbox tone="neutral" label="Send me product updates" defaultChecked />,
+};
+
+/**
+ * An optional leading `icon` sits between the box and the label, matching the Figma
+ * "checkbox with label" icon slot.
+ */
+export const WithIcon: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Checkbox
+      tone="neutral"
+      icon={<Repeat aria-hidden className="size-3.5" />}
+      label="Sync automatically"
+      defaultChecked
+    />
+  ),
 };
 
 /** The mixed state renders `aria-checked="mixed"` and shows a dash. */
