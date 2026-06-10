@@ -93,6 +93,37 @@ function findItem(role: string, text: string) {
   ) as HTMLElement | undefined;
 }
 
+// True when a CSS color string is fully transparent (the bug: a tone-less checked
+// box rendered with no fill, i.e. `transparent` / `rgba(...,0)`).
+function isTransparent(color: string) {
+  if (color === "transparent" || color === "rgba(0, 0, 0, 0)") return true;
+  const match = /rgba?\([^)]*?,\s*([\d.]+)\s*\)/.exec(color);
+  return match != null && Number(match[1]) === 0;
+}
+
+// Resolve the `bg-accent-primary` token to a concrete, browser-normalized rgb
+// string by probing a throwaway element. Lets the assertion compare against the
+// real accent color without hardcoding a hex/rgb that could drift from the token.
+function resolveAccentPrimary() {
+  const probe = document.createElement("span");
+  probe.className = "bg-accent-primary";
+  probe.style.position = "fixed";
+  probe.style.opacity = "0";
+  probe.style.pointerEvents = "none";
+  document.body.appendChild(probe);
+  const color = getComputedStyle(probe).backgroundColor;
+  probe.remove();
+  return color;
+}
+
+// The presentational box inside a `menuitemcheckbox` row is the leading
+// `aria-hidden` span (CheckboxVisual). Returns its computed background-color.
+function checkboxBoxBgColor(row: HTMLElement) {
+  const box = row.querySelector("span[aria-hidden]") as HTMLElement | null;
+  if (box == null) throw new Error("CheckboxVisual box not found in row");
+  return getComputedStyle(box).backgroundColor;
+}
+
 // ---------------------------------------------------------------------------
 // Small demo-only fixtures. Where a demo needs a propel primitive that does not
 // exist yet (a selectable pill/chip, a sort-direction button group), a minimal
@@ -583,6 +614,75 @@ export const Priority: Story = {
       const high = (await waitFor(() => findItem("menuitemcheckbox", "High"))) as HTMLElement;
       await userEvent.click(high);
       await waitFor(() => expect(high).toHaveAttribute("aria-checked", "true"));
+    });
+  },
+};
+
+/**
+ * Regression — **CheckedFillVisible**. Locks in the fix for the invisible
+ * checked checkbox: a tone-less `CheckboxVisual` (as rendered by
+ * `DropdownCheckboxItem`) used to inherit no fill, so the white check sat on a
+ * transparent box and disappeared. Toggling a row to CHECKED must give its box a
+ * VISIBLE `bg-accent-primary` fill — a non-transparent background-color equal to
+ * the accent-primary token. Not a documented demo; this is a test-only fixture.
+ */
+export const CheckedFillVisible: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: function CheckedFillVisibleStory() {
+    const [checked, setChecked] = React.useState<Record<string, boolean>>({});
+    return (
+      <Dropdown>
+        <DropdownTrigger render={<button type="button" className={triggerClass} />}>
+          Priority
+        </DropdownTrigger>
+        <DropdownContent width="sm">
+          {PRIORITIES.map((p) => (
+            <DropdownCheckboxItem
+              key={p.key}
+              icon={p.icon}
+              label={p.label}
+              checked={Boolean(checked[p.key])}
+              onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
+            />
+          ))}
+        </DropdownContent>
+      </Dropdown>
+    );
+  },
+  play: async ({ canvas, step }) => {
+    await step("an unchecked row's box has no fill", async () => {
+      await openMenu(canvas, "Priority");
+      const high = (await waitFor(() => findItem("menuitemcheckbox", "High"))) as HTMLElement;
+      await expect(high).toHaveAttribute("aria-checked", "false");
+      // Sanity: before checking, the box really is transparent (no fill).
+      await expect(isTransparent(checkboxBoxBgColor(high))).toBe(true);
+    });
+
+    await step("toggling to checked fills the box with the accent token", async () => {
+      await userEvent.click(findItem("menuitemcheckbox", "High") as HTMLElement);
+      await waitFor(() =>
+        expect(findItem("menuitemcheckbox", "High")).toHaveAttribute("aria-checked", "true"),
+      );
+
+      // The fix: the checked box must paint a VISIBLE accent fill — not
+      // transparent, and exactly the `bg-accent-primary` token. A regression
+      // (dropping the base fill) would leave it transparent and fail here.
+      // Re-query the row each read: Base UI re-renders the menu item on toggle,
+      // so an old reference can go stale (a detached node reports no fill). Poll
+      // inside `waitFor` to let the box's color transition settle.
+      const accent = resolveAccentPrimary();
+      // Equality with the (non-transparent) accent token implies a visible fill;
+      // poll until the box's color transition settles to the accent.
+      await waitFor(() =>
+        expect(checkboxBoxBgColor(findItem("menuitemcheckbox", "High") as HTMLElement)).toBe(
+          accent,
+        ),
+      );
+      // Spell out the regression guard: the settled fill is explicitly NOT
+      // transparent (the bug rendered a white check on a `rgba(...,0)` box).
+      await expect(
+        isTransparent(checkboxBoxBgColor(findItem("menuitemcheckbox", "High") as HTMLElement)),
+      ).toBe(false);
     });
   },
 };
