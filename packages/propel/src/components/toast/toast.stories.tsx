@@ -176,7 +176,7 @@ export const QueueAndDismiss: Story = {
 /**
  * Interaction test for action buttons: queue a toast carrying a left action and a
  * right-aligned primary action, then verify both are reachable and fire their
- * handlers — clicking the primary, and reaching the left action by keyboard (Tab +
+ * handlers: clicking the primary, and reaching the left action by keyboard (Tab +
  * Enter). Tagged so it stays out of the sidebar/docs/manifest.
  */
 export const ActionsInteraction: Story = {
@@ -211,5 +211,55 @@ export const ActionsInteraction: Story = {
     await expect(undo).toHaveFocus();
     await userEvent.keyboard("{Enter}");
     await expect(onLeft).toHaveBeenCalledTimes(1);
+  },
+};
+
+/**
+ * Keyboard-only reachability: a user with no pointer must be able to reach and
+ * activate the Dismiss control. This drives Base UI's real keyboard model end to end,
+ * with NO `hover` and NO programmatic `.focus()`, so a regression that made Dismiss
+ * unreachable by keyboard would actually fail this test:
+ *
+ *   1. **F6** — Base UI's global hotkey moves focus into the toast viewport (a
+ *      `role="region"` live area) and marks it `focused`, which expands the viewport.
+ *      Expanding un-hides the close button (Base UI keeps `Toast.Close` `aria-hidden`
+ *      until the viewport is expanded or the button itself is focused).
+ *   2. **Tab** — from the viewport, focus crosses Base UI's focus guard onto the
+ *      frontmost toast (`role="dialog"`).
+ *   3. **Tab** — from the toast, focus lands on the only remaining control: Dismiss.
+ *   4. **Enter** — activates Dismiss and removes the toast from the live region.
+ *
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const KeyboardDismiss: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => <Trigger tone="success" onAdd={fn()} />,
+  play: async ({ canvas, userEvent }) => {
+    const body = within(document.body);
+
+    await userEvent.click(canvas.getByRole("button", { name: /show success toast/i }));
+    const toast = await waitFor(() => body.getByRole("dialog"));
+    await expect(toast).toBeVisible();
+
+    // F6 is Base UI's keyboard entry point: it moves focus into the viewport region
+    // and expands it, exposing the (otherwise `aria-hidden`) Dismiss control.
+    await userEvent.keyboard("{F6}");
+    const viewport = body.getByRole("region", { name: /notification/i });
+    await waitFor(() => expect(viewport).toHaveFocus());
+
+    // Tab from the viewport crosses Base UI's focus guard onto the frontmost toast.
+    await userEvent.keyboard("{Tab}");
+    await waitFor(() => expect(toast).toHaveFocus());
+
+    // Tab again reaches the toast's only focusable control — the Dismiss button — purely
+    // via the keyboard. No hover, no programmatic focus: if Dismiss were unreachable by
+    // keyboard, focus would never land here and this assertion would fail.
+    await userEvent.keyboard("{Tab}");
+    const dismiss = body.getByRole("button", { name: "Dismiss" });
+    await waitFor(() => expect(dismiss).toHaveFocus());
+
+    // Activating it with the keyboard removes the toast from the live region.
+    await userEvent.keyboard("{Enter}");
+    await waitFor(() => expect(body.queryByText("Toast title")).not.toBeInTheDocument());
   },
 };

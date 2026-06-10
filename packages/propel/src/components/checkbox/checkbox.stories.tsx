@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect } from "storybook/test";
+import * as React from "react";
+import { expect, userEvent } from "storybook/test";
 import { Checkbox } from "./index";
 
 const meta = {
@@ -103,6 +104,97 @@ export const Error: Story = {
     // Checked danger box: accent-blue fill, like every other tone.
     await expect(checked).toHaveAttribute("aria-checked", "true");
     await expect(checked).toHaveClass("data-[checked]:bg-accent-primary");
+  },
+};
+
+/**
+ * Keyboard ARIA pattern (WAI-ARIA checkbox): Tab moves focus to the box, **Space**
+ * toggles `aria-checked`, and **Enter** must NOT toggle (Enter is reserved for form
+ * submission, not the checkbox). Tagged out of the sidebar/docs/manifest — it's a
+ * behavior test — but still runs under the default `test` tag.
+ */
+export const KeyboardToggle: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { label: "Subscribe", defaultChecked: false },
+  play: async ({ canvas, userEvent }) => {
+    const checkbox = canvas.getByRole("checkbox");
+    await expect(checkbox).toHaveAttribute("aria-checked", "false");
+
+    // Tab moves focus onto the checkbox.
+    await userEvent.tab();
+    await expect(checkbox).toHaveFocus();
+
+    // Space toggles aria-checked on and off.
+    await userEvent.keyboard(" ");
+    await expect(checkbox).toHaveAttribute("aria-checked", "true");
+    await userEvent.keyboard(" ");
+    await expect(checkbox).toHaveAttribute("aria-checked", "false");
+
+    // Enter must NOT toggle a checkbox.
+    await userEvent.keyboard(" ");
+    await expect(checkbox).toHaveAttribute("aria-checked", "true");
+    await userEvent.keyboard("{Enter}");
+    await expect(checkbox).toHaveAttribute("aria-checked", "true");
+  },
+};
+
+/**
+ * Regression test for the box-shift fix (the `align-top` change). A bare
+ * `inline-flex` box baseline-aligns to its line box differently when empty vs.
+ * when it contains the check/dash indicator, which used to nudge the box down
+ * ~2px on toggle. This asserts the box's `getBoundingClientRect()` is identical
+ * across unchecked / checked / indeterminate so that shift can't regress.
+ *
+ * Tagged `!dev`/`!autodocs`/`!manifest` so it stays out of the sidebar, docs,
+ * and the AI/MCP manifest, but still runs under the default `test` tag.
+ */
+export const BoxDoesNotShiftOnToggle: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: { controls: { disable: true } },
+  // A controlled wrapper so a single, stable box element can be driven through
+  // unchecked -> checked -> indeterminate without remounting (so we measure the
+  // very same DOM node across all three states).
+  render: () => {
+    function Harness() {
+      const [indeterminate, setIndeterminate] = React.useState(false);
+      return (
+        <div>
+          <Checkbox tone="neutral" aria-label="Shift target" indeterminate={indeterminate} />
+          <button type="button" onClick={() => setIndeterminate(true)}>
+            make indeterminate
+          </button>
+        </div>
+      );
+    }
+    return <Harness />;
+  },
+  play: async ({ canvas }) => {
+    const box = canvas.getByRole("checkbox");
+
+    // Sanity: it starts bare (no indicator mounted) and unchecked.
+    await expect(box).toHaveAttribute("aria-checked", "false");
+    await expect(box).toBeEmptyDOMElement();
+    const unchecked = box.getBoundingClientRect();
+
+    // Toggle to checked (the indicator mounts).
+    await userEvent.click(box);
+    await expect(box).toHaveAttribute("aria-checked", "true");
+    await expect(box).not.toBeEmptyDOMElement();
+    const checked = box.getBoundingClientRect();
+
+    // Flip to indeterminate via the controlled prop (shows the dash).
+    await userEvent.click(canvas.getByRole("button", { name: "make indeterminate" }));
+    await expect(box).toHaveAttribute("aria-checked", "mixed");
+    const indeterminate = box.getBoundingClientRect();
+
+    // The box geometry must be identical across every state — this is what the
+    // `align-top` fix guarantees. (Compare the same node, so x/y/w/h are exact.)
+    for (const rect of [checked, indeterminate]) {
+      await expect(rect.x).toBe(unchecked.x);
+      await expect(rect.y).toBe(unchecked.y);
+      await expect(rect.width).toBe(unchecked.width);
+      await expect(rect.height).toBe(unchecked.height);
+    }
   },
 };
 

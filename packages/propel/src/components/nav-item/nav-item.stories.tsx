@@ -1,7 +1,7 @@
 import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, Inbox } from "lucide-react";
-import { expect, within } from "storybook/test";
+import { expect, fn, userEvent, within } from "storybook/test";
 import { NavItem, NavItemChevron, NavItemCount, type NavItemMagnitude } from "./index";
 
 const MAGNITUDES: NavItemMagnitude[] = ["lg", "md"];
@@ -68,6 +68,35 @@ export const AsLink: Story = {
     const link = within(canvasElement).getByRole("link", { name: "Inbox" });
     await expect(link).toHaveAttribute("href", "#inbox");
     await expect(link).toHaveAttribute("aria-current", "page");
+  },
+};
+
+/**
+ * Keyboard ARIA pattern: NavItem renders a native `<button>`, so Tab moves focus to
+ * the row and both **Enter** and **Space** activate it (fire its click handler). The
+ * active row also exposes `aria-current="page"`. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const KeyboardActivation: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { active: true, onClick: fn() },
+  play: async ({ canvasElement, args }) => {
+    const item = within(canvasElement).getByRole("button", { name: "Inbox" });
+
+    // The selected row exposes aria-current for assistive tech.
+    await expect(item).toHaveAttribute("aria-current", "page");
+
+    // Tab moves focus onto the row.
+    await userEvent.tab();
+    await expect(item).toHaveFocus();
+
+    // Enter activates the row (native button behavior).
+    await userEvent.keyboard("{Enter}");
+    await expect(args.onClick).toHaveBeenCalledTimes(1);
+
+    // Space activates it too.
+    await userEvent.keyboard(" ");
+    await expect(args.onClick).toHaveBeenCalledTimes(2);
   },
 };
 
