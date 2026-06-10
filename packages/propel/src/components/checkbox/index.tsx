@@ -11,11 +11,13 @@ const checkboxVariants = cva(
     "inline-flex size-4 shrink-0 items-center justify-center rounded-sm border-sm",
     "outline-none transition-colors",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1",
-    // Unchecked: just the border. Checked / indeterminate: a tone-specific fill
-    // (see the `tone` variants) with a white icon. Base UI exposes these via
-    // `data-*` state attributes. Only the shared border/text live here.
-    "data-[checked]:border-transparent data-[checked]:text-icon-on-color",
-    "data-[indeterminate]:border-transparent data-[indeterminate]:text-icon-on-color",
+    // Unchecked: just the tone-specific border (see the `tone` variants).
+    // Checked / indeterminate: the accent-primary fill is identical for every
+    // tone, so it lives here in the base rather than the tone variants. This
+    // keeps a tone-less `CheckboxVisual` from rendering a white check on no fill.
+    // A white icon sits on top. Base UI exposes these via `data-*` attributes.
+    "data-[checked]:border-transparent data-[checked]:bg-accent-primary data-[checked]:text-icon-on-color",
+    "data-[indeterminate]:border-transparent data-[indeterminate]:bg-accent-primary data-[indeterminate]:text-icon-on-color",
     // Disabled: muted border/fill and no pointer; overrides the checked fill.
     "data-[disabled]:cursor-not-allowed data-[disabled]:border-disabled data-[disabled]:bg-transparent",
     "data-[disabled]:data-[checked]:border-transparent data-[disabled]:data-[checked]:bg-layer-disabled data-[disabled]:data-[checked]:text-icon-disabled",
@@ -24,15 +26,13 @@ const checkboxVariants = cva(
   {
     variants: {
       tone: {
-        // Neutral: resting `icon-tertiary` border while unchecked; accent fill
-        // once checked.
-        neutral:
-          "border-icon-tertiary data-[checked]:bg-accent-primary data-[indeterminate]:bg-accent-primary",
+        // Neutral: resting `icon-tertiary` border while unchecked. The checked
+        // fill is the shared accent-primary defined in the base above.
+        neutral: "border-icon-tertiary",
         // The Figma "Error" state: only the *unchecked* border turns danger/red.
-        // Once checked the fill is the same accent blue as every other tone
-        // (the inherited `data-[checked]`/`data-[indeterminate]` rules below).
-        danger:
-          "border-danger-strong data-[checked]:bg-accent-primary data-[indeterminate]:bg-accent-primary",
+        // Once checked the fill is the same accent blue as every other tone (the
+        // base `data-[checked]`/`data-[indeterminate]` rules above).
+        danger: "border-danger-strong",
       },
     },
   },
@@ -54,7 +54,7 @@ function CheckboxGlyph({ indeterminate }: { indeterminate?: boolean }) {
 
 export type CheckboxVisualProps = {
   /** Resting color of the box. `danger` is the Figma "Error" state. */
-  tone?: CheckboxTone;
+  tone: CheckboxTone;
   /** Whether the box shows as checked. */
   checked?: boolean;
   /** Whether the box shows the indeterminate dash (wins over `checked`). */
