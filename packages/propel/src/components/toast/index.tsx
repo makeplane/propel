@@ -110,14 +110,50 @@ const statusIconVariants = cva("size-4 shrink-0", {
 export type ToastTone = NonNullable<VariantProps<typeof statusIconVariants>["tone"]>;
 
 /**
+ * A single action button rendered inside a toast. The toast is a portaled,
+ * auto-dismissing surface with no `className`/`style` escape hatch, so an action is
+ * declared as data (label + handler) rather than arbitrary markup — keeping the
+ * styling on-token and the API closed.
+ */
+export type ToastAction = {
+  /** Visible button text — also its accessible name. */
+  label: string;
+  /** Invoked on click (and Enter/Space, since it's a real `<button>`). */
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+/**
  * Custom data carried on every toast queued through this component. `add({ ... data:
  * { tone } })` selects the status icon + color; `tone` is required so the caller
- * always chooses the intent explicitly.
+ * always chooses the intent explicitly. Action buttons are optional and map directly
+ * to Figma's toast `button`/`button2` booleans (node 1146-61689): `actions` is the
+ * left cluster of 1–2 buttons, `primaryAction` is the right-aligned button shown on
+ * the success treatment.
  */
 export type ToastData = {
   /** Semantic intent — drives the status icon and its color. */
   tone: ToastTone;
+  /**
+   * Left-aligned action cluster (Figma's `button` / `button2`). One or two buttons;
+   * extras beyond two are ignored to stay faithful to the design.
+   */
+  actions?: ToastAction[];
+  /**
+   * Right-aligned primary action (Figma's success-tone right button). Wired through
+   * Base UI's `Toast.Action` so it participates in the toast's focus management.
+   */
+  primaryAction?: ToastAction;
 };
+
+// Shared action-button styling, straight from Figma's "Buttons" sub-frame: a 24px-tall
+// pill with a 40px min width, `md` radius, 13px medium secondary text, transparent
+// background that fills on hover. Used for both the left cluster and the right action.
+const actionButtonClassName = cx(
+  "inline-flex h-6 min-w-10 shrink-0 items-center justify-center gap-1 rounded-md px-2",
+  "text-13 font-medium text-secondary outline-none",
+  "bg-layer-transparent transition-colors hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
+  "focus-visible:ring-2 focus-visible:ring-accent-strong",
+);
 
 export type ToastProviderProps = Omit<
   React.ComponentProps<typeof BaseToast.Provider>,
@@ -157,9 +193,9 @@ export type ToastProps = Omit<
 
 /**
  * A single styled toast: status icon (auto-selected from `toast.data.tone`), title,
- * description, optional action buttons (from `toast.actionProps`), and a close
- * button. Rendered automatically by `ToastProvider` for each queued toast — you
- * normally don't render this directly.
+ * description, optional action buttons (from `toast.data.actions` / `primaryAction`),
+ * and a close button. Rendered automatically by `ToastProvider` for each queued toast
+ * — you normally don't render this directly.
  */
 export function Toast({ toast, ...props }: ToastProps) {
   // `tone` is a required field of `ToastData`, supplied when the toast is queued.
@@ -171,10 +207,12 @@ export function Toast({ toast, ...props }: ToastProps) {
     );
   }
   const StatusIcon = STATUS_ICON[data.tone];
-  // Only render the action wrapper when there's real action content. `actionProps`
-  // can carry no `children` (e.g. just an `onClick`), in which case `BaseToast.Action`
-  // renders null — guarding here avoids leaving an empty `<div>` gap in the layout.
-  const hasAction = toast.actionProps?.children != null;
+  // Action buttons, per Figma (node 1146-61689): a left cluster of up to two buttons
+  // plus an optional right-aligned primary action. The button row only renders when
+  // there's at least one of either, so an action-less toast keeps its tight layout.
+  const leftActions = (data.actions ?? []).slice(0, 2);
+  const primaryAction = data.primaryAction;
+  const hasActionRow = leftActions.length > 0 || primaryAction != null;
   return (
     <BaseToast.Root
       toast={toast}
@@ -195,9 +233,32 @@ export function Toast({ toast, ...props }: ToastProps) {
           <BaseToast.Title className="text-14 font-medium text-primary" />
           <BaseToast.Description className="text-13 text-tertiary" />
         </div>
-        {hasAction ? (
-          <div className="flex gap-1.5 ps-[15px]">
-            <BaseToast.Action className="inline-flex h-6 min-w-10 items-center justify-center gap-1 rounded-md px-2 text-13 font-medium text-secondary transition-colors hover:bg-layer-transparent-hover" />
+        {hasActionRow ? (
+          // ps-[15px] aligns the cluster under the title (icon column + gap). The left
+          // cluster grows to fill so the primary action pins to the inline-end edge —
+          // RTL-safe via logical `ps`/`end` utilities.
+          <div className="flex w-full gap-1.5 ps-[15px]">
+            <div className="flex min-w-0 flex-1 items-center gap-1.5">
+              {leftActions.map((action, index) => (
+                <button
+                  // Actions are positional and have no stable id; index keys are fine
+                  // for this short, static-per-render list.
+                  key={index}
+                  type="button"
+                  className={actionButtonClassName}
+                  onClick={action.onClick}
+                >
+                  {action.label}
+                </button>
+              ))}
+            </div>
+            {primaryAction ? (
+              // The right-aligned action is wired through Base UI's `Toast.Action` so it
+              // takes part in the toast's focus management.
+              <BaseToast.Action className={actionButtonClassName} onClick={primaryAction.onClick}>
+                {primaryAction.label}
+              </BaseToast.Action>
+            ) : null}
           </div>
         ) : null}
       </div>
