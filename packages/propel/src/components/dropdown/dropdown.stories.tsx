@@ -670,12 +670,15 @@ export const Submenu: Story = {
   parameters: {
     a11y: {
       // When a submenu is open, Base UI's FloatingPortal emits a visually-hidden
-      // `aria-owns` owner `<span>` (it preserves trigger→portaled-popup order for
-      // virtual-cursor navigation) that lands as a child of the parent `role="menu"`,
-      // so axe's aria-required-children flags it as a disallowed child. The submenu
-      // trigger itself correctly keeps `role="menuitem"` + `aria-haspopup`. Upstream
-      // treats this as a likely axe false-positive (mui/base-ui#4004). Suppress just
-      // that rule for this story.
+      // `aria-owns` owner `<span>` next to the trigger. It reparents the portaled
+      // submenu to the correct place in the accessibility tree (next to its trigger),
+      // but in the DOM that span lands as a child of the parent `role="menu"`. axe's
+      // aria-required-children reads the DOM tree rather than the a11y tree, so it
+      // flags the span as a disallowed menu child. This is a static-analysis
+      // false-positive on axe's side, not invalid markup (tracked at
+      // dequelabs/axe-core#4048; the floating-ui maintainer confirmed the span is doing
+      // correct a11y-tree placement in floating-ui/floating-ui#3424). Suppress just
+      // this rule for this story.
       config: { rules: [{ id: "aria-required-children", enabled: false }] },
     },
   },
