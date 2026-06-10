@@ -8,14 +8,16 @@ import { CheckboxVisual } from "../checkbox/index";
  * The dropdown menu root — a Base UI `Menu.Root`. Holds open state and wires the
  * trigger to the content. Compose it with `DropdownTrigger` + `DropdownContent`:
  *
- *   <Dropdown>
- *     <DropdownTrigger>Open</DropdownTrigger>
- *     <DropdownContent>
- *       <DropdownItem label="Edit" />
- *       <DropdownSeparator />
- *       <DropdownItem label="Delete" />
- *     </DropdownContent>
- *   </Dropdown>
+ * ```tsx
+ * <Dropdown>
+ *   <DropdownTrigger>Open</DropdownTrigger>
+ *   <DropdownContent>
+ *     <DropdownItem label="Edit" />
+ *     <DropdownSeparator />
+ *     <DropdownItem label="Delete" />
+ *   </DropdownContent>
+ * </Dropdown>
+ * ```
  */
 export const Dropdown = Menu.Root;
 export type DropdownProps = React.ComponentProps<typeof Menu.Root>;
