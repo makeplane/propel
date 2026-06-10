@@ -18,10 +18,7 @@ import {
 // Icon-only square sizes per magnitude. Figma's "Icon button" Size scale ships
 // S/Base/L/XL at 20/24/28/32px; those map to sm/md/lg/xl. Base is a 24px square
 // (size-6) with a 16px glyph and 4px (spacing/1) padding, straight from Figma.
-// `xs` is an extra-dense 16px step extrapolated below the Figma scale, mirroring
-// the text-button magnitude scale.
 const iconButtonSizeByMagnitude: Record<ButtonMagnitude, string> = {
-  xs: "size-4 p-0.5",
   sm: "size-5 p-1",
   md: "size-6 p-1",
   lg: "size-7 p-1",
