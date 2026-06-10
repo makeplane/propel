@@ -148,6 +148,35 @@ export const ClickFiresOnClick: Story = {
   },
 };
 
+/**
+ * Tab moves focus onto the button, then **Enter** activates it (fires `onClick`).
+ * Native `<button>` semantics — the test guards that the wrapper keeps them.
+ */
+export const EnterActivates: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn() },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Button" });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await expect(args.onClick).toHaveBeenCalledOnce();
+  },
+};
+
+/** With the button focused, **Space** activates it (fires `onClick`). */
+export const SpaceActivates: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn() },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Button" });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("[Space]");
+    await expect(args.onClick).toHaveBeenCalledOnce();
+  },
+};
+
 /** A `disabled` button does not fire `onClick`. */
 export const DisabledBlocksClick: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -156,6 +185,38 @@ export const DisabledBlocksClick: Story = {
     const button = canvas.getByRole("button", { name: "Button" });
     await expect(button).toBeDisabled();
     await userEvent.click(button);
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+/**
+ * A `disabled` button is removed from the tab order: Tab does not land on it and
+ * keyboard activation (Enter/Space) never fires `onClick`.
+ */
+export const DisabledNotKeyboardActivatable: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn(), disabled: true },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Button" });
+    await userEvent.tab();
+    await expect(button).not.toHaveFocus();
+    button.focus();
+    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("[Space]");
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+/** A `loading` button stays focusable but keyboard activation does not fire `onClick`. */
+export const LoadingNotKeyboardActivatable: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn(), loading: true },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Button" });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("[Space]");
     await expect(args.onClick).not.toHaveBeenCalled();
   },
 };

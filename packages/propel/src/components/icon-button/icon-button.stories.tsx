@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus } from "lucide-react";
-import { expect } from "storybook/test";
+import { expect, fn } from "storybook/test";
 import { IconButton, type IconButtonMagnitude, type IconButtonVariant } from "./index";
 
 const VARIANTS: IconButtonVariant[] = ["primary", "secondary", "tertiary", "ghost"];
@@ -126,5 +126,53 @@ export const HasAccessibleName: Story = {
   ),
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("button", { name: "Add item" })).toBeInTheDocument();
+  },
+};
+
+/**
+ * Tab moves focus onto the icon button (queryable by its `aria-label`), then
+ * **Enter** activates it (fires `onClick`).
+ */
+export const EnterActivates: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn() },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Add item" });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await expect(args.onClick).toHaveBeenCalledOnce();
+  },
+};
+
+/** With the icon button focused, **Space** activates it (fires `onClick`). */
+export const SpaceActivates: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn() },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Add item" });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("[Space]");
+    await expect(args.onClick).toHaveBeenCalledOnce();
+  },
+};
+
+/**
+ * A `disabled` icon button is removed from the tab order: Tab does not land on it
+ * and keyboard activation (Enter/Space) never fires `onClick`.
+ */
+export const DisabledNotKeyboardActivatable: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn(), disabled: true },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Add item" });
+    await expect(button).toBeDisabled();
+    await userEvent.tab();
+    await expect(button).not.toHaveFocus();
+    button.focus();
+    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("[Space]");
+    await expect(args.onClick).not.toHaveBeenCalled();
   },
 };
