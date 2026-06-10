@@ -235,6 +235,7 @@ function PanelCheckboxRow({
 }) {
   return (
     <Checkbox
+      tone="neutral"
       checked={checked}
       onCheckedChange={(next) => onCheckedChange(Boolean(next))}
       label={<span className="flex-1">{label}</span>}
