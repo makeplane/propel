@@ -39,9 +39,11 @@ const pageButtonVariants = cva(
   {
     variants: {
       // The current page reads as pressed: it sits on the `transparent-active` fill
-      // (Figma "Selected") and is not interactive.
+      // (Figma "Selected") and is not interactive. It's marked `disabled` to block
+      // re-navigation, but the Figma "Selected" state keeps `text/primary` — so it
+      // must override the `disabled:text-disabled` dim that the base applies.
       current: {
-        true: "bg-layer-transparent-active",
+        true: "bg-layer-transparent-active disabled:text-primary",
         false: "",
       },
     },
