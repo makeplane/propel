@@ -71,13 +71,13 @@ export const Default: Story = {
   ),
 };
 
-/** Each trigger can carry a leading `icon`, matching the Figma header icon. */
+/** Each trigger can carry a `leadingIcon`, matching the Figma header icon. */
 export const WithIcon: Story = {
   render: (args) => (
     <Accordion {...args} defaultValue={["what"]}>
       {ITEMS.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
-          <AccordionTrigger icon={<CircleHelp aria-hidden className="size-4" />}>
+          <AccordionTrigger leadingIcon={<CircleHelp aria-hidden className="size-4" />}>
             {item.label}
           </AccordionTrigger>
           <AccordionPanel>{item.body}</AccordionPanel>
