@@ -32,7 +32,6 @@ const meta = {
     BreadcrumbMenuContent,
     BreadcrumbMenuItem,
   },
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",
