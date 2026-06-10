@@ -175,9 +175,10 @@ export const QueueAndDismiss: Story = {
 
 /**
  * Interaction test for action buttons: queue a toast carrying a left action and a
- * right-aligned primary action, then verify both are reachable and fire their
- * handlers: clicking the primary, and reaching the left action by keyboard (Tab +
- * Enter). Tagged so it stays out of the sidebar/docs/manifest.
+ * right-aligned primary action, then verify both fire their handlers: the primary on
+ * click, and the left action on Enter once focused. The viewport's keyboard tab flow
+ * is covered separately by KeyboardDismiss. Tagged so it stays out of the
+ * sidebar/docs/manifest.
  */
 export const ActionsInteraction: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -205,7 +206,8 @@ export const ActionsInteraction: Story = {
     await userEvent.click(view);
     await expect(onPrimary).toHaveBeenCalledTimes(1);
 
-    // The left action is keyboard-reachable: focus it directly and activate with Enter.
+    // The left action is a real button: focus it and confirm Enter fires its handler.
+    // (Tab order into the toast viewport is covered by KeyboardDismiss.)
     const undo = body.getByRole("button", { name: "Undo" });
     undo.focus();
     await expect(undo).toHaveFocus();

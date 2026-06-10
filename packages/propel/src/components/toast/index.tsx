@@ -139,8 +139,9 @@ export type ToastData = {
    */
   actions?: ToastAction[];
   /**
-   * Right-aligned primary action (Figma's success-tone right button). Wired through
-   * Base UI's `Toast.Action` so it participates in the toast's focus management.
+   * Optional right-aligned action, rendered whenever it's provided (the component
+   * doesn't restrict it by tone). In Figma it appears on the success treatment. Wired
+   * through Base UI's `Toast.Action` so it takes part in the toast's focus management.
    */
   primaryAction?: ToastAction;
 };
