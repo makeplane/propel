@@ -221,12 +221,14 @@ export type TableEditableCellProps = Omit<
  * to pick a new value (Figma "Account type" cell). It owns the `Dropdown` root and
  * trigger, so you only pass the menu surface:
  *
- *   <TableEditableCell value={role} onOpenChange={…}>
- *     <DropdownContent>
- *       <DropdownItem variant="default" label="Admin" onClick={() => setRole("Admin")} />
- *       <DropdownItem variant="default" label="Member" onClick={() => setRole("Member")} />
- *     </DropdownContent>
- *   </TableEditableCell>
+ * ```tsx
+ * <TableEditableCell value={role} onOpenChange={…}>
+ *   <DropdownContent>
+ *     <DropdownItem variant="default" label="Admin" onClick={() => setRole("Admin")} />
+ *     <DropdownItem variant="default" label="Member" onClick={() => setRole("Member")} />
+ *   </DropdownContent>
+ * </TableEditableCell>
+ * ```
  */
 export function TableEditableCell({
   value,
