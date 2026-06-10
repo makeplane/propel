@@ -84,7 +84,13 @@ export const WithIcon: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <Badge key={magnitude} {...args} tone="success" magnitude={magnitude} icon={<Check />}>
+        <Badge
+          key={magnitude}
+          {...args}
+          tone="success"
+          magnitude={magnitude}
+          leadingIcon={<Check />}
+        >
           Done
         </Badge>
       ))}

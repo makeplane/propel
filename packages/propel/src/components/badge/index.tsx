@@ -55,19 +55,23 @@ export type BadgeProps = Omit<React.ComponentProps<"span">, "className" | "style
   tone: BadgeTone;
   /** Size of the badge. */
   magnitude: BadgeMagnitude;
-  /** Optional leading icon (e.g. a lucide icon), sized to the magnitude and tinted to the tone. */
-  icon?: React.ReactNode;
+  /**
+   * Optional leading icon (e.g. a lucide icon), sized to the magnitude and tinted to
+   * the tone. Named `leadingIcon` (not `icon`) to match Button/Input and leave room
+   * for a future `trailingIcon`.
+   */
+  leadingIcon?: React.ReactNode;
 };
 
-export function Badge({ children, tone, magnitude, icon, ...props }: BadgeProps) {
+export function Badge({ children, tone, magnitude, leadingIcon, ...props }: BadgeProps) {
   return (
     <span className={badgeVariants({ tone, magnitude })} {...props}>
-      {icon != null ? (
+      {leadingIcon != null ? (
         <span
           aria-hidden
           className={cx("inline-flex shrink-0 [&>svg]:size-full", iconSizeByMagnitude[magnitude])}
         >
-          {icon}
+          {leadingIcon}
         </span>
       ) : null}
       {children}

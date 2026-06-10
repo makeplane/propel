@@ -80,8 +80,12 @@ export type BannerProps = Omit<React.ComponentProps<"div">, "className" | "style
   variant: BannerVariant;
   /** Figma Intent: the banner's meaning/color. */
   tone: BannerTone;
-  /** Leading icon. Defaults to a tone-appropriate lucide icon; pass `null` to hide it. */
-  icon?: React.ReactNode;
+  /**
+   * Leading icon. Defaults to a tone-appropriate lucide icon; pass `null` to hide it.
+   * Named `leadingIcon` (not `icon`) to match Button/Input and leave room for a future
+   * `trailingIcon`.
+   */
+  leadingIcon?: React.ReactNode;
   /** The banner's headline. Rendered as its own block above any `children` body. */
   title?: React.ReactNode;
   /** Trailing actions (e.g. buttons), placed after the message. */
@@ -93,7 +97,7 @@ export type BannerProps = Omit<React.ComponentProps<"div">, "className" | "style
 export function Banner({
   variant,
   tone,
-  icon,
+  leadingIcon,
   title,
   actions,
   onDismiss,
@@ -113,11 +117,11 @@ export function Banner({
       className={cx(bannerVariants({ variant, tone }))}
       {...props}
     >
-      {icon === undefined ? (
+      {leadingIcon === undefined ? (
         <DefaultIcon aria-hidden className={cx("shrink-0", iconSize, toneIconClass[tone])} />
-      ) : icon ? (
+      ) : leadingIcon ? (
         <span aria-hidden className={cx("flex shrink-0 items-center", toneIconClass[tone])}>
-          {icon}
+          {leadingIcon}
         </span>
       ) : null}
       <div

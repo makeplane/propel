@@ -20,7 +20,7 @@ const meta = {
   args: {
     children: "Inbox",
     magnitude: "lg",
-    icon: <Inbox />,
+    leadingIcon: <Inbox />,
   },
   // The row stretches to its container; constrain it to a sidebar-like width.
   decorators: [

@@ -28,10 +28,10 @@ export type TabsProps = Omit<
 > & {
   /**
    * Visual treatment (Figma variant). `contained` lifts the active tab onto a
-   * raised card inside a pill; `underline` slides a dark bar under it.
-   * @default "contained"
+   * raised card inside a pill; `underline` slides a dark bar under it. Required, with
+   * no silent default, like the other essential axes (e.g. Switch `magnitude`).
    */
-  variant?: TabsVariant;
+  variant: TabsVariant;
 };
 
 /**
@@ -47,7 +47,7 @@ export type TabsProps = Omit<
  *     <TabsPanel value="activity">…</TabsPanel>
  *   </Tabs>
  */
-export function Tabs({ variant = "contained", ...props }: TabsProps) {
+export function Tabs({ variant, ...props }: TabsProps) {
   return (
     <TabsVariantContext.Provider value={variant}>
       <BaseTabs.Root className={rootVariants()} {...props} />
@@ -138,17 +138,21 @@ export type TabProps = Omit<
   React.ComponentProps<typeof BaseTabs.Tab>,
   "className" | "render" | "style"
 > & {
-  /** Optional leading icon (e.g. a lucide icon), sized to 16px and tinted to the tab's text color. */
-  icon?: React.ReactNode;
+  /**
+   * Optional leading icon (e.g. a lucide icon), sized to 16px and tinted to the tab's
+   * text color. Named `leadingIcon` (not `icon`) to match Button/Input and leave room
+   * for a future `trailingIcon`.
+   */
+  leadingIcon?: React.ReactNode;
 };
 
 /** A single tab button. `value` ties it to the `TabsPanel` of the same `value`. */
-export function Tab({ icon, children, ...props }: TabProps) {
+export function Tab({ leadingIcon, children, ...props }: TabProps) {
   const variant = React.useContext(TabsVariantContext);
   const iconNode =
-    icon != null ? (
+    leadingIcon != null ? (
       <span aria-hidden className={tabIconVariants()}>
-        {icon}
+        {leadingIcon}
       </span>
     ) : null;
   if (variant === "underline") {
