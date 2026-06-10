@@ -103,9 +103,16 @@ export type CheckboxProps = Omit<
    * box an accessible name with `aria-label` or `aria-labelledby`.
    */
   label?: React.ReactNode;
+  /**
+   * Optional icon shown between the box and the label, matching the Figma "checkbox
+   * with label" icon slot. Only rendered when `label` is present. Named `leadingIcon`
+   * (not `icon`) to match Button/Input, so a `trailingIcon` can be added later without
+   * a breaking rename.
+   */
+  leadingIcon?: React.ReactNode;
 };
 
-export function Checkbox({ tone, label, id, ...props }: CheckboxProps) {
+export function Checkbox({ tone, label, leadingIcon, id, ...props }: CheckboxProps) {
   // Generate a stable id so an explicit `label` can be associated with the box.
   const generatedId = React.useId();
   const checkboxId = id ?? generatedId;
@@ -145,6 +152,11 @@ export function Checkbox({ tone, label, id, ...props }: CheckboxProps) {
       htmlFor={checkboxId}
     >
       {box}
+      {leadingIcon ? (
+        <span className="flex size-3.5 shrink-0 items-center justify-center text-icon-secondary">
+          {leadingIcon}
+        </span>
+      ) : null}
       {label}
     </label>
   );
