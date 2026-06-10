@@ -234,11 +234,13 @@ export function Toast({ toast, ...props }: ToastProps) {
           <BaseToast.Description className="text-13 text-tertiary" />
         </div>
         {hasActionRow ? (
-          // ps-[15px] aligns the cluster under the title (icon column + gap). The left
-          // cluster grows to fill so the primary action pins to the inline-end edge —
-          // RTL-safe via logical `ps`/`end` utilities.
-          <div className="flex w-full gap-1.5 ps-[15px]">
-            <div className="flex min-w-0 flex-1 items-center gap-1.5">
+          // The row already sits in the content column (past the icon), so the left
+          // cluster just needs `-ms-2` to pull each button's transparent px-2 pill back
+          // by its own padding — that lines the button label up with the title text
+          // while the hover fill bleeds left. The left cluster grows to fill so the
+          // primary action pins to the inline-end edge. RTL-safe via logical utilities.
+          <div className="flex w-full gap-1.5">
+            <div className="-ms-2 flex min-w-0 flex-1 items-center gap-1.5">
               {leftActions.map((action, index) => (
                 <button
                   // Actions are positional and have no stable id; index keys are fine
