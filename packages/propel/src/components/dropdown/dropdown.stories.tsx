@@ -70,7 +70,6 @@ const meta = {
     DropdownSubTrigger,
     DropdownSubContent,
   },
-  tags: ["ai-generated"],
 } satisfies Meta<typeof Dropdown>;
 
 export default meta;

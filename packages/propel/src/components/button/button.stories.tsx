@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus, Search, Settings } from "lucide-react";
 import { expect, fn } from "storybook/test";
+import { iconControl } from "../../storybook/icon-control";
 import { Button, type ButtonMagnitude, type ButtonVariant } from "./index";
 
 const VARIANTS: ButtonVariant[] = ["primary", "secondary", "tertiary", "ghost", "link"];
@@ -9,7 +10,8 @@ const MAGNITUDES: ButtonMagnitude[] = ["xs", "sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/Button",
   component: Button,
-  tags: ["ai-generated"],
+  // Icon picker controls for the two icon slots.
+  argTypes: { leadingIcon: iconControl, trailingIcon: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -31,7 +33,9 @@ export const Default: Story = {};
 
 /** Every Figma "Type" side by side at the default magnitude. */
 export const Variants: Story = {
-  parameters: { controls: { disable: true } },
+  // Iterates `variant` and labels each button with the variant name, so disable just
+  // those two controls; the rest stay live and update every button at once.
+  argTypes: { variant: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {VARIANTS.map((variant) => (
@@ -70,7 +74,13 @@ export const Tones: Story = {
  * Every non-link variant ignores it.
  */
 export const LinkEmphasis: Story = {
-  parameters: { controls: { disable: true } },
+  // Iterates `emphasis` (link-only, so `variant` is pinned to link) and labels each
+  // button, so disable those controls; the rest stay live and update both at once.
+  argTypes: {
+    emphasis: { control: false },
+    variant: { control: false },
+    children: { control: false },
+  },
   render: (args) => (
     <div className="flex items-center gap-3">
       <Button {...args} variant="link" emphasis="solid">
@@ -85,7 +95,9 @@ export const LinkEmphasis: Story = {
 
 /** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl; xs is an extra dense step). */
 export const Magnitudes: Story = {
-  parameters: { controls: { disable: true } },
+  // Iterates `magnitude` and labels each button with the magnitude name, so disable
+  // just those two controls; the rest stay live and update every button at once.
+  argTypes: { magnitude: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
