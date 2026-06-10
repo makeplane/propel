@@ -165,15 +165,17 @@ export function BreadcrumbDropdownItem(props: BreadcrumbDropdownItemProps) {
  * breadcrumb. It composes propel's `Dropdown`, so the portaled menu is keyboard- and
  * screen-reader-accessible.
  *
- *   <BreadcrumbItem>
- *     <BreadcrumbMenu>
- *       <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
- *       <BreadcrumbMenuContent>
- *         <BreadcrumbMenuItem render={<a href="#" />}>Plane Mobile</BreadcrumbMenuItem>
- *         <BreadcrumbMenuItem render={<a href="#" />}>Plane Web</BreadcrumbMenuItem>
- *       </BreadcrumbMenuContent>
- *     </BreadcrumbMenu>
- *   </BreadcrumbItem>
+ * ```tsx
+ * <BreadcrumbItem>
+ *   <BreadcrumbMenu>
+ *     <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
+ *     <BreadcrumbMenuContent>
+ *       <BreadcrumbMenuItem render={<a href="#" />}>Plane Mobile</BreadcrumbMenuItem>
+ *       <BreadcrumbMenuItem render={<a href="#" />}>Plane Web</BreadcrumbMenuItem>
+ *     </BreadcrumbMenuContent>
+ *   </BreadcrumbMenu>
+ * </BreadcrumbItem>
+ * ```
  */
 export const BreadcrumbMenu = Dropdown;
 export type BreadcrumbMenuProps = DropdownProps;
