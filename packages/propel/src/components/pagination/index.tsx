@@ -1,6 +1,7 @@
 import { cva, cx } from "class-variance-authority";
 import { ArrowLeft, ArrowRight, ChevronDown, LoaderCircle, MoreHorizontal } from "lucide-react";
 import * as React from "react";
+import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../dropdown/index";
 
 // Pagination is a single composite navigation control rather than a variant matrix:
 // the Figma "variant" axis (All pages visible / Near start / Middle / Near end) is
@@ -16,7 +17,9 @@ import * as React from "react";
 //   directional, so they mirror in RTL via `rtl:-scale-x-100`.
 // - ellipsis: a non-interactive 24px slot holding a 14px more-horizontal glyph.
 // - per-page selector: a `layer-3` pill, 24px tall, radius/md, "50" + chevron-down,
-//   followed by "per page" tertiary text.
+//   followed by "per page" tertiary text. The pill is the trigger for a propel
+//   Dropdown (single-select) whose menu lists the page-size options; picking one
+//   reports it through `pageSize.onChange`.
 
 // Shared 24px slot used by page numbers, the prev/next buttons and the ellipsis.
 // 24px tall with a 24px minimum width so single digits stay square (per Figma),
@@ -61,6 +64,19 @@ const arrowButtonVariants = cva(
     // points toward the start of the run.
     "[&_svg]:size-4 [&_svg]:shrink-0 rtl:[&_svg]:-scale-x-100",
   ),
+);
+
+// The per-page selector trigger (Figma `4762-503`): a `layer-3` pill, 24px tall,
+// `radius/md`, holding the current size + a chevron-down. It's the trigger for the
+// page-size Dropdown, so it gets a focus ring and rotates its chevron while the menu
+// is open.
+const perPageTriggerClass = cx(
+  "inline-flex h-6 min-w-10 cursor-default items-center justify-center gap-1 rounded-md px-2",
+  "bg-layer-3 text-13 font-medium text-secondary outline-none",
+  "hover:bg-layer-3-hover",
+  "focus-visible:ring-2 focus-visible:ring-accent-strong",
+  "[&_svg]:size-3.5 [&_svg]:shrink-0 [&_svg]:text-icon-secondary",
+  "[&[data-popup-open]_svg]:rotate-180",
 );
 
 /** A non-interactive gap marker between distant page numbers. */
@@ -213,21 +229,32 @@ export function Pagination({
     <nav aria-label={l.root} className="flex items-center gap-4" {...props}>
       {pageSize ? (
         <div className="flex min-w-0 flex-1 items-center gap-2">
-          <label className="inline-flex h-6 min-w-10 items-center justify-center gap-1 rounded-md bg-layer-3 px-2 text-13 font-medium text-secondary">
-            <span className="sr-only">{l.perPage}</span>
-            <select
-              value={pageSize.value}
-              onChange={(e) => pageSize.onChange(Number(e.target.value))}
-              className="cursor-default appearance-none bg-transparent text-center outline-none focus-visible:underline"
-            >
+          {/*
+            The selector is the propel Dropdown (single-select): the `layer-3` pill is
+            its trigger and the menu lists the page sizes, the current one marked with a
+            trailing check. The trigger carries the accessible name (the visible size +
+            the visually-hidden "per page"), and picking a size reports it through
+            `pageSize.onChange`. Keyboard works via the Dropdown (Enter/ArrowDown opens,
+            arrows move, Enter selects).
+          */}
+          <Dropdown>
+            <DropdownTrigger render={<button type="button" className={perPageTriggerClass} />}>
+              <span>{l.perPageValue(pageSize.value)}</span>
+              <span className="sr-only">{l.perPage}</span>
+              <ChevronDown aria-hidden className="transition-transform" />
+            </DropdownTrigger>
+            <DropdownContent width="anchor" align="center">
               {pageSize.options.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
+                <DropdownItem
+                  key={option}
+                  variant="default"
+                  label={l.perPageValue(option)}
+                  selected={option === pageSize.value}
+                  onClick={() => pageSize.onChange(option)}
+                />
               ))}
-            </select>
-            <ChevronDown aria-hidden className="size-3.5 shrink-0 text-icon-secondary" />
-          </label>
+            </DropdownContent>
+          </Dropdown>
           <span aria-hidden className="whitespace-nowrap text-13 text-tertiary">
             {l.perPage}
           </span>

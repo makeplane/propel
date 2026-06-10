@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
-import { expect, fn, userEvent } from "storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 import { Pagination } from "./index";
 
 const meta = {
@@ -39,6 +39,90 @@ export const WithSelectorAndRange: Story = {
     pageCount: 5,
     pageSize: { value: 50, options: [25, 50, 100], onChange: () => {} },
     range: { current: "1-50", total: 250 },
+  },
+};
+
+/**
+ * The page-size selector is a propel Dropdown: its `layer-3` pill trigger is labeled
+ * "50 per page"; clicking it opens the portaled menu of sizes (the current one marked
+ * with a check), and picking one reports it through `pageSize.onChange` and updates the
+ * trigger. Keyboard works too — ArrowDown opens the menu and arrow+Enter selects.
+ */
+export const PageSizeSelector: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: {
+    page: 1,
+    pageCount: 5,
+    pageSize: { value: 50, options: [25, 50, 100], onChange: fn() },
+    range: { current: "1-50", total: 250 },
+  },
+  // Drive `pageSize.value` from state so selecting an option visibly updates the
+  // trigger, while still spying on the provided `onChange`.
+  render: function Render(args) {
+    const [value, setValue] = React.useState(args.pageSize?.value ?? 50);
+    const spy = args.pageSize?.onChange;
+    return (
+      <Pagination
+        {...args}
+        pageSize={{
+          value,
+          options: args.pageSize?.options ?? [25, 50, 100],
+          onChange: (next) => {
+            spy?.(next);
+            setValue(next);
+          },
+        }}
+      />
+    );
+  },
+  play: async ({ args, canvas, step }) => {
+    // The portaled menu renders outside the story canvas, so query the document body.
+    const body = within(document.body);
+    const onChange = args.pageSize?.onChange as ReturnType<typeof fn>;
+
+    await step("the trigger is a labeled button showing the current size", async () => {
+      const trigger = canvas.getByRole("button", { name: /50 per page/i });
+      await expect(trigger).toBeInTheDocument();
+    });
+
+    await step("clicking the trigger opens the page-size menu", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: /50 per page/i }));
+      await waitFor(() => expect(body.getByRole("menu")).toBeInTheDocument());
+      // All sizes are listed as menu items.
+      for (const n of [25, 50, 100]) {
+        await expect(body.getByRole("menuitem", { name: String(n) })).toBeInTheDocument();
+      }
+    });
+
+    await step("selecting a size reports it and updates the trigger", async () => {
+      await userEvent.click(body.getByRole("menuitem", { name: "100" }));
+      await expect(onChange).toHaveBeenLastCalledWith(100);
+      await waitFor(() =>
+        expect(canvas.getByRole("button", { name: /100 per page/i })).toBeInTheDocument(),
+      );
+    });
+
+    await step("keyboard: ArrowDown opens the menu, then arrows + Enter select", async () => {
+      const trigger = canvas.getByRole("button", { name: /100 per page/i });
+      trigger.focus();
+      await expect(trigger).toHaveFocus();
+      // ArrowDown opens the menu and highlights the first item (25).
+      await userEvent.keyboard("{ArrowDown}");
+      await waitFor(() => expect(body.getByRole("menu")).toBeInTheDocument());
+      await waitFor(() =>
+        expect(body.getByRole("menuitem", { name: "25" })).toHaveAttribute("data-highlighted"),
+      );
+      // ArrowDown moves the highlight to the second item (50); Enter selects it.
+      await userEvent.keyboard("{ArrowDown}");
+      await waitFor(() =>
+        expect(body.getByRole("menuitem", { name: "50" })).toHaveAttribute("data-highlighted"),
+      );
+      await userEvent.keyboard("{Enter}");
+      await expect(onChange).toHaveBeenLastCalledWith(50);
+      await waitFor(() =>
+        expect(canvas.getByRole("button", { name: /50 per page/i })).toBeInTheDocument(),
+      );
+    });
   },
 };
 
