@@ -8,7 +8,6 @@ const meta = {
   // RadioGroup is composed of Radios, so document Radio's props alongside it
   // (adds a Radio tab to the args table + records the relationship in the manifest).
   subcomponents: { Radio },
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",
@@ -103,6 +102,60 @@ export const SelectionBehavior: Story = {
     await expect(medium).toHaveAttribute("aria-checked", "true");
     await expect(low).toHaveAttribute("aria-checked", "false");
 
+    const checked = canvas
+      .getAllByRole("radio")
+      .filter((r) => r.getAttribute("aria-checked") === "true");
+    await expect(checked).toHaveLength(1);
+  },
+};
+
+/**
+ * Keyboard ARIA pattern (WAI-ARIA radiogroup, roving focus): Tab lands on the
+ * currently-checked radio, and **Arrow Down/Up (and Right/Left)** move both focus
+ * and selection through the group, wrapping at the ends. Only one radio is checked
+ * at a time, and `aria-checked` follows the focused radio. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const KeyboardNavigation: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <RadioGroup defaultValue="low">
+      <Radio value="low" aria-label="Low" />
+      <Radio value="medium" aria-label="Medium" />
+      <Radio value="high" aria-label="High" />
+    </RadioGroup>
+  ),
+  play: async ({ canvas, userEvent }) => {
+    const [low, medium, high] = canvas.getAllByRole("radio");
+    if (!low || !medium || !high) throw new Error("expected three radio options");
+
+    // Tab enters the group on the checked radio (the default value).
+    await userEvent.tab();
+    await expect(low).toHaveFocus();
+    await expect(low).toHaveAttribute("aria-checked", "true");
+
+    // Arrow Down moves focus + selection to the next radio (the previous clears).
+    await userEvent.keyboard("{ArrowDown}");
+    await expect(medium).toHaveFocus();
+    await expect(medium).toHaveAttribute("aria-checked", "true");
+    await expect(low).toHaveAttribute("aria-checked", "false");
+
+    // Arrow Right behaves like Arrow Down in a vertical radiogroup.
+    await userEvent.keyboard("{ArrowRight}");
+    await expect(high).toHaveFocus();
+    await expect(high).toHaveAttribute("aria-checked", "true");
+
+    // Arrow Down at the end wraps back to the first radio.
+    await userEvent.keyboard("{ArrowDown}");
+    await expect(low).toHaveFocus();
+    await expect(low).toHaveAttribute("aria-checked", "true");
+
+    // Arrow Up moves backwards (wrapping to the last radio).
+    await userEvent.keyboard("{ArrowUp}");
+    await expect(high).toHaveFocus();
+    await expect(high).toHaveAttribute("aria-checked", "true");
+
+    // Throughout, exactly one radio stays checked.
     const checked = canvas
       .getAllByRole("radio")
       .filter((r) => r.getAttribute("aria-checked") === "true");

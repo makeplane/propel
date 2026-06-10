@@ -65,7 +65,6 @@ const meta = {
     DropdownSubTrigger,
     DropdownSubContent,
   },
-  tags: ["ai-generated"],
 } satisfies Meta<typeof Dropdown>;
 
 export default meta;
@@ -86,6 +85,37 @@ function findItem(role: string, text: string) {
   return Array.from(document.body.querySelectorAll(`[role="${role}"]`)).find((el) =>
     el.textContent?.includes(text),
   ) as HTMLElement | undefined;
+}
+
+// True when a CSS color string is fully transparent (the bug: a tone-less checked
+// box rendered with no fill, i.e. `transparent` / `rgba(...,0)`).
+function isTransparent(color: string) {
+  if (color === "transparent" || color === "rgba(0, 0, 0, 0)") return true;
+  const match = /rgba?\([^)]*?,\s*([\d.]+)\s*\)/.exec(color);
+  return match != null && Number(match[1]) === 0;
+}
+
+// Resolve the `bg-accent-primary` token to a concrete, browser-normalized rgb
+// string by probing a throwaway element. Lets the assertion compare against the
+// real accent color without hardcoding a hex/rgb that could drift from the token.
+function resolveAccentPrimary() {
+  const probe = document.createElement("span");
+  probe.className = "bg-accent-primary";
+  probe.style.position = "fixed";
+  probe.style.opacity = "0";
+  probe.style.pointerEvents = "none";
+  document.body.appendChild(probe);
+  const color = getComputedStyle(probe).backgroundColor;
+  probe.remove();
+  return color;
+}
+
+// The presentational box inside a `menuitemcheckbox` row is the leading
+// `aria-hidden` span (CheckboxVisual). Returns its computed background-color.
+function checkboxBoxBgColor(row: HTMLElement) {
+  const box = row.querySelector("span[aria-hidden]") as HTMLElement | null;
+  if (box == null) throw new Error("CheckboxVisual box not found in row");
+  return getComputedStyle(box).backgroundColor;
 }
 
 // ---------------------------------------------------------------------------
@@ -207,7 +237,7 @@ export const Status: Story = {
  * Demo 2 — **Labels**. Multi-select: each row is a `DropdownCheckboxItem` (the propel
  * `Checkbox` as the leading control) plus a color swatch, with a search header. When
  * the typed query has no exact match, an "Add label" option (Figma `64-626`) appears,
- * separated from the search by a double divider line.
+ * separated from the search by a single divider line.
  */
 export const Labels: Story = {
   render: function LabelsStory() {
@@ -228,18 +258,15 @@ export const Labels: Story = {
           search={<DropdownSearch value={query} onValueChange={setQuery} />}
         >
           {canAdd ? (
-            <>
-              {/* Two horizontal divider lines between the search and the new-label
-                  item (Figma 64-626): the sticky search already draws a bottom rule;
-                  this adds the second one directly above the add-label row. */}
-              <div className="-mx-1 mb-1 border-t border-subtle" />
-              <DropdownItem
-                variant="default"
-                icon={<Plus className="text-icon-secondary" />}
-                label={`Add label "${trimmed}"`}
-                closeOnClick={false}
-              />
-            </>
+            // A single horizontal divider separates the search from the new-label item
+            // (Figma 64-626): the sticky DropdownSearch already draws its own bottom
+            // rule, so the "Add label" row mounts directly beneath it with no extra line.
+            <DropdownItem
+              variant="default"
+              icon={<Plus className="text-icon-secondary" />}
+              label={`Add label "${trimmed}"`}
+              closeOnClick={false}
+            />
           ) : null}
           {visible.map((l) => (
             <DropdownCheckboxItem
@@ -311,6 +338,44 @@ export const ActionMenu: Story = {
       await openMenu(canvas, "Actions");
       const archive = (await waitFor(() => findItem("menuitem", "Archive"))) as HTMLElement;
       await expect(archive).toHaveAttribute("data-disabled");
+    });
+
+    // Keyboard ARIA pattern (WAI-ARIA menu button): on the trigger, Enter/Space/
+    // ArrowDown open the menu and focus the first item; Arrow Down/Up navigate;
+    // Enter activates + closes + returns focus to the trigger; Escape closes +
+    // returns focus. The menu portals to <body>, so query items by unique text.
+    await step("Escape closes and returns focus to the trigger", async () => {
+      const trigger = canvas.getByRole("button", { name: "Actions" });
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(document.body.querySelector('[role="menu"]')).not.toBeInTheDocument(),
+      );
+      await expect(trigger).toHaveFocus();
+    });
+
+    await step("ArrowDown opens the menu and highlights the first item", async () => {
+      const trigger = canvas.getByRole("button", { name: "Actions" });
+      trigger.focus();
+      await userEvent.keyboard("{ArrowDown}");
+      await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
+      const edit = (await waitFor(() => findItem("menuitem", "Edit"))) as HTMLElement;
+      await waitFor(() => expect(edit).toHaveFocus());
+    });
+
+    await step("ArrowDown/ArrowUp move highlight between items", async () => {
+      await userEvent.keyboard("{ArrowDown}");
+      await waitFor(() => expect(findItem("menuitem", "Make a copy")).toHaveFocus());
+      await userEvent.keyboard("{ArrowUp}");
+      await waitFor(() => expect(findItem("menuitem", "Edit")).toHaveFocus());
+    });
+
+    await step("Enter activates the item, closes the menu, and restores focus", async () => {
+      const trigger = canvas.getByRole("button", { name: "Actions" });
+      await userEvent.keyboard("{Enter}");
+      await waitFor(() =>
+        expect(document.body.querySelector('[role="menu"]')).not.toBeInTheDocument(),
+      );
+      await waitFor(() => expect(trigger).toHaveFocus());
     });
   },
 };
@@ -502,17 +567,92 @@ export const Priority: Story = {
   },
 };
 
+// How many rows a `viewAll` section shows before the "View all" toggle. The rest stay
+// collapsed inline until the toggle is activated.
+const VIEW_ALL_PREVIEW = 2;
+
+/**
+ * Regression — **CheckedFillVisible**. Locks in the fix for the invisible
+ * checked checkbox: a tone-less `CheckboxVisual` (as rendered by
+ * `DropdownCheckboxItem`) used to inherit no fill, so the white check sat on a
+ * transparent box and disappeared. Toggling a row to CHECKED must give its box a
+ * VISIBLE `bg-accent-primary` fill — a non-transparent background-color equal to
+ * the accent-primary token. Not a documented demo; this is a test-only fixture.
+ */
+export const CheckedFillVisible: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: function CheckedFillVisibleStory() {
+    const [checked, setChecked] = React.useState<Record<string, boolean>>({});
+    return (
+      <Dropdown>
+        <DropdownTrigger render={<button type="button" className={triggerClass} />}>
+          Priority
+        </DropdownTrigger>
+        <DropdownContent width="sm">
+          {PRIORITIES.map((p) => (
+            <DropdownCheckboxItem
+              key={p.key}
+              icon={p.icon}
+              label={p.label}
+              checked={Boolean(checked[p.key])}
+              onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
+            />
+          ))}
+        </DropdownContent>
+      </Dropdown>
+    );
+  },
+  play: async ({ canvas, step }) => {
+    await step("an unchecked row's box has no fill", async () => {
+      await openMenu(canvas, "Priority");
+      const high = (await waitFor(() => findItem("menuitemcheckbox", "High"))) as HTMLElement;
+      await expect(high).toHaveAttribute("aria-checked", "false");
+      // Sanity: before checking, the box really is transparent (no fill).
+      await expect(isTransparent(checkboxBoxBgColor(high))).toBe(true);
+    });
+
+    await step("toggling to checked fills the box with the accent token", async () => {
+      await userEvent.click(findItem("menuitemcheckbox", "High") as HTMLElement);
+      await waitFor(() =>
+        expect(findItem("menuitemcheckbox", "High")).toHaveAttribute("aria-checked", "true"),
+      );
+
+      // The fix: the checked box must paint a VISIBLE accent fill — not
+      // transparent, and exactly the `bg-accent-primary` token. A regression
+      // (dropping the base fill) would leave it transparent and fail here.
+      // Re-query the row each read: Base UI re-renders the menu item on toggle,
+      // so an old reference can go stale (a detached node reports no fill). Poll
+      // inside `waitFor` to let the box's color transition settle.
+      const accent = resolveAccentPrimary();
+      // Equality with the (non-transparent) accent token implies a visible fill;
+      // poll until the box's color transition settles to the accent.
+      await waitFor(() =>
+        expect(checkboxBoxBgColor(findItem("menuitemcheckbox", "High") as HTMLElement)).toBe(
+          accent,
+        ),
+      );
+      // Spell out the regression guard: the settled fill is explicitly NOT
+      // transparent (the bug rendered a white check on a `rgba(...,0)` box).
+      await expect(
+        isTransparent(checkboxBoxBgColor(findItem("menuitemcheckbox", "High") as HTMLElement)),
+      ).toBe(false);
+    });
+  },
+};
+
 /**
  * Demo 8 — **Filters**. Multi-select across several titled, collapsible sections
  * (Priority, State, Assignee, …). Each item carries a leading icon; a chevron on the
  * heading collapses/expands the category; categories are separated by a divider; and
- * the "View all" link sits in the heading's trailing slot (no hover background,
- * `cursor-pointer`).
+ * a long category previews only its first few rows with a "View all" toggle that
+ * expands the remaining rows inline (and collapses back to "Show less").
  */
 export const Filters: Story = {
   render: function FiltersStory() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({});
     const [collapsed, setCollapsed] = React.useState<Record<string, boolean>>({});
+    // Which `viewAll` sections have been expanded to show every row.
+    const [expandedAll, setExpandedAll] = React.useState<Record<string, boolean>>({});
     const [query, setQuery] = React.useState("");
     const toggle = (key: string) => (next: boolean) => setChecked((c) => ({ ...c, [key]: next }));
     const match = (label: string) => label.toLowerCase().includes(query.toLowerCase());
@@ -548,6 +688,12 @@ export const Filters: Story = {
             const items = section.items.filter((i) => match(i.label));
             if (items.length === 0) return null;
             const isCollapsed = Boolean(collapsed[section.title]);
+            const isExpandedAll = Boolean(expandedAll[section.title]);
+            // A `viewAll` section previews only its first rows until expanded; the
+            // toggle appears only when there are more rows than the preview shows.
+            const hasOverflow = Boolean(section.viewAll) && items.length > VIEW_ALL_PREVIEW;
+            const visibleItems =
+              hasOverflow && !isExpandedAll ? items.slice(0, VIEW_ALL_PREVIEW) : items;
             return (
               <React.Fragment key={section.title}>
                 {/* Divider between categories. */}
@@ -571,7 +717,7 @@ export const Filters: Story = {
                     onClick={() => setCollapsed((c) => ({ ...c, [section.title]: !isCollapsed }))}
                   />
                   {!isCollapsed
-                    ? items.map((i) => (
+                    ? visibleItems.map((i) => (
                         <DropdownCheckboxItem
                           key={i.key}
                           icon={i.icon}
@@ -581,14 +727,24 @@ export const Filters: Story = {
                         />
                       ))
                     : null}
-                  {/* "View all" is its own menuitem with link emphasis: no hover
-                      background + cursor-pointer. */}
-                  {!isCollapsed && section.viewAll ? (
+                  {/* "View all" is its own menuitem (keyboard-focusable like any row)
+                      with link emphasis: no hover background + cursor-pointer. Clicking
+                      it reveals the remaining rows inline; once expanded it becomes
+                      "Show less". `aria-expanded` reflects the inline-expansion state. */}
+                  {!isCollapsed && hasOverflow ? (
                     <DropdownItem
                       variant="default"
                       emphasis="link"
-                      label={<span className="text-accent-primary">View all</span>}
+                      aria-expanded={isExpandedAll}
+                      label={
+                        <span className="text-accent-primary">
+                          {isExpandedAll ? "Show less" : `View all (${items.length})`}
+                        </span>
+                      }
                       closeOnClick={false}
+                      onClick={() =>
+                        setExpandedAll((s) => ({ ...s, [section.title]: !isExpandedAll }))
+                      }
                     />
                   ) : null}
                 </DropdownGroup>
@@ -604,7 +760,23 @@ export const Filters: Story = {
       await openMenu(canvas, "Filters");
       await waitFor(() => expect(findItem("menuitemcheckbox", "Urgent")).toBeDefined());
       await expect(findItem("menuitemcheckbox", "Backlog")).toBeDefined();
-      await expect(findItem("menuitemcheckbox", "David Wilson")).toBeDefined();
+      // The Assignee section previews only its first rows; later assignees are hidden
+      // behind "View all" until it is activated.
+      await expect(findItem("menuitemcheckbox", "Amelia Parker")).toBeDefined();
+      await expect(findItem("menuitemcheckbox", "Ethan Parker")).toBeUndefined();
+    });
+    await step("View all expands the remaining rows inline", async () => {
+      const viewAll = (await waitFor(() => findItem("menuitem", "View all"))) as HTMLElement;
+      await expect(viewAll).toHaveAttribute("aria-expanded", "false");
+      // Keyboard-accessible: activate the menuitem with Enter rather than a pointer.
+      viewAll.focus();
+      await userEvent.keyboard("{Enter}");
+      await waitFor(() => expect(findItem("menuitemcheckbox", "Ethan Parker")).toBeDefined());
+      // The toggle now offers to collapse again.
+      const showLess = findItem("menuitem", "Show less") as HTMLElement;
+      await expect(showLess).toHaveAttribute("aria-expanded", "true");
+      await userEvent.click(showLess);
+      await waitFor(() => expect(findItem("menuitemcheckbox", "Ethan Parker")).toBeUndefined());
     });
     await step("collapse a category from its heading", async () => {
       const heading = (await waitFor(() =>
