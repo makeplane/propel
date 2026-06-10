@@ -20,7 +20,6 @@ const meta = {
   // Table is a compound component; document its parts alongside the root so the
   // args table gets a tab per part and the manifest records the relationship.
   subcomponents: { TableHeader, TableBody, TableRow, TableHead, TableCell, TableEditableCell },
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",
