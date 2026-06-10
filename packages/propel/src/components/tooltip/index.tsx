@@ -9,7 +9,23 @@ import * as React from "react";
  * wrap an app or a toolbar in it when you want that grouped timing. Thin re-export
  * of Base UI's provider so consumers don't reach into `@base-ui/react` directly.
  */
-export const TooltipProvider = BaseTooltip.Provider;
+type BaseTooltipProviderProps = React.ComponentProps<typeof BaseTooltip.Provider>;
+
+export type TooltipProviderProps = Omit<
+  BaseTooltipProviderProps,
+  "delay" | "closeDelay" | "children"
+> & {
+  /** How long to wait before opening a tooltip, in milliseconds. */
+  delay?: number;
+  /** How long to wait before closing a tooltip, in milliseconds. */
+  closeDelay?: number;
+  /** The subtree whose tooltips share this group's open/close timing. */
+  children?: React.ReactNode;
+};
+
+export function TooltipProvider(props: TooltipProviderProps) {
+  return <BaseTooltip.Provider {...props} />;
+}
 
 export type TooltipProps = Omit<
   React.ComponentProps<typeof BaseTooltip.Root>,

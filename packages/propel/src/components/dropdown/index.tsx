@@ -19,8 +19,30 @@ import { CheckboxVisual } from "../checkbox/index";
  * </Dropdown>
  * ```
  */
-export const Dropdown = Menu.Root;
-export type DropdownProps = React.ComponentProps<typeof Menu.Root>;
+type BaseMenuRootProps = React.ComponentProps<typeof Menu.Root>;
+
+export type DropdownProps = Omit<
+  BaseMenuRootProps,
+  "open" | "defaultOpen" | "onOpenChange" | "modal" | "children"
+> & {
+  /** Whether the menu is open. Controlled; pair with `onOpenChange`. */
+  open?: boolean;
+  /** Whether the menu is open on mount. Uncontrolled. @default false */
+  defaultOpen?: boolean;
+  /** Called with the next open state when the menu opens or closes. */
+  onOpenChange?: BaseMenuRootProps["onOpenChange"];
+  /**
+   * Modal behavior while open: `true` locks page scroll and blocks outside pointer
+   * interaction. @default false
+   */
+  modal?: BaseMenuRootProps["modal"];
+  /** The trigger and menu surface (`DropdownTrigger`, `DropdownContent`). */
+  children?: React.ReactNode;
+};
+
+export function Dropdown(props: DropdownProps) {
+  return <Menu.Root {...props} />;
+}
 
 export type DropdownTriggerProps = Omit<
   React.ComponentProps<typeof Menu.Trigger>,
@@ -468,8 +490,25 @@ export function DropdownFooter(props: DropdownFooterProps) {
  * A submenu root. Wrap a `DropdownSubTrigger` + `DropdownSubContent` in it to nest
  * a second menu that opens from a row. Built on Base UI `Menu.SubmenuRoot`.
  */
-export const DropdownSub = Menu.SubmenuRoot;
-export type DropdownSubProps = React.ComponentProps<typeof Menu.SubmenuRoot>;
+type BaseSubmenuRootProps = React.ComponentProps<typeof Menu.SubmenuRoot>;
+
+export type DropdownSubProps = Omit<
+  BaseSubmenuRootProps,
+  "open" | "defaultOpen" | "onOpenChange" | "children"
+> & {
+  /** Whether the submenu is open. Controlled; pair with `onOpenChange`. */
+  open?: boolean;
+  /** Whether the submenu is open on mount. Uncontrolled. @default false */
+  defaultOpen?: boolean;
+  /** Called with the next open state when the submenu opens or closes. */
+  onOpenChange?: BaseSubmenuRootProps["onOpenChange"];
+  /** The submenu's trigger and nested content (`DropdownSubTrigger`, `DropdownSubContent`). */
+  children?: React.ReactNode;
+};
+
+export function DropdownSub(props: DropdownSubProps) {
+  return <Menu.SubmenuRoot {...props} />;
+}
 
 export type DropdownSubTriggerProps = Omit<
   React.ComponentProps<typeof Menu.SubmenuTrigger>,
