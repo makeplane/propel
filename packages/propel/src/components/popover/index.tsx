@@ -20,8 +20,30 @@ import * as React from "react";
  * it can host arbitrary settings-panel content — radios, checkboxes, pills, forms — as
  * valid children. Reach for `Dropdown` when you need an actual ARIA menu of actions.
  */
-export const Popover = BasePopover.Root;
-export type PopoverProps = React.ComponentProps<typeof BasePopover.Root>;
+type BasePopoverRootProps = React.ComponentProps<typeof BasePopover.Root>;
+
+export type PopoverProps = Omit<
+  BasePopoverRootProps,
+  "open" | "defaultOpen" | "onOpenChange" | "modal" | "children"
+> & {
+  /** Whether the popover is open. Controlled; pair with `onOpenChange`. */
+  open?: boolean;
+  /** Whether the popover is open on mount. Uncontrolled. @default false */
+  defaultOpen?: boolean;
+  /** Called with the next open state when the popover opens or closes. */
+  onOpenChange?: BasePopoverRootProps["onOpenChange"];
+  /**
+   * Modal behavior while open: `true` locks page scroll and blocks outside pointer
+   * interaction; `'trap-focus'` only traps focus. @default false
+   */
+  modal?: BasePopoverRootProps["modal"];
+  /** The popover's trigger and panel (`PopoverTrigger`, `PopoverContent`). */
+  children?: React.ReactNode;
+};
+
+export function Popover(props: PopoverProps) {
+  return <BasePopover.Root {...props} />;
+}
 
 export type PopoverTriggerProps = Omit<
   React.ComponentProps<typeof BasePopover.Trigger>,
