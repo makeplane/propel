@@ -95,7 +95,7 @@ export function PopoverContent({
   side = "bottom",
   sideOffset = 4,
   align = "start",
-  width,
+  width = "anchor",
   ...props
 }: PopoverContentProps) {
   return (
