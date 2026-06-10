@@ -38,7 +38,7 @@ export type TabsProps = Omit<
  * Root of a tab set. Groups a `TabsList` of `Tab`s with their `TabsPanel`s and
  * tracks which tab is active. Build the compound API from its parts:
  *
- *   <Tabs defaultValue="overview">
+ *   <Tabs variant="contained" defaultValue="overview">
  *     <TabsList>
  *       <Tab value="overview">Overview</Tab>
  *       <Tab value="activity">Activity</Tab>
@@ -149,12 +149,11 @@ export type TabProps = Omit<
 /** A single tab button. `value` ties it to the `TabsPanel` of the same `value`. */
 export function Tab({ leadingIcon, children, ...props }: TabProps) {
   const variant = React.useContext(TabsVariantContext);
-  const iconNode =
-    leadingIcon != null ? (
-      <span aria-hidden className={tabIconVariants()}>
-        {leadingIcon}
-      </span>
-    ) : null;
+  const iconNode = leadingIcon ? (
+    <span aria-hidden className={tabIconVariants()}>
+      {leadingIcon}
+    </span>
+  ) : null;
   if (variant === "underline") {
     return (
       <BaseTabs.Tab className={tabVariants({ variant })} {...props}>

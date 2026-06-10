@@ -66,7 +66,7 @@ export type BadgeProps = Omit<React.ComponentProps<"span">, "className" | "style
 export function Badge({ children, tone, magnitude, leadingIcon, ...props }: BadgeProps) {
   return (
     <span className={badgeVariants({ tone, magnitude })} {...props}>
-      {leadingIcon != null ? (
+      {leadingIcon ? (
         <span
           aria-hidden
           className={cx("inline-flex shrink-0 [&>svg]:size-full", iconSizeByMagnitude[magnitude])}

@@ -113,7 +113,7 @@ export function NavItem({
       className: navItemVariants({ magnitude, level }),
       children: (
         <>
-          {leadingIcon != null ? (
+          {leadingIcon ? (
             <span
               aria-hidden
               className={cx(
@@ -128,9 +128,7 @@ export function NavItem({
             </span>
           ) : null}
           <span className="min-w-0 flex-1 truncate font-medium leading-snug">{children}</span>
-          {trailing != null ? (
-            <span className="flex shrink-0 items-center gap-2">{trailing}</span>
-          ) : null}
+          {trailing ? <span className="flex shrink-0 items-center gap-2">{trailing}</span> : null}
         </>
       ),
     },
