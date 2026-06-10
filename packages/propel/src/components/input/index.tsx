@@ -13,6 +13,12 @@ import * as React from "react";
 // TextArea value text differs at md (text-13 vs Input's text-14) — see
 // `textAreaTextVariants` — and TextArea keeps a constant 8px v-padding.
 
+// The label row. `magnitude` drives the text size; `inset` is the horizontal
+// layout's top alignment: when the label sits beside the control box it gets a
+// magnitude-matched top padding so its first text line lines up with the
+// control's value line (the box's vertical padding md 6px / lg 8px / xl 12px
+// plus its 1px border = 7px / 9px / 13px). It's a compound variant rather than
+// a className escape hatch so the public `Field.Label` never accepts styling.
 const labelVariants = cva("font-medium text-primary", {
   variants: {
     magnitude: {
@@ -20,7 +26,16 @@ const labelVariants = cva("font-medium text-primary", {
       lg: "text-14",
       xl: "text-14",
     },
+    inset: {
+      true: "",
+      false: "",
+    },
   },
+  compoundVariants: [
+    { magnitude: "md", inset: true, class: "pt-[7px]" },
+    { magnitude: "lg", inset: true, class: "pt-[9px]" },
+    { magnitude: "xl", inset: true, class: "pt-[13px]" },
+  ],
 });
 
 const helperVariants = cva("", {
@@ -120,18 +135,23 @@ function FieldLabelRow({
   magnitude,
   required,
   info,
-  className,
+  inset,
 }: {
   children: React.ReactNode;
   magnitude: InputMagnitude;
   required?: boolean;
   info?: React.ReactNode;
-  /** Extra classes on the label row (e.g. the horizontal top inset). */
-  className?: string;
+  /**
+   * Top-align the label with the control's value line in the `horizontal`
+   * layout. Adds a magnitude-matched top inset so the label's first text line
+   * sits level with the control's text. Internal-only — keeps the public
+   * `Field.Label` free of styling props.
+   */
+  inset?: boolean;
 }) {
   return (
     <BaseField.Label
-      className={cx("flex items-center gap-0.5", labelVariants({ magnitude }), className)}
+      className={cx("flex items-center gap-0.5", labelVariants({ magnitude, inset }))}
     >
       {children}
       {required ? (
@@ -253,18 +273,9 @@ export function Input({
           // In `horizontal` the label sits beside the control box, top-aligned
           // (`items-start`). The box adds vertical padding (md 6px / lg 8px /
           // xl 12px) plus a 1px border before its text, so the label gets a
-          // matching top inset (`pt-[7px]`/`pt-[9px]`/`pt-[13px]`) to line its
-          // first text line up with the control's value line. Vertical doesn't
-          // need this — the label stacks above.
-          className={
-            horizontal
-              ? magnitude === "md"
-                ? "pt-[7px]"
-                : magnitude === "lg"
-                  ? "pt-[9px]"
-                  : "pt-[13px]"
-              : undefined
-          }
+          // matching top inset to line its first text line up with the control's
+          // value line. Vertical doesn't need this — the label stacks above.
+          inset={horizontal}
         >
           {label}
         </FieldLabelRow>
