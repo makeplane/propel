@@ -51,8 +51,8 @@ export const Variants: Story = {
 };
 
 /**
- * The full page banner from Figma (node 1838-14321): a message with trailing actions
- * and a dismiss control. `actions` takes any nodes, so the banner composes propel
+ * The full page banner from Figma (see the meta's design link): a message with trailing
+ * actions and a dismiss control. `actions` takes any nodes, so the banner composes propel
  * `Button`s, here a ghost, a secondary, and a primary, matching the three buttons plus
  * the close in the design.
  */
