@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn } from "storybook/test";
+import { iconControl } from "../../storybook/icon-control";
 import { Banner, type BannerTone } from "./index";
 
 const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
@@ -8,6 +9,8 @@ const meta = {
   title: "Components/Banner",
   component: Banner,
   tags: ["ai-generated"],
+  // Icon picker control for the leading icon (None keeps the default tone icon).
+  argTypes: { leadingIcon: iconControl },
   args: {
     title: "There is something that needs your attention",
     variant: "page",

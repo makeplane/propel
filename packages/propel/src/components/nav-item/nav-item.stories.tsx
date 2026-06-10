@@ -2,6 +2,7 @@ import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, Inbox } from "lucide-react";
 import { expect, fn, userEvent, within } from "storybook/test";
+import { iconControl } from "../../storybook/icon-control";
 import { NavItem, NavItemChevron, NavItemCount, type NavItemMagnitude } from "./index";
 
 const MAGNITUDES: NavItemMagnitude[] = ["lg", "md"];
@@ -11,6 +12,8 @@ const meta = {
   component: NavItem,
   subcomponents: { NavItemCount, NavItemChevron },
   tags: ["ai-generated"],
+  // Icon picker control for the leading icon.
+  argTypes: { leadingIcon: iconControl },
   parameters: {
     design: {
       type: "figma",

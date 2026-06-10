@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Mail, Search } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
+import { iconControl } from "../../storybook/icon-control";
 import { Field, Input, type InputMagnitude, TextArea } from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
@@ -13,6 +14,8 @@ const meta = {
   // relationship in the manifest).
   subcomponents: { Input, TextArea, Field },
   tags: ["ai-generated"],
+  // Icon picker controls for the leading/trailing slots.
+  argTypes: { leadingIcon: iconControl, trailingIcon: iconControl },
   parameters: {
     design: {
       type: "figma",

@@ -120,7 +120,14 @@ export function Banner({
       {leadingIcon === undefined ? (
         <DefaultIcon aria-hidden className={cx("shrink-0", iconSize, toneIconClass[tone])} />
       ) : leadingIcon ? (
-        <span aria-hidden className={cx("flex shrink-0 items-center", toneIconClass[tone])}>
+        <span
+          aria-hidden
+          className={cx(
+            "flex shrink-0 items-center [&>svg]:size-full",
+            iconSize,
+            toneIconClass[tone],
+          )}
+        >
           {leadingIcon}
         </span>
       ) : null}

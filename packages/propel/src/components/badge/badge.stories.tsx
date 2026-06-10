@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check } from "lucide-react";
 import { expect } from "storybook/test";
+import { iconControl } from "../../storybook/icon-control";
 import { Badge, type BadgeMagnitude, type BadgeTone } from "./index";
 
 const TONES: BadgeTone[] = [
@@ -32,6 +33,8 @@ const meta = {
   title: "Components/Badge",
   component: Badge,
   tags: ["ai-generated"],
+  // Give the `leadingIcon` ReactNode prop a usable icon picker in the Controls panel.
+  argTypes: { leadingIcon: iconControl },
   args: {
     children: "Badge",
     tone: "neutral",

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus } from "lucide-react";
 import { expect, fn } from "storybook/test";
+import { iconControl } from "../../storybook/icon-control";
 import { IconButton, type IconButtonMagnitude, type IconButtonVariant } from "./index";
 
 const VARIANTS: IconButtonVariant[] = ["primary", "secondary", "tertiary", "ghost"];
@@ -10,6 +11,8 @@ const meta = {
   title: "Components/IconButton",
   component: IconButton,
   tags: ["ai-generated"],
+  // Icon picker control for the single glyph.
+  argTypes: { icon: iconControl },
   parameters: {
     design: {
       type: "figma",
