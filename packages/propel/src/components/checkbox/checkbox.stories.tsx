@@ -107,6 +107,37 @@ export const Error: Story = {
 };
 
 /**
+ * Keyboard ARIA pattern (WAI-ARIA checkbox): Tab moves focus to the box, **Space**
+ * toggles `aria-checked`, and **Enter** must NOT toggle (Enter is reserved for form
+ * submission, not the checkbox). Tagged out of the sidebar/docs/manifest — it's a
+ * behavior test — but still runs under the default `test` tag.
+ */
+export const KeyboardToggle: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { label: "Subscribe", defaultChecked: false },
+  play: async ({ canvas, userEvent }) => {
+    const checkbox = canvas.getByRole("checkbox");
+    await expect(checkbox).toHaveAttribute("aria-checked", "false");
+
+    // Tab moves focus onto the checkbox.
+    await userEvent.tab();
+    await expect(checkbox).toHaveFocus();
+
+    // Space toggles aria-checked on and off.
+    await userEvent.keyboard(" ");
+    await expect(checkbox).toHaveAttribute("aria-checked", "true");
+    await userEvent.keyboard(" ");
+    await expect(checkbox).toHaveAttribute("aria-checked", "false");
+
+    // Enter must NOT toggle a checkbox.
+    await userEvent.keyboard(" ");
+    await expect(checkbox).toHaveAttribute("aria-checked", "true");
+    await userEvent.keyboard("{Enter}");
+    await expect(checkbox).toHaveAttribute("aria-checked", "true");
+  },
+};
+
+/**
  * Pure interaction test: a disabled checkbox does not toggle when clicked.
  * Tagged `!dev`/`!autodocs`/`!manifest` so it stays out of the sidebar, docs,
  * and the AI/MCP manifest, but still runs under the default `test` tag.

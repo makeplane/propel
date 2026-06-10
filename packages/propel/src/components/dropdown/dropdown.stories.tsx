@@ -397,6 +397,44 @@ export const ActionMenu: Story = {
       const archive = (await waitFor(() => findItem("menuitem", "Archive"))) as HTMLElement;
       await expect(archive).toHaveAttribute("data-disabled");
     });
+
+    // Keyboard ARIA pattern (WAI-ARIA menu button): on the trigger, Enter/Space/
+    // ArrowDown open the menu and focus the first item; Arrow Down/Up navigate;
+    // Enter activates + closes + returns focus to the trigger; Escape closes +
+    // returns focus. The menu portals to <body>, so query items by unique text.
+    await step("Escape closes and returns focus to the trigger", async () => {
+      const trigger = canvas.getByRole("button", { name: "Actions" });
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(document.body.querySelector('[role="menu"]')).not.toBeInTheDocument(),
+      );
+      await expect(trigger).toHaveFocus();
+    });
+
+    await step("ArrowDown opens the menu and highlights the first item", async () => {
+      const trigger = canvas.getByRole("button", { name: "Actions" });
+      trigger.focus();
+      await userEvent.keyboard("{ArrowDown}");
+      await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
+      const edit = (await waitFor(() => findItem("menuitem", "Edit"))) as HTMLElement;
+      await waitFor(() => expect(edit).toHaveFocus());
+    });
+
+    await step("ArrowDown/ArrowUp move highlight between items", async () => {
+      await userEvent.keyboard("{ArrowDown}");
+      await waitFor(() => expect(findItem("menuitem", "Make a copy")).toHaveFocus());
+      await userEvent.keyboard("{ArrowUp}");
+      await waitFor(() => expect(findItem("menuitem", "Edit")).toHaveFocus());
+    });
+
+    await step("Enter activates the item, closes the menu, and restores focus", async () => {
+      const trigger = canvas.getByRole("button", { name: "Actions" });
+      await userEvent.keyboard("{Enter}");
+      await waitFor(() =>
+        expect(document.body.querySelector('[role="menu"]')).not.toBeInTheDocument(),
+      );
+      await waitFor(() => expect(trigger).toHaveFocus());
+    });
   },
 };
 
