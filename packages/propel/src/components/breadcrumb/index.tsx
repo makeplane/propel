@@ -16,8 +16,13 @@ import {
 // background that fills with `background/layer/transparent-hover` on hover. The
 // current page swaps the label to the stronger `text/primary` token. These map
 // 1:1 to the Figma "Breadcrumb components" item (default / hover / current).
+// The crumb is a single-line flex row of [icon] label [chevron]. Figma's text style
+// carries a 1.54 line-height, but applying that here inflates the text's line box and
+// floats the glyphs above the icon/chevron centers, so they read as misaligned. On a
+// single-line flex row the box should hug the glyphs (`leading-none`) and `items-center`
+// does the vertical centering; `py-0.5` restores the crumb/hover-pill height.
 const crumbVariants = cva(
-  "inline-flex items-center gap-1.5 rounded-md px-1 text-14 font-medium leading-[1.54] text-tertiary",
+  "inline-flex items-center gap-1.5 rounded-md px-1 py-0.5 text-14 font-medium leading-none text-tertiary",
   {
     variants: {
       // The hoverable crumbs (links, dropdown trigger) get the transparent-hover
