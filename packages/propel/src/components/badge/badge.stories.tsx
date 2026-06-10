@@ -53,9 +53,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** Every color/intent the badge supports, side by side at the default magnitude. */
+/** Every color/intent the badge supports, side by side. */
 export const Tones: Story = {
-  parameters: { controls: { disable: true } },
+  // The grid iterates `tone` and labels each swatch with the tone name, so disable just
+  // those two controls; `magnitude` and `leadingIcon` stay live and update every swatch
+  // at once.
+  argTypes: { tone: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex flex-wrap items-center gap-3">
       {TONES.map((tone) => (
@@ -67,9 +70,10 @@ export const Tones: Story = {
   ),
 };
 
-/** The three sizes (Figma S / Base / Large) at the default tone. */
+/** The three sizes (Figma S / Base / Large). */
 export const Magnitudes: Story = {
-  parameters: { controls: { disable: true } },
+  // Iterates `magnitude` (and labels with it); `tone` and `leadingIcon` stay live.
+  argTypes: { magnitude: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
