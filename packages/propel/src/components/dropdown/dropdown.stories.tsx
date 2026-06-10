@@ -669,11 +669,12 @@ export const EmptyState: Story = {
 export const Submenu: Story = {
   parameters: {
     a11y: {
-      // Base UI renders each submenu trigger as a `<span aria-owns>` inside the parent
-      // `role="menu"` — its own (valid) pattern for associating the trigger with the
-      // nested menu in the a11y tree. axe's aria-required-children flags that span as a
-      // disallowed menu child even though it is the framework's prescribed markup; the
-      // submenu trigger keeps `role="menuitem"` + `aria-haspopup="menu"`. Suppress just
+      // When a submenu is open, Base UI's FloatingPortal emits a visually-hidden
+      // `aria-owns` owner `<span>` (it preserves trigger→portaled-popup order for
+      // virtual-cursor navigation) that lands as a child of the parent `role="menu"`,
+      // so axe's aria-required-children flags it as a disallowed child. The submenu
+      // trigger itself correctly keeps `role="menuitem"` + `aria-haspopup`. Upstream
+      // treats this as a likely axe false-positive (mui/base-ui#4004). Suppress just
       // that rule for this story.
       config: { rules: [{ id: "aria-required-children", enabled: false }] },
     },
