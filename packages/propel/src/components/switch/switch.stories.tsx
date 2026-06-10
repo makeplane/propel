@@ -7,7 +7,6 @@ const MAGNITUDES: SwitchMagnitude[] = ["lg", "md", "sm"];
 const meta = {
   title: "Components/Switch",
   component: Switch,
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",
@@ -27,8 +26,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const Magnitudes: Story = {
-  // A fixed showcase of every size — controls would be inert, so hide the panel.
-  parameters: { controls: { disable: true } },
+  argTypes: { magnitude: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
@@ -65,6 +63,30 @@ export const TogglesOnClick: Story = {
     await userEvent.click(sw);
     await expect(sw).toHaveAttribute("aria-checked", "true");
     await userEvent.click(sw);
+    await expect(sw).toHaveAttribute("aria-checked", "false");
+  },
+};
+
+/**
+ * Keyboard ARIA pattern (WAI-ARIA switch): Tab moves focus to the switch and
+ * **Space** toggles `aria-checked`. Tagged out of the sidebar/docs/manifest while
+ * still running under the default `test` tag.
+ */
+export const KeyboardToggle: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { magnitude: "md", defaultChecked: false },
+  play: async ({ canvas, userEvent }) => {
+    const sw = canvas.getByRole("switch");
+    await expect(sw).toHaveAttribute("aria-checked", "false");
+
+    // Tab focuses the switch.
+    await userEvent.tab();
+    await expect(sw).toHaveFocus();
+
+    // Space toggles aria-checked on and off.
+    await userEvent.keyboard(" ");
+    await expect(sw).toHaveAttribute("aria-checked", "true");
+    await userEvent.keyboard(" ");
     await expect(sw).toHaveAttribute("aria-checked", "false");
   },
 };

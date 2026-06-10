@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Mail, Search } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
+import { iconControl } from "../../storybook/icon-control";
 import { Field, Input, type InputMagnitude, TextArea } from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
@@ -12,7 +13,8 @@ const meta = {
   // primitives alongside Input (adds their tabs to the args table + records the
   // relationship in the manifest).
   subcomponents: { Input, TextArea, Field },
-  tags: ["ai-generated"],
+  // Icon picker controls for the leading/trailing slots.
+  argTypes: { leadingIcon: iconControl, trailingIcon: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -114,20 +116,12 @@ export const States: Story = {
 
 /** Every magnitude (`md` / `lg` / `xl`) stacked. */
 export const Magnitudes: Story = {
-  // Required axes for the args table; the custom `render` ignores them.
-  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
-  parameters: { controls: { disable: true } },
-  render: () => (
+  args: { magnitude: "md", tone: "neutral", variant: "vertical", placeholder: "Placeholder" },
+  argTypes: { magnitude: { control: false }, label: { control: false } },
+  render: (args) => (
     <div className="flex w-72 flex-col gap-4">
       {MAGNITUDES.map((magnitude) => (
-        <Input
-          key={magnitude}
-          magnitude={magnitude}
-          tone="neutral"
-          variant="vertical"
-          label={magnitude}
-          placeholder="Placeholder"
-        />
+        <Input key={magnitude} {...args} magnitude={magnitude} label={magnitude} />
       ))}
     </div>
   ),

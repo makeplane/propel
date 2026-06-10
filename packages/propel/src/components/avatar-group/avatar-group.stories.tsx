@@ -9,7 +9,6 @@ const meta = {
   // AvatarGroup is composed of Avatars, so document Avatar's props alongside it
   // (adds an Avatar tab to the args table + records the relationship in the manifest).
   subcomponents: { Avatar },
-  tags: ["ai-generated"],
   args: { magnitude: "sm" },
   parameters: {
     design: {
