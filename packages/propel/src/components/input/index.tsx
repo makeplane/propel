@@ -120,14 +120,19 @@ function FieldLabelRow({
   magnitude,
   required,
   info,
+  className,
 }: {
   children: React.ReactNode;
   magnitude: InputMagnitude;
   required?: boolean;
   info?: React.ReactNode;
+  /** Extra classes on the label row (e.g. the horizontal top inset). */
+  className?: string;
 }) {
   return (
-    <BaseField.Label className={cx("flex items-center gap-0.5", labelVariants({ magnitude }))}>
+    <BaseField.Label
+      className={cx("flex items-center gap-0.5", labelVariants({ magnitude }), className)}
+    >
       {children}
       {required ? (
         // Decorative — `required` on the control carries the real semantics.
@@ -230,10 +235,37 @@ export function Input({
       disabled={disabled}
       // `tone="danger"` mirrors the error treatment even without HTML validity.
       invalid={tone === "danger" || undefined}
-      className={cx("flex gap-1.5", horizontal ? "flex-row items-center" : "flex-col items-start")}
+      className={cx(
+        "flex",
+        // Figma "horizontal" (node 1582-168) lays the label column beside the
+        // control column with a 12px gap, top-aligned (`items-start`): the label
+        // hugs the top of the control box rather than centering against it, so a
+        // label + helper stack reads from the top down. Vertical keeps the 6px
+        // (gap-1.5) rhythm with the label stacked above.
+        horizontal ? "flex-row items-start gap-3" : "flex-col items-start gap-1.5",
+      )}
     >
       {label != null ? (
-        <FieldLabelRow magnitude={magnitude} required={required} info={info}>
+        <FieldLabelRow
+          magnitude={magnitude}
+          required={required}
+          info={info}
+          // In `horizontal` the label sits beside the control box, top-aligned
+          // (`items-start`). The box adds vertical padding (md 6px / lg 8px /
+          // xl 12px) plus a 1px border before its text, so the label gets a
+          // matching top inset (`pt-[7px]`/`pt-[9px]`/`pt-[13px]`) to line its
+          // first text line up with the control's value line. Vertical doesn't
+          // need this — the label stacks above.
+          className={
+            horizontal
+              ? magnitude === "md"
+                ? "pt-[7px]"
+                : magnitude === "lg"
+                  ? "pt-[9px]"
+                  : "pt-[13px]"
+              : undefined
+          }
+        >
           {label}
         </FieldLabelRow>
       ) : null}
