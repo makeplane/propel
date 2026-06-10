@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import { DropdownContent, DropdownItem } from "../dropdown/index";
 import {
   Table,
@@ -240,5 +240,136 @@ export const EditableCells: Story = {
     const member = await menu.findByRole("menuitem", { name: "Member" });
     await userEvent.click(member);
     await expect(trigger).toHaveTextContent("Member");
+  },
+};
+
+/**
+ * **Keyboard: sortable header.** Tab to the sortable column-header button and toggle
+ * the sort with the keyboard: each Enter/Space advances the cycle
+ * (none → ascending → descending → none) and the `<th>`'s `aria-sort` follows along,
+ * while `onSort` fires on every activation. Tagged so it stays out of the sidebar,
+ * docs, and AI manifest while still running under the default `test` tag.
+ */
+export const SortableKeyboard: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { variant: "table" },
+  render: function SortableKeyboardStory(args) {
+    const [sort, setSort] = React.useState<TableHeadSort>("none");
+    const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
+    return (
+      <Table {...args}>
+        <TableHeader>
+          <TableRow>
+            <TableHead variant="sortable" sort={sort} onSort={cycle}>
+              Name
+            </TableHead>
+            <TableHead variant="default">Email</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {PEOPLE.map((person) => (
+            <TableRow key={person.email}>
+              <TableCell>{person.name}</TableCell>
+              <TableCell>{person.email}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    );
+  },
+  play: async ({ canvas }) => {
+    const header = canvas.getAllByRole("columnheader")[0];
+    if (!header) throw new Error("expected a sortable column header");
+    // Table semantics: the header is a proper `<th scope="col">` that starts unsorted.
+    await expect(header.tagName).toBe("TH");
+    await expect(header).toHaveAttribute("scope", "col");
+    await expect(header).toHaveAttribute("aria-sort", "none");
+
+    const button = canvas.getByRole("button", { name: "Name" });
+    // Tab moves focus onto the sort-control button (it's the first focusable element).
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+
+    // Enter advances the cycle: none → ascending.
+    await userEvent.keyboard("{Enter}");
+    await expect(header).toHaveAttribute("aria-sort", "ascending");
+
+    // Space advances again: ascending → descending.
+    await userEvent.keyboard(" ");
+    await expect(header).toHaveAttribute("aria-sort", "descending");
+
+    // Enter once more wraps back to none.
+    await userEvent.keyboard("{Enter}");
+    await expect(header).toHaveAttribute("aria-sort", "none");
+  },
+};
+
+/**
+ * **Keyboard: editable cell.** Tab/Enter on the editable cell's trigger opens the
+ * portaled `Dropdown`; Arrow Down moves the highlight onto the first item and Enter
+ * selects it, updating the cell value in place; Escape closes the menu and returns
+ * focus to the cell trigger. The menu is portaled, so it's queried from the document
+ * body by its unique item text. Tagged so it stays out of the sidebar, docs, and AI
+ * manifest while still running under the default `test` tag.
+ */
+export const EditableCellKeyboard: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { variant: "table" },
+  render: function EditableCellKeyboardStory(args) {
+    const [role, setRole] = React.useState("Admin");
+    return (
+      <Table {...args}>
+        <TableHeader>
+          <TableRow>
+            <TableHead variant="default">Name</TableHead>
+            <TableHead variant="default">Account type</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Chargers</TableCell>
+            <TableEditableCell value={role} aria-label="Account type for Chargers">
+              <DropdownContent>
+                {ROLES.map((r) => (
+                  <DropdownItem
+                    key={r}
+                    variant="default"
+                    label={r}
+                    selected={r === role}
+                    onClick={() => setRole(r)}
+                  />
+                ))}
+              </DropdownContent>
+            </TableEditableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+  },
+  play: async ({ canvas }) => {
+    const menu = within(document.body);
+    const trigger = canvas.getByRole("button", { name: "Account type for Chargers" });
+    await expect(trigger).toHaveTextContent("Admin");
+
+    // Tab focuses the cell trigger; Enter opens the portaled menu.
+    await userEvent.tab();
+    await expect(trigger).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    // The menu is portaled — find it by its unique item text, not a bare role.
+    await waitFor(() => expect(menu.getByRole("menuitem", { name: "Member" })).toBeVisible());
+
+    // Opening with Enter already highlights the first item ("Admin"); one Arrow Down
+    // moves the highlight onto "Member", then Enter selects it and the cell updates.
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await expect(trigger).toHaveTextContent("Member");
+    // Selecting closed the menu.
+    await waitFor(() => expect(menu.queryByRole("menuitem", { name: "Member" })).toBeNull());
+
+    // Reopen with the keyboard, then Escape closes it and restores focus to the trigger.
+    await userEvent.keyboard("{Enter}");
+    await waitFor(() => expect(menu.getByRole("menuitem", { name: "Guest" })).toBeVisible());
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(menu.queryByRole("menuitem", { name: "Guest" })).toBeNull());
+    await expect(trigger).toHaveFocus();
   },
 };
