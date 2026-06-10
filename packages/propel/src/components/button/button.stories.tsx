@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus, Search, Settings } from "lucide-react";
 import { expect, fn } from "storybook/test";
-import { Button, IconButton, type ButtonMagnitude, type ButtonVariant } from "./index";
+import { Button, type ButtonMagnitude, type ButtonVariant } from "./index";
 
 const VARIANTS: ButtonVariant[] = ["primary", "secondary", "tertiary", "ghost", "link"];
 const MAGNITUDES: ButtonMagnitude[] = ["xs", "sm", "md", "lg", "xl"];
@@ -9,7 +9,6 @@ const MAGNITUDES: ButtonMagnitude[] = ["xs", "sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/Button",
   component: Button,
-  subcomponents: { IconButton },
   tags: ["ai-generated"],
   parameters: {
     design: {
@@ -127,25 +126,9 @@ export const Loading: Story = {
       <Button {...args} variant="secondary" loading>
         Loading
       </Button>
-      <IconButton {...args} aria-label="Refresh" icon={<Settings />} loading />
-    </div>
-  ),
-};
-
-/** The icon-only form: a square button that requires an `aria-label`. */
-export const IconButtons: Story = {
-  parameters: { controls: { disable: true } },
-  render: (args) => (
-    <div className="flex items-center gap-3">
-      {VARIANTS.filter((v) => v !== "link").map((variant) => (
-        <IconButton
-          key={variant}
-          {...args}
-          variant={variant}
-          aria-label={`${variant} action`}
-          icon={<Plus />}
-        />
-      ))}
+      <Button {...args} variant="tertiary" loading>
+        Please wait
+      </Button>
     </div>
   ),
 };
@@ -198,22 +181,5 @@ export const LoadingBlocksClick: Story = {
     await expect(button).toHaveFocus();
     await userEvent.click(button);
     await expect(args.onClick).not.toHaveBeenCalled();
-  },
-};
-
-/** An IconButton exposes its `aria-label` as the accessible name. */
-export const IconButtonHasAccessibleName: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => (
-    <IconButton
-      variant="primary"
-      tone="neutral"
-      magnitude="md"
-      aria-label="Add item"
-      icon={<Plus />}
-    />
-  ),
-  play: async ({ canvas }) => {
-    await expect(canvas.getByRole("button", { name: "Add item" })).toBeInTheDocument();
   },
 };

@@ -7,7 +7,7 @@ import * as React from "react";
 // step (16px) extrapolated below the Figma scale for dense toolbars. Per Figma:
 // S → text-12/px-1.5; Base & L → text-13; XL → text-14. All chrome'd magnitudes
 // use leading-none so the flex-centered label sits dead-center in the fixed height.
-const buttonVariants = cva(
+export const buttonVariants = cva(
   // Shared chrome: inline flex row, centered, focus-visible ring on the brand
   // accent token, real disabled affordance, and a snug medium label.
   cx(
@@ -153,7 +153,8 @@ export type ButtonEmphasis = NonNullable<VariantProps<typeof buttonVariants>["em
 
 // Leading/trailing slot icon size per magnitude, straight from Figma's per-size
 // icon values (14px up to Base, 16px from L up). 16px extra-small step uses 12px.
-const iconSizeByMagnitude: Record<ButtonMagnitude, string> = {
+// Exported so IconButton (its own component) can reuse the same glyph scale.
+export const iconSizeByMagnitude: Record<ButtonMagnitude, string> = {
   xs: "size-3", // 12px
   sm: "size-3.5", // 14px
   md: "size-3.5", // 14px
@@ -233,66 +234,6 @@ export function Button({
           {trailingIcon}
         </span>
       ) : null}
-    </button>
-  );
-}
-
-// Icon-only square sizes per magnitude. Figma's Base icon button is 24px square
-// with a 16px glyph; the other steps mirror the text-button heights.
-const iconButtonSizeByMagnitude: Record<ButtonMagnitude, string> = {
-  xs: "size-4 p-0.5",
-  sm: "size-5 p-1",
-  md: "size-6 p-1",
-  lg: "size-7 p-1",
-  xl: "size-8 p-1.5",
-};
-
-export type IconButtonProps = Omit<ButtonProps, "leadingIcon" | "trailingIcon" | "children"> & {
-  /** The single icon to render. Decorative — the name comes from `aria-label`. */
-  icon: React.ReactNode;
-  /** Required: icon-only buttons have no visible text, so they must be labeled. */
-  "aria-label": string;
-};
-
-/**
- * The icon-only form of {@link Button}: a square button with a single glyph and
- * no label. It shares every styling axis (`variant`/`tone`/`magnitude`) and
- * REQUIRES an `aria-label` for its accessible name.
- */
-export function IconButton({
-  icon,
-  variant,
-  tone,
-  magnitude,
-  loading = false,
-  disabled,
-  type = "button",
-  onClick,
-  ...props
-}: IconButtonProps) {
-  const iconClass = iconSizeByMagnitude[magnitude];
-  return (
-    <button
-      type={type}
-      disabled={disabled}
-      aria-disabled={loading || undefined}
-      aria-busy={loading || undefined}
-      onClick={loading ? undefined : onClick}
-      className={cx(
-        buttonVariants({ variant, tone, magnitude }),
-        // Override the text-button box with a square, padding-driven one.
-        "h-auto min-w-0 px-0",
-        iconButtonSizeByMagnitude[magnitude],
-      )}
-      {...props}
-    >
-      {loading ? (
-        <LoaderCircle aria-hidden className={cx(iconClass, "animate-spin")} />
-      ) : (
-        <span aria-hidden className={cx("inline-flex shrink-0 [&_svg]:size-full", iconClass)}>
-          {icon}
-        </span>
-      )}
     </button>
   );
 }
