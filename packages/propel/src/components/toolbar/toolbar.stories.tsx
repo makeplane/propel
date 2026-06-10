@@ -127,7 +127,6 @@ const meta = {
     ToolbarSeparator,
     ToolbarDropdown,
   },
-  tags: ["ai-generated"],
   args: { variant: "floater" },
   render: (args) => <FormattingToolbar {...args} />,
   parameters: {

@@ -10,7 +10,6 @@ const JANUARY_2025 = new Date(2025, 0, 1);
 const meta = {
   title: "Components/Calendar",
   component: Calendar,
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",

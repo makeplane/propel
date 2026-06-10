@@ -7,7 +7,6 @@ const meta = {
   title: "Components/Tabs",
   component: Tabs,
   subcomponents: { TabsList, Tab, TabsPanel, TabsIndicator },
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",
@@ -57,19 +56,19 @@ export const Underline: Story = {
   ),
 };
 
-/** Both variants accept an optional leading `icon` (a 16px slot tinted to the tab's text color). */
+/** Both variants accept an optional `leadingIcon` (a 16px slot tinted to the tab's text color). */
 export const WithIcons: Story = {
   args: { variant: "contained" },
   render: (args) => (
     <Tabs {...args}>
       <TabsList>
-        <Tab icon={<LayoutGrid />} value="overview">
+        <Tab leadingIcon={<LayoutGrid />} value="overview">
           Overview
         </Tab>
-        <Tab icon={<Activity />} value="activity">
+        <Tab leadingIcon={<Activity />} value="activity">
           Activity
         </Tab>
-        <Tab icon={<Settings />} value="settings">
+        <Tab leadingIcon={<Settings />} value="settings">
           Settings
         </Tab>
       </TabsList>
@@ -80,19 +79,19 @@ export const WithIcons: Story = {
   ),
 };
 
-/** The leading `icon` slot on the underline variant. */
+/** The `leadingIcon` slot on the underline variant. */
 export const UnderlineWithIcons: Story = {
   args: { variant: "underline" },
   render: (args) => (
     <Tabs {...args}>
       <TabsList>
-        <Tab icon={<LayoutGrid />} value="overview">
+        <Tab leadingIcon={<LayoutGrid />} value="overview">
           Overview
         </Tab>
-        <Tab icon={<Activity />} value="activity">
+        <Tab leadingIcon={<Activity />} value="activity">
           Activity
         </Tab>
-        <Tab icon={<Settings />} value="settings">
+        <Tab leadingIcon={<Settings />} value="settings">
           Settings
         </Tab>
       </TabsList>

@@ -7,7 +7,6 @@ import { Checkbox } from "./index";
 const meta = {
   title: "Components/Checkbox",
   component: Checkbox,
-  tags: ["ai-generated"],
   args: {
     tone: "neutral",
     "aria-label": "Example",
