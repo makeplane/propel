@@ -7,7 +7,6 @@ const MAGNITUDES: SwitchMagnitude[] = ["lg", "md", "sm"];
 const meta = {
   title: "Components/Switch",
   component: Switch,
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",

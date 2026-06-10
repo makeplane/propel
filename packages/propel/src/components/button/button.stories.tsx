@@ -9,7 +9,6 @@ const MAGNITUDES: ButtonMagnitude[] = ["xs", "sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/Button",
   component: Button,
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",

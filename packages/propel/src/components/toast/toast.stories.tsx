@@ -29,7 +29,6 @@ function Trigger({ tone, onAdd }: { tone: ToastTone; onAdd?: () => void }) {
 const meta = {
   title: "Components/Toast",
   component: ToastProvider,
-  tags: ["ai-generated"],
   // Every story renders inside a single ToastProvider so its trigger can queue
   // toasts and the viewport can display them.
   decorators: [

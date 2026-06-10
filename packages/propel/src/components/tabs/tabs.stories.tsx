@@ -7,7 +7,6 @@ const meta = {
   title: "Components/Tabs",
   component: Tabs,
   subcomponents: { TabsList, Tab, TabsPanel, TabsIndicator },
-  tags: ["ai-generated"],
   parameters: {
     design: {
       type: "figma",
