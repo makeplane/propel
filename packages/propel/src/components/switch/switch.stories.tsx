@@ -69,6 +69,30 @@ export const TogglesOnClick: Story = {
   },
 };
 
+/**
+ * Keyboard ARIA pattern (WAI-ARIA switch): Tab moves focus to the switch and
+ * **Space** toggles `aria-checked`. Tagged out of the sidebar/docs/manifest while
+ * still running under the default `test` tag.
+ */
+export const KeyboardToggle: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { magnitude: "md", defaultChecked: false },
+  play: async ({ canvas, userEvent }) => {
+    const sw = canvas.getByRole("switch");
+    await expect(sw).toHaveAttribute("aria-checked", "false");
+
+    // Tab focuses the switch.
+    await userEvent.tab();
+    await expect(sw).toHaveFocus();
+
+    // Space toggles aria-checked on and off.
+    await userEvent.keyboard(" ");
+    await expect(sw).toHaveAttribute("aria-checked", "true");
+    await userEvent.keyboard(" ");
+    await expect(sw).toHaveAttribute("aria-checked", "false");
+  },
+};
+
 /** A disabled switch does not toggle when clicked. */
 export const DisabledDoesNotToggle: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

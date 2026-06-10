@@ -120,3 +120,55 @@ export const Behavior: Story = {
     await expect(canvas.getAllByRole("gridcell", { selected: true })).toHaveLength(1);
   },
 };
+
+/**
+ * Keyboard ARIA pattern (WAI-ARIA grid date picker): Tab moves focus into the month
+ * grid, **Arrow keys** move the focused day (Right = +1 day, Down = +7 days), and
+ * **Enter** selects it (`aria-selected` on the gridcell). A fixed `defaultMonth` and
+ * a known starting selection keep the focused day deterministic. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const KeyboardNavigation: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => {
+    // Pre-select Jan 15 so react-day-picker makes that the focusable day on Tab.
+    const [selected, setSelected] = React.useState<Date | undefined>(new Date(2025, 0, 15));
+    return (
+      <Calendar
+        mode="single"
+        defaultMonth={JANUARY_2025}
+        selected={selected}
+        onSelect={setSelected}
+      />
+    );
+  },
+  play: async ({ canvas, userEvent }) => {
+    // The grid is a single tab stop (only the selected/active day is tabbable), but
+    // the month-nav chevrons precede it in the tab order. Tab forward until focus
+    // reaches the grid's focusable day (Jan 15, the current selection).
+    const day15 = canvas.getByRole("button", { name: /January 15th, 2025, selected$/ });
+    for (let i = 0; i < 4 && document.activeElement !== day15; i++) {
+      await userEvent.tab();
+    }
+    await expect(day15).toHaveFocus();
+
+    // Arrow Right moves the focused day forward one day (Jan 16).
+    await userEvent.keyboard("{ArrowRight}");
+    await expect(canvas.getByRole("button", { name: /January 16th, 2025$/ })).toHaveFocus();
+
+    // Arrow Down moves the focused day forward one week (Jan 23).
+    await userEvent.keyboard("{ArrowDown}");
+    const day23 = canvas.getByRole("button", { name: /January 23rd, 2025$/ });
+    await expect(day23).toHaveFocus();
+
+    // Enter selects the focused day; its gridcell gains aria-selected and it is the
+    // single selected cell (the previous selection moved with the keyboard).
+    await userEvent.keyboard("{Enter}");
+    await expect(
+      canvas.getByRole("button", { name: /January 23rd, 2025, selected$/ }),
+    ).toBeVisible();
+    const selectedCell = canvas.getByRole("gridcell", { selected: true });
+    await expect(selectedCell).toHaveAttribute("data-day", "2025-01-23");
+    await expect(canvas.getAllByRole("gridcell", { selected: true })).toHaveLength(1);
+  },
+};

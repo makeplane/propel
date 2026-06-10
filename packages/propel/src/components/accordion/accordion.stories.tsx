@@ -159,3 +159,45 @@ export const Interaction: Story = {
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
   },
 };
+
+/**
+ * Keyboard ARIA pattern (WAI-ARIA accordion): Tab moves focus to the trigger and
+ * both **Enter** and **Space** toggle `aria-expanded`, showing/hiding the panel
+ * region. Tagged out of the sidebar/docs/manifest while still running under the
+ * default `test` tag.
+ */
+export const KeyboardToggle: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <Accordion>
+      <AccordionItem value="a">
+        <AccordionTrigger>Section A</AccordionTrigger>
+        <AccordionPanel>Panel A content</AccordionPanel>
+      </AccordionItem>
+    </Accordion>
+  ),
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByRole("button", { name: "Section A" });
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+    // Tab moves focus to the trigger.
+    await userEvent.tab();
+    await expect(trigger).toHaveFocus();
+
+    // Enter expands the panel (a region appears with the item's content).
+    await userEvent.keyboard("{Enter}");
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    await expect(canvas.getByRole("region", { name: "Section A" })).toBeVisible();
+
+    // Enter again collapses it.
+    await userEvent.keyboard("{Enter}");
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+    // Space toggles too: expand…
+    await userEvent.keyboard(" ");
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    // …and collapse.
+    await userEvent.keyboard(" ");
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  },
+};
