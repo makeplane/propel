@@ -192,10 +192,13 @@ export type BreadcrumbMenuTriggerProps = Omit<
 
 /**
  * The crumb that opens the menu: a hoverable pill (icon + label) with a trailing
- * chevron that points right when closed and rotates down (`data-[popup-open]`) when
- * the menu is open — matching the Figma "Dropdown" crumb's default → hover/open
- * states. It's the `Dropdown`/`Menu` trigger `<button>`, so it keeps the menu's
- * keyboard a11y (Enter / ArrowDown to open) out of the box.
+ * chevron. That chevron IS the breadcrumb chevron (the same glyph as
+ * `BreadcrumbSeparator`): it points right when closed and rotates down
+ * (`data-[popup-open]`) while the menu is open, matching the Figma "Dropdown" crumb's
+ * default and hover/open states. Because it already serves as the divider to the next
+ * crumb, do NOT place a `BreadcrumbSeparator` after a menu crumb, or it renders a
+ * second, redundant arrow. It's the `Dropdown`/`Menu` trigger `<button>`, so it keeps
+ * the menu's keyboard a11y (Enter / ArrowDown to open) out of the box.
  */
 export function BreadcrumbMenuTrigger({ icon, children, ...props }: BreadcrumbMenuTriggerProps) {
   return (

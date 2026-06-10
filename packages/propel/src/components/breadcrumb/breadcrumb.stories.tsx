@@ -169,7 +169,9 @@ export const WithMenuCrumb: Story = {
           </BreadcrumbMenuContent>
         </BreadcrumbMenu>
       </BreadcrumbItem>
-      <BreadcrumbSeparator />
+      {/* No `BreadcrumbSeparator` after a menu crumb: its own chevron IS the
+          breadcrumb chevron (and rotates down while the menu is open), so a
+          separate separator would render a second, redundant arrow. */}
       <BreadcrumbItem>
         <BreadcrumbPage>Components</BreadcrumbPage>
       </BreadcrumbItem>
@@ -247,7 +249,7 @@ export const KeyboardNavigation: Story = {
           </BreadcrumbMenuContent>
         </BreadcrumbMenu>
       </BreadcrumbItem>
-      <BreadcrumbSeparator />
+      {/* Menu crumb's own chevron is the breadcrumb chevron; no separator after it. */}
       <BreadcrumbItem>
         <BreadcrumbPage>Components</BreadcrumbPage>
       </BreadcrumbItem>
