@@ -14,7 +14,6 @@ const meta = {
   // Popover is a compound component; document the trigger + content parts alongside
   // the root so their props appear in the args table and the relationship is recorded.
   subcomponents: { PopoverTrigger, PopoverContent },
-  tags: ["ai-generated"],
 } satisfies Meta<typeof Popover>;
 
 export default meta;
