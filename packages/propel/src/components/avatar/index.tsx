@@ -107,13 +107,10 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
       // exactly one named image. Consumers can override via spread props.
       role="img"
       aria-label={alt}
-      // `--avatar-ring` defaults to 0 (no ring); AvatarGroup sets it via an
-      // inherited CSS var so each avatar draws its own white separator ring,
-      // without the group reaching into its children.
-      className={cx(
-        avatarVariants({ magnitude: effectiveMagnitude }),
-        "bg-layer-1 ring-[length:var(--avatar-ring,0px)] ring-inverse",
-      )}
+      // The `border-subtle` from `avatarVariants` is the avatar's only border. Inside
+      // an AvatarGroup that same border separates overlapping siblings, matching
+      // Figma's single `border/subtle` ring — there is no extra outer ring.
+      className={cx(avatarVariants({ magnitude: effectiveMagnitude }), "bg-layer-1")}
       {...props}
     >
       {src ? <BaseAvatar.Image src={src} alt="" className="size-full object-cover" /> : null}
