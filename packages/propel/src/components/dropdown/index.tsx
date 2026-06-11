@@ -136,7 +136,7 @@ export function DropdownContent({
       <Menu.Positioner side={side} sideOffset={sideOffset} align={align} className="outline-none">
         <div className={dropdownSurfaceVariants({ width })}>
           {search}
-          <Menu.Popup className="flex-1 overflow-y-auto p-1 outline-none" {...props}>
+          <Menu.Popup className="scrollbar-sm flex-1 overflow-y-auto p-1 outline-none" {...props}>
             {children}
           </Menu.Popup>
           {footer}
@@ -578,7 +578,7 @@ export function DropdownSubContent({
       <Menu.Positioner side={side} sideOffset={sideOffset} align={align} className="outline-none">
         <div className={dropdownSurfaceVariants({ width })}>
           {search}
-          <Menu.Popup className="flex-1 overflow-y-auto p-1 outline-none" {...props}>
+          <Menu.Popup className="scrollbar-sm flex-1 overflow-y-auto p-1 outline-none" {...props}>
             {children}
           </Menu.Popup>
           {footer}

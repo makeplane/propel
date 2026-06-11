@@ -1577,6 +1577,41 @@
   }
 }
 
+/*
+ * The propel overflow scrollbar: a thin, rounded thumb that uses the
+ * `--scrollbar-thumb*` tokens (subtle at rest, a touch stronger while the
+ * container is hovered, stronger on thumb hover, strongest while dragging) over a
+ * transparent track. Use this on any scroll container (dropdown lists, text
+ * areas) so overflow scrolls match the design instead of the native scrollbar.
+ */
+@utility scrollbar-sm {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background-color: var(--scrollbar-thumb);
+  }
+  /* The thumb firms up while the scroll container is hovered. */
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-surface-hover);
+  }
+  /* Hovering or dragging the thumb itself is stronger still (listed after the
+     container-hover rule so it wins when both apply). */
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+  &::-webkit-scrollbar-thumb:active {
+    background-color: var(--scrollbar-thumb-active);
+  }
+}
+
 @utility material-symbols-rounded {
   font-family: "Material Symbols Rounded";
   font-weight: normal;
