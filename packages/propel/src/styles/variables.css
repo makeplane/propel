@@ -1585,16 +1585,16 @@
  * areas) so overflow scrolls match the design instead of the native scrollbar.
  */
 @utility scrollbar-sm {
-  /* Firefox: a thin thumb that firms up while the container is hovered. Firefox
-     has no scrollbar pseudo-elements, so it cannot style distinct thumb-hover and
-     dragging states (those are the WebKit rules below); container-hover is the one
-     state it can express, via `scrollbar-color`. */
+  /* Overlay style: the thumb is hidden at rest and only appears while the scroll
+     container is hovered, then firms up on thumb hover and while dragging, matching
+     the Figma app scrollbars (visible only on interaction). Firefox has no scrollbar
+     pseudo-elements, so it can only switch the whole scrollbar-color on container
+     hover; the WebKit rules below add the distinct thumb-hover and dragging states. */
   scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) transparent;
+  scrollbar-color: transparent transparent;
   &:hover {
     scrollbar-color: var(--scrollbar-thumb-surface-hover) transparent;
   }
-  /* WebKit / Blink: the full set of states via the scrollbar pseudo-elements. */
   &::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -1602,11 +1602,12 @@
   &::-webkit-scrollbar-track {
     background-color: transparent;
   }
+  /* Hidden at rest. */
   &::-webkit-scrollbar-thumb {
     border-radius: 9999px;
-    background-color: var(--scrollbar-thumb);
+    background-color: transparent;
   }
-  /* The thumb firms up while the scroll container is hovered. */
+  /* Revealed once the scroll container is hovered. */
   &:hover::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-thumb-surface-hover);
   }
