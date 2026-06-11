@@ -268,7 +268,10 @@ export const WithPagination: Story = {
     const start = (page - 1) * pageSize;
     const rows = DIRECTORY.slice(start, start + pageSize);
     return (
-      <div className="flex flex-col gap-3">
+      // A fixed width so the table does not resize as pages change: the table is
+      // `w-full`, so without a constrained container it would shrink-to-fit each page's
+      // content and jump in width when paginating.
+      <div className="flex w-[760px] flex-col gap-3">
         <Table {...args}>
           <TableHeader>
             <TableRow>

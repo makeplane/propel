@@ -166,20 +166,23 @@ function ChevronGlyphSlot({ Glyph }: { Glyph: typeof ChevronsUpDown }) {
   return <Glyph aria-hidden className="size-3.5 shrink-0 text-icon-secondary" />;
 }
 
-// Shared `<td>` chrome for both the plain and editable cells: 38px tall, px-3 py-2,
-// `align-middle`, plus the per-variant border read from context.
+// Shared `<td>` chrome for both the plain and editable cells: 44px tall, `align-middle`,
+// plus the per-variant border read from context. Padding is intentionally NOT included
+// here: the plain cell adds `px-3 py-2`, while the editable cell stays `p-0` so its
+// full-bleed button supplies the inset. (Baking padding in and overriding it with `p-0`
+// is order-fragile under `cx`, which is what made editable rows render too tall.)
 function useTableCellClass() {
   const tableVariant = React.useContext(TableVariantContext);
-  return cx("h-[38px] px-3 py-2 align-middle", cellBorder[tableVariant]);
+  return cx("h-11 align-middle", cellBorder[tableVariant]);
 }
 
 export type TableCellProps = Omit<React.ComponentProps<"td">, "className" | "style">;
 
-/** A data cell (`<td>`). 38px tall with `px-3 py-2` and `text-13` body text. */
+/** A data cell (`<td>`). 44px tall with `px-3 py-2` and `text-13` body text. */
 export function TableCell({ children, ...props }: TableCellProps) {
   const className = useTableCellClass();
   return (
-    <td className={className} {...props}>
+    <td className={cx(className, "px-3 py-2")} {...props}>
       <div className="truncate">{children}</div>
     </td>
   );
@@ -254,8 +257,10 @@ export function TableEditableCell({
             <button
               type="button"
               className={cx(
-                "flex h-[38px] w-full items-center justify-between gap-1 px-3 py-2 text-start outline-none",
-                "rounded-none hover:bg-layer-2-hover focus-visible:bg-layer-2-hover",
+                "flex h-11 w-full items-center justify-between gap-1 px-3 text-start outline-none",
+                // Hover, keyboard focus, and the open/selected state (the menu is open):
+                // each gets a layered surface so the editable cell reads as interactive.
+                "hover:bg-layer-2-hover focus-visible:bg-layer-2-hover data-[popup-open]:bg-layer-2-active",
                 "disabled:pointer-events-none disabled:text-disabled",
               )}
             />
