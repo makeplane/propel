@@ -5,9 +5,15 @@
   "name": "propel-storybook",
   "compatibility_date": "2026-06-06",
   // Serve on the account's workers.dev subdomain and enable per-version preview
-  // URLs (used for the PR previews via `versions upload --preview-alias`).
+  // URLs (used for the PR previews via `versions upload --preview-alias`). Keep
+  // `workers_dev` enabled even with the custom domain below: the preview URLs live on
+  // the workers.dev subdomain, so disabling it would break PR previews.
   "workers_dev": true,
   "preview_urls": true,
+  // Production custom domain. Routes only apply to `wrangler deploy` (the production
+  // deploy on push to main) and serve the latest deployed version; PR preview versions
+  // stay on their workers.dev preview URLs, so this does not affect previews.
+  "routes": [{ "pattern": "storybook.propel.plane.so", "custom_domain": true }],
   "assets": {
     "directory": "./storybook-static",
     // Storybook routes stories via `index.html?path=…`, so unmatched paths should

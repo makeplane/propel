@@ -3,8 +3,9 @@ name: Storybook
 on:
   push:
     branches: [main]
+  # Deploy a preview for every PR, not only those targeting main, so stacked PRs
+  # (e.g. one based on another feature branch) still get a preview URL + comment.
   pull_request:
-    branches: [main]
   workflow_dispatch: # manual redeploy (e.g. to restore production)
 
 # One deploy per ref; a newer push supersedes an in-flight one.
