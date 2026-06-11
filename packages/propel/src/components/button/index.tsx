@@ -21,7 +21,10 @@ export const buttonVariants = cva(
       // is the inline text affordance. The danger palette is selected via `tone`.
       variant: {
         primary: "",
-        secondary: "border-strong shadow-raised-100",
+        // No border color here: the border color is owned by the tone compounds
+        // below (neutral -> border-strong, danger -> border-danger-strong), because
+        // a base color would be order-fragile against the tone color under cx.
+        secondary: "shadow-raised-100",
         tertiary: "",
         ghost: "",
         link: "underline underline-offset-2",
@@ -66,7 +69,7 @@ export const buttonVariants = cva(
         variant: "secondary",
         tone: "neutral",
         className: cx(
-          "border bg-layer-2 text-secondary",
+          "border border-strong bg-layer-2 text-secondary",
           "hover:bg-layer-2-hover active:bg-layer-2-active",
           "disabled:border-disabled disabled:bg-layer-disabled disabled:text-disabled disabled:shadow-none",
         ),
