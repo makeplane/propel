@@ -3,9 +3,8 @@ import { LoaderCircle } from "lucide-react";
 import * as React from "react";
 
 // Magnitudes follow the Figma "Buttons" Size scale. Figma ships S/Base/L/XL; those
-// map to sm/md/lg/xl by their px heights (20/24/28/32). `xs` is an extra smaller
-// step (16px) extrapolated below the Figma scale for dense toolbars. Per Figma:
-// S → text-12/px-1.5; Base & L → text-13; XL → text-14. All chrome'd magnitudes
+// map to sm/md/lg/xl by their px heights (20/24/28/32). Per Figma:
+// S -> text-12/px-1.5; Base & L -> text-13; XL -> text-14. All chrome'd magnitudes
 // use leading-none so the flex-centered label sits dead-center in the fixed height.
 export const buttonVariants = cva(
   // Shared chrome: inline flex row, centered, focus-visible ring on the brand
@@ -22,7 +21,10 @@ export const buttonVariants = cva(
       // is the inline text affordance. The danger palette is selected via `tone`.
       variant: {
         primary: "",
-        secondary: "border-strong shadow-raised-100",
+        // No border color here: the border color is owned by the tone compounds
+        // below (neutral -> border-strong, danger -> border-danger-strong), because
+        // a base color would be order-fragile against the tone color under cx.
+        secondary: "shadow-raised-100",
         tertiary: "",
         ghost: "",
         link: "underline underline-offset-2",
@@ -45,7 +47,6 @@ export const buttonVariants = cva(
       // makes the top/bottom padding read as uneven. Link overrides below opt
       // back into a taller line-height since inline link text may wrap.
       magnitude: {
-        xs: "h-4 min-w-7 px-1.5 text-11 leading-none",
         sm: "h-5 min-w-10 px-1.5 text-12 leading-none",
         md: "h-6 min-w-10 px-2 text-13 leading-none",
         lg: "h-7 min-w-12 px-2 text-13 leading-none",
@@ -68,7 +69,7 @@ export const buttonVariants = cva(
         variant: "secondary",
         tone: "neutral",
         className: cx(
-          "border bg-layer-2 text-secondary",
+          "border border-strong bg-layer-2 text-secondary",
           "hover:bg-layer-2-hover active:bg-layer-2-active",
           "disabled:border-disabled disabled:bg-layer-disabled disabled:text-disabled disabled:shadow-none",
         ),
@@ -117,7 +118,6 @@ export const buttonVariants = cva(
         ),
       },
       // Link size overrides: link has no chrome/height, so reset to inline text.
-      { variant: "link", magnitude: "xs", className: "h-auto leading-snug" },
       { variant: "link", magnitude: "sm", className: "h-auto leading-snug" },
       { variant: "link", magnitude: "md", className: "h-auto" },
       { variant: "link", magnitude: "lg", className: "h-auto" },
@@ -138,7 +138,7 @@ export const buttonVariants = cva(
         tone: "danger",
         className: cx(
           "border border-danger-strong bg-layer-2 text-danger-secondary",
-          "hover:bg-danger-subtle active:bg-danger-subtle-active",
+          "hover:bg-danger-subtle active:border-danger-subtle active:bg-danger-subtle-active",
           "disabled:border-disabled disabled:bg-layer-disabled disabled:text-disabled disabled:shadow-none",
         ),
       },
@@ -152,10 +152,9 @@ export type ButtonMagnitude = NonNullable<VariantProps<typeof buttonVariants>["m
 export type ButtonEmphasis = NonNullable<VariantProps<typeof buttonVariants>["emphasis"]>;
 
 // Leading/trailing slot icon size per magnitude, straight from Figma's per-size
-// icon values (14px up to Base, 16px from L up). 16px extra-small step uses 12px.
+// icon values (14px up to Base, 16px from L up).
 // Exported so IconButton (its own component) can reuse the same glyph scale.
 export const iconSizeByMagnitude: Record<ButtonMagnitude, string> = {
-  xs: "size-3", // 12px
   sm: "size-3.5", // 14px
   md: "size-3.5", // 14px
   lg: "size-4", // 16px

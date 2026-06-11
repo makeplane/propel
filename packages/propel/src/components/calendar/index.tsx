@@ -22,8 +22,10 @@ const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"]>> = {
     "inline-flex size-7 items-center justify-center rounded-md text-icon-tertiary hover:bg-layer-transparent-hover disabled:opacity-50",
   month_grid: "border-collapse",
   weekdays: "flex",
-  // Weekday column headers: tertiary text on a 40px cell, matching the day grid.
-  weekday: "flex size-10 items-center justify-center text-14 font-normal text-tertiary",
+  // Weekday column headers: body-sm-regular tertiary text on a 40px cell. The
+  // composite `text-body-sm-regular` utility carries the 14px size plus the
+  // propel regular weight/line-height (Figma "font/body-sm/regular").
+  weekday: "flex size-10 items-center justify-center text-body-sm-regular text-tertiary",
   week: "flex w-full",
   // react-day-picker v10 applies the modifier classNames (`selected`, `today`,
   // `range_*`) and `aria-selected` to the gridcell (this `td`) itself — NOT to a
