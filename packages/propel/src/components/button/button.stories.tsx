@@ -5,7 +5,7 @@ import { iconControl } from "../../storybook/icon-control";
 import { Button, type ButtonMagnitude, type ButtonVariant } from "./index";
 
 const VARIANTS: ButtonVariant[] = ["primary", "secondary", "tertiary", "ghost", "link"];
-const MAGNITUDES: ButtonMagnitude[] = ["xs", "sm", "md", "lg", "xl"];
+const MAGNITUDES: ButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
 const meta = {
   title: "Components/Button",
@@ -93,7 +93,7 @@ export const LinkEmphasis: Story = {
   ),
 };
 
-/** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl; xs is an extra dense step). */
+/** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl). */
 export const Magnitudes: Story = {
   // Iterates `magnitude` and labels each button with the magnitude name, so disable
   // just those two controls; the rest stay live and update every button at once.

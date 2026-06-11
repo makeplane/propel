@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
-  ArrowDownUp,
-  ArrowUpDown,
   ChevronDown,
   ChevronRight,
-  ChevronUp,
   Circle,
   CircleCheck,
   CircleDashed,
@@ -26,8 +23,6 @@ import * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Avatar } from "../avatar/index";
 import { Badge } from "../badge/index";
-import { Checkbox } from "../checkbox/index";
-import { Radio, RadioGroup } from "../radio/index";
 import {
   Dropdown,
   DropdownCheckboxItem,
@@ -184,34 +179,6 @@ function ColorSwatch({ className }: { className: string }) {
   return <span className={`size-3.5 shrink-0 rounded-xs ${className}`} aria-hidden />;
 }
 
-// A selectable display-property pill matching Figma `56-366` (default / hover /
-// selected). NOTE: the real propel Pills component isn't built yet — this is a
-// minimal demo-local stand-in, flagged in the PR.
-function DisplayPill({
-  label,
-  selected,
-  onClick,
-}: {
-  label: string;
-  selected: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={selected}
-      onClick={onClick}
-      className={`cursor-pointer rounded-md border px-2 py-1 text-13 outline-none ${
-        selected
-          ? "border-subtle-1 bg-layer-2-active text-primary shadow-raised-100"
-          : "border-subtle-1 bg-layer-2 text-tertiary hover:border-subtle hover:bg-layer-2-hover hover:text-secondary hover:shadow-raised-100"
-      }`}
-    >
-      {label}
-    </button>
-  );
-}
-
 // Initials for an Avatar fallback ("Amelia Parker" -> "AP").
 function initials(name: string) {
   return name
@@ -219,58 +186,6 @@ function initials(name: string) {
     .map((part) => part[0])
     .slice(0, 2)
     .join("");
-}
-
-// ---------------------------------------------------------------------------
-// Panel-row helpers for the two "settings panel" demos (DisplayProperties,
-// DisplayAccordion). Those popovers mix radios / checkbox toggles / pills, which
-// are NOT valid children of an ARIA `role="menu"`. So the panels render with
-// `role="group"` (via DropdownContent's `role` prop) and use these plain rows
-// instead of the menuitem-flavored `DropdownItem` / `DropdownCheckboxItem`.
-// ---------------------------------------------------------------------------
-
-// A section heading inside a settings panel.
-function PanelLabel({ children }: { children: React.ReactNode }) {
-  return <div className="px-2 py-1.5 text-12 text-tertiary">{children}</div>;
-}
-
-// A row whose leading control is a propel Radio, for single-select sort lists.
-function PanelRadioRow({
-  value,
-  label,
-  trailing,
-}: {
-  value: string;
-  label: string;
-  trailing?: React.ReactNode;
-}) {
-  return (
-    <label className="flex h-8 cursor-pointer items-center gap-2 rounded-sm px-2 text-13 text-secondary hover:bg-layer-transparent-hover">
-      <Radio value={value} />
-      <span className="min-w-0 flex-1 truncate">{label}</span>
-      {trailing != null ? <span className="flex shrink-0 items-center">{trailing}</span> : null}
-    </label>
-  );
-}
-
-// A row whose leading control is a propel Checkbox, for boolean toggles in a panel.
-function PanelCheckboxRow({
-  label,
-  checked,
-  onCheckedChange,
-}: {
-  label: string;
-  checked: boolean;
-  onCheckedChange: (next: boolean) => void;
-}) {
-  return (
-    <Checkbox
-      tone="neutral"
-      checked={checked}
-      onCheckedChange={(next) => onCheckedChange(Boolean(next))}
-      label={<span className="flex-1">{label}</span>}
-    />
-  );
 }
 
 /**
@@ -877,255 +792,7 @@ export const Filters: Story = {
 };
 
 /**
- * Demo 9 — **DisplayProperties**. A selectable pill/chip group at the top, a
- * single-select section (Group by, via `Radio`), and a checkbox-toggle footer.
- *
- * NOTE: the selectable pill/chip group is a minimal local primitive — propel has no
- * "chip" component yet (flagged in the PR).
- */
-export const DisplayProperties: Story = {
-  parameters: {
-    a11y: {
-      // This is a settings *panel*, not an ARIA menu, so DropdownContent is rendered
-      // with role="group". Base UI's menu popup still injects `aria-orientation` (a
-      // composite-widget attribute), which axe disallows on role="group". The attribute
-      // is a framework artifact, not author markup; suppress just that rule here.
-      // A dedicated non-menu Popover surface (flagged in the PR) would remove the need.
-      config: { rules: [{ id: "aria-allowed-attr", enabled: false }] },
-    },
-  },
-  render: function DisplayPropertiesStory() {
-    const PILLS = ["ID", "Work item type", "Assignee", "Start date", "Due date", "Labels"];
-    const [pills, setPills] = React.useState<Record<string, boolean>>({
-      ID: true,
-      "Work item type": true,
-      Assignee: true,
-      "Due date": true,
-    });
-    const [groupBy, setGroupBy] = React.useState("state");
-    const [toggles, setToggles] = React.useState<Record<string, boolean>>({});
-    return (
-      <Dropdown>
-        <DropdownTrigger render={<button type="button" className={triggerClass} />}>
-          Display
-        </DropdownTrigger>
-        {/* role="group": this is a settings panel (pills + radios + toggles), not a menu */}
-        <DropdownContent width="md" role="group" aria-label="Display options">
-          <PanelLabel>Display Properties</PanelLabel>
-          <div className="flex flex-wrap gap-1.5 px-2 py-1.5">
-            {PILLS.map((p) => (
-              <DisplayPill
-                key={p}
-                label={p}
-                selected={Boolean(pills[p])}
-                onClick={() => setPills((s) => ({ ...s, [p]: !s[p] }))}
-              />
-            ))}
-          </div>
-          <DropdownSeparator />
-          <PanelLabel>Group by</PanelLabel>
-          <RadioGroup value={groupBy} onValueChange={(v) => setGroupBy(String(v))}>
-            {["Priority", "State", "Cycle", "Labels"].map((g) => (
-              <PanelRadioRow key={g} value={g.toLowerCase()} label={g} />
-            ))}
-          </RadioGroup>
-          <DropdownSeparator />
-          <div className="flex flex-col gap-2 px-2 py-1.5">
-            <PanelCheckboxRow
-              label="Show sub-work items"
-              checked={Boolean(toggles.sub)}
-              onCheckedChange={(next) => setToggles((t) => ({ ...t, sub: next }))}
-            />
-            <PanelCheckboxRow
-              label="Show empty groups"
-              checked={Boolean(toggles.empty)}
-              onCheckedChange={(next) => setToggles((t) => ({ ...t, empty: next }))}
-            />
-          </div>
-        </DropdownContent>
-      </Dropdown>
-    );
-  },
-  play: async ({ canvas, step }) => {
-    await step("open and toggle a property pill", async () => {
-      await userEvent.click(canvas.getByRole("button", { name: "Display" }));
-      await waitFor(() =>
-        expect(document.body.querySelector('[role="group"]')).toBeInTheDocument(),
-      );
-      const labelsPill = (await waitFor(() =>
-        Array.from(document.body.querySelectorAll("button[aria-pressed]")).find(
-          (b) => b.textContent === "Labels",
-        ),
-      )) as HTMLElement;
-      await expect(labelsPill).toHaveAttribute("aria-pressed", "false");
-      await userEvent.click(labelsPill);
-      await waitFor(() => expect(labelsPill).toHaveAttribute("aria-pressed", "true"));
-    });
-  },
-};
-
-// A minimal sort-direction toggle (asc/desc). propel has no ButtonGroup yet — local
-// to this demo and flagged in the PR.
-function SortDirectionToggle({
-  value,
-  onValueChange,
-}: {
-  value: "asc" | "desc";
-  onValueChange: (v: "asc" | "desc") => void;
-}) {
-  return (
-    <span className="inline-flex overflow-hidden rounded-md border border-subtle">
-      <button
-        type="button"
-        aria-label="Sort ascending"
-        aria-pressed={value === "asc"}
-        onClick={(e) => {
-          e.stopPropagation();
-          onValueChange("asc");
-        }}
-        className={`flex size-5 items-center justify-center outline-none ${
-          value === "asc" ? "bg-accent-subtle text-accent-primary" : "text-icon-tertiary"
-        }`}
-      >
-        <ArrowUpDown className="size-3.5" />
-      </button>
-      <button
-        type="button"
-        aria-label="Sort descending"
-        aria-pressed={value === "desc"}
-        onClick={(e) => {
-          e.stopPropagation();
-          onValueChange("desc");
-        }}
-        className={`flex size-5 items-center justify-center border-l border-subtle outline-none ${
-          value === "desc" ? "bg-accent-subtle text-accent-primary" : "text-icon-tertiary"
-        }`}
-      >
-        <ArrowDownUp className="size-3.5" />
-      </button>
-    </span>
-  );
-}
-
-/**
- * Demo 10 — **DisplayAccordion**. Collapsible sections; an open "Order by" section is
- * a single-select `Radio` sort list with a sort-direction toggle on the selected row,
- * plus checkbox toggles in a footer.
- *
- * NOTE: the sort-direction toggle (`ButtonGroup`) is a minimal local primitive —
- * flagged in the PR.
- */
-export const DisplayAccordion: Story = {
-  parameters: {
-    a11y: {
-      // Same as DisplayProperties: a settings panel (role="group") where Base UI's
-      // menu popup injects an `aria-orientation` that axe disallows on role="group".
-      // Framework artifact, not author markup — suppress just that rule.
-      config: { rules: [{ id: "aria-allowed-attr", enabled: false }] },
-    },
-  },
-  render: function DisplayAccordionStory() {
-    const [open, setOpen] = React.useState<string | null>("order");
-    const [order, setOrder] = React.useState("priority");
-    const [dir, setDir] = React.useState<"asc" | "desc">("asc");
-    const [toggles, setToggles] = React.useState<Record<string, boolean>>({});
-    const SECTIONS = ["Display Properties", "Group by", "Sub Group by", "Order by"];
-    const ORDER = ["Manual - Rank", "Last created", "Last updated", "Priority", "Due date"];
-    return (
-      <Dropdown>
-        <DropdownTrigger render={<button type="button" className={triggerClass} />}>
-          Display options
-        </DropdownTrigger>
-        {/* role="group": a settings panel (accordion + radios + toggles), not a menu */}
-        <DropdownContent width="md" role="group" aria-label="Display options">
-          {SECTIONS.map((title) => {
-            const key = title.split(" ")[0].toLowerCase();
-            const isOpen = open === key;
-            return (
-              <div key={title}>
-                <button
-                  type="button"
-                  aria-expanded={isOpen}
-                  onClick={() => setOpen(isOpen ? null : key)}
-                  className="flex h-8 w-full items-center gap-2 rounded-sm px-2 text-13 text-secondary outline-none hover:bg-layer-transparent-hover"
-                >
-                  <span className="min-w-0 flex-1 truncate text-left">{title}</span>
-                  {isOpen ? (
-                    <ChevronUp className="size-4 shrink-0 text-icon-tertiary" />
-                  ) : (
-                    <ChevronDown className="size-4 shrink-0 text-icon-tertiary" />
-                  )}
-                </button>
-                {isOpen && key === "order" ? (
-                  // Items within an expanded category sit flush (0 spacing): collapse
-                  // RadioGroup's default row gap from the parent.
-                  <div className="[&>[role=radiogroup]]:gap-0">
-                    <RadioGroup value={order} onValueChange={(v) => setOrder(String(v))}>
-                      {ORDER.map((o) => {
-                        const v = o.toLowerCase();
-                        return (
-                          <PanelRadioRow
-                            key={o}
-                            value={v}
-                            label={o}
-                            trailing={
-                              order === v ? (
-                                <SortDirectionToggle value={dir} onValueChange={setDir} />
-                              ) : undefined
-                            }
-                          />
-                        );
-                      })}
-                    </RadioGroup>
-                  </div>
-                ) : null}
-              </div>
-            );
-          })}
-          <DropdownSeparator />
-          <div className="flex flex-col gap-2 px-2 py-1.5">
-            <PanelCheckboxRow
-              label="Show sub-work items"
-              checked={Boolean(toggles.sub)}
-              onCheckedChange={(next) => setToggles((t) => ({ ...t, sub: next }))}
-            />
-            <PanelCheckboxRow
-              label="Show empty groups"
-              checked={Boolean(toggles.empty)}
-              onCheckedChange={(next) => setToggles((t) => ({ ...t, empty: next }))}
-            />
-          </div>
-        </DropdownContent>
-      </Dropdown>
-    );
-  },
-  play: async ({ canvas, step }) => {
-    const findHeader = (text: string) =>
-      Array.from(document.body.querySelectorAll("button[aria-expanded]")).find((b) =>
-        b.textContent?.includes(text),
-      ) as HTMLElement | undefined;
-    const hasText = (text: string) =>
-      Boolean(document.body.querySelector('[role="group"]')?.textContent?.includes(text));
-
-    await step("open the panel with Order by expanded", async () => {
-      await userEvent.click(canvas.getByRole("button", { name: "Display options" }));
-      await waitFor(() =>
-        expect(document.body.querySelector('[role="group"]')).toBeInTheDocument(),
-      );
-      await waitFor(() => expect(hasText("Last created")).toBe(true));
-    });
-
-    await step("collapse and re-expand the Order by section", async () => {
-      await userEvent.click(findHeader("Order by") as HTMLElement);
-      await waitFor(() => expect(hasText("Last created")).toBe(false));
-      await userEvent.click(findHeader("Order by") as HTMLElement);
-      await waitFor(() => expect(hasText("Last created")).toBe(true));
-    });
-  },
-};
-
-/**
- * Demo 11 — **EmptyState**. Searching filters the list; when nothing matches, the menu
+ * Demo 9 — **EmptyState**. Searching filters the list; when nothing matches, the menu
  * shows a "No matching results" message instead of items.
  */
 export const EmptyState: Story = {
@@ -1168,18 +835,22 @@ export const EmptyState: Story = {
 };
 
 /**
- * Demo 12 — **Submenu**. Rows carry a trailing count `Badge` and a chevron; hovering
+ * Demo 10 — **Submenu**. Rows carry a trailing count `Badge` and a chevron; hovering
  * one opens a nested submenu of options (built on `DropdownSub`).
  */
 export const Submenu: Story = {
   parameters: {
     a11y: {
-      // Base UI renders each submenu trigger as a `<span aria-owns>` inside the parent
-      // `role="menu"` — its own (valid) pattern for associating the trigger with the
-      // nested menu in the a11y tree. axe's aria-required-children flags that span as a
-      // disallowed menu child even though it is the framework's prescribed markup; the
-      // submenu trigger keeps `role="menuitem"` + `aria-haspopup="menu"`. Suppress just
-      // that rule for this story.
+      // When a submenu is open, Base UI's FloatingPortal emits a visually-hidden
+      // `aria-owns` owner `<span>` next to the trigger. It reparents the portaled
+      // submenu to the correct place in the accessibility tree (next to its trigger),
+      // but in the DOM that span lands as a child of the parent `role="menu"`. axe's
+      // aria-required-children reads the DOM tree rather than the a11y tree, so it
+      // flags the span as a disallowed menu child. This is a static-analysis
+      // false-positive on axe's side, not invalid markup (tracked at
+      // dequelabs/axe-core#4048; the floating-ui maintainer confirmed the span is doing
+      // correct a11y-tree placement in floating-ui/floating-ui#3424). Suppress just
+      // this rule for this story.
       config: { rules: [{ id: "aria-required-children", enabled: false }] },
     },
   },

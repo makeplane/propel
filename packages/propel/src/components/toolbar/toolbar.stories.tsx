@@ -5,11 +5,17 @@ import {
   AlignLeft,
   AlignRight,
   Bold,
+  Code,
   Image,
   Italic,
   Link,
+  List,
+  ListChecks,
+  ListOrdered,
   MessageSquare,
+  Quote,
   Strikethrough,
+  Table,
   Underline,
 } from "lucide-react";
 import { expect } from "storybook/test";
@@ -73,6 +79,30 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
           <AlignRight aria-hidden />
         </ToolbarToggle>
       </ToolbarToggleGroup>
+      <ToolbarSeparator />
+      <ToolbarGroup aria-label="Lists">
+        <ToolbarToggle aria-label="Bullet list">
+          <List aria-hidden />
+        </ToolbarToggle>
+        <ToolbarToggle aria-label="Numbered list">
+          <ListOrdered aria-hidden />
+        </ToolbarToggle>
+        <ToolbarToggle aria-label="Checklist">
+          <ListChecks aria-hidden />
+        </ToolbarToggle>
+      </ToolbarGroup>
+      <ToolbarSeparator />
+      <ToolbarGroup aria-label="Blocks">
+        <ToolbarToggle aria-label="Quote">
+          <Quote aria-hidden />
+        </ToolbarToggle>
+        <ToolbarToggle aria-label="Code block">
+          <Code aria-hidden />
+        </ToolbarToggle>
+        <ToolbarButton aria-label="Insert table">
+          <Table aria-hidden />
+        </ToolbarButton>
+      </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarButton aria-label="Insert link">
         <Link aria-hidden />

@@ -38,14 +38,16 @@ export type TabsProps = Omit<
  * Root of a tab set. Groups a `TabsList` of `Tab`s with their `TabsPanel`s and
  * tracks which tab is active. Build the compound API from its parts:
  *
- *   <Tabs variant="contained" defaultValue="overview">
- *     <TabsList>
- *       <Tab value="overview">Overview</Tab>
- *       <Tab value="activity">Activity</Tab>
- *     </TabsList>
- *     <TabsPanel value="overview">…</TabsPanel>
- *     <TabsPanel value="activity">…</TabsPanel>
- *   </Tabs>
+ * ```tsx
+ * <Tabs variant="contained" defaultValue="overview">
+ *   <TabsList>
+ *     <Tab value="overview">Overview</Tab>
+ *     <Tab value="activity">Activity</Tab>
+ *   </TabsList>
+ *   <TabsPanel value="overview">…</TabsPanel>
+ *   <TabsPanel value="activity">…</TabsPanel>
+ * </Tabs>
+ * ```
  */
 export function Tabs({ variant, ...props }: TabsProps) {
   return (

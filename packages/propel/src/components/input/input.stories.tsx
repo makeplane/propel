@@ -49,6 +49,39 @@ export const Horizontal: Story = {
   },
 };
 
+/**
+ * The horizontal layout across every magnitude, plus the optional `info` affordance
+ * beside the label and the error state, which the single Horizontal playground doesn't
+ * show.
+ */
+export const HorizontalShowcase: Story = {
+  // Required axes for the args table; the custom `render` ignores them.
+  args: { magnitude: "md", tone: "neutral", variant: "horizontal" },
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex w-[440px] flex-col gap-4">
+      <Input variant="horizontal" magnitude="md" tone="neutral" label="Email" placeholder="md" />
+      <Input variant="horizontal" magnitude="lg" tone="neutral" label="Email" placeholder="lg" />
+      <Input
+        variant="horizontal"
+        magnitude="xl"
+        tone="neutral"
+        label="Email"
+        placeholder="xl"
+        info
+      />
+      <Input
+        variant="horizontal"
+        magnitude="md"
+        label="Email"
+        tone="danger"
+        error="Enter a valid email address"
+        defaultValue="not-an-email"
+      />
+    </div>
+  ),
+};
+
 /** Leading and trailing 16px icon slots wrap the control. */
 export const WithIcons: Story = {
   args: {

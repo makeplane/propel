@@ -37,14 +37,21 @@ export function AccordionItem(props: AccordionItemProps) {
 export type AccordionTriggerProps = Omit<
   React.ComponentProps<typeof BaseAccordion.Trigger>,
   "className" | "render" | "style"
->;
+> & {
+  /**
+   * Optional icon shown before the label, matching the Figma header icon. Named
+   * `leadingIcon` (not `icon`) to match Button/Input, so a `trailingIcon` can be
+   * added later without a breaking rename.
+   */
+  leadingIcon?: React.ReactNode;
+};
 
 /**
- * The clickable header that opens and closes its panel. Renders the label plus a
- * chevron that rotates when the panel is open. Base UI sets `aria-expanded` and
- * `aria-controls` for you.
+ * The clickable header that opens and closes its panel. Renders an optional
+ * `leadingIcon`, the label, and a chevron that rotates when the panel is open. Base
+ * UI sets `aria-expanded` and `aria-controls` for you.
  */
-export function AccordionTrigger({ children, ...props }: AccordionTriggerProps) {
+export function AccordionTrigger({ leadingIcon, children, ...props }: AccordionTriggerProps) {
   return (
     <BaseAccordion.Header className="flex">
       <BaseAccordion.Trigger
@@ -57,6 +64,11 @@ export function AccordionTrigger({ children, ...props }: AccordionTriggerProps) 
         )}
         {...props}
       >
+        {leadingIcon ? (
+          <span className="flex size-4 shrink-0 items-center justify-center text-icon-secondary">
+            {leadingIcon}
+          </span>
+        ) : null}
         <span className="flex-1">{children}</span>
         <ChevronDown
           aria-hidden

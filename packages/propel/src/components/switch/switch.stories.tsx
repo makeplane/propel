@@ -36,7 +36,7 @@ export const Magnitudes: Story = {
   ),
 };
 
-/** On, off, and disabled (in both on and off positions) side by side. */
+/** On, off, disabled, and read-only (each in both positions) side by side. */
 export const States: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
@@ -45,6 +45,8 @@ export const States: Story = {
       <Switch {...args} defaultChecked={false} aria-label="Off" />
       <Switch {...args} defaultChecked disabled aria-label="Disabled on" />
       <Switch {...args} defaultChecked={false} disabled aria-label="Disabled off" />
+      <Switch {...args} defaultChecked readOnly aria-label="Read only on" />
+      <Switch {...args} defaultChecked={false} readOnly aria-label="Read only off" />
     </div>
   ),
 };
