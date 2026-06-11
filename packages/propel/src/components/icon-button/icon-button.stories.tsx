@@ -5,7 +5,7 @@ import { iconControl } from "../../storybook/icon-control";
 import { IconButton, type IconButtonMagnitude, type IconButtonVariant } from "./index";
 
 const VARIANTS: IconButtonVariant[] = ["primary", "secondary", "tertiary", "ghost"];
-const MAGNITUDES: IconButtonMagnitude[] = ["xs", "sm", "md", "lg", "xl"];
+const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
 const meta = {
   title: "Components/IconButton",
@@ -63,7 +63,7 @@ export const Tones: Story = {
   ),
 };
 
-/** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl; xs is an extra dense step). */
+/** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl). */
 export const Magnitudes: Story = {
   argTypes: { magnitude: { control: false }, "aria-label": { control: false } },
   render: (args) => (
