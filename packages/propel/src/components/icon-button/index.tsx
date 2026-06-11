@@ -11,9 +11,9 @@ import {
 
 // IconButton is its own component, but it shares Button's cva chrome
 // (`buttonVariants`). Its box geometry and glyph scale differ from a text button:
-// icon buttons are square and padding-driven instead of label-driven, and Figma's
-// icon-button glyph sizes run a step larger than the text-button icon at md and xl.
-// Both differences live here.
+// icon buttons are square (a fixed `size-N` box) rather than label-driven, and
+// Figma's icon-button glyph sizes run a step larger than the text-button icon at md
+// and xl. Both differences live here.
 
 // Icon-only square sizes per magnitude. Figma's "Icon button" Size scale ships
 // S/Base/L/XL at 20/24/28/32px, mapped to sm/md/lg/xl. `size-N` fixes both width
