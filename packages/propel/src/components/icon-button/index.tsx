@@ -7,22 +7,33 @@ import {
   type ButtonTone,
   type ButtonVariant,
   buttonVariants,
-  iconSizeByMagnitude,
 } from "../button/index";
 
-// IconButton is its own component, but it shares Button's design tokens: the same
-// cva chrome (`buttonVariants`) and the same per-magnitude glyph scale
-// (`iconSizeByMagnitude`). Only the box geometry differs — icon buttons are square
-// and padding-driven instead of label-driven — so that lives here.
+// IconButton is its own component, but it shares Button's cva chrome
+// (`buttonVariants`). Its box geometry and glyph scale differ from a text button:
+// icon buttons are square (a fixed `size-N` box) rather than label-driven, and
+// Figma's icon-button glyph sizes run a step larger than the text-button icon at md
+// and xl. Both differences live here.
 
 // Icon-only square sizes per magnitude. Figma's "Icon button" Size scale ships
-// S/Base/L/XL at 20/24/28/32px; those map to sm/md/lg/xl. Base is a 24px square
-// (size-6) with a 16px glyph and 4px (spacing/1) padding, straight from Figma.
+// S/Base/L/XL at 20/24/28/32px, mapped to sm/md/lg/xl. `size-N` fixes both width
+// and height so the button is always square; the base `items-center justify-center`
+// centers the glyph (no padding needed, the gap falls out of size minus glyph).
 const iconButtonSizeByMagnitude: Record<ButtonMagnitude, string> = {
-  sm: "size-5 p-1",
-  md: "size-6 p-1",
-  lg: "size-7 p-1",
-  xl: "size-8 p-1.5",
+  sm: "size-5",
+  md: "size-6",
+  lg: "size-7",
+  xl: "size-8",
+};
+
+// Glyph size per magnitude, from Figma's "Icon button" spec: 14 / 16 / 16 / 20px for
+// sm/md/lg/xl. This is the icon-button's own scale, which is a step larger than the
+// text-button glyph at md (16 vs 14) and xl (20 vs 16).
+const iconButtonGlyphSizeByMagnitude: Record<ButtonMagnitude, string> = {
+  sm: "size-3.5", // 14px
+  md: "size-4", // 16px
+  lg: "size-4", // 16px
+  xl: "size-5", // 20px
 };
 
 // Figma "Icon button" Type axis: Primary/Secondary/Tertiary/Error/Error outline/
@@ -64,7 +75,7 @@ export function IconButton({
   // `loading` mirrors Button: a soft-disabled busy state that shows a spinner and
   // blocks clicks but stays a real, focusable button (`aria-busy`/`aria-disabled`).
   // `disabled` is the hard, non-focusable native state.
-  const iconClass = iconSizeByMagnitude[magnitude];
+  const iconClass = iconButtonGlyphSizeByMagnitude[magnitude];
   return (
     <button
       type={type}
@@ -73,9 +84,13 @@ export function IconButton({
       aria-busy={loading || undefined}
       onClick={loading ? undefined : onClick}
       className={cx(
-        buttonVariants({ variant, tone, magnitude }),
-        // Override the text-button box with a square, padding-driven one.
-        "h-auto min-w-0 px-0",
+        // Pass only variant/tone so Button's chrome (background, border, text/icon
+        // color, radius) applies, but NOT its text-button geometry. `magnitude` would
+        // add a height, min-width and horizontal padding meant for labelled buttons;
+        // since cx does not dedupe conflicting utilities, those would beat the square
+        // size below and leave the button rectangular. The square `size-N` is the icon
+        // button's own geometry.
+        buttonVariants({ variant, tone }),
         iconButtonSizeByMagnitude[magnitude],
       )}
       {...props}
