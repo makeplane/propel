@@ -149,7 +149,9 @@ function FieldLabelRow({
   children: React.ReactNode;
   magnitude: InputMagnitude;
   required?: boolean;
-  info?: React.ReactNode;
+  // Excludes `boolean` so the old `info` / `info={true}` shorthand no longer
+  // type-checks (it would render an empty spacing span). Pass `<InfoIcon />` or a node.
+  info?: Exclude<React.ReactNode, boolean>;
   /**
    * Top-align the label with the control's value line in the `horizontal`
    * layout. Adds a magnitude-matched top inset so the label's first text line
@@ -217,7 +219,9 @@ type SharedFieldProps = {
   /** Marks the field required: adds a `*` asterisk and sets `required`. */
   required?: boolean;
   /** Optional info affordance beside the label. Pass `<InfoIcon />` for the standard icon, or any node. */
-  info?: React.ReactNode;
+  // Excludes `boolean` so the old `info` / `info={true}` shorthand no longer
+  // type-checks (it would render an empty spacing span). Pass `<InfoIcon />` or a node.
+  info?: Exclude<React.ReactNode, boolean>;
   /** Helper / description text below the control. */
   description?: React.ReactNode;
   /** Error text below the control. Shown when invalid (or when `tone="danger"`). */
