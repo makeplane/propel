@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Mail, Search } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
 import { iconControl } from "../../storybook/icon-control";
-import { Field, InfoIcon, Input, type InputMagnitude, TextArea } from "./index";
+import { Field, Input, type InputMagnitude, TextArea } from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
 
@@ -68,7 +68,7 @@ export const HorizontalShowcase: Story = {
         tone="neutral"
         label="Email"
         placeholder="xl"
-        info={<InfoIcon />}
+        info="We never share your email with anyone."
       />
       <Input
         variant="horizontal"
@@ -257,7 +257,7 @@ export const RtlVerify: Story = {
         tone="neutral"
         variant="vertical"
         label="البريد الإلكتروني"
-        info={<InfoIcon />}
+        info="We never share your email with anyone."
         placeholder="you@example.com"
         description="لن نشارك بريدك الإلكتروني."
       />
@@ -303,7 +303,7 @@ export const LtrVerify: Story = {
         tone="neutral"
         variant="vertical"
         label="Email"
-        info={<InfoIcon />}
+        info="We never share your email with anyone."
         placeholder="you@example.com"
         description="We'll never share your email."
       />
