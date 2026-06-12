@@ -1,8 +1,6 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import { cva, cx, type VariantProps } from "class-variance-authority";
-import { Info } from "lucide-react";
 import * as React from "react";
-import { Tooltip } from "../tooltip/index";
 
 // Shared scale across Input + TextArea, taken from the Figma "Input fields"
 // component (node 1582-168). The box has 12px horizontal padding at every
@@ -14,12 +12,8 @@ import { Tooltip } from "../tooltip/index";
 // TextArea value text differs at md (text-13 vs Input's text-14) — see
 // `textAreaTextVariants` — and TextArea keeps a constant 8px v-padding.
 
-// The label row. `magnitude` drives the text size; `inset` is the horizontal
-// layout's top alignment: when the label sits beside the control box it gets a
-// magnitude-matched top padding so its first text line lines up with the
-// control's value line (the box's vertical padding md 6px / lg 8px / xl 12px
-// plus its 1px border = 7px / 9px / 13px). It's a compound variant rather than
-// a className escape hatch so the public `Field.Label` never accepts styling.
+// The label text. `magnitude` drives the size; it is a `Field.Label` so it never
+// accepts styling props from a consumer.
 const labelVariants = cva("font-medium text-primary", {
   variants: {
     magnitude: {
@@ -27,18 +21,11 @@ const labelVariants = cva("font-medium text-primary", {
       lg: "text-14",
       xl: "text-14",
     },
-    inset: {
-      true: "",
-      false: "",
-    },
   },
-  compoundVariants: [
-    { magnitude: "md", inset: true, class: "pt-[7px]" },
-    { magnitude: "lg", inset: true, class: "pt-[9px]" },
-    { magnitude: "xl", inset: true, class: "pt-[13px]" },
-  ],
 });
 
+// The supporting text size for the `description` (below the label) and the
+// `hint`/`error` (below the control). Figma: md text-12, lg/xl text-13.
 const helperVariants = cva("", {
   variants: {
     magnitude: {
@@ -126,65 +113,97 @@ const iconSlotClass = cx(
   "[&_svg]:size-4",
 );
 
-// The info affordance: a focusable info icon that reveals the field's help content in a
-// tooltip on hover or focus. It sits beside the label (a sibling of the `<label>`, not
-// inside it, so it never hijacks the label's click into the control).
-const infoTriggerClass = cx(
-  "ms-0.5 inline-flex shrink-0 items-center justify-center rounded-xs text-icon-secondary",
-  "outline-none transition-colors hover:text-icon-primary",
-  "focus-visible:ring-2 focus-visible:ring-accent-strong",
-);
-
 /**
- * The label row: the label text, the required `*` asterisk in danger, and an optional
- * info affordance. When `info` is set, a focusable info icon sits beside the label and
- * reveals `info` in a tooltip on hover/focus. `Input` passes the field's `description`
- * here in the horizontal layout, where there is no room for helper text below the
- * control. Rendered by `Input`/`TextArea`, but also usable directly when composing a
- * field by hand.
+ * The label row: the label text and the required `*` asterisk in danger. Rendered by
+ * `Input`/`TextArea`, but also usable directly when composing a field by hand.
  */
 function FieldLabelRow({
   children,
   magnitude,
   required,
-  inset,
-  info,
 }: {
   children: React.ReactNode;
   magnitude: InputMagnitude;
   required?: boolean;
-  /**
-   * Top-align the label with the control's value line in the `horizontal`
-   * layout. Adds a magnitude-matched top inset so the label's first text line
-   * sits level with the control's text. Internal-only, keeps the public
-   * `Field.Label` free of styling props.
-   */
-  inset?: boolean;
-  /** Help content shown in a tooltip on the info icon. Falsy means no info icon. */
-  info?: React.ReactNode;
 }) {
-  // The row carries the typography and the inset; the `<label>` and the info trigger are
-  // siblings inside it.
   return (
-    <div className={cx("flex items-center gap-0.5", labelVariants({ magnitude, inset }))}>
-      <BaseField.Label className="inline-flex items-center gap-0.5">
-        {children}
-        {required ? (
-          // Decorative: `required` on the control carries the real semantics.
-          <span aria-hidden className="text-danger-primary">
-            *
-          </span>
-        ) : null}
-      </BaseField.Label>
-      {info ? (
-        <Tooltip content={info}>
-          <button type="button" aria-label="More information" className={infoTriggerClass}>
-            <Info aria-hidden className="size-3.5" />
-          </button>
-        </Tooltip>
+    <BaseField.Label
+      className={cx("inline-flex items-center gap-0.5", labelVariants({ magnitude }))}
+    >
+      {children}
+      {required ? (
+        // Decorative: `required` on the control carries the real semantics.
+        <span aria-hidden className="text-danger-primary">
+          *
+        </span>
+      ) : null}
+    </BaseField.Label>
+  );
+}
+
+// The label column: the label row with its supporting `description` stacked
+// directly below it (Figma stacks them with a 4px gap, then a 12px gap to the
+// control). `className` lets each layout size the column — full width when the
+// label sits above the control, a flex column when it sits beside it.
+function FieldLabelGroup({
+  magnitude,
+  required,
+  label,
+  description,
+  className,
+}: {
+  magnitude: InputMagnitude;
+  required?: boolean;
+  label?: React.ReactNode;
+  description?: React.ReactNode;
+  className?: string;
+}) {
+  if (label == null && description == null) {
+    return null;
+  }
+  return (
+    <div className={cx("flex flex-col gap-1", className)}>
+      {label != null ? (
+        <FieldLabelRow magnitude={magnitude} required={required}>
+          {label}
+        </FieldLabelRow>
+      ) : null}
+      {description != null ? (
+        <BaseField.Description className={cx("text-tertiary", helperVariants({ magnitude }))}>
+          {description}
+        </BaseField.Description>
       ) : null}
     </div>
   );
+}
+
+// The helper line below the control: the `error` text in danger when present,
+// otherwise the `hint` in the muted tertiary color. `error` overrides `hint`,
+// matching the Figma "error" state where the helper text turns red.
+function FieldHelperText({
+  magnitude,
+  hint,
+  error,
+}: {
+  magnitude: InputMagnitude;
+  hint?: React.ReactNode;
+  error?: React.ReactNode;
+}) {
+  if (error != null) {
+    return (
+      <BaseField.Error match className={cx("text-danger-primary", helperVariants({ magnitude }))}>
+        {error}
+      </BaseField.Error>
+    );
+  }
+  if (hint != null) {
+    return (
+      <BaseField.Description className={cx("text-tertiary", helperVariants({ magnitude }))}>
+        {hint}
+      </BaseField.Description>
+    );
+  }
+  return null;
 }
 
 /**
@@ -202,7 +221,7 @@ export const Field = Object.assign(
     Root: BaseField.Root,
     /** The label row primitive (label text + asterisk). */
     Label: FieldLabelRow,
-    /** Helper / description text below the control (`text-tertiary`). */
+    /** Supporting / helper text (`text-tertiary`); used below the label and below the control. */
     Description: BaseField.Description,
     /** Error text, shown when the field is invalid (`text-danger`). */
     Error: BaseField.Error,
@@ -224,13 +243,11 @@ type SharedFieldProps = {
   label?: React.ReactNode;
   /** Marks the field required: adds a `*` asterisk and sets `required`. */
   required?: boolean;
-  /**
-   * Helper text for the field. In the vertical layout it renders below the control; in
-   * the horizontal layout (where there is no room below) it is surfaced as an info icon
-   * beside the label, revealed in a tooltip on hover/focus.
-   */
+  /** Supporting text shown directly below the label. */
   description?: React.ReactNode;
-  /** Error text below the control. Shown when invalid (or when `tone="danger"`). */
+  /** Helper text shown below the control. Replaced by `error` when an error is set. */
+  hint?: React.ReactNode;
+  /** Error text shown below the control. Overrides `hint`; pair with `tone="danger"`. */
   error?: React.ReactNode;
 };
 
@@ -257,6 +274,7 @@ export function Input({
   label,
   required,
   description,
+  hint,
   error,
   leadingIcon,
   trailingIcon,
@@ -270,32 +288,21 @@ export function Input({
       // `tone="danger"` mirrors the error treatment even without HTML validity.
       invalid={tone === "danger" || undefined}
       className={cx(
-        "flex",
         // Figma "horizontal" (node 1582-168) lays the label column beside the
-        // control column with a 12px gap, top-aligned (`items-start`): the label
-        // hugs the top of the control box rather than centering against it. Vertical
-        // keeps the 6px (gap-1.5) rhythm with the label stacked above.
-        horizontal ? "flex-row items-start gap-3" : "flex-col items-start gap-1.5",
+        // control column with a 12px gap, top-aligned (`items-start`). Vertical
+        // stacks them with the same 12px gap.
+        "flex gap-3",
+        horizontal ? "flex-row items-start" : "flex-col items-start",
       )}
     >
-      {label != null ? (
-        <FieldLabelRow
-          magnitude={magnitude}
-          required={required}
-          // In `horizontal` the label sits beside the control box, top-aligned
-          // (`items-start`). The box adds vertical padding (md 6px / lg 8px /
-          // xl 12px) plus a 1px border before its text, so the label gets a
-          // matching top inset to line its first text line up with the control's
-          // value line. Vertical doesn't need this, the label stacks above.
-          inset={horizontal}
-          // Horizontal has no room for helper text below the control, so the
-          // description is surfaced as an info icon beside the label instead.
-          info={horizontal ? description : undefined}
-        >
-          {label}
-        </FieldLabelRow>
-      ) : null}
-      <div className={cx("flex flex-col gap-1.5", horizontal ? "flex-1" : "w-full")}>
+      <FieldLabelGroup
+        magnitude={magnitude}
+        required={required}
+        label={label}
+        description={description}
+        className={horizontal ? "min-w-0 flex-1" : "w-full"}
+      />
+      <div className={cx("flex flex-col", horizontal ? "min-w-0 flex-1 gap-2" : "w-full gap-1.5")}>
         <div
           className={cx(
             boxVariants({ tone }),
@@ -326,21 +333,7 @@ export function Input({
             </span>
           ) : null}
         </div>
-        {!horizontal && description != null ? (
-          <BaseField.Description className={cx("text-tertiary", helperVariants({ magnitude }))}>
-            {description}
-          </BaseField.Description>
-        ) : null}
-        {error != null ? (
-          <BaseField.Error
-            // `match` lets validity drive visibility; when `tone="danger"` the
-            // Root is `invalid`, so the error always shows.
-            match={tone === "danger" ? true : undefined}
-            className={cx("text-danger-primary", helperVariants({ magnitude }))}
-          >
-            {error}
-          </BaseField.Error>
-        ) : null}
+        <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </div>
     </BaseField.Root>
   );
@@ -362,8 +355,7 @@ const textAreaMinHeight: Record<InputMagnitude, string> = {
 /**
  * Multi-line text field built on Base UI `Field`, rendering the control as a
  * `<textarea>`. Vertical layout only (no `variant`); `resize-none` by default
- * with a magnitude-driven min-height. This is the editor primitive the Comment
- * composer builds on.
+ * with a magnitude-driven min-height.
  */
 export function TextArea({
   magnitude,
@@ -371,6 +363,7 @@ export function TextArea({
   label,
   required,
   description,
+  hint,
   error,
   disabled,
   ...controlProps
@@ -379,52 +372,44 @@ export function TextArea({
     <BaseField.Root
       disabled={disabled}
       invalid={tone === "danger" || undefined}
-      className="flex w-full flex-col items-start gap-1.5"
+      className="flex w-full flex-col items-start gap-3"
     >
-      {label != null ? (
-        <FieldLabelRow magnitude={magnitude} required={required}>
-          {label}
-        </FieldLabelRow>
-      ) : null}
-      <div
-        className={cx(
-          boxVariants({ tone }),
-          // TextArea uses the larger radius and a FIXED 8px vertical padding at
-          // every magnitude (Figma: `py spacing/2` for md/lg/xl). Unlike the
-          // single-line Input, magnitude does NOT change the box's vertical
-          // padding here — it drives the control's font-size + min-height.
-          "items-stretch rounded-lg py-2",
-        )}
-      >
-        <BaseField.Control
-          required={required}
-          render={<textarea />}
+      <FieldLabelGroup
+        magnitude={magnitude}
+        required={required}
+        label={label}
+        description={description}
+        className="w-full"
+      />
+      <div className="flex w-full flex-col gap-1.5">
+        <div
           className={cx(
-            // `overflow-y-auto` matches the Dropdown popup's scroll behavior: a
-            // native scrollbar that only appears once the content overflows,
-            // instead of the textarea's default always-reserved gutter.
-            "min-w-0 flex-1 resize-none overflow-y-auto bg-transparent text-primary outline-none",
-            "placeholder:text-placeholder",
-            "disabled:cursor-not-allowed disabled:text-disabled",
-            textAreaMinHeight[magnitude],
-            textAreaTextVariants({ magnitude }),
+            boxVariants({ tone }),
+            // TextArea uses the larger radius and a FIXED 8px vertical padding at
+            // every magnitude (Figma: `py spacing/2` for md/lg/xl). Unlike the
+            // single-line Input, magnitude does NOT change the box's vertical
+            // padding here — it drives the control's font-size + min-height.
+            "items-stretch rounded-lg py-2",
           )}
-          {...controlProps}
-        />
-      </div>
-      {description != null ? (
-        <BaseField.Description className={cx("text-tertiary", helperVariants({ magnitude }))}>
-          {description}
-        </BaseField.Description>
-      ) : null}
-      {error != null ? (
-        <BaseField.Error
-          match={tone === "danger" ? true : undefined}
-          className={cx("text-danger-primary", helperVariants({ magnitude }))}
         >
-          {error}
-        </BaseField.Error>
-      ) : null}
+          <BaseField.Control
+            required={required}
+            render={<textarea />}
+            className={cx(
+              // `overflow-y-auto` matches the Dropdown popup's scroll behavior: a
+              // native scrollbar that only appears once the content overflows,
+              // instead of the textarea's default always-reserved gutter.
+              "min-w-0 flex-1 resize-none overflow-y-auto bg-transparent text-primary outline-none",
+              "placeholder:text-placeholder",
+              "disabled:cursor-not-allowed disabled:text-disabled",
+              textAreaMinHeight[magnitude],
+              textAreaTextVariants({ magnitude }),
+            )}
+            {...controlProps}
+          />
+        </div>
+        <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
+      </div>
     </BaseField.Root>
   );
 }
