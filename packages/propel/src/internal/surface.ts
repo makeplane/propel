@@ -22,7 +22,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 //   above the page (the dropdown popup).
 // - `radius`: corner radius. `lg` (8px) is the floating-card default; `md` (6px)
 //   is the tighter corner used by compact menus.
-export const surfaceVariants = cva("border border-subtle bg-surface-1", {
+const surfaceBase = cva("border border-subtle bg-surface-1", {
   variants: {
     elevation: {
       raised: "shadow-overlay-100",
@@ -35,4 +35,13 @@ export const surfaceVariants = cva("border border-subtle bg-surface-1", {
   },
 });
 
-export type SurfaceVariantProps = VariantProps<typeof surfaceVariants>;
+// Both axes are required: propel keeps essential axes explicit and there are no
+// `defaultVariants`. cva's own generated type makes variants optional, which would
+// let a call site omit an axis and silently drop the shadow/radius class, so wrap
+// it in a function whose props require both. `surfaceVariants({})` is then a type
+// error rather than a quietly-incomplete surface.
+export type SurfaceVariantProps = Required<VariantProps<typeof surfaceBase>>;
+
+export function surfaceVariants(props: SurfaceVariantProps) {
+  return surfaceBase(props);
+}
