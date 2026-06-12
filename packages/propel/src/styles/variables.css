@@ -229,9 +229,9 @@
 
     /* -------------------- Light mode custom(derived) colors -------------------- */
     /* Scrollbar colors */
-    --scrollbar-thumb: var(--alpha-black-200);
-    --scrollbar-thumb-surface-hover: var(--alpha-black-300);
-    --scrollbar-thumb-hover: var(--alpha-black-400);
+    --scrollbar-thumb: var(--alpha-black-400);
+    --scrollbar-thumb-surface: transparent;
+    --scrollbar-thumb-hover: var(--alpha-black-500);
     --scrollbar-thumb-active: var(--alpha-black-500);
     /* Background colors */
     --bg-canvas: var(--neutral-300);
@@ -521,9 +521,9 @@
       --red-1100: oklch(0.9705 0.0129 17.38);
       /* -------------------- Dark mode derived colors -------------------- */
       /* Scrollbar colors */
-      --scrollbar-thumb: var(--alpha-white-200);
-      --scrollbar-thumb-surface-hover: var(--alpha-white-300);
-      --scrollbar-thumb-hover: var(--alpha-white-400);
+      --scrollbar-thumb: var(--alpha-white-400);
+      --scrollbar-thumb-surface: transparent;
+      --scrollbar-thumb-hover: var(--alpha-white-500);
       --scrollbar-thumb-active: var(--alpha-white-500);
       /* Background colors */
       --bg-canvas: var(--neutral-black);
@@ -947,7 +947,7 @@
   --default-ring-width: var(--default-border-width);
   /* Scrollbar colors */
   --background-color-scrollbar-thumb: var(--scrollbar-thumb);
-  --background-color-scrollbar-thumb-surface-hover: var(--scrollbar-thumb-surface-hover);
+  --background-color-scrollbar-thumb-surface: var(--scrollbar-thumb-surface);
   --background-color-scrollbar-thumb-hover: var(--scrollbar-thumb-hover);
   --background-color-scrollbar-thumb-active: var(--scrollbar-thumb-active);
   /* Background colors */
@@ -1578,41 +1578,30 @@
 }
 
 /*
- * The propel overflow scrollbar: a thin, rounded thumb that uses the
- * `--scrollbar-thumb*` tokens (subtle at rest, a touch stronger while the
- * container is hovered, stronger on thumb hover, strongest while dragging) over a
- * transparent track. Use this on any scroll container (dropdown lists, text
- * areas) so overflow scrolls match the design instead of the native scrollbar.
+ * The propel overflow scrollbar: a thin, rounded thumb over a transparent track,
+ * using the `--scrollbar-thumb*` tokens (Figma "Scrollbar", node 5582-2170). The
+ * thumb is visible at rest (`--scrollbar-thumb`) and firms up on thumb hover and
+ * while dragging. Use this on any scroll container (dropdown lists, text areas) so
+ * overflow scrolls match the design instead of the native scrollbar.
  */
 @utility scrollbar-sm {
-  /* Overlay style: the thumb is hidden at rest and only appears while the scroll
-     container is hovered, then firms up on thumb hover and while dragging, matching
-     the Figma app scrollbars (visible only on interaction). Firefox has no scrollbar
-     pseudo-elements, so it can only switch the whole scrollbar-color on container
-     hover; the WebKit rules below add the distinct thumb-hover and dragging states. */
+  /* The thumb shows at rest over a transparent track; hovering or dragging the
+     thumb darkens it. Firefox has no scrollbar pseudo-elements, so it can only set
+     the resting thumb color via `scrollbar-color`; the WebKit rules below add the
+     distinct thumb-hover and dragging states. */
   scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-  &:hover {
-    scrollbar-color: var(--scrollbar-thumb-surface-hover) transparent;
-  }
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-thumb-surface);
   &::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   &::-webkit-scrollbar-track {
-    background-color: transparent;
+    background-color: var(--scrollbar-thumb-surface);
   }
-  /* Hidden at rest. */
   &::-webkit-scrollbar-thumb {
     border-radius: 9999px;
-    background-color: transparent;
+    background-color: var(--scrollbar-thumb);
   }
-  /* Revealed once the scroll container is hovered. */
-  &:hover::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb-surface-hover);
-  }
-  /* Hovering or dragging the thumb itself is stronger still (listed after the
-     container-hover rule so it wins when both apply). */
   &::-webkit-scrollbar-thumb:hover {
     background-color: var(--scrollbar-thumb-hover);
   }
