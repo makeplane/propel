@@ -316,10 +316,9 @@ export function Input({
       // `tone="danger"` mirrors the error treatment even without HTML validity.
       invalid={tone === "danger" || undefined}
       className={cx(
-        // Figma "horizontal" (node 1582-168) lays the label column beside the
-        // control column with a 12px gap, top-aligned (`items-start`). Vertical
-        // stacks them with the same 12px gap.
-        "flex gap-3",
+        // The label column sits beside (horizontal) or above (vertical) the control
+        // column with an 8px gap, top-aligned (`items-start`).
+        "flex gap-2",
         horizontal ? "flex-row items-start" : "flex-col items-start",
       )}
     >
@@ -400,7 +399,7 @@ export function TextArea({
     <BaseField.Root
       disabled={disabled}
       invalid={tone === "danger" || undefined}
-      className="flex w-full flex-col items-start gap-3"
+      className="flex w-full flex-col items-start gap-2"
     >
       <FieldLabelGroup
         magnitude={magnitude}
