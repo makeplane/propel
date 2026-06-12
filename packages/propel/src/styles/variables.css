@@ -1610,6 +1610,10 @@
     width: 6px;
     height: 6px;
   }
+  /* No stepper arrows: the Figma scrollbar is a thumb over a transparent track. */
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
   &::-webkit-scrollbar-track {
     background-color: var(--scrollbar-thumb-surface);
   }
