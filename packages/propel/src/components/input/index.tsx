@@ -143,26 +143,36 @@ function FieldLabelRow({
 
 // The label column: the label row with its supporting `description` stacked
 // directly below it (Figma stacks them with a 4px gap, then a 12px gap to the
-// control). `className` lets each layout size the column — full width when the
-// label sits above the control, a flex column when it sits beside it.
+// control). `variant` sizes the column to its layout — full width when the label
+// sits above the control (`vertical`), a flex column when it sits beside it
+// (`horizontal`).
+const labelGroupVariants = cva("flex flex-col gap-1", {
+  variants: {
+    variant: {
+      vertical: "w-full",
+      horizontal: "min-w-0 flex-1",
+    },
+  },
+});
+
 function FieldLabelGroup({
   magnitude,
   required,
   label,
   description,
-  className,
+  variant,
 }: {
   magnitude: InputMagnitude;
   required?: boolean;
   label?: React.ReactNode;
   description?: React.ReactNode;
-  className?: string;
+  variant: NonNullable<VariantProps<typeof labelGroupVariants>["variant"]>;
 }) {
   if (label == null && description == null) {
     return null;
   }
   return (
-    <div className={cx("flex flex-col gap-1", className)}>
+    <div className={labelGroupVariants({ variant })}>
       {label != null ? (
         <FieldLabelRow magnitude={magnitude} required={required}>
           {label}
@@ -300,7 +310,7 @@ export function Input({
         required={required}
         label={label}
         description={description}
-        className={horizontal ? "min-w-0 flex-1" : "w-full"}
+        variant={variant}
       />
       <div className={cx("flex flex-col", horizontal ? "min-w-0 flex-1 gap-2" : "w-full gap-1.5")}>
         <div
@@ -379,7 +389,7 @@ export function TextArea({
         required={required}
         label={label}
         description={description}
-        className="w-full"
+        variant="vertical"
       />
       <div className="flex w-full flex-col gap-1.5">
         <div
