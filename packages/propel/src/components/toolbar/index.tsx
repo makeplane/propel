@@ -5,6 +5,7 @@ import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 import * as React from "react";
+import { surfaceVariants } from "../../internal/surface";
 
 // The Figma "Toolbar" component has a single `variant` axis describing where the
 // toolbar is placed (Figma: Floater / Pages - Topbar / Comments bottom bar). The
@@ -22,7 +23,7 @@ import * as React from "react";
 const toolbarVariants = cva("flex w-fit items-center gap-2 p-1.5 text-secondary", {
   variants: {
     variant: {
-      floater: "rounded-lg border-sm border-subtle bg-surface-1 shadow-overlay-100",
+      floater: surfaceVariants({ elevation: "raised", radius: "lg" }),
       topbar: "",
       "bottom-bar": "",
     },
@@ -281,8 +282,9 @@ export function ToolbarDropdown({
         <Menu.Positioner sideOffset={6} className="z-50 outline-none">
           <Menu.Popup
             className={cx(
-              "min-w-36 rounded-lg border-sm border-subtle bg-surface-1 p-1",
-              "text-13 text-secondary shadow-overlay-100 outline-none",
+              surfaceVariants({ elevation: "raised", radius: "lg" }),
+              "min-w-36 p-1",
+              "text-13 text-secondary outline-none",
             )}
           >
             {items.map((item) => (
