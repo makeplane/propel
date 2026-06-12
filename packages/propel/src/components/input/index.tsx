@@ -1,6 +1,8 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import { cva, cx, type VariantProps } from "class-variance-authority";
+import { Info } from "lucide-react";
 import * as React from "react";
+import { Tooltip } from "../tooltip/index";
 
 // Shared scale across Input + TextArea, taken from the Figma "Input fields"
 // component (node 1582-168). The box has 12px horizontal padding at every
@@ -124,16 +126,29 @@ const iconSlotClass = cx(
   "[&_svg]:size-4",
 );
 
+// The info affordance: a focusable info icon that reveals the field's help content in a
+// tooltip on hover or focus. It sits beside the label (a sibling of the `<label>`, not
+// inside it, so it never hijacks the label's click into the control).
+const infoTriggerClass = cx(
+  "ms-0.5 inline-flex shrink-0 items-center justify-center rounded-xs text-icon-secondary",
+  "outline-none transition-colors hover:text-icon-primary",
+  "focus-visible:ring-2 focus-visible:ring-accent-strong",
+);
+
 /**
- * The label row: the label text and the required `*` asterisk in danger. Rendered by
- * `Input`/`TextArea` from their props, but also usable directly when composing a field
- * by hand.
+ * The label row: the label text, the required `*` asterisk in danger, and an optional
+ * info affordance. When `info` is set, a focusable info icon sits beside the label and
+ * reveals `info` in a tooltip on hover/focus. `Input` passes the field's `description`
+ * here in the horizontal layout, where there is no room for helper text below the
+ * control. Rendered by `Input`/`TextArea`, but also usable directly when composing a
+ * field by hand.
  */
 function FieldLabelRow({
   children,
   magnitude,
   required,
   inset,
+  info,
 }: {
   children: React.ReactNode;
   magnitude: InputMagnitude;
@@ -145,19 +160,30 @@ function FieldLabelRow({
    * `Field.Label` free of styling props.
    */
   inset?: boolean;
+  /** Help content shown in a tooltip on the info icon. Falsy means no info icon. */
+  info?: React.ReactNode;
 }) {
+  // The row carries the typography and the inset; the `<label>` and the info trigger are
+  // siblings inside it.
   return (
-    <BaseField.Label
-      className={cx("inline-flex items-center gap-0.5", labelVariants({ magnitude, inset }))}
-    >
-      {children}
-      {required ? (
-        // Decorative: `required` on the control carries the real semantics.
-        <span aria-hidden className="text-danger-primary">
-          *
-        </span>
+    <div className={cx("flex items-center gap-0.5", labelVariants({ magnitude, inset }))}>
+      <BaseField.Label className="inline-flex items-center gap-0.5">
+        {children}
+        {required ? (
+          // Decorative: `required` on the control carries the real semantics.
+          <span aria-hidden className="text-danger-primary">
+            *
+          </span>
+        ) : null}
+      </BaseField.Label>
+      {info ? (
+        <Tooltip content={info}>
+          <button type="button" aria-label="More information" className={infoTriggerClass}>
+            <Info aria-hidden className="size-3.5" />
+          </button>
+        </Tooltip>
       ) : null}
-    </BaseField.Label>
+    </div>
   );
 }
 
@@ -198,7 +224,11 @@ type SharedFieldProps = {
   label?: React.ReactNode;
   /** Marks the field required: adds a `*` asterisk and sets `required`. */
   required?: boolean;
-  /** Helper / description text below the control. */
+  /**
+   * Helper text for the field. In the vertical layout it renders below the control; in
+   * the horizontal layout (where there is no room below) it is surfaced as an info icon
+   * beside the label, revealed in a tooltip on hover/focus.
+   */
   description?: React.ReactNode;
   /** Error text below the control. Shown when invalid (or when `tone="danger"`). */
   error?: React.ReactNode;
@@ -243,9 +273,8 @@ export function Input({
         "flex",
         // Figma "horizontal" (node 1582-168) lays the label column beside the
         // control column with a 12px gap, top-aligned (`items-start`): the label
-        // hugs the top of the control box rather than centering against it, so a
-        // label + helper stack reads from the top down. Vertical keeps the 6px
-        // (gap-1.5) rhythm with the label stacked above.
+        // hugs the top of the control box rather than centering against it. Vertical
+        // keeps the 6px (gap-1.5) rhythm with the label stacked above.
         horizontal ? "flex-row items-start gap-3" : "flex-col items-start gap-1.5",
       )}
     >
@@ -257,8 +286,11 @@ export function Input({
           // (`items-start`). The box adds vertical padding (md 6px / lg 8px /
           // xl 12px) plus a 1px border before its text, so the label gets a
           // matching top inset to line its first text line up with the control's
-          // value line. Vertical doesn't need this — the label stacks above.
+          // value line. Vertical doesn't need this, the label stacks above.
           inset={horizontal}
+          // Horizontal has no room for helper text below the control, so the
+          // description is surfaced as an info icon beside the label instead.
+          info={horizontal ? description : undefined}
         >
           {label}
         </FieldLabelRow>
@@ -294,7 +326,7 @@ export function Input({
             </span>
           ) : null}
         </div>
-        {description != null ? (
+        {!horizontal && description != null ? (
           <BaseField.Description className={cx("text-tertiary", helperVariants({ magnitude }))}>
             {description}
           </BaseField.Description>

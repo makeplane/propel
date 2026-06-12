@@ -50,9 +50,9 @@ export const Horizontal: Story = {
 };
 
 /**
- * The horizontal layout across every magnitude, plus a `description` (the supporting
- * text reads well beside the control here) and the error state, which the single
- * Horizontal playground doesn't show.
+ * The horizontal layout across every magnitude, plus a `description` (surfaced as an
+ * info icon beside the label in this layout, with the text in a tooltip) and the error
+ * state, which the single Horizontal playground doesn't show.
  */
 export const HorizontalShowcase: Story = {
   // Required axes for the args table; the custom `render` ignores them.
