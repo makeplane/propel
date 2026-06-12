@@ -111,7 +111,10 @@ export const WithIcon: Story = {
 //   free -> `grey`   (neutral grey fill + grey text)
 // Both follow propel semantic tokens, so dark mode tracks automatically. The
 // magnitudes (sm/md/lg) and radius/padding match the standard Badge steps.
-const PLAN_TONES = { paid: "brand", free: "grey" } as const satisfies Record<string, BadgeTone>;
+const PLAN_TONES = { paid: "brand", free: "grey" } as const satisfies Record<
+  "paid" | "free",
+  BadgeTone
+>;
 
 /**
  * The "Plan Badges" treatment: `paid` reads as a `brand`/upgrade accent, `free`
