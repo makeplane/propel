@@ -1566,6 +1566,21 @@
   --text-caption-xs-bold--line-height: 1.2;
   --text-caption-xs-bold--letter-spacing: 0.01em;
   --text-caption-xs-bold--font-weight: var(--font-weight-bold);
+
+  --text-caption-2xs-regular: var(--text-9);
+  --text-caption-2xs-regular--line-height: 1.2;
+  --text-caption-2xs-regular--letter-spacing: 0.01em;
+  --text-caption-2xs-regular--font-weight: var(--font-weight-regular);
+
+  --text-caption-2xs-medium: var(--text-9);
+  --text-caption-2xs-medium--line-height: 1.2;
+  --text-caption-2xs-medium--letter-spacing: 0.01em;
+  --text-caption-2xs-medium--font-weight: var(--font-weight-medium);
+
+  --text-caption-2xs-semibold: var(--text-9);
+  --text-caption-2xs-semibold--line-height: 1.2;
+  --text-caption-2xs-semibold--letter-spacing: 0.01em;
+  --text-caption-2xs-semibold--font-weight: var(--font-weight-semibold);
 }
 
 /* -------------------- Utility classes -------------------- */
