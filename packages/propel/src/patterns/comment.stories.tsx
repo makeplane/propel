@@ -228,6 +228,61 @@ function CommentComposer({
   );
 }
 
+// Give the recipe a stable name so the Docs "Show code" panel reads
+// `<CommentComposer .../>` rather than the bundler's minified identifier.
+CommentComposer.displayName = "CommentComposer";
+
+// The Docs "Show code" for the primary example shows the actual composition (the one
+// a consumer would copy) instead of an opaque `<CommentComposer />`, since the whole
+// point of this recipe is the composition. Kept to the `base` magnitude shown above.
+const RECIPE_SOURCE = `function CommentComposer() {
+  const [value, setValue] = React.useState("");
+  const isEmpty = value.trim().length === 0;
+
+  return (
+    <Field.Root className="flex w-full flex-col overflow-clip rounded-xl border border-subtle-1 bg-layer-2 text-primary">
+      <Field.Label className="sr-only">Add a comment</Field.Label>
+      <Field.Control
+        render={<textarea rows={2} />}
+        placeholder="Add a comment"
+        value={value}
+        onValueChange={setValue}
+        className="min-h-10 w-full resize-none bg-transparent p-3 text-14 leading-snug text-primary outline-none placeholder:text-placeholder"
+      />
+      <div className="flex min-h-9 items-center justify-between gap-2 py-1 pe-1.5 ps-1">
+        <Toolbar variant="bottom-bar" aria-label="Comment formatting">
+          <ToolbarGroup aria-label="Insert">
+            <ToolbarButton aria-label="Mention someone">
+              <AtSign aria-hidden />
+            </ToolbarButton>
+            <ToolbarButton aria-label="Add reaction">
+              <SmilePlus aria-hidden />
+            </ToolbarButton>
+            <ToolbarButton aria-label="Add link">
+              <Link aria-hidden />
+            </ToolbarButton>
+          </ToolbarGroup>
+          <ToolbarSeparator />
+          <ToolbarGroup aria-label="Text formatting">
+            <ToolbarToggle aria-label="Bold">
+              <Bold aria-hidden />
+            </ToolbarToggle>
+            <ToolbarToggle aria-label="Italic">
+              <Italic aria-hidden />
+            </ToolbarToggle>
+            <ToolbarToggle aria-label="Underline">
+              <Underline aria-hidden />
+            </ToolbarToggle>
+          </ToolbarGroup>
+        </Toolbar>
+        <Button variant="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
+          Comment
+        </Button>
+      </div>
+    </Field.Root>
+  );
+}`;
+
 const MAGNITUDES: CommentMagnitude[] = ["base", "sm", "xs"];
 
 /**
@@ -258,6 +313,9 @@ type Story = StoryObj<typeof meta>;
  * with a "Comment" submit Button.
  */
 export const Default: Story = {
+  parameters: {
+    docs: { source: { code: RECIPE_SOURCE, language: "tsx" } },
+  },
   render: (args) => (
     <div className="w-[640px]">
       <CommentComposer {...args} />
