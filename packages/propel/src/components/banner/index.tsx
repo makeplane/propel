@@ -44,12 +44,12 @@ const toneTextClass: Record<BannerTone, string> = {
   info: "text-info-primary",
   accent: "text-accent-primary",
   warning: "text-warning-secondary",
-  danger: "text-danger-primary",
+  danger: "text-danger-secondary",
 };
 
 const toneIconClass: Record<BannerTone, string> = {
-  neutral: "text-icon-tertiary",
-  info: "text-icon-info-primary",
+  neutral: "text-icon-secondary",
+  info: "text-icon-info-secondary",
   accent: "text-icon-accent-primary",
   warning: "text-icon-warning-secondary",
   danger: "text-icon-danger-secondary",
