@@ -1,8 +1,6 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import { cva, cx, type VariantProps } from "class-variance-authority";
-import { Info } from "lucide-react";
 import * as React from "react";
-import { Tooltip } from "../tooltip/index";
 
 // Shared scale across Input + TextArea, taken from the Figma "Input fields"
 // component (node 1582-168). The box has 12px horizontal padding at every
@@ -126,62 +124,40 @@ const iconSlotClass = cx(
   "[&_svg]:size-4",
 );
 
-// The info affordance: a focusable info icon that reveals the field's help content
-// in a tooltip on hover or focus. It sits beside the label (a sibling of the
-// `<label>`, not inside it, so it never hijacks the label's click into the control).
-const infoTriggerClass = cx(
-  "ms-0.5 inline-flex shrink-0 items-center justify-center rounded-xs text-icon-secondary",
-  "outline-none transition-colors hover:text-icon-primary",
-  "focus-visible:ring-2 focus-visible:ring-accent-strong",
-);
-
 /**
- * The label row: the label text, the required `*` asterisk in danger, and an
- * optional info affordance. When `info` is set, a focusable info icon is shown beside
- * the label and reveals `info` as a tooltip on hover/focus. Rendered by `Input`/
- * `TextArea` from their props, but also usable directly when composing a field by hand.
+ * The label row: the label text and the required `*` asterisk in danger. Rendered by
+ * `Input`/`TextArea` from their props, but also usable directly when composing a field
+ * by hand.
  */
 function FieldLabelRow({
   children,
   magnitude,
   required,
-  info,
   inset,
 }: {
   children: React.ReactNode;
   magnitude: InputMagnitude;
   required?: boolean;
-  /** Help content shown in a tooltip on the info icon. Omit for no info icon. */
-  info?: Exclude<React.ReactNode, boolean>;
   /**
    * Top-align the label with the control's value line in the `horizontal`
    * layout. Adds a magnitude-matched top inset so the label's first text line
-   * sits level with the control's text. Internal-only — keeps the public
+   * sits level with the control's text. Internal-only, keeps the public
    * `Field.Label` free of styling props.
    */
   inset?: boolean;
 }) {
-  // The row carries the typography (so the label text inherits it) and the inset; the
-  // `<label>` and the info trigger are siblings inside it.
   return (
-    <div className={cx("flex items-center gap-0.5", labelVariants({ magnitude, inset }))}>
-      <BaseField.Label className="inline-flex items-center gap-0.5">
-        {children}
-        {required ? (
-          // Decorative — `required` on the control carries the real semantics.
-          <span aria-hidden className="text-danger-primary">
-            *
-          </span>
-        ) : null}
-      </BaseField.Label>
-      {info ? (
-        <Tooltip content={info}>
-          <button type="button" aria-label="More information" className={infoTriggerClass}>
-            <Info aria-hidden className="size-3.5" />
-          </button>
-        </Tooltip>
+    <BaseField.Label
+      className={cx("inline-flex items-center gap-0.5", labelVariants({ magnitude, inset }))}
+    >
+      {children}
+      {required ? (
+        // Decorative: `required` on the control carries the real semantics.
+        <span aria-hidden className="text-danger-primary">
+          *
+        </span>
       ) : null}
-    </div>
+    </BaseField.Label>
   );
 }
 
@@ -198,7 +174,7 @@ export const Field = Object.assign(
   {
     /** Groups the label, control, and helper/error. Renders a `<div>`. */
     Root: BaseField.Root,
-    /** The label row primitive (label text + asterisk + info icon). */
+    /** The label row primitive (label text + asterisk). */
     Label: FieldLabelRow,
     /** Helper / description text below the control (`text-tertiary`). */
     Description: BaseField.Description,
@@ -222,13 +198,6 @@ type SharedFieldProps = {
   label?: React.ReactNode;
   /** Marks the field required: adds a `*` asterisk and sets `required`. */
   required?: boolean;
-  /** Optional info affordance beside the label. Pass `<InfoIcon />` for the standard icon, or any node. */
-  /**
-   * Help content for the field. When set, a focusable info icon appears beside the
-   * label and reveals this content in a tooltip on hover or focus. Usually a short
-   * string, but any node works. `boolean` is excluded so a bare `info` does nothing.
-   */
-  info?: Exclude<React.ReactNode, boolean>;
   /** Helper / description text below the control. */
   description?: React.ReactNode;
   /** Error text below the control. Shown when invalid (or when `tone="danger"`). */
@@ -257,7 +226,6 @@ export function Input({
   variant,
   label,
   required,
-  info,
   description,
   error,
   leadingIcon,
@@ -285,7 +253,6 @@ export function Input({
         <FieldLabelRow
           magnitude={magnitude}
           required={required}
-          info={info}
           // In `horizontal` the label sits beside the control box, top-aligned
           // (`items-start`). The box adds vertical padding (md 6px / lg 8px /
           // xl 12px) plus a 1px border before its text, so the label gets a
@@ -371,7 +338,6 @@ export function TextArea({
   tone,
   label,
   required,
-  info,
   description,
   error,
   disabled,
@@ -384,7 +350,7 @@ export function TextArea({
       className="flex w-full flex-col items-start gap-1.5"
     >
       {label != null ? (
-        <FieldLabelRow magnitude={magnitude} required={required} info={info}>
+        <FieldLabelRow magnitude={magnitude} required={required}>
           {label}
         </FieldLabelRow>
       ) : null}

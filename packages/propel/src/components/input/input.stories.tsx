@@ -50,9 +50,9 @@ export const Horizontal: Story = {
 };
 
 /**
- * The horizontal layout across every magnitude, plus the optional `info` affordance
- * beside the label and the error state, which the single Horizontal playground doesn't
- * show.
+ * The horizontal layout across every magnitude, plus a `description` (the supporting
+ * text reads well beside the control here) and the error state, which the single
+ * Horizontal playground doesn't show.
  */
 export const HorizontalShowcase: Story = {
   // Required axes for the args table; the custom `render` ignores them.
@@ -68,7 +68,7 @@ export const HorizontalShowcase: Story = {
         tone="neutral"
         label="Email"
         placeholder="xl"
-        info="We never share your email with anyone."
+        description="We never share your email with anyone."
       />
       <Input
         variant="horizontal"
@@ -257,7 +257,6 @@ export const RtlVerify: Story = {
         tone="neutral"
         variant="vertical"
         label="البريد الإلكتروني"
-        info="We never share your email with anyone."
         placeholder="you@example.com"
         description="لن نشارك بريدك الإلكتروني."
       />
@@ -303,7 +302,6 @@ export const LtrVerify: Story = {
         tone="neutral"
         variant="vertical"
         label="Email"
-        info="We never share your email with anyone."
         placeholder="you@example.com"
         description="We'll never share your email."
       />
