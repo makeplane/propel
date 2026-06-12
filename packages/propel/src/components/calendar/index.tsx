@@ -1,5 +1,7 @@
+import { cx } from "class-variance-authority";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker, type DayPickerProps } from "react-day-picker";
+import { surfaceVariants } from "../../internal/surface";
 
 // Propel-token class map for react-day-picker's UI parts. We never import its
 // default stylesheet — every visual decision below comes from a propel utility
@@ -7,8 +9,9 @@ import { DayPicker, type DayPickerProps } from "react-day-picker";
 // fill, a bordered/elevated container. Keys mirror react-day-picker's `UI`/
 // `DayFlag`/`SelectionState` enums.
 const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"]>> = {
-  // Elevated, bordered surface (background/layer/2 + border/subtle + Overlay-100).
-  root: "relative inline-block bg-layer-2 border border-subtle rounded-lg p-4 shadow-overlay-100",
+  // Elevated, bordered surface: the shared floating-card surface (white
+  // `surface-1`, subtle border) with `raised` overlay shadow and `lg` radius.
+  root: cx(surfaceVariants({ elevation: "raised", radius: "lg" }), "relative inline-block p-4"),
   months: "flex flex-col gap-3",
   month: "flex flex-col gap-3",
   // Caption + nav share one row; the label leads, buttons sit at the end.

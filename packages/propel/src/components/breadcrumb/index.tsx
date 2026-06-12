@@ -2,6 +2,7 @@ import { Menu } from "@base-ui/react/menu";
 import { cva, cx } from "class-variance-authority";
 import { ChevronRight, Ellipsis } from "lucide-react";
 import * as React from "react";
+import { surfaceVariants } from "../../internal/surface";
 import {
   Dropdown,
   DropdownContent,
@@ -133,7 +134,12 @@ export function BreadcrumbDropdown({
       </Menu.Trigger>
       <Menu.Portal>
         <Menu.Positioner side="bottom" align="start" sideOffset={4}>
-          <Menu.Popup className="min-w-32 rounded-md border-sm border-subtle bg-surface-2 p-1 text-14 text-secondary shadow-overlay-100 outline-none">
+          <Menu.Popup
+            className={cx(
+              surfaceVariants({ elevation: "raised", radius: "md" }),
+              "min-w-32 p-1 text-14 text-secondary outline-none",
+            )}
+          >
             {children}
           </Menu.Popup>
         </Menu.Positioner>

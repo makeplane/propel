@@ -2,6 +2,7 @@ import { Menu } from "@base-ui/react/menu";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { Check, ChevronRight, Search } from "lucide-react";
 import * as React from "react";
+import { surfaceVariants } from "../../internal/surface";
 import { CheckboxVisual } from "../checkbox/index";
 
 /**
@@ -57,15 +58,16 @@ export function DropdownTrigger(props: DropdownTriggerProps) {
   return <Menu.Trigger {...props} />;
 }
 
-// The visible floating surface (`Positioner` child): white `surface-1`, overlay
-// shadow, hairline border, small radius, and the scale/fade transition. The sticky
-// search/footer and the scrollable `role="menu"` list (`Menu.Popup`) all live inside
-// it, so non-menuitem chrome stays outside the menu role and the surface is
-// ARIA-valid.
+// The visible floating surface (`Positioner` child): the shared floating-card
+// surface (white `surface-1`, hairline border) with the deeper `overlay` shadow
+// and `lg` radius, plus the scale/fade transition. The sticky search/footer and
+// the scrollable `role="menu"` list (`Menu.Popup`) all live inside it, so
+// non-menuitem chrome stays outside the menu role and the surface is ARIA-valid.
 const dropdownSurfaceVariants = cva(
   cx(
     "flex max-h-(--available-height) flex-col overflow-hidden",
-    "rounded-lg border border-subtle bg-surface-1 shadow-overlay-200 outline-none",
+    surfaceVariants({ elevation: "overlay", radius: "lg" }),
+    "outline-none",
     "origin-(--transform-origin) transition-[transform,opacity]",
     "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
     "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",

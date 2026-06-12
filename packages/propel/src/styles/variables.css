@@ -325,9 +325,9 @@
     --txt-inverse: var(--neutral-white);
     --txt-success-primary: var(--green-900);
     --txt-success-secondary: var(--green-700);
-    --txt-warning-primary: var(--amber-900);
-    --txt-warning-secondary: var(--amber-800);
-    --txt-danger-primary: var(--red-900);
+    --txt-warning-primary: var(--amber-800);
+    --txt-warning-secondary: var(--amber-700);
+    --txt-danger-primary: var(--red-800);
     --txt-danger-secondary: var(--red-700);
     /* Icon colors */
     --txt-icon-primary: var(--neutral-1200);
@@ -337,11 +337,11 @@
     --txt-icon-blue-secondary: var(--blue-700);
     --txt-icon-info-primary: var(--txt-icon-blue-primary);
     --txt-icon-info-secondary: var(--txt-icon-blue-secondary);
-    --txt-icon-danger-primary: var(--red-900);
+    --txt-icon-danger-primary: var(--red-800);
     --txt-icon-danger-secondary: var(--red-700);
     --txt-icon-success-primary: var(--green-900);
     --txt-icon-success-secondary: var(--green-700);
-    --txt-icon-warning-primary: var(--amber-900);
+    --txt-icon-warning-primary: var(--amber-800);
     --txt-icon-warning-secondary: var(--amber-700);
     --txt-icon-warning-subtle: var(--amber-600);
     --txt-icon-accent-primary-inverse: var(--brand-900);
@@ -614,9 +614,9 @@
       --txt-inverse: var(--neutral-black);
       --txt-success-primary: var(--green-900);
       --txt-success-secondary: var(--green-700);
-      --txt-warning-primary: var(--amber-500);
-      --txt-warning-secondary: var(--amber-600);
-      --txt-danger-primary: var(--red-900);
+      --txt-warning-primary: var(--amber-600);
+      --txt-warning-secondary: var(--amber-500);
+      --txt-danger-primary: var(--red-800);
       --txt-danger-secondary: var(--red-700);
       /* Icon colors */
       --txt-icon-primary: var(--neutral-1200);
@@ -628,13 +628,13 @@
       --txt-icon-blue-secondary: var(--blue-700);
       --txt-icon-info-primary: var(--txt-icon-blue-primary);
       --txt-icon-info-secondary: var(--txt-icon-blue-secondary);
-      --txt-icon-danger-primary: var(--red-900);
+      --txt-icon-danger-primary: var(--red-800);
       --txt-icon-danger-secondary: var(--red-700);
       --txt-icon-success-primary: var(--green-900);
       --txt-icon-success-secondary: var(--green-700);
-      --txt-icon-warning-primary: var(--amber-900);
-      --txt-icon-warning-secondary: var(--amber-700);
-      --txt-icon-warning-subtle: var(--amber-600);
+      --txt-icon-warning-primary: var(--amber-600);
+      --txt-icon-warning-secondary: var(--amber-500);
+      --txt-icon-warning-subtle: var(--amber-400);
       --txt-icon-secondary: var(--neutral-1100);
       --txt-icon-tertiary: var(--neutral-1000);
       --txt-icon-placeholder: var(--neutral-900);
@@ -838,8 +838,8 @@
       --txt-plans-brand-primary: var(--alpha-white-200);
       --txt-plans-neutral-color: var(--alpha-white-300);
       --txt-plans-neutral-primary: var(--alpha-white-200);
-      --txt-warning-primary: var(--amber-900);
-      --txt-warning-secondary: var(--amber-700);
+      --txt-warning-primary: var(--amber-600);
+      --txt-warning-secondary: var(--amber-500);
     }
 
     /* -------------------- Light high contrast mode color tokens -------------------- */
@@ -1566,6 +1566,21 @@
   --text-caption-xs-bold--line-height: 1.2;
   --text-caption-xs-bold--letter-spacing: 0.01em;
   --text-caption-xs-bold--font-weight: var(--font-weight-bold);
+
+  --text-caption-2xs-regular: var(--text-9);
+  --text-caption-2xs-regular--line-height: 1.2;
+  --text-caption-2xs-regular--letter-spacing: 0.01em;
+  --text-caption-2xs-regular--font-weight: var(--font-weight-regular);
+
+  --text-caption-2xs-medium: var(--text-9);
+  --text-caption-2xs-medium--line-height: 1.2;
+  --text-caption-2xs-medium--letter-spacing: 0.01em;
+  --text-caption-2xs-medium--font-weight: var(--font-weight-medium);
+
+  --text-caption-2xs-semibold: var(--text-9);
+  --text-caption-2xs-semibold--line-height: 1.2;
+  --text-caption-2xs-semibold--letter-spacing: 0.01em;
+  --text-caption-2xs-semibold--font-weight: var(--font-weight-semibold);
 }
 
 /* -------------------- Utility classes -------------------- */

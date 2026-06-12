@@ -102,3 +102,43 @@ export const WithIcon: Story = {
     </div>
   ),
 };
+
+// The Figma "Plan Badges" frame defines a paid/free treatment for plan and
+// upgrade affordances. Its two fills (Figma tokens `plans/brand/*` and
+// `plans/neutral/*`) already exist on Badge's `tone` axis, so a plan badge is
+// just a tone choice -- no new component or axis is needed:
+//   paid -> `brand`  (subtle brand-accent fill + brand text, the "upgrade" accent)
+//   free -> `grey`   (neutral grey fill + grey text)
+// Both follow propel semantic tokens, so dark mode tracks automatically. The
+// magnitudes (sm/md/lg) and radius/padding match the standard Badge steps.
+const PLAN_TONES = { paid: "brand", free: "grey" } as const satisfies Record<
+  "paid" | "free",
+  BadgeTone
+>;
+
+/**
+ * The "Plan Badges" treatment: `paid` reads as a `brand`/upgrade accent, `free`
+ * as neutral `grey`. These are plain Badge tones, shown here at every magnitude.
+ */
+export const PlanBadges: Story = {
+  parameters: {
+    controls: { disable: true },
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=3657-77",
+    },
+  },
+  render: (args) => (
+    <div className="flex flex-col gap-3">
+      {(["paid", "free"] as const).map((plan) => (
+        <div key={plan} className="flex items-center gap-3">
+          {MAGNITUDES.map((magnitude) => (
+            <Badge key={magnitude} {...args} tone={PLAN_TONES[plan]} magnitude={magnitude}>
+              {plan === "paid" ? "Paid" : "Free"}
+            </Badge>
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
+};

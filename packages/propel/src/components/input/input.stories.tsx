@@ -26,7 +26,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Vertical layout (label above) with a placeholder and helper text. */
+/**
+ * Vertical layout: the `description` sits directly below the label, and the `hint`
+ * (helper text) sits below the control.
+ */
 export const Default: Story = {
   args: {
     magnitude: "md",
@@ -34,7 +37,8 @@ export const Default: Story = {
     variant: "vertical",
     label: "Email",
     placeholder: "you@example.com",
-    description: "We'll never share your email.",
+    description: "We'll use this to send you receipts.",
+    hint: "We'll never share your email.",
   },
 };
 
@@ -50,9 +54,9 @@ export const Horizontal: Story = {
 };
 
 /**
- * The horizontal layout across every magnitude, plus the optional `info` affordance
- * beside the label and the error state, which the single Horizontal playground doesn't
- * show.
+ * The horizontal layout across every magnitude. The `description` stacks below the
+ * label in the left column, the `hint` sits below the control, and the error state
+ * (which overrides the hint) shows in danger.
  */
 export const HorizontalShowcase: Story = {
   // Required axes for the args table; the custom `render` ignores them.
@@ -61,14 +65,21 @@ export const HorizontalShowcase: Story = {
   render: () => (
     <div className="flex w-[440px] flex-col gap-4">
       <Input variant="horizontal" magnitude="md" tone="neutral" label="Email" placeholder="md" />
-      <Input variant="horizontal" magnitude="lg" tone="neutral" label="Email" placeholder="lg" />
+      <Input
+        variant="horizontal"
+        magnitude="lg"
+        tone="neutral"
+        label="Email"
+        placeholder="lg"
+        hint="Use your work email."
+      />
       <Input
         variant="horizontal"
         magnitude="xl"
         tone="neutral"
         label="Email"
         placeholder="xl"
-        info
+        description="We never share your email with anyone."
       />
       <Input
         variant="horizontal"
@@ -173,7 +184,8 @@ export const TextAreaStory: Story = {
         tone="neutral"
         label="Comment"
         placeholder="Leave a comment…"
-        description="Markdown is supported."
+        description="Share your thoughts on the proposal."
+        hint="Markdown is supported."
       />
     </div>
   ),
@@ -257,9 +269,9 @@ export const RtlVerify: Story = {
         tone="neutral"
         variant="vertical"
         label="البريد الإلكتروني"
-        info
         placeholder="you@example.com"
-        description="لن نشارك بريدك الإلكتروني."
+        description="سنستخدمه لإرسال الإيصالات."
+        hint="لن نشارك بريدك الإلكتروني."
       />
       <Input
         magnitude="md"
@@ -303,9 +315,9 @@ export const LtrVerify: Story = {
         tone="neutral"
         variant="vertical"
         label="Email"
-        info
         placeholder="you@example.com"
-        description="We'll never share your email."
+        description="We'll use this to send you receipts."
+        hint="We'll never share your email."
       />
       <Input
         magnitude="md"

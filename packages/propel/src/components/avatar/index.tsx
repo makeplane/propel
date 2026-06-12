@@ -10,7 +10,7 @@ const avatarVariants = cva(
   {
     variants: {
       magnitude: {
-        "2xs": "size-4 border-sm text-10",
+        "2xs": "size-4 border-sm text-caption-2xs-regular",
         xs: "size-5 border-sm text-11",
         sm: "size-6 border-sm text-12",
         md: "size-7 border-sm text-13",
