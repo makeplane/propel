@@ -2,6 +2,7 @@ import { Toast as BaseToast } from "@base-ui/react/toast";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
 import * as React from "react";
+import { surfaceVariants } from "../../internal/surface";
 
 // Solid status icons. Figma's toast (node 1144-3158) uses *filled* status glyphs —
 // a tone-colored disc/triangle with the symbol knocked out of it — not lucide's
@@ -217,10 +218,12 @@ export function Toast({ toast, ...props }: ToastProps) {
   return (
     <BaseToast.Root
       toast={toast}
-      // Surface: white layer-2 card, subtle border, `lg` radius, overlay shadow —
-      // all from Figma's Toast frame. `data-[ending]` fades the toast on dismiss.
+      // Surface: the shared floating-card surface (white `surface-1`, subtle
+      // border) with `raised` overlay shadow and `lg` radius. `data-[ending]`
+      // fades the toast on dismiss.
       className={cx(
-        "relative flex w-full items-start gap-2 rounded-lg border-sm border-subtle-1 bg-layer-2 px-4 py-3 shadow-overlay-100",
+        surfaceVariants({ elevation: "raised", radius: "lg" }),
+        "relative flex w-full items-start gap-2 px-4 py-3",
         "transition-opacity data-[ending]:opacity-0",
       )}
       {...props}
