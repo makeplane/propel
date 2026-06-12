@@ -39,12 +39,15 @@ export type BannerTone = NonNullable<VariantProps<typeof bannerVariants>["tone"]
 
 // Foreground (title + default icon) color per tone, mapped from the Figma
 // `text/*` and `icon/*` tokens to propel's semantic text utilities.
+// The title uses the `primary` tone text token. The `secondary` danger/warning tokens
+// (red/700, amber/700) do not meet WCAG AA against their own soft tone background, so
+// the title, which is body-weight text, takes the darker primary step.
 const toneTextClass: Record<BannerTone, string> = {
   neutral: "text-secondary",
   info: "text-info-primary",
   accent: "text-accent-primary",
-  warning: "text-warning-secondary",
-  danger: "text-danger-secondary",
+  warning: "text-warning-primary",
+  danger: "text-danger-primary",
 };
 
 const toneIconClass: Record<BannerTone, string> = {
