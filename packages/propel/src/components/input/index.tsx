@@ -12,8 +12,11 @@ import * as React from "react";
 // TextArea value text differs at md (text-13 vs Input's text-14) — see
 // `textAreaTextVariants` — and TextArea keeps a constant 8px v-padding.
 
-// The label text. `magnitude` drives the size; it is a `Field.Label` so it never
-// accepts styling props from a consumer.
+// The label text. `magnitude` drives the size. `inset` is the horizontal layout's
+// alignment for a lone label (no description): it adds a magnitude-matched top
+// padding equal to the box's top padding + border (md 6+1, lg 8+1, xl 12+1 px) so
+// the single label line sits level with the control's value instead of hugging the
+// top of the box. It is a `Field.Label` so it never accepts styling from a consumer.
 const labelVariants = cva("font-medium text-primary", {
   variants: {
     magnitude: {
@@ -21,7 +24,16 @@ const labelVariants = cva("font-medium text-primary", {
       lg: "text-14",
       xl: "text-14",
     },
+    inset: {
+      true: "",
+      false: "",
+    },
   },
+  compoundVariants: [
+    { magnitude: "md", inset: true, class: "pt-[7px]" },
+    { magnitude: "lg", inset: true, class: "pt-[9px]" },
+    { magnitude: "xl", inset: true, class: "pt-[13px]" },
+  ],
 });
 
 // The supporting text size for the `description` (below the label) and the
@@ -121,14 +133,16 @@ function FieldLabelRow({
   children,
   magnitude,
   required,
+  inset,
 }: {
   children: React.ReactNode;
   magnitude: InputMagnitude;
   required?: boolean;
+  inset?: boolean;
 }) {
   return (
     <BaseField.Label
-      className={cx("inline-flex items-center gap-0.5", labelVariants({ magnitude }))}
+      className={cx("inline-flex items-center gap-0.5", labelVariants({ magnitude, inset }))}
     >
       {children}
       {required ? (
@@ -171,10 +185,14 @@ function FieldLabelGroup({
   if (label == null && description == null) {
     return null;
   }
+  // Horizontal with no description: a lone label should sit on the control's value
+  // line, so it gets the magnitude-matched top inset. With a description the
+  // label + description block top-aligns with the box, so no inset.
+  const inset = variant === "horizontal" && description == null;
   return (
     <div className={labelGroupVariants({ variant })}>
       {label != null ? (
-        <FieldLabelRow magnitude={magnitude} required={required}>
+        <FieldLabelRow magnitude={magnitude} required={required} inset={inset}>
           {label}
         </FieldLabelRow>
       ) : null}
