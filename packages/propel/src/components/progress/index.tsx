@@ -14,23 +14,54 @@ const trackVariants = cva(
   },
 );
 
-// The Figma "Progress" component (node 1990-51) is a linear bar: a pill-shaped track
-// (`layer-3-selected`) with an accent-filled indicator and an optional trailing
-// percentage label (`text/accent/primary`, 12px medium). The only thing the
-// `magnitude` axis changes is the track thickness — `sm` 5px, `md` 8px. Built on Base
-// UI `Progress`, which owns the `progressbar` role + `aria-valuenow` and sizes the
-// indicator from `value` for us.
+const ringVariants = cva("shrink-0", {
+  variants: {
+    magnitude: {
+      sm: "size-4",
+      md: "size-5",
+    },
+  },
+});
+
+// Circle geometry per magnitude. The Figma circular variant (nodes 5736-3457 / 5736-3460)
+// is a 16px (sm) / 20px (md) box holding a 2px-stroke ring: a 14px circle (sm) or 18px
+// circle (md). The centerline radius is therefore (diameter - stroke) / 2 -> 6 (sm) / 8
+// (md). The viewBox matches the box so 1 SVG user unit == 1px.
+const RING_GEOMETRY = {
+  sm: { box: 16, radius: 6 },
+  md: { box: 20, radius: 8 },
+} as const;
+const RING_STROKE = 2;
+
+// The Figma "Progress" component has two variants:
+//  - linear (node 1990-51): a pill-shaped track (`layer-3-selected`) with an
+//    accent-filled indicator and an optional trailing percentage label
+//    (`text/accent/primary`, 12px medium). `magnitude` only changes the track
+//    thickness — `sm` 5px, `md` 8px.
+//  - circular (node 5736-3457): a small determinate ring — a gray track circle
+//    (`icon/disabled`) plus an accent arc (`background/accent/primary`) proportional to
+//    the value, with rounded caps and no label. `magnitude` changes the diameter —
+//    `sm` 16px, `md` 20px.
+// Both are built on Base UI `Progress`, which owns the `progressbar` role +
+// `aria-valuenow` for us.
 export type ProgressMagnitude = NonNullable<VariantProps<typeof trackVariants>["magnitude"]>;
+export type ProgressVariant = "linear" | "circular";
 
 export type ProgressProps = Omit<
   React.ComponentProps<typeof BaseProgress.Root>,
   "className" | "render" | "style" | "value"
 > & {
+  /** `linear` = a horizontal bar. `circular` = a determinate ring. */
+  variant: ProgressVariant;
   /** Completion from 0 to `max` (default max 100). */
   value: number;
-  /** Track thickness. `sm` 5px / `md` 8px. */
+  /** `linear`: track thickness (`sm` 5px / `md` 8px). `circular`: diameter (`sm` 16px / `md` 20px). */
   magnitude: ProgressMagnitude;
-  /** Show the trailing percentage label. @default true */
+  /**
+   * Show the trailing percentage label. Only applies to `variant="linear"` — the
+   * circular rings are too small for a label, so this is ignored when `circular`.
+   * @default true
+   */
   showValue?: boolean;
   /**
    * Accessible name for the bar. Required: a progress bar needs a name for assistive
@@ -40,12 +71,59 @@ export type ProgressProps = Omit<
 };
 
 /**
- * A linear progress bar — task completion over time (uploads, imports, the Toast
- * auto-dismiss countdown). Drive it with `value` (0–`max`, default max 100); the
- * filled indicator and `aria-valuenow` follow. The trailing `%` label shows by
- * default; hide it with `showValue={false}`.
+ * A determinate progress indicator — task completion over time (uploads, imports, the
+ * Toast auto-dismiss countdown). Drive it with `value` (0–`max`, default max 100); the
+ * fill and `aria-valuenow` follow.
+ *
+ * `variant="linear"` is a horizontal bar with an optional trailing `%` label (shown by
+ * default; hide it with `showValue={false}`). `variant="circular"` is a small ring with
+ * no label (`showValue` is ignored).
  */
-export function Progress({ value, magnitude, showValue = true, ...props }: ProgressProps) {
+export function Progress({ variant, value, magnitude, showValue = true, ...props }: ProgressProps) {
+  if (variant === "circular") {
+    const { box, radius } = RING_GEOMETRY[magnitude];
+    const circumference = 2 * Math.PI * radius;
+    const max = props.max ?? 100;
+    const fraction = Math.min(Math.max(value / max, 0), 1);
+    const dashOffset = circumference * (1 - fraction);
+    const center = box / 2;
+    return (
+      <BaseProgress.Root value={value} {...props}>
+        <svg
+          className={ringVariants({ magnitude })}
+          viewBox={`0 0 ${box} ${box}`}
+          fill="none"
+          aria-hidden="true"
+        >
+          {/* Track: the full gray ring. */}
+          <circle
+            className="text-icon-disabled"
+            cx={center}
+            cy={center}
+            r={radius}
+            stroke="currentColor"
+            strokeWidth={RING_STROKE}
+          />
+          {/* Indicator arc: accent stroke proportional to the value. Rotated -90deg so
+              the arc starts at 12 o'clock; the dash offset shrinks it toward `value`.
+              `transform-origin: center` keeps the rotation about the circle's center
+              regardless of direction (the visual sweep stays clockwise in RTL too). */}
+          <circle
+            className="origin-center -rotate-90 text-icon-accent-primary transition-[stroke-dashoffset] duration-300 ease-out"
+            cx={center}
+            cy={center}
+            r={radius}
+            stroke="currentColor"
+            strokeWidth={RING_STROKE}
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={dashOffset}
+          />
+        </svg>
+      </BaseProgress.Root>
+    );
+  }
+
   return (
     <BaseProgress.Root value={value} className="flex w-full items-center gap-2" {...props}>
       <BaseProgress.Track className={trackVariants({ magnitude })}>
