@@ -6,6 +6,9 @@ import {
   AlignRight,
   Bold,
   Code,
+  Heading1,
+  Heading2,
+  Heading3,
   Image,
   Italic,
   Link,
@@ -13,6 +16,7 @@ import {
   ListChecks,
   ListOrdered,
   MessageSquare,
+  Pilcrow,
   Quote,
   Strikethrough,
   Table,
@@ -23,32 +27,40 @@ import {
   Toolbar,
   ToolbarButton,
   ToolbarDropdown,
+  ToolbarDropdownContent,
+  ToolbarDropdownItem,
+  ToolbarDropdownSeparator,
+  ToolbarDropdownTrigger,
   ToolbarGroup,
   ToolbarSeparator,
   ToolbarToggle,
   ToolbarToggleGroup,
 } from "./index";
 
-const TEXT_STYLES = [
-  { value: "paragraph", label: "Paragraph" },
-  { value: "h1", label: "Heading 1" },
-  { value: "h2", label: "Heading 2" },
-  { value: "h3", label: "Heading 3" },
-];
-
-const FONTS = [
-  { value: "sans", label: "Sans" },
-  { value: "serif", label: "Serif" },
-  { value: "mono", label: "Mono" },
-];
+const TEXT_STYLES = ["Paragraph", "Heading 1", "Heading 2", "Heading 3"];
+const FONTS = ["Sans", "Serif", "Mono"];
 
 // A representative rich-text formatting toolbar: a Text/Aa style picker, an inline
 // B/I/U/S cluster, an alignment toggle-group, and link/image buttons.
 function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
   return (
     <Toolbar {...args}>
-      <ToolbarDropdown label="Text" items={TEXT_STYLES} aria-label="Text style" />
-      <ToolbarDropdown label="Aa" items={FONTS} aria-label="Font" />
+      <ToolbarDropdown>
+        <ToolbarDropdownTrigger aria-label="Text style">Text</ToolbarDropdownTrigger>
+        <ToolbarDropdownContent>
+          {TEXT_STYLES.map((style) => (
+            <ToolbarDropdownItem key={style} variant="default" label={style} />
+          ))}
+        </ToolbarDropdownContent>
+      </ToolbarDropdown>
+      <ToolbarDropdown>
+        <ToolbarDropdownTrigger aria-label="Font">Aa</ToolbarDropdownTrigger>
+        <ToolbarDropdownContent>
+          {FONTS.map((font) => (
+            <ToolbarDropdownItem key={font} variant="default" label={font} />
+          ))}
+        </ToolbarDropdownContent>
+      </ToolbarDropdown>
       <ToolbarButton aria-label="Comment">
         <MessageSquare aria-hidden />
       </ToolbarButton>
@@ -126,6 +138,10 @@ const meta = {
     ToolbarToggleGroup,
     ToolbarSeparator,
     ToolbarDropdown,
+    ToolbarDropdownTrigger,
+    ToolbarDropdownContent,
+    ToolbarDropdownItem,
+    ToolbarDropdownSeparator,
   },
   args: { variant: "floater" },
   render: (args) => <FormattingToolbar {...args} />,
@@ -152,6 +168,33 @@ export const Variants: Story = {
       <FormattingToolbar variant="topbar" />
       <FormattingToolbar variant="bottom-bar" />
     </div>
+  ),
+};
+
+/**
+ * Because `ToolbarDropdown` composes propel's `Dropdown`, a toolbar menu can hold
+ * richer rows than the old `items[]` config allowed: per-row leading icons, a
+ * separator between groups, a selected marker, and disabled rows.
+ */
+export const ComposableMenu: Story = {
+  // Always-open + portaled: keep it out of the Vitest run so its popup can't leak into
+  // the shared test document, but visible in the sidebar/docs as the composition demo.
+  tags: ["!test"],
+  parameters: { controls: { disable: true } },
+  render: (args) => (
+    <Toolbar {...args}>
+      <ToolbarDropdown defaultOpen>
+        <ToolbarDropdownTrigger aria-label="Text style">Text</ToolbarDropdownTrigger>
+        <ToolbarDropdownContent>
+          <ToolbarDropdownItem variant="default" icon={<Pilcrow />} label="Paragraph" selected />
+          <ToolbarDropdownItem variant="default" icon={<Heading1 />} label="Heading 1" />
+          <ToolbarDropdownItem variant="default" icon={<Heading2 />} label="Heading 2" />
+          <ToolbarDropdownItem variant="default" icon={<Heading3 />} label="Heading 3" />
+          <ToolbarDropdownSeparator />
+          <ToolbarDropdownItem variant="default" icon={<Code />} label="Code block" disabled />
+        </ToolbarDropdownContent>
+      </ToolbarDropdown>
+    </Toolbar>
   ),
 };
 
