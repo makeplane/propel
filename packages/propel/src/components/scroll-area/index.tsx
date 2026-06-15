@@ -33,14 +33,20 @@ export type ScrollAreaProps = {
 
 /**
  * A scroll container with propel's overlay scrollbar, built on Base UI `ScrollArea`.
- * Use it to wrap any overflowing content (menus, panels, long lists). It fills its
- * parent; give the parent a constrained height (or width) so the content scrolls. The
- * scrollbar shows only on hover/scroll and uses the propel scrollbar tokens.
+ * Use it to wrap any overflowing content (menus, panels, long lists). Place it as a
+ * child of a height-constrained flex column: it grows to fill the column and its
+ * viewport scrolls when the content overflows. The scrollbar shows only on hover/scroll
+ * and uses the propel scrollbar tokens.
  */
 export function ScrollArea({ children }: ScrollAreaProps) {
   return (
-    <BaseScrollArea.Root className="relative size-full">
-      <BaseScrollArea.Viewport className="size-full overscroll-contain rounded-[inherit] outline-none">
+    // Sizing is a flex chain, not a percentage-height chain (which does not resolve
+    // through flex). The Root is a flex item that also lays its viewport out as a flex
+    // column; the Viewport is a `flex-1` child whose `overflow: scroll` (set by Base UI)
+    // gives it an automatic min-height of 0, so it bounds to the column and scrolls. The
+    // scrollbars are positioned absolutely by Base UI, so they never take flex space.
+    <BaseScrollArea.Root className="relative flex min-h-0 flex-1 flex-col">
+      <BaseScrollArea.Viewport className="min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none">
         {children}
       </BaseScrollArea.Viewport>
       <BaseScrollArea.Scrollbar orientation="vertical" className={scrollbarClass}>

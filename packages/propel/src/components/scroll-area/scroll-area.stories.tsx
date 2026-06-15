@@ -7,7 +7,7 @@ const meta = {
   // ScrollArea fills its parent, so give it a height-constrained box to scroll within.
   decorators: [
     (Story) => (
-      <div className="h-64 w-72 rounded-lg border border-subtle bg-layer-1">
+      <div className="flex h-64 w-72 flex-col rounded-lg border border-subtle bg-layer-1">
         <Story />
       </div>
     ),
