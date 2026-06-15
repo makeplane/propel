@@ -100,6 +100,22 @@ export const WithAction: Story = {
 };
 
 /**
+ * A toast reporting a long-running task (Figma node 1146-61689): pass `data.progress`
+ * (0–100) and a thin `Progress` bar with a `%` label renders between the description
+ * and the action row.
+ */
+export const WithProgress: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Trigger
+      tone="info"
+      label="Show toast with progress"
+      data={{ progress: 32, actions: [{ label: "Cancel", onClick: fn() }] }}
+    />
+  ),
+};
+
+/**
  * Two left-aligned actions (Figma's `button` + `button2` on the danger/info/warning
  * treatments). The cluster sits inline-start; there is no right-aligned button.
  */
