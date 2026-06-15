@@ -2,7 +2,7 @@ import { Menu } from "@base-ui/react/menu";
 import { cva, cx } from "class-variance-authority";
 import { ChevronRight, Ellipsis } from "lucide-react";
 import * as React from "react";
-import { surfaceVariants } from "../../internal/surface";
+import { OverlayPanel } from "../../internal/overlay-panel";
 import {
   Dropdown,
   DropdownContent,
@@ -134,14 +134,9 @@ export function BreadcrumbDropdown({
       </Menu.Trigger>
       <Menu.Portal>
         <Menu.Positioner side="bottom" align="start" sideOffset={4}>
-          <Menu.Popup
-            className={cx(
-              surfaceVariants({ elevation: "raised", radius: "md" }),
-              "min-w-32 p-1 text-14 text-secondary outline-none",
-            )}
-          >
-            {children}
-          </Menu.Popup>
+          <OverlayPanel elevation="raised" radius="md" width="auto">
+            <Menu.Popup className="p-1 outline-none">{children}</Menu.Popup>
+          </OverlayPanel>
         </Menu.Positioner>
       </Menu.Portal>
     </Menu.Root>
@@ -161,7 +156,7 @@ export type BreadcrumbDropdownItemProps = Omit<
 export function BreadcrumbDropdownItem(props: BreadcrumbDropdownItemProps) {
   return (
     <Menu.Item
-      className="flex cursor-default items-center rounded-sm px-2 py-1 leading-[1.54] text-secondary outline-none select-none data-[highlighted]:bg-layer-transparent-hover data-[highlighted]:text-primary"
+      className="flex cursor-default items-center rounded-sm px-2 py-1 text-14 leading-[1.54] text-secondary outline-none select-none data-[highlighted]:bg-layer-transparent-hover data-[highlighted]:text-primary"
       {...props}
     />
   );

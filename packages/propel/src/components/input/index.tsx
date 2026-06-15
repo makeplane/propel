@@ -423,10 +423,10 @@ export function TextArea({
             required={required}
             render={<textarea />}
             className={cx(
-              // `overflow-y-auto` matches the Dropdown popup's scroll behavior: a
-              // native scrollbar that only appears once the content overflows,
-              // instead of the textarea's default always-reserved gutter.
-              "min-w-0 flex-1 resize-none overflow-y-auto bg-transparent text-primary outline-none",
+              // A `<textarea>` scrolls its own content natively, so it can't be wrapped
+              // in a `ScrollArea` like other overflow surfaces. `scrollbar-sm` re-skins
+              // its native scrollbar with the propel scrollbar tokens instead.
+              "scrollbar-sm min-w-0 flex-1 resize-none overflow-y-auto bg-transparent text-primary outline-none",
               "placeholder:text-placeholder",
               "disabled:cursor-not-allowed disabled:text-disabled",
               textAreaMinHeight[magnitude],

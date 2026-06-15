@@ -1,6 +1,6 @@
 import { Popover as BasePopover } from "@base-ui/react/popover";
-import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
 
 /**
  * The popover root — a Base UI `Popover.Root`. Holds open state and wires the trigger
@@ -58,32 +58,10 @@ export function PopoverTrigger(props: PopoverTriggerProps) {
   return <BasePopover.Trigger {...props} />;
 }
 
-// The visible floating surface (`Positioner` child). Matches the dropdown's surface
-// tokens — white `surface-1`, overlay shadow, hairline border, small radius — plus the
-// same scale/fade transition, so panels read as the same family of overlays.
-const popoverSurfaceVariants = cva(
-  cx(
-    "flex max-h-(--available-height) flex-col overflow-hidden p-1",
-    "rounded-lg border border-subtle bg-surface-1 shadow-overlay-200 outline-none",
-    "origin-(--transform-origin) transition-[transform,opacity]",
-    "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
-    "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
-  ),
-  {
-    variants: {
-      // Panel widths shared with the dropdown's picker menus: `anchor` matches the
-      // trigger, the rest are the fixed Figma widths used for settings panels.
-      width: {
-        anchor: "min-w-(--anchor-width)",
-        sm: "w-64", // 256px
-        md: "w-72", // 288px — display-options panels
-        lg: "w-96", // 384px
-      },
-    },
-  },
-);
-
-type PopoverContentWidth = NonNullable<VariantProps<typeof popoverSurfaceVariants>["width"]>;
+// The panel surface is the shared `OverlayPanel` — the same `overlay` shadow at `lg`
+// radius the dropdown uses, capped at the available height, with its body scrolling
+// inside a `ScrollArea` — so popovers read as the same family of overlays.
+type PopoverContentWidth = OverlayPanelWidth;
 
 export type PopoverContentProps = Omit<
   React.ComponentProps<typeof BasePopover.Popup>,
@@ -130,9 +108,11 @@ export function PopoverContent({
         align={align}
         className="outline-none"
       >
-        <BasePopover.Popup className={popoverSurfaceVariants({ width })} {...props}>
-          {children}
-        </BasePopover.Popup>
+        <OverlayPanel elevation="overlay" radius="lg" width={width}>
+          <BasePopover.Popup className="p-1 outline-none" {...props}>
+            {children}
+          </BasePopover.Popup>
+        </OverlayPanel>
       </BasePopover.Positioner>
     </BasePopover.Portal>
   );

@@ -2,7 +2,7 @@ import { Menu } from "@base-ui/react/menu";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { Check, ChevronRight, Search } from "lucide-react";
 import * as React from "react";
-import { surfaceVariants } from "../../internal/surface";
+import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
 import { CheckboxVisual } from "../checkbox/index";
 
 /**
@@ -58,35 +58,12 @@ export function DropdownTrigger(props: DropdownTriggerProps) {
   return <Menu.Trigger {...props} />;
 }
 
-// The visible floating surface (`Positioner` child): the shared floating-card
-// surface (white `surface-1`, hairline border) with the deeper `overlay` shadow
-// and `lg` radius, plus the scale/fade transition. The sticky search/footer and
-// the scrollable `role="menu"` list (`Menu.Popup`) all live inside it, so
-// non-menuitem chrome stays outside the menu role and the surface is ARIA-valid.
-const dropdownSurfaceVariants = cva(
-  cx(
-    "flex max-h-(--available-height) flex-col overflow-hidden",
-    surfaceVariants({ elevation: "overlay", radius: "lg" }),
-    "outline-none",
-    "origin-(--transform-origin) transition-[transform,opacity]",
-    "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
-    "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
-  ),
-  {
-    variants: {
-      // Fixed menu widths from the Figma demos: `anchor` matches the trigger
-      // (`default`), the rest are the popup widths the design uses for picker menus.
-      width: {
-        anchor: "min-w-(--anchor-width)",
-        sm: "w-64", // 256px — the standard picker menu (Status / Labels / …)
-        md: "w-72", // 288px — display-options menus
-        lg: "w-96", // 384px — the wide two-line "Description" menu
-      },
-    },
-  },
-);
-
-type DropdownContentWidth = NonNullable<VariantProps<typeof dropdownSurfaceVariants>["width"]>;
+// The menu surface is the shared `OverlayPanel`: the deeper `overlay` shadow at `lg`
+// radius, capped at the available height, with the sticky search/footer outside the
+// scroll and the `role="menu"` list (`Menu.Popup`) scrolling inside it. `OverlayPanel`
+// wraps the menu in a `ScrollArea` as an ancestor, so `Menu.Popup`'s direct children
+// stay menuitems and the surface is ARIA-valid.
+type DropdownContentWidth = OverlayPanelWidth;
 
 export type DropdownContentProps = Omit<
   React.ComponentProps<typeof Menu.Popup>,
@@ -136,13 +113,11 @@ export function DropdownContent({
   return (
     <Menu.Portal>
       <Menu.Positioner side={side} sideOffset={sideOffset} align={align} className="outline-none">
-        <div className={dropdownSurfaceVariants({ width })}>
-          {search}
-          <Menu.Popup className="flex-1 overflow-y-auto p-1 outline-none" {...props}>
+        <OverlayPanel elevation="overlay" radius="lg" width={width} header={search} footer={footer}>
+          <Menu.Popup className="p-1 outline-none" {...props}>
             {children}
           </Menu.Popup>
-          {footer}
-        </div>
+        </OverlayPanel>
       </Menu.Positioner>
     </Menu.Portal>
   );
@@ -578,13 +553,11 @@ export function DropdownSubContent({
   return (
     <Menu.Portal>
       <Menu.Positioner side={side} sideOffset={sideOffset} align={align} className="outline-none">
-        <div className={dropdownSurfaceVariants({ width })}>
-          {search}
-          <Menu.Popup className="flex-1 overflow-y-auto p-1 outline-none" {...props}>
+        <OverlayPanel elevation="overlay" radius="lg" width={width} header={search} footer={footer}>
+          <Menu.Popup className="p-1 outline-none" {...props}>
             {children}
           </Menu.Popup>
-          {footer}
-        </div>
+        </OverlayPanel>
       </Menu.Positioner>
     </Menu.Portal>
   );

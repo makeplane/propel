@@ -103,6 +103,74 @@ export const UnderlineWithIcons: Story = {
 };
 
 /**
+ * When a tab set is wider than the space it has, the row scrolls horizontally
+ * instead of overflowing its container. The overlay scrollbar is hidden at rest
+ * and fades in on hover/scroll. Keyboard navigation still reaches every tab, and
+ * Base UI keeps the focused tab in view. Here the trail is capped to a narrow
+ * column so the later tabs scroll into view.
+ */
+export const Overflowing: Story = {
+  args: { variant: "underline" },
+  render: (args) => (
+    <div className="w-80">
+      <Tabs {...args}>
+        <TabsList>
+          {[
+            "Overview",
+            "Activity",
+            "Settings",
+            "Members",
+            "Integrations",
+            "Automations",
+            "Webhooks",
+            "Billing",
+          ].map((label) => (
+            <Tab key={label} value={label.toLowerCase()}>
+              {label}
+            </Tab>
+          ))}
+        </TabsList>
+        <TabsPanel value="overview">A high-level summary of the project.</TabsPanel>
+      </Tabs>
+    </div>
+  ),
+};
+
+/**
+ * The overflowing list is a real horizontal scroll container (`scrollWidth`
+ * exceeds `clientWidth`) and scrolling it moves the row. Tagged `!dev`/`!autodocs`/
+ * `!manifest` so it stays out of the sidebar, docs, and AI manifest but still runs
+ * under the default `test` tag.
+ */
+export const OverflowScrolls: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { variant: "underline" },
+  render: (args) => (
+    <div className="w-80">
+      <Tabs {...args}>
+        <TabsList>
+          {Array.from({ length: 12 }, (_, i) => (
+            <Tab key={i} value={`tab-${i}`}>
+              {`Section ${i + 1}`}
+            </Tab>
+          ))}
+        </TabsList>
+        <TabsPanel value="tab-0">Section 1 panel</TabsPanel>
+      </Tabs>
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const list = canvas.getByRole("tablist");
+    // The list is wider than the column, so it is a real horizontal scroller.
+    await expect(list.scrollWidth).toBeGreaterThan(list.clientWidth);
+
+    // Scrolling the viewport moves the content.
+    list.scrollLeft = 120;
+    await waitFor(() => expect(list.scrollLeft).toBeGreaterThan(0));
+  },
+};
+
+/**
  * Real interaction test: clicking a tab selects it (`aria-selected="true"`) and
  * reveals its panel while the previously active panel hides. Tagged `!dev`/
  * `!autodocs`/`!manifest` so it stays out of the sidebar, docs, and AI manifest
