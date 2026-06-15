@@ -236,6 +236,7 @@ export function NavItemHeader({
 
   return (
     <button
+      {...props}
       type="button"
       aria-expanded={isExpanded}
       className={navItemHeaderVariants()}
@@ -246,7 +247,6 @@ export function NavItemHeader({
         if (!isControlled) setUncontrolledExpanded(next);
         onExpandedChange?.(next);
       }}
-      {...props}
     >
       <span className="min-w-0 flex-1 truncate font-semibold leading-snug">{children}</span>
       <span
@@ -256,7 +256,7 @@ export function NavItemHeader({
           "flex size-4 shrink-0 items-center justify-center text-icon-secondary [&>svg]:size-full",
           // Collapsed rotates the down-chevron a quarter turn so it points at the
           // inline-start; RTL mirrors the glyph so it still points inward.
-          "transition-transform -rotate-90 data-[expanded]:rotate-0 rtl:rotate-90 rtl:data-[expanded]:rotate-0",
+          "transition-transform rotate-90 data-[expanded]:rotate-0 rtl:-rotate-90 rtl:data-[expanded]:rotate-0",
         )}
       >
         {chevron}
