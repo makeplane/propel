@@ -162,6 +162,108 @@ export function NavItemCount({
   );
 }
 
+// The Figma "Nav item / Header" component (node 2487-3138 default, 2487-3137 hover) is
+// a section-title row that sits above a group of nav items: an emphasized group-title
+// label plus a small disclosure chevron that toggles the group open/closed.
+//
+//   • height   — 32px, matching NavItem.
+//   • padding  — 8px (`spacing/2`) all round, `radius/lg` (8px) corners.
+//   • label    — `font/body-xs/semibold` (text/13, weight 600), `text/tertiary` tone;
+//                truncates with an ellipsis when it overflows.
+//   • chevron  — a 16px disclosure glyph in `icon/secondary`, rotated to point down when
+//                the group is expanded. The Figma layer is named "Accordion-open / toggle
+//                chevron", so the chevron is a real collapse toggle, not decoration.
+//   • surface  — transparent by default; `background/layer/transparent-hover` on hover.
+//
+// Because the chevron is a toggle, the whole row renders as a `<button>` carrying
+// `aria-expanded`. It supports both controlled (`expanded` + `onExpandedChange`) and
+// uncontrolled (`defaultExpanded`) use, like other disclosure widgets. The label is the
+// accessible name; the chevron is `aria-hidden` and mirrors under RTL.
+
+const navItemHeaderVariants = cva(
+  cx(
+    "group/nav-item-header flex h-8 w-full items-center gap-1 rounded-lg p-2 text-start",
+    "bg-layer-transparent text-tertiary outline-none transition-colors",
+    "cursor-pointer select-none",
+    "hover:bg-layer-transparent-hover",
+    "focus-visible:ring-2 focus-visible:ring-accent-strong",
+    "disabled:pointer-events-none disabled:text-disabled aria-disabled:pointer-events-none aria-disabled:text-disabled",
+  ),
+);
+
+export type NavItemHeaderProps = Omit<
+  React.ComponentPropsWithoutRef<"button">,
+  "className" | "style" | "children"
+> & {
+  /** The section title. Truncates with an ellipsis when it overflows. */
+  children: React.ReactNode;
+  /**
+   * The disclosure chevron glyph (e.g. a lucide `ChevronDown`), sized to 16px. Points
+   * down when the section is expanded and rotates to point at the inline-start when
+   * collapsed. Mirrored under RTL.
+   */
+  chevron: React.ReactNode;
+  /**
+   * Whether the section is expanded (controlled). Drives `aria-expanded` and the chevron
+   * rotation. Pair with `onExpandedChange`. Omit to run uncontrolled via `defaultExpanded`.
+   */
+  expanded?: boolean;
+  /** Initial expanded state when uncontrolled. Defaults to `true` (sections start open). */
+  defaultExpanded?: boolean;
+  /** Called with the next expanded state when the header is toggled. */
+  onExpandedChange?: (expanded: boolean) => void;
+};
+
+/**
+ * A sidebar section header row — an emphasized group title and a disclosure chevron that
+ * collapses the section below it. Renders a `<button>` with `aria-expanded`; works
+ * controlled (`expanded` + `onExpandedChange`) or uncontrolled (`defaultExpanded`). The
+ * title is the accessible name. Faithful to Figma node 2487-3138.
+ */
+export function NavItemHeader({
+  children,
+  chevron,
+  expanded,
+  defaultExpanded = true,
+  onExpandedChange,
+  onClick,
+  ...props
+}: NavItemHeaderProps) {
+  const isControlled = expanded !== undefined;
+  const [uncontrolledExpanded, setUncontrolledExpanded] = React.useState(defaultExpanded);
+  const isExpanded = isControlled ? expanded : uncontrolledExpanded;
+
+  return (
+    <button
+      type="button"
+      aria-expanded={isExpanded}
+      className={navItemHeaderVariants()}
+      onClick={(event) => {
+        onClick?.(event);
+        if (event.defaultPrevented) return;
+        const next = !isExpanded;
+        if (!isControlled) setUncontrolledExpanded(next);
+        onExpandedChange?.(next);
+      }}
+      {...props}
+    >
+      <span className="min-w-0 flex-1 truncate font-semibold leading-snug">{children}</span>
+      <span
+        aria-hidden
+        data-expanded={isExpanded ? "" : undefined}
+        className={cx(
+          "flex size-4 shrink-0 items-center justify-center text-icon-secondary [&>svg]:size-full",
+          // Collapsed rotates the down-chevron a quarter turn so it points at the
+          // inline-start; RTL mirrors the glyph so it still points inward.
+          "transition-transform -rotate-90 data-[expanded]:rotate-0 rtl:rotate-90 rtl:data-[expanded]:rotate-0",
+        )}
+      >
+        {chevron}
+      </span>
+    </button>
+  );
+}
+
 /**
  * The disclosure chevron for an expandable nav row. Decorative (`aria-hidden`); mirror
  * any directional rotation with the writing direction via the `open` prop. As a
