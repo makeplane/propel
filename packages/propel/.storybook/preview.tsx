@@ -1,8 +1,41 @@
 import { DirectionProvider } from "@base-ui/react/direction-provider";
-import { withThemeByDataAttribute } from "@storybook/addon-themes";
 import type { Decorator, Preview } from "@storybook/react-vite";
 import { useLayoutEffect } from "react";
 import "./preview.css";
+
+// propel's themes (driven by `data-theme` on <html> via `@variant` in variables.css).
+const THEMES = ["light", "dark", "light-contrast", "dark-contrast"] as const;
+type Theme = (typeof THEMES)[number];
+
+// Per-test-project theme, injected by `vite.config.ts` via `define` so the a11y gate
+// can run every story in every theme. Undefined in `storybook dev`/manual (the toolbar
+// global drives it there). `typeof` guard so referencing the undeclared global is safe.
+declare const __PROPEL_TEST_THEME__: Theme | undefined;
+const TEST_THEME: Theme =
+  typeof __PROPEL_TEST_THEME__ !== "undefined" ? __PROPEL_TEST_THEME__ : "light";
+
+// Apply the active theme by setting `data-theme` on <html>. We do this with a custom
+// decorator rather than `@storybook/addon-themes`' `withThemeByDataAttribute` because
+// that addon's decorator does NOT run under `@storybook/addon-vitest` (the headless
+// test render leaves `data-theme` unset), which silently left the a11y gate blind to
+// every non-light theme. This decorator runs in both environments: it uses the toolbar
+// `theme` global when set (manual), else the per-project `TEST_THEME` (CI), else light.
+// NOTE: `||` (not `??`) because addon-vitest passes an EMPTY STRING for an unset global,
+// not `undefined`. The themed `bg-canvas` on <body> (preview.css) then gives axe the
+// real backdrop to compute contrast against.
+const withTheme: Decorator = (Story, context) => {
+  const theme = ((context.globals.theme as string) || TEST_THEME) as Theme;
+  useLayoutEffect(() => {
+    const el = document.documentElement;
+    const previous = el.dataset.theme;
+    el.dataset.theme = theme;
+    return () => {
+      if (previous == null) delete el.dataset.theme;
+      else el.dataset.theme = previous;
+    };
+  }, [theme]);
+  return <Story />;
+};
 
 // Toolbar Direction switcher → drives both the DOM `dir` attribute (which powers
 // CSS logical properties + Tailwind `rtl:` utilities, and reaches portaled popups)
@@ -33,20 +66,20 @@ const preview: Preview = {
   tags: ["autodocs"],
   // Toolbar theme switcher → sets `data-theme` on <html>, which drives propel's
   // multi-theme tokens (light / dark / *-contrast via `@variant` in variables.css).
-  decorators: [
-    withThemeByDataAttribute({
-      attributeName: "data-theme",
-      defaultTheme: "light",
-      themes: {
-        light: "light",
-        dark: "dark",
-        "light-contrast": "light-contrast",
-        "dark-contrast": "dark-contrast",
-      },
-    }),
-    withDirection,
-  ],
+  decorators: [withTheme, withDirection],
   globalTypes: {
+    // Toolbar Theme dropdown (light / dark / *-contrast) for manual review. In tests
+    // the theme comes from the per-project `TEST_THEME` instead (no toolbar there).
+    theme: {
+      description: "Theme",
+      defaultValue: "light",
+      toolbar: {
+        title: "Theme",
+        icon: "paintbrush",
+        items: THEMES.map((value) => ({ value, title: value })),
+        dynamicTitle: true,
+      },
+    },
     // Toolbar Direction dropdown (LTR / RTL) for reviewing layout mirroring.
     direction: {
       description: "Writing direction (LTR / RTL)",
