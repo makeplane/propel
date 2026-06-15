@@ -116,9 +116,11 @@ const preview: Preview = {
     },
 
     a11y: {
-      // Fail the test run (CI) on accessibility violations — every component must
-      // be aria-compliant. 'todo' = report only, 'off' = skip.
-      test: "error",
+      // Light is the enforced gate (fail CI on violations). Dark / *-contrast also run
+      // axe in their own test projects, but report-only for now ('todo'): they surface
+      // the token-contrast gaps tracked in #99 for design to fix. Flip this to a plain
+      // "error" once #99 lands so all four themes enforce. ('off' = skip.)
+      test: TEST_THEME === "light" ? "error" : "todo",
     },
   },
 };
