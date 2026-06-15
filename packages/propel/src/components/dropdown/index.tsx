@@ -4,6 +4,7 @@ import { Check, ChevronRight, Search } from "lucide-react";
 import * as React from "react";
 import { surfaceVariants } from "../../internal/surface";
 import { CheckboxVisual } from "../checkbox/index";
+import { ScrollArea } from "../scroll-area/index";
 
 /**
  * The dropdown menu root — a Base UI `Menu.Root`. Holds open state and wires the
@@ -60,9 +61,10 @@ export function DropdownTrigger(props: DropdownTriggerProps) {
 
 // The visible floating surface (`Positioner` child): the shared floating-card
 // surface (white `surface-1`, hairline border) with the deeper `overlay` shadow
-// and `lg` radius, plus the scale/fade transition. The sticky search/footer and
-// the scrollable `role="menu"` list (`Menu.Popup`) all live inside it, so
-// non-menuitem chrome stays outside the menu role and the surface is ARIA-valid.
+// and `lg` radius, plus the scale/fade transition. The sticky search/footer sit
+// outside the scroll, and the `role="menu"` list (`Menu.Popup`) scrolls inside a
+// `ScrollArea`. The ScrollArea wraps the menu (it is an ancestor, not a child) so
+// `Menu.Popup`'s direct children stay menuitems and the surface is ARIA-valid.
 const dropdownSurfaceVariants = cva(
   cx(
     "flex max-h-(--available-height) flex-col overflow-hidden",
@@ -138,9 +140,13 @@ export function DropdownContent({
       <Menu.Positioner side={side} sideOffset={sideOffset} align={align} className="outline-none">
         <div className={dropdownSurfaceVariants({ width })}>
           {search}
-          <Menu.Popup className="scrollbar-sm flex-1 overflow-y-auto p-1 outline-none" {...props}>
-            {children}
-          </Menu.Popup>
+          <div className="min-h-0 flex-1">
+            <ScrollArea>
+              <Menu.Popup className="p-1 outline-none" {...props}>
+                {children}
+              </Menu.Popup>
+            </ScrollArea>
+          </div>
           {footer}
         </div>
       </Menu.Positioner>
@@ -580,9 +586,13 @@ export function DropdownSubContent({
       <Menu.Positioner side={side} sideOffset={sideOffset} align={align} className="outline-none">
         <div className={dropdownSurfaceVariants({ width })}>
           {search}
-          <Menu.Popup className="scrollbar-sm flex-1 overflow-y-auto p-1 outline-none" {...props}>
-            {children}
-          </Menu.Popup>
+          <div className="min-h-0 flex-1">
+            <ScrollArea>
+              <Menu.Popup className="p-1 outline-none" {...props}>
+                {children}
+              </Menu.Popup>
+            </ScrollArea>
+          </div>
           {footer}
         </div>
       </Menu.Positioner>
