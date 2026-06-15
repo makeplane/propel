@@ -12,6 +12,8 @@ import * as React from "react";
 
 // The box chrome. `group/search` lets the magnifier react to `:focus-within`. The 2px
 // accent ring is the Figma "active" treatment; hover darkens the fill while resting.
+// The ring opacity is 25% per the Search frame (rgba(0,99,153,0.25)) — Input uses 20%,
+// so this difference is intentional, not drift.
 const searchBoxClass = cx(
   "group/search inline-flex h-8 w-full items-center gap-2 rounded-lg border-sm border-subtle-1 bg-layer-2 px-2",
   "transition-colors hover:bg-layer-2-hover",
@@ -49,7 +51,8 @@ export function Search({
   onValueChange,
   placeholder = "Search",
   disabled,
-  "aria-label": ariaLabel = "Search",
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
   ...props
 }: SearchProps) {
   const isControlled = value !== undefined;
@@ -63,9 +66,15 @@ export function Search({
   };
 
   const hasValue = currentValue != null && currentValue !== "";
+  // Only default to "Search" when the consumer gives the field no name of its own. An
+  // `aria-label` would override an `aria-labelledby`, so skip it when one is provided.
+  const resolvedAriaLabel = ariaLabel ?? (ariaLabelledBy ? undefined : "Search");
 
   return (
-    <div className={searchBoxClass}>
+    // A `<label>` forwards clicks anywhere in the box (magnifier, padding) to the input;
+    // the trailing clear button keeps its own onClick. It carries no text, so it adds
+    // association without an accessible name — the input's aria-label still names it.
+    <label className={searchBoxClass}>
       <SearchIcon
         aria-hidden
         className="size-4 shrink-0 text-icon-placeholder transition-colors group-focus-within/search:text-icon-secondary"
@@ -79,7 +88,8 @@ export function Search({
         onValueChange={(next) => commit(next)}
         placeholder={placeholder}
         disabled={disabled}
-        aria-label={ariaLabel}
+        aria-label={resolvedAriaLabel}
+        aria-labelledby={ariaLabelledBy}
         className={cx(
           "min-w-0 flex-1 bg-transparent text-14 text-primary outline-none",
           "placeholder:text-placeholder disabled:cursor-not-allowed disabled:text-disabled",
@@ -104,7 +114,7 @@ export function Search({
           <X aria-hidden className="size-3.5" />
         </button>
       ) : null}
-    </div>
+    </label>
   );
 }
 
@@ -139,13 +149,17 @@ export function ExpandableSearch({
   onValueChange,
   placeholder = "Search",
   disabled,
-  "aria-label": ariaLabel = "Search",
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
   ...props
 }: ExpandableSearchProps) {
   const isControlled = value !== undefined;
   const [internalValue, setInternalValue] = React.useState(defaultValue ?? "");
   const currentValue = isControlled ? value : internalValue;
   const hasValue = currentValue != null && currentValue !== "";
+  // Only default to "Search" when the consumer gives the field no name of its own. An
+  // `aria-label` would override an `aria-labelledby`, so skip it when one is provided.
+  const resolvedAriaLabel = ariaLabel ?? (ariaLabelledBy ? undefined : "Search");
   // `expanded` is the user's open intent; the field also stays open whenever it has a
   // value, so a filled field never collapses out from under its text.
   const [expanded, setExpanded] = React.useState(hasValue);
@@ -171,7 +185,8 @@ export function ExpandableSearch({
     return (
       <button
         type="button"
-        aria-label={ariaLabel}
+        aria-label={resolvedAriaLabel}
+        aria-labelledby={ariaLabelledBy}
         aria-expanded={false}
         disabled={disabled}
         onClick={() => {
@@ -186,7 +201,10 @@ export function ExpandableSearch({
   }
 
   return (
-    <div className={expandableBoxClass}>
+    // A `<label>` forwards clicks anywhere in the box (magnifier, padding) to the input;
+    // the trailing clear button keeps its own onClick. It carries no text, so it adds
+    // association without an accessible name — the input's aria-label still names it.
+    <label className={expandableBoxClass}>
       <SearchIcon aria-hidden className="size-4 shrink-0 text-icon-secondary" />
       <BaseInput
         ref={inputRef}
@@ -199,7 +217,8 @@ export function ExpandableSearch({
         }}
         placeholder={placeholder}
         disabled={disabled}
-        aria-label={ariaLabel}
+        aria-label={resolvedAriaLabel}
+        aria-labelledby={ariaLabelledBy}
         className={cx(
           "min-w-0 flex-1 bg-transparent text-14 text-primary outline-none",
           "placeholder:text-placeholder disabled:cursor-not-allowed disabled:text-disabled",
@@ -224,6 +243,6 @@ export function ExpandableSearch({
           <X aria-hidden className="size-3.5" />
         </button>
       ) : null}
-    </div>
+    </label>
   );
 }
