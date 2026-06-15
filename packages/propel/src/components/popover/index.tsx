@@ -1,6 +1,7 @@
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { ScrollArea } from "../scroll-area/index";
 
 /**
  * The popover root — a Base UI `Popover.Root`. Holds open state and wires the trigger
@@ -63,7 +64,7 @@ export function PopoverTrigger(props: PopoverTriggerProps) {
 // same scale/fade transition, so panels read as the same family of overlays.
 const popoverSurfaceVariants = cva(
   cx(
-    "flex max-h-(--available-height) flex-col overflow-hidden p-1",
+    "flex max-h-(--available-height) flex-col overflow-hidden",
     "rounded-lg border border-subtle bg-surface-1 shadow-overlay-200 outline-none",
     "origin-(--transform-origin) transition-[transform,opacity]",
     "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
@@ -131,7 +132,9 @@ export function PopoverContent({
         className="outline-none"
       >
         <BasePopover.Popup className={popoverSurfaceVariants({ width })} {...props}>
-          {children}
+          <ScrollArea>
+            <div className="p-1">{children}</div>
+          </ScrollArea>
         </BasePopover.Popup>
       </BasePopover.Positioner>
     </BasePopover.Portal>
