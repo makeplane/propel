@@ -175,22 +175,19 @@ function CommentComposer({
           {body}
           <div className="flex shrink-0 items-center gap-1.5">
             <span aria-hidden className="h-4 w-0 shrink-0 border-s-sm border-subtle-1" />
-            <IconButton
-              variant="ghost"
-              tone="neutral"
-              magnitude="md"
-              icon={<Paperclip aria-hidden />}
-              aria-label="Attach a file"
-            />
+            <IconButton variant="ghost" tone="neutral" magnitude="md" aria-label="Attach a file">
+              <Paperclip aria-hidden />
+            </IconButton>
             <IconButton
               variant="secondary"
               tone="neutral"
               magnitude="md"
-              icon={<ArrowUp aria-hidden />}
               aria-label={sendLabel}
               disabled={isEmpty}
               onClick={handleSubmit}
-            />
+            >
+              <ArrowUp aria-hidden />
+            </IconButton>
           </div>
         </>
       ) : (
@@ -215,11 +212,12 @@ function CommentComposer({
                 variant="secondary"
                 tone="neutral"
                 magnitude="md"
-                icon={<ArrowUp aria-hidden />}
                 aria-label={sendLabel}
                 disabled={isEmpty}
                 onClick={handleSubmit}
-              />
+              >
+                <ArrowUp aria-hidden />
+              </IconButton>
             )}
           </div>
         </>

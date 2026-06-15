@@ -11,7 +11,7 @@ const meta = {
   title: "Components/Button",
   component: Button,
   // Icon picker controls for the two icon slots.
-  argTypes: { leadingIcon: iconControl, trailingIcon: iconControl },
+  argTypes: { inlineStartNode: iconControl, inlineEndNode: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -109,18 +109,18 @@ export const Magnitudes: Story = {
   ),
 };
 
-/** Leading and trailing icons sit beside the label and are decorative. */
+/** Inline-start and inline-end nodes sit beside the label and are decorative. */
 export const WithIcons: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <Button {...args} leadingIcon={<Plus />}>
+      <Button {...args} inlineStartNode={<Plus />}>
         New
       </Button>
-      <Button {...args} variant="secondary" trailingIcon={<Settings />}>
+      <Button {...args} variant="secondary" inlineEndNode={<Settings />}>
         Settings
       </Button>
-      <Button {...args} variant="tertiary" leadingIcon={<Search />} trailingIcon={<Plus />}>
+      <Button {...args} variant="tertiary" inlineStartNode={<Search />} inlineEndNode={<Plus />}>
         Search
       </Button>
     </div>

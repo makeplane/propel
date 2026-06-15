@@ -10,8 +10,8 @@ const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/IconButton",
   component: IconButton,
-  // Icon picker control for the single glyph.
-  argTypes: { icon: iconControl },
+  // Icon picker control for the single glyph (the button's `children`).
+  argTypes: { children: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -22,7 +22,7 @@ const meta = {
     variant: "primary",
     tone: "neutral",
     magnitude: "md",
-    icon: <Plus />,
+    children: <Plus />,
     "aria-label": "Add item",
   },
 } satisfies Meta<typeof IconButton>;
@@ -118,13 +118,9 @@ export const Disabled: Story = {
 export const HasAccessibleName: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <IconButton
-      variant="primary"
-      tone="neutral"
-      magnitude="md"
-      aria-label="Add item"
-      icon={<Plus />}
-    />
+    <IconButton variant="primary" tone="neutral" magnitude="md" aria-label="Add item">
+      <Plus />
+    </IconButton>
   ),
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("button", { name: "Add item" })).toBeInTheDocument();
