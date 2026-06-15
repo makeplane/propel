@@ -428,7 +428,9 @@ export const RichRows: Story = {
     const trigger = canvas.getByRole("button", { name: "Options for Chargers" });
     await userEvent.click(trigger);
     const menu = within(document.body);
-    await expect(await menu.findByRole("menuitem", { name: "Edit" })).toBeVisible();
+    // The menu opens with a scale-fade, so wait for the items to settle visible
+    // (find resolves on mount, which can be mid-animation).
+    await waitFor(() => expect(menu.getByRole("menuitem", { name: "Edit" })).toBeVisible());
     await expect(menu.getByRole("menuitem", { name: "Delete" })).toBeVisible();
   },
 };
