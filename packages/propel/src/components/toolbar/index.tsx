@@ -14,6 +14,7 @@ import {
   type DropdownItemProps,
   type DropdownProps,
   DropdownSeparator,
+  type DropdownSeparatorProps,
 } from "../dropdown/index";
 
 // The Figma "Toolbar" component has a single `variant` axis describing where the
@@ -306,3 +307,4 @@ export type ToolbarDropdownItemProps = DropdownItemProps;
 
 /** A divider between groups of `ToolbarDropdownItem`s — propel's `DropdownSeparator`. */
 export const ToolbarDropdownSeparator = DropdownSeparator;
+export type ToolbarDropdownSeparatorProps = DropdownSeparatorProps;

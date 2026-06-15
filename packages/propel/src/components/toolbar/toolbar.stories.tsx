@@ -141,6 +141,7 @@ const meta = {
     ToolbarDropdownTrigger,
     ToolbarDropdownContent,
     ToolbarDropdownItem,
+    ToolbarDropdownSeparator,
   },
   args: { variant: "floater" },
   render: (args) => <FormattingToolbar {...args} />,
