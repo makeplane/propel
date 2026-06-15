@@ -188,17 +188,17 @@ export const ComposableMenu: Story = {
         <ToolbarDropdownContent>
           <ToolbarDropdownItem
             variant="default"
-            leadingIcon={<Pilcrow />}
+            inlineStartNode={<Pilcrow />}
             label="Paragraph"
             selected
           />
-          <ToolbarDropdownItem variant="default" leadingIcon={<Heading1 />} label="Heading 1" />
-          <ToolbarDropdownItem variant="default" leadingIcon={<Heading2 />} label="Heading 2" />
-          <ToolbarDropdownItem variant="default" leadingIcon={<Heading3 />} label="Heading 3" />
+          <ToolbarDropdownItem variant="default" inlineStartNode={<Heading1 />} label="Heading 1" />
+          <ToolbarDropdownItem variant="default" inlineStartNode={<Heading2 />} label="Heading 2" />
+          <ToolbarDropdownItem variant="default" inlineStartNode={<Heading3 />} label="Heading 3" />
           <ToolbarDropdownSeparator />
           <ToolbarDropdownItem
             variant="default"
-            leadingIcon={<Code />}
+            inlineStartNode={<Code />}
             label="Code block"
             disabled
           />

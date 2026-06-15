@@ -2,6 +2,7 @@ import { Menu } from "@base-ui/react/menu";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { Check, ChevronRight, Search } from "lucide-react";
 import * as React from "react";
+import { nodeSlotClass } from "../../internal/node-slot";
 import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
 import { CheckboxVisual } from "../checkbox/index";
 
@@ -129,8 +130,9 @@ export function DropdownContent({
 // overlay; disabled fades the row.
 const dropdownItemVariants = cva(
   cx(
-    // Items are 34px tall (Figma); `rounded-md` radius per design.
-    "group/item flex w-full select-none gap-2 rounded-md px-2 text-13 outline-none",
+    // Items are 34px tall (Figma); `rounded-md` radius per design. `--node-size` sizes
+    // the icons dropped into the inline-start/end node slots (16px), like Button.
+    "group/item flex w-full select-none gap-2 rounded-md px-2 text-13 outline-none [--node-size:1rem]",
     "text-secondary",
     "data-disabled:pointer-events-none data-disabled:text-disabled",
   ),
@@ -168,32 +170,25 @@ export type DropdownItemProps = Omit<
    */
   variant: DropdownItemVariant;
   /**
-   * Leading icon, rendered before the label in the 16px icon box. Pair it with
-   * `leading` for a full-size control such as a `Checkbox` or `Avatar`.
+   * Leading content before the label — an icon (sized to 16px), or a full-size control
+   * such as a `Checkbox`, `Radio`, `Avatar`, or a color swatch. Single-select rows
+   * should use `selected` instead. (Logical node slot, like Button's `inlineStartNode`.)
    */
-  leadingIcon?: React.ReactNode;
-  /**
-   * Leading control rendered *before* the icon at full size (no icon box) — use
-   * for a composed propel control such as a `Checkbox`, `Radio`, `Avatar`, or a
-   * color swatch. Single-select rows should use `selected` instead.
-   */
-  leading?: React.ReactNode;
+  inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
   label?: React.ReactNode;
   /** Muted secondary line under the label (use with `variant="with-description"`). */
   description?: React.ReactNode;
   /**
    * Muted text shown inline after the label (e.g. a language's English name). Sits
-   * between the label and the trailing slots, on the same line as the label.
+   * between the label and the trailing node, on the same line as the label.
    */
   secondaryText?: React.ReactNode;
   /**
-   * Trailing rich content (e.g. a `Badge` count, a keyboard shortcut, or value text).
-   * Compose value text here yourself — there is no longer a dedicated value slot.
+   * Trailing content after the label — a `Badge` count, a keyboard shortcut, value
+   * text, or an icon (sized to 16px). (Logical node slot, like Button's `inlineEndNode`.)
    */
-  trailing?: React.ReactNode;
-  /** Trailing icon, rendered after `trailing` in the 16px icon box. */
-  trailingIcon?: React.ReactNode;
+  inlineEndNode?: React.ReactNode;
   /**
    * Single-select selected state: keeps the row's own icon and marks the selection
    * with a trailing checkmark (the row's icon is never replaced). Distinct from the
@@ -209,36 +204,28 @@ export type DropdownItemProps = Omit<
 };
 
 /**
- * A selectable menu row. Closes the menu when clicked (Base UI default). An item is
- * an optional leading control/icon + label (+ optional description / inline
- * secondary text / trailing rich content / trailing icon) — all of it content, laid
- * out by `variant`. Pass `selected` for the single-select leading-checkmark pattern.
- * Trailing value text is composed into `trailing` by the caller.
+ * A selectable menu row: an optional `inlineStartNode` (icon or full-size control) +
+ * label (+ optional description / inline secondary text / `inlineEndNode`) — all of it
+ * content, laid out by `variant`. Closes the menu when clicked (Base UI default). Pass
+ * `selected` for the single-select trailing-checkmark pattern.
  */
 export function DropdownItem({
   variant,
   emphasis = "default",
-  leadingIcon,
-  leading,
+  inlineStartNode,
   label,
   description,
   secondaryText,
-  trailing,
-  trailingIcon,
+  inlineEndNode,
   selected,
   children,
   ...props
 }: DropdownItemProps) {
   return (
     <Menu.Item className={dropdownItemVariants({ variant, emphasis })} {...props}>
-      {leading != null ? <span className="flex shrink-0 items-center">{leading}</span> : null}
-      {leadingIcon ? (
-        // 16px icon centered in a 20px-tall box so it aligns with the first text line
-        // even when the row is align-start (top-aligned) for a two-line layout.
-        <span className="flex h-5 w-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
-          {leadingIcon}
-        </span>
-      ) : null}
+      {/* The node slots size icons to `--node-size` (16px) and let full-size controls
+          (Checkbox/Avatar/swatch) size themselves; the row's text color cascades. */}
+      {inlineStartNode != null ? <span className={nodeSlotClass}>{inlineStartNode}</span> : null}
       <span className="flex min-w-0 flex-1 flex-col">
         <span className="flex min-w-0 items-baseline gap-1.5">
           <span className="truncate">{label ?? children}</span>
@@ -254,13 +241,8 @@ export function DropdownItem({
           </span>
         ) : null}
       </span>
-      {trailing != null ? <span className="flex shrink-0 items-center">{trailing}</span> : null}
-      {trailingIcon ? (
-        <span className="flex h-5 w-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
-          {trailingIcon}
-        </span>
-      ) : null}
-      {/* Selection is marked with a trailing check — the row's own icon is kept. */}
+      {inlineEndNode != null ? <span className={nodeSlotClass}>{inlineEndNode}</span> : null}
+      {/* Selection is marked with a trailing check — the row's own node is kept. */}
       {selected ? (
         <span className="flex h-5 w-4 shrink-0 items-center justify-center">
           <Check className="size-4 text-icon-accent-primary" aria-hidden="true" />
@@ -275,15 +257,15 @@ export type DropdownCheckboxItemProps = Omit<
   "className" | "style" | "label"
 > & {
   /**
-   * Leading content shown after the checkbox — typically an icon, a color swatch,
-   * an `Avatar`, or a priority glyph. Use it to compose the propel components a
-   * multi-select demo calls for (Avatar for assignees, swatch for labels, etc.).
+   * Leading content shown after the checkbox — an icon (16px), a color swatch, an
+   * `Avatar`, or a priority glyph (Avatar for assignees, swatch for labels, etc.).
+   * (Logical node slot, like Button's `inlineStartNode`.)
    */
-  icon?: React.ReactNode;
+  inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
   label?: React.ReactNode;
-  /** Trailing value text. */
-  value?: React.ReactNode;
+  /** Trailing content — typically value text or a count. (Logical node slot.) */
+  inlineEndNode?: React.ReactNode;
 };
 
 /**
@@ -294,9 +276,9 @@ export type DropdownCheckboxItemProps = Omit<
  * with `checked` + `onCheckedChange`, or leave it uncontrolled with `defaultChecked`.
  */
 export function DropdownCheckboxItem({
-  icon,
+  inlineStartNode,
   label,
-  value,
+  inlineEndNode,
   checked,
   defaultChecked,
   onCheckedChange,
@@ -314,7 +296,7 @@ export function DropdownCheckboxItem({
   return (
     <Menu.CheckboxItem
       className={cx(
-        "group/item flex h-[34px] w-full cursor-default select-none items-center gap-2 rounded-md px-2 text-13 outline-none",
+        "group/item flex h-[34px] w-full cursor-default select-none items-center gap-2 rounded-md px-2 text-13 outline-none [--node-size:1rem]",
         "text-secondary",
         "data-highlighted:bg-layer-transparent-hover",
         "data-disabled:pointer-events-none data-disabled:text-disabled",
@@ -337,13 +319,11 @@ export function DropdownCheckboxItem({
       <span className="flex shrink-0 items-center">
         <CheckboxVisual tone="neutral" checked={isChecked} disabled={props.disabled} />
       </span>
-      {icon ? (
-        <span className="flex size-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
-          {icon}
-        </span>
-      ) : null}
+      {inlineStartNode != null ? <span className={nodeSlotClass}>{inlineStartNode}</span> : null}
       <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
-      {value != null ? <span className="shrink-0 text-12 text-tertiary">{value}</span> : null}
+      {inlineEndNode != null ? (
+        <span className="shrink-0 text-12 text-tertiary">{inlineEndNode}</span>
+      ) : null}
     </Menu.CheckboxItem>
   );
 }
@@ -376,10 +356,10 @@ export type DropdownLabelProps = Omit<
   "className" | "style"
 > & {
   /**
-   * Optional trailing slot on the heading row — e.g. a "View all" link or a count.
+   * Optional trailing content on the heading row — e.g. a "View all" link or a count.
    * Sits at the end of the label line (the Figma "Dropdown header" trailing slot).
    */
-  trailing?: React.ReactNode;
+  inlineEndNode?: React.ReactNode;
   children?: React.ReactNode;
 };
 
@@ -387,16 +367,16 @@ export type DropdownLabelProps = Omit<
  * A non-interactive section heading for a group of items (the Figma "Dropdown
  * header": `text/12`, `text/tertiary`, title-case). Must be rendered inside a
  * `DropdownGroup`, as the first child, to label the items that follow it. Pass
- * `trailing` for a trailing "View all" link or count.
+ * `inlineEndNode` for a trailing "View all" link or count.
  */
-export function DropdownLabel({ trailing, children, ...props }: DropdownLabelProps) {
+export function DropdownLabel({ inlineEndNode, children, ...props }: DropdownLabelProps) {
   return (
     <Menu.GroupLabel
       className="flex items-center gap-1.5 px-2 py-1.5 text-12 text-tertiary"
       {...props}
     >
       <span className="min-w-0 flex-1 truncate">{children}</span>
-      {trailing != null ? <span className="shrink-0">{trailing}</span> : null}
+      {inlineEndNode != null ? <span className="shrink-0">{inlineEndNode}</span> : null}
     </Menu.GroupLabel>
   );
 }
@@ -490,43 +470,39 @@ export type DropdownSubTriggerProps = Omit<
   React.ComponentProps<typeof Menu.SubmenuTrigger>,
   "className" | "style" | "label"
 > & {
-  /** Leading icon, rendered before the label in the 16px icon box. */
-  leadingIcon?: React.ReactNode;
+  /** Leading content before the label — an icon (16px) or control. (Logical node slot.) */
+  inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
   label?: React.ReactNode;
-  /** Trailing content before the chevron — e.g. a `Badge` count. */
-  trailing?: React.ReactNode;
+  /** Trailing content before the chevron — e.g. a `Badge` count. (Logical node slot.) */
+  inlineEndNode?: React.ReactNode;
 };
 
 /**
  * The row that opens a submenu. Looks like a `DropdownItem` with a trailing chevron;
- * pass `trailing` for a count `Badge` before the chevron. Must be rendered inside a
- * `DropdownSub`, paired with a `DropdownSubContent`.
+ * pass `inlineEndNode` for a count `Badge` before the chevron. Must be rendered inside
+ * a `DropdownSub`, paired with a `DropdownSubContent`.
  */
 export function DropdownSubTrigger({
-  leadingIcon,
+  inlineStartNode,
   label,
-  trailing,
+  inlineEndNode,
   children,
   ...props
 }: DropdownSubTriggerProps) {
   return (
     <Menu.SubmenuTrigger
       className={cx(
-        "group/item flex h-[34px] w-full cursor-default select-none items-center gap-2 rounded-md px-2 text-13 outline-none",
+        "group/item flex h-[34px] w-full cursor-default select-none items-center gap-2 rounded-md px-2 text-13 outline-none [--node-size:1rem]",
         "text-secondary",
         "data-highlighted:bg-layer-transparent-hover data-popup-open:bg-layer-transparent-hover",
         "data-disabled:pointer-events-none data-disabled:text-disabled",
       )}
       {...props}
     >
-      {leadingIcon ? (
-        <span className="flex size-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
-          {leadingIcon}
-        </span>
-      ) : null}
+      {inlineStartNode != null ? <span className={nodeSlotClass}>{inlineStartNode}</span> : null}
       <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
-      {trailing != null ? <span className="flex shrink-0 items-center">{trailing}</span> : null}
+      {inlineEndNode != null ? <span className={nodeSlotClass}>{inlineEndNode}</span> : null}
       <ChevronRight
         className="size-4 shrink-0 text-icon-tertiary group-data-disabled/item:text-icon-disabled rtl:-scale-x-100"
         aria-hidden="true"
