@@ -1,6 +1,8 @@
+import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 import { cva, cx } from "class-variance-authority";
 import * as React from "react";
+import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
 
 // The Figma "Tabs" component defines two visual treatments. `contained` wraps
 // the tabs in a pill and lifts the active tab onto a raised card; `underline`
@@ -19,8 +21,12 @@ const TabsVariantContext = React.createContext<TabsVariant>("contained");
 // the column's default cross-axis stretch: without it a wide `TabsPanel` below
 // would pull the `TabsList` to the panel's width, leaving empty padding after
 // the last tab. With it the list hugs its tabs and the panel keeps its own
-// width, independent of each other.
-const rootVariants = cva("inline-flex flex-col items-start gap-3");
+// width, independent of each other. `max-w-full` caps the root at its parent so
+// that when there are more tabs than fit, the root stops growing at the parent's
+// width and the `TabsList` scrolls horizontally inside it (it must cap here, not
+// only on the list, for the list's own `max-w-full` to resolve against the parent
+// rather than the unbounded content width).
+const rootVariants = cva("inline-flex max-w-full flex-col items-start gap-3");
 
 export type TabsProps = Omit<
   React.ComponentProps<typeof BaseTabs.Root>,
@@ -65,7 +71,10 @@ export function Tabs({ variant, ...props }: TabsProps) {
 // under the active tab as the JS-measured `TabsIndicator`. `relative` lets that
 // indicator position against the list; `inline-flex` keeps the row sized to its
 // content. Underline uses `items-start` so every tab column shares a top edge.
-const tabsListVariants = cva("relative inline-flex", {
+// `max-w-full` lets the list (which is also the scroll viewport) cap at the
+// width its `ScrollArea.Root` allows, so an overflowing tab set scrolls inside it
+// rather than stretching the row past the parent.
+const tabsListVariants = cva("relative inline-flex max-w-full", {
   variants: {
     variant: {
       contained: "items-center gap-px rounded-lg bg-layer-3 p-0.5",
@@ -79,14 +88,32 @@ export type TabsListProps = Omit<
   "className" | "render" | "style"
 >;
 
-/** The row of tabs. Renders the active-tab `Tabs.Indicator` for the underline. */
+/**
+ * The row of tabs. Renders the active-tab `Tabs.Indicator` for the underline.
+ *
+ * The list is also a Base UI `ScrollArea.Viewport` (Base UI's documented Tabs +
+ * ScrollArea render-merge): the `ScrollArea.Root` bounds the width, and when the
+ * tabs are wider than the space they have, the row scrolls horizontally with
+ * propel's overlay scrollbar (hidden at rest, revealed on hover/scroll) instead
+ * of overflowing its container. When the tabs fit, the row just hugs them. This is
+ * what lets a long tab bar live inside a width-constrained header.
+ */
 export function TabsList({ children, ...props }: TabsListProps) {
   const variant = React.useContext(TabsVariantContext);
   return (
-    <BaseTabs.List className={tabsListVariants({ variant })} {...props}>
-      {children}
-      {variant === "underline" ? <TabsIndicator /> : null}
-    </BaseTabs.List>
+    <BaseScrollArea.Root className="relative max-w-full">
+      <BaseTabs.List
+        render={<BaseScrollArea.Viewport />}
+        className={cx(tabsListVariants({ variant }), "overscroll-x-contain outline-none")}
+        {...props}
+      >
+        {children}
+        {variant === "underline" ? <TabsIndicator /> : null}
+      </BaseTabs.List>
+      <BaseScrollArea.Scrollbar orientation="horizontal" className={scrollbarClass}>
+        <BaseScrollArea.Thumb className={scrollbarThumbClass} />
+      </BaseScrollArea.Scrollbar>
+    </BaseScrollArea.Root>
   );
 }
 

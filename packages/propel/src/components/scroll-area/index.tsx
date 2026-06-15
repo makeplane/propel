@@ -1,6 +1,6 @@
 import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
-import { cx } from "class-variance-authority";
 import * as React from "react";
+import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
 
 // propel's scroll container, built on Base UI ScrollArea. Unlike a re-skinned native
 // scrollbar it paints a real DOM thumb, so it renders consistently across browsers
@@ -8,23 +8,8 @@ import * as React from "react";
 // interaction. The thumb uses propel's `--scrollbar-thumb*` tokens: shown while the
 // area is hovered or scrolling, darker on thumb hover, darkest while dragging, over a
 // transparent track. It fills its parent, so constrain the parent's height (or width)
-// to make the content scroll.
-
-// Base UI sets `data-hovering` (pointer over the area) and `data-scrolling` (actively
-// scrolling) on the scrollbar; fade the bar in on those so it reads only on
-// interaction, matching the Figma scrollbar. The track is a 12px gutter with a 3px
-// inset (padding), leaving a 6px thumb.
-const scrollbarClass = cx(
-  "flex touch-none select-none p-[3px] opacity-0 transition-opacity duration-150 ease-out",
-  "data-[hovering]:opacity-100 data-[scrolling]:opacity-100",
-  "data-[orientation=vertical]:w-3",
-  "data-[orientation=horizontal]:h-3 data-[orientation=horizontal]:flex-col",
-);
-
-const thumbClass = cx(
-  "flex-1 rounded-full bg-scrollbar-thumb transition-colors",
-  "hover:bg-scrollbar-thumb-hover active:bg-scrollbar-thumb-active",
-);
+// to make the content scroll. The scrollbar + thumb styling is shared with components
+// that compose Base UI ScrollArea directly (e.g. Tabs) via `internal/scrollbar`.
 
 export type ScrollAreaProps = {
   /** The scrollable content. */
@@ -50,10 +35,10 @@ export function ScrollArea({ children }: ScrollAreaProps) {
         {children}
       </BaseScrollArea.Viewport>
       <BaseScrollArea.Scrollbar orientation="vertical" className={scrollbarClass}>
-        <BaseScrollArea.Thumb className={thumbClass} />
+        <BaseScrollArea.Thumb className={scrollbarThumbClass} />
       </BaseScrollArea.Scrollbar>
       <BaseScrollArea.Scrollbar orientation="horizontal" className={scrollbarClass}>
-        <BaseScrollArea.Thumb className={thumbClass} />
+        <BaseScrollArea.Thumb className={scrollbarThumbClass} />
       </BaseScrollArea.Scrollbar>
       <BaseScrollArea.Corner />
     </BaseScrollArea.Root>
