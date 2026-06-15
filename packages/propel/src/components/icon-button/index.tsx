@@ -1,6 +1,7 @@
 import { cx } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
+import { getLoadingButtonProps } from "../../internal/loading-button";
 import { nodeSlotClass } from "../../internal/node-slot";
 import {
   type ButtonMagnitude,
@@ -85,10 +86,7 @@ export function IconButton({
   return (
     <button
       type={type}
-      disabled={disabled}
-      aria-disabled={loading || undefined}
-      aria-busy={loading || undefined}
-      onClick={loading ? undefined : onClick}
+      {...getLoadingButtonProps({ loading, disabled, onClick })}
       className={cx(
         // Pass only variant/tone so Button's chrome (background, border, text/icon
         // color, radius) applies, but NOT its text-button geometry. `magnitude` would

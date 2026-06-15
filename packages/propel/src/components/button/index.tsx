@@ -1,6 +1,7 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
+import { getLoadingButtonProps } from "../../internal/loading-button";
 import { nodeSlotClass } from "../../internal/node-slot";
 
 // Magnitudes follow the Figma "Buttons" Size scale. Figma ships S/Base/L/XL; those
@@ -214,10 +215,7 @@ export function Button({
   return (
     <button
       type={type}
-      disabled={disabled}
-      aria-disabled={loading || undefined}
-      aria-busy={loading || undefined}
-      onClick={loading ? undefined : onClick}
+      {...getLoadingButtonProps({ loading, disabled, onClick })}
       className={buttonVariants({ variant, tone, magnitude, emphasis })}
       {...props}
     >
