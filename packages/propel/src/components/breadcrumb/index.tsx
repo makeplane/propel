@@ -2,7 +2,7 @@ import { Menu } from "@base-ui/react/menu";
 import { cva, cx } from "class-variance-authority";
 import { ChevronRight, Ellipsis } from "lucide-react";
 import * as React from "react";
-import { surfaceVariants } from "../../internal/surface";
+import { OverlayPanel } from "../../internal/overlay-panel";
 import {
   Dropdown,
   DropdownContent,
@@ -11,7 +11,6 @@ import {
   type DropdownItemProps,
   type DropdownProps,
 } from "../dropdown/index";
-import { ScrollArea } from "../scroll-area/index";
 
 // A breadcrumb crumb is a small pill: 14px medium label on the neutral
 // `text/tertiary` token, 4px horizontal padding, 6px radius, and a transparent
@@ -135,16 +134,9 @@ export function BreadcrumbDropdown({
       </Menu.Trigger>
       <Menu.Portal>
         <Menu.Positioner side="bottom" align="start" sideOffset={4}>
-          <div
-            className={cx(
-              surfaceVariants({ elevation: "raised", radius: "md" }),
-              "flex max-h-(--available-height) min-w-32 flex-col overflow-hidden text-14 text-secondary",
-            )}
-          >
-            <ScrollArea>
-              <Menu.Popup className="p-1 outline-none">{children}</Menu.Popup>
-            </ScrollArea>
-          </div>
+          <OverlayPanel elevation="raised" radius="md" width="auto">
+            <Menu.Popup className="p-1 outline-none">{children}</Menu.Popup>
+          </OverlayPanel>
         </Menu.Positioner>
       </Menu.Portal>
     </Menu.Root>
@@ -164,7 +156,7 @@ export type BreadcrumbDropdownItemProps = Omit<
 export function BreadcrumbDropdownItem(props: BreadcrumbDropdownItemProps) {
   return (
     <Menu.Item
-      className="flex cursor-default items-center rounded-sm px-2 py-1 leading-[1.54] text-secondary outline-none select-none data-[highlighted]:bg-layer-transparent-hover data-[highlighted]:text-primary"
+      className="flex cursor-default items-center rounded-sm px-2 py-1 text-14 leading-[1.54] text-secondary outline-none select-none data-[highlighted]:bg-layer-transparent-hover data-[highlighted]:text-primary"
       {...props}
     />
   );

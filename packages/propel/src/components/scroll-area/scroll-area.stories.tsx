@@ -29,6 +29,7 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {
   args: {
+    orientation: "vertical",
     children: (
       <div className="flex flex-col gap-2 p-3">
         {Array.from({ length: 30 }, (_, i) => (
@@ -44,6 +45,7 @@ export const Default: Story = {
 /** Both axes overflow: a vertical and a horizontal scrollbar, each shown on demand. */
 export const BothAxes: Story = {
   args: {
+    orientation: "both",
     children: (
       <div className="flex w-[640px] flex-col gap-2 p-3">
         {Array.from({ length: 30 }, (_, i) => (
