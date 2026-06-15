@@ -1593,22 +1593,24 @@
 }
 
 /*
- * The propel overflow scrollbar: a thin, rounded thumb over a transparent track,
- * using the `--scrollbar-thumb*` tokens (Figma "Scrollbar", node 5582-2170). The
- * thumb is visible at rest (`--scrollbar-thumb`) and firms up on thumb hover and
- * while dragging. Use this on any scroll container (dropdown lists, text areas) so
+ * The propel overflow scrollbar: a rounded thumb over a transparent track, using the
+ * `--scrollbar-thumb*` tokens (Figma "Scrollbar", nodes 5582-2170 / 5582-4428). The
+ * thumb is visible at rest (`--scrollbar-thumb`) and firms up on thumb hover and while
+ * dragging. A transparent border (via `background-clip: padding-box`) insets the thumb
+ * so it reads thinner than the 12px track, matching the Figma `sm` size (12px / inset
+ * 3 → a 6px thumb). Use this on any scroll container (dropdown lists, text areas) so
  * overflow scrolls match the design instead of the native scrollbar.
  */
 @utility scrollbar-sm {
   /* The thumb shows at rest over a transparent track; hovering or dragging the
-     thumb darkens it. Firefox has no scrollbar pseudo-elements, so it can only set
-     the resting thumb color via `scrollbar-color`; the WebKit rules below add the
-     distinct thumb-hover and dragging states. */
+     thumb darkens it. Firefox has no scrollbar pseudo-elements (no inset, no thumb
+     states), so it only gets the thin resting thumb via `scrollbar-color`; the WebKit
+     rules below add the inset, the thumb-hover and the dragging states. */
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-thumb-surface);
   &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 12px;
+    height: 12px;
   }
   /* No stepper arrows: the Figma scrollbar is a thumb over a transparent track. */
   &::-webkit-scrollbar-button {
@@ -1618,6 +1620,9 @@
     background-color: var(--scrollbar-thumb-surface);
   }
   &::-webkit-scrollbar-thumb {
+    /* 3px transparent inset (background-clip) leaves a 6px thumb in the 12px track. */
+    border: 3px solid transparent;
+    background-clip: padding-box;
     border-radius: 9999px;
     background-color: var(--scrollbar-thumb);
   }
