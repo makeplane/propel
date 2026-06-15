@@ -84,7 +84,7 @@ export function Progress({ variant, value, magnitude, showValue = true, ...props
     const { box, radius } = RING_GEOMETRY[magnitude];
     const circumference = 2 * Math.PI * radius;
     const max = props.max ?? 100;
-    const fraction = Math.min(Math.max(value / max, 0), 1);
+    const fraction = max > 0 ? Math.min(Math.max(value / max, 0), 1) : 0;
     const dashOffset = circumference * (1 - fraction);
     const center = box / 2;
     return (
