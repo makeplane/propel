@@ -11,6 +11,7 @@ import {
   type DropdownItemProps,
   type DropdownProps,
 } from "../dropdown/index";
+import { ScrollArea } from "../scroll-area/index";
 
 // A breadcrumb crumb is a small pill: 14px medium label on the neutral
 // `text/tertiary` token, 4px horizontal padding, 6px radius, and a transparent
@@ -134,14 +135,16 @@ export function BreadcrumbDropdown({
       </Menu.Trigger>
       <Menu.Portal>
         <Menu.Positioner side="bottom" align="start" sideOffset={4}>
-          <Menu.Popup
+          <div
             className={cx(
               surfaceVariants({ elevation: "raised", radius: "md" }),
-              "min-w-32 p-1 text-14 text-secondary outline-none",
+              "flex max-h-(--available-height) min-w-32 flex-col overflow-hidden text-14 text-secondary",
             )}
           >
-            {children}
-          </Menu.Popup>
+            <ScrollArea>
+              <Menu.Popup className="p-1 outline-none">{children}</Menu.Popup>
+            </ScrollArea>
+          </div>
         </Menu.Positioner>
       </Menu.Portal>
     </Menu.Root>

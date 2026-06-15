@@ -6,6 +6,7 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 import * as React from "react";
 import { surfaceVariants } from "../../internal/surface";
+import { ScrollArea } from "../scroll-area/index";
 
 // The Figma "Toolbar" component has a single `variant` axis describing where the
 // toolbar is placed (Figma: Floater / Pages - Topbar / Comments bottom bar). The
@@ -280,26 +281,30 @@ export function ToolbarDropdown({
       </BaseToolbar.Button>
       <Menu.Portal>
         <Menu.Positioner sideOffset={6} className="z-50 outline-none">
-          <Menu.Popup
+          <div
             className={cx(
               surfaceVariants({ elevation: "raised", radius: "lg" }),
-              "min-w-36 p-1",
-              "text-13 text-secondary outline-none",
+              "flex max-h-(--available-height) min-w-36 flex-col overflow-hidden",
+              "text-13 text-secondary",
             )}
           >
-            {items.map((item) => (
-              <Menu.Item
-                key={item.value}
-                onClick={() => onValueChange?.(item.value)}
-                className={cx(
-                  "flex cursor-default items-center rounded-md px-2 py-1.5 outline-none",
-                  "data-[highlighted]:bg-layer-transparent-hover",
-                )}
-              >
-                {item.label}
-              </Menu.Item>
-            ))}
-          </Menu.Popup>
+            <ScrollArea>
+              <Menu.Popup className="p-1 outline-none">
+                {items.map((item) => (
+                  <Menu.Item
+                    key={item.value}
+                    onClick={() => onValueChange?.(item.value)}
+                    className={cx(
+                      "flex cursor-default items-center rounded-md px-2 py-1.5 outline-none",
+                      "data-[highlighted]:bg-layer-transparent-hover",
+                    )}
+                  >
+                    {item.label}
+                  </Menu.Item>
+                ))}
+              </Menu.Popup>
+            </ScrollArea>
+          </div>
         </Menu.Positioner>
       </Menu.Portal>
     </Menu.Root>
