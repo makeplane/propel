@@ -123,10 +123,10 @@ export function DropdownContent({
   );
 }
 
-// One row. `variant` is the Figma layout axis: `default` is a single line,
-// `with-description` stacks a muted second line, `with-value` reserves a trailing
-// value column. `selected`/`disabled` are primitive state, not variants. Hover &
-// keyboard-highlight share the subtle transparent overlay; disabled fades the row.
+// One row. `variant` is the Figma layout axis: `default` is a single line and
+// `with-description` stacks a muted second line. `selected`/`disabled` are primitive
+// state, not variants. Hover & keyboard-highlight share the subtle transparent
+// overlay; disabled fades the row.
 const dropdownItemVariants = cva(
   cx(
     // Items are 34px tall (Figma); `rounded-md` radius per design.
@@ -143,7 +143,6 @@ const dropdownItemVariants = cva(
         // (align-start) so it sits with the first line; the row grows for the
         // description and keeps a matching 6px bottom.
         "with-description": "min-h-[34px] items-start py-1.5",
-        "with-value": "h-[34px] items-center",
       },
       // `default` is a normal selectable row (highlight on hover/keyboard). `link`
       // is a "View all"-style affordance: a pointer cursor and no hover background.
@@ -164,12 +163,15 @@ export type DropdownItemProps = Omit<
 > & {
   /**
    * Row layout (required). `default` is a single line; `with-description` stacks a
-   * muted second line under the label; `with-value` reserves a trailing value slot.
-   * Selected/disabled are state props, not variants.
+   * muted second line under the label. Selected/disabled are state props, not
+   * variants.
    */
   variant: DropdownItemVariant;
-  /** Leading content, typically an icon. Rendered before the label. */
-  icon?: React.ReactNode;
+  /**
+   * Leading icon, rendered before the label in the 16px icon box. Pair it with
+   * `leading` for a full-size control such as a `Checkbox` or `Avatar`.
+   */
+  leadingIcon?: React.ReactNode;
   /**
    * Leading control rendered *before* the icon at full size (no icon box) — use
    * for a composed propel control such as a `Checkbox`, `Radio`, `Avatar`, or a
@@ -182,18 +184,16 @@ export type DropdownItemProps = Omit<
   description?: React.ReactNode;
   /**
    * Muted text shown inline after the label (e.g. a language's English name). Sits
-   * between the label and any trailing value, on the same line.
+   * between the label and the trailing slots, on the same line as the label.
    */
   secondaryText?: React.ReactNode;
-  /** Trailing value text (use with `variant="with-value"`). */
-  value?: React.ReactNode;
   /**
-   * Trailing content after the value slot (e.g. a `Badge` count, a chevron, or a
-   * keyboard shortcut). Use instead of (or alongside) `value` for rich content.
+   * Trailing rich content (e.g. a `Badge` count, a keyboard shortcut, or value text).
+   * Compose value text here yourself — there is no longer a dedicated value slot.
    */
   trailing?: React.ReactNode;
-  /** Trailing content after the value slot, typically an icon or shortcut. */
-  endIcon?: React.ReactNode;
+  /** Trailing icon, rendered after `trailing` in the 16px icon box. */
+  trailingIcon?: React.ReactNode;
   /**
    * Single-select selected state: keeps the row's own icon and marks the selection
    * with a trailing checkmark (the row's icon is never replaced). Distinct from the
@@ -211,20 +211,20 @@ export type DropdownItemProps = Omit<
 /**
  * A selectable menu row. Closes the menu when clicked (Base UI default). An item is
  * an optional leading control/icon + label (+ optional description / inline
- * secondary text / trailing value / badge / end icon) — all of it content, laid out
- * by `variant`. Pass `selected` for the single-select leading-checkmark pattern.
+ * secondary text / trailing rich content / trailing icon) — all of it content, laid
+ * out by `variant`. Pass `selected` for the single-select leading-checkmark pattern.
+ * Trailing value text is composed into `trailing` by the caller.
  */
 export function DropdownItem({
   variant,
   emphasis = "default",
-  icon,
+  leadingIcon,
   leading,
   label,
   description,
   secondaryText,
-  value,
   trailing,
-  endIcon,
+  trailingIcon,
   selected,
   children,
   ...props
@@ -232,11 +232,11 @@ export function DropdownItem({
   return (
     <Menu.Item className={dropdownItemVariants({ variant, emphasis })} {...props}>
       {leading != null ? <span className="flex shrink-0 items-center">{leading}</span> : null}
-      {icon ? (
+      {leadingIcon ? (
         // 16px icon centered in a 20px-tall box so it aligns with the first text line
         // even when the row is align-start (top-aligned) for a two-line layout.
         <span className="flex h-5 w-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
-          {icon}
+          {leadingIcon}
         </span>
       ) : null}
       <span className="flex min-w-0 flex-1 flex-col">
@@ -254,11 +254,10 @@ export function DropdownItem({
           </span>
         ) : null}
       </span>
-      {value != null ? <span className="shrink-0 text-12 text-tertiary">{value}</span> : null}
       {trailing != null ? <span className="flex shrink-0 items-center">{trailing}</span> : null}
-      {endIcon ? (
+      {trailingIcon ? (
         <span className="flex h-5 w-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
-          {endIcon}
+          {trailingIcon}
         </span>
       ) : null}
       {/* Selection is marked with a trailing check — the row's own icon is kept. */}
@@ -380,7 +379,7 @@ export type DropdownLabelProps = Omit<
    * Optional trailing slot on the heading row — e.g. a "View all" link or a count.
    * Sits at the end of the label line (the Figma "Dropdown header" trailing slot).
    */
-  action?: React.ReactNode;
+  trailing?: React.ReactNode;
   children?: React.ReactNode;
 };
 
@@ -388,16 +387,16 @@ export type DropdownLabelProps = Omit<
  * A non-interactive section heading for a group of items (the Figma "Dropdown
  * header": `text/12`, `text/tertiary`, title-case). Must be rendered inside a
  * `DropdownGroup`, as the first child, to label the items that follow it. Pass
- * `action` for a trailing "View all" link or count.
+ * `trailing` for a trailing "View all" link or count.
  */
-export function DropdownLabel({ action, children, ...props }: DropdownLabelProps) {
+export function DropdownLabel({ trailing, children, ...props }: DropdownLabelProps) {
   return (
     <Menu.GroupLabel
       className="flex items-center gap-1.5 px-2 py-1.5 text-12 text-tertiary"
       {...props}
     >
       <span className="min-w-0 flex-1 truncate">{children}</span>
-      {action != null ? <span className="shrink-0">{action}</span> : null}
+      {trailing != null ? <span className="shrink-0">{trailing}</span> : null}
     </Menu.GroupLabel>
   );
 }
@@ -491,8 +490,8 @@ export type DropdownSubTriggerProps = Omit<
   React.ComponentProps<typeof Menu.SubmenuTrigger>,
   "className" | "style" | "label"
 > & {
-  /** Leading content, typically an icon. */
-  icon?: React.ReactNode;
+  /** Leading icon, rendered before the label in the 16px icon box. */
+  leadingIcon?: React.ReactNode;
   /** The primary text of the row. */
   label?: React.ReactNode;
   /** Trailing content before the chevron — e.g. a `Badge` count. */
@@ -505,7 +504,7 @@ export type DropdownSubTriggerProps = Omit<
  * `DropdownSub`, paired with a `DropdownSubContent`.
  */
 export function DropdownSubTrigger({
-  icon,
+  leadingIcon,
   label,
   trailing,
   children,
@@ -521,9 +520,9 @@ export function DropdownSubTrigger({
       )}
       {...props}
     >
-      {icon ? (
+      {leadingIcon ? (
         <span className="flex size-4 shrink-0 items-center justify-center text-icon-secondary group-data-disabled/item:text-icon-disabled">
-          {icon}
+          {leadingIcon}
         </span>
       ) : null}
       <span className="min-w-0 flex-1 truncate">{label ?? children}</span>

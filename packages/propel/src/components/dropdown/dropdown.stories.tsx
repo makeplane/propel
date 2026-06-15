@@ -210,7 +210,7 @@ export const Status: Story = {
             <DropdownItem
               key={s.key}
               variant="default"
-              icon={s.icon}
+              leadingIcon={s.icon}
               label={s.label}
               selected={selected === s.key}
               closeOnClick={false}
@@ -263,7 +263,7 @@ export const Labels: Story = {
             // rule, so the "Add label" row mounts directly beneath it with no extra line.
             <DropdownItem
               variant="default"
-              icon={<Plus className="text-icon-secondary" />}
+              leadingIcon={<Plus className="text-icon-secondary" />}
               label={`Add label "${trimmed}"`}
               closeOnClick={false}
             />
@@ -312,13 +312,18 @@ export const ActionMenu: Story = {
         Actions
       </DropdownTrigger>
       <DropdownContent width="sm">
-        <DropdownItem variant="default" icon={<Pencil />} label="Edit" />
-        <DropdownItem variant="default" icon={<Copy />} label="Make a copy" />
-        <DropdownItem variant="default" icon={<ExternalLink />} label="Open in new tab" />
-        <DropdownItem variant="with-value" icon={<Link2 />} label="Copy link" value="⌘L" />
+        <DropdownItem variant="default" leadingIcon={<Pencil />} label="Edit" />
+        <DropdownItem variant="default" leadingIcon={<Copy />} label="Make a copy" />
+        <DropdownItem variant="default" leadingIcon={<ExternalLink />} label="Open in new tab" />
+        <DropdownItem
+          variant="default"
+          leadingIcon={<Link2 />}
+          label="Copy link"
+          trailing={<span className="text-12 text-tertiary">⌘L</span>}
+        />
         <DropdownSeparator />
         <DropdownItem
-          icon={<Trash2 />}
+          leadingIcon={<Trash2 />}
           label="Archive"
           variant="with-description"
           description="Only completed or cancelled work items can be archived"
@@ -327,7 +332,7 @@ export const ActionMenu: Story = {
         <DropdownSeparator />
         <DropdownItem
           variant="default"
-          icon={<Trash2 className="text-danger-primary" />}
+          leadingIcon={<Trash2 className="text-danger-primary" />}
           label={<span className="text-danger-primary">Delete</span>}
         />
       </DropdownContent>
@@ -394,7 +399,7 @@ export const Description: Story = {
         </DropdownTrigger>
         <DropdownContent width="lg">
           <DropdownItem
-            icon={<Lock />}
+            leadingIcon={<Lock />}
             label="Private"
             variant="with-description"
             description="Accessible only by invite"
@@ -403,7 +408,7 @@ export const Description: Story = {
             onClick={() => setSelected("private")}
           />
           <DropdownItem
-            icon={<Globe />}
+            leadingIcon={<Globe />}
             label="Public"
             variant="with-description"
             description="Anyone in the workspace except Guests can join"
@@ -701,12 +706,13 @@ export const Filters: Story = {
                 <DropdownGroup>
                   {/* The category heading is itself a menuitem (valid `role="menu"`
                       child) so its collapse chevron stays interactive without breaking
-                      ARIA. The label is the section title; the chevron is the endIcon. */}
+                      ARIA. The label is the section title; the chevron is the
+                      trailingIcon. */}
                   <DropdownItem
                     variant="default"
                     label={section.title}
                     aria-expanded={!isCollapsed}
-                    endIcon={
+                    trailingIcon={
                       isCollapsed ? (
                         <ChevronRight aria-hidden="true" />
                       ) : (
@@ -810,7 +816,7 @@ export const EmptyState: Story = {
         >
           {visible.length > 0 ? (
             visible.map((s) => (
-              <DropdownItem key={s.key} variant="default" icon={s.icon} label={s.label} />
+              <DropdownItem key={s.key} variant="default" leadingIcon={s.icon} label={s.label} />
             ))
           ) : (
             <div className="px-2 py-2 text-13 text-tertiary">No matching results</div>
@@ -874,7 +880,7 @@ export const Submenu: Story = {
               <DropdownItem
                 key={p.key}
                 variant="default"
-                icon={p.icon}
+                leadingIcon={p.icon}
                 label={p.label}
                 closeOnClick={false}
               />
@@ -895,7 +901,7 @@ export const Submenu: Story = {
               <DropdownItem
                 key={s.key}
                 variant="default"
-                icon={s.icon}
+                leadingIcon={s.icon}
                 label={s.label}
                 closeOnClick={false}
               />
@@ -916,7 +922,7 @@ export const Submenu: Story = {
               <DropdownItem
                 key={a.key}
                 variant="default"
-                icon={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
+                leadingIcon={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
                 label={a.name}
                 closeOnClick={false}
               />
