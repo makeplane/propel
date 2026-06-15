@@ -55,8 +55,9 @@ export const Controlled: Story = {
 };
 
 /**
- * `ExpandableSearch` starts as a magnifier icon button and expands into a full search
- * input on click — the toolbar/header pattern. It collapses again when blurred empty.
+ * `ExpandableSearch` collapses to a magnifier icon and expands into a full search input
+ * while focused — the toolbar/header pattern. The input itself is the only control, so it
+ * stays a real searchbox; it collapses again when blurred empty (or on `Escape`).
  */
 export const Expandable: Story = {
   parameters: { controls: { disable: true } },
@@ -70,9 +71,11 @@ export const ExpandableFilled: Story = {
 };
 
 /**
- * Clicking the magnifier expands `ExpandableSearch` and focuses the input; clearing the
- * field and blurring it collapses back to the icon. Tagged out of the sidebar/docs/
- * manifest but still run under the default `test` tag.
+ * `ExpandableSearch` is a single searchbox that renders collapsed and expands on focus —
+ * there is no separate toggle button. Focusing it (clicking the magnifier focuses the
+ * field) expands it; blurring it empty or pressing `Escape` collapses it, and a value
+ * keeps it open. Tagged out of the sidebar/docs/manifest but still run under the default
+ * `test` tag.
  */
 export const ExpandAndCollapse: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -86,22 +89,30 @@ export const ExpandAndCollapse: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // Collapsed: a magnifier icon button, no input yet.
-    const trigger = canvas.getByRole("button", { name: "Search" });
-    await expect(canvas.queryByRole("searchbox")).not.toBeInTheDocument();
+    // The field is always a real searchbox (no separate toggle); it just renders collapsed
+    // until focused. `data-expanded` on its box reflects the open state.
+    const input = canvas.getByRole("searchbox", { name: "Search" });
+    const box = input.closest("label");
+    await expect(box).not.toHaveAttribute("data-expanded");
 
-    // Click expands it and focuses the input.
-    await userEvent.click(trigger);
-    const input = await canvas.findByRole("searchbox", { name: "Search" });
+    // Focus opens it (clicking the box focuses the input); blurring it empty collapses it.
+    await userEvent.click(input);
     await expect(input).toHaveFocus();
-
-    // A value keeps it expanded across blur; clearing then blurring collapses it.
-    await userEvent.type(input, "Roadmap");
-    await userEvent.click(canvas.getByRole("button", { name: "Clear search" }));
-    await expect(input).toHaveValue("");
+    await expect(box).toHaveAttribute("data-expanded");
     await userEvent.click(canvas.getByRole("button", { name: "elsewhere" }));
-    await expect(canvas.queryByRole("searchbox")).not.toBeInTheDocument();
-    await expect(canvas.getByRole("button", { name: "Search" })).toBeInTheDocument();
+    await expect(box).not.toHaveAttribute("data-expanded");
+
+    // A value keeps it open; Escape clears the field first, then (empty) collapses it.
+    await userEvent.click(input);
+    await userEvent.type(input, "Roadmap");
+    await userEvent.keyboard("{Escape}");
+    await expect(input).toHaveValue("");
+    await expect(box).toHaveAttribute("data-expanded");
+    await userEvent.keyboard("{Escape}");
+    await expect(box).not.toHaveAttribute("data-expanded");
+
+    // The field is never removed from the document — it just collapses.
+    await expect(canvas.getByRole("searchbox", { name: "Search" })).toBeInTheDocument();
   },
 };
 

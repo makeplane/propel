@@ -118,19 +118,27 @@ export function Search({
   );
 }
 
-// ExpandableSearch (Figma node 2509:6515) toggles between a collapsed 28px magnifier
-// button and an expanded 204px input. It expands on click (focusing the field) and
-// collapses again when the field is blurred while empty. Expanded it reads as a search
-// box: an accent border + 1px accent ring on focus, a subtle border at rest with a
-// value, and a clear (✕) button once there's text.
+// ExpandableSearch (Figma node 2509:6515) is a search field that collapses to a 28px
+// magnifier to save space and expands to a 204px input on demand — the toolbar/header
+// pattern where search hides until needed. It expands while the field is focused (and
+// whenever it holds a value, so a filled field never collapses out from under its text)
+// and collapses again when blurred empty. Expanded it reads as a search box: an accent
+// border + 1px accent ring on focus, a subtle border at rest with a value, and a clear
+// (✕) button once there's text.
 //
-// The open/close is animated, not an instant swap: a single box stays mounted and
-// transitions its `width` between the 28px icon and the 204px field. The box is pinned
-// to the inline-end of a fixed 28px wrapper and grows toward the inline-start, so it
-// opens leftward (LTR) / rightward (RTL) into the space beside it without reflowing its
-// neighbors — the toolbar-end pattern in the product. `overflow-hidden` clips the field
-// while it grows, so the leading magnifier slides out with the growing edge. Width,
-// border, and fill transition together (and not at all under `prefers-reduced-motion`).
+// There is no separate toggle control: the `<input>` itself is the single focusable
+// element, so keyboard and screen-reader users always land on a real `searchbox` (the
+// magnifier is a decorative `aria-hidden` glyph) and pointer users focus it by clicking
+// anywhere in the box. Focus drives the open state, so the collapse/expand never adds a
+// dangling `aria-expanded` or a control that swaps roles mid-interaction.
+//
+// The open/close is animated, not an instant swap: the box stays mounted and transitions
+// its `width` between the 28px icon and the 204px field. It is pinned to the inline-end
+// of a fixed 28px wrapper and grows toward the inline-start, so it opens leftward (LTR) /
+// rightward (RTL) into the space beside it without reflowing its neighbors. `overflow-
+// hidden` clips the field while it grows, so the leading magnifier slides out with the
+// growing edge. Width, border, and fill transition together (and not at all under
+// `prefers-reduced-motion`).
 
 // Fixed collapsed footprint: the animated box is absolutely positioned within it, so
 // expanding overflows this 28px box instead of pushing siblings.
@@ -140,30 +148,25 @@ const expandableBoxClass = cx(
   "group/search absolute end-0 top-0 inline-flex h-7 w-7 items-center gap-2 overflow-hidden rounded-md px-1.5",
   "border-sm border-transparent bg-layer-transparent",
   "transition-[width,border-color,background-color] duration-200 ease-out motion-reduce:transition-none",
+  // Collapsed it reads as an icon button (hover fill). It never rests focused — focusing
+  // the field expands it — so the focus ring lives on the expanded chrome below.
+  "not-data-[expanded]:hover:bg-layer-transparent-hover",
   // Expanded: widen to the full field and show the search-box chrome (subtle border +
   // layer-2 fill at rest, accent border + 1px accent ring on focus).
   "data-[expanded]:w-[204px] data-[expanded]:border-subtle-1 data-[expanded]:bg-layer-2",
   "data-[expanded]:focus-within:border-accent-strong data-[expanded]:focus-within:ring-1 data-[expanded]:focus-within:ring-accent-strong/35",
 );
 
-// Collapsed trigger: a transparent overlay over the 28px footprint that carries the
-// button semantics (the always-mounted input is removed from the tab order while
-// collapsed). It owns the icon-button hover + focus ring; the magnifier shows through
-// from the box behind it.
-const expandableTriggerClass = cx(
-  "absolute inset-0 z-10 rounded-md outline-none transition-colors",
-  "hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong",
-  "disabled:pointer-events-none",
-);
-
 export type ExpandableSearchProps = SearchProps;
 
 /**
- * A search field that starts collapsed as a magnifier icon button and expands into a
- * full `Search`-style input on click — the toolbar/header pattern where search hides
- * until needed. Built on Base UI `Input`. It auto-collapses when blurred while empty,
- * and stays expanded while it has a value. Drive the value with `value` +
- * `onValueChange` (controlled) or `defaultValue` (uncontrolled).
+ * A search field that collapses to a magnifier icon and expands into a full `Search`-style
+ * input while focused — the toolbar/header pattern where search hides until needed. Built
+ * on Base UI `Input`. The input itself is the only control (no separate toggle button), so
+ * it stays a real `searchbox` for keyboard and screen-reader users; pointer users focus it
+ * by clicking the magnifier. It collapses when blurred empty (or on `Escape`) and stays
+ * expanded while it has a value. Drive the value with `value` + `onValueChange`
+ * (controlled) or `defaultValue` (uncontrolled).
  */
 export function ExpandableSearch({
   value,
@@ -182,21 +185,11 @@ export function ExpandableSearch({
   // Only default to "Search" when the consumer gives the field no name of its own. An
   // `aria-label` would override an `aria-labelledby`, so skip it when one is provided.
   const resolvedAriaLabel = ariaLabel ?? (ariaLabelledBy ? undefined : "Search");
-  // `expanded` is the user's open intent; the field also stays open whenever it has a
-  // value, so a filled field never collapses out from under its text.
-  const [expanded, setExpanded] = React.useState(hasValue);
-  const showExpanded = expanded || hasValue;
+  // Focus is the open trigger; the field also stays open whenever it has a value, so a
+  // filled field never collapses out from under its text.
+  const [focused, setFocused] = React.useState(false);
+  const showExpanded = focused || hasValue;
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const focusOnExpand = React.useRef(false);
-
-  // Focus the input the moment it appears, but only when the user expanded it (not when
-  // it opened because a controlled value arrived).
-  React.useEffect(() => {
-    if (showExpanded && focusOnExpand.current) {
-      inputRef.current?.focus();
-      focusOnExpand.current = false;
-    }
-  }, [showExpanded]);
 
   const commit = (next: string) => {
     if (!isControlled) setInternalValue(next);
@@ -205,10 +198,10 @@ export function ExpandableSearch({
 
   return (
     <div className={expandableWrapperClass}>
-      {/* The persistent box animates its width between the icon and the field. A
-          `<label>` forwards clicks anywhere in the box (magnifier, padding) to the input;
-          the trailing clear button keeps its own onClick. It carries no text, so it adds
-          association without an accessible name — the input's aria-label still names it. */}
+      {/* The box animates its width between the icon and the field. A `<label>` forwards
+          clicks anywhere in the box (magnifier, padding) to the input; the trailing clear
+          button keeps its own onClick. It carries no text, so it adds association without
+          an accessible name — the input's aria-label still names it. */}
       <label className={expandableBoxClass} data-expanded={showExpanded ? "" : undefined}>
         <SearchIcon aria-hidden className="size-4 shrink-0 text-icon-secondary" />
         <BaseInput
@@ -216,19 +209,22 @@ export function ExpandableSearch({
           type="search"
           value={currentValue}
           onValueChange={(next) => commit(next)}
-          // Collapse back to the icon when the field is left empty.
-          onBlur={(event) => {
-            if (event.target.value === "") setExpanded(false);
+          // Focus opens the field; blurring it empty collapses it back to the icon.
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          // Escape clears the field, then (when already empty) blurs it shut — an explicit
+          // keyboard close to mirror the pointer affordance.
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+              if (hasValue) commit("");
+              else inputRef.current?.blur();
+            }
           }}
           placeholder={placeholder}
           disabled={disabled}
-          // While collapsed the input is purely decorative behind the trigger overlay:
-          // keep it out of the tab order and the accessibility tree so the trigger is the
-          // single control. The trigger carries the accessible name in that state.
-          tabIndex={showExpanded ? undefined : -1}
-          aria-hidden={showExpanded ? undefined : true}
-          aria-label={showExpanded ? resolvedAriaLabel : undefined}
-          aria-labelledby={showExpanded ? ariaLabelledBy : undefined}
+          aria-label={resolvedAriaLabel}
+          aria-labelledby={ariaLabelledBy}
           className={cx(
             "min-w-0 flex-1 bg-transparent text-14 text-primary outline-none",
             "placeholder:text-placeholder disabled:cursor-not-allowed disabled:text-disabled",
@@ -236,7 +232,7 @@ export function ExpandableSearch({
           )}
           {...props}
         />
-        {hasValue && showExpanded && !disabled ? (
+        {hasValue && !disabled ? (
           <button
             type="button"
             aria-label="Clear search"
@@ -254,22 +250,6 @@ export function ExpandableSearch({
           </button>
         ) : null}
       </label>
-      {/* Collapsed trigger overlay: the focusable control while collapsed. Removed once
-          expanded so the input becomes the single control. */}
-      {showExpanded ? null : (
-        <button
-          type="button"
-          aria-label={resolvedAriaLabel}
-          aria-labelledby={ariaLabelledBy}
-          aria-expanded={false}
-          disabled={disabled}
-          onClick={() => {
-            focusOnExpand.current = true;
-            setExpanded(true);
-          }}
-          className={expandableTriggerClass}
-        />
-      )}
     </div>
   );
 }
