@@ -75,17 +75,16 @@ export type NavItemProps = Omit<useRender.ComponentProps<"button">, "className" 
    */
   active?: boolean;
   /**
-   * Leading icon (e.g. a lucide icon), shown at the inline-start. Sized to 16px and
-   * `aria-hidden` (the label is the accessible name). Named `leadingIcon` (not `icon`)
-   * to match Button/Input; `trailing` already covers the inline-end.
+   * Leading content at the inline-start (e.g. a lucide icon), sized to 16px and
+   * `aria-hidden` (the label is the accessible name). Logical node slot, matching
+   * Button/IconButton's `inlineStartNode`.
    */
-  leadingIcon?: React.ReactNode;
+  inlineStartNode?: React.ReactNode;
   /**
-   * Optional trailing content placed after the label — typically a `NavItemCount`
-   * and/or a `NavItemChevron`. Sits at the inline-end. A generic content slot (not just
-   * an icon), so it stays `trailing` rather than `trailingIcon`.
+   * Optional trailing content at the inline-end — typically a `NavItemCount` and/or a
+   * `NavItemChevron`. Logical node slot, matching Button's `inlineEndNode`.
    */
-  trailing?: React.ReactNode;
+  inlineEndNode?: React.ReactNode;
 };
 
 /**
@@ -100,8 +99,8 @@ export function NavItem({
   magnitude,
   level = 1,
   active = false,
-  leadingIcon,
-  trailing,
+  inlineStartNode,
+  inlineEndNode,
   render,
   ...props
 }: NavItemProps) {
@@ -113,7 +112,7 @@ export function NavItem({
       className: navItemVariants({ magnitude, level }),
       children: (
         <>
-          {leadingIcon ? (
+          {inlineStartNode ? (
             <span
               aria-hidden
               className={cx(
@@ -124,11 +123,13 @@ export function NavItem({
                 "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
               )}
             >
-              {leadingIcon}
+              {inlineStartNode}
             </span>
           ) : null}
           <span className="min-w-0 flex-1 truncate font-medium leading-snug">{children}</span>
-          {trailing ? <span className="flex shrink-0 items-center gap-2">{trailing}</span> : null}
+          {inlineEndNode ? (
+            <span className="flex shrink-0 items-center gap-2">{inlineEndNode}</span>
+          ) : null}
         </>
       ),
     },
