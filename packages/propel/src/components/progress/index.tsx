@@ -1,14 +1,6 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
-import { cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
-
-// The Figma "Progress" component (node 1990-51) is a linear bar: a pill-shaped track
-// (`layer-3-selected`) with an accent-filled indicator and an optional trailing
-// percentage label (`text/accent/primary`, 12px medium). The only thing the
-// `magnitude` axis changes is the track thickness — `sm` 5px, `md` 8px. Built on Base
-// UI `Progress`, which owns the `progressbar` role + `aria-valuenow` and sizes the
-// indicator from `value` for us.
-export type ProgressMagnitude = "sm" | "md";
 
 const trackVariants = cva(
   "relative min-w-0 flex-1 overflow-hidden rounded-full bg-layer-3-selected",
@@ -21,6 +13,14 @@ const trackVariants = cva(
     },
   },
 );
+
+// The Figma "Progress" component (node 1990-51) is a linear bar: a pill-shaped track
+// (`layer-3-selected`) with an accent-filled indicator and an optional trailing
+// percentage label (`text/accent/primary`, 12px medium). The only thing the
+// `magnitude` axis changes is the track thickness — `sm` 5px, `md` 8px. Built on Base
+// UI `Progress`, which owns the `progressbar` role + `aria-valuenow` and sizes the
+// indicator from `value` for us.
+export type ProgressMagnitude = NonNullable<VariantProps<typeof trackVariants>["magnitude"]>;
 
 export type ProgressProps = Omit<
   React.ComponentProps<typeof BaseProgress.Root>,
