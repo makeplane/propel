@@ -192,6 +192,30 @@ export const FixedCompact: Story = {
 };
 
 /**
+ * Density override check that runs in the browser: a flat `topbar` defaults to
+ * `comfortable` (28px), but passing `density="compact"` decouples density from
+ * `variant` and shrinks its controls to 24px. Tagged out of the sidebar/docs/manifest
+ * — it's a test, not a designer- or agent-facing example — but still runs under the
+ * default `test` tag.
+ */
+export const DensityOverride: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <Toolbar variant="topbar" density="compact">
+      <ToolbarToggle aria-label="Bold">
+        <Bold aria-hidden />
+      </ToolbarToggle>
+    </Toolbar>
+  ),
+  play: async ({ canvas }) => {
+    // A flat topbar would default to comfortable (28px); the compact override wins.
+    const bold = canvas.getByRole("button", { name: "Bold" });
+    await expect(bold).toHaveClass("size-6");
+    await expect(getComputedStyle(bold).height).toBe("24px");
+  },
+};
+
+/**
  * Because `ToolbarDropdown` composes propel's `Dropdown`, a toolbar menu can hold
  * richer rows than the old `items[]` config allowed: per-row leading icons, a
  * separator between groups, a selected marker, and disabled rows.
