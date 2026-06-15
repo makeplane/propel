@@ -26,8 +26,9 @@ const pillBase = cx(
 
 // The label chips (`PillButton`, `PillSwitch`) share their box metrics: 20/24/28px tall
 // with 6/6/8px inline padding, a 4px gap, a 14px node at every magnitude, and a 120px
-// cap so a long label truncates. Only the font size differs per component at `lg`
-// (button steps to 14px, switch stays 13px), so that is layered on separately.
+// cap so a long label truncates. The font size is layered on separately: `sm` is the
+// 12px text, and every magnitude above `sm` uses the 13px `body-sm/regular` text (the
+// label inherits the regular weight — no weight utility is applied).
 const labelPillSize = cva(cx(pillBase, "max-w-[120px] gap-1 py-1 [--node-size:0.875rem]"), {
   variants: {
     magnitude: {
@@ -47,7 +48,11 @@ const labelFontByMagnitude: Record<PillMagnitude, string> = {
 // The slotted node (a 14px leading/trailing icon) and the spinner. Icons inherit the
 // chip's `currentColor`; the spinner matches the node size.
 function PillNode({ children }: { children: React.ReactNode }) {
-  return <span className={nodeSlotClass}>{children}</span>;
+  return (
+    <span aria-hidden className={nodeSlotClass}>
+      {children}
+    </span>
+  );
 }
 
 function PillSpinner() {
@@ -181,7 +186,7 @@ const iconPillVariants = cva(
     "hover:bg-layer-2-hover hover:border-strong",
     "active:bg-layer-2-active active:border-strong",
     "disabled:cursor-not-allowed disabled:bg-layer-transparent disabled:border-subtle-1 disabled:text-icon-disabled",
-    "aria-busy:cursor-default aria-busy:bg-layer-transparent aria-busy:border-subtle-1",
+    "aria-busy:cursor-default aria-busy:bg-layer-transparent aria-busy:border-subtle-1 aria-busy:text-icon-disabled",
   ),
   {
     variants: {

@@ -5,6 +5,10 @@ import { IconPill, PillButton, PillSwitch } from "./index";
 
 const MAGNITUDES = ["sm", "md", "lg"] as const;
 
+// Module-scope spies so the `play` function can assert against the same references the
+// `render` wires to the buttons.
+const clickSpies = { onClick: fn(), onLoadingClick: fn() };
+
 const meta = {
   title: "Components/Pill",
   component: PillButton,
@@ -114,29 +118,31 @@ export const Icons: Story = {
  */
 export const ButtonClicks: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => {
-    const onClick = fn();
-    const onLoadingClick = fn();
-    return (
-      <div className="flex gap-3">
-        <PillButton magnitude="md" onClick={onClick}>
-          Click me
-        </PillButton>
-        <PillButton magnitude="md" loading onClick={onLoadingClick}>
-          Busy
-        </PillButton>
-      </div>
-    );
-  },
+  render: () => (
+    <div className="flex gap-3">
+      <PillButton magnitude="md" onClick={clickSpies.onClick}>
+        Click me
+      </PillButton>
+      <PillButton magnitude="md" loading onClick={clickSpies.onLoadingClick}>
+        Busy
+      </PillButton>
+    </div>
+  ),
   play: async ({ canvasElement }) => {
+    const { onClick, onLoadingClick } = clickSpies;
+    onClick.mockClear();
+    onLoadingClick.mockClear();
+
     const canvas = within(canvasElement);
     const button = canvas.getByRole("button", { name: "Click me" });
     await userEvent.click(button);
+    await expect(onClick).toHaveBeenCalledTimes(1);
 
     const busy = canvas.getByRole("button", { name: "Busy" });
     await expect(busy).toHaveAttribute("aria-busy", "true");
     // The busy pill is focusable but does not act on click.
     await userEvent.click(busy);
+    await expect(onLoadingClick).not.toHaveBeenCalled();
   },
 };
 
