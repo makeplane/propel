@@ -123,15 +123,37 @@ export function Search({
 // collapses again when the field is blurred while empty. Expanded it reads as a search
 // box: an accent border + 1px accent ring on focus, a subtle border at rest with a
 // value, and a clear (✕) button once there's text.
-const expandableCollapsedClass = cx(
-  "inline-flex size-7 shrink-0 items-center justify-center rounded-md text-icon-secondary outline-none",
-  "bg-layer-transparent transition-colors hover:bg-layer-transparent-hover",
-  "focus-visible:ring-2 focus-visible:ring-accent-strong",
-);
+//
+// The open/close is animated, not an instant swap: a single box stays mounted and
+// transitions its `width` between the 28px icon and the 204px field. The box is pinned
+// to the inline-end of a fixed 28px wrapper and grows toward the inline-start, so it
+// opens leftward (LTR) / rightward (RTL) into the space beside it without reflowing its
+// neighbors — the toolbar-end pattern in the product. `overflow-hidden` clips the field
+// while it grows, so the leading magnifier slides out with the growing edge. Width,
+// border, and fill transition together (and not at all under `prefers-reduced-motion`).
+
+// Fixed collapsed footprint: the animated box is absolutely positioned within it, so
+// expanding overflows this 28px box instead of pushing siblings.
+const expandableWrapperClass = "relative inline-flex size-7 shrink-0";
 
 const expandableBoxClass = cx(
-  "inline-flex h-7 w-[204px] items-center gap-2 rounded-md border-sm border-subtle-1 bg-layer-2 px-1.5",
-  "transition-colors focus-within:border-accent-strong focus-within:ring-1 focus-within:ring-accent-strong/35",
+  "group/search absolute end-0 top-0 inline-flex h-7 w-7 items-center gap-2 overflow-hidden rounded-md px-1.5",
+  "border-sm border-transparent bg-layer-transparent",
+  "transition-[width,border-color,background-color] duration-200 ease-out motion-reduce:transition-none",
+  // Expanded: widen to the full field and show the search-box chrome (subtle border +
+  // layer-2 fill at rest, accent border + 1px accent ring on focus).
+  "data-[expanded]:w-[204px] data-[expanded]:border-subtle-1 data-[expanded]:bg-layer-2",
+  "data-[expanded]:focus-within:border-accent-strong data-[expanded]:focus-within:ring-1 data-[expanded]:focus-within:ring-accent-strong/35",
+);
+
+// Collapsed trigger: a transparent overlay over the 28px footprint that carries the
+// button semantics (the always-mounted input is removed from the tab order while
+// collapsed). It owns the icon-button hover + focus ring; the magnifier shows through
+// from the box behind it.
+const expandableTriggerClass = cx(
+  "absolute inset-0 z-10 rounded-md outline-none transition-colors",
+  "hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong",
+  "disabled:pointer-events-none",
 );
 
 export type ExpandableSearchProps = SearchProps;
@@ -181,68 +203,73 @@ export function ExpandableSearch({
     onValueChange?.(next);
   };
 
-  if (!showExpanded) {
-    return (
-      <button
-        type="button"
-        aria-label={resolvedAriaLabel}
-        aria-labelledby={ariaLabelledBy}
-        aria-expanded={false}
-        disabled={disabled}
-        onClick={() => {
-          focusOnExpand.current = true;
-          setExpanded(true);
-        }}
-        className={expandableCollapsedClass}
-      >
-        <SearchIcon aria-hidden className="size-4" />
-      </button>
-    );
-  }
-
   return (
-    // A `<label>` forwards clicks anywhere in the box (magnifier, padding) to the input;
-    // the trailing clear button keeps its own onClick. It carries no text, so it adds
-    // association without an accessible name — the input's aria-label still names it.
-    <label className={expandableBoxClass}>
-      <SearchIcon aria-hidden className="size-4 shrink-0 text-icon-secondary" />
-      <BaseInput
-        ref={inputRef}
-        type="search"
-        value={currentValue}
-        onValueChange={(next) => commit(next)}
-        // Collapse back to the icon when the field is left empty.
-        onBlur={(event) => {
-          if (event.target.value === "") setExpanded(false);
-        }}
-        placeholder={placeholder}
-        disabled={disabled}
-        aria-label={resolvedAriaLabel}
-        aria-labelledby={ariaLabelledBy}
-        className={cx(
-          "min-w-0 flex-1 bg-transparent text-14 text-primary outline-none",
-          "placeholder:text-placeholder disabled:cursor-not-allowed disabled:text-disabled",
-          "[&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none",
-        )}
-        {...props}
-      />
-      {hasValue && !disabled ? (
+    <div className={expandableWrapperClass}>
+      {/* The persistent box animates its width between the icon and the field. A
+          `<label>` forwards clicks anywhere in the box (magnifier, padding) to the input;
+          the trailing clear button keeps its own onClick. It carries no text, so it adds
+          association without an accessible name — the input's aria-label still names it. */}
+      <label className={expandableBoxClass} data-expanded={showExpanded ? "" : undefined}>
+        <SearchIcon aria-hidden className="size-4 shrink-0 text-icon-secondary" />
+        <BaseInput
+          ref={inputRef}
+          type="search"
+          value={currentValue}
+          onValueChange={(next) => commit(next)}
+          // Collapse back to the icon when the field is left empty.
+          onBlur={(event) => {
+            if (event.target.value === "") setExpanded(false);
+          }}
+          placeholder={placeholder}
+          disabled={disabled}
+          // While collapsed the input is purely decorative behind the trigger overlay:
+          // keep it out of the tab order and the accessibility tree so the trigger is the
+          // single control. The trigger carries the accessible name in that state.
+          tabIndex={showExpanded ? undefined : -1}
+          aria-hidden={showExpanded ? undefined : true}
+          aria-label={showExpanded ? resolvedAriaLabel : undefined}
+          aria-labelledby={showExpanded ? ariaLabelledBy : undefined}
+          className={cx(
+            "min-w-0 flex-1 bg-transparent text-14 text-primary outline-none",
+            "placeholder:text-placeholder disabled:cursor-not-allowed disabled:text-disabled",
+            "[&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none",
+          )}
+          {...props}
+        />
+        {hasValue && showExpanded && !disabled ? (
+          <button
+            type="button"
+            aria-label="Clear search"
+            onClick={() => {
+              commit("");
+              inputRef.current?.focus();
+            }}
+            className={cx(
+              "inline-flex size-5 shrink-0 items-center justify-center rounded-sm text-icon-secondary outline-none",
+              "transition-colors hover:bg-layer-transparent-hover",
+              "focus-visible:ring-2 focus-visible:ring-accent-strong",
+            )}
+          >
+            <X aria-hidden className="size-3.5" />
+          </button>
+        ) : null}
+      </label>
+      {/* Collapsed trigger overlay: the focusable control while collapsed. Removed once
+          expanded so the input becomes the single control. */}
+      {showExpanded ? null : (
         <button
           type="button"
-          aria-label="Clear search"
+          aria-label={resolvedAriaLabel}
+          aria-labelledby={ariaLabelledBy}
+          aria-expanded={false}
+          disabled={disabled}
           onClick={() => {
-            commit("");
-            inputRef.current?.focus();
+            focusOnExpand.current = true;
+            setExpanded(true);
           }}
-          className={cx(
-            "inline-flex size-5 shrink-0 items-center justify-center rounded-sm text-icon-secondary outline-none",
-            "transition-colors hover:bg-layer-transparent-hover",
-            "focus-visible:ring-2 focus-visible:ring-accent-strong",
-          )}
-        >
-          <X aria-hidden className="size-3.5" />
-        </button>
-      ) : null}
-    </label>
+          className={expandableTriggerClass}
+        />
+      )}
+    </div>
   );
 }
