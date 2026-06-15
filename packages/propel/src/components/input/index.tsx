@@ -89,6 +89,10 @@ export type InputTone = "neutral" | "danger";
  *   neutral → subtle border; hover darkens it; on `:focus-within` it becomes
  *             `accent-strong` plus a 2px accent ring at 20% opacity (Figma's
  *             "active" state: border-accent-strong + 0 0 0 2px rgba(accent,.2)).
+ *             Hovering the active field must NOT change the chrome, so the accent
+ *             border + resting background are re-asserted at the higher
+ *             `:focus-within:hover` specificity, which beats the plain `:hover`
+ *             styles when both apply (the ring is focus-only, so it already holds).
  *   danger  → `danger-strong` border at ALL times — resting, hover, and focus —
  *             with no accent ring (Figma's "error" state).
  *
@@ -98,7 +102,11 @@ export type InputTone = "neutral" | "danger";
  */
 const boxVariants = cva(
   cx(
-    "flex w-full items-center gap-1.5 bg-layer-2 px-3 transition-[color,background-color,border-color,box-shadow]",
+    // Horizontal padding is added per component: the single-line `Input` pads the box
+    // (`px-3`) so its value + icons sit inset, while the `TextArea` leaves the box
+    // edge-to-edge and pads the control instead, so its scrollbar sits flush with the
+    // container's right border rather than 12px in.
+    "flex w-full items-center gap-1.5 bg-layer-2 transition-[color,background-color,border-color,box-shadow]",
     "border-sm",
     // Disabled chrome: muted border, no hover/ring, not-allowed cursor.
     "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
@@ -110,6 +118,10 @@ const boxVariants = cva(
           "border-subtle hover:border-subtle-1 hover:bg-layer-2-hover",
           // Figma "active": accent border + 2px accent ring at 20% opacity.
           "focus-within:border-accent-strong focus-within:bg-layer-2 focus-within:ring-2 focus-within:ring-accent-strong/20",
+          // Hovering while active keeps the active chrome: re-assert the accent border
+          // + resting background at the higher `:focus-within:hover` specificity so
+          // they win over the plain `:hover` styles above.
+          "focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
         ),
         // Error border persists regardless of hover/focus, with no accent ring.
         danger: "border-danger-strong",
@@ -333,9 +345,9 @@ export function Input({
         <div
           className={cx(
             boxVariants({ tone }),
-            "rounded-md",
+            "rounded-md px-3",
             // Vertical padding per Figma: md 6px, lg 8px, xl 12px.
-            // (Side padding is a constant 12px via `px-3` in boxVariants.)
+            // (Side padding is a constant 12px via `px-3`.)
             magnitude === "md" ? "py-1.5" : magnitude === "lg" ? "py-2" : "py-3",
           )}
         >
@@ -415,7 +427,9 @@ export function TextArea({
             // TextArea uses the larger radius and a FIXED 8px vertical padding at
             // every magnitude (Figma: `py spacing/2` for md/lg/xl). Unlike the
             // single-line Input, magnitude does NOT change the box's vertical
-            // padding here — it drives the control's font-size + min-height.
+            // padding here — it drives the control's font-size + min-height. The box
+            // gets no horizontal padding: the control spans edge-to-edge and pads
+            // itself (`px-3`) so the native scrollbar sits flush with the right border.
             "items-stretch rounded-lg py-2",
           )}
         >
@@ -425,8 +439,10 @@ export function TextArea({
             className={cx(
               // A `<textarea>` scrolls its own content natively, so it can't be wrapped
               // in a `ScrollArea` like other overflow surfaces. `scrollbar-sm` re-skins
-              // its native scrollbar with the propel scrollbar tokens instead.
-              "scrollbar-sm min-w-0 flex-1 resize-none overflow-y-auto bg-transparent text-primary outline-none",
+              // its native scrollbar with the propel scrollbar tokens instead. The
+              // control owns the 12px horizontal padding (the box has none) so the
+              // scrollbar is flush against the container edge with no gap.
+              "scrollbar-sm min-w-0 flex-1 resize-none overflow-y-auto bg-transparent px-3 text-primary outline-none",
               "placeholder:text-placeholder",
               "disabled:cursor-not-allowed disabled:text-disabled",
               textAreaMinHeight[magnitude],
