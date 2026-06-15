@@ -1,6 +1,7 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
+import { nodeSlotClass } from "../../internal/node-slot";
 
 // Magnitudes follow the Figma "Buttons" Size scale. Figma ships S/Base/L/XL; those
 // map to sm/md/lg/xl by their px heights (20/24/28/32). Per Figma:
@@ -46,11 +47,15 @@ export const buttonVariants = cva(
       // any larger line-height (e.g. `leading-snug`) inflates the line box and
       // makes the top/bottom padding read as uneven. Link overrides below opt
       // back into a taller line-height since inline link text may wrap.
+      // Each magnitude also sets `--node-size`, the size every leading/trailing node
+      // (icon, avatar, ...) renders at. Per Figma's per-size icon values: 14px up to
+      // Base, 16px from L up. The slots and the loading spinner read this variable, so
+      // the button owns its node sizing in one place.
       magnitude: {
-        sm: "h-5 min-w-10 px-1.5 text-12 leading-none",
-        md: "h-6 min-w-10 px-2 text-13 leading-none",
-        lg: "h-7 min-w-12 px-2 text-13 leading-none",
-        xl: "h-8 min-w-13 px-2 text-14 leading-none",
+        sm: "h-5 min-w-10 px-1.5 text-12 leading-none [--node-size:0.875rem]",
+        md: "h-6 min-w-10 px-2 text-13 leading-none [--node-size:0.875rem]",
+        lg: "h-7 min-w-12 px-2 text-13 leading-none [--node-size:1rem]",
+        xl: "h-8 min-w-13 px-2 text-14 leading-none [--node-size:1rem]",
       },
     },
     compoundVariants: [
@@ -151,16 +156,6 @@ export type ButtonTone = NonNullable<VariantProps<typeof buttonVariants>["tone"]
 export type ButtonMagnitude = NonNullable<VariantProps<typeof buttonVariants>["magnitude"]>;
 export type ButtonEmphasis = NonNullable<VariantProps<typeof buttonVariants>["emphasis"]>;
 
-// Leading/trailing slot icon size per magnitude, straight from Figma's per-size
-// icon values (14px up to Base, 16px from L up).
-// Exported so IconButton (its own component) can reuse the same glyph scale.
-export const iconSizeByMagnitude: Record<ButtonMagnitude, string> = {
-  sm: "size-3.5", // 14px
-  md: "size-3.5", // 14px
-  lg: "size-4", // 16px
-  xl: "size-4", // 16px
-};
-
 type ButtonOwnProps = {
   variant: ButtonVariant;
   tone: ButtonTone;
@@ -172,10 +167,16 @@ type ButtonOwnProps = {
    * ignores it.
    */
   emphasis?: ButtonEmphasis;
-  /** Icon rendered before the label. Decorative — kept out of the accessible name. */
-  leadingIcon?: React.ReactNode;
-  /** Icon rendered after the label. Decorative — kept out of the accessible name. */
-  trailingIcon?: React.ReactNode;
+  /**
+   * Node rendered before the label (inline-start). An icon, avatar, or any node;
+   * it is sized to the button's `--node-size`. Decorative, kept out of the name.
+   */
+  inlineStartNode?: React.ReactNode;
+  /**
+   * Node rendered after the label (inline-end). An icon, avatar, or any node; it is
+   * sized to the button's `--node-size`. Decorative, kept out of the name.
+   */
+  inlineEndNode?: React.ReactNode;
   /** Shows a spinner, sets `aria-busy`, and makes the button non-interactive. */
   loading?: boolean;
 };
@@ -188,7 +189,7 @@ export type ButtonProps = Omit<React.ComponentProps<"button">, "className" | "st
  * `variant` (Figma Type), select the error palette with `tone`, and size it with
  * `magnitude` — all required, so consumers choose explicitly. For
  * `variant="link"` only, optionally choose `solid` (blue) or `subtle` (gray)
- * with `emphasis`. Content — `children`, `leadingIcon`/`trailingIcon`,
+ * with `emphasis`. Content — `children`, `inlineStartNode`/`inlineEndNode`,
  * `loading` — is not a variant.
  */
 export function Button({
@@ -196,8 +197,8 @@ export function Button({
   tone,
   magnitude,
   emphasis,
-  leadingIcon,
-  trailingIcon,
+  inlineStartNode,
+  inlineEndNode,
   loading = false,
   disabled,
   type = "button",
@@ -209,7 +210,7 @@ export function Button({
   // clicks, but stays a real (focusable) button so screen readers announce the
   // busy state via `aria-busy` + `aria-disabled`. `disabled` is the hard,
   // non-focusable state and is the only thing that sets the native attribute.
-  const iconClass = iconSizeByMagnitude[magnitude];
+  // The spinner and both node slots size to the button's `--node-size`.
   return (
     <button
       type={type}
@@ -221,16 +222,16 @@ export function Button({
       {...props}
     >
       {loading ? (
-        <LoaderCircle aria-hidden className={cx(iconClass, "animate-spin")} />
-      ) : leadingIcon ? (
-        <span aria-hidden className={cx("inline-flex shrink-0 [&_svg]:size-full", iconClass)}>
-          {leadingIcon}
+        <LoaderCircle aria-hidden className="size-[var(--node-size)] animate-spin" />
+      ) : inlineStartNode ? (
+        <span aria-hidden className={nodeSlotClass}>
+          {inlineStartNode}
         </span>
       ) : null}
       {children}
-      {!loading && trailingIcon ? (
-        <span aria-hidden className={cx("inline-flex shrink-0 [&_svg]:size-full", iconClass)}>
-          {trailingIcon}
+      {!loading && inlineEndNode ? (
+        <span aria-hidden className={nodeSlotClass}>
+          {inlineEndNode}
         </span>
       ) : null}
     </button>

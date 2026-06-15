@@ -1,6 +1,7 @@
 import { cx } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
+import { nodeSlotClass } from "../../internal/node-slot";
 import {
   type ButtonMagnitude,
   type ButtonProps,
@@ -26,14 +27,15 @@ const iconButtonSizeByMagnitude: Record<ButtonMagnitude, string> = {
   xl: "size-8",
 };
 
-// Glyph size per magnitude, from Figma's "Icon button" spec: 14 / 16 / 16 / 20px for
-// sm/md/lg/xl. This is the icon-button's own scale, which is a step larger than the
-// text-button glyph at md (16 vs 14) and xl (20 vs 16).
-const iconButtonGlyphSizeByMagnitude: Record<ButtonMagnitude, string> = {
-  sm: "size-3.5", // 14px
-  md: "size-4", // 16px
-  lg: "size-4", // 16px
-  xl: "size-5", // 20px
+// `--node-size` per magnitude, from Figma's "Icon button" spec: 14 / 16 / 16 / 20px
+// for sm/md/lg/xl. This is the icon-button's own glyph scale, a step larger than the
+// text-button node at md (16 vs 14) and xl (20 vs 16). It is set on the button root so
+// the node slot and the loading spinner size to it.
+const iconButtonNodeSizeByMagnitude: Record<ButtonMagnitude, string> = {
+  sm: "[--node-size:0.875rem]", // 14px
+  md: "[--node-size:1rem]", // 16px
+  lg: "[--node-size:1rem]", // 16px
+  xl: "[--node-size:1.25rem]", // 20px
 };
 
 // Figma "Icon button" Type axis: Primary/Secondary/Tertiary/Error/Error outline/
@@ -46,11 +48,15 @@ export type IconButtonMagnitude = ButtonMagnitude;
 
 export type IconButtonProps = Omit<
   ButtonProps,
-  "leadingIcon" | "trailingIcon" | "children" | "variant" | "emphasis"
+  "inlineStartNode" | "inlineEndNode" | "variant" | "emphasis"
 > & {
   variant: IconButtonVariant;
-  /** The single icon to render. Decorative — the name comes from `aria-label`. */
-  icon: React.ReactNode;
+  /**
+   * The single node to render (an icon, an avatar, ...), sized to the button's
+   * `--node-size`. It is the button's only content, so it is `children`; decorative,
+   * the accessible name comes from `aria-label`.
+   */
+  children: React.ReactNode;
   /** Required: icon-only buttons have no visible text, so they must be labeled. */
   "aria-label": string;
 };
@@ -62,7 +68,7 @@ export type IconButtonProps = Omit<
  * excludes it. An `aria-label` is REQUIRED for the accessible name.
  */
 export function IconButton({
-  icon,
+  children,
   variant,
   tone,
   magnitude,
@@ -74,8 +80,8 @@ export function IconButton({
 }: IconButtonProps) {
   // `loading` mirrors Button: a soft-disabled busy state that shows a spinner and
   // blocks clicks but stays a real, focusable button (`aria-busy`/`aria-disabled`).
-  // `disabled` is the hard, non-focusable native state.
-  const iconClass = iconButtonGlyphSizeByMagnitude[magnitude];
+  // `disabled` is the hard, non-focusable native state. The spinner and the node slot
+  // size to `--node-size`, set per magnitude below.
   return (
     <button
       type={type}
@@ -89,17 +95,18 @@ export function IconButton({
         // add a height, min-width and horizontal padding meant for labelled buttons;
         // since cx does not dedupe conflicting utilities, those would beat the square
         // size below and leave the button rectangular. The square `size-N` is the icon
-        // button's own geometry.
+        // button's own geometry, and `--node-size` sizes its glyph.
         buttonVariants({ variant, tone }),
         iconButtonSizeByMagnitude[magnitude],
+        iconButtonNodeSizeByMagnitude[magnitude],
       )}
       {...props}
     >
       {loading ? (
-        <LoaderCircle aria-hidden className={cx(iconClass, "animate-spin")} />
+        <LoaderCircle aria-hidden className="size-[var(--node-size)] animate-spin" />
       ) : (
-        <span aria-hidden className={cx("inline-flex shrink-0 [&_svg]:size-full", iconClass)}>
-          {icon}
+        <span aria-hidden className={nodeSlotClass}>
+          {children}
         </span>
       )}
     </button>
