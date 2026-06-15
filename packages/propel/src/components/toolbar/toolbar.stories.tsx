@@ -159,7 +159,11 @@ type Story = StoryObj<typeof meta>;
 /** The default `floater`: a self-contained card with a border + shadow. */
 export const Default: Story = {};
 
-/** The three placements: a floating card, a flat topbar, and a flat bottom bar. */
+/**
+ * Each placement at its default density: the floating card is `compact` (24px), the
+ * flat topbar and bottom bar are `comfortable` (28px). Density follows `variant`
+ * unless overridden (see `FixedCompact`).
+ */
 export const Variants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
@@ -169,6 +173,22 @@ export const Variants: Story = {
       <FormattingToolbar variant="bottom-bar" />
     </div>
   ),
+};
+
+/**
+ * Density is its own axis: pass `density` to decouple it from `variant`. Here a flat
+ * `topbar` is forced to `compact` (24px) for Figma's "fixed + compact" bar — a
+ * non-floating surface at the tight floater density. Without the override a `topbar`
+ * would default to `comfortable` (28px).
+ */
+export const FixedCompact: Story = {
+  args: { variant: "topbar", density: "compact" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=2842-3905",
+    },
+  },
 };
 
 /**

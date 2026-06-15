@@ -42,10 +42,12 @@ const toolbarVariants = cva("flex w-fit items-center gap-2 p-1.5 text-secondary"
 
 export type ToolbarVariant = NonNullable<VariantProps<typeof toolbarVariants>["variant"]>;
 
-// The density of a toolbar follows its placement: the `floater` is compact (24px
-// hit targets), while `topbar`/`bottom-bar` are comfortable (28px). It's derived
-// from `variant` and shared with the child controls (buttons, toggles, dropdown
-// trigger) through context so they size themselves to match the root.
+// The density of a toolbar defaults from its placement: the `floater` is compact
+// (24px hit targets), while `topbar`/`bottom-bar` are comfortable (28px). The
+// resolved density is shared with the child controls (buttons, toggles, dropdown
+// trigger) through context so they size themselves to match the root. Callers can
+// pass `density` on the root to override the placement default — e.g. Figma's flat
+// "fixed + compact" bar is a `topbar` forced to `compact`.
 type ToolbarDensity = "compact" | "comfortable";
 
 const DENSITY_BY_VARIANT: Record<ToolbarVariant, ToolbarDensity> = {
@@ -61,12 +63,19 @@ export type ToolbarProps = Omit<
   "className" | "render" | "style"
 > & {
   /**
-   * Where the toolbar is placed, which controls its surface and density. `floater`
-   * is a self-contained card with a border + shadow that hovers over content and
-   * packs its controls tightly (24px). `topbar` and `bottom-bar` are flat, sit flush
-   * inside an existing bar, and use the roomier 28px density.
+   * Where the toolbar is placed, which controls its surface and the default density.
+   * `floater` is a self-contained card with a border + shadow that hovers over content
+   * and packs its controls tightly (24px). `topbar` and `bottom-bar` are flat, sit flush
+   * inside an existing bar, and default to the roomier 28px density.
    */
   variant: ToolbarVariant;
+  /**
+   * Hit-target density of the toolbar's controls. Defaults to the placement default
+   * (`floater` -> `compact`, `topbar`/`bottom-bar` -> `comfortable`); pass it to override
+   * the default and decouple density from `variant` — e.g. a flat `topbar` forced to
+   * `compact` for Figma's "fixed + compact" bar.
+   */
+  density?: ToolbarDensity;
 };
 
 /**
@@ -76,9 +85,9 @@ export type ToolbarProps = Omit<
  * carries `role="toolbar"`. Compose it from `ToolbarGroup`, `ToolbarButton`,
  * `ToolbarToggle`, `ToolbarSeparator` and `ToolbarDropdown`.
  */
-export function Toolbar({ variant, ...props }: ToolbarProps) {
+export function Toolbar({ variant, density, ...props }: ToolbarProps) {
   return (
-    <ToolbarDensityContext.Provider value={DENSITY_BY_VARIANT[variant]}>
+    <ToolbarDensityContext.Provider value={density ?? DENSITY_BY_VARIANT[variant]}>
       <BaseToolbar.Root className={toolbarVariants({ variant })} {...props} />
     </ToolbarDensityContext.Provider>
   );
