@@ -5,8 +5,16 @@ import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 import * as React from "react";
-import { OverlayPanel } from "../../internal/overlay-panel";
 import { surfaceVariants } from "../../internal/surface";
+import {
+  Dropdown,
+  DropdownContent,
+  type DropdownContentProps,
+  DropdownItem,
+  type DropdownItemProps,
+  type DropdownProps,
+  DropdownSeparator,
+} from "../dropdown/index";
 
 // The Figma "Toolbar" component has a single `variant` axis describing where the
 // toolbar is placed (Figma: Floater / Pages - Topbar / Comments bottom bar). The
@@ -235,70 +243,66 @@ const dropdownChevronVariants = cva("shrink-0 text-icon-secondary", {
   },
 });
 
-export type ToolbarDropdownItem = {
-  /** Stable identifier passed to `onValueChange` when this row is chosen. */
-  value: string;
-  /** Visible label for the row (e.g. "Heading 1", "Paragraph"). */
-  label: React.ReactNode;
-};
+/**
+ * The dropdown menu in a toolbar — the Figma "Text" / "Aa" style pickers. It IS
+ * propel's `Dropdown` (Base UI `Menu`), so it composes from parts instead of a closed
+ * `items[]` config: a `ToolbarDropdownTrigger` plus a `ToolbarDropdownContent` of
+ * `ToolbarDropdownItem`s. That means a toolbar menu can do everything a `Dropdown`
+ * can — per-row icons, selected/disabled rows, separators, submenus — and the trigger
+ * renders through `Toolbar.Button`, so it stays part of the toolbar's roving keyboard
+ * navigation.
+ *
+ * ```tsx
+ * <ToolbarDropdown>
+ *   <ToolbarDropdownTrigger aria-label="Text style">Text</ToolbarDropdownTrigger>
+ *   <ToolbarDropdownContent>
+ *     <ToolbarDropdownItem variant="default" onClick={() => setBlock("h1")}>Heading 1</ToolbarDropdownItem>
+ *     <ToolbarDropdownItem variant="default" onClick={() => setBlock("p")}>Paragraph</ToolbarDropdownItem>
+ *   </ToolbarDropdownContent>
+ * </ToolbarDropdown>
+ * ```
+ */
+export const ToolbarDropdown = Dropdown;
+export type ToolbarDropdownProps = DropdownProps;
 
-export type ToolbarDropdownProps = {
-  /** Trigger content — typically a short label like "Text" or "Aa". */
-  label: React.ReactNode;
-  /** The selectable rows shown in the popup. */
-  items: ToolbarDropdownItem[];
-  /** Called with an item's `value` when it is chosen. */
-  onValueChange?: (value: string) => void;
-  /** Accessible name for the trigger button when `label` isn't descriptive enough. */
-  "aria-label"?: string;
-  /** Disable the trigger. */
-  disabled?: boolean;
-};
+export type ToolbarDropdownTriggerProps = Omit<
+  React.ComponentProps<typeof Menu.Trigger>,
+  "className" | "render" | "style"
+>;
 
 /**
- * A label + chevron trigger that opens a menu of choices — the Figma "Text" / "Aa"
- * style pickers. Built on Base UI's `Menu` with the trigger wired through
- * `Toolbar.Button` so it stays part of the toolbar's keyboard navigation.
+ * The trigger that opens a `ToolbarDropdown`: a label + chevron. It renders through
+ * `Toolbar.Button` (so it keeps the toolbar's roving focus) and `Menu.Trigger` (so it
+ * opens the menu), and sizes to the toolbar's density. Pass an `aria-label` when the
+ * label isn't descriptive on its own (e.g. the "Aa" font picker).
  */
-export function ToolbarDropdown({
-  label,
-  items,
-  onValueChange,
-  disabled,
-  ...props
-}: ToolbarDropdownProps) {
+export function ToolbarDropdownTrigger({ children, ...props }: ToolbarDropdownTriggerProps) {
   const density = React.useContext(ToolbarDensityContext);
   return (
-    <Menu.Root>
-      <BaseToolbar.Button
-        render={<Menu.Trigger />}
-        disabled={disabled}
-        className={dropdownTriggerVariants({ density })}
-        {...props}
-      >
-        {label}
-        <ChevronDown aria-hidden className={dropdownChevronVariants({ density })} />
-      </BaseToolbar.Button>
-      <Menu.Portal>
-        <Menu.Positioner sideOffset={6} className="z-50 outline-none">
-          <OverlayPanel elevation="raised" radius="lg" width="auto">
-            <Menu.Popup className="p-1 outline-none">
-              {items.map((item) => (
-                <Menu.Item
-                  key={item.value}
-                  onClick={() => onValueChange?.(item.value)}
-                  className={cx(
-                    "flex cursor-default items-center rounded-md px-2 py-1.5 text-13 text-secondary outline-none",
-                    "data-[highlighted]:bg-layer-transparent-hover",
-                  )}
-                >
-                  {item.label}
-                </Menu.Item>
-              ))}
-            </Menu.Popup>
-          </OverlayPanel>
-        </Menu.Positioner>
-      </Menu.Portal>
-    </Menu.Root>
+    <BaseToolbar.Button
+      render={<Menu.Trigger />}
+      className={dropdownTriggerVariants({ density })}
+      {...props}
+    >
+      {children}
+      <ChevronDown aria-hidden className={dropdownChevronVariants({ density })} />
+    </BaseToolbar.Button>
   );
 }
+
+/**
+ * The menu surface for a `ToolbarDropdown` — propel's `DropdownContent`, portaled and
+ * positioned under the trigger. Place `ToolbarDropdownItem`s inside it.
+ */
+export const ToolbarDropdownContent = DropdownContent;
+export type ToolbarDropdownContentProps = DropdownContentProps;
+
+/**
+ * A selectable row in a `ToolbarDropdown` — propel's `DropdownItem`. `variant` is
+ * required (the row layout axis); use `"default"` for the single-line picker rows.
+ */
+export const ToolbarDropdownItem = DropdownItem;
+export type ToolbarDropdownItemProps = DropdownItemProps;
+
+/** A divider between groups of `ToolbarDropdownItem`s — propel's `DropdownSeparator`. */
+export const ToolbarDropdownSeparator = DropdownSeparator;
