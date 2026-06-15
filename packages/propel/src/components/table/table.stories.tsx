@@ -1,10 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Pencil, Trash2 } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { Avatar } from "../avatar/index";
 import { DropdownContent, DropdownItem } from "../dropdown/index";
 import { Pagination } from "../pagination/index";
 import {
   Table,
+  TableActionCell,
   TableBody,
   TableCell,
   TableEditableCell,
@@ -19,11 +22,19 @@ const meta = {
   component: Table,
   // Table is a compound component; document its parts alongside the root so the
   // args table gets a tab per part and the manifest records the relationship.
-  subcomponents: { TableHeader, TableBody, TableRow, TableHead, TableCell, TableEditableCell },
+  subcomponents: {
+    TableHeader,
+    TableBody,
+    TableRow,
+    TableHead,
+    TableCell,
+    TableEditableCell,
+    TableActionCell,
+  },
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=4017-653",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=5196-4084",
     },
   },
 } satisfies Meta<typeof Table>;
@@ -86,7 +97,13 @@ export const Default: Story = {
       <TableBody>
         {PEOPLE.map((person) => (
           <TableRow key={person.email}>
-            <TableCell>{person.name}</TableCell>
+            <TableCell
+              inlineStartNode={
+                <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
+              }
+            >
+              {person.name}
+            </TableCell>
             <TableCell>{person.display}</TableCell>
             <TableCell>{person.email}</TableCell>
             <TableCell>{person.role}</TableCell>
@@ -124,7 +141,13 @@ export const Spreadsheet: Story = {
       <TableBody>
         {PEOPLE.map((person) => (
           <TableRow key={person.email}>
-            <TableCell>{person.name}</TableCell>
+            <TableCell
+              inlineStartNode={
+                <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
+              }
+            >
+              {person.name}
+            </TableCell>
             <TableCell>{person.display}</TableCell>
             <TableCell>{person.email}</TableCell>
             <TableCell>{person.role}</TableCell>
@@ -164,7 +187,13 @@ export const Sortable: Story = {
         <TableBody>
           {PEOPLE.map((person) => (
             <TableRow key={person.email}>
-              <TableCell>{person.name}</TableCell>
+              <TableCell
+                inlineStartNode={
+                  <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
+                }
+              >
+                {person.name}
+              </TableCell>
               <TableCell>{person.role}</TableCell>
               <TableCell>{person.email}</TableCell>
             </TableRow>
@@ -209,7 +238,13 @@ export const EditableCells: Story = {
         <TableBody>
           {people.map((person) => (
             <TableRow key={person.email}>
-              <TableCell>{person.name}</TableCell>
+              <TableCell
+                inlineStartNode={
+                  <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
+                }
+              >
+                {person.name}
+              </TableCell>
               <TableCell>{person.email}</TableCell>
               <TableEditableCell value={person.role} aria-label={`Account type for ${person.name}`}>
                 <DropdownContent>
@@ -284,7 +319,13 @@ export const WithPagination: Story = {
           <TableBody>
             {rows.map((person) => (
               <TableRow key={person.email}>
-                <TableCell>{person.name}</TableCell>
+                <TableCell
+                  inlineStartNode={
+                    <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
+                  }
+                >
+                  {person.name}
+                </TableCell>
                 <TableCell>{person.email}</TableCell>
                 <TableCell>{person.role}</TableCell>
                 <TableCell>{person.billing}</TableCell>
@@ -322,6 +363,130 @@ export const WithPagination: Story = {
 };
 
 /**
+ * **Cell slots + an action cell.** Cells carry a leading `Avatar` (the Name column),
+ * an inline editable cell (Account type), and a trailing icon-only `TableActionCell`
+ * (the "⋯" that opens a menu of row actions). Actionable cells tint with a
+ * `layer-transparent` overlay on hover, distinct from the row's own hover.
+ */
+export const RichRows: Story = {
+  args: { variant: "table" },
+  parameters: { controls: { disable: true } },
+  render: function RichRowsStory(args) {
+    const [people, setPeople] = React.useState(PEOPLE);
+    const setRole = (email: string, role: string) =>
+      setPeople((rows) => rows.map((r) => (r.email === email ? { ...r, role } : r)));
+    return (
+      <Table {...args}>
+        <TableHeader>
+          <TableRow>
+            <TableHead variant="default">Name</TableHead>
+            <TableHead variant="default">Email</TableHead>
+            <TableHead variant="default">Account type</TableHead>
+            <TableHead variant="default">
+              <span className="sr-only">Actions</span>
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {people.map((person) => (
+            <TableRow key={person.email}>
+              <TableCell
+                inlineStartNode={
+                  <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
+                }
+              >
+                {person.name}
+              </TableCell>
+              <TableCell>{person.email}</TableCell>
+              <TableEditableCell value={person.role} aria-label={`Account type for ${person.name}`}>
+                <DropdownContent>
+                  {ROLES.map((role) => (
+                    <DropdownItem
+                      key={role}
+                      variant="default"
+                      label={role}
+                      selected={role === person.role}
+                      onClick={() => setRole(person.email, role)}
+                    />
+                  ))}
+                </DropdownContent>
+              </TableEditableCell>
+              <TableActionCell aria-label={`Options for ${person.name}`}>
+                <DropdownContent>
+                  <DropdownItem variant="default" icon={<Pencil />} label="Edit" />
+                  <DropdownItem variant="default" icon={<Trash2 />} label="Delete" />
+                </DropdownContent>
+              </TableActionCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    );
+  },
+  play: async ({ canvas }) => {
+    // The trailing action cell opens a row-options menu.
+    const trigger = canvas.getByRole("button", { name: "Options for Chargers" });
+    await userEvent.click(trigger);
+    const menu = within(document.body);
+    await expect(await menu.findByRole("menuitem", { name: "Edit" })).toBeVisible();
+    await expect(menu.getByRole("menuitem", { name: "Delete" })).toBeVisible();
+  },
+};
+
+/**
+ * **Sticky header + pinned column.** In a height- and width-constrained frame, the
+ * header stays pinned to the top on vertical scroll, and the first column (`pinned="start"`
+ * on its header + cells) stays put on horizontal scroll.
+ */
+export const StickyHeaderAndColumns: Story = {
+  args: { variant: "table" },
+  parameters: { controls: { disable: true } },
+  render: (args) => (
+    <div className="h-64 w-[460px]">
+      <Table {...args}>
+        <TableHeader>
+          <TableRow>
+            <TableHead variant="default" pinned="start">
+              Name
+            </TableHead>
+            <TableHead variant="default">Display name</TableHead>
+            <TableHead variant="default">Email</TableHead>
+            <TableHead variant="default">Account type</TableHead>
+            <TableHead variant="default">Billing status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {DIRECTORY.map((person) => (
+            <TableRow key={person.email}>
+              <TableCell
+                pinned="start"
+                inlineStartNode={
+                  <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
+                }
+              >
+                {person.name}
+              </TableCell>
+              <TableCell>{person.display}</TableCell>
+              <TableCell>{person.email}</TableCell>
+              <TableCell>{person.role}</TableCell>
+              <TableCell>{person.billing}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    // The pinned header is the sticky-column corner: sticky to both the top (header)
+    // and the inline-start edge (pinned column).
+    const nameHeader = canvas.getByRole("columnheader", { name: "Name" });
+    await expect(nameHeader).toHaveClass("sticky");
+    await expect(nameHeader).toHaveClass("start-0");
+    await expect(nameHeader).toHaveClass("top-0");
+  },
+};
+
+/**
  * **Keyboard: sortable header.** Tab to the sortable column-header button and toggle
  * the sort with the keyboard: each Enter/Space advances the cycle
  * (none → ascending → descending → none) and the `<th>`'s `aria-sort` follows along,
@@ -347,7 +512,13 @@ export const SortableKeyboard: Story = {
         <TableBody>
           {PEOPLE.map((person) => (
             <TableRow key={person.email}>
-              <TableCell>{person.name}</TableCell>
+              <TableCell
+                inlineStartNode={
+                  <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
+                }
+              >
+                {person.name}
+              </TableCell>
               <TableCell>{person.email}</TableCell>
             </TableRow>
           ))}
