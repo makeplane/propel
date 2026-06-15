@@ -100,6 +100,54 @@ export const WithAction: Story = {
 };
 
 /**
+ * A toast reporting a long-running task (Figma node 1146-61689): pass `data.progress`
+ * (0–100) and a thin `Progress` bar with a `%` label renders between the description
+ * and the action row.
+ */
+export const WithProgress: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Trigger
+      tone="info"
+      label="Show toast with progress"
+      data={{ progress: 32, actions: [{ label: "Cancel", onClick: fn() }] }}
+    />
+  ),
+};
+
+/**
+ * Interaction test for the progress treatment: queue a toast carrying `data.progress`
+ * and assert the `Progress` bar renders inside it with the right `progressbar` role,
+ * `aria-valuenow`, and visible `%` label. Tagged so it stays out of the
+ * sidebar/docs/manifest.
+ */
+export const ProgressInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <Trigger
+      tone="info"
+      label="Show toast with progress"
+      data={{ progress: 32, actions: [{ label: "Cancel", onClick: fn() }] }}
+    />
+  ),
+  play: async ({ canvas, userEvent }) => {
+    const body = within(document.body);
+
+    await userEvent.click(canvas.getByRole("button", { name: /show toast with progress/i }));
+
+    // The toast appears asynchronously in a portal; assert on the document body.
+    const toast = await waitFor(() => body.getByRole("dialog"));
+    await expect(toast).toBeVisible();
+
+    // Base UI's Progress owns the `progressbar` role + `aria-valuenow`; the bar
+    // reports the queued completion and shows its rounded `%` label.
+    const bar = await waitFor(() => within(toast).getByRole("progressbar"));
+    await expect(bar).toHaveAttribute("aria-valuenow", "32");
+    await expect(within(toast).getByText("32%")).toBeVisible();
+  },
+};
+
+/**
  * Two left-aligned actions (Figma's `button` + `button2` on the danger/info/warning
  * treatments). The cluster sits inline-start; there is no right-aligned button.
  */

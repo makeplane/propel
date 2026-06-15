@@ -3,6 +3,7 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
 import * as React from "react";
 import { surfaceVariants } from "../../internal/surface";
+import { Progress } from "../progress/index";
 
 // Solid status icons. Figma's toast (node 1144-3158) uses *filled* status glyphs —
 // a tone-colored disc/triangle with the symbol knocked out of it — not lucide's
@@ -135,6 +136,12 @@ export type ToastData = {
   /** Semantic intent — drives the status icon and its color. */
   tone: ToastTone;
   /**
+   * Completion (0–100) of a long-running task the toast is reporting. When set, a thin
+   * `Progress` bar with a `%` label renders between the description and the action row
+   * (Figma node 1146-61689). Omit it for a plain toast.
+   */
+  progress?: number;
+  /**
    * Left-aligned action cluster (Figma's `button` / `button2`). One or two buttons;
    * extras beyond two are ignored to stay faithful to the design.
    */
@@ -237,6 +244,13 @@ export function Toast({ toast, ...props }: ToastProps) {
           <BaseToast.Title className="text-14 font-medium text-primary" />
           <BaseToast.Description className="text-13 text-tertiary" />
         </div>
+        {data.progress != null ? (
+          <Progress
+            value={data.progress}
+            magnitude="sm"
+            aria-label={typeof toast.title === "string" && toast.title ? toast.title : "Progress"}
+          />
+        ) : null}
         {hasActionRow ? (
           // The row already sits in the content column (past the icon), so the left
           // cluster just needs `-ms-2` to pull each button's transparent px-2 pill back
