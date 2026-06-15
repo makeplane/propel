@@ -1,0 +1,163 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Check, Plus, Tag, X } from "lucide-react";
+import { expect, fn, userEvent, within } from "storybook/test";
+import { IconPill, PillButton, PillSwitch } from "./index";
+
+const MAGNITUDES = ["sm", "md", "lg"] as const;
+
+const meta = {
+  title: "Components/Pill",
+  component: PillButton,
+  subcomponents: { PillSwitch, IconPill },
+  args: { magnitude: "md", children: "Label" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1121-11",
+    },
+  },
+} satisfies Meta<typeof PillButton>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+/** A pill-shaped button. Holds a label with optional leading/trailing nodes. */
+export const Button: Story = {
+  args: { magnitude: "md", inlineStartNode: <Plus />, children: "Add label" },
+};
+
+/** Every magnitude (`sm` / `md` / `lg`) of `PillButton`. */
+export const Magnitudes: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex items-center gap-3">
+      {MAGNITUDES.map((magnitude) => (
+        <PillButton key={magnitude} magnitude={magnitude} inlineStartNode={<Tag />}>
+          {magnitude}
+        </PillButton>
+      ))}
+    </div>
+  ),
+};
+
+/**
+ * `PillButton` states. Default / hover / active are the chip darkening its fill +
+ * border (hover and active are forced here via the pseudo-states addon); `disabled`
+ * and `loading` drop to a transparent fill with a dimmed label, and `loading` swaps
+ * the leading node for a spinner.
+ */
+export const States: Story = {
+  parameters: {
+    controls: { disable: true },
+    pseudo: { hover: ["#pill-hover"], active: ["#pill-active"] },
+  },
+  render: () => (
+    <div className="flex items-center gap-3">
+      <PillButton magnitude="md" inlineStartNode={<Tag />}>
+        Default
+      </PillButton>
+      <PillButton id="pill-hover" magnitude="md" inlineStartNode={<Tag />}>
+        Hover
+      </PillButton>
+      <PillButton id="pill-active" magnitude="md" inlineStartNode={<Tag />}>
+        Active
+      </PillButton>
+      <PillButton magnitude="md" inlineStartNode={<Tag />} disabled>
+        Disabled
+      </PillButton>
+      <PillButton magnitude="md" loading>
+        Loading
+      </PillButton>
+    </div>
+  ),
+};
+
+/**
+ * `PillSwitch` is a toggle: the selected look is its pressed state. Use it for
+ * segmented on/off choices (e.g. display properties in a settings menu).
+ */
+export const Switch: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex items-center gap-3">
+      <PillSwitch magnitude="md" inlineStartNode={<Tag />}>
+        Off
+      </PillSwitch>
+      <PillSwitch magnitude="md" inlineStartNode={<Check />} defaultPressed>
+        On
+      </PillSwitch>
+    </div>
+  ),
+};
+
+/** Icon-only square pills. Require an `aria-label`. */
+export const Icons: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex items-center gap-3">
+      {MAGNITUDES.map((magnitude) => (
+        <IconPill key={magnitude} magnitude={magnitude} aria-label={`Close ${magnitude}`}>
+          <X />
+        </IconPill>
+      ))}
+      <IconPill magnitude="md" aria-label="Add" loading>
+        <Plus />
+      </IconPill>
+    </div>
+  ),
+};
+
+/**
+ * Clicking a `PillButton` fires its handler, and a `loading` pill blocks the click
+ * while staying focusable (`aria-busy`). Tagged out of the sidebar/docs/manifest but
+ * still run under the default `test` tag.
+ */
+export const ButtonClicks: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => {
+    const onClick = fn();
+    const onLoadingClick = fn();
+    return (
+      <div className="flex gap-3">
+        <PillButton magnitude="md" onClick={onClick}>
+          Click me
+        </PillButton>
+        <PillButton magnitude="md" loading onClick={onLoadingClick}>
+          Busy
+        </PillButton>
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole("button", { name: "Click me" });
+    await userEvent.click(button);
+
+    const busy = canvas.getByRole("button", { name: "Busy" });
+    await expect(busy).toHaveAttribute("aria-busy", "true");
+    // The busy pill is focusable but does not act on click.
+    await userEvent.click(busy);
+  },
+};
+
+/**
+ * `PillSwitch` reports `aria-pressed` and flips it on click (Base UI `Toggle`).
+ * Tagged out of the sidebar/docs/manifest but still run under the default `test` tag.
+ */
+export const SwitchToggles: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <PillSwitch magnitude="md" inlineStartNode={<Tag />}>
+      Toggle me
+    </PillSwitch>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const toggle = canvas.getByRole("button", { name: "Toggle me" });
+    await expect(toggle).toHaveAttribute("aria-pressed", "false");
+    await userEvent.click(toggle);
+    await expect(toggle).toHaveAttribute("aria-pressed", "true");
+    await userEvent.click(toggle);
+    await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  },
+};
