@@ -2,10 +2,7 @@ import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Decorator, Preview } from "@storybook/react-vite";
 import { useLayoutEffect } from "react";
 import "./preview.css";
-
-// propel's themes (driven by `data-theme` on <html> via `@variant` in variables.css).
-const THEMES = ["light", "dark", "light-contrast", "dark-contrast"] as const;
-type Theme = (typeof THEMES)[number];
+import { type Theme, THEMES } from "./themes";
 
 // Per-test-project theme, injected by `vite.config.ts` via `define` so the a11y gate
 // can run every story in every theme. Undefined in `storybook dev`/manual (the toolbar
@@ -24,7 +21,11 @@ const TEST_THEME: Theme =
 // not `undefined`. The themed `bg-canvas` on <body> (preview.css) then gives axe the
 // real backdrop to compute contrast against.
 const withTheme: Decorator = (Story, context) => {
-  const theme = ((context.globals.theme as string) || TEST_THEME) as Theme;
+  // Validate the toolbar global against the known theme list before trusting it: a
+  // URL `?globals=theme:...` (or a future global) could hand us an arbitrary string.
+  // Fall back to the per-project `TEST_THEME` (light in manual) when it isn't valid.
+  const candidate = context.globals.theme;
+  const theme: Theme = THEMES.includes(candidate as Theme) ? (candidate as Theme) : TEST_THEME;
   useLayoutEffect(() => {
     const el = document.documentElement;
     const previous = el.dataset.theme;

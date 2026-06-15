@@ -14,6 +14,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
+// Shared source of truth for the theme list (also used by `.storybook/preview.tsx`)
+// so the per-theme test projects below can't drift from the toolbar/a11y themes.
+import { THEMES } from "./.storybook/themes";
 const dirname =
   typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
@@ -77,7 +80,7 @@ export default defineConfig({
     // (`__PROPEL_TEST_THEME__`); the custom `withTheme` decorator reads it and sets
     // `data-theme` on <html>. (addon-themes' own decorator does not run under
     // addon-vitest, which previously left the gate blind to every non-light theme.)
-    projects: ["light", "dark", "light-contrast", "dark-contrast"].map((theme) => ({
+    projects: THEMES.map((theme) => ({
       extends: true,
       define: {
         __PROPEL_TEST_THEME__: JSON.stringify(theme),
