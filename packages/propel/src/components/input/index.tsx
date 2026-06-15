@@ -81,8 +81,10 @@ export type InputMagnitude = NonNullable<VariantProps<typeof labelVariants>["mag
 export type InputTone = "neutral" | "danger";
 
 /**
- * The box chrome shared by `Input` and `TextArea`: background, 1px border, and
- * horizontal padding. The border color is owned entirely by the `tone` variant
+ * The box chrome shared by `Input` and `TextArea`: background and 1px border.
+ * Horizontal padding is not part of the shared chrome -> each component adds it
+ * itself (`Input` pads the box, `TextArea` pads the control; see the class
+ * comment below). The border color is owned entirely by the `tone` variant
  * (rather than overriding a base color, which is order-fragile in Tailwind) so
  * the error treatment always wins:
  *
