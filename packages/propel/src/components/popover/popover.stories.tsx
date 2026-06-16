@@ -6,6 +6,7 @@ import { useLayoutEffect } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Checkbox } from "../checkbox/index";
+import { PillSwitch } from "../pill/index";
 import { Radio, RadioGroup } from "../radio/index";
 import { Popover, PopoverContent, PopoverTrigger } from "./index";
 
@@ -26,9 +27,9 @@ const triggerClass =
   "inline-flex h-8 items-center gap-1.5 rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none";
 
 // ---------------------------------------------------------------------------
-// Demo-only fixtures. These settings-panel controls (a selectable pill, plain
-// section heading) aren't propel primitives — propel has no "chip"/"pills"
-// component yet — they're minimal local stand-ins, flagged in the PR.
+// Demo-only fixtures. The section heading + divider + radio row below are minimal
+// local stand-ins (propel has no settings-panel-row primitive); the selectable
+// property pills use the real propel `PillSwitch`.
 // ---------------------------------------------------------------------------
 
 // A section heading inside a settings panel.
@@ -39,33 +40,6 @@ function PanelLabel({ children }: { children: React.ReactNode }) {
 // A thin divider between panel sections (matches the dropdown's separator).
 function PanelSeparator() {
   return <div className="-mx-1 my-1 border-t border-subtle" />;
-}
-
-// A selectable display-property pill matching Figma `56-366` (default / hover /
-// selected). NOTE: propel has no "chip" component yet — minimal demo-local stand-in.
-function DisplayPill({
-  label,
-  selected,
-  onClick,
-}: {
-  label: string;
-  selected: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={selected}
-      onClick={onClick}
-      className={`cursor-pointer rounded-md border px-2 py-1 text-13 outline-none ${
-        selected
-          ? "border-subtle-1 bg-layer-2-active text-primary shadow-raised-100"
-          : "border-subtle-1 bg-layer-2 text-tertiary hover:border-subtle hover:bg-layer-2-hover hover:text-secondary hover:shadow-raised-100"
-      }`}
-    >
-      {label}
-    </button>
-  );
 }
 
 // A row whose leading control is a propel Radio, for single-select sort lists.
@@ -147,8 +121,7 @@ export const Default: Story = {
  * `Radio` section, and checkbox-toggle footer are all valid children, so axe passes with no
  * suppressions.
  *
- * NOTE: the selectable pill/chip group is a minimal local primitive — propel has no "chip"
- * component yet (flagged in the PR).
+ * The selectable property pills are propel's `PillSwitch` (a toggle pill).
  */
 export const DisplayProperties: Story = {
   render: function DisplayPropertiesStory() {
@@ -170,12 +143,14 @@ export const DisplayProperties: Story = {
           <PanelLabel>Display Properties</PanelLabel>
           <div className="flex flex-wrap gap-1.5 px-2 py-1.5">
             {PILLS.map((p) => (
-              <DisplayPill
+              <PillSwitch
                 key={p}
-                label={p}
-                selected={Boolean(pills[p])}
-                onClick={() => setPills((s) => ({ ...s, [p]: !s[p] }))}
-              />
+                magnitude="md"
+                pressed={Boolean(pills[p])}
+                onPressedChange={(next) => setPills((s) => ({ ...s, [p]: next }))}
+              >
+                {p}
+              </PillSwitch>
             ))}
           </div>
           <PanelSeparator />

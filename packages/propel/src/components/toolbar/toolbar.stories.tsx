@@ -144,7 +144,7 @@ const meta = {
     ToolbarDropdownItem,
     ToolbarDropdownSeparator,
   },
-  args: { variant: "floater" },
+  args: { elevation: "raised", density: "compact" },
   render: (args) => <FormattingToolbar {...args} />,
   parameters: {
     design: {
@@ -157,25 +157,81 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** The default `floater`: a self-contained card with a border + shadow. */
+/** The default: a `raised`, `compact` floater — a self-contained card with a border + shadow. */
 export const Default: Story = {};
 
-/** The three placements: a floating card, a flat topbar, and a flat bottom bar. */
-export const Variants: Story = {
-  parameters: { controls: { disable: true } },
-  render: () => (
+/**
+ * The `elevation` axis: `raised` draws its own card (border + shadow) so it can hover
+ * over content; `flat` draws no surface and sits flush inside an existing bar.
+ * Independent of `density` — both rows keep the story's current density.
+ */
+export const Elevations: Story = {
+  argTypes: { elevation: { control: false } },
+  render: (args) => (
     <div className="flex flex-col gap-6">
-      <FormattingToolbar variant="floater" />
-      <FormattingToolbar variant="topbar" />
-      <FormattingToolbar variant="bottom-bar" />
+      <FormattingToolbar {...args} elevation="raised" />
+      <FormattingToolbar {...args} elevation="flat" />
     </div>
   ),
 };
 
 /**
- * Because `ToolbarDropdown` composes propel's `Dropdown`, a toolbar menu can hold richer rows than
- * the old `items[]` config allowed: per-row leading icons, a separator between groups, a selected
- * marker, and disabled rows.
+ * The `density` axis: `compact` packs the controls to 24px hit targets, `comfortable`
+ * gives them 28px. Independent of `elevation` — both rows keep the story's current
+ * elevation.
+ */
+export const Densities: Story = {
+  argTypes: { density: { control: false } },
+  render: (args) => (
+    <div className="flex flex-col gap-6">
+      <FormattingToolbar {...args} density="compact" />
+      <FormattingToolbar {...args} density="comfortable" />
+    </div>
+  ),
+};
+
+/**
+ * `elevation` and `density` are orthogonal: a `flat` bar can still be `compact`. This
+ * is Figma's "fixed + compact" bar — a non-floating surface at the tight 24px density
+ * the raised floater also uses.
+ */
+export const FlatCompact: Story = {
+  args: { elevation: "flat", density: "compact" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=2842-3905",
+    },
+  },
+};
+
+/**
+ * Density wiring check that runs in the browser: `density` drives the child controls'
+ * size through context, independent of `elevation`, so a `flat` + `compact` toolbar
+ * renders 24px controls. Tagged out of the sidebar/docs/manifest — it's a test, not a
+ * designer- or agent-facing example — but still runs under the default `test` tag.
+ */
+export const DensityDrivesControlSize: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <Toolbar elevation="flat" density="compact">
+      <ToolbarToggle aria-label="Bold">
+        <Bold aria-hidden />
+      </ToolbarToggle>
+    </Toolbar>
+  ),
+  play: async ({ canvas }) => {
+    // density="compact" sizes the controls to 24px regardless of the flat elevation.
+    const bold = canvas.getByRole("button", { name: "Bold" });
+    await expect(bold).toHaveClass("size-6");
+    await expect(getComputedStyle(bold).height).toBe("24px");
+  },
+};
+
+/**
+ * Because `ToolbarDropdown` composes propel's `Dropdown`, a toolbar menu can hold
+ * richer rows than the old `items[]` config allowed: per-row leading icons, a
+ * separator between groups, a selected marker, and disabled rows.
  */
 export const ComposableMenu: Story = {
   // Always-open + portaled: keep it out of the Vitest run so its popup can't leak into
@@ -240,7 +296,7 @@ export const Behavior: Story = {
 export const KeyboardRovingFocus: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <Toolbar variant="floater">
+    <Toolbar elevation="raised" density="compact">
       <ToolbarToggle aria-label="Bold">
         <Bold aria-hidden />
       </ToolbarToggle>
