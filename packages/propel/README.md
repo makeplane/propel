@@ -60,6 +60,21 @@ The tokens use the Tailwind v4 multi-theme pattern (light/dark/high-contrast via
 `[data-theme]`), so theming is driven by a `data-theme` attribute on a host
 element.
 
+## Browser support
+
+propel targets modern evergreen browsers. The baseline is set by Tailwind v4 and
+by the color tokens, which use `oklch()` and `color-mix()`:
+
+| Browser     | Minimum |
+| ----------- | ------- |
+| Chrome/Edge | 111     |
+| Firefox     | 128     |
+| Safari/iOS  | 16.4    |
+
+Internet Explorer is not supported. Older Safari (16.0–16.3) and Firefox (< 128)
+render the color tokens incorrectly, since `color-mix()` and the Tailwind v4
+cascade-layer/`@property` features aren't fully available there.
+
 ## Development
 
 This package is built with [`vp pack`](https://viteplus.dev/guide/pack) (tsdown).
