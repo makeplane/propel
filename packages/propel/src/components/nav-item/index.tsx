@@ -197,7 +197,9 @@ const navItemHeaderVariants = cva(
     "group/nav-item-header flex h-8 w-full items-center gap-1 rounded-lg ps-2 pe-1 text-start",
     "bg-layer-transparent text-tertiary transition-colors",
     "select-none",
-    "hover:bg-layer-transparent-hover",
+    // Tint the row on hover — but not when the toggle is disabled, so a disabled
+    // header doesn't look interactive. Mirrors Input/Search's `has-[:disabled]:hover:…`.
+    "hover:bg-layer-transparent-hover has-[:disabled]:hover:bg-transparent",
   ),
 );
 
