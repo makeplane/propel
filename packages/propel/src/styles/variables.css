@@ -320,7 +320,7 @@
     --txt-blue-secondary: var(--blue-700);
     --txt-info-primary: var(--blue-800);
     --txt-info-secondary: var(--txt-blue-secondary);
-    --txt-on-color: var(--neutral-100);
+    --txt-on-color: var(--neutral-white);
     --txt-on-color-disabled: var(--alpha-black-400);
     --txt-inverse: var(--neutral-white);
     --txt-success-primary: var(--green-900);
@@ -393,10 +393,10 @@
     --label-crimson-text: var(--extended-color-crimson-700);
     --label-crimson-border: var(--extended-color-crimson-700);
     --label-crimson-focus: var(--extended-color-crimson-500);
-    --label-yellow-bg: var(--extended-color-yellow-50);
-    --label-yellow-bg-strong: var(--extended-color-yellow-600);
+    --label-yellow-bg: var(--extended-color-yellow-100);
+    --label-yellow-bg-strong: var(--extended-color-yellow-700);
     --label-yellow-hover: var(--extended-color-yellow-100);
-    --label-yellow-icon: var(--extended-color-yellow-500);
+    --label-yellow-icon: var(--extended-color-yellow-900);
     --label-yellow-icon-strong: var(--extended-color-yellow-700);
     --label-yellow-text: var(--extended-color-yellow-900);
     --label-yellow-border: var(--extended-color-yellow-600);
@@ -609,7 +609,7 @@
       --txt-blue-secondary: var(--blue-700);
       --txt-info-primary: var(--txt-blue-primary);
       --txt-info-secondary: var(--txt-blue-secondary);
-      --txt-on-color: var(--neutral-1200);
+      --txt-on-color: var(--neutral-white);
       --txt-on-color-disabled: var(--alpha-white-400);
       --txt-inverse: var(--neutral-black);
       --txt-success-primary: var(--green-900);
@@ -651,7 +651,7 @@
       --label-indigo-bg: var(--extended-color-indigo-900);
       --label-indigo-bg-strong: var(--extended-color-indigo-600);
       --label-indigo-hover: var(--extended-color-indigo-800);
-      --label-indigo-icon: var(--extended-color-indigo-400);
+      --label-indigo-icon: var(--extended-color-indigo-300);
       --label-indigo-text: var(--extended-color-indigo-300);
       --label-indigo-border: var(--extended-color-indigo-400);
       --label-indigo-focus: var(--extended-color-indigo-400);
@@ -665,8 +665,8 @@
       --label-grey-bg: var(--extended-color-grey-900);
       --label-grey-bg-strong: var(--extended-color-grey-500);
       --label-grey-hover: var(--extended-color-grey-800);
-      --label-grey-icon: var(--extended-color-grey-400);
-      --label-grey-text: var(--extended-color-grey-400);
+      --label-grey-icon: var(--extended-color-grey-300);
+      --label-grey-text: var(--extended-color-grey-300);
       --label-grey-border: var(--extended-color-grey-400);
       --label-grey-focus: var(--extended-color-grey-400);
       --label-crimson-bg: var(--extended-color-crimson-900);
@@ -677,7 +677,7 @@
       --label-crimson-border: var(--extended-color-crimson-300);
       --label-crimson-focus: var(--extended-color-crimson-300);
       --label-yellow-bg: var(--extended-color-yellow-950);
-      --label-yellow-bg-strong: var(--extended-color-yellow-500);
+      --label-yellow-bg-strong: var(--extended-color-yellow-900);
       --label-yellow-hover: var(--extended-color-yellow-900);
       --label-yellow-icon: var(--extended-color-yellow-500);
       --label-yellow-icon-strong: var(--extended-color-yellow-500);
@@ -827,7 +827,6 @@
       --bg-plans-neutral-solid: var(--alpha-white-500);
       --bg-plans-neutral-subtle: var(--alpha-white-400);
       --bg-surface-2: var(--neutral-100);
-      --label-indigo-text: var(--extended-color-indigo-400);
       --label-orange-bg-strong: var(--extended-color-orange-700);
       --label-purple-text: var(--extended-color-purple-400);
       --txt-disabled: var(--neutral-700);
@@ -880,7 +879,8 @@
       --bg-plans-neutral-subtle: var(--alpha-black-400);
       --label-grey-icon: var(--extended-color-grey-700);
       --label-grey-text: var(--extended-color-grey-700);
-      --label-yellow-text: var(--extended-color-yellow-700);
+      --label-yellow-icon: var(--extended-color-yellow-900);
+      --label-yellow-text: var(--extended-color-yellow-900);
       --txt-accent-primary: var(--brand-default);
       --txt-accent-secondary: var(--brand-700);
       --txt-plans-brand-color: var(--alpha-black-300);

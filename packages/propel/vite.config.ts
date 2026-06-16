@@ -14,6 +14,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
+// Shared source of truth for the theme list (also used by `.storybook/preview.tsx`)
+// so the per-theme test projects below can't drift from the toolbar/a11y themes.
+import { THEMES } from "./.storybook/themes";
 const dirname =
   typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
@@ -72,37 +75,43 @@ export default defineConfig({
     ],
   },
   test: {
-    projects: [
-      {
-        extends: true,
-        plugins: [
-          // The plugin will run tests for the stories defined in your Storybook config
-          // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
-          storybookTest({
-            configDir: path.join(dirname, ".storybook"),
-          }),
-        ],
-        test: {
-          name: "storybook",
-          // Retry once on failure. On a cold start, Vite's dep optimizer can re-bundle
-          // a Storybook internal dep (e.g. @storybook/react-dom-shim) mid-run and
-          // invalidate the cached module URL, so a story file intermittently fails to
-          // import with "Failed to fetch dynamically imported module". It's a dep-
-          // optimizer timing race, not a product failure (the dep is cached by the
-          // retry), so a single retry clears it and keeps CI deterministic.
-          retry: 1,
-          browser: {
-            enabled: true,
-            headless: true,
-            provider: playwright({}),
-            instances: [
-              {
-                browser: "chromium",
-              },
-            ],
-          },
+    // One Storybook test project per theme, so every story's play test + axe a11y gate
+    // runs in all four themes. The theme is injected into the preview build via `define`
+    // (`__PROPEL_TEST_THEME__`); the custom `withTheme` decorator reads it and sets
+    // `data-theme` on <html>. (addon-themes' own decorator does not run under
+    // addon-vitest, which previously left the gate blind to every non-light theme.)
+    projects: THEMES.map((theme) => ({
+      extends: true,
+      define: {
+        __PROPEL_TEST_THEME__: JSON.stringify(theme),
+      },
+      plugins: [
+        // The plugin runs tests for the stories defined in the Storybook config.
+        // https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
+        storybookTest({
+          configDir: path.join(dirname, ".storybook"),
+        }),
+      ],
+      test: {
+        name: `storybook-${theme}`,
+        // Retry once on failure. On a cold start, Vite's dep optimizer can re-bundle
+        // a Storybook internal dep (e.g. @storybook/react-dom-shim) mid-run and
+        // invalidate the cached module URL, so a story file intermittently fails to
+        // import with "Failed to fetch dynamically imported module". It's a dep-
+        // optimizer timing race, not a product failure (the dep is cached by the
+        // retry), so a single retry clears it and keeps CI deterministic.
+        retry: 1,
+        browser: {
+          enabled: true,
+          headless: true,
+          provider: playwright({}),
+          instances: [
+            {
+              browser: "chromium",
+            },
+          ],
         },
       },
-    ],
+    })),
   },
 });
