@@ -246,6 +246,7 @@ export function Toast({ toast, ...props }: ToastProps) {
         </div>
         {data.progress != null ? (
           <Progress
+            variant="linear"
             value={data.progress}
             magnitude="sm"
             aria-label={typeof toast.title === "string" && toast.title ? toast.title : "Progress"}
