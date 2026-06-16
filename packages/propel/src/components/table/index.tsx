@@ -1,6 +1,8 @@
+import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { ChevronDown, ChevronsUpDown, ChevronUp, Ellipsis } from "lucide-react";
 import * as React from "react";
+import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
 import { Dropdown, DropdownTrigger } from "../dropdown/index";
 
 // Figma "Table" node 5196-4084 ships two layouts that share the same cell metrics
@@ -42,36 +44,33 @@ export type TableProps = Omit<React.ComponentProps<"table">, "className" | "styl
  * the cells read it via context.
  */
 export function Table({ variant, ...props }: TableProps) {
-  const frameRef = React.useRef<HTMLDivElement>(null);
-  // A scrollable region must be keyboard-reachable so a pointer-less user can scroll it
-  // (axe `scrollable-region-focusable`). We make the frame a tab stop ONLY while it
-  // actually overflows, so a table that fits adds no stray tab stop.
-  const [scrollable, setScrollable] = React.useState(false);
-  React.useEffect(() => {
-    const el = frameRef.current;
-    if (el == null) return;
-    const measure = () =>
-      setScrollable(el.scrollHeight > el.clientHeight || el.scrollWidth > el.clientWidth);
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
   return (
     <TableVariantContext.Provider value={variant}>
-      {/* The scroll frame owns the outer `border/subtle`, the `radius/lg` corners, and
-          the overflow (a `<table>` can't clip its own rounded corners, which is why the
-          border was invisible before). `scrollbar-sm` re-skins the native scrollbar —
-          a sticky header + sticky columns need a real scroll container, so this is the
-          one overflow surface that doesn't wrap in `ScrollArea`. `max-h-full` caps it at
-          a height-constrained parent so it scrolls instead of growing. */}
-      <div
-        ref={frameRef}
-        tabIndex={scrollable ? 0 : undefined}
-        className="scrollbar-sm relative max-h-full w-full overflow-auto rounded-lg border border-subtle bg-surface-1 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-strong"
-      >
-        <table className="w-full caption-bottom border-collapse text-13 text-primary" {...props} />
-      </div>
+      {/* The scroll frame is a Base UI ScrollArea: its Viewport is a real scroll
+          container (so sticky headers + pinned columns work relative to it) and its
+          scrollbar is an OVERLAY thumb positioned absolutely — it never reserves a
+          gutter, so the header isn't clipped and the table width stays constant whether
+          or not the scrollbar shows. The Root owns the outer `border/subtle`, the
+          `radius/lg` corners, and clips the overflow (a `<table>` can't clip its own
+          rounded corners). `max-h-full` caps it at a height-constrained parent so it
+          scrolls instead of growing. Base UI gives the Viewport `tabIndex=0` only while
+          it overflows, satisfying axe `scrollable-region-focusable` without a stray tab
+          stop when the table fits. */}
+      <BaseScrollArea.Root className="relative flex max-h-full w-full flex-col overflow-hidden rounded-lg border border-subtle bg-surface-1">
+        <BaseScrollArea.Viewport className="min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-strong">
+          <table
+            className="w-full caption-bottom border-collapse text-13 text-primary"
+            {...props}
+          />
+        </BaseScrollArea.Viewport>
+        <BaseScrollArea.Scrollbar orientation="vertical" className={scrollbarClass}>
+          <BaseScrollArea.Thumb className={scrollbarThumbClass} />
+        </BaseScrollArea.Scrollbar>
+        <BaseScrollArea.Scrollbar orientation="horizontal" className={scrollbarClass}>
+          <BaseScrollArea.Thumb className={scrollbarThumbClass} />
+        </BaseScrollArea.Scrollbar>
+        <BaseScrollArea.Corner />
+      </BaseScrollArea.Root>
     </TableVariantContext.Provider>
   );
 }
@@ -103,46 +102,61 @@ export function TableRow(props: TableRowProps) {
   return <tr className="group/body-row bg-layer-2 hover:bg-layer-2-hover" {...props} />;
 }
 
-// Per-variant cell borders. In `table`, only a bottom hairline divides rows (header
-// uses the 1px `border/sm`, body cells the 0.5px `border/xs`); in `spreadsheet`,
-// every cell is fully bordered (0.5px `border/xs` on all sides) to form the grid.
+// Per-variant cell borders. The scroll frame already draws the single outer
+// `border/subtle` ring (and rounds the corners), so cells only ever draw INTERIOR
+// dividers — drawing a full border on the edge cells too would double the frame's ring
+// (a visible 1px-ish double line that squared off the rounded corners).
+//
+// In `table`, only a bottom hairline divides rows (header uses the 1px `border/sm`,
+// body cells the 0.5px `border/xs`). In `spreadsheet`, a full grid: each cell adds an
+// inline-end divider (logical `border-e`, RTL-safe) plus the bottom hairline; the last
+// column drops its end divider (`last:border-e-0`) and the last row drops its bottom
+// divider so the frame's ring stays single all the way around.
 const headBorder: Record<TableVariant, string> = {
   table: "border-b border-subtle",
-  spreadsheet: "border-[0.5px] border-subtle",
+  spreadsheet: "border-b-[0.5px] border-e-[0.5px] border-subtle last:border-e-0",
 };
 const cellBorder: Record<TableVariant, string> = {
   // Last body row drops its bottom divider so the rounded table closes cleanly.
   table: "border-b-[0.5px] border-subtle group-last/body-row:border-b-0",
-  spreadsheet: "border-[0.5px] border-subtle",
+  spreadsheet:
+    "border-b-[0.5px] border-e-[0.5px] border-subtle last:border-e-0 group-last/body-row:border-b-0",
 };
 
 // Sticky-column pinning. A pinned cell sticks to the inline-start/end edge while the
-// table scrolls sideways. Body cells get an opaque background (matching the row, incl.
-// its hover) so scrolled columns slide under them; the header's pinned cell sits above
-// both the sticky header row (z-20) and the pinned body column (z-10).
+// table scrolls sideways. A `start` column draws a hairline on its inline-end edge and
+// an `end` column on its inline-start edge (logical, RTL-safe) so the pinned column
+// reads as separated from the content scrolling under it. Body cells get an opaque
+// background (matching the row, incl. its hover) so scrolled columns slide beneath them;
+// the header's pinned cell sits above both the sticky header row (z-20) and the pinned
+// body column (z-10).
+function pinnedEdgeBorder(pinned: TablePinned) {
+  return pinned === "start" ? "border-e-[0.5px] border-subtle" : "border-s-[0.5px] border-subtle";
+}
 function pinnedHeadClass(pinned: TablePinned | undefined) {
   if (!pinned) return "z-20";
-  return cx("sticky z-30", pinned === "start" ? "start-0" : "end-0");
+  return cx("sticky z-30", pinned === "start" ? "start-0" : "end-0", pinnedEdgeBorder(pinned));
 }
 function pinnedCellClass(pinned: TablePinned | undefined) {
   if (!pinned) return "";
   return cx(
     "sticky z-10 bg-layer-2 group-hover/body-row:bg-layer-2-hover",
     pinned === "start" ? "start-0" : "end-0",
+    pinnedEdgeBorder(pinned),
   );
 }
 
 // Header cells follow the Figma "Table header" component: 38px tall, `px-3 py-2`,
-// `text-12` semibold on `background/layer/1`. A plain header uses `text/secondary`; a
-// sortable header switches to `text/tertiary`. `sticky top-0` keeps the header in view
-// while the body scrolls (the `layer-1` fill is opaque, so rows pass under it).
+// `text-12` semibold on `background/layer/1` in `text/tertiary` (the muted header
+// token from Figma). `sticky top-0` keeps the header in view while the body scrolls
+// (the `layer-1` fill is opaque, so rows pass under it).
 const tableHeadVariants = cva(
-  "sticky top-0 h-[38px] px-3 py-2 text-start align-middle text-12 font-semibold",
+  "sticky top-0 h-[38px] px-3 py-2 text-start align-middle text-12 font-semibold text-tertiary",
   {
     variants: {
       variant: {
-        default: "bg-layer-1 text-secondary",
-        sortable: "bg-layer-1 text-tertiary",
+        default: "bg-layer-1",
+        sortable: "bg-layer-1",
       },
     },
   },
@@ -295,6 +309,11 @@ const actionableTriggerClass = cx(
   "disabled:pointer-events-none disabled:text-disabled",
 );
 
+// The persistent "this cell is the selected one" tint, a step stronger than hover, on
+// the `layer-transparent-selected` token. It stays under the open/hover overlays so an
+// open or hovered selected cell still reads its interaction state on top.
+const selectedTriggerClass = "bg-layer-transparent-selected";
+
 export type TableEditableCellProps = Omit<
   React.ComponentProps<"td">,
   "className" | "style" | "children"
@@ -321,6 +340,11 @@ export type TableEditableCellProps = Omit<
   onOpenChange?: (open: boolean) => void;
   /** Disables the trigger so the cell can't be edited. */
   disabled?: boolean;
+  /**
+   * Marks this as the actively-selected cell (e.g. the focused cell in a spreadsheet),
+   * giving it a persistent `layer-transparent-selected` tint a step stronger than hover.
+   */
+  selected?: boolean;
   /** Pin this cell to the inline-start/end edge when the table scrolls sideways. */
   pinned?: TablePinned;
   /** Accessible name for the trigger when the value alone isn't descriptive. */
@@ -349,6 +373,7 @@ export function TableEditableCell({
   defaultOpen,
   onOpenChange,
   disabled,
+  selected,
   pinned,
   "aria-label": ariaLabel,
   ...props
@@ -366,7 +391,11 @@ export function TableEditableCell({
           render={
             <button
               type="button"
-              className={cx(actionableTriggerClass, "justify-between gap-1 px-3 text-start")}
+              className={cx(
+                actionableTriggerClass,
+                "justify-between gap-1 px-3 text-start",
+                selected ? selectedTriggerClass : null,
+              )}
             />
           }
         >

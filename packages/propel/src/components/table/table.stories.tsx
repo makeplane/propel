@@ -218,12 +218,15 @@ const ROLES = ["Admin", "Member", "Guest"];
 /**
  * **Editable cells.** Each "Account type" cell is a `TableEditableCell`: clicking it
  * opens a propel `Dropdown` to pick a new value, which updates the row in place
- * (Figma "Account type" editable cell). Works in both table variants.
+ * (Figma "Account type" editable cell). The cell tints on hover and while its menu is
+ * open; the last-clicked cell keeps a stronger `selected` tint to mark the active cell.
+ * Works in both table variants.
  */
 export const EditableCells: Story = {
   args: { variant: "table" },
-  render: (args) => {
+  render: function EditableCellsStory(args) {
     const [people, setPeople] = React.useState(PEOPLE);
+    const [selectedEmail, setSelectedEmail] = React.useState<string | null>(null);
     const setRole = (email: string, role: string) =>
       setPeople((rows) => rows.map((r) => (r.email === email ? { ...r, role } : r)));
     return (
@@ -246,7 +249,14 @@ export const EditableCells: Story = {
                 {person.name}
               </TableCell>
               <TableCell>{person.email}</TableCell>
-              <TableEditableCell value={person.role} aria-label={`Account type for ${person.name}`}>
+              <TableEditableCell
+                value={person.role}
+                selected={selectedEmail === person.email}
+                aria-label={`Account type for ${person.name}`}
+                onOpenChange={(next) => {
+                  if (next) setSelectedEmail(person.email);
+                }}
+              >
                 <DropdownContent>
                   {ROLES.map((role) => (
                     <DropdownItem
