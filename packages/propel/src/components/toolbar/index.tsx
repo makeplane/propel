@@ -45,7 +45,7 @@ export type ToolbarElevation = NonNullable<VariantProps<typeof toolbarVariants>[
 // themselves to match the root. Both axes share the root `p-1.5` (6px) padding and
 // `gap-2` (8px) item gap; clusters inside `ToolbarGroup`/`ToolbarToggleGroup` keep a
 // tight `gap-0.5` (2px).
-type ToolbarDensity = "compact" | "comfortable";
+export type ToolbarDensity = "compact" | "comfortable";
 
 const ToolbarDensityContext = React.createContext<ToolbarDensity>("compact");
 
