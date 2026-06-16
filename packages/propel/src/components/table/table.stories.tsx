@@ -316,7 +316,7 @@ export const WithPagination: Story = {
       // A fixed width so the table does not resize as pages change: the table is
       // `w-full`, so without a constrained container it would shrink-to-fit each page's
       // content and jump in width when paginating.
-      <div className="flex w-[760px] flex-col gap-3">
+      <div className="flex w-190 flex-col gap-3">
         <Table {...args}>
           <TableHeader>
             <TableRow>
@@ -454,7 +454,7 @@ export const StickyHeaderAndColumns: Story = {
   args: { variant: "table" },
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="h-64 w-[460px]">
+    <div className="h-64 w-115">
       <Table {...args}>
         <TableHeader>
           <TableRow>

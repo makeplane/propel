@@ -57,9 +57,9 @@ export function Table({ variant, ...props }: TableProps) {
           it overflows, satisfying axe `scrollable-region-focusable` without a stray tab
           stop when the table fits. */}
       <BaseScrollArea.Root className="relative flex max-h-full w-full flex-col overflow-hidden rounded-lg border border-subtle bg-surface-1">
-        <BaseScrollArea.Viewport className="min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-strong">
+        <BaseScrollArea.Viewport className="min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-inset">
           <table
-            className="w-full caption-bottom border-collapse text-13 text-primary"
+            className="w-full caption-bottom border-collapse text-body-xs-regular text-primary"
             {...props}
           />
         </BaseScrollArea.Viewport>
@@ -135,13 +135,17 @@ function pinnedEdgeBorder(pinned: TablePinned) {
 }
 function pinnedHeadClass(pinned: TablePinned | undefined) {
   if (!pinned) return "z-20";
-  return cx("sticky z-30", pinned === "start" ? "start-0" : "end-0", pinnedEdgeBorder(pinned));
+  return cx(
+    "sticky z-30",
+    pinned === "start" ? "inset-s-0" : "inset-e-0",
+    pinnedEdgeBorder(pinned),
+  );
 }
 function pinnedCellClass(pinned: TablePinned | undefined) {
   if (!pinned) return "";
   return cx(
     "sticky z-10 bg-layer-2 group-hover/body-row:bg-layer-2-hover",
-    pinned === "start" ? "start-0" : "end-0",
+    pinned === "start" ? "inset-s-0" : "inset-e-0",
     pinnedEdgeBorder(pinned),
   );
 }
@@ -151,7 +155,7 @@ function pinnedCellClass(pinned: TablePinned | undefined) {
 // token from Figma). `sticky top-0` keeps the header in view while the body scrolls
 // (the `layer-1` fill is opaque, so rows pass under it).
 const tableHeadVariants = cva(
-  "sticky top-0 h-[38px] px-4 py-2 text-start align-middle text-12 font-semibold text-tertiary",
+  "sticky top-0 h-9.5 px-4 py-2 text-start align-middle text-caption-md-semibold text-tertiary",
   {
     variants: {
       variant: {

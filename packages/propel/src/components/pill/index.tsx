@@ -30,7 +30,7 @@ const pillBase = cx(
 // cap so a long label truncates. The font size is layered on separately: `sm` is the
 // 12px text, `md` the 13px text, and `lg` the `body-sm/regular` composite (14px size,
 // regular weight, and its line-height/letter-spacing all in one utility).
-const labelPillSize = cva(cx(pillBase, "max-w-[120px] gap-1 py-1 [--node-size:0.875rem]"), {
+const labelPillSize = cva(cx(pillBase, "max-w-30 gap-1 py-1 [--node-size:0.875rem]"), {
   variants: {
     magnitude: {
       sm: "h-5 px-1.5",
@@ -57,7 +57,7 @@ function PillNode({ children }: { children: React.ReactNode }) {
 }
 
 function PillSpinner() {
-  return <LoaderCircle aria-hidden className="size-[var(--node-size)] shrink-0 animate-spin" />;
+  return <LoaderCircle aria-hidden className="size-(--node-size) shrink-0 animate-spin" />;
 }
 
 // The truncating label. `min-w-0` lets it shrink so the 120px cap can ellipsize it.
@@ -66,12 +66,12 @@ function PillLabel({ children }: { children: React.ReactNode }) {
 }
 
 const pillButtonColors = cx(
-  "cursor-pointer bg-layer-2 border-subtle-1 text-secondary",
-  "hover:bg-layer-2-hover hover:border-strong",
-  "active:bg-layer-2-active active:border-strong active:text-primary",
+  "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
+  "hover:border-strong hover:bg-layer-2-hover",
+  "active:border-strong active:bg-layer-2-active active:text-primary",
   // Disabled + loading drop to a transparent fill with the disabled text/icon color.
-  "disabled:cursor-not-allowed disabled:bg-layer-transparent disabled:border-subtle-1 disabled:text-disabled",
-  "aria-busy:cursor-default aria-busy:bg-layer-transparent aria-busy:border-subtle-1 aria-busy:text-disabled",
+  "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
+  "aria-busy:cursor-default aria-busy:border-subtle-1 aria-busy:bg-layer-transparent aria-busy:text-disabled",
 );
 
 export type PillButtonProps = Omit<React.ComponentProps<"button">, "className" | "style"> & {
@@ -123,12 +123,12 @@ export function PillButton({
 }
 
 const pillSwitchColors = cx(
-  "cursor-pointer bg-layer-2 border-subtle-1 text-secondary",
-  "hover:bg-layer-2-hover hover:border-strong",
+  "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
+  "hover:border-strong hover:bg-layer-2-hover",
   // Selected (the toggle's pressed state) is the darker `-selected` fill + strong
   // border + primary label.
-  "data-[pressed]:bg-layer-2-selected data-[pressed]:border-strong data-[pressed]:text-primary",
-  "disabled:cursor-not-allowed disabled:bg-layer-transparent disabled:border-subtle-1 disabled:text-disabled",
+  "data-[pressed]:border-strong data-[pressed]:bg-layer-2-selected data-[pressed]:text-primary",
+  "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
 );
 
 export type PillSwitchProps = Omit<
@@ -180,11 +180,11 @@ export function PillSwitch({
 const iconPillVariants = cva(
   cx(
     pillBase,
-    "cursor-pointer bg-layer-2 border-subtle-1 text-icon-secondary",
-    "hover:bg-layer-2-hover hover:border-strong",
-    "active:bg-layer-2-active active:border-strong",
-    "disabled:cursor-not-allowed disabled:bg-layer-transparent disabled:border-subtle-1 disabled:text-icon-disabled",
-    "aria-busy:cursor-default aria-busy:bg-layer-transparent aria-busy:border-subtle-1 aria-busy:text-icon-disabled",
+    "cursor-pointer border-subtle-1 bg-layer-2 text-icon-secondary",
+    "hover:border-strong hover:bg-layer-2-hover",
+    "active:border-strong active:bg-layer-2-active",
+    "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-icon-disabled",
+    "aria-busy:cursor-default aria-busy:border-subtle-1 aria-busy:bg-layer-transparent aria-busy:text-icon-disabled",
   ),
   {
     variants: {
