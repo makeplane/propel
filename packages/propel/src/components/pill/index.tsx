@@ -2,6 +2,7 @@ import { Toggle } from "@base-ui/react/toggle";
 import { cva, cx } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
+import { getLoadingButtonProps } from "../../internal/loading-button";
 import { nodeSlotClass } from "../../internal/node-slot";
 
 // The Figma "Pills" family (node 1121-11) is three small, 6px-rounded chips that share
@@ -27,8 +28,8 @@ const pillBase = cx(
 // The label chips (`PillButton`, `PillSwitch`) share their box metrics: 20/24/28px tall
 // with 6/6/8px inline padding, a 4px gap, a 14px node at every magnitude, and a 120px
 // cap so a long label truncates. The font size is layered on separately: `sm` is the
-// 12px text, and every magnitude above `sm` uses the 13px `body-sm/regular` text (the
-// label inherits the regular weight — no weight utility is applied).
+// 12px text, `md` the 13px text, and `lg` the `body-sm/regular` composite (14px size,
+// regular weight, and its line-height/letter-spacing all in one utility).
 const labelPillSize = cva(cx(pillBase, "max-w-[120px] gap-1 py-1 [--node-size:0.875rem]"), {
   variants: {
     magnitude: {
@@ -42,7 +43,7 @@ const labelPillSize = cva(cx(pillBase, "max-w-[120px] gap-1 py-1 [--node-size:0.
 const labelFontByMagnitude: Record<PillMagnitude, string> = {
   sm: "text-12",
   md: "text-13",
-  lg: "text-13",
+  lg: "text-body-sm-regular",
 };
 
 // The slotted node (a 14px leading/trailing icon) and the spinner. Icons inherit the
@@ -106,10 +107,7 @@ export function PillButton({
   return (
     <button
       type={type}
-      disabled={disabled}
-      aria-disabled={loading || undefined}
-      aria-busy={loading || undefined}
-      onClick={loading ? undefined : onClick}
+      {...getLoadingButtonProps({ loading, disabled, onClick })}
       className={cx(
         labelPillSize({ magnitude }),
         labelFontByMagnitude[magnitude],
@@ -230,10 +228,7 @@ export function IconPill({
   return (
     <button
       type={type}
-      disabled={disabled}
-      aria-disabled={loading || undefined}
-      aria-busy={loading || undefined}
-      onClick={loading ? undefined : onClick}
+      {...getLoadingButtonProps({ loading, disabled, onClick })}
       className={iconPillVariants({ magnitude })}
       {...props}
     >

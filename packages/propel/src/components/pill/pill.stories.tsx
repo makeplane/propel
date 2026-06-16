@@ -94,7 +94,11 @@ export const Switch: Story = {
   ),
 };
 
-/** Icon-only square pills. Require an `aria-label`. */
+/**
+ * Icon-only square pills. Require an `aria-label`. `disabled` drops to a transparent
+ * fill with the disabled icon color, and `loading` swaps the icon for a spinner tinted
+ * with that same disabled icon color.
+ */
 export const Icons: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
@@ -104,7 +108,10 @@ export const Icons: Story = {
           <X />
         </IconPill>
       ))}
-      <IconPill magnitude="md" aria-label="Add" loading>
+      <IconPill magnitude="md" aria-label="Add (disabled)" disabled>
+        <Plus />
+      </IconPill>
+      <IconPill magnitude="md" aria-label="Add (loading)" loading>
         <Plus />
       </IconPill>
     </div>
