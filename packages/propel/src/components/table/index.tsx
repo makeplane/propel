@@ -6,7 +6,7 @@ import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
 import { Dropdown, DropdownTrigger } from "../dropdown/index";
 
 // Figma "Table" node 5196-4084 ships two layouts that share the same cell metrics
-// (38px header / 44px body, px-3 py-2, header on `background/layer/1`, rows on
+// (38px header / 44px body, px-4 py-2, header on `background/layer/1`, rows on
 // `background/layer/2`) and differ only in their dividers:
 //   • `table`       — row dividers only (header underline + a hairline under each
 //                     body row); no vertical rules.
@@ -146,12 +146,12 @@ function pinnedCellClass(pinned: TablePinned | undefined) {
   );
 }
 
-// Header cells follow the Figma "Table header" component: 38px tall, `px-3 py-2`,
+// Header cells follow the Figma "Table header" component: 38px tall, `px-4 py-2`,
 // `text-12` semibold on `background/layer/1` in `text/tertiary` (the muted header
 // token from Figma). `sticky top-0` keeps the header in view while the body scrolls
 // (the `layer-1` fill is opaque, so rows pass under it).
 const tableHeadVariants = cva(
-  "sticky top-0 h-[38px] px-3 py-2 text-start align-middle text-12 font-semibold text-tertiary",
+  "sticky top-0 h-[38px] px-4 py-2 text-start align-middle text-12 font-semibold text-tertiary",
   {
     variants: {
       variant: {
@@ -250,7 +250,7 @@ function ChevronGlyphSlot({ Glyph }: { Glyph: typeof ChevronsUpDown }) {
 
 // Shared `<td>` chrome for the plain, editable, and action cells: 44px tall,
 // `align-middle`, plus the per-variant border read from context. Padding is
-// intentionally NOT included here: the plain cell adds `px-3 py-2`, while the editable
+// intentionally NOT included here: the plain cell adds `px-4 py-2`, while the editable
 // and action cells stay `p-0` so their full-bleed button supplies the inset. (Baking
 // padding in and overriding it with `p-0` is order-fragile under `cx`, which is what
 // made editable rows render too tall.)
@@ -275,7 +275,7 @@ export type TableCellProps = Omit<React.ComponentProps<"td">, "className" | "sty
 };
 
 /**
- * A data cell (`<td>`). 44px tall with `px-3 py-2` and `text-13` body text. Optional
+ * A data cell (`<td>`). 44px tall with `px-4 py-2` and `text-13` body text. Optional
  * `inlineStartNode` / `inlineEndNode` slots hold a leading/trailing icon or `Avatar`
  * (e.g. an avatar before a name). `pinned` keeps the column sticky on horizontal scroll.
  */
@@ -288,7 +288,7 @@ export function TableCell({
 }: TableCellProps) {
   const className = useTableCellClass();
   return (
-    <td className={cx(className, "px-3 py-2", pinnedCellClass(pinned))} {...props}>
+    <td className={cx(className, "px-4 py-2", pinnedCellClass(pinned))} {...props}>
       <div className="flex items-center gap-2">
         {inlineStartNode != null ? <TableCellSlot>{inlineStartNode}</TableCellSlot> : null}
         <div className="min-w-0 flex-1 truncate">{children}</div>
@@ -381,7 +381,7 @@ export function TableEditableCell({
   const className = useTableCellClass();
   return (
     // The `<td>` keeps no padding so the full-bleed trigger button fills the cell
-    // (the button re-applies the px-3/py-2 inset). This keeps the click target the
+    // (the button re-applies the px-4/py-2 inset). This keeps the click target the
     // whole cell, matching the Figma editable cell.
     <td className={cx(className, "p-0", pinnedCellClass(pinned))} {...props}>
       <Dropdown open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
@@ -393,7 +393,7 @@ export function TableEditableCell({
               type="button"
               className={cx(
                 actionableTriggerClass,
-                "group/editable-cell justify-between gap-1 px-3 text-start",
+                "group/editable-cell justify-between gap-1 px-4 text-start",
                 selected ? selectedTriggerClass : null,
               )}
             />
@@ -467,7 +467,7 @@ export function TableActionCell({
           render={
             <button
               type="button"
-              className={cx(actionableTriggerClass, "group/action-cell justify-center px-3")}
+              className={cx(actionableTriggerClass, "group/action-cell justify-center px-4")}
             />
           }
         >
