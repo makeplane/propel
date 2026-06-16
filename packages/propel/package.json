@@ -48,8 +48,11 @@
   },
   "scripts": {
     "build": "vp pack",
+    "check": "vp check",
     "dev": "vp pack --watch",
-    "storybook": "LAUNCH_EDITOR=\"$EDITOR\" storybook dev -p 6006",
+    "prepublishOnly": "vp run build",
+    "test": "vp test",
+    "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "dependencies": {
@@ -71,10 +74,13 @@
     "@storybook/addon-vitest": "^10.4.5",
     "@storybook/react-vite": "^10.4.5",
     "@tailwindcss/vite": "^4.3.1",
+    "@types/node": "^25.6.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "@typescript/native-preview": "7.0.0-dev.20260509.2",
     "@vitest/browser-playwright": "4.1.9",
     "@vitest/coverage-v8": "4.1.9",
+    "bumpp": "^11.1.0",
     "playwright": "^1.61.0",
     "publint": "^0.3.21",
     "react": "^19.2.7",
@@ -82,6 +88,8 @@
     "storybook": "^10.4.5",
     "storybook-addon-pseudo-states": "^10.4.5",
     "tailwindcss": "^4.3.1",
+    "typescript": "^6.0.3",
+    "vite-plus": "catalog:",
     "vitest": "4.1.9",
     "wrangler": "4.100.0"
   },
