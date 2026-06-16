@@ -84,11 +84,14 @@ export function Progress({ variant, value, magnitude, showValue = true, ...props
     const { box, radius } = RING_GEOMETRY[magnitude];
     const circumference = 2 * Math.PI * radius;
     const max = props.max ?? 100;
-    const fraction = max > 0 ? Math.min(Math.max(value / max, 0), 1) : 0;
+    // Clamp once and feed the same value to the SVG arc and the Root, so the arc
+    // and `aria-valuenow` never disagree for out-of-range input.
+    const clampedValue = Math.min(Math.max(value, 0), max);
+    const fraction = max > 0 ? clampedValue / max : 0;
     const dashOffset = circumference * (1 - fraction);
     const center = box / 2;
     return (
-      <BaseProgress.Root value={value} {...props}>
+      <BaseProgress.Root value={clampedValue} {...props}>
         <svg
           className={ringVariants({ magnitude })}
           viewBox={`0 0 ${box} ${box}`}
