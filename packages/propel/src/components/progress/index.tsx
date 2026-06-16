@@ -38,10 +38,10 @@ const RING_STROKE = 2;
 //    accent-filled indicator and an optional trailing percentage label
 //    (`text/accent/primary`, 12px medium). `magnitude` only changes the track
 //    thickness — `sm` 5px, `md` 8px.
-//  - circular (node 5736-3457): a small determinate ring — a gray track circle
-//    (`icon/disabled`) plus an accent arc (`background/accent/primary`) proportional to
-//    the value, with rounded caps and no label. `magnitude` changes the diameter —
-//    `sm` 16px, `md` 20px.
+//  - circular (node 5736-3457): a small determinate ring — a subtle track circle
+//    (`layer-3-selected`, the same surface the linear track uses) plus an accent arc
+//    (`background/accent/primary`) proportional to the value, with rounded caps and no
+//    label. `magnitude` changes the diameter — `sm` 16px, `md` 20px.
 // Both are built on Base UI `Progress`, which owns the `progressbar` role +
 // `aria-valuenow` for us.
 export type ProgressMagnitude = NonNullable<VariantProps<typeof trackVariants>["magnitude"]>;
@@ -95,25 +95,29 @@ export function Progress({ variant, value, magnitude, showValue = true, ...props
           fill="none"
           aria-hidden="true"
         >
-          {/* Track: the full gray ring. */}
+          {/* Track: the full subtle ring. Strokes with the same `layer-3-selected`
+              surface token the linear track fills with, so both variants read as the
+              same low-emphasis track and re-tint together in every theme. (The old
+              `icon-disabled` icon token sat too bright in dark mode — its track lightness
+              landed right next to the accent arc, so the indicator stopped reading.) */}
           <circle
-            className="text-icon-disabled"
+            className="[stroke:var(--bg-layer-3-selected)]"
             cx={center}
             cy={center}
             r={radius}
-            stroke="currentColor"
             strokeWidth={RING_STROKE}
           />
-          {/* Indicator arc: accent stroke proportional to the value. Rotated -90deg so
-              the arc starts at 12 o'clock; the dash offset shrinks it toward `value`.
-              `transform-origin: center` keeps the rotation about the circle's center
-              regardless of direction (the visual sweep stays clockwise in RTL too). */}
+          {/* Indicator arc: accent stroke proportional to the value, using the same
+              `accent-primary` token the linear indicator fills with (Figma binds both to
+              `background/accent/primary`). Rotated -90deg so the arc starts at 12 o'clock;
+              the dash offset shrinks it toward `value`. `transform-origin: center` keeps
+              the rotation about the circle's center regardless of direction (the visual
+              sweep stays clockwise in RTL too). */}
           <circle
-            className="origin-center -rotate-90 text-icon-accent-primary transition-[stroke-dashoffset] duration-300 ease-out"
+            className="origin-center -rotate-90 [stroke:var(--bg-accent-primary)] transition-[stroke-dashoffset] duration-300 ease-out"
             cx={center}
             cy={center}
             r={radius}
-            stroke="currentColor"
             strokeWidth={RING_STROKE}
             strokeLinecap="round"
             strokeDasharray={circumference}
