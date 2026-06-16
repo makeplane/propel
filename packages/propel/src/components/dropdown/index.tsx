@@ -2,6 +2,7 @@ import { Menu } from "@base-ui/react/menu";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { Check, ChevronRight, Search } from "lucide-react";
 import * as React from "react";
+import { useControllableState } from "../../hooks/use-controllable-state/index";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
 import { CheckboxVisual } from "../checkbox/index";
@@ -286,12 +287,15 @@ export function DropdownCheckboxItem({
   ...props
 }: DropdownCheckboxItemProps) {
   // Mirror the row's checked state so the visual propel Checkbox stays in sync for
-  // both controlled (`checked`) and uncontrolled (`defaultChecked`) usage. When
-  // controlled, the prop is the source of truth; when uncontrolled, we track it
-  // locally and forward changes through `onCheckedChange`.
-  const isControlled = checked !== undefined;
-  const [internalChecked, setInternalChecked] = React.useState(defaultChecked ?? false);
-  const isChecked = isControlled ? checked : internalChecked;
+  // both controlled (`checked`) and uncontrolled (`defaultChecked`) usage. The
+  // shared `useControllableState` hook tracks the value internally only when
+  // uncontrolled. Base UI's change event carries an extra `details` argument, so we
+  // forward `onCheckedChange` straight from that handler (where both `next` and
+  // `details` are in scope) and use the hook purely to mirror the visual state.
+  const [isChecked, setChecked] = useControllableState<boolean>({
+    value: checked,
+    defaultValue: defaultChecked ?? false,
+  });
 
   return (
     <Menu.CheckboxItem
@@ -304,7 +308,7 @@ export function DropdownCheckboxItem({
       checked={checked}
       defaultChecked={defaultChecked}
       onCheckedChange={(next, details) => {
-        if (!isControlled) setInternalChecked(next);
+        setChecked(next);
         onCheckedChange?.(next, details);
       }}
       {...props}
