@@ -55,14 +55,14 @@ export type ToolbarProps = Omit<
   "className" | "render" | "style"
 > & {
   /**
-   * Whether the toolbar draws its own surface. `raised` is a self-contained card
-   * with a border + shadow that hovers over content; `flat` draws no surface and
-   * sits flush inside an existing bar. Independent of `density`.
+   * Whether the toolbar draws its own surface. `raised` is a self-contained card with a border +
+   * shadow that hovers over content; `flat` draws no surface and sits flush inside an existing bar.
+   * Independent of `density`.
    */
   elevation: ToolbarElevation;
   /**
-   * How tightly the controls pack. `compact` is 24px hit targets, `comfortable` is
-   * 28px. Independent of `elevation`, so a flat bar can still be compact.
+   * How tightly the controls pack. `compact` is 24px hit targets, `comfortable` is 28px.
+   * Independent of `elevation`, so a flat bar can still be compact.
    */
   density: ToolbarDensity;
 };

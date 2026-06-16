@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Pencil, Trash2 } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+
 import { Avatar } from "../avatar/index";
 import { DropdownContent, DropdownItem } from "../dropdown/index";
 import { Pagination } from "../pagination/index";
@@ -78,8 +79,8 @@ const PEOPLE: Person[] = [
 const COLUMNS = ["Name", "Display name", "Email", "Account type", "Billing status"];
 
 /**
- * The standard **Table** (`variant="table"`): a rounded outer border with row
- * dividers only (no vertical rules). Header on `layer-1`, body on `surface-1`.
+ * The standard **Table** (`variant="table"`): a rounded outer border with row dividers only (no
+ * vertical rules). Header on `layer-1`, body on `surface-1`.
  */
 export const Default: Story = {
   args: { variant: "table" },
@@ -122,8 +123,8 @@ export const Default: Story = {
 };
 
 /**
- * The denser **Spreadsheet** (`variant="spreadsheet"`): the same metrics, but every
- * cell is fully bordered to form a grid (Figma "Spreadsheet").
+ * The denser **Spreadsheet** (`variant="spreadsheet"`): the same metrics, but every cell is fully
+ * bordered to form a grid (Figma "Spreadsheet").
  */
 export const Spreadsheet: Story = {
   args: { variant: "spreadsheet" },
@@ -164,9 +165,8 @@ export const Spreadsheet: Story = {
 };
 
 /**
- * A sortable header: `variant="sortable"` renders the label as a button with a
- * sort chevron and reflects the order through `aria-sort`. Clicking cycles
- * none → asc → desc.
+ * A sortable header: `variant="sortable"` renders the label as a button with a sort chevron and
+ * reflects the order through `aria-sort`. Clicking cycles none → asc → desc.
  */
 export const Sortable: Story = {
   args: { variant: "table" },
@@ -216,11 +216,10 @@ export const Sortable: Story = {
 const ROLES = ["Admin", "Member", "Guest"];
 
 /**
- * **Editable cells.** Each "Account type" cell is a `TableEditableCell`: clicking it
- * opens a propel `Dropdown` to pick a new value, which updates the row in place
- * (Figma "Account type" editable cell). The cell tints on hover and while its menu is
- * open; the last-clicked cell keeps a stronger `selected` tint to mark the active cell.
- * Works in both table variants.
+ * **Editable cells.** Each "Account type" cell is a `TableEditableCell`: clicking it opens a propel
+ * `Dropdown` to pick a new value, which updates the row in place (Figma "Account type" editable
+ * cell). The cell tints on hover and while its menu is open; the last-clicked cell keeps a stronger
+ * `selected` tint to mark the active cell. Works in both table variants.
  */
 export const EditableCells: Story = {
   args: { variant: "table" },
@@ -299,10 +298,10 @@ const DIRECTORY: Person[] = Array.from({ length: 23 }, (_, i) => {
 });
 
 /**
- * **With Pagination.** The Table and `Pagination` are separate components: the table
- * renders only the current page of rows, and the pagination below drives `page` and
- * `pageSize`. Changing the page size resets to the first page and the range label
- * updates. This is the designer follow-up on composing the two.
+ * **With Pagination.** The Table and `Pagination` are separate components: the table renders only
+ * the current page of rows, and the pagination below drives `page` and `pageSize`. Changing the
+ * page size resets to the first page and the range label updates. This is the designer follow-up on
+ * composing the two.
  */
 export const WithPagination: Story = {
   args: { variant: "table" },
@@ -373,10 +372,10 @@ export const WithPagination: Story = {
 };
 
 /**
- * **Cell slots + an action cell.** Cells carry a leading `Avatar` (the Name column),
- * an inline editable cell (Account type), and a trailing icon-only `TableActionCell`
- * (the "⋯" that opens a menu of row actions). Actionable cells tint with a
- * `layer-transparent` overlay on hover, distinct from the row's own hover.
+ * **Cell slots + an action cell.** Cells carry a leading `Avatar` (the Name column), an inline
+ * editable cell (Account type), and a trailing icon-only `TableActionCell` (the "⋯" that opens a
+ * menu of row actions). Actionable cells tint with a `layer-transparent` overlay on hover, distinct
+ * from the row's own hover.
  */
 export const RichRows: Story = {
   args: { variant: "table" },
@@ -446,9 +445,9 @@ export const RichRows: Story = {
 };
 
 /**
- * **Sticky header + pinned column.** In a height- and width-constrained frame, the
- * header stays pinned to the top on vertical scroll, and the first column (`pinned="start"`
- * on its header + cells) stays put on horizontal scroll.
+ * **Sticky header + pinned column.** In a height- and width-constrained frame, the header stays
+ * pinned to the top on vertical scroll, and the first column (`pinned="start"` on its header +
+ * cells) stays put on horizontal scroll.
  */
 export const StickyHeaderAndColumns: Story = {
   args: { variant: "table" },
@@ -499,11 +498,10 @@ export const StickyHeaderAndColumns: Story = {
 };
 
 /**
- * **Keyboard: sortable header.** Tab to the sortable column-header button and toggle
- * the sort with the keyboard: each Enter/Space advances the cycle
- * (none → ascending → descending → none) and the `<th>`'s `aria-sort` follows along,
- * while `onSort` fires on every activation. Tagged so it stays out of the sidebar,
- * docs, and AI manifest while still running under the default `test` tag.
+ * **Keyboard: sortable header.** Tab to the sortable column-header button and toggle the sort with
+ * the keyboard: each Enter/Space advances the cycle (none → ascending → descending → none) and the
+ * `<th>`'s `aria-sort` follows along, while `onSort` fires on every activation. Tagged so it stays
+ * out of the sidebar, docs, and AI manifest while still running under the default `test` tag.
  */
 export const SortableKeyboard: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -566,12 +564,11 @@ export const SortableKeyboard: Story = {
 };
 
 /**
- * **Keyboard: editable cell.** Tab/Enter on the editable cell's trigger opens the
- * portaled `Dropdown`; Arrow Down moves the highlight onto the first item and Enter
- * selects it, updating the cell value in place; Escape closes the menu and returns
- * focus to the cell trigger. The menu is portaled, so it's queried from the document
- * body by its unique item text. Tagged so it stays out of the sidebar, docs, and AI
- * manifest while still running under the default `test` tag.
+ * **Keyboard: editable cell.** Tab/Enter on the editable cell's trigger opens the portaled
+ * `Dropdown`; Arrow Down moves the highlight onto the first item and Enter selects it, updating the
+ * cell value in place; Escape closes the menu and returns focus to the cell trigger. The menu is
+ * portaled, so it's queried from the document body by its unique item text. Tagged so it stays out
+ * of the sidebar, docs, and AI manifest while still running under the default `test` tag.
  */
 export const EditableCellKeyboard: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

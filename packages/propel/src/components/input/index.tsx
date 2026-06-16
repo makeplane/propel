@@ -300,10 +300,10 @@ export type InputProps = Omit<FieldControlProps, "className" | "render" | "style
   };
 
 /**
- * Single-line text field built on Base UI `Field`. Supports leading/trailing
- * icon slots and a `horizontal` orientation where the label sits beside the control.
- * States are element-driven (hover / focus / filled / disabled / invalid), not
- * props — only `tone="danger"` forces the error treatment.
+ * Single-line text field built on Base UI `Field`. Supports leading/trailing icon slots and a
+ * `horizontal` orientation where the label sits beside the control. States are element-driven
+ * (hover / focus / filled / disabled / invalid), not props — only `tone="danger"` forces the error
+ * treatment.
  */
 export function Input({
   magnitude,
@@ -390,9 +390,8 @@ const textAreaMinHeight: Record<InputMagnitude, string> = {
 };
 
 /**
- * Multi-line text field built on Base UI `Field`, rendering the control as a
- * `<textarea>`. Vertical layout only (no `orientation`); `resize-none` by default
- * with a magnitude-driven min-height.
+ * Multi-line text field built on Base UI `Field`, rendering the control as a `<textarea>`. Vertical
+ * layout only (no `orientation`); `resize-none` by default with a magnitude-driven min-height.
  */
 export function TextArea({
   magnitude,
