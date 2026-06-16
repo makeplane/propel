@@ -171,12 +171,12 @@ function FieldLabelRow({
 
 // The label column: the label row with its supporting `description` stacked
 // directly below it (Figma stacks them with a 4px gap, then a 12px gap to the
-// control). `variant` sizes the column to its layout — full width when the label
+// control). `orientation` sizes the column to its layout — full width when the label
 // sits above the control (`vertical`), a flex column when it sits beside it
 // (`horizontal`).
 const labelGroupVariants = cva("flex flex-col gap-1", {
   variants: {
-    variant: {
+    orientation: {
       vertical: "w-full",
       horizontal: "min-w-0 flex-1",
     },
@@ -188,13 +188,13 @@ function FieldLabelGroup({
   required,
   label,
   description,
-  variant,
+  orientation,
 }: {
   magnitude: InputMagnitude;
   required?: boolean;
   label?: React.ReactNode;
   description?: React.ReactNode;
-  variant: NonNullable<VariantProps<typeof labelGroupVariants>["variant"]>;
+  orientation: NonNullable<VariantProps<typeof labelGroupVariants>["orientation"]>;
 }) {
   if (label == null && description == null) {
     return null;
@@ -202,9 +202,9 @@ function FieldLabelGroup({
   // Horizontal with no description: a lone label should sit on the control's value
   // line, so it gets the magnitude-matched top inset. With a description the
   // label + description block top-aligns with the box, so no inset.
-  const inset = variant === "horizontal" && description == null;
+  const inset = orientation === "horizontal" && description == null;
   return (
-    <div className={labelGroupVariants({ variant })}>
+    <div className={labelGroupVariants({ orientation })}>
       {label != null ? (
         <FieldLabelRow magnitude={magnitude} required={required} inset={inset}>
           {label}
@@ -295,8 +295,8 @@ type SharedFieldProps = {
 
 export type InputProps = Omit<FieldControlProps, "className" | "render" | "style"> &
   SharedFieldProps & {
-    /** `vertical` (label above) | `horizontal` (label beside). */
-    variant: "vertical" | "horizontal";
+    /** Label placement: `vertical` (label above) | `horizontal` (label beside). */
+    orientation: "vertical" | "horizontal";
     /** A 16px lucide icon rendered before the control. */
     leadingIcon?: React.ReactNode;
     /** A 16px lucide icon rendered after the control. */
@@ -305,14 +305,14 @@ export type InputProps = Omit<FieldControlProps, "className" | "render" | "style
 
 /**
  * Single-line text field built on Base UI `Field`. Supports leading/trailing
- * icon slots and a `horizontal` variant where the label sits beside the control.
+ * icon slots and a `horizontal` orientation where the label sits beside the control.
  * States are element-driven (hover / focus / filled / disabled / invalid), not
  * props — only `tone="danger"` forces the error treatment.
  */
 export function Input({
   magnitude,
   tone,
-  variant,
+  orientation,
   label,
   required,
   description,
@@ -323,7 +323,7 @@ export function Input({
   disabled,
   ...controlProps
 }: InputProps) {
-  const horizontal = variant === "horizontal";
+  const horizontal = orientation === "horizontal";
   return (
     <BaseField.Root
       disabled={disabled}
@@ -341,7 +341,7 @@ export function Input({
         required={required}
         label={label}
         description={description}
-        variant={variant}
+        orientation={orientation}
       />
       <div className={cx("flex flex-col", horizontal ? "min-w-0 flex-1 gap-2" : "w-full gap-1.5")}>
         <div
@@ -395,7 +395,7 @@ const textAreaMinHeight: Record<InputMagnitude, string> = {
 
 /**
  * Multi-line text field built on Base UI `Field`, rendering the control as a
- * `<textarea>`. Vertical layout only (no `variant`); `resize-none` by default
+ * `<textarea>`. Vertical layout only (no `orientation`); `resize-none` by default
  * with a magnitude-driven min-height.
  */
 export function TextArea({
@@ -420,7 +420,7 @@ export function TextArea({
         required={required}
         label={label}
         description={description}
-        variant="vertical"
+        orientation="vertical"
       />
       <div className="flex w-full flex-col gap-1.5">
         <div
