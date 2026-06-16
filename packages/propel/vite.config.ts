@@ -1,7 +1,5 @@
 /// <reference types="vitest/config" />
 import { existsSync, readdirSync } from "node:fs";
-import { defineConfig } from "vite-plus";
-
 // Build one entry per component/hook so each is published as its own subpath
 // (`@plane/propel/components/<name>`, `@plane/propel/hooks/<name>`). There is no
 // root barrel.
@@ -12,8 +10,11 @@ import { defineConfig } from "vite-plus";
 // at its real path no matter how many there are.
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
+import { defineConfig } from "vite-plus";
+
 // Shared source of truth for the theme list (also used by `.storybook/preview.tsx`)
 // so the per-theme test projects below can't drift from the toolbar/a11y themes.
 import { THEMES } from "./.storybook/themes";

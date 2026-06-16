@@ -5,6 +5,7 @@ import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 import * as React from "react";
+
 import { surfaceVariants } from "../../internal/surface";
 import {
   Dropdown,
@@ -61,20 +62,19 @@ export type ToolbarProps = Omit<
   "className" | "render" | "style"
 > & {
   /**
-   * Where the toolbar is placed, which controls its surface and density. `floater`
-   * is a self-contained card with a border + shadow that hovers over content and
-   * packs its controls tightly (24px). `topbar` and `bottom-bar` are flat, sit flush
-   * inside an existing bar, and use the roomier 28px density.
+   * Where the toolbar is placed, which controls its surface and density. `floater` is a
+   * self-contained card with a border + shadow that hovers over content and packs its controls
+   * tightly (24px). `topbar` and `bottom-bar` are flat, sit flush inside an existing bar, and use
+   * the roomier 28px density.
    */
   variant: ToolbarVariant;
 };
 
 /**
- * A row of controls — toggle buttons, button groups, dropdowns — for acting on a
- * selection or document (e.g. a rich-text formatting toolbar). Built on Base UI's
- * `Toolbar`, so arrow keys roam between items as a single tab stop and the root
- * carries `role="toolbar"`. Compose it from `ToolbarGroup`, `ToolbarButton`,
- * `ToolbarToggle`, `ToolbarSeparator` and `ToolbarDropdown`.
+ * A row of controls — toggle buttons, button groups, dropdowns — for acting on a selection or
+ * document (e.g. a rich-text formatting toolbar). Built on Base UI's `Toolbar`, so arrow keys roam
+ * between items as a single tab stop and the root carries `role="toolbar"`. Compose it from
+ * `ToolbarGroup`, `ToolbarButton`, `ToolbarToggle`, `ToolbarSeparator` and `ToolbarDropdown`.
  */
 export function Toolbar({ variant, ...props }: ToolbarProps) {
   return (
@@ -90,9 +90,8 @@ export type ToolbarGroupProps = Omit<
 >;
 
 /**
- * Groups related controls (e.g. bold / italic / underline) so they read as one
- * cluster, with a small gap between them. Disabling the group disables every
- * control inside it.
+ * Groups related controls (e.g. bold / italic / underline) so they read as one cluster, with a
+ * small gap between them. Disabling the group disables every control inside it.
  */
 export function ToolbarGroup(props: ToolbarGroupProps) {
   return <BaseToolbar.Group className="flex items-center gap-0.5" {...props} />;
@@ -132,16 +131,15 @@ export type ToolbarButtonProps = Omit<
   "className" | "render" | "style"
 > & {
   /**
-   * Accessible name for the button. Required because the button's content is an
-   * icon (icons are `aria-hidden`), so the control is still named for assistive tech.
+   * Accessible name for the button. Required because the button's content is an icon (icons are
+   * `aria-hidden`), so the control is still named for assistive tech.
    */
   "aria-label": string;
 };
 
 /**
- * A plain action button in the toolbar (e.g. insert link, insert image). Holds an
- * icon and therefore requires an `aria-label`. For an on/off control use
- * `ToolbarToggle` instead.
+ * A plain action button in the toolbar (e.g. insert link, insert image). Holds an icon and
+ * therefore requires an `aria-label`. For an on/off control use `ToolbarToggle` instead.
  */
 export function ToolbarButton(props: ToolbarButtonProps) {
   const density = React.useContext(ToolbarDensityContext);
@@ -153,17 +151,16 @@ export type ToolbarToggleProps = Omit<
   "className" | "render" | "style"
 > & {
   /**
-   * Accessible name for the toggle. Required because toggles hold an icon
-   * (`aria-hidden`); without it the control has no accessible name.
+   * Accessible name for the toggle. Required because toggles hold an icon (`aria-hidden`); without
+   * it the control has no accessible name.
    */
   "aria-label": string;
 };
 
 /**
- * A two-state (pressed / not-pressed) button for formatting toggles like bold or
- * italic. Renders Base UI's `Toggle` inside a `Toolbar.Button`, so it both reports
- * `aria-pressed` and participates in toolbar keyboard navigation. Use `value` to
- * make it a member of a `ToolbarToggleGroup`.
+ * A two-state (pressed / not-pressed) button for formatting toggles like bold or italic. Renders
+ * Base UI's `Toggle` inside a `Toolbar.Button`, so it both reports `aria-pressed` and participates
+ * in toolbar keyboard navigation. Use `value` to make it a member of a `ToolbarToggleGroup`.
  */
 export function ToolbarToggle(props: ToolbarToggleProps) {
   const density = React.useContext(ToolbarDensityContext);
@@ -181,9 +178,8 @@ export type ToolbarToggleGroupProps = Omit<
 };
 
 /**
- * A set of `ToolbarToggle`s that share state — e.g. text-alignment where only one
- * of left / center / right is active at a time. Pass `multiple` to allow several
- * to be pressed simultaneously.
+ * A set of `ToolbarToggle`s that share state — e.g. text-alignment where only one of left / center
+ * / right is active at a time. Pass `multiple` to allow several to be pressed simultaneously.
  */
 export function ToolbarToggleGroup(props: ToolbarToggleGroupProps) {
   return <ToggleGroup className="flex items-center gap-0.5" {...props} />;
@@ -195,8 +191,8 @@ export type ToolbarSeparatorProps = Omit<
 >;
 
 /**
- * A thin vertical rule that visually divides one cluster of controls from the
- * next (Figma `border/subtle-1`). Decorative; Base UI gives it the right role.
+ * A thin vertical rule that visually divides one cluster of controls from the next (Figma
+ * `border/subtle-1`). Decorative; Base UI gives it the right role.
  */
 export function ToolbarSeparator(props: ToolbarSeparatorProps) {
   return (
@@ -245,22 +241,25 @@ const dropdownChevronVariants = cva("shrink-0 text-icon-secondary", {
 });
 
 /**
- * The dropdown menu in a toolbar — the Figma "Text" / "Aa" style pickers. It IS
- * propel's `Dropdown` (Base UI `Menu`), so it composes from parts instead of a closed
- * `items[]` config: a `ToolbarDropdownTrigger` plus a `ToolbarDropdownContent` of
- * `ToolbarDropdownItem`s. That means a toolbar menu can do everything a `Dropdown`
- * can — per-row icons, selected/disabled rows, separators, submenus — and the trigger
- * renders through `Toolbar.Button`, so it stays part of the toolbar's roving keyboard
- * navigation.
+ * The dropdown menu in a toolbar — the Figma "Text" / "Aa" style pickers. It IS propel's `Dropdown`
+ * (Base UI `Menu`), so it composes from parts instead of a closed `items[]` config: a
+ * `ToolbarDropdownTrigger` plus a `ToolbarDropdownContent` of `ToolbarDropdownItem`s. That means a
+ * toolbar menu can do everything a `Dropdown` can — per-row icons, selected/disabled rows,
+ * separators, submenus — and the trigger renders through `Toolbar.Button`, so it stays part of the
+ * toolbar's roving keyboard navigation.
  *
  * ```tsx
  * <ToolbarDropdown>
  *   <ToolbarDropdownTrigger aria-label="Text style">Text</ToolbarDropdownTrigger>
  *   <ToolbarDropdownContent>
- *     <ToolbarDropdownItem variant="default" onClick={() => setBlock("h1")}>Heading 1</ToolbarDropdownItem>
- *     <ToolbarDropdownItem variant="default" onClick={() => setBlock("p")}>Paragraph</ToolbarDropdownItem>
+ *     <ToolbarDropdownItem variant="default" onClick={() => setBlock("h1")}>
+ *       Heading 1
+ *     </ToolbarDropdownItem>
+ *     <ToolbarDropdownItem variant="default" onClick={() => setBlock("p")}>
+ *       Paragraph
+ *     </ToolbarDropdownItem>
  *   </ToolbarDropdownContent>
- * </ToolbarDropdown>
+ * </ToolbarDropdown>;
  * ```
  */
 export const ToolbarDropdown = Dropdown;
@@ -273,9 +272,9 @@ export type ToolbarDropdownTriggerProps = Omit<
 
 /**
  * The trigger that opens a `ToolbarDropdown`: a label + chevron. It renders through
- * `Toolbar.Button` (so it keeps the toolbar's roving focus) and `Menu.Trigger` (so it
- * opens the menu), and sizes to the toolbar's density. Pass an `aria-label` when the
- * label isn't descriptive on its own (e.g. the "Aa" font picker).
+ * `Toolbar.Button` (so it keeps the toolbar's roving focus) and `Menu.Trigger` (so it opens the
+ * menu), and sizes to the toolbar's density. Pass an `aria-label` when the label isn't descriptive
+ * on its own (e.g. the "Aa" font picker).
  */
 export function ToolbarDropdownTrigger({ children, ...props }: ToolbarDropdownTriggerProps) {
   const density = React.useContext(ToolbarDensityContext);
@@ -292,15 +291,15 @@ export function ToolbarDropdownTrigger({ children, ...props }: ToolbarDropdownTr
 }
 
 /**
- * The menu surface for a `ToolbarDropdown` — propel's `DropdownContent`, portaled and
- * positioned under the trigger. Place `ToolbarDropdownItem`s inside it.
+ * The menu surface for a `ToolbarDropdown` — propel's `DropdownContent`, portaled and positioned
+ * under the trigger. Place `ToolbarDropdownItem`s inside it.
  */
 export const ToolbarDropdownContent = DropdownContent;
 export type ToolbarDropdownContentProps = DropdownContentProps;
 
 /**
- * A selectable row in a `ToolbarDropdown` — propel's `DropdownItem`. `variant` is
- * required (the row layout axis); use `"default"` for the single-line picker rows.
+ * A selectable row in a `ToolbarDropdown` — propel's `DropdownItem`. `variant` is required (the row
+ * layout axis); use `"default"` for the single-line picker rows.
  */
 export const ToolbarDropdownItem = DropdownItem;
 export type ToolbarDropdownItemProps = DropdownItemProps;

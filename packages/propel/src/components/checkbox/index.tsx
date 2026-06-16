@@ -14,7 +14,7 @@ const checkboxVariants = cva(
     // surrounding text differently; pinning the alignment makes the box geometry
     // identical across unchecked / checked / indeterminate (no shift).
     "inline-flex size-4 shrink-0 items-center justify-center rounded-sm border-sm align-top",
-    "outline-none transition-colors",
+    "transition-colors outline-none",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1",
     // Unchecked: just the tone-specific border (see the `tone` variants).
     // Checked / indeterminate: the accent-primary fill is identical for every
@@ -70,10 +70,10 @@ export type CheckboxVisualProps = {
 
 /**
  * A purely presentational copy of the `Checkbox` box — same tokens and states, but a
- * non-interactive `<span>` with no `role`/focus. Use it when a checkbox *appearance*
- * is needed inside another interactive control (e.g. a menu `menuitemcheckbox` row),
- * where nesting a real checkbox would be an ARIA `nested-interactive` violation. The
- * parent control owns the state and the a11y semantics.
+ * non-interactive `<span>` with no `role`/focus. Use it when a checkbox _appearance_ is needed
+ * inside another interactive control (e.g. a menu `menuitemcheckbox` row), where nesting a real
+ * checkbox would be an ARIA `nested-interactive` violation. The parent control owns the state and
+ * the a11y semantics.
  */
 export function CheckboxVisual({ tone, checked, indeterminate, disabled }: CheckboxVisualProps) {
   return (
@@ -98,16 +98,15 @@ export type CheckboxProps = Omit<
   /** Resting color of the box. `danger` is the Figma "Error" state. */
   tone: CheckboxTone;
   /**
-   * Optional text shown beside the box; the whole row becomes the clickable
-   * label. Omit it for a bare checkbox (just the box) — in that case give the
-   * box an accessible name with `aria-label` or `aria-labelledby`.
+   * Optional text shown beside the box; the whole row becomes the clickable label. Omit it for a
+   * bare checkbox (just the box) — in that case give the box an accessible name with `aria-label`
+   * or `aria-labelledby`.
    */
   label?: React.ReactNode;
   /**
-   * Optional icon shown between the box and the label, matching the Figma "checkbox
-   * with label" icon slot. Only rendered when `label` is present. Named `leadingIcon`
-   * (not `icon`) to match Button/Input, so a `trailingIcon` can be added later without
-   * a breaking rename.
+   * Optional icon shown between the box and the label, matching the Figma "checkbox with label"
+   * icon slot. Only rendered when `label` is present. Named `leadingIcon` (not `icon`) to match
+   * Button/Input, so a `trailingIcon` can be added later without a breaking rename.
    */
   leadingIcon?: React.ReactNode;
 };

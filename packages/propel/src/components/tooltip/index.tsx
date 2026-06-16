@@ -3,11 +3,11 @@ import { cx } from "class-variance-authority";
 import * as React from "react";
 
 /**
- * Shares a single open/close delay across every tooltip beneath it, so that once
- * one tooltip has opened, moving to an adjacent trigger shows its tooltip instantly
- * (the usual "tooltip group" feel). Optional — a `Tooltip` works on its own — but
- * wrap an app or a toolbar in it when you want that grouped timing. Thin re-export
- * of Base UI's provider so consumers don't reach into `@base-ui/react` directly.
+ * Shares a single open/close delay across every tooltip beneath it, so that once one tooltip has
+ * opened, moving to an adjacent trigger shows its tooltip instantly (the usual "tooltip group"
+ * feel). Optional — a `Tooltip` works on its own — but wrap an app or a toolbar in it when you want
+ * that grouped timing. Thin re-export of Base UI's provider so consumers don't reach into
+ * `@base-ui/react` directly.
  */
 type BaseTooltipProviderProps = React.ComponentProps<typeof BaseTooltip.Provider>;
 
@@ -34,46 +34,47 @@ export type TooltipProps = Omit<
   /** The text (or rich content) shown inside the tooltip popup. */
   content: React.ReactNode;
   /**
-   * Optional keyboard-shortcut hint shown to the right of `content`, dimmed
-   * (e.g. `"⌘ K"`). Maps to the Figma "Cmd + K" slot — omit it for a plain tooltip.
+   * Optional keyboard-shortcut hint shown to the right of `content`, dimmed (e.g. `"⌘ K"`). Maps to
+   * the Figma "Cmd + K" slot — omit it for a plain tooltip.
    */
   shortcut?: React.ReactNode;
   /**
-   * The element the tooltip is attached to. Base UI renders the trigger as a
-   * `<button>` by default; pass a single element and it is used as the trigger via
-   * the `render` prop, so any focusable element (a real button, an icon button)
-   * can anchor the tooltip.
+   * The element the tooltip is attached to. Base UI renders the trigger as a `<button>` by default;
+   * pass a single element and it is used as the trigger via the `render` prop, so any focusable
+   * element (a real button, an icon button) can anchor the tooltip.
    */
   children: React.ReactElement;
   /**
-   * Which side of the trigger to place the popup on. May flip automatically to
-   * stay in view.
+   * Which side of the trigger to place the popup on. May flip automatically to stay in view.
+   *
    * @default "top"
    */
   side?: React.ComponentProps<typeof BaseTooltip.Positioner>["side"];
   /**
    * Gap in pixels between the trigger and the popup. Leaves room for the arrow.
+   *
    * @default 8
    */
   sideOffset?: number;
   /**
    * How long to wait (ms) before opening on hover. Focus opens immediately.
+   *
    * @default 600
    */
   delay?: number;
 };
 
 /**
- * A small popup that describes the element it is attached to. Appears on hover or
- * keyboard focus of the trigger and is dismissed on blur, pointer-leave, or `Esc`.
+ * A small popup that describes the element it is attached to. Appears on hover or keyboard focus of
+ * the trigger and is dismissed on blur, pointer-leave, or `Esc`.
  *
- * Built on Base UI's tooltip, so it's accessible by default: the popup is exposed
- * as `role="tooltip"` and wired to the trigger. Pass the trigger as `children`, the
- * label as `content`, and an optional `shortcut` for a dimmed keyboard hint.
+ * Built on Base UI's tooltip, so it's accessible by default: the popup is exposed as
+ * `role="tooltip"` and wired to the trigger. Pass the trigger as `children`, the label as
+ * `content`, and an optional `shortcut` for a dimmed keyboard hint.
  *
- * Colors come from propel's adaptive surface tokens (`bg-layer-2` / `text-primary`
- * / `border-subtle-1`), so the tooltip is light on light themes and dark on dark
- * themes, matching the Figma "Tooltip" component (node 1144-3159).
+ * Colors come from propel's adaptive surface tokens (`bg-layer-2` / `text-primary` /
+ * `border-subtle-1`), so the tooltip is light on light themes and dark on dark themes, matching the
+ * Figma "Tooltip" component (node 1144-3159).
  */
 export function Tooltip({
   content,
@@ -119,12 +120,11 @@ export function Tooltip({
 }
 
 /**
- * The little notch that points from the popup back to the trigger. A rotated square
- * sharing the popup's surface (`bg-layer-2`) and border (`border-subtle-1`), so it
- * matches the popup in every theme. Base UI positions it against the active edge and
- * sets `data-side`; the per-side rules tuck the square half-under the popup so only
- * its two outer faces (the triangle) show, with the inner faces hidden behind the
- * popup body. Only surface/border tokens are used — no arbitrary colors.
+ * The little notch that points from the popup back to the trigger. A rotated square sharing the
+ * popup's surface (`bg-layer-2`) and border (`border-subtle-1`), so it matches the popup in every
+ * theme. Base UI positions it against the active edge and sets `data-side`; the per-side rules tuck
+ * the square half-under the popup so only its two outer faces (the triangle) show, with the inner
+ * faces hidden behind the popup body. Only surface/border tokens are used — no arbitrary colors.
  */
 function TooltipArrow() {
   return (

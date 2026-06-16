@@ -21,7 +21,7 @@ import * as React from "react";
 const radioVariants = cva(
   cx(
     "flex size-4 shrink-0 items-center justify-center rounded-full border-sm border-current bg-layer-1",
-    "text-icon-tertiary outline-none transition-colors",
+    "text-icon-tertiary transition-colors outline-none",
     // Selected uses the accent color for both the ring and the dot.
     "data-[checked]:text-icon-accent-primary",
     // Keyboard focus ring, drawn outside the control so it never clips the dot.
@@ -37,10 +37,9 @@ export type RadioGroupProps = Omit<
 >;
 
 /**
- * Groups a set of `Radio` options so at most one can be selected at a time (none
- * is selected until a `value`/`defaultValue` is set). Wrap
- * `Radio` children in it and drive the selection with `value`/`defaultValue` +
- * `onValueChange`. Renders a `<div>` with `role="radiogroup"`.
+ * Groups a set of `Radio` options so at most one can be selected at a time (none is selected until
+ * a `value`/`defaultValue` is set). Wrap `Radio` children in it and drive the selection with
+ * `value`/`defaultValue` + `onValueChange`. Renders a `<div>` with `role="radiogroup"`.
  */
 export function RadioGroup(props: RadioGroupProps) {
   return <BaseRadioGroup className="flex flex-col gap-2" {...props} />;
@@ -52,11 +51,10 @@ export type RadioProps = Omit<
 >;
 
 /**
- * A single radio option (Base UI `Radio.Root` + `Radio.Indicator`). The 16px ring
- * and 8px inner dot follow Figma node 2159-4535; the selected and disabled states
- * come from the primitive. Use `disabled` for a non-editable (read-only) option —
- * see the module comment above for why `readOnly` is avoided. Must be rendered
- * inside a `RadioGroup`.
+ * A single radio option (Base UI `Radio.Root` + `Radio.Indicator`). The 16px ring and 8px inner dot
+ * follow Figma node 2159-4535; the selected and disabled states come from the primitive. Use
+ * `disabled` for a non-editable (read-only) option — see the module comment above for why
+ * `readOnly` is avoided. Must be rendered inside a `RadioGroup`.
  *
  * @param value - The unique value this option contributes to its `RadioGroup`.
  */

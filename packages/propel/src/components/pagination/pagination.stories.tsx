@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
+
 import { Pagination } from "./index";
 
 const meta = {
@@ -42,10 +43,10 @@ export const WithSelectorAndRange: Story = {
 };
 
 /**
- * The page-size selector is a propel Dropdown: its `layer-3` pill trigger is labeled
- * "50 per page"; clicking it opens the portaled menu of sizes (the current one marked
- * with a check), and picking one reports it through `pageSize.onChange` and updates the
- * trigger. Keyboard works too — ArrowDown opens the menu and arrow+Enter selects.
+ * The page-size selector is a propel Dropdown: its `layer-3` pill trigger is labeled "50 per page";
+ * clicking it opens the portaled menu of sizes (the current one marked with a check), and picking
+ * one reports it through `pageSize.onChange` and updates the trigger. Keyboard works too —
+ * ArrowDown opens the menu and arrow+Enter selects.
  */
 export const PageSizeSelector: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -126,9 +127,9 @@ export const PageSizeSelector: Story = {
 };
 
 /**
- * The four truncation layouts the design derives from where the current page sits:
- * all pages visible, near the start, in the middle, and near the end — shown here
- * with the selector + range to match the Figma frame exactly.
+ * The four truncation layouts the design derives from where the current page sits: all pages
+ * visible, near the start, in the middle, and near the end — shown here with the selector + range
+ * to match the Figma frame exactly.
  */
 export const Variants: Story = {
   parameters: { controls: { disable: true } },
@@ -171,8 +172,8 @@ export const Variants: Story = {
 };
 
 /**
- * Three-digit page numbers must render in full. The slot keeps its 24px minimum so
- * single digits stay square, but grows to fit wider content — `100` is not clipped.
+ * Three-digit page numbers must render in full. The slot keeps its 24px minimum so single digits
+ * stay square, but grows to fit wider content — `100` is not clipped.
  */
 export const ThreeDigit: Story = {
   args: { page: 100, pageCount: 100 },
@@ -184,10 +185,10 @@ export const Loading: Story = {
 };
 
 /**
- * A single skipped page is rendered as its own number rather than hidden behind an
- * ellipsis: with `pageCount=8, page=4` the gap on the leading side is exactly one
- * page (page 2), so the run reads `1 2 3 4 5 … 8` — page 2 stays reachable and only
- * the 2+-page trailing gap (pages 6, 7) collapses to a `…`.
+ * A single skipped page is rendered as its own number rather than hidden behind an ellipsis: with
+ * `pageCount=8, page=4` the gap on the leading side is exactly one page (page 2), so the run reads
+ * `1 2 3 4 5 … 8` — page 2 stays reachable and only the 2+-page trailing gap (pages 6, 7) collapses
+ * to a `…`.
  */
 export const SingleGap: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -206,9 +207,9 @@ export const SingleGap: Story = {
 };
 
 /**
- * Behavioral checks: the nav landmark is named, the current page is marked
- * `aria-current` and disabled, the previous button is disabled at the first page,
- * and activating a page number reports the new page through `onPageChange`.
+ * Behavioral checks: the nav landmark is named, the current page is marked `aria-current` and
+ * disabled, the previous button is disabled at the first page, and activating a page number reports
+ * the new page through `onPageChange`.
  */
 export const Behavior: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -233,10 +234,10 @@ export const Behavior: Story = {
 };
 
 /**
- * Keyboard operation: Tab reaches the prev button and the page-number buttons, and
- * Enter / Space activate a focused page button — each reporting the target page
- * through `onPageChange`. The disabled current page and the disabled prev/next ends
- * are skipped by Tab (not focusable) and never fire `onPageChange`.
+ * Keyboard operation: Tab reaches the prev button and the page-number buttons, and Enter / Space
+ * activate a focused page button — each reporting the target page through `onPageChange`. The
+ * disabled current page and the disabled prev/next ends are skipped by Tab (not focusable) and
+ * never fire `onPageChange`.
  */
 export const KeyboardNavigation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

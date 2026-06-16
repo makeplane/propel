@@ -33,17 +33,17 @@ export type ProgressProps = Omit<
   /** Show the trailing percentage label. @default true */
   showValue?: boolean;
   /**
-   * Accessible name for the bar. Required: a progress bar needs a name for assistive
-   * tech (the visible percentage is not a substitute).
+   * Accessible name for the bar. Required: a progress bar needs a name for assistive tech (the
+   * visible percentage is not a substitute).
    */
   "aria-label": string;
 };
 
 /**
- * A linear progress bar — task completion over time (uploads, imports, the Toast
- * auto-dismiss countdown). Drive it with `value` (0–`max`, default max 100); the
- * filled indicator and `aria-valuenow` follow. The trailing `%` label shows by
- * default; hide it with `showValue={false}`.
+ * A linear progress bar — task completion over time (uploads, imports, the Toast auto-dismiss
+ * countdown). Drive it with `value` (0–`max`, default max 100); the filled indicator and
+ * `aria-valuenow` follow. The trailing `%` label shows by default; hide it with
+ * `showValue={false}`.
  */
 export function Progress({ value, magnitude, showValue = true, ...props }: ProgressProps) {
   return (

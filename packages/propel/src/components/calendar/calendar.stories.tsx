@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
 import type { DateRange } from "react-day-picker";
 import { expect } from "storybook/test";
+
 import { Calendar } from "./index";
 
 // A fixed month so every grid renders deterministically (no reliance on "today").
@@ -22,8 +23,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Single-date selection. The picker is controlled here so clicking a day updates
- * the highlighted selection.
+ * Single-date selection. The picker is controlled here so clicking a day updates the highlighted
+ * selection.
  */
 export const Default: Story = {
   render: () => {
@@ -40,8 +41,8 @@ export const Default: Story = {
 };
 
 /**
- * Range selection (`mode="range"`): the two endpoints get the solid accent fill
- * and the days between them get the soft in-range background.
+ * Range selection (`mode="range"`): the two endpoints get the solid accent fill and the days
+ * between them get the soft in-range background.
  */
 export const RangeSelection: Story = {
   render: () => {
@@ -56,8 +57,8 @@ export const RangeSelection: Story = {
 };
 
 /**
- * Some days are disabled (here: weekends) and cannot be selected. Disabled days
- * render in muted text.
+ * Some days are disabled (here: weekends) and cannot be selected. Disabled days render in muted
+ * text.
  */
 export const WithDisabledDays: Story = {
   render: () => {
@@ -75,10 +76,10 @@ export const WithDisabledDays: Story = {
 };
 
 /**
- * Behavior tests: the month grid renders day buttons, clicking a day selects it,
- * and a disabled day stays unselectable. Tagged out of the sidebar/docs/manifest
- * — it's a test canary, not a designer- or agent-facing example — but still runs
- * under the default `test` tag. A fixed `defaultMonth` keeps the grid deterministic.
+ * Behavior tests: the month grid renders day buttons, clicking a day selects it, and a disabled day
+ * stays unselectable. Tagged out of the sidebar/docs/manifest — it's a test canary, not a designer-
+ * or agent-facing example — but still runs under the default `test` tag. A fixed `defaultMonth`
+ * keeps the grid deterministic.
  */
 export const Behavior: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -121,11 +122,11 @@ export const Behavior: Story = {
 };
 
 /**
- * Keyboard ARIA pattern (WAI-ARIA grid date picker): Tab moves focus into the month
- * grid, **Arrow keys** move the focused day (Right = +1 day, Down = +7 days), and
- * **Enter** selects it (`aria-selected` on the gridcell). A fixed `defaultMonth` and
- * a known starting selection keep the focused day deterministic. Tagged out of the
- * sidebar/docs/manifest while still running under the default `test` tag.
+ * Keyboard ARIA pattern (WAI-ARIA grid date picker): Tab moves focus into the month grid, **Arrow
+ * keys** move the focused day (Right = +1 day, Down = +7 days), and **Enter** selects it
+ * (`aria-selected` on the gridcell). A fixed `defaultMonth` and a known starting selection keep the
+ * focused day deterministic. Tagged out of the sidebar/docs/manifest while still running under the
+ * default `test` tag.
  */
 export const KeyboardNavigation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

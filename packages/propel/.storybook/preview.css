@@ -1,8 +1,7 @@
-/* Storybook's Tailwind entry: pull in Tailwind, then propel's tokens + styles.
-   propel.css's `@source "../"` makes Tailwind scan src/ (components + stories),
-   so the utility classes propel uses are generated for the preview. */
-@import "tailwindcss";
-@import "../src/styles/propel.css";
+/* Storybook's Tailwind entry: the shared tooling entry (Tailwind + propel's tokens).
+   propel.css's `@source "../"` makes Tailwind scan src/ (components + stories), so
+   the utility classes propel uses are generated for the preview. */
+@import "../tailwind.css";
 
 /* Make the preview canvas adapt to the active theme so the toolbar toggle is
    visually meaningful (bg + text follow light/dark/contrast). */

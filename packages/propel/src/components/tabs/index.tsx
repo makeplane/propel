@@ -2,6 +2,7 @@ import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 import { cva, cx } from "class-variance-authority";
 import * as React from "react";
+
 import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
 
 // The Figma "Tabs" component defines two visual treatments. `contained` wraps
@@ -33,16 +34,16 @@ export type TabsProps = Omit<
   "className" | "render" | "style"
 > & {
   /**
-   * Visual treatment (Figma variant). `contained` lifts the active tab onto a
-   * raised card inside a pill; `underline` slides a dark bar under it. Required, with
-   * no silent default, like the other essential axes (e.g. Switch `magnitude`).
+   * Visual treatment (Figma variant). `contained` lifts the active tab onto a raised card inside a
+   * pill; `underline` slides a dark bar under it. Required, with no silent default, like the other
+   * essential axes (e.g. Switch `magnitude`).
    */
   variant: TabsVariant;
 };
 
 /**
- * Root of a tab set. Groups a `TabsList` of `Tab`s with their `TabsPanel`s and
- * tracks which tab is active. Build the compound API from its parts:
+ * Root of a tab set. Groups a `TabsList` of `Tab`s with their `TabsPanel`s and tracks which tab is
+ * active. Build the compound API from its parts:
  *
  * ```tsx
  * <Tabs variant="contained" defaultValue="overview">
@@ -52,7 +53,7 @@ export type TabsProps = Omit<
  *   </TabsList>
  *   <TabsPanel value="overview">…</TabsPanel>
  *   <TabsPanel value="activity">…</TabsPanel>
- * </Tabs>
+ * </Tabs>;
  * ```
  */
 export function Tabs({ variant, ...props }: TabsProps) {
@@ -91,12 +92,11 @@ export type TabsListProps = Omit<
 /**
  * The row of tabs. Renders the active-tab `Tabs.Indicator` for the underline.
  *
- * The list is also a Base UI `ScrollArea.Viewport` (Base UI's documented Tabs +
- * ScrollArea render-merge): the `ScrollArea.Root` bounds the width, and when the
- * tabs are wider than the space they have, the row scrolls horizontally with
- * propel's overlay scrollbar (hidden at rest, revealed on hover/scroll) instead
- * of overflowing its container. When the tabs fit, the row just hugs them. This is
- * what lets a long tab bar live inside a width-constrained header.
+ * The list is also a Base UI `ScrollArea.Viewport` (Base UI's documented Tabs + ScrollArea
+ * render-merge): the `ScrollArea.Root` bounds the width, and when the tabs are wider than the space
+ * they have, the row scrolls horizontally with propel's overlay scrollbar (hidden at rest, revealed
+ * on hover/scroll) instead of overflowing its container. When the tabs fit, the row just hugs them.
+ * This is what lets a long tab bar live inside a width-constrained header.
  */
 export function TabsList({ children, ...props }: TabsListProps) {
   const variant = React.useContext(TabsVariantContext);
@@ -126,7 +126,7 @@ export function TabsList({ children, ...props }: TabsListProps) {
 // 40px. The per-tab bar handles the hover affordance (placeholder gray); the
 // active bar is the JS-measured `TabsIndicator` overlaid on top.
 const tabVariants = cva(
-  "cursor-pointer font-medium whitespace-nowrap outline-none transition-colors select-none focus-visible:ring-2 focus-visible:ring-accent-strong disabled:cursor-not-allowed disabled:text-disabled",
+  "cursor-pointer font-medium whitespace-nowrap transition-colors outline-none select-none focus-visible:ring-2 focus-visible:ring-accent-strong disabled:cursor-not-allowed disabled:text-disabled",
   {
     variants: {
       variant: {
@@ -168,9 +168,9 @@ export type TabProps = Omit<
   "className" | "render" | "style"
 > & {
   /**
-   * Optional leading icon (e.g. a lucide icon), sized to 16px and tinted to the tab's
-   * text color. Named `leadingIcon` (not `icon`) to match Button/Input and leave room
-   * for a future `trailingIcon`.
+   * Optional leading icon (e.g. a lucide icon), sized to 16px and tinted to the tab's text color.
+   * Named `leadingIcon` (not `icon`) to match Button/Input and leave room for a future
+   * `trailingIcon`.
    */
   leadingIcon?: React.ReactNode;
 };
@@ -237,8 +237,8 @@ export type TabsIndicatorProps = Omit<
 >;
 
 /**
- * The underline bar. Surfaced for callers composing a custom list; the built-in
- * `TabsList` already renders it for the `underline` variant.
+ * The underline bar. Surfaced for callers composing a custom list; the built-in `TabsList` already
+ * renders it for the `underline` variant.
  */
 export function TabsIndicator(props: TabsIndicatorProps) {
   return <BaseTabs.Indicator className={tabsIndicatorVariants()} {...props} />;

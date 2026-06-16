@@ -1,10 +1,11 @@
 import { Popover as BasePopover } from "@base-ui/react/popover";
 import * as React from "react";
+
 import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
 
 /**
- * The popover root — a Base UI `Popover.Root`. Holds open state and wires the trigger
- * to the floating panel. Compose it with `PopoverTrigger` + `PopoverContent`:
+ * The popover root — a Base UI `Popover.Root`. Holds open state and wires the trigger to the
+ * floating panel. Compose it with `PopoverTrigger` + `PopoverContent`:
  *
  * ```tsx
  * <Popover>
@@ -13,12 +14,12 @@ import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-pan
  *     <RadioGroup>…</RadioGroup>
  *     <Checkbox label="Show empty groups" />
  *   </PopoverContent>
- * </Popover>
+ * </Popover>;
  * ```
  *
- * Unlike `Dropdown`, the surface is a generic floating panel (NOT a `role="menu"`), so
- * it can host arbitrary settings-panel content — radios, checkboxes, pills, forms — as
- * valid children. Reach for `Dropdown` when you need an actual ARIA menu of actions.
+ * Unlike `Dropdown`, the surface is a generic floating panel (NOT a `role="menu"`), so it can host
+ * arbitrary settings-panel content — radios, checkboxes, pills, forms — as valid children. Reach
+ * for `Dropdown` when you need an actual ARIA menu of actions.
  */
 type BasePopoverRootProps = React.ComponentProps<typeof BasePopover.Root>;
 
@@ -33,8 +34,8 @@ export type PopoverProps = Omit<
   /** Called with the next open state when the popover opens or closes. */
   onOpenChange?: BasePopoverRootProps["onOpenChange"];
   /**
-   * Modal behavior while open: `true` locks page scroll and blocks outside pointer
-   * interaction; `'trap-focus'` only traps focus. @default false
+   * Modal behavior while open: `true` locks page scroll and blocks outside pointer interaction;
+   * `'trap-focus'` only traps focus. @default false
    */
   modal?: BasePopoverRootProps["modal"];
   /** The popover's trigger and panel (`PopoverTrigger`, `PopoverContent`). */
@@ -51,8 +52,8 @@ export type PopoverTriggerProps = Omit<
 >;
 
 /**
- * The element that opens the popover. Renders a `<button>` by default; pass `render`
- * to project the trigger onto your own element (e.g. an icon button).
+ * The element that opens the popover. Renders a `<button>` by default; pass `render` to project the
+ * trigger onto your own element (e.g. an icon button).
  */
 export function PopoverTrigger(props: PopoverTriggerProps) {
   return <BasePopover.Trigger {...props} />;
@@ -74,23 +75,22 @@ export type PopoverContentProps = Omit<
   /** Alignment of the panel relative to the trigger along `side`. @default "start" */
   align?: React.ComponentProps<typeof BasePopover.Positioner>["align"];
   /**
-   * Fixed panel width. `anchor` matches the trigger; `sm`/`md`/`lg` are the panel
-   * widths from Figma (256 / 288 / 384px). @default "anchor"
+   * Fixed panel width. `anchor` matches the trigger; `sm`/`md`/`lg` are the panel widths from Figma
+   * (256 / 288 / 384px). @default "anchor"
    */
   width?: PopoverContentWidth;
 };
 
 /**
- * The floating panel surface. Bundles Base UI's `Portal` + `Positioner` + `Popup` so the
- * panel renders in a portal, positioned against the trigger, with propel's overlay
- * styling. Place arbitrary content inside — radios, checkboxes, pills, forms — it is a
- * generic container (no `role="menu"`), so those controls are valid children and the
- * surface stays ARIA-clean. Give it an accessible name with `aria-label` /
- * `aria-labelledby` when the panel needs one.
+ * The floating panel surface. Bundles Base UI's `Portal` + `Positioner` + `Popup` so the panel
+ * renders in a portal, positioned against the trigger, with propel's overlay styling. Place
+ * arbitrary content inside — radios, checkboxes, pills, forms — it is a generic container (no
+ * `role="menu"`), so those controls are valid children and the surface stays ARIA-clean. Give it an
+ * accessible name with `aria-label` / `aria-labelledby` when the panel needs one.
  *
- * Base UI handles the a11y wiring: focus moves into the panel on open and returns to the
- * trigger on close, `Esc` and outside-clicks dismiss it, and the positioner uses logical
- * sides so it is RTL-safe out of the box.
+ * Base UI handles the a11y wiring: focus moves into the panel on open and returns to the trigger on
+ * close, `Esc` and outside-clicks dismiss it, and the positioner uses logical sides so it is
+ * RTL-safe out of the box.
  */
 export function PopoverContent({
   children,

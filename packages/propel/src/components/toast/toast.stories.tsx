@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, waitFor, within } from "storybook/test";
+
 import { type ToastData, type ToastTone, ToastProvider, useToast } from "./index";
 
 const TONES: ToastTone[] = ["success", "danger", "info", "warning", "neutral"];
@@ -70,8 +71,8 @@ export const Default: Story = {
 };
 
 /**
- * One trigger per tone. Each queues a toast with the matching status icon + color
- * (success / danger / info / warning / neutral).
+ * One trigger per tone. Each queues a toast with the matching status icon + color (success / danger
+ * / info / warning / neutral).
  */
 export const Tones: Story = {
   parameters: { controls: { disable: true } },
@@ -85,8 +86,8 @@ export const Tones: Story = {
 };
 
 /**
- * A single left-aligned action (Figma's `button` boolean). Pass one entry in
- * `data.actions` — it renders as a transparent pill under the description.
+ * A single left-aligned action (Figma's `button` boolean). Pass one entry in `data.actions` — it
+ * renders as a transparent pill under the description.
  */
 export const WithAction: Story = {
   parameters: { controls: { disable: true } },
@@ -100,9 +101,8 @@ export const WithAction: Story = {
 };
 
 /**
- * A toast reporting a long-running task (Figma node 1146-61689): pass `data.progress`
- * (0–100) and a thin `Progress` bar with a `%` label renders between the description
- * and the action row.
+ * A toast reporting a long-running task (Figma node 1146-61689): pass `data.progress` (0–100) and a
+ * thin `Progress` bar with a `%` label renders between the description and the action row.
  */
 export const WithProgress: Story = {
   parameters: { controls: { disable: true } },
@@ -116,10 +116,9 @@ export const WithProgress: Story = {
 };
 
 /**
- * Interaction test for the progress treatment: queue a toast carrying `data.progress`
- * and assert the `Progress` bar renders inside it with the right `progressbar` role,
- * `aria-valuenow`, and visible `%` label. Tagged so it stays out of the
- * sidebar/docs/manifest.
+ * Interaction test for the progress treatment: queue a toast carrying `data.progress` and assert
+ * the `Progress` bar renders inside it with the right `progressbar` role, `aria-valuenow`, and
+ * visible `%` label. Tagged so it stays out of the sidebar/docs/manifest.
  */
 export const ProgressInteraction: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -148,8 +147,8 @@ export const ProgressInteraction: Story = {
 };
 
 /**
- * Two left-aligned actions (Figma's `button` + `button2` on the danger/info/warning
- * treatments). The cluster sits inline-start; there is no right-aligned button.
+ * Two left-aligned actions (Figma's `button` + `button2` on the danger/info/warning treatments).
+ * The cluster sits inline-start; there is no right-aligned button.
  */
 export const WithTwoActions: Story = {
   parameters: { controls: { disable: true } },
@@ -168,9 +167,9 @@ export const WithTwoActions: Story = {
 };
 
 /**
- * The success treatment: a left cluster plus a right-aligned primary action
- * (`data.primaryAction`). The primary button pins to the inline-end edge while the
- * left cluster grows to fill — matching Figma's success tone.
+ * The success treatment: a left cluster plus a right-aligned primary action (`data.primaryAction`).
+ * The primary button pins to the inline-end edge while the left cluster grows to fill — matching
+ * Figma's success tone.
  */
 export const WithPrimaryAction: Story = {
   parameters: { controls: { disable: true } },
@@ -187,10 +186,10 @@ export const WithPrimaryAction: Story = {
 };
 
 /**
- * Real interaction test: clicking the trigger queues a toast whose title and
- * description become visible inside the live region (Base UI renders the viewport
- * as a polite `role="region"` live area and each toast as a `dialog`); clicking its
- * Dismiss button removes it. Tagged so it stays out of the sidebar/docs/manifest.
+ * Real interaction test: clicking the trigger queues a toast whose title and description become
+ * visible inside the live region (Base UI renders the viewport as a polite `role="region"` live
+ * area and each toast as a `dialog`); clicking its Dismiss button removes it. Tagged so it stays
+ * out of the sidebar/docs/manifest.
  */
 export const QueueAndDismiss: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -221,11 +220,10 @@ export const QueueAndDismiss: Story = {
 };
 
 /**
- * Interaction test for action buttons: queue a toast carrying a left action and a
- * right-aligned primary action, then verify both fire their handlers: the primary on
- * click, and the left action on Enter once focused. The viewport's keyboard tab flow
- * is covered separately by KeyboardDismiss. Tagged so it stays out of the
- * sidebar/docs/manifest.
+ * Interaction test for action buttons: queue a toast carrying a left action and a right-aligned
+ * primary action, then verify both fire their handlers: the primary on click, and the left action
+ * on Enter once focused. The viewport's keyboard tab flow is covered separately by KeyboardDismiss.
+ * Tagged so it stays out of the sidebar/docs/manifest.
  */
 export const ActionsInteraction: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -264,19 +262,19 @@ export const ActionsInteraction: Story = {
 };
 
 /**
- * Keyboard-only reachability: a user with no pointer must be able to reach and
- * activate the Dismiss control. This drives Base UI's real keyboard model end to end,
- * with NO `hover` and NO programmatic `.focus()`, so a regression that made Dismiss
- * unreachable by keyboard would actually fail this test:
+ * Keyboard-only reachability: a user with no pointer must be able to reach and activate the Dismiss
+ * control. This drives Base UI's real keyboard model end to end, with NO `hover` and NO
+ * programmatic `.focus()`, so a regression that made Dismiss unreachable by keyboard would actually
+ * fail this test:
  *
- *   1. **F6** — Base UI's global hotkey moves focus into the toast viewport (a
- *      `role="region"` live area) and marks it `focused`, which expands the viewport.
- *      Expanding un-hides the close button (Base UI keeps `Toast.Close` `aria-hidden`
- *      until the viewport is expanded or the button itself is focused).
- *   2. **Tab** — from the viewport, focus crosses Base UI's focus guard onto the
- *      frontmost toast (`role="dialog"`).
- *   3. **Tab** — from the toast, focus lands on the only remaining control: Dismiss.
- *   4. **Enter** — activates Dismiss and removes the toast from the live region.
+ * 1. **F6** — Base UI's global hotkey moves focus into the toast viewport (a `role="region"` live
+ *    area) and marks it `focused`, which expands the viewport. Expanding un-hides the close button
+ *    (Base UI keeps `Toast.Close` `aria-hidden` until the viewport is expanded or the button itself
+ *    is focused).
+ * 2. **Tab** — from the viewport, focus crosses Base UI's focus guard onto the frontmost toast
+ *    (`role="dialog"`).
+ * 3. **Tab** — from the toast, focus lands on the only remaining control: Dismiss.
+ * 4. **Enter** — activates Dismiss and removes the toast from the live region.
  *
  * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
  */

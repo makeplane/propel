@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
+
 import { Radio, RadioGroup } from "./index";
 
 const meta = {
@@ -41,14 +42,13 @@ export const Default: Story = {
 };
 
 /**
- * The states from Figma side by side: unselected, selected, disabled, and
- * read-only — each driven by the primitive, not by a variant.
+ * The states from Figma side by side: unselected, selected, disabled, and read-only — each driven
+ * by the primitive, not by a variant.
  *
- * Read-only is expressed via `disabled` rather than Base UI's `readOnly`: the
- * primitive stamps `aria-readonly` onto the `role="radio"` element, which ARIA
- * does not permit on that role (axe `aria-allowed-attr`). `disabled` conveys the
- * same "selection can't be changed" intent through the ARIA-valid `aria-disabled`
- * while keeping the control non-interactive.
+ * Read-only is expressed via `disabled` rather than Base UI's `readOnly`: the primitive stamps
+ * `aria-readonly` onto the `role="radio"` element, which ARIA does not permit on that role (axe
+ * `aria-allowed-attr`). `disabled` conveys the same "selection can't be changed" intent through the
+ * ARIA-valid `aria-disabled` while keeping the control non-interactive.
  */
 export const States: Story = {
   parameters: { controls: { disable: true } },
@@ -71,10 +71,10 @@ export const States: Story = {
 };
 
 /**
- * With no `value`/`defaultValue`, the group starts with nothing checked.
- * Selecting an option checks it and clears any previously-selected one, so at
- * most one radio is checked at a time. Tagged so it stays out of the
- * sidebar, docs, and AI manifest while still running under the default `test` tag.
+ * With no `value`/`defaultValue`, the group starts with nothing checked. Selecting an option checks
+ * it and clears any previously-selected one, so at most one radio is checked at a time. Tagged so
+ * it stays out of the sidebar, docs, and AI manifest while still running under the default `test`
+ * tag.
  */
 export const SelectionBehavior: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -110,11 +110,10 @@ export const SelectionBehavior: Story = {
 };
 
 /**
- * Keyboard ARIA pattern (WAI-ARIA radiogroup, roving focus): Tab lands on the
- * currently-checked radio, and **Arrow Down/Up (and Right/Left)** move both focus
- * and selection through the group, wrapping at the ends. Only one radio is checked
- * at a time, and `aria-checked` follows the focused radio. Tagged out of the
- * sidebar/docs/manifest while still running under the default `test` tag.
+ * Keyboard ARIA pattern (WAI-ARIA radiogroup, roving focus): Tab lands on the currently-checked
+ * radio, and **Arrow Down/Up (and Right/Left)** move both focus and selection through the group,
+ * wrapping at the ends. Only one radio is checked at a time, and `aria-checked` follows the focused
+ * radio. Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const KeyboardNavigation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

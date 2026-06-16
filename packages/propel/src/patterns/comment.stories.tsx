@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { expect, fn, userEvent } from "storybook/test";
+
 import { Button } from "../components/button/index";
 import { IconButton } from "../components/icon-button/index";
 import {
@@ -42,7 +43,7 @@ const commentVariants = cva("border border-subtle-1 bg-layer-2 text-primary", {
       // radius/lg (8px) and lays the body + actions out in a single row.
       base: "flex w-full flex-col overflow-clip rounded-xl",
       sm: "flex w-full flex-col overflow-clip rounded-xl",
-      xs: "flex w-full items-center gap-2 rounded-lg py-1.5 pe-1.5 ps-3",
+      xs: "flex w-full items-center gap-2 rounded-lg py-1.5 ps-3 pe-1.5",
     },
   },
 });
@@ -193,7 +194,7 @@ function CommentComposer({
       ) : (
         <>
           {body}
-          <div className="flex min-h-9 items-center justify-between gap-2 py-1 pe-1.5 ps-1">
+          <div className="flex min-h-9 items-center justify-between gap-2 py-1 ps-1 pe-1.5">
             <div className="flex min-w-0 items-center overflow-x-auto">
               <FormattingToolbar />
             </div>
@@ -247,7 +248,7 @@ const RECIPE_SOURCE = `function CommentComposer() {
         onValueChange={setValue}
         className="min-h-10 w-full resize-none bg-transparent p-3 text-14 leading-snug text-primary outline-none placeholder:text-placeholder"
       />
-      <div className="flex min-h-9 items-center justify-between gap-2 py-1 pe-1.5 ps-1">
+      <div className="flex min-h-9 items-center justify-between gap-2 py-1 ps-1 pe-1.5">
         <Toolbar variant="bottom-bar" aria-label="Comment formatting">
           <ToolbarGroup aria-label="Insert">
             <ToolbarButton aria-label="Mention someone">
@@ -284,10 +285,10 @@ const RECIPE_SOURCE = `function CommentComposer() {
 const MAGNITUDES: CommentMagnitude[] = ["base", "sm", "xs"];
 
 /**
- * A comment composer is a compositional component, so propel does not ship one. This
- * recipe shows how to build it from propel primitives (Toolbar, Button, IconButton,
- * and a Field textarea), matching the Figma "Comment box". Copy it into your app and
- * wire the formatting controls to your editor.
+ * A comment composer is a compositional component, so propel does not ship one. This recipe shows
+ * how to build it from propel primitives (Toolbar, Button, IconButton, and a Field textarea),
+ * matching the Figma "Comment box". Copy it into your app and wire the formatting controls to your
+ * editor.
  */
 const meta = {
   title: "Patterns/Comment composer",
@@ -307,8 +308,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * The composer: a body input over a bottom bar that pairs propel's formatting Toolbar
- * with a "Comment" submit Button.
+ * The composer: a body input over a bottom bar that pairs propel's formatting Toolbar with a
+ * "Comment" submit Button.
  */
 export const Default: Story = {
   parameters: {
@@ -322,9 +323,9 @@ export const Default: Story = {
 };
 
 /**
- * Every magnitude side by side. `base` ends in a text "Comment" Button, `sm` collapses
- * that to a send IconButton, and `xs` is a single compact row with an attach + send
- * cluster and no formatting Toolbar.
+ * Every magnitude side by side. `base` ends in a text "Comment" Button, `sm` collapses that to a
+ * send IconButton, and `xs` is a single compact row with an attach + send cluster and no formatting
+ * Toolbar.
  */
 export const Magnitudes: Story = {
   parameters: { controls: { disable: true } },
@@ -338,8 +339,8 @@ export const Magnitudes: Story = {
 };
 
 /**
- * Typing enables the submit button; submitting calls `onSubmit` with the body text.
- * Tagged out of the sidebar/docs/manifest, it's a behavior canary, not an example.
+ * Typing enables the submit button; submitting calls `onSubmit` with the body text. Tagged out of
+ * the sidebar/docs/manifest, it's a behavior canary, not an example.
  */
 export const SubmitFlow: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

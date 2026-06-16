@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
+
 import { AVATAR_TONES, Avatar, type AvatarMagnitude } from "./index";
 
 const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
@@ -39,8 +40,8 @@ export const Magnitudes: Story = {
 };
 
 /**
- * The initials background follows `tone`. When `tone` is omitted it's derived
- * from `alt`, so every person gets a stable color automatically.
+ * The initials background follows `tone`. When `tone` is omitted it's derived from `alt`, so every
+ * person gets a stable color automatically.
  */
 export const Tones: Story = {
   args: { src: undefined },
@@ -69,12 +70,12 @@ export const States: Story = {
 };
 
 /**
- * The single project-wide CSS check: an `md` avatar is `size-7` (28px) and the
- * tone utility resolves to a real color. Concrete computed values prove the shared
- * preview actually compiled Tailwind + propel's tokens — a plain render would pass
- * even with no styles loaded. Tagged `!dev`/`!autodocs`/`!manifest` so it's hidden
- * from the sidebar, the docs page, and the AI/MCP manifest — it's a test canary,
- * not a designer- or agent-facing example — but still runs via the default `test` tag.
+ * The single project-wide CSS check: an `md` avatar is `size-7` (28px) and the tone utility
+ * resolves to a real color. Concrete computed values prove the shared preview actually compiled
+ * Tailwind + propel's tokens — a plain render would pass even with no styles loaded. Tagged
+ * `!dev`/`!autodocs`/`!manifest` so it's hidden from the sidebar, the docs page, and the AI/MCP
+ * manifest — it's a test canary, not a designer- or agent-facing example — but still runs via the
+ * default `test` tag.
  */
 export const CssCheck: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

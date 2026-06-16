@@ -31,11 +31,10 @@ type LoadingButtonProps<E> = {
 };
 
 /**
- * Returns the four shared `<button>` attributes (`disabled`, `aria-disabled`,
- * `aria-busy`, `onClick`) used by Button and IconButton for the
- * loading/disabled/onClick behavior. `disabled` passes through to the native attribute;
- * `loading` adds `aria-disabled`/`aria-busy` and blocks `onClick` while keeping the
- * button focusable. Pure: it returns props to spread, never JSX.
+ * Returns the four shared `<button>` attributes (`disabled`, `aria-disabled`, `aria-busy`,
+ * `onClick`) used by Button and IconButton for the loading/disabled/onClick behavior. `disabled`
+ * passes through to the native attribute; `loading` adds `aria-disabled`/`aria-busy` and blocks
+ * `onClick` while keeping the button focusable. Pure: it returns props to spread, never JSX.
  */
 export function getLoadingButtonProps<E = HTMLButtonElement>({
   loading,

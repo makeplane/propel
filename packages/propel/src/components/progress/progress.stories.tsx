@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, within } from "storybook/test";
+
 import { Progress } from "./index";
 
 const meta = {
@@ -57,9 +58,8 @@ export const WithoutLabel: Story = {
 };
 
 /**
- * The bar exposes the `progressbar` role with `aria-valuenow`, and the label renders
- * the rounded percentage. Tagged out of the sidebar/docs/manifest but still run under
- * the default `test` tag.
+ * The bar exposes the `progressbar` role with `aria-valuenow`, and the label renders the rounded
+ * percentage. Tagged out of the sidebar/docs/manifest but still run under the default `test` tag.
  */
 export const Semantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

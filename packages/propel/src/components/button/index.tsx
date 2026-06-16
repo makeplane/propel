@@ -1,6 +1,7 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
+
 import { getLoadingButtonProps } from "../../internal/loading-button";
 import { nodeSlotClass } from "../../internal/node-slot";
 
@@ -13,7 +14,7 @@ export const buttonVariants = cva(
   // accent token, real disabled affordance, and a snug medium label.
   cx(
     "relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-1 rounded-md font-medium",
-    "whitespace-nowrap outline-none transition-colors",
+    "whitespace-nowrap transition-colors outline-none",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
     "disabled:cursor-not-allowed aria-busy:cursor-default",
   ),
@@ -164,20 +165,19 @@ type ButtonOwnProps = {
   tone: ButtonTone;
   magnitude: ButtonMagnitude;
   /**
-   * Link-only: picks the `link` look. `solid` is the blue `link/primary` style;
-   * `subtle` is the muted gray inline link. Optional and additive — it only
-   * affects `variant="link"`, so it has no default and every other `variant`
-   * ignores it.
+   * Link-only: picks the `link` look. `solid` is the blue `link/primary` style; `subtle` is the
+   * muted gray inline link. Optional and additive — it only affects `variant="link"`, so it has no
+   * default and every other `variant` ignores it.
    */
   emphasis?: ButtonEmphasis;
   /**
-   * Node rendered before the label (inline-start). An icon, avatar, or any node;
-   * it is sized to the button's `--node-size`. Decorative, kept out of the name.
+   * Node rendered before the label (inline-start). An icon, avatar, or any node; it is sized to the
+   * button's `--node-size`. Decorative, kept out of the name.
    */
   inlineStartNode?: React.ReactNode;
   /**
-   * Node rendered after the label (inline-end). An icon, avatar, or any node; it is
-   * sized to the button's `--node-size`. Decorative, kept out of the name.
+   * Node rendered after the label (inline-end). An icon, avatar, or any node; it is sized to the
+   * button's `--node-size`. Decorative, kept out of the name.
    */
   inlineEndNode?: React.ReactNode;
   /** Shows a spinner, sets `aria-busy`, and makes the button non-interactive. */
@@ -188,11 +188,10 @@ export type ButtonProps = Omit<React.ComponentProps<"button">, "className" | "st
   ButtonOwnProps;
 
 /**
- * A plain accessible button built on propel's design tokens. Pick a look with
- * `variant` (Figma Type), select the error palette with `tone`, and size it with
- * `magnitude` — all required, so consumers choose explicitly. For
- * `variant="link"` only, optionally choose `solid` (blue) or `subtle` (gray)
- * with `emphasis`. Content — `children`, `inlineStartNode`/`inlineEndNode`,
+ * A plain accessible button built on propel's design tokens. Pick a look with `variant` (Figma
+ * Type), select the error palette with `tone`, and size it with `magnitude` — all required, so
+ * consumers choose explicitly. For `variant="link"` only, optionally choose `solid` (blue) or
+ * `subtle` (gray) with `emphasis`. Content — `children`, `inlineStartNode`/`inlineEndNode`,
  * `loading` — is not a variant.
  */
 export function Button({

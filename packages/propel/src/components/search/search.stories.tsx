@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
 import { expect, userEvent, within } from "storybook/test";
+
 import { ExpandableSearch, Search } from "./index";
 
 const meta = {
@@ -55,9 +56,9 @@ export const Controlled: Story = {
 };
 
 /**
- * `ExpandableSearch` collapses to a magnifier icon and expands into a full search input
- * while focused — the toolbar/header pattern. The input itself is the only control, so it
- * stays a real searchbox; it collapses again when blurred empty (or on `Escape`).
+ * `ExpandableSearch` collapses to a magnifier icon and expands into a full search input while
+ * focused — the toolbar/header pattern. The input itself is the only control, so it stays a real
+ * searchbox; it collapses again when blurred empty (or on `Escape`).
  */
 export const Expandable: Story = {
   parameters: { controls: { disable: true } },
@@ -71,11 +72,10 @@ export const ExpandableFilled: Story = {
 };
 
 /**
- * `ExpandableSearch` is a single searchbox that renders collapsed and expands on focus —
- * there is no separate toggle button. Focusing it (clicking the magnifier focuses the
- * field) expands it; blurring it empty or pressing `Escape` collapses it, and a value
- * keeps it open. Tagged out of the sidebar/docs/manifest but still run under the default
- * `test` tag.
+ * `ExpandableSearch` is a single searchbox that renders collapsed and expands on focus — there is
+ * no separate toggle button. Focusing it (clicking the magnifier focuses the field) expands it;
+ * blurring it empty or pressing `Escape` collapses it, and a value keeps it open. Tagged out of the
+ * sidebar/docs/manifest but still run under the default `test` tag.
  */
 export const ExpandAndCollapse: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -117,9 +117,8 @@ export const ExpandAndCollapse: Story = {
 };
 
 /**
- * Typing reveals the clear button; clicking it empties the field and returns focus to
- * the input. Tagged out of the sidebar/docs/manifest but still run under the default
- * `test` tag.
+ * Typing reveals the clear button; clicking it empties the field and returns focus to the input.
+ * Tagged out of the sidebar/docs/manifest but still run under the default `test` tag.
  */
 export const TypeAndClear: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

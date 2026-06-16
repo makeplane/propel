@@ -26,8 +26,8 @@ const avatarVariants = cva(
 export type AvatarMagnitude = NonNullable<VariantProps<typeof avatarVariants>["magnitude"]>;
 
 /**
- * Set by `AvatarGroup` to give every avatar inside it the same `magnitude`, so a
- * group stays consistently sized. An avatar's own `magnitude` prop takes precedence.
+ * Set by `AvatarGroup` to give every avatar inside it the same `magnitude`, so a group stays
+ * consistently sized. An avatar's own `magnitude` prop takes precedence.
  */
 export const AvatarGroupContext = React.createContext<AvatarMagnitude | undefined>(undefined);
 
@@ -47,9 +47,9 @@ export const initialsToneClass: Record<AvatarTone, string> = {
 };
 
 /**
- * Deterministically pick a tone from a seed (e.g. a name or user id) so the same
- * person always gets the same color — the "system picks it" behavior. Used as the
- * default when `tone` is not set; pass `tone` to override.
+ * Deterministically pick a tone from a seed (e.g. a name or user id) so the same person always gets
+ * the same color — the "system picks it" behavior. Used as the default when `tone` is not set; pass
+ * `tone` to override.
  */
 export function getAvatarTone(seed: string): AvatarTone {
   let hash = 0;
