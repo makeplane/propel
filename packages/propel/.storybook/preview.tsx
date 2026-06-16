@@ -4,12 +4,14 @@ import { useLayoutEffect } from "react";
 import "./preview.css";
 import { type Theme, THEMES } from "./themes";
 
-// Per-test-project theme, injected by `vite.config.ts` via `define` so the a11y gate
-// can run every story in every theme. Undefined in `storybook dev`/manual (the toolbar
-// global drives it there). `typeof` guard so referencing the undeclared global is safe.
-declare const __PROPEL_TEST_THEME__: Theme | undefined;
-const TEST_THEME: Theme =
-  typeof __PROPEL_TEST_THEME__ !== "undefined" ? __PROPEL_TEST_THEME__ : "light";
+// Per-test-instance theme, injected by `vite.config.ts` through each Vitest browser
+// instance's `env` (`STORYBOOK_TEST_THEME`) so the a11y gate can run every story in
+// every theme. An env var is untrusted input, so validate it against the known THEMES;
+// anything unset, empty, or unrecognized falls back to `light` (e.g. `storybook dev`,
+// where the toolbar global drives the theme instead). Without this, a bogus value would
+// set `data-theme` to a theme with no tokens and the gate would run against nothing.
+const envTheme = import.meta.env.STORYBOOK_TEST_THEME;
+const TEST_THEME: Theme = THEMES.includes(envTheme as Theme) ? (envTheme as Theme) : "light";
 
 // Apply the active theme by setting `data-theme` on <html>. We do this with a custom
 // decorator rather than `@storybook/addon-themes`' `withThemeByDataAttribute` because
