@@ -114,24 +114,4 @@ export default defineConfig({
       },
     })),
   },
-  run: {
-    tasks: {
-      // Run the story tests as a Vite Task (not a package.json script) so it can be
-      // cached. The run writes transient caches *inside* node_modules during execution
-      // (Vitest's `.vite/vitest/<hash>/results.json`, Storybook's `.cache/storybook/...`),
-      // and the task runner's automatic file tracking sees each as both read and written
-      // -- an unstable input that busts the cache every run ("not cached because it
-      // modified its input"). Drop all of node_modules from the fingerprint and key the
-      // cache on the source/config the run actually depends on plus the lockfile (so a
-      // dependency change still invalidates it). An unchanged run then replays from cache.
-      test: {
-        command: "vitest --project 'storybook-*' run",
-        input: [
-          { auto: true },
-          "!**/node_modules/**",
-          { pattern: "pnpm-lock.yaml", base: "workspace" },
-        ],
-      },
-    },
-  },
 });

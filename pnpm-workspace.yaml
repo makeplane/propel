@@ -23,3 +23,8 @@ peerDependencyRules:
   allowedVersions:
     vite: "*"
     vitest: "*"
+
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: true
