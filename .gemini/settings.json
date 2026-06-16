@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "propel-storybook-mcp": {
+      "httpUrl": "http://localhost:6006/mcp"
+    }
+  }
+}
