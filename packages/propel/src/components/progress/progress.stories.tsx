@@ -64,13 +64,11 @@ export const WithoutLabel: Story = {
 export const Circular: Story = {
   args: { variant: "circular", value: 32, magnitude: "md", "aria-label": "Sync progress" },
   // The ring sizes itself; the meta's 80-wide wrapper isn't needed.
-  decorators: [(Story) => <Story />],
 };
 
 /** The ring at both diameters (`sm` 16px / `md` 20px) across the range. */
 export const CircularMagnitudes: Story = {
   parameters: { controls: { disable: true } },
-  decorators: [(Story) => <Story />],
   render: () => (
     <div className="flex items-center gap-4">
       <Progress variant="circular" value={0} magnitude="sm" aria-label="Small 0 percent" />
@@ -107,7 +105,6 @@ export const Semantics: Story = {
 export const CircularSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { variant: "circular", value: 32, magnitude: "md", "aria-label": "Sync progress" },
-  decorators: [(Story) => <Story />],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const bar = canvas.getByRole("progressbar", { name: "Sync progress" });
