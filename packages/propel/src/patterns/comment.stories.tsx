@@ -70,7 +70,7 @@ const bodyVariants = cva(
 // editor; here they just compose propel's Toolbar parts.
 function FormattingToolbar() {
   return (
-    <Toolbar variant="bottom-bar" aria-label="Comment formatting">
+    <Toolbar elevation="flat" density="comfortable" aria-label="Comment formatting">
       <ToolbarGroup aria-label="Insert">
         <ToolbarButton aria-label="Mention someone">
           <AtSign aria-hidden />
@@ -248,7 +248,7 @@ const RECIPE_SOURCE = `function CommentComposer() {
         className="min-h-10 w-full resize-none bg-transparent p-3 text-14 leading-snug text-primary outline-none placeholder:text-placeholder"
       />
       <div className="flex min-h-9 items-center justify-between gap-2 py-1 pe-1.5 ps-1">
-        <Toolbar variant="bottom-bar" aria-label="Comment formatting">
+        <Toolbar elevation="flat" density="comfortable" aria-label="Comment formatting">
           <ToolbarGroup aria-label="Insert">
             <ToolbarButton aria-label="Mention someone">
               <AtSign aria-hidden />

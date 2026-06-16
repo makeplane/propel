@@ -143,7 +143,7 @@ const meta = {
     ToolbarDropdownItem,
     ToolbarDropdownSeparator,
   },
-  args: { variant: "floater" },
+  args: { elevation: "raised", density: "compact" },
   render: (args) => <FormattingToolbar {...args} />,
   parameters: {
     design: {
@@ -156,33 +156,46 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** The default `floater`: a self-contained card with a border + shadow. */
+/** The default: a `raised`, `compact` floater — a self-contained card with a border + shadow. */
 export const Default: Story = {};
 
 /**
- * Each placement at its default density: the floating card is `compact` (24px), the
- * flat topbar and bottom bar are `comfortable` (28px). Density follows `variant`
- * unless overridden (see `FixedCompact`).
+ * The `elevation` axis: `raised` draws its own card (border + shadow) so it can hover
+ * over content; `flat` draws no surface and sits flush inside an existing bar.
+ * Independent of `density` — both rows keep the story's current density.
  */
-export const Variants: Story = {
-  parameters: { controls: { disable: true } },
-  render: () => (
+export const Elevations: Story = {
+  argTypes: { elevation: { control: false } },
+  render: (args) => (
     <div className="flex flex-col gap-6">
-      <FormattingToolbar variant="floater" />
-      <FormattingToolbar variant="topbar" />
-      <FormattingToolbar variant="bottom-bar" />
+      <FormattingToolbar {...args} elevation="raised" />
+      <FormattingToolbar {...args} elevation="flat" />
     </div>
   ),
 };
 
 /**
- * Density is its own axis: pass `density` to decouple it from `variant`. Here a flat
- * `topbar` is forced to `compact` (24px) for Figma's "fixed + compact" bar — a
- * non-floating surface at the tight floater density. Without the override a `topbar`
- * would default to `comfortable` (28px).
+ * The `density` axis: `compact` packs the controls to 24px hit targets, `comfortable`
+ * gives them 28px. Independent of `elevation` — both rows keep the story's current
+ * elevation.
  */
-export const FixedCompact: Story = {
-  args: { variant: "topbar", density: "compact" },
+export const Densities: Story = {
+  argTypes: { density: { control: false } },
+  render: (args) => (
+    <div className="flex flex-col gap-6">
+      <FormattingToolbar {...args} density="compact" />
+      <FormattingToolbar {...args} density="comfortable" />
+    </div>
+  ),
+};
+
+/**
+ * `elevation` and `density` are orthogonal: a `flat` bar can still be `compact`. This
+ * is Figma's "fixed + compact" bar — a non-floating surface at the tight 24px density
+ * the raised floater also uses.
+ */
+export const FlatCompact: Story = {
+  args: { elevation: "flat", density: "compact" },
   parameters: {
     design: {
       type: "figma",
@@ -192,23 +205,22 @@ export const FixedCompact: Story = {
 };
 
 /**
- * Density override check that runs in the browser: a flat `topbar` defaults to
- * `comfortable` (28px), but passing `density="compact"` decouples density from
- * `variant` and shrinks its controls to 24px. Tagged out of the sidebar/docs/manifest
- * — it's a test, not a designer- or agent-facing example — but still runs under the
- * default `test` tag.
+ * Density wiring check that runs in the browser: `density` drives the child controls'
+ * size through context, independent of `elevation`, so a `flat` + `compact` toolbar
+ * renders 24px controls. Tagged out of the sidebar/docs/manifest — it's a test, not a
+ * designer- or agent-facing example — but still runs under the default `test` tag.
  */
-export const DensityOverride: Story = {
+export const DensityDrivesControlSize: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <Toolbar variant="topbar" density="compact">
+    <Toolbar elevation="flat" density="compact">
       <ToolbarToggle aria-label="Bold">
         <Bold aria-hidden />
       </ToolbarToggle>
     </Toolbar>
   ),
   play: async ({ canvas }) => {
-    // A flat topbar would default to comfortable (28px); the compact override wins.
+    // density="compact" sizes the controls to 24px regardless of the flat elevation.
     const bold = canvas.getByRole("button", { name: "Bold" });
     await expect(bold).toHaveClass("size-6");
     await expect(getComputedStyle(bold).height).toBe("24px");
@@ -284,7 +296,7 @@ export const Behavior: Story = {
 export const KeyboardRovingFocus: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <Toolbar variant="floater">
+    <Toolbar elevation="raised" density="compact">
       <ToolbarToggle aria-label="Bold">
         <Bold aria-hidden />
       </ToolbarToggle>

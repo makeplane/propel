@@ -17,44 +17,35 @@ import {
   type DropdownSeparatorProps,
 } from "../dropdown/index";
 
-// The Figma "Toolbar" component has a single `variant` axis describing where the
-// toolbar is placed (Figma: Floater / Pages - Topbar / Comments bottom bar). The
-// variants differ in two ways: their *surface* and their *density*. Only the
-// floater is a self-contained surface — a white `surface-1` card with a subtle
-// border, `radius/lg` corners and an `Overlay-100` shadow — so it can hover over
-// content. Topbar and bottom-bar sit flush inside an existing bar, so they're flat
-// (no surface, no shadow) and are therefore visually identical to each other.
+// A toolbar is described by two orthogonal axes — `elevation` and `density` — named
+// for what they actually express rather than where the toolbar is placed (placement
+// is the consumer's job, not a primitive's). The Figma "Toolbar" component models
+// these as placements (Floater / Pages - Topbar / Comments bottom bar), but those
+// collapse to combinations of the two axes here.
 //
-// Density differs too: the floater packs controls tighter (24px hit targets, a
-// 14px chevron) while the topbar/bottom-bar are roomier (28px hit targets, a 16px
-// chevron). Every placement shares the root `p-1.5` (6px) padding and `gap-2` (8px)
-// item gap; clusters inside `ToolbarGroup`/`ToolbarToggleGroup` keep a tight
-// `gap-0.5` (2px).
+// `elevation`: whether the toolbar draws its own surface. `raised` is a
+// self-contained card — a white `surface-1` fill with a subtle border, `radius/lg`
+// corners and an `Overlay-100` shadow — so it can hover over content (the Figma
+// floater). `flat` draws no surface and sits flush inside an existing bar (the Figma
+// topbar / bottom-bar, which were visually identical).
 const toolbarVariants = cva("flex w-fit items-center gap-2 p-1.5 text-secondary", {
   variants: {
-    variant: {
-      floater: surfaceVariants({ elevation: "raised", radius: "lg" }),
-      topbar: "",
-      "bottom-bar": "",
+    elevation: {
+      raised: surfaceVariants({ elevation: "raised", radius: "lg" }),
+      flat: "",
     },
   },
 });
 
-export type ToolbarVariant = NonNullable<VariantProps<typeof toolbarVariants>["variant"]>;
+export type ToolbarElevation = NonNullable<VariantProps<typeof toolbarVariants>["elevation"]>;
 
-// The density of a toolbar defaults from its placement: the `floater` is compact
-// (24px hit targets), while `topbar`/`bottom-bar` are comfortable (28px). The
-// resolved density is shared with the child controls (buttons, toggles, dropdown
-// trigger) through context so they size themselves to match the root. Callers can
-// pass `density` on the root to override the placement default — e.g. Figma's flat
-// "fixed + compact" bar is a `topbar` forced to `compact`.
+// `density`: how tightly the controls pack. `compact` is 24px hit targets (a 14px
+// chevron), `comfortable` is 28px (a 16px chevron). It's shared with the child
+// controls (buttons, toggles, dropdown trigger) through context so they size
+// themselves to match the root. Both axes share the root `p-1.5` (6px) padding and
+// `gap-2` (8px) item gap; clusters inside `ToolbarGroup`/`ToolbarToggleGroup` keep a
+// tight `gap-0.5` (2px).
 type ToolbarDensity = "compact" | "comfortable";
-
-const DENSITY_BY_VARIANT: Record<ToolbarVariant, ToolbarDensity> = {
-  floater: "compact",
-  topbar: "comfortable",
-  "bottom-bar": "comfortable",
-};
 
 const ToolbarDensityContext = React.createContext<ToolbarDensity>("compact");
 
@@ -63,19 +54,16 @@ export type ToolbarProps = Omit<
   "className" | "render" | "style"
 > & {
   /**
-   * Where the toolbar is placed, which controls its surface and the default density.
-   * `floater` is a self-contained card with a border + shadow that hovers over content
-   * and packs its controls tightly (24px). `topbar` and `bottom-bar` are flat, sit flush
-   * inside an existing bar, and default to the roomier 28px density.
+   * Whether the toolbar draws its own surface. `raised` is a self-contained card
+   * with a border + shadow that hovers over content; `flat` draws no surface and
+   * sits flush inside an existing bar. Independent of `density`.
    */
-  variant: ToolbarVariant;
+  elevation: ToolbarElevation;
   /**
-   * Hit-target density of the toolbar's controls. Defaults to the placement default
-   * (`floater` -> `compact`, `topbar`/`bottom-bar` -> `comfortable`); pass it to override
-   * the default and decouple density from `variant` — e.g. a flat `topbar` forced to
-   * `compact` for Figma's "fixed + compact" bar.
+   * How tightly the controls pack. `compact` is 24px hit targets, `comfortable` is
+   * 28px. Independent of `elevation`, so a flat bar can still be compact.
    */
-  density?: ToolbarDensity;
+  density: ToolbarDensity;
 };
 
 /**
@@ -85,10 +73,10 @@ export type ToolbarProps = Omit<
  * carries `role="toolbar"`. Compose it from `ToolbarGroup`, `ToolbarButton`,
  * `ToolbarToggle`, `ToolbarSeparator` and `ToolbarDropdown`.
  */
-export function Toolbar({ variant, density, ...props }: ToolbarProps) {
+export function Toolbar({ elevation, density, ...props }: ToolbarProps) {
   return (
-    <ToolbarDensityContext.Provider value={density ?? DENSITY_BY_VARIANT[variant]}>
-      <BaseToolbar.Root className={toolbarVariants({ variant })} {...props} />
+    <ToolbarDensityContext.Provider value={density}>
+      <BaseToolbar.Root className={toolbarVariants({ elevation })} {...props} />
     </ToolbarDensityContext.Provider>
   );
 }
@@ -129,9 +117,6 @@ const itemVariants = cva(
         compact: "size-6 [&_svg]:size-3.5",
         comfortable: "size-7 [&_svg]:size-4",
       },
-    },
-    defaultVariants: {
-      density: "compact",
     },
   },
 );
@@ -235,9 +220,6 @@ const dropdownTriggerVariants = cva(
         comfortable: "h-7",
       },
     },
-    defaultVariants: {
-      density: "compact",
-    },
   },
 );
 
@@ -247,9 +229,6 @@ const dropdownChevronVariants = cva("shrink-0 text-icon-secondary", {
       compact: "size-3.5",
       comfortable: "size-4",
     },
-  },
-  defaultVariants: {
-    density: "compact",
   },
 });
 
