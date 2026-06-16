@@ -49,7 +49,6 @@
   "scripts": {
     "build": "vp pack",
     "dev": "vp pack --watch",
-    "test": "vitest --project 'storybook-*' run",
     "storybook": "LAUNCH_EDITOR=\"$EDITOR\" storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
