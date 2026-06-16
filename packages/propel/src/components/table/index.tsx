@@ -393,7 +393,7 @@ export function TableEditableCell({
               type="button"
               className={cx(
                 actionableTriggerClass,
-                "justify-between gap-1 px-3 text-start",
+                "group/editable-cell justify-between gap-1 px-3 text-start",
                 selected ? selectedTriggerClass : null,
               )}
             />
@@ -402,7 +402,10 @@ export function TableEditableCell({
           <span className="min-w-0 truncate">{value}</span>
           {/* 14px chevron in a 20px icon slot, mirroring the Figma trigger. */}
           <span className="flex size-5 shrink-0 items-center justify-center">
-            <ChevronDown aria-hidden className="size-3.5 text-icon-secondary" />
+            <ChevronDown
+              aria-hidden
+              className="size-3.5 text-icon-secondary group-disabled/editable-cell:text-icon-disabled"
+            />
           </span>
         </DropdownTrigger>
         {children}
@@ -462,10 +465,13 @@ export function TableActionCell({
           disabled={disabled}
           aria-label={ariaLabel}
           render={
-            <button type="button" className={cx(actionableTriggerClass, "justify-center px-3")} />
+            <button
+              type="button"
+              className={cx(actionableTriggerClass, "group/action-cell justify-center px-3")}
+            />
           }
         >
-          <span className="flex size-5 shrink-0 items-center justify-center text-icon-secondary">
+          <span className="flex size-5 shrink-0 items-center justify-center text-icon-secondary group-disabled/action-cell:text-icon-disabled">
             {icon ?? <Ellipsis aria-hidden className="size-3.5" />}
           </span>
         </DropdownTrigger>
