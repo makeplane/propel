@@ -413,8 +413,8 @@ export const RichRows: Story = {
               </TableEditableCell>
               <TableActionCell aria-label={`Options for ${person.name}`}>
                 <DropdownContent>
-                  <DropdownItem variant="default" icon={<Pencil />} label="Edit" />
-                  <DropdownItem variant="default" icon={<Trash2 />} label="Delete" />
+                  <DropdownItem variant="default" inlineStartNode={<Pencil />} label="Edit" />
+                  <DropdownItem variant="default" inlineStartNode={<Trash2 />} label="Delete" />
                 </DropdownContent>
               </TableActionCell>
             </TableRow>
