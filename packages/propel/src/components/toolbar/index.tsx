@@ -147,7 +147,9 @@ export function ToolbarButton({ children, ...props }: ToolbarButtonProps) {
   const density = React.useContext(ToolbarDensityContext);
   return (
     <BaseToolbar.Button className={itemVariants({ density })} {...props}>
-      <span className={nodeSlotClass}>{children}</span>
+      <span aria-hidden className={nodeSlotClass}>
+        {children}
+      </span>
     </BaseToolbar.Button>
   );
 }
@@ -173,7 +175,9 @@ export function ToolbarToggle({ children, ...props }: ToolbarToggleProps) {
   const density = React.useContext(ToolbarDensityContext);
   return (
     <BaseToolbar.Button render={<Toggle />} className={itemVariants({ density })} {...props}>
-      <span className={nodeSlotClass}>{children}</span>
+      <span aria-hidden className={nodeSlotClass}>
+        {children}
+      </span>
     </BaseToolbar.Button>
   );
 }

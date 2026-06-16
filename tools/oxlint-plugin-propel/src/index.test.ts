@@ -106,6 +106,14 @@ describe("rewriteClassName", () => {
     );
   });
 
+  it("keeps a font-WEIGHT when a variant-prefixed size would otherwise lose it", () => {
+    // The bare `text-13` folds the weight, but `md:text-20` becomes `-regular`
+    // (variant sizes can't fold), so `font-bold` must stay to keep bold at `md`.
+    expect(rewriteClassName("text-13 md:text-20 font-bold", tokens).output).toBe(
+      "text-body-xs-bold md:text-h4-regular font-bold",
+    );
+  });
+
   it("applies the ambient (cva base) weight to a size-only string", () => {
     expect(rewriteClassName("text-13", tokens, "medium").output).toBe("text-body-xs-medium");
     expect(rewriteClassName("h-8 px-2 text-14 leading-none", tokens, "semibold").output).toBe(

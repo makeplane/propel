@@ -186,6 +186,7 @@ export function rewriteClassName(
   }
 
   let hasBareRawSize = false;
+  let hasVariantRawSize = false;
 
   for (let i = 0; i < segments.length; i++) {
     const seg = segments[i];
@@ -204,6 +205,7 @@ export function rewriteClassName(
     const isBare = !split.prefix.includes(":");
     const weight = isBare ? resolvedWeight : "regular";
     if (isBare) hasBareRawSize = true;
+    else hasVariantRawSize = true;
 
     segments[i] = `${split.prefix}${buildSemanticToken(category, weight)}${split.postfix}`;
     hasTypographyToken = true;
@@ -213,7 +215,12 @@ export function rewriteClassName(
   // token) and collapse the orphaned whitespace — only when a bare raw size was
   // found in *this* string to pair with. A `font-WEIGHT` with no local size
   // (e.g. a cva base) is left intact: the size variants read it as their ambient.
-  if (hasBareRawSize && weightExplicit) {
+  //
+  // It is also left intact when the string ALSO has a variant-prefixed raw size:
+  // that size is rewritten to `-regular` (variant sizes can't safely fold a bare
+  // weight), so the standalone `font-WEIGHT` must stay to preserve the intended
+  // weight at that breakpoint (e.g. `text-13 md:text-14 font-bold`).
+  if (hasBareRawSize && weightExplicit && !hasVariantRawSize) {
     const toRemove = new Set(weightIndices);
     const cleaned: string[] = [];
     for (let i = 0; i < segments.length; i++) {
