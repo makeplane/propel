@@ -186,12 +186,22 @@ export const ComposableMenu: Story = {
       <ToolbarDropdown defaultOpen>
         <ToolbarDropdownTrigger aria-label="Text style">Text</ToolbarDropdownTrigger>
         <ToolbarDropdownContent>
-          <ToolbarDropdownItem variant="default" icon={<Pilcrow />} label="Paragraph" selected />
-          <ToolbarDropdownItem variant="default" icon={<Heading1 />} label="Heading 1" />
-          <ToolbarDropdownItem variant="default" icon={<Heading2 />} label="Heading 2" />
-          <ToolbarDropdownItem variant="default" icon={<Heading3 />} label="Heading 3" />
+          <ToolbarDropdownItem
+            variant="default"
+            inlineStartNode={<Pilcrow />}
+            label="Paragraph"
+            selected
+          />
+          <ToolbarDropdownItem variant="default" inlineStartNode={<Heading1 />} label="Heading 1" />
+          <ToolbarDropdownItem variant="default" inlineStartNode={<Heading2 />} label="Heading 2" />
+          <ToolbarDropdownItem variant="default" inlineStartNode={<Heading3 />} label="Heading 3" />
           <ToolbarDropdownSeparator />
-          <ToolbarDropdownItem variant="default" icon={<Code />} label="Code block" disabled />
+          <ToolbarDropdownItem
+            variant="default"
+            inlineStartNode={<Code />}
+            label="Code block"
+            disabled
+          />
         </ToolbarDropdownContent>
       </ToolbarDropdown>
     </Toolbar>

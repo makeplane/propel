@@ -210,7 +210,7 @@ export const Status: Story = {
             <DropdownItem
               key={s.key}
               variant="default"
-              icon={s.icon}
+              inlineStartNode={s.icon}
               label={s.label}
               selected={selected === s.key}
               closeOnClick={false}
@@ -263,7 +263,7 @@ export const Labels: Story = {
             // rule, so the "Add label" row mounts directly beneath it with no extra line.
             <DropdownItem
               variant="default"
-              icon={<Plus className="text-icon-secondary" />}
+              inlineStartNode={<Plus className="text-icon-secondary" />}
               label={`Add label "${trimmed}"`}
               closeOnClick={false}
             />
@@ -271,7 +271,7 @@ export const Labels: Story = {
           {visible.map((l) => (
             <DropdownCheckboxItem
               key={l.key}
-              icon={<ColorSwatch className={l.color} />}
+              inlineStartNode={<ColorSwatch className={l.color} />}
               label={l.label}
               checked={Boolean(checked[l.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [l.key]: next }))}
@@ -312,13 +312,22 @@ export const ActionMenu: Story = {
         Actions
       </DropdownTrigger>
       <DropdownContent width="sm">
-        <DropdownItem variant="default" icon={<Pencil />} label="Edit" />
-        <DropdownItem variant="default" icon={<Copy />} label="Make a copy" />
-        <DropdownItem variant="default" icon={<ExternalLink />} label="Open in new tab" />
-        <DropdownItem variant="with-value" icon={<Link2 />} label="Copy link" value="⌘L" />
+        <DropdownItem variant="default" inlineStartNode={<Pencil />} label="Edit" />
+        <DropdownItem variant="default" inlineStartNode={<Copy />} label="Make a copy" />
+        <DropdownItem
+          variant="default"
+          inlineStartNode={<ExternalLink />}
+          label="Open in new tab"
+        />
+        <DropdownItem
+          variant="default"
+          inlineStartNode={<Link2 />}
+          label="Copy link"
+          inlineEndNode={<span className="text-12 text-tertiary">⌘L</span>}
+        />
         <DropdownSeparator />
         <DropdownItem
-          icon={<Trash2 />}
+          inlineStartNode={<Trash2 />}
           label="Archive"
           variant="with-description"
           description="Only completed or cancelled work items can be archived"
@@ -327,7 +336,7 @@ export const ActionMenu: Story = {
         <DropdownSeparator />
         <DropdownItem
           variant="default"
-          icon={<Trash2 className="text-danger-primary" />}
+          inlineStartNode={<Trash2 className="text-danger-primary" />}
           label={<span className="text-danger-primary">Delete</span>}
         />
       </DropdownContent>
@@ -394,7 +403,7 @@ export const Description: Story = {
         </DropdownTrigger>
         <DropdownContent width="lg">
           <DropdownItem
-            icon={<Lock />}
+            inlineStartNode={<Lock />}
             label="Private"
             variant="with-description"
             description="Accessible only by invite"
@@ -403,7 +412,7 @@ export const Description: Story = {
             onClick={() => setSelected("private")}
           />
           <DropdownItem
-            icon={<Globe />}
+            inlineStartNode={<Globe />}
             label="Public"
             variant="with-description"
             description="Anyone in the workspace except Guests can join"
@@ -448,7 +457,7 @@ export const Assignees: Story = {
           {visible.map((a) => (
             <DropdownCheckboxItem
               key={a.key}
-              icon={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
+              inlineStartNode={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
               label={a.name}
               checked={Boolean(checked[a.key])}
               disabled={a.disabled}
@@ -547,7 +556,7 @@ export const Priority: Story = {
           {visible.map((p) => (
             <DropdownCheckboxItem
               key={p.key}
-              icon={p.icon}
+              inlineStartNode={p.icon}
               label={p.label}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
@@ -592,7 +601,7 @@ export const CheckedFillVisible: Story = {
           {PRIORITIES.map((p) => (
             <DropdownCheckboxItem
               key={p.key}
-              icon={p.icon}
+              inlineStartNode={p.icon}
               label={p.label}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
@@ -701,12 +710,13 @@ export const Filters: Story = {
                 <DropdownGroup>
                   {/* The category heading is itself a menuitem (valid `role="menu"`
                       child) so its collapse chevron stays interactive without breaking
-                      ARIA. The label is the section title; the chevron is the endIcon. */}
+                      ARIA. The label is the section title; the chevron is the
+                      inlineEndNode. */}
                   <DropdownItem
                     variant="default"
                     label={section.title}
                     aria-expanded={!isCollapsed}
-                    endIcon={
+                    inlineEndNode={
                       isCollapsed ? (
                         <ChevronRight aria-hidden="true" />
                       ) : (
@@ -720,7 +730,7 @@ export const Filters: Story = {
                     ? visibleItems.map((i) => (
                         <DropdownCheckboxItem
                           key={i.key}
-                          icon={i.icon}
+                          inlineStartNode={i.icon}
                           label={i.label}
                           checked={Boolean(checked[i.key])}
                           onCheckedChange={toggle(i.key)}
@@ -810,7 +820,12 @@ export const EmptyState: Story = {
         >
           {visible.length > 0 ? (
             visible.map((s) => (
-              <DropdownItem key={s.key} variant="default" icon={s.icon} label={s.label} />
+              <DropdownItem
+                key={s.key}
+                variant="default"
+                inlineStartNode={s.icon}
+                label={s.label}
+              />
             ))
           ) : (
             <div className="px-2 py-2 text-13 text-tertiary">No matching results</div>
@@ -863,7 +878,7 @@ export const Submenu: Story = {
         <DropdownSub>
           <DropdownSubTrigger
             label="Priority"
-            trailing={
+            inlineEndNode={
               <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
@@ -874,7 +889,7 @@ export const Submenu: Story = {
               <DropdownItem
                 key={p.key}
                 variant="default"
-                icon={p.icon}
+                inlineStartNode={p.icon}
                 label={p.label}
                 closeOnClick={false}
               />
@@ -884,7 +899,7 @@ export const Submenu: Story = {
         <DropdownSub>
           <DropdownSubTrigger
             label="State"
-            trailing={
+            inlineEndNode={
               <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
@@ -895,7 +910,7 @@ export const Submenu: Story = {
               <DropdownItem
                 key={s.key}
                 variant="default"
-                icon={s.icon}
+                inlineStartNode={s.icon}
                 label={s.label}
                 closeOnClick={false}
               />
@@ -905,7 +920,7 @@ export const Submenu: Story = {
         <DropdownSub>
           <DropdownSubTrigger
             label="Assignee"
-            trailing={
+            inlineEndNode={
               <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
@@ -916,7 +931,9 @@ export const Submenu: Story = {
               <DropdownItem
                 key={a.key}
                 variant="default"
-                icon={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
+                inlineStartNode={
+                  <Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />
+                }
                 label={a.name}
                 closeOnClick={false}
               />
