@@ -117,13 +117,11 @@ const preview: Preview = {
     },
 
     a11y: {
-      // Light is the enforced gate (fail CI on violations). Dark / *-contrast also run
-      // axe in their own test projects, but report-only for now ('todo'): grey + indigo
-      // label tokens are fixed (#99), but two AA gaps remain that the token values can't
-      // close alone -- the dark/dark-contrast accent BACKGROUND (brand-default) is too
-      // light for any on-color text, and yellow text on yellow-50 misses AA. Flip this to
-      // a plain "error" once those land. ('off' = skip.)
-      test: TEST_THEME === "light" ? "error" : "todo",
+      // All four themes enforce the axe gate (fail CI on violations): each theme runs in
+      // its own test project (see vite.config.ts). The #99 label-contrast gaps are fixed in
+      // variables.css, and primary buttons / the selected calendar day now use `text-inverse`
+      // for AA contrast on the brand surface. ('todo' = report-only, 'off' = skip.)
+      test: "error",
     },
   },
 };

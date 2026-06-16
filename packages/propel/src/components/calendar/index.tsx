@@ -43,11 +43,12 @@ const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"]>> = {
   // The actual button: 40px round, body-sm text, primary color.
   day_button:
     "relative inline-flex size-10 items-center justify-center rounded-full text-14 text-primary hover:bg-layer-transparent-hover",
-  // Selected single day / range endpoints: solid accent button, white text.
+  // Selected single day / range endpoints: solid accent button, inverse text.
   // (`selected` is set on the cell for every day in a range; `range_middle`
   // below resets the button back to transparent for the in-between days.)
+  // `text-inverse` keeps AA contrast on the brand-blue surface in every theme.
   selected:
-    "[&>button]:bg-accent-primary [&>button]:text-on-color [&>button:hover]:bg-accent-primary",
+    "[&>button]:bg-accent-primary [&>button]:text-inverse [&>button:hover]:bg-accent-primary",
   // Endpoints are tagged so the cell can round the outer edge of the range.
   range_start: "range-start",
   range_end: "range-end",

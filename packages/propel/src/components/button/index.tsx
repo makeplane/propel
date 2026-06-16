@@ -64,7 +64,9 @@ export const buttonVariants = cva(
         variant: "primary",
         tone: "neutral",
         className: cx(
-          "bg-accent-primary text-on-color",
+          // `text-inverse` (white in light, near-black in dark) keeps AA contrast against
+          // the brand-blue surface, which is dark in light themes and light in dark ones.
+          "bg-accent-primary text-inverse",
           "hover:bg-accent-primary-hover active:bg-accent-primary-active",
           "disabled:bg-layer-disabled disabled:text-on-color-disabled",
         ),

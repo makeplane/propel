@@ -393,10 +393,10 @@
     --label-crimson-text: var(--extended-color-crimson-700);
     --label-crimson-border: var(--extended-color-crimson-700);
     --label-crimson-focus: var(--extended-color-crimson-500);
-    --label-yellow-bg: var(--extended-color-yellow-50);
+    --label-yellow-bg: var(--extended-color-yellow-100);
     --label-yellow-bg-strong: var(--extended-color-yellow-700);
     --label-yellow-hover: var(--extended-color-yellow-100);
-    --label-yellow-icon: var(--extended-color-yellow-500);
+    --label-yellow-icon: var(--extended-color-yellow-900);
     --label-yellow-icon-strong: var(--extended-color-yellow-700);
     --label-yellow-text: var(--extended-color-yellow-900);
     --label-yellow-border: var(--extended-color-yellow-600);
@@ -879,8 +879,8 @@
       --bg-plans-neutral-subtle: var(--alpha-black-400);
       --label-grey-icon: var(--extended-color-grey-700);
       --label-grey-text: var(--extended-color-grey-700);
-      --label-yellow-icon: var(--extended-color-yellow-700);
-      --label-yellow-text: var(--extended-color-yellow-700);
+      --label-yellow-icon: var(--extended-color-yellow-900);
+      --label-yellow-text: var(--extended-color-yellow-900);
       --txt-accent-primary: var(--brand-default);
       --txt-accent-secondary: var(--brand-700);
       --txt-plans-brand-color: var(--alpha-black-300);
