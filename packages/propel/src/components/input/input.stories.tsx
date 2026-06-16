@@ -34,7 +34,7 @@ export const Default: Story = {
   args: {
     magnitude: "md",
     tone: "neutral",
-    variant: "vertical",
+    orientation: "vertical",
     label: "Email",
     placeholder: "you@example.com",
     description: "We'll use this to send you receipts.",
@@ -47,7 +47,7 @@ export const Horizontal: Story = {
   args: {
     magnitude: "md",
     tone: "neutral",
-    variant: "horizontal",
+    orientation: "horizontal",
     label: "Email",
     placeholder: "you@example.com",
   },
@@ -60,13 +60,19 @@ export const Horizontal: Story = {
  */
 export const HorizontalShowcase: Story = {
   // Required axes for the args table; the custom `render` ignores them.
-  args: { magnitude: "md", tone: "neutral", variant: "horizontal" },
+  args: { magnitude: "md", tone: "neutral", orientation: "horizontal" },
   parameters: { controls: { disable: true } },
   render: () => (
-    <div className="flex w-110 flex-col gap-4">
-      <Input variant="horizontal" magnitude="md" tone="neutral" label="Email" placeholder="md" />
+    <div className="flex w-[440px] flex-col gap-4">
       <Input
-        variant="horizontal"
+        orientation="horizontal"
+        magnitude="md"
+        tone="neutral"
+        label="Email"
+        placeholder="md"
+      />
+      <Input
+        orientation="horizontal"
         magnitude="lg"
         tone="neutral"
         label="Email"
@@ -74,7 +80,7 @@ export const HorizontalShowcase: Story = {
         hint="Use your work email."
       />
       <Input
-        variant="horizontal"
+        orientation="horizontal"
         magnitude="xl"
         tone="neutral"
         label="Email"
@@ -82,7 +88,7 @@ export const HorizontalShowcase: Story = {
         description="We never share your email with anyone."
       />
       <Input
-        variant="horizontal"
+        orientation="horizontal"
         magnitude="md"
         label="Email"
         tone="danger"
@@ -98,7 +104,7 @@ export const WithIcons: Story = {
   args: {
     magnitude: "md",
     tone: "neutral",
-    variant: "vertical",
+    orientation: "vertical",
     label: "Search",
     placeholder: "Search…",
     leadingIcon: <Search />,
@@ -113,35 +119,35 @@ export const WithIcons: Story = {
  */
 export const States: Story = {
   // Required axes for the args table; the custom `render` ignores them.
-  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
+  args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex w-72 flex-col gap-4">
       <Input
         magnitude="md"
         tone="neutral"
-        variant="vertical"
+        orientation="vertical"
         label="Default"
         placeholder="Placeholder"
       />
       <Input
         magnitude="md"
         tone="neutral"
-        variant="vertical"
+        orientation="vertical"
         label="Focus / hover (interact)"
         placeholder="Click me"
       />
       <Input
         magnitude="md"
         tone="neutral"
-        variant="vertical"
+        orientation="vertical"
         label="Filled"
         defaultValue="Ada Lovelace"
       />
       <Input
         magnitude="md"
         tone="neutral"
-        variant="vertical"
+        orientation="vertical"
         label="Disabled"
         placeholder="Placeholder"
         disabled
@@ -149,7 +155,7 @@ export const States: Story = {
       <Input
         magnitude="md"
         tone="danger"
-        variant="vertical"
+        orientation="vertical"
         label="Error"
         defaultValue="not-an-email"
         error="Enter a valid email."
@@ -160,7 +166,7 @@ export const States: Story = {
 
 /** Every magnitude (`md` / `lg` / `xl`) stacked. */
 export const Magnitudes: Story = {
-  args: { magnitude: "md", tone: "neutral", variant: "vertical", placeholder: "Placeholder" },
+  args: { magnitude: "md", tone: "neutral", orientation: "vertical", placeholder: "Placeholder" },
   argTypes: { magnitude: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex w-72 flex-col gap-4">
@@ -175,7 +181,7 @@ export const Magnitudes: Story = {
 export const TextAreaStory: Story = {
   name: "TextArea",
   // Required axes for the args table; the custom `render` ignores them.
-  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
+  args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="w-80">
@@ -198,7 +204,7 @@ export const TextAreaStory: Story = {
  */
 export const TextAreaMagnitudes: Story = {
   name: "TextArea Magnitudes",
-  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
+  args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex w-80 flex-col gap-4">
@@ -222,7 +228,7 @@ export const TextAreaMagnitudes: Story = {
  */
 export const TextAreaScroll: Story = {
   name: "TextArea Scroll",
-  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
+  args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="w-80">
@@ -242,7 +248,7 @@ export const TextAreaScroll: Story = {
 export const Error: Story = {
   args: {
     magnitude: "md",
-    variant: "vertical",
+    orientation: "vertical",
     label: "Email",
     tone: "danger",
     defaultValue: "not-an-email",
@@ -260,14 +266,14 @@ export const Error: Story = {
 export const RtlVerify: Story = {
   name: "RTL Verify",
   tags: ["!autodocs", "!manifest"],
-  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
+  args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div dir="rtl" className="flex w-80 flex-col gap-6">
       <Input
         magnitude="md"
         tone="neutral"
-        variant="vertical"
+        orientation="vertical"
         label="البريد الإلكتروني"
         placeholder="you@example.com"
         description="سنستخدمه لإرسال الإيصالات."
@@ -276,14 +282,14 @@ export const RtlVerify: Story = {
       <Input
         magnitude="md"
         tone="neutral"
-        variant="horizontal"
+        orientation="horizontal"
         label="البريد"
         placeholder="you@example.com"
       />
       <Input
         magnitude="md"
         tone="neutral"
-        variant="vertical"
+        orientation="vertical"
         label="بحث"
         placeholder="Search…"
         leadingIcon={<Search />}
@@ -291,7 +297,7 @@ export const RtlVerify: Story = {
       />
       <Input
         magnitude="md"
-        variant="vertical"
+        orientation="vertical"
         tone="danger"
         label="البريد الإلكتروني"
         required
@@ -306,14 +312,14 @@ export const RtlVerify: Story = {
 export const LtrVerify: Story = {
   name: "LTR Verify",
   tags: ["!autodocs", "!manifest"],
-  args: { magnitude: "md", tone: "neutral", variant: "vertical" },
+  args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div dir="ltr" className="flex w-80 flex-col gap-6">
       <Input
         magnitude="md"
         tone="neutral"
-        variant="vertical"
+        orientation="vertical"
         label="Email"
         placeholder="you@example.com"
         description="We'll use this to send you receipts."
@@ -322,14 +328,14 @@ export const LtrVerify: Story = {
       <Input
         magnitude="md"
         tone="neutral"
-        variant="horizontal"
+        orientation="horizontal"
         label="Email"
         placeholder="you@example.com"
       />
       <Input
         magnitude="md"
         tone="neutral"
-        variant="vertical"
+        orientation="vertical"
         label="Search"
         placeholder="Search…"
         leadingIcon={<Search />}
@@ -337,7 +343,7 @@ export const LtrVerify: Story = {
       />
       <Input
         magnitude="md"
-        variant="vertical"
+        orientation="vertical"
         tone="danger"
         label="Email"
         required
@@ -357,7 +363,7 @@ export const TypingUpdatesValue: Story = {
   args: {
     magnitude: "md",
     tone: "neutral",
-    variant: "vertical",
+    orientation: "vertical",
     label: "Name",
     placeholder: "Your name",
     onChange: fn(),
@@ -376,7 +382,7 @@ export const DisabledBlocksInput: Story = {
   args: {
     magnitude: "md",
     tone: "neutral",
-    variant: "vertical",
+    orientation: "vertical",
     label: "Name",
     placeholder: "Your name",
     disabled: true,
@@ -394,7 +400,7 @@ export const ErrorAnnouncesInvalid: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: {
     magnitude: "md",
-    variant: "vertical",
+    orientation: "vertical",
     label: "Email",
     tone: "danger",
     defaultValue: "x",
