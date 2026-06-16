@@ -92,11 +92,11 @@
     "tailwindcss": "^4.0.0"
   },
   "browserslist": [
-    "Chrome >= 111",
-    "Edge >= 111",
-    "Firefox >= 128",
-    "Safari >= 16.4",
-    "iOS >= 16.4"
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 128",
+    "safari >= 16.4",
+    "ios_saf >= 16.4"
   ],
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

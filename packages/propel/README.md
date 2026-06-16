@@ -71,9 +71,10 @@ by the color tokens, which use `oklch()` and `color-mix()`:
 | Firefox     | 128     |
 | Safari/iOS  | 16.4    |
 
-Internet Explorer is not supported. Older Safari (16.0–16.3) and Firefox (< 128)
-render the color tokens incorrectly, since `color-mix()` and the Tailwind v4
-cascade-layer/`@property` features aren't fully available there.
+Internet Explorer is not supported. The Firefox 128 and Safari/iOS 16.4 floors are
+set by Tailwind v4's own baseline (cascade layers and `@property`), not by the color
+tokens: `oklch()` and `color-mix()` are actually supported earlier (Firefox 113,
+Safari 16.2). Below those floors the Tailwind-generated CSS doesn't apply correctly.
 
 ## Development
 
