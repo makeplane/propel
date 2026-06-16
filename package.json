@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
+    "oxlint-tailwindcss": "catalog:",
     "vite-plus": "catalog:"
   },
   "engines": {
