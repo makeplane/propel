@@ -48,7 +48,7 @@ export const Controlled: Story = {
     return (
       <div className="flex flex-col gap-2">
         <Search value={value} onValueChange={setValue} />
-        <p className="text-12 text-tertiary">Query: {value || "(empty)"}</p>
+        <p className="text-caption-md-regular text-tertiary">Query: {value || "(empty)"}</p>
       </div>
     );
   },

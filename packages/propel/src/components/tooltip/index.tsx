@@ -133,10 +133,10 @@ function TooltipArrow() {
         "size-2 rotate-45 border-sm border-subtle-1 bg-layer-2",
         // Pull the square halfway across the popup edge for each side and clip the
         // adjacent borders so the visible part reads as a clean triangle.
-        "data-[side=bottom]:top-[-3px] data-[side=bottom]:[clip-path:polygon(0_0,100%_0,0_100%)]",
-        "data-[side=top]:bottom-[-3px] data-[side=top]:[clip-path:polygon(100%_0,100%_100%,0_100%)]",
-        "data-[side=left]:right-[-3px] data-[side=left]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
-        "data-[side=right]:left-[-3px] data-[side=right]:[clip-path:polygon(0_0,0_100%,100%_100%)]",
+        "data-[side=bottom]:-top-0.75 data-[side=bottom]:[clip-path:polygon(0_0,100%_0,0_100%)]",
+        "data-[side=top]:-bottom-0.75 data-[side=top]:[clip-path:polygon(100%_0,100%_100%,0_100%)]",
+        "data-[side=left]:-right-0.75 data-[side=left]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
+        "data-[side=right]:-left-0.75 data-[side=right]:[clip-path:polygon(0_0,0_100%,100%_100%)]",
         // Base UI's Positioner also emits the logical sides `inline-start`/`inline-end`
         // (the `side` prop accepts them), and Plane runs both LTR and RTL — so these
         // must flip with writing direction. The edge offset uses logical insets
@@ -144,8 +144,8 @@ function TooltipArrow() {
         // polygon clip is physical, so a `rtl:` variant mirrors the triangle. LTR:
         // inline-start sits left (apex points right), inline-end sits right (apex
         // points left); RTL swaps both. Physical left/right above stay fixed.
-        "data-[side=inline-start]:end-[-3px] data-[side=inline-start]:[clip-path:polygon(0_0,100%_0,100%_100%)] rtl:data-[side=inline-start]:[clip-path:polygon(0_0,0_100%,100%_100%)]",
-        "data-[side=inline-end]:start-[-3px] data-[side=inline-end]:[clip-path:polygon(0_0,0_100%,100%_100%)] rtl:data-[side=inline-end]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
+        "data-[side=inline-start]:-inset-e-0.75 data-[side=inline-start]:[clip-path:polygon(0_0,100%_0,100%_100%)] rtl:data-[side=inline-start]:[clip-path:polygon(0_0,0_100%,100%_100%)]",
+        "data-[side=inline-end]:-inset-s-0.75 data-[side=inline-end]:[clip-path:polygon(0_0,0_100%,100%_100%)] rtl:data-[side=inline-end]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
       )}
     />
   );

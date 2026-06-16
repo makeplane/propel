@@ -5,6 +5,7 @@ import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 import * as React from "react";
+import { nodeSlotClass } from "../../internal/node-slot";
 import { surfaceVariants } from "../../internal/surface";
 import {
   Dropdown,
@@ -102,8 +103,8 @@ export function ToolbarGroup(props: ToolbarGroupProps) {
 // transparent default background that fills in on hover/active, and a selected
 // (pressed) background for the "on" state. `data-pressed` is set by Base UI's
 // Toggle; disabled items dim and stop reacting to the pointer. The square size and
-// the icon size follow the toolbar's density — `compact` is 24px with a 14px icon,
-// `comfortable` is 28px with a 16px icon (Figma).
+// the icon node slot's `--node-size` follow the toolbar's density — `compact` is
+// 24px with a 14px icon, `comfortable` is 28px with a 16px icon (Figma).
 const itemVariants = cva(
   cx(
     "inline-flex shrink-0 items-center justify-center rounded-md",
@@ -112,13 +113,12 @@ const itemVariants = cva(
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
     "data-[pressed]:bg-layer-transparent-selected data-[pressed]:text-icon-accent-primary",
     "disabled:pointer-events-none disabled:text-icon-disabled",
-    "[&_svg]:shrink-0",
   ),
   {
     variants: {
       density: {
-        compact: "size-6 [&_svg]:size-3.5",
-        comfortable: "size-7 [&_svg]:size-4",
+        compact: "size-6 [--node-size:0.875rem]",
+        comfortable: "size-7 [--node-size:1rem]",
       },
     },
     defaultVariants: {
@@ -143,9 +143,13 @@ export type ToolbarButtonProps = Omit<
  * icon and therefore requires an `aria-label`. For an on/off control use
  * `ToolbarToggle` instead.
  */
-export function ToolbarButton(props: ToolbarButtonProps) {
+export function ToolbarButton({ children, ...props }: ToolbarButtonProps) {
   const density = React.useContext(ToolbarDensityContext);
-  return <BaseToolbar.Button className={itemVariants({ density })} {...props} />;
+  return (
+    <BaseToolbar.Button className={itemVariants({ density })} {...props}>
+      <span className={nodeSlotClass}>{children}</span>
+    </BaseToolbar.Button>
+  );
 }
 
 export type ToolbarToggleProps = Omit<
@@ -165,10 +169,12 @@ export type ToolbarToggleProps = Omit<
  * `aria-pressed` and participates in toolbar keyboard navigation. Use `value` to
  * make it a member of a `ToolbarToggleGroup`.
  */
-export function ToolbarToggle(props: ToolbarToggleProps) {
+export function ToolbarToggle({ children, ...props }: ToolbarToggleProps) {
   const density = React.useContext(ToolbarDensityContext);
   return (
-    <BaseToolbar.Button render={<Toggle />} className={itemVariants({ density })} {...props} />
+    <BaseToolbar.Button render={<Toggle />} className={itemVariants({ density })} {...props}>
+      <span className={nodeSlotClass}>{children}</span>
+    </BaseToolbar.Button>
   );
 }
 
@@ -213,7 +219,7 @@ export function ToolbarSeparator(props: ToolbarSeparatorProps) {
 const dropdownTriggerVariants = cva(
   cx(
     "inline-flex shrink-0 items-center gap-1 rounded-md px-2",
-    "bg-layer-transparent text-13 text-secondary outline-none",
+    "bg-layer-transparent text-body-xs-regular text-secondary outline-none",
     "hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
     "data-[popup-open]:bg-layer-transparent-selected",

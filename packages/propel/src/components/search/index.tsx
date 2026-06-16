@@ -20,7 +20,7 @@ const searchBoxClass = cx(
   "focus-within:border-accent-strong focus-within:bg-layer-2 focus-within:ring-2 focus-within:ring-accent-strong/25",
   // Disabled: muted, no hover/ring (the Figma frame has no disabled state, but the
   // control is a real input and must degrade sensibly).
-  "has-[:disabled]:cursor-not-allowed has-[:disabled]:bg-layer-2 has-[:disabled]:hover:bg-layer-2",
+  "has-[:disabled]:cursor-not-allowed has-[:disabled]:bg-layer-2 hover:has-[:disabled]:bg-layer-2",
 );
 
 export type SearchProps = Omit<
@@ -91,7 +91,7 @@ export function Search({
         aria-label={resolvedAriaLabel}
         aria-labelledby={ariaLabelledBy}
         className={cx(
-          "min-w-0 flex-1 bg-transparent text-14 text-primary outline-none",
+          "min-w-0 flex-1 bg-transparent text-body-sm-regular text-primary outline-none",
           "placeholder:text-placeholder disabled:cursor-not-allowed disabled:text-disabled",
           "[&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none",
         )}
@@ -145,16 +145,16 @@ export function Search({
 const expandableWrapperClass = "relative inline-flex size-7 shrink-0";
 
 const expandableBoxClass = cx(
-  "group/search absolute end-0 top-0 inline-flex h-7 w-7 items-center gap-2 overflow-hidden rounded-md px-1.5",
+  "group/search absolute inset-e-0 top-0 inline-flex h-7 w-7 items-center gap-2 overflow-hidden rounded-md px-1.5",
   "border-sm border-transparent bg-layer-transparent",
   "transition-[width,border-color,background-color] duration-200 ease-out motion-reduce:transition-none",
   // Collapsed it reads as an icon button (hover fill). It never rests focused — focusing
   // the field expands it — so the focus ring lives on the expanded chrome below.
-  "not-data-[expanded]:hover:bg-layer-transparent-hover",
+  "hover:not-data-[expanded]:bg-layer-transparent-hover",
   // Expanded: widen to the full field and show the search-box chrome (subtle border +
   // layer-2 fill at rest, accent border + 1px accent ring on focus).
-  "data-[expanded]:w-[204px] data-[expanded]:border-subtle-1 data-[expanded]:bg-layer-2",
-  "data-[expanded]:focus-within:border-accent-strong data-[expanded]:focus-within:ring-1 data-[expanded]:focus-within:ring-accent-strong/35",
+  "data-expanded:w-51 data-[expanded]:border-subtle-1 data-[expanded]:bg-layer-2",
+  "focus-within:data-[expanded]:border-accent-strong focus-within:data-[expanded]:ring-1 focus-within:data-[expanded]:ring-accent-strong/35",
 );
 
 export type ExpandableSearchProps = SearchProps;
@@ -226,7 +226,7 @@ export function ExpandableSearch({
           aria-label={resolvedAriaLabel}
           aria-labelledby={ariaLabelledBy}
           className={cx(
-            "min-w-0 flex-1 bg-transparent text-14 text-primary outline-none",
+            "min-w-0 flex-1 bg-transparent text-body-sm-regular text-primary outline-none",
             "placeholder:text-placeholder disabled:cursor-not-allowed disabled:text-disabled",
             "[&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none",
           )}

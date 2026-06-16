@@ -1,6 +1,7 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { nodeSlotClass } from "../../internal/node-slot";
 
 // Shared scale across Input + TextArea, taken from the Figma "Input fields"
 // component (node 1582-168). The box has 12px horizontal padding at every
@@ -20,9 +21,9 @@ import * as React from "react";
 const labelVariants = cva("font-medium text-primary", {
   variants: {
     magnitude: {
-      md: "text-13",
-      lg: "text-14",
-      xl: "text-14",
+      md: "text-body-xs-medium",
+      lg: "text-body-sm-medium",
+      xl: "text-body-sm-medium",
     },
     inset: {
       true: "",
@@ -30,9 +31,9 @@ const labelVariants = cva("font-medium text-primary", {
     },
   },
   compoundVariants: [
-    { magnitude: "md", inset: true, class: "pt-[7px]" },
-    { magnitude: "lg", inset: true, class: "pt-[9px]" },
-    { magnitude: "xl", inset: true, class: "pt-[13px]" },
+    { magnitude: "md", inset: true, class: "pt-1.75" },
+    { magnitude: "lg", inset: true, class: "pt-2.25" },
+    { magnitude: "xl", inset: true, class: "pt-3.25" },
   ],
 });
 
@@ -41,9 +42,9 @@ const labelVariants = cva("font-medium text-primary", {
 const helperVariants = cva("", {
   variants: {
     magnitude: {
-      md: "text-12",
-      lg: "text-13",
-      xl: "text-13",
+      md: "text-caption-md-regular",
+      lg: "text-body-xs-regular",
+      xl: "text-body-xs-regular",
     },
   },
 });
@@ -54,9 +55,9 @@ const helperVariants = cva("", {
 const controlTextVariants = cva("", {
   variants: {
     magnitude: {
-      md: "text-14",
-      lg: "text-14",
-      xl: "text-16",
+      md: "text-body-sm-regular",
+      lg: "text-body-sm-regular",
+      xl: "text-body-md-regular",
     },
   },
 });
@@ -67,9 +68,9 @@ const controlTextVariants = cva("", {
 const textAreaTextVariants = cva("", {
   variants: {
     magnitude: {
-      md: "text-13",
-      lg: "text-14",
-      xl: "text-16",
+      md: "text-body-xs-regular",
+      lg: "text-body-sm-regular",
+      xl: "text-body-md-regular",
     },
   },
 });
@@ -108,10 +109,11 @@ const boxVariants = cva(
     // (`px-3`) so its value + icons sit inset, while the `TextArea` leaves the box
     // edge-to-edge and pads the control instead, so its scrollbar sits flush with the
     // container's right border rather than 12px in.
-    "flex w-full items-center gap-1.5 bg-layer-2 transition-[color,background-color,border-color,box-shadow]",
+    // `--node-size` sizes the 16px leading/trailing icon node slots.
+    "flex w-full items-center gap-1.5 bg-layer-2 transition-[color,background-color,border-color,box-shadow] [--node-size:1rem]",
     "border-sm",
     // Disabled chrome: muted border, no hover/ring, not-allowed cursor.
-    "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
+    "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 hover:has-[:disabled]:border-subtle",
   ),
   {
     variants: {
@@ -132,12 +134,9 @@ const boxVariants = cva(
   },
 );
 
-// 16px lucide icons in the leading/trailing slots, muted to the Figma
-// `icon/secondary` color.
-const iconSlotClass = cx(
-  "flex shrink-0 items-center justify-center text-icon-secondary",
-  "[&_svg]:size-4",
-);
+// The leading/trailing icon node slots, muted to the Figma `icon/secondary`
+// color. Icon size follows the box's `--node-size` (16px).
+const iconSlotClass = cx(nodeSlotClass, "text-icon-secondary");
 
 /**
  * The label row: the label text and the required `*` asterisk in danger. Rendered by

@@ -11,14 +11,14 @@ const workspaceAvatarVariants = cva(
   {
     variants: {
       magnitude: {
-        "2xs": "size-4 rounded-sm border-sm text-10",
-        xs: "size-5 rounded-sm border-sm text-10",
-        sm: "size-6 rounded-sm border-sm text-12",
-        md: "size-7 rounded-md border-sm text-13",
-        lg: "size-8 rounded-md border-sm text-16",
-        xl: "size-10 rounded-md border-lg text-18",
-        "2xl": "size-14 rounded-lg border-lg text-24",
-        "3xl": "size-16 rounded-lg border-lg text-28",
+        "2xs": "size-4 rounded-sm border-sm text-caption-xs-regular",
+        xs: "size-5 rounded-sm border-sm text-caption-xs-regular",
+        sm: "size-6 rounded-sm border-sm text-caption-md-regular",
+        md: "size-7 rounded-md border-sm text-body-xs-regular",
+        lg: "size-8 rounded-md border-sm text-body-md-regular",
+        xl: "size-10 rounded-md border-lg text-h5-regular",
+        "2xl": "size-14 rounded-lg border-lg text-h3-regular",
+        "3xl": "size-16 rounded-lg border-lg text-h2-regular",
       },
     },
   },

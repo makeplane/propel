@@ -35,7 +35,7 @@ export const Tones: Story = {
   // controls; the rest stay live and update every banner at once.
   argTypes: { tone: { control: false }, variant: { control: false } },
   render: (args) => (
-    <div className="flex w-[640px] flex-col gap-3">
+    <div className="flex w-160 flex-col gap-3">
       {TONES.map((tone) => (
         <Banner key={tone} {...args} variant="inline" tone={tone} />
       ))}
@@ -49,7 +49,7 @@ export const Variants: Story = {
   // controls; the rest stay live and update both banners at once.
   argTypes: { variant: { control: false }, tone: { control: false } },
   render: (args) => (
-    <div className="flex w-[640px] flex-col gap-4">
+    <div className="flex w-160 flex-col gap-4">
       <Banner {...args} variant="page" tone="info" />
       <Banner {...args} variant="inline" tone="info" />
     </div>

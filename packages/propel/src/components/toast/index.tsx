@@ -159,7 +159,7 @@ export type ToastData = {
 // background that fills on hover. Used for both the left cluster and the right action.
 const actionButtonClassName = cx(
   "inline-flex h-6 min-w-10 shrink-0 items-center justify-center gap-1 rounded-md px-2",
-  "text-13 font-medium text-secondary outline-none",
+  "text-body-xs-medium text-secondary outline-none",
   "bg-layer-transparent transition-colors hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
   "focus-visible:ring-2 focus-visible:ring-accent-strong",
 );
@@ -181,7 +181,7 @@ export function ToastProvider({ children, ...props }: ToastProviderProps) {
     <BaseToast.Provider {...props}>
       {children}
       <BaseToast.Portal>
-        <BaseToast.Viewport className="fixed end-4 bottom-4 z-50 flex w-[340px] max-w-[calc(100vw-2rem)] flex-col gap-2 rounded-lg outline-none focus-visible:outline-md focus-visible:outline-offset-2 focus-visible:outline-accent-strong">
+        <BaseToast.Viewport className="fixed inset-e-4 bottom-4 z-50 flex w-85 max-w-[calc(100vw-2rem)] flex-col gap-2 rounded-lg outline-none focus-visible:outline-md focus-visible:outline-offset-2 focus-visible:outline-accent-strong">
           <ToastList />
         </BaseToast.Viewport>
       </BaseToast.Portal>
@@ -226,12 +226,12 @@ export function Toast({ toast, ...props }: ToastProps) {
     <BaseToast.Root
       toast={toast}
       // Surface: the shared floating-card surface (white `surface-1`, subtle
-      // border) with `raised` overlay shadow and `lg` radius. `data-[ending]`
+      // border) with `raised` overlay shadow and `lg` radius. `data-ending`
       // fades the toast on dismiss.
       className={cx(
         surfaceVariants({ elevation: "raised", radius: "lg" }),
         "relative flex w-full items-start gap-2 px-4 py-3",
-        "transition-opacity data-[ending]:opacity-0",
+        "transition-opacity data-ending:opacity-0",
       )}
       {...props}
     >
@@ -241,8 +241,8 @@ export function Toast({ toast, ...props }: ToastProps) {
       </span>
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <div className="flex flex-col gap-1">
-          <BaseToast.Title className="text-14 font-medium text-primary" />
-          <BaseToast.Description className="text-13 text-tertiary" />
+          <BaseToast.Title className="text-body-sm-medium text-primary" />
+          <BaseToast.Description className="text-body-xs-regular text-tertiary" />
         </div>
         {data.progress != null ? (
           <Progress
@@ -284,7 +284,7 @@ export function Toast({ toast, ...props }: ToastProps) {
       </div>
       <BaseToast.Close
         aria-label="Dismiss"
-        className="absolute top-1 end-1 inline-flex size-5 items-center justify-center rounded-sm text-icon-tertiary transition-colors hover:bg-layer-transparent-hover"
+        className="absolute inset-e-1 top-1 inline-flex size-5 items-center justify-center rounded-sm text-icon-tertiary transition-colors hover:bg-layer-transparent-hover"
       >
         <X aria-hidden className="size-3.5" />
       </BaseToast.Close>

@@ -101,7 +101,7 @@ export function IconButton({
       {...props}
     >
       {loading ? (
-        <LoaderCircle aria-hidden className="size-[var(--node-size)] animate-spin" />
+        <LoaderCircle aria-hidden className="size-(--node-size) animate-spin" />
       ) : (
         <span aria-hidden className={nodeSlotClass}>
           {children}

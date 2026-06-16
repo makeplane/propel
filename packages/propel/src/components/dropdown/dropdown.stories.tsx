@@ -140,10 +140,14 @@ const STATUSES = [
 
 // Priority glyphs (Figma "Priority" demo).
 const PRIORITIES = [
-  { key: "urgent", label: "Urgent", icon: <span className="text-12">⛔</span> },
-  { key: "high", label: "High", icon: <SignalHigh className="size-4 text-orange-500" /> },
-  { key: "medium", label: "Medium", icon: <SignalMedium className="size-4 text-amber-500" /> },
-  { key: "low", label: "Low", icon: <SignalLow className="size-4 text-blue-500" /> },
+  { key: "urgent", label: "Urgent", icon: <span className="text-caption-md-regular">⛔</span> },
+  { key: "high", label: "High", icon: <SignalHigh className="size-4 text-label-orange-icon" /> },
+  {
+    key: "medium",
+    label: "Medium",
+    icon: <SignalMedium className="size-4 text-label-yellow-icon" />,
+  },
+  { key: "low", label: "Low", icon: <SignalLow className="size-4 text-label-indigo-icon" /> },
   { key: "none", label: "None", icon: <span className="text-tertiary">—</span> },
 ] as const;
 
@@ -323,7 +327,7 @@ export const ActionMenu: Story = {
           variant="default"
           inlineStartNode={<Link2 />}
           label="Copy link"
-          inlineEndNode={<span className="text-12 text-tertiary">⌘L</span>}
+          inlineEndNode={<span className="text-caption-md-regular text-tertiary">⌘L</span>}
         />
         <DropdownSeparator />
         <DropdownItem
@@ -828,7 +832,7 @@ export const EmptyState: Story = {
               />
             ))
           ) : (
-            <div className="px-2 py-2 text-13 text-tertiary">No matching results</div>
+            <div className="px-2 py-2 text-body-xs-regular text-tertiary">No matching results</div>
           )}
         </DropdownContent>
       </Dropdown>

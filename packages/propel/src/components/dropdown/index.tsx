@@ -132,7 +132,7 @@ const dropdownItemVariants = cva(
   cx(
     // Items are 34px tall (Figma); `rounded-md` radius per design. `--node-size` sizes
     // the icons dropped into the inline-start/end node slots (16px), like Button.
-    "group/item flex w-full select-none gap-2 rounded-md px-2 text-13 outline-none [--node-size:1rem]",
+    "group/item flex w-full gap-2 rounded-md px-2 text-body-xs-regular outline-none select-none [--node-size:1rem]",
     "text-secondary",
     "data-disabled:pointer-events-none data-disabled:text-disabled",
   ),
@@ -140,11 +140,11 @@ const dropdownItemVariants = cva(
     variants: {
       variant: {
         // Single-line rows: fixed 34px, content vertically centered.
-        default: "h-[34px] items-center",
+        default: "h-8.5 items-center",
         // Two-line rows: 6px top padding (Figma) with the leading icon top-aligned
         // (align-start) so it sits with the first line; the row grows for the
         // description and keeps a matching 6px bottom.
-        "with-description": "min-h-[34px] items-start py-1.5",
+        "with-description": "min-h-8.5 items-start py-1.5",
       },
       // `default` is a normal selectable row (highlight on hover/keyboard). `link`
       // is a "View all"-style affordance: a pointer cursor and no hover background.
@@ -230,13 +230,13 @@ export function DropdownItem({
         <span className="flex min-w-0 items-baseline gap-1.5">
           <span className="truncate">{label ?? children}</span>
           {secondaryText != null ? (
-            <span className="shrink-0 truncate text-12 text-tertiary group-data-disabled/item:text-disabled">
+            <span className="shrink-0 truncate text-caption-md-regular text-tertiary group-data-disabled/item:text-disabled">
               {secondaryText}
             </span>
           ) : null}
         </span>
         {description != null ? (
-          <span className="truncate text-12 text-tertiary group-data-disabled/item:text-disabled">
+          <span className="truncate text-caption-md-regular text-tertiary group-data-disabled/item:text-disabled">
             {description}
           </span>
         ) : null}
@@ -296,7 +296,7 @@ export function DropdownCheckboxItem({
   return (
     <Menu.CheckboxItem
       className={cx(
-        "group/item flex h-[34px] w-full cursor-default select-none items-center gap-2 rounded-md px-2 text-13 outline-none [--node-size:1rem]",
+        "group/item flex h-8.5 w-full cursor-default items-center gap-2 rounded-md px-2 text-body-xs-regular outline-none select-none [--node-size:1rem]",
         "text-secondary",
         "data-highlighted:bg-layer-transparent-hover",
         "data-disabled:pointer-events-none data-disabled:text-disabled",
@@ -322,7 +322,7 @@ export function DropdownCheckboxItem({
       {inlineStartNode != null ? <span className={nodeSlotClass}>{inlineStartNode}</span> : null}
       <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
       {inlineEndNode != null ? (
-        <span className="shrink-0 text-12 text-tertiary">{inlineEndNode}</span>
+        <span className="shrink-0 text-caption-md-regular text-tertiary">{inlineEndNode}</span>
       ) : null}
     </Menu.CheckboxItem>
   );
@@ -372,7 +372,7 @@ export type DropdownLabelProps = Omit<
 export function DropdownLabel({ inlineEndNode, children, ...props }: DropdownLabelProps) {
   return (
     <Menu.GroupLabel
-      className="flex items-center gap-1.5 px-2 py-1.5 text-12 text-tertiary"
+      className="flex items-center gap-1.5 px-2 py-1.5 text-caption-md-regular text-tertiary"
       {...props}
     >
       <span className="min-w-0 flex-1 truncate">{children}</span>
@@ -420,7 +420,7 @@ export function DropdownSearch({
         value={value}
         onChange={(event) => onValueChange?.(event.target.value)}
         placeholder={placeholder}
-        className="min-w-0 flex-1 bg-transparent text-13 text-secondary outline-none placeholder:text-placeholder"
+        className="min-w-0 flex-1 bg-transparent text-body-xs-regular text-secondary outline-none placeholder:text-placeholder"
         {...props}
       />
     </div>
@@ -436,7 +436,7 @@ export type DropdownFooterProps = Omit<React.ComponentProps<"div">, "className" 
 export function DropdownFooter(props: DropdownFooterProps) {
   return (
     <div
-      className="shrink-0 border-t border-subtle bg-layer-2 px-3 py-2 text-12 text-tertiary"
+      className="shrink-0 border-t border-subtle bg-layer-2 px-3 py-2 text-caption-md-regular text-tertiary"
       {...props}
     />
   );
@@ -493,7 +493,7 @@ export function DropdownSubTrigger({
   return (
     <Menu.SubmenuTrigger
       className={cx(
-        "group/item flex h-[34px] w-full cursor-default select-none items-center gap-2 rounded-md px-2 text-13 outline-none [--node-size:1rem]",
+        "group/item flex h-8.5 w-full cursor-default items-center gap-2 rounded-md px-2 text-body-xs-regular outline-none select-none [--node-size:1rem]",
         "text-secondary",
         "data-highlighted:bg-layer-transparent-hover data-popup-open:bg-layer-transparent-hover",
         "data-disabled:pointer-events-none data-disabled:text-disabled",

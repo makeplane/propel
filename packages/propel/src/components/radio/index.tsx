@@ -1,6 +1,6 @@
 import { Radio as BaseRadio } from "@base-ui/react/radio";
 import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 // The Figma "Radiobutton" component (node 2159-4535) defines a single 16px control
@@ -21,7 +21,7 @@ import * as React from "react";
 const radioVariants = cva(
   cx(
     "flex size-4 shrink-0 items-center justify-center rounded-full border-sm border-current bg-layer-1",
-    "text-icon-tertiary outline-none transition-colors",
+    "text-icon-tertiary transition-colors outline-none",
     // Selected uses the accent color for both the ring and the dot.
     "data-[checked]:text-icon-accent-primary",
     // Keyboard focus ring, drawn outside the control so it never clips the dot.
@@ -31,19 +31,38 @@ const radioVariants = cva(
   ),
 );
 
+// Row spacing is a property of the group, not something a consumer should reach
+// in and override from outside. `comfortable` is the default 8px rhythm; `compact`
+// sits the rows flush (e.g. a settings panel where rows read like menu items).
+const radioGroupVariants = cva("flex flex-col", {
+  variants: {
+    density: {
+      comfortable: "gap-2",
+      compact: "gap-0",
+    },
+  },
+});
+
+export type RadioGroupDensity = NonNullable<VariantProps<typeof radioGroupVariants>["density"]>;
+
 export type RadioGroupProps = Omit<
   React.ComponentProps<typeof BaseRadioGroup>,
   "className" | "render" | "style"
->;
+> & {
+  /** Spacing between options: `comfortable` (default, 8px) or `compact` (flush). */
+  density?: RadioGroupDensity;
+};
 
 /**
  * Groups a set of `Radio` options so at most one can be selected at a time (none
  * is selected until a `value`/`defaultValue` is set). Wrap
  * `Radio` children in it and drive the selection with `value`/`defaultValue` +
  * `onValueChange`. Renders a `<div>` with `role="radiogroup"`.
+ *
+ * @param density - Row spacing; `comfortable` (default) or `compact` (flush).
  */
-export function RadioGroup(props: RadioGroupProps) {
-  return <BaseRadioGroup className="flex flex-col gap-2" {...props} />;
+export function RadioGroup({ density = "comfortable", ...props }: RadioGroupProps) {
+  return <BaseRadioGroup className={radioGroupVariants({ density })} {...props} />;
 }
 
 export type RadioProps = Omit<

@@ -1,6 +1,7 @@
 import { useRender } from "@base-ui/react/use-render";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { nodeSlotClass } from "../../internal/node-slot";
 
 // The Figma "Nav item" component (node 1329-396) is a single clickable sidebar row:
 // a leading icon, a flexible label that truncates, and an optional trailing slot
@@ -25,8 +26,9 @@ import * as React from "react";
 
 const navItemVariants = cva(
   cx(
-    "group/nav-item flex h-8 w-full items-center gap-2 rounded-lg pe-2 ps-2 text-start",
-    "bg-layer-transparent text-secondary outline-none transition-colors",
+    // `--node-size` sizes the leading-icon node slot (16px).
+    "group/nav-item flex h-8 w-full items-center gap-2 rounded-lg ps-2 pe-2 text-start [--node-size:1rem]",
+    "bg-layer-transparent text-secondary transition-colors outline-none",
     "cursor-pointer select-none",
     "hover:bg-layer-transparent-hover active:bg-layer-transparent-active active:text-primary",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
@@ -40,8 +42,8 @@ const navItemVariants = cva(
       // The Figma `magnitude` axis. Only the label type size changes (lg 14px / md
       // 13px); both rows keep the 32px height and 8px spacing.
       magnitude: {
-        lg: "text-14",
-        md: "text-13",
+        lg: "text-body-sm-regular",
+        md: "text-body-xs-regular",
       },
       // The Figma `Level` axis. Deeper levels add inline-start padding (8px per level)
       // so nested rows indent under their parent. Level 1 keeps the base `ps-2` (8px).
@@ -117,9 +119,10 @@ export function NavItem({
             <span
               aria-hidden
               className={cx(
-                "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
+                nodeSlotClass,
+                "text-icon-placeholder",
                 // Selected/pressed pull the leading icon up to the primary tone.
-                "group-data-[active]/nav-item:text-icon-primary group-active/nav-item:text-icon-primary",
+                "group-active/nav-item:text-icon-primary group-data-[active]/nav-item:text-icon-primary",
                 // Disabled dims the icon to match the dimmed label.
                 "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
               )}
@@ -127,7 +130,7 @@ export function NavItem({
               {leadingIcon}
             </span>
           ) : null}
-          <span className="min-w-0 flex-1 truncate font-medium leading-snug">{children}</span>
+          <span className="min-w-0 flex-1 truncate leading-snug font-medium">{children}</span>
           {trailing ? <span className="flex shrink-0 items-center gap-2">{trailing}</span> : null}
         </>
       ),
@@ -153,7 +156,7 @@ export function NavItemCount({
     <span
       className={cx(
         "inline-flex min-w-4 items-center justify-center rounded-sm px-0.5",
-        "bg-layer-3 text-11 leading-tight text-secondary",
+        "bg-layer-3 text-caption-sm-regular leading-tight text-secondary",
       )}
       {...props}
     >
@@ -181,7 +184,9 @@ export function NavItemChevron({
       aria-hidden
       data-open={open ? "" : undefined}
       className={cx(
-        "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
+        nodeSlotClass,
+        "text-icon-placeholder [--node-size:1rem]",
+        // The box itself transforms; the icon inside rides along (no reaching into svg).
         "transition-transform data-[open]:rotate-180 rtl:-scale-x-100",
       )}
     >

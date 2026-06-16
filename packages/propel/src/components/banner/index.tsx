@@ -1,6 +1,7 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { CircleAlert, Info, Megaphone, TriangleAlert, X, type LucideIcon } from "lucide-react";
 import * as React from "react";
+import { nodeSlotClass } from "../../internal/node-slot";
 
 // Banner = the Figma "Banners" component. Two scopes (`variant`) and five intents
 // (`tone`). `page` is a full-width strip with a bottom border that sits at the top
@@ -9,8 +10,9 @@ const bannerVariants = cva("flex items-center overflow-clip", {
   variants: {
     // Figma "Scope": page banner (full-width strip) vs inline banner (rounded card).
     variant: {
-      page: "gap-2 border-b px-4 py-3",
-      inline: "gap-2 rounded-lg border px-3 py-2",
+      // `--node-size` sizes the leading-icon node slot: 20px on page, 16px inline.
+      page: "gap-2 border-b px-4 py-3 [--node-size:1.25rem]",
+      inline: "gap-2 rounded-lg border px-3 py-2 [--node-size:1rem]",
     },
     // Figma "Intent": the meaning/color of the banner. Each tone sets its own soft
     // background, border, and (via the text element / icon) foreground color.
@@ -25,12 +27,12 @@ const bannerVariants = cva("flex items-center overflow-clip", {
   // Per Figma the neutral page banner sits on the page surface, while the colored
   // tones use their soft tone surface; inline neutral uses the layered surface.
   compoundVariants: [
-    { variant: "page", tone: "neutral", class: "bg-surface-1 border-subtle" },
-    { variant: "inline", tone: "neutral", class: "bg-surface-2 border-subtle" },
-    { tone: "info", class: "bg-info-subtle border-info-subtle" },
-    { tone: "accent", class: "bg-accent-subtle border-accent-subtle" },
-    { tone: "warning", class: "bg-warning-subtle border-warning-subtle" },
-    { tone: "danger", class: "bg-danger-subtle border-danger-subtle" },
+    { variant: "page", tone: "neutral", class: "border-subtle bg-surface-1" },
+    { variant: "inline", tone: "neutral", class: "border-subtle bg-surface-2" },
+    { tone: "info", class: "border-info-subtle bg-info-subtle" },
+    { tone: "accent", class: "border-accent-subtle bg-accent-subtle" },
+    { tone: "warning", class: "border-warning-subtle bg-warning-subtle" },
+    { tone: "danger", class: "border-danger-subtle bg-danger-subtle" },
   ],
 });
 
@@ -107,9 +109,8 @@ export function Banner({
   children,
   ...props
 }: BannerProps) {
-  // The page banner uses a 20px icon and a medium-weight message; the inline
-  // banner uses a 16px icon and a regular-weight message (per Figma typography).
-  const iconSize = variant === "page" ? "size-5" : "size-4";
+  // The page banner uses a medium-weight message; the inline banner a regular one
+  // (per Figma typography). The icon size is driven by `--node-size` (see variants).
   const textWeight = variant === "page" ? "font-medium" : "font-normal";
   const DefaultIcon = toneIcon[tone];
   return (
@@ -121,21 +122,21 @@ export function Banner({
       {...props}
     >
       {leadingIcon === undefined ? (
-        <DefaultIcon aria-hidden className={cx("shrink-0", iconSize, toneIconClass[tone])} />
-      ) : leadingIcon ? (
-        <span
+        <DefaultIcon
           aria-hidden
-          className={cx(
-            "flex shrink-0 items-center [&>svg]:size-full",
-            iconSize,
-            toneIconClass[tone],
-          )}
-        >
+          className={cx("size-(--node-size) shrink-0", toneIconClass[tone])}
+        />
+      ) : leadingIcon ? (
+        <span aria-hidden className={cx(nodeSlotClass, toneIconClass[tone])}>
           {leadingIcon}
         </span>
       ) : null}
       <div
-        className={cx("min-w-0 flex-1 text-14 leading-relaxed", textWeight, toneTextClass[tone])}
+        className={cx(
+          "min-w-0 flex-1 text-body-sm-regular leading-relaxed",
+          textWeight,
+          toneTextClass[tone],
+        )}
       >
         {title ? <div>{title}</div> : null}
         {children ? <div className={cx(title ? "mt-1" : undefined)}>{children}</div> : null}

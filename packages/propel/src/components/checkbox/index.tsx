@@ -14,7 +14,7 @@ const checkboxVariants = cva(
     // surrounding text differently; pinning the alignment makes the box geometry
     // identical across unchecked / checked / indeterminate (no shift).
     "inline-flex size-4 shrink-0 items-center justify-center rounded-sm border-sm align-top",
-    "outline-none transition-colors",
+    "transition-colors outline-none",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1",
     // Unchecked: just the tone-specific border (see the `tone` variants).
     // Checked / indeterminate: the accent-primary fill is identical for every
@@ -146,7 +146,7 @@ export function Checkbox({ tone, label, leadingIcon, id, ...props }: CheckboxPro
       // transparent-layer hover background (hover state 1276:15 →
       // `bg-layer-transparent-hover`). The standalone box owns its own styling.
       className={cx(
-        "inline-flex items-center gap-2 rounded-sm px-2 py-1 text-13 text-secondary transition-colors",
+        "inline-flex items-center gap-2 rounded-sm px-2 py-1 text-body-xs-regular text-secondary transition-colors",
         props.disabled ? "cursor-not-allowed" : "cursor-pointer hover:bg-layer-transparent-hover",
       )}
       htmlFor={checkboxId}

@@ -57,7 +57,7 @@ export function AccordionTrigger({ leadingIcon, children, ...props }: AccordionT
       <BaseAccordion.Trigger
         className={cx(
           "group flex flex-1 items-center gap-2 p-3 text-start",
-          "text-14 font-medium text-primary",
+          "text-body-sm-medium text-primary",
           "bg-layer-transparent hover:bg-layer-transparent-hover",
           "cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
           "disabled:cursor-not-allowed disabled:opacity-60",
@@ -92,10 +92,10 @@ export function AccordionPanel({ children, ...props }: AccordionPanelProps) {
   return (
     <BaseAccordion.Panel
       className={cx(
-        "h-[var(--accordion-panel-height)] overflow-hidden",
-        "text-14 text-secondary",
+        "h-(--accordion-panel-height) overflow-hidden",
+        "text-body-sm-regular text-secondary",
         "transition-[height] duration-200 ease-out",
-        "data-[starting-style]:h-0 data-[ending-style]:h-0",
+        "data-[ending-style]:h-0 data-[starting-style]:h-0",
       )}
       {...props}
     >

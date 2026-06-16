@@ -26,7 +26,7 @@ function Trigger({
   return (
     <button
       type="button"
-      className="inline-flex h-8 items-center rounded-md border-sm border-subtle-1 bg-layer-2 px-3 text-13 font-medium text-secondary"
+      className="inline-flex h-8 items-center rounded-md border-sm border-subtle-1 bg-layer-2 px-3 text-body-xs-medium text-secondary"
       onClick={() => {
         add({
           title: "Toast title",

@@ -32,7 +32,7 @@ const triggerClass =
 
 // A section heading inside a settings panel.
 function PanelLabel({ children }: { children: React.ReactNode }) {
-  return <div className="px-2 py-1.5 text-12 text-tertiary">{children}</div>;
+  return <div className="px-2 py-1.5 text-caption-md-regular text-tertiary">{children}</div>;
 }
 
 // A thin divider between panel sections (matches the dropdown's separator).
@@ -56,7 +56,7 @@ function DisplayPill({
       type="button"
       aria-pressed={selected}
       onClick={onClick}
-      className={`cursor-pointer rounded-md border px-2 py-1 text-13 outline-none ${
+      className={`cursor-pointer rounded-md border px-2 py-1 text-body-xs-regular outline-none ${
         selected
           ? "border-subtle-1 bg-layer-2-active text-primary shadow-raised-100"
           : "border-subtle-1 bg-layer-2 text-tertiary hover:border-subtle hover:bg-layer-2-hover hover:text-secondary hover:shadow-raised-100"
@@ -72,7 +72,7 @@ function DisplayPill({
 // the dropdown menu.
 function PanelRadioRow({ value, label }: { value: string; label: string }) {
   return (
-    <label className="flex h-[34px] cursor-pointer items-center gap-2 rounded-md px-2 text-13 text-secondary hover:bg-layer-transparent-hover">
+    <label className="flex h-8.5 cursor-pointer items-center gap-2 rounded-md px-2 text-body-xs-regular text-secondary hover:bg-layer-transparent-hover">
       <Radio value={value} />
       <span className="min-w-0 flex-1 truncate">{label}</span>
     </label>
@@ -179,15 +179,16 @@ export const DisplayProperties: Story = {
           </div>
           <PanelSeparator />
           <PanelLabel>Group by</PanelLabel>
-          {/* Collapse RadioGroup's default row gap so the rows sit flush like the
-              dropdown's menu items. */}
-          <div className="[&>[role=radiogroup]]:gap-0">
-            <RadioGroup value={groupBy} onValueChange={(v) => setGroupBy(String(v))}>
-              {["Priority", "State", "Cycle", "Labels"].map((g) => (
-                <PanelRadioRow key={g} value={g.toLowerCase()} label={g} />
-              ))}
-            </RadioGroup>
-          </div>
+          {/* Rows sit flush like the dropdown's menu items. */}
+          <RadioGroup
+            density="compact"
+            value={groupBy}
+            onValueChange={(v) => setGroupBy(String(v))}
+          >
+            {["Priority", "State", "Cycle", "Labels"].map((g) => (
+              <PanelRadioRow key={g} value={g.toLowerCase()} label={g} />
+            ))}
+          </RadioGroup>
           <PanelSeparator />
           <div className="flex flex-col">
             <Checkbox
@@ -255,7 +256,7 @@ export const DisplayAccordion: Story = {
                   type="button"
                   aria-expanded={isOpen}
                   onClick={() => setOpen(isOpen ? null : key)}
-                  className="flex h-[34px] w-full items-center gap-2 rounded-md px-2 text-13 text-secondary outline-none hover:bg-layer-transparent-hover"
+                  className="flex h-8.5 w-full items-center gap-2 rounded-md px-2 text-body-xs-regular text-secondary outline-none hover:bg-layer-transparent-hover"
                 >
                   <span className="min-w-0 flex-1 truncate text-left">{title}</span>
                   {isOpen ? (
@@ -265,15 +266,16 @@ export const DisplayAccordion: Story = {
                   )}
                 </button>
                 {isOpen && key === "order" ? (
-                  // Items within an expanded category sit flush (0 spacing): collapse
-                  // RadioGroup's default row gap from the parent.
-                  <div className="[&>[role=radiogroup]]:gap-0">
-                    <RadioGroup value={order} onValueChange={(v) => setOrder(String(v))}>
-                      {ORDER.map((o) => (
-                        <PanelRadioRow key={o} value={o.toLowerCase()} label={o} />
-                      ))}
-                    </RadioGroup>
-                  </div>
+                  // Items within an expanded category sit flush (0 spacing).
+                  <RadioGroup
+                    density="compact"
+                    value={order}
+                    onValueChange={(v) => setOrder(String(v))}
+                  >
+                    {ORDER.map((o) => (
+                      <PanelRadioRow key={o} value={o.toLowerCase()} label={o} />
+                    ))}
+                  </RadioGroup>
                 ) : null}
               </div>
             );

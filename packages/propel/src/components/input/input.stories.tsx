@@ -63,7 +63,7 @@ export const HorizontalShowcase: Story = {
   args: { magnitude: "md", tone: "neutral", variant: "horizontal" },
   parameters: { controls: { disable: true } },
   render: () => (
-    <div className="flex w-[440px] flex-col gap-4">
+    <div className="flex w-110 flex-col gap-4">
       <Input variant="horizontal" magnitude="md" tone="neutral" label="Email" placeholder="md" />
       <Input
         variant="horizontal"

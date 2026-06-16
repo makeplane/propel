@@ -2,6 +2,7 @@ import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 import { cva, cx } from "class-variance-authority";
 import * as React from "react";
+import { nodeSlotClass } from "../../internal/node-slot";
 import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
 
 // The Figma "Tabs" component defines two visual treatments. `contained` wraps
@@ -126,13 +127,14 @@ export function TabsList({ children, ...props }: TabsListProps) {
 // 40px. The per-tab bar handles the hover affordance (placeholder gray); the
 // active bar is the JS-measured `TabsIndicator` overlaid on top.
 const tabVariants = cva(
-  "cursor-pointer font-medium whitespace-nowrap outline-none transition-colors select-none focus-visible:ring-2 focus-visible:ring-accent-strong disabled:cursor-not-allowed disabled:text-disabled",
+  // `--node-size` sizes the leading icon's node slot (16px on both variants).
+  "cursor-pointer font-medium whitespace-nowrap transition-colors outline-none select-none [--node-size:1rem] focus-visible:ring-2 focus-visible:ring-accent-strong disabled:cursor-not-allowed disabled:text-disabled",
   {
     variants: {
       variant: {
         contained:
-          "inline-flex h-6 items-center justify-center gap-1 rounded-md border-sm border-transparent px-1.5 text-13 text-secondary hover:text-primary data-[active]:border-subtle-1 data-[active]:bg-layer-2 data-[active]:text-primary data-[active]:shadow-raised-200",
-        underline: "group/tab inline-flex flex-col items-stretch gap-2 text-14",
+          "inline-flex h-6 items-center justify-center gap-1 rounded-md border-sm border-transparent px-1.5 text-body-xs-medium text-secondary hover:text-primary data-[active]:border-subtle-1 data-[active]:bg-layer-2 data-[active]:text-primary data-[active]:shadow-raised-200",
+        underline: "group/tab inline-flex flex-col items-stretch gap-2 text-body-sm-medium",
       },
     },
   },
@@ -154,13 +156,7 @@ const underlineLabelVariants = cva(
 // (primary), so the active tab's own bar stays transparent to avoid doubling.
 const underlineBarTrackVariants = cva("flex px-2");
 const underlineBarVariants = cva(
-  "h-[3px] w-full rounded-full bg-current text-transparent transition-colors group-hover/tab:text-icon-placeholder group-data-[active]/tab:text-transparent",
-);
-
-// The leading-icon box. Sized to 16px (`Icon`) and tinted via `currentColor`,
-// matching the Figma `placeholder` slot present on both variants.
-const tabIconVariants = cva(
-  "inline-flex size-4 shrink-0 items-center justify-center [&>svg]:size-full",
+  "h-0.75 w-full rounded-full bg-current text-transparent transition-colors group-hover/tab:text-icon-placeholder group-data-[active]/tab:text-transparent",
 );
 
 export type TabProps = Omit<
@@ -179,7 +175,7 @@ export type TabProps = Omit<
 export function Tab({ leadingIcon, children, ...props }: TabProps) {
   const variant = React.useContext(TabsVariantContext);
   const iconNode = leadingIcon ? (
-    <span aria-hidden className={tabIconVariants()}>
+    <span aria-hidden className={nodeSlotClass}>
       {leadingIcon}
     </span>
   ) : null;
@@ -204,7 +200,7 @@ export function Tab({ leadingIcon, children, ...props }: TabProps) {
   );
 }
 
-const tabsPanelVariants = cva("text-14 text-secondary outline-none");
+const tabsPanelVariants = cva("text-body-sm-regular text-secondary outline-none");
 
 export type TabsPanelProps = Omit<
   React.ComponentProps<typeof BaseTabs.Panel>,
@@ -226,7 +222,7 @@ export function TabsPanel(props: TabsPanelProps) {
 // icon/primary) to match the active-tab text.
 const tabsIndicatorVariants = cva(
   cx(
-    "absolute top-[calc(var(--active-tab-top)+1.75rem+0.5rem)] left-[calc(var(--active-tab-left)+0.5rem)] h-[3px] w-[calc(var(--active-tab-width)-1rem)]",
+    "absolute top-[calc(var(--active-tab-top)+1.75rem+0.5rem)] left-[calc(var(--active-tab-left)+0.5rem)] h-0.75 w-[calc(var(--active-tab-width)-1rem)]",
     "rounded-full bg-inverse transition-all duration-150",
   ),
 );

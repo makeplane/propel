@@ -7,7 +7,7 @@ const trackVariants = cva(
   {
     variants: {
       magnitude: {
-        sm: "h-[5px]",
+        sm: "h-1.25",
         md: "h-2",
       },
     },
@@ -54,7 +54,7 @@ export function Progress({ value, magnitude, showValue = true, ...props }: Progr
         <BaseProgress.Indicator className="absolute inset-y-0 rounded-full bg-accent-primary transition-[width] duration-300 ease-out" />
       </BaseProgress.Track>
       {showValue ? (
-        <BaseProgress.Value className="shrink-0 text-12 font-medium text-accent-primary tabular-nums">
+        <BaseProgress.Value className="shrink-0 text-caption-md-medium text-accent-primary tabular-nums">
           {(_, currentValue) => (currentValue == null ? "" : `${Math.round(currentValue)}%`)}
         </BaseProgress.Value>
       ) : null}

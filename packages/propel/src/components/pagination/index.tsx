@@ -28,7 +28,7 @@ import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../dro
 // `radius/sm` for page numbers, `radius/md` for the arrow buttons.
 const slotBase = cx(
   "inline-flex h-6 w-auto min-w-6 shrink-0 items-center justify-center px-1",
-  "text-13 text-primary outline-none",
+  "text-body-xs-regular text-primary outline-none",
 );
 
 const pageButtonVariants = cva(
@@ -60,23 +60,18 @@ const arrowButtonVariants = cva(
     "hover:bg-layer-transparent-hover",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
     "disabled:pointer-events-none disabled:text-icon-disabled",
-    // Prev/next arrows are directional — mirror them under RTL so "previous" always
-    // points toward the start of the run.
-    "[&_svg]:size-4 [&_svg]:shrink-0 rtl:[&_svg]:-scale-x-100",
   ),
 );
 
 // The per-page selector trigger (Figma `4762-503`): a `layer-3` pill, 24px tall,
 // `radius/md`, holding the current size + a chevron-down. It's the trigger for the
-// page-size Dropdown, so it gets a focus ring and rotates its chevron while the menu
-// is open.
+// page-size Dropdown, so it gets a focus ring. Marked `group` so the chevron can
+// rotate itself while the menu is open (`data-popup-open` lands on this button).
 const perPageTriggerClass = cx(
-  "inline-flex h-6 min-w-10 cursor-default items-center justify-center gap-1 rounded-md px-2",
-  "bg-layer-3 text-13 font-medium text-secondary outline-none",
+  "group inline-flex h-6 min-w-10 cursor-default items-center justify-center gap-1 rounded-md px-2",
+  "bg-layer-3 text-body-xs-medium text-secondary outline-none",
   "hover:bg-layer-3-hover",
   "focus-visible:ring-2 focus-visible:ring-accent-strong",
-  "[&_svg]:size-3.5 [&_svg]:shrink-0 [&_svg]:text-icon-secondary",
-  "[&[data-popup-open]_svg]:rotate-180",
 );
 
 /** A non-interactive gap marker between distant page numbers. */
@@ -241,7 +236,10 @@ export function Pagination({
             <DropdownTrigger render={<button type="button" className={perPageTriggerClass} />}>
               <span>{l.perPageValue(pageSize.value)}</span>
               <span className="sr-only">{l.perPage}</span>
-              <ChevronDown aria-hidden className="transition-transform" />
+              <ChevronDown
+                aria-hidden
+                className="size-3.5 shrink-0 text-icon-secondary transition-transform group-data-[popup-open]:rotate-180"
+              />
             </DropdownTrigger>
             <DropdownContent width="anchor" align="center">
               {pageSize.options.map((option) => (
@@ -255,14 +253,14 @@ export function Pagination({
               ))}
             </DropdownContent>
           </Dropdown>
-          <span aria-hidden className="whitespace-nowrap text-13 text-tertiary">
+          <span aria-hidden className="text-body-xs-regular whitespace-nowrap text-tertiary">
             {l.perPage}
           </span>
         </div>
       ) : null}
 
       {range ? (
-        <p className="whitespace-nowrap text-12 text-tertiary">
+        <p className="text-caption-md-regular whitespace-nowrap text-tertiary">
           <span className="text-primary">{range.current}</span>
           <span>{" of "}</span>
           <span>{range.total}</span>
@@ -278,7 +276,8 @@ export function Pagination({
             onClick={() => onPageChange(page - 1)}
             className={arrowButtonVariants()}
           >
-            <ArrowLeft aria-hidden />
+            {/* Directional: mirror under RTL so "previous" points toward the run's start. */}
+            <ArrowLeft aria-hidden className="size-4 shrink-0 rtl:-scale-x-100" />
           </button>
         </li>
 
@@ -318,7 +317,7 @@ export function Pagination({
             onClick={() => onPageChange(page + 1)}
             className={arrowButtonVariants()}
           >
-            <ArrowRight aria-hidden />
+            <ArrowRight aria-hidden className="size-4 shrink-0 rtl:-scale-x-100" />
           </button>
         </li>
       </ul>

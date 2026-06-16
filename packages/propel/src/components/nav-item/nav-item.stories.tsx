@@ -112,7 +112,7 @@ export const States: Story = {
     <div className="flex flex-col gap-6">
       {MAGNITUDES.map((magnitude) => (
         <div key={magnitude} className="flex flex-col gap-1">
-          <p className="text-11 uppercase text-tertiary">{magnitude}</p>
+          <p className="text-caption-sm-regular text-tertiary uppercase">{magnitude}</p>
           <NavItem {...args} magnitude={magnitude} trailing={<NavItemCount>6</NavItemCount>}>
             Default
           </NavItem>

@@ -13,7 +13,7 @@ export const buttonVariants = cva(
   // accent token, real disabled affordance, and a snug medium label.
   cx(
     "relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-1 rounded-md font-medium",
-    "whitespace-nowrap outline-none transition-colors",
+    "whitespace-nowrap transition-colors outline-none",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
     "disabled:cursor-not-allowed aria-busy:cursor-default",
   ),
@@ -53,10 +53,10 @@ export const buttonVariants = cva(
       // Base, 16px from L up. The slots and the loading spinner read this variable, so
       // the button owns its node sizing in one place.
       magnitude: {
-        sm: "h-5 min-w-10 px-1.5 text-12 leading-none [--node-size:0.875rem]",
-        md: "h-6 min-w-10 px-2 text-13 leading-none [--node-size:0.875rem]",
-        lg: "h-7 min-w-12 px-2 text-13 leading-none [--node-size:1rem]",
-        xl: "h-8 min-w-13 px-2 text-14 leading-none [--node-size:1rem]",
+        sm: "h-5 min-w-10 px-1.5 text-caption-md-medium leading-none [--node-size:0.875rem]",
+        md: "h-6 min-w-10 px-2 text-body-xs-medium leading-none [--node-size:0.875rem]",
+        lg: "h-7 min-w-12 px-2 text-body-xs-medium leading-none [--node-size:1rem]",
+        xl: "h-8 min-w-13 px-2 text-body-sm-medium leading-none [--node-size:1rem]",
       },
     },
     compoundVariants: [
@@ -222,7 +222,7 @@ export function Button({
       {...props}
     >
       {loading ? (
-        <LoaderCircle aria-hidden className="size-[var(--node-size)] animate-spin" />
+        <LoaderCircle aria-hidden className="size-(--node-size) animate-spin" />
       ) : inlineStartNode ? (
         <span aria-hidden className={nodeSlotClass}>
           {inlineStartNode}

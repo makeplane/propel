@@ -42,7 +42,7 @@ const commentVariants = cva("border border-subtle-1 bg-layer-2 text-primary", {
       // radius/lg (8px) and lays the body + actions out in a single row.
       base: "flex w-full flex-col overflow-clip rounded-xl",
       sm: "flex w-full flex-col overflow-clip rounded-xl",
-      xs: "flex w-full items-center gap-2 rounded-lg py-1.5 pe-1.5 ps-3",
+      xs: "flex w-full items-center gap-2 rounded-lg py-1.5 ps-3 pe-1.5",
     },
   },
 });
@@ -56,9 +56,9 @@ const bodyVariants = cva(
   {
     variants: {
       magnitude: {
-        base: "min-h-10 p-3 text-14 leading-snug",
-        sm: "min-h-10 p-3 text-14 leading-snug",
-        xs: "min-w-0 flex-1 text-12 leading-tight",
+        base: "min-h-10 p-3 text-body-sm-regular leading-snug",
+        sm: "min-h-10 p-3 text-body-sm-regular leading-snug",
+        xs: "min-w-0 flex-1 text-caption-md-regular leading-tight",
       },
     },
   },
@@ -193,7 +193,7 @@ function CommentComposer({
       ) : (
         <>
           {body}
-          <div className="flex min-h-9 items-center justify-between gap-2 py-1 pe-1.5 ps-1">
+          <div className="flex min-h-9 items-center justify-between gap-2 py-1 ps-1 pe-1.5">
             <div className="flex min-w-0 items-center overflow-x-auto">
               <FormattingToolbar />
             </div>
@@ -315,7 +315,7 @@ export const Default: Story = {
     docs: { source: { code: RECIPE_SOURCE, language: "tsx" } },
   },
   render: (args) => (
-    <div className="w-[640px]">
+    <div className="w-160">
       <CommentComposer {...args} />
     </div>
   ),
@@ -329,7 +329,7 @@ export const Default: Story = {
 export const Magnitudes: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="flex w-[640px] flex-col gap-6">
+    <div className="flex w-160 flex-col gap-6">
       {MAGNITUDES.map((magnitude) => (
         <CommentComposer key={magnitude} {...args} magnitude={magnitude} />
       ))}

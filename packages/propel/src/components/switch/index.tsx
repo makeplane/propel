@@ -13,15 +13,15 @@ const trackVariants = cva(
     "bg-icon-placeholder data-[checked]:bg-accent-primary",
     // Unchangeable (disabled or readonly) dims the whole control to 40%,
     // matching Figma's "Unchangeable" states. Disabled also blocks the cursor.
-    "data-[readonly]:opacity-40 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40",
+    "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40 data-[readonly]:opacity-40",
     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-strong",
   ),
   {
     variants: {
       magnitude: {
-        lg: "h-[18px] w-[30px]",
-        md: "h-4 w-[27px]",
-        sm: "h-[14px] w-[23px]",
+        lg: "h-4.5 w-7.5",
+        md: "h-4 w-6.75",
+        sm: "h-3.5 w-5.75",
       },
     },
   },
@@ -32,12 +32,12 @@ const trackVariants = cva(
 // The thumb stays white in every theme and in both on/off states. `surface-1`
 // is white in light mode but flips dark in dark mode, so the thumb pins to the
 // on-color token (the white-on-tone color) regardless of checked state.
-const thumbVariants = cva("rounded-full bg-on-color shadow-sm transition-transform", {
+const thumbVariants = cva("rounded-full bg-on-color shadow-raised-100 transition-transform", {
   variants: {
     magnitude: {
-      lg: "size-4 data-[checked]:translate-x-[12px]",
-      md: "size-3.5 data-[checked]:translate-x-[11px]",
-      sm: "size-3 data-[checked]:translate-x-[9px]",
+      lg: "size-4 data-checked:translate-x-3",
+      md: "size-3.5 data-checked:translate-x-2.75",
+      sm: "size-3 data-checked:translate-x-2.25",
     },
   },
 });

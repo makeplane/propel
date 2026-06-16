@@ -33,7 +33,7 @@ export const Default: Story = {
     children: (
       <div className="flex flex-col gap-2 p-3">
         {Array.from({ length: 30 }, (_, i) => (
-          <p key={i} className="text-13 text-secondary">
+          <p key={i} className="text-body-xs-regular text-secondary">
             Line {i + 1} of the scrollable content.
           </p>
         ))}
@@ -47,9 +47,9 @@ export const BothAxes: Story = {
   args: {
     orientation: "both",
     children: (
-      <div className="flex w-[640px] flex-col gap-2 p-3">
+      <div className="flex w-160 flex-col gap-2 p-3">
         {Array.from({ length: 30 }, (_, i) => (
-          <p key={i} className="whitespace-nowrap text-13 text-secondary">
+          <p key={i} className="text-body-xs-regular whitespace-nowrap text-secondary">
             Line {i + 1} of wide content that overflows horizontally as well as down.
           </p>
         ))}
