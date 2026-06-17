@@ -13,7 +13,7 @@ import { Accordion, AccordionItem, AccordionPanel, AccordionTrigger } from "./in
 //     column plus their prop-driven states (checked / disabled / error).
 //   * Static components with no interaction-state styling (badge / banner / avatar /
 //     tooltip-popup) get NO pseudo-states story.
-//   * Base UI `data-[checked]` / `data-[disabled]` states are NOT forced by the
+//   * Base UI `data-checked` / `data-disabled` states are NOT forced by the
 //     pseudo addon — those are attribute selectors, not pseudo-classes — so they must
 //     be shown via real props, not the `pseudo` parameter.
 const meta = {

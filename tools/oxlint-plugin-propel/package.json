@@ -1,0 +1,43 @@
+{
+  "name": "oxlint-plugin-propel",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Oxlint rules for Propel project conventions.",
+  "homepage": "https://github.com/makeplane/propel#readme",
+  "bugs": {
+    "url": "https://github.com/makeplane/propel/issues"
+  },
+  "license": "AGPL-3.0-only",
+  "author": "Plane (https://plane.so)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makeplane/propel.git",
+    "directory": "tools/oxlint-plugin-propel"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "dev": "vp pack --watch",
+    "test": "vp test",
+    "check": "vp check",
+    "prepublishOnly": "vp run build"
+  },
+  "dependencies": {
+    "@oxlint/plugins": "1.61.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.2",
+    "@typescript/native-preview": "7.0.0-dev.20260509.2",
+    "bumpp": "^11.1.0",
+    "oxlint": "1.67.0",
+    "typescript": "^6.0.3",
+    "vite-plus": "catalog:"
+  }
+}

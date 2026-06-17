@@ -229,7 +229,7 @@ export function Toast({ toast, ...props }: ToastProps) {
       className={cx(
         surfaceVariants({ elevation: "raised", radius: "lg" }),
         "relative flex w-full items-start gap-2 px-4 py-3",
-        "transition-opacity data-[ending]:opacity-0",
+        "transition-opacity data-ending:opacity-0",
       )}
       {...props}
     >

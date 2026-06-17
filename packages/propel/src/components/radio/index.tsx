@@ -23,11 +23,11 @@ const radioVariants = cva(
     "flex size-4 shrink-0 items-center justify-center rounded-full border-sm border-current bg-layer-1",
     "text-icon-tertiary transition-colors outline-none",
     // Selected uses the accent color for both the ring and the dot.
-    "data-[checked]:text-icon-accent-primary",
+    "data-checked:text-icon-accent-primary",
     // Keyboard focus ring, drawn outside the control so it never clips the dot.
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2",
     // Disabled is dimmed and non-interactive.
-    "data-[disabled]:cursor-not-allowed data-[disabled]:text-icon-disabled data-[disabled]:opacity-60",
+    "data-disabled:cursor-not-allowed data-disabled:text-icon-disabled data-disabled:opacity-60",
   ),
 );
 

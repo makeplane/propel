@@ -58,7 +58,7 @@ function PillNode({ children }: { children: React.ReactNode }) {
 }
 
 function PillSpinner() {
-  return <LoaderCircle aria-hidden className="size-[var(--node-size)] shrink-0 animate-spin" />;
+  return <LoaderCircle aria-hidden className="size-(--node-size) shrink-0 animate-spin" />;
 }
 
 // The truncating label. `min-w-0` lets it shrink so the 120px cap can ellipsize it.
@@ -128,7 +128,7 @@ const pillSwitchColors = cx(
   "hover:border-strong hover:bg-layer-2-hover",
   // Selected (the toggle's pressed state) is the darker `-selected` fill + strong
   // border + primary label.
-  "data-[pressed]:border-strong data-[pressed]:bg-layer-2-selected data-[pressed]:text-primary",
+  "data-pressed:border-strong data-pressed:bg-layer-2-selected data-pressed:text-primary",
   "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
 );
 

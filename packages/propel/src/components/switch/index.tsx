@@ -10,10 +10,10 @@ const trackVariants = cva(
   cx(
     "relative inline-flex shrink-0 items-center rounded-full p-px transition-colors",
     // Off track = Figma icon/placeholder; on track = accent/primary.
-    "bg-icon-placeholder data-[checked]:bg-accent-primary",
+    "bg-icon-placeholder data-checked:bg-accent-primary",
     // Unchangeable (disabled or readonly) dims the whole control to 40%,
     // matching Figma's "Unchangeable" states. Disabled also blocks the cursor.
-    "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40 data-[readonly]:opacity-40",
+    "data-disabled:cursor-not-allowed data-disabled:opacity-40 data-readonly:opacity-40",
     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-strong",
   ),
   {
@@ -35,9 +35,9 @@ const trackVariants = cva(
 const thumbVariants = cva("rounded-full bg-on-color shadow-raised-100 transition-transform", {
   variants: {
     magnitude: {
-      lg: "size-4 data-[checked]:translate-x-[12px]",
-      md: "size-3.5 data-[checked]:translate-x-[11px]",
-      sm: "size-3 data-[checked]:translate-x-[9px]",
+      lg: "size-4 data-checked:translate-x-[12px]",
+      md: "size-3.5 data-checked:translate-x-[11px]",
+      sm: "size-3 data-checked:translate-x-[9px]",
     },
   },
 });

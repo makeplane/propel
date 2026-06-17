@@ -148,11 +148,11 @@ const expandableBoxClass = cx(
   "transition-[width,border-color,background-color] duration-200 ease-out motion-reduce:transition-none",
   // Collapsed it reads as an icon button (hover fill). It never rests focused — focusing
   // the field expands it — so the focus ring lives on the expanded chrome below.
-  "not-data-[expanded]:hover:bg-layer-transparent-hover",
+  "not-data-expanded:hover:bg-layer-transparent-hover",
   // Expanded: widen to the full field and show the search-box chrome (subtle border +
   // layer-2 fill at rest, accent border + 1px accent ring on focus).
-  "data-[expanded]:w-[204px] data-[expanded]:border-subtle-1 data-[expanded]:bg-layer-2",
-  "data-[expanded]:focus-within:border-accent-strong data-[expanded]:focus-within:ring-1 data-[expanded]:focus-within:ring-accent-strong/35",
+  "data-expanded:w-[204px] data-expanded:border-subtle-1 data-expanded:bg-layer-2",
+  "data-expanded:focus-within:border-accent-strong data-expanded:focus-within:ring-1 data-expanded:focus-within:ring-accent-strong/35",
 );
 
 export type ExpandableSearchProps = SearchProps;

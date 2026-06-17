@@ -34,7 +34,7 @@ const navItemVariants = cva(
     "hover:bg-layer-transparent-hover active:bg-layer-transparent-active active:text-primary",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
     // Selected (Figma "Selected" state): filled surface + primary text.
-    "data-[active]:bg-layer-transparent-selected data-[active]:text-primary",
+    "data-active:bg-layer-transparent-selected data-active:text-primary",
     // Disabled: dimmed and non-interactive.
     "disabled:pointer-events-none disabled:text-disabled aria-disabled:pointer-events-none aria-disabled:text-disabled",
   ),
@@ -120,7 +120,7 @@ export function NavItem({
               className={cx(
                 "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
                 // Selected/pressed pull the leading icon up to the primary tone.
-                "group-active/nav-item:text-icon-primary group-data-[active]/nav-item:text-icon-primary",
+                "group-active/nav-item:text-icon-primary group-data-active/nav-item:text-icon-primary",
                 // Disabled dims the icon to match the dimmed label.
                 "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
               )}
@@ -294,7 +294,7 @@ export function NavItemHeader({
             "flex size-4 shrink-0 items-center justify-center text-icon-secondary [&>svg]:size-full",
             // The Figma glyph is a filled caret-down. Collapsed rotates it a quarter turn
             // so it points at the inline-start; RTL mirrors so it still points inward.
-            "rotate-90 transition-transform data-[expanded]:rotate-0 rtl:-rotate-90 rtl:data-[expanded]:rotate-0",
+            "rotate-90 transition-transform data-expanded:rotate-0 rtl:-rotate-90 rtl:data-expanded:rotate-0",
           )}
         >
           {chevron}
@@ -327,7 +327,7 @@ export function NavItemChevron({
       data-open={open ? "" : undefined}
       className={cx(
         "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
-        "transition-transform data-[open]:rotate-180 rtl:-scale-x-100",
+        "transition-transform data-open:rotate-180 rtl:-scale-x-100",
       )}
     >
       {icon}

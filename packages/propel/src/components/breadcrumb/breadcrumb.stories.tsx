@@ -141,8 +141,7 @@ export const DropdownInteraction: Story = {
     await userEvent.click(trigger);
     // Once open, the collapsed crumbs are real menu items (Base UI portals the
     // menu to <body>, so query the page document, not just the story canvas).
-    const menu = await within(document.body).findByRole("menu");
-    const items = within(menu).getAllByRole("menuitem");
+    const items = await within(document.body).findAllByRole("menuitem");
     await expect(items).toHaveLength(2);
     await expect(items[0]).toHaveTextContent("Projects");
     await expect(items[1]).toHaveTextContent("Design");
@@ -265,11 +264,13 @@ export const KeyboardNavigation: Story = {
       trigger.focus();
       await expect(trigger).toHaveFocus();
       await userEvent.keyboard("{ArrowDown}");
-      await waitFor(() => expect(body.getByRole("menu")).toBeInTheDocument());
+      await expect(await body.findByRole("menuitem", { name: "Plane Web" })).toBeInTheDocument();
     });
 
     await step("arrow-nav + Enter selects a sibling", async () => {
-      const menu = body.getByRole("menu");
+      const firstItem = await body.findByRole("menuitem", { name: "Plane Web" });
+      const menu = firstItem.closest('[role="menu"]');
+      if (!(menu instanceof HTMLElement)) throw new Error("breadcrumb menu not found");
       const items = within(menu).getAllByRole("menuitem");
       await expect(items).toHaveLength(2);
       // Opening with ArrowDown highlights the first item; one more ArrowDown moves to
@@ -278,15 +279,19 @@ export const KeyboardNavigation: Story = {
       await waitFor(() => expect(items[1]).toHaveAttribute("data-highlighted"));
       await userEvent.keyboard("{Enter}");
       // Selecting closes the menu.
-      await waitFor(() => expect(body.queryByRole("menu")).toBeNull());
+      await waitFor(() =>
+        expect(body.queryByRole("menuitem", { name: "Plane Web" })).not.toBeInTheDocument(),
+      );
     });
 
     await step("Escape closes the menu and returns focus to the trigger", async () => {
       trigger.focus();
       await userEvent.keyboard("{Enter}");
-      await waitFor(() => expect(body.getByRole("menu")).toBeInTheDocument());
+      await expect(await body.findByRole("menuitem", { name: "Plane Web" })).toBeInTheDocument();
       await userEvent.keyboard("{Escape}");
-      await waitFor(() => expect(body.queryByRole("menu")).toBeNull());
+      await waitFor(() =>
+        expect(body.queryByRole("menuitem", { name: "Plane Web" })).not.toBeInTheDocument(),
+      );
       await expect(trigger).toHaveFocus();
     });
   },

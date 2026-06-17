@@ -21,12 +21,12 @@ const checkboxVariants = cva(
     // tone, so it lives here in the base rather than the tone variants. This
     // keeps a tone-less `CheckboxVisual` from rendering a white check on no fill.
     // A white icon sits on top. Base UI exposes these via `data-*` attributes.
-    "data-[checked]:border-transparent data-[checked]:bg-accent-primary data-[checked]:text-icon-on-color",
-    "data-[indeterminate]:border-transparent data-[indeterminate]:bg-accent-primary data-[indeterminate]:text-icon-on-color",
+    "data-checked:border-transparent data-checked:bg-accent-primary data-checked:text-icon-on-color",
+    "data-indeterminate:border-transparent data-indeterminate:bg-accent-primary data-indeterminate:text-icon-on-color",
     // Disabled: muted border/fill and no pointer; overrides the checked fill.
-    "data-[disabled]:cursor-not-allowed data-[disabled]:border-disabled data-[disabled]:bg-transparent",
-    "data-[disabled]:data-[checked]:border-transparent data-[disabled]:data-[checked]:bg-layer-disabled data-[disabled]:data-[checked]:text-icon-disabled",
-    "data-[disabled]:data-[indeterminate]:border-transparent data-[disabled]:data-[indeterminate]:bg-layer-disabled data-[disabled]:data-[indeterminate]:text-icon-disabled",
+    "data-disabled:cursor-not-allowed data-disabled:border-disabled data-disabled:bg-transparent",
+    "data-disabled:data-checked:border-transparent data-disabled:data-checked:bg-layer-disabled data-disabled:data-checked:text-icon-disabled",
+    "data-disabled:data-indeterminate:border-transparent data-disabled:data-indeterminate:bg-layer-disabled data-disabled:data-indeterminate:text-icon-disabled",
   ),
   {
     variants: {

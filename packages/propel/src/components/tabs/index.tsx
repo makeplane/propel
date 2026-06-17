@@ -131,7 +131,7 @@ const tabVariants = cva(
     variants: {
       variant: {
         contained:
-          "inline-flex h-6 items-center justify-center gap-1 rounded-md border-sm border-transparent px-1.5 text-13 text-secondary hover:text-primary data-[active]:border-subtle-1 data-[active]:bg-layer-2 data-[active]:text-primary data-[active]:shadow-raised-200",
+          "inline-flex h-6 items-center justify-center gap-1 rounded-md border-sm border-transparent px-1.5 text-13 text-secondary hover:text-primary data-active:border-subtle-1 data-active:bg-layer-2 data-active:text-primary data-active:shadow-raised-200",
         underline: "group/tab inline-flex flex-col items-stretch gap-2 text-14",
       },
     },
@@ -143,7 +143,7 @@ const tabVariants = cva(
 // layout and the bar track. `contained` renders its label inline, so this is
 // only used for `underline`.
 const underlineLabelVariants = cva(
-  "flex h-7 items-center justify-center gap-1.5 rounded-md px-2 py-0.5 text-tertiary transition-colors group-hover/tab:bg-layer-transparent-hover group-hover/tab:text-secondary group-data-[active]/tab:bg-layer-transparent-selected group-data-[active]/tab:text-primary",
+  "flex h-7 items-center justify-center gap-1.5 rounded-md px-2 py-0.5 text-tertiary transition-colors group-hover/tab:bg-layer-transparent-hover group-hover/tab:text-secondary group-data-active/tab:bg-layer-transparent-selected group-data-active/tab:text-primary",
 );
 
 // The 3px bar track under an `underline` tab. The track is inset `px-2` (8px)
@@ -154,7 +154,7 @@ const underlineLabelVariants = cva(
 // (primary), so the active tab's own bar stays transparent to avoid doubling.
 const underlineBarTrackVariants = cva("flex px-2");
 const underlineBarVariants = cva(
-  "h-[3px] w-full rounded-full bg-current text-transparent transition-colors group-hover/tab:text-icon-placeholder group-data-[active]/tab:text-transparent",
+  "h-[3px] w-full rounded-full bg-current text-transparent transition-colors group-hover/tab:text-icon-placeholder group-data-active/tab:text-transparent",
 );
 
 // The leading-icon box. Sized to 16px (`Icon`) and tinted via `currentColor`,
