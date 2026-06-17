@@ -60,6 +60,22 @@ The tokens use the Tailwind v4 multi-theme pattern (light/dark/high-contrast via
 `[data-theme]`), so theming is driven by a `data-theme` attribute on a host
 element.
 
+## Browser support
+
+Propel targets modern evergreen browsers. The baseline is set by Tailwind v4 and
+by the color tokens, which use `oklch()` and `color-mix()`:
+
+| Browser     | Minimum |
+| ----------- | ------- |
+| Chrome/Edge | 111     |
+| Firefox     | 128     |
+| Safari/iOS  | 16.4    |
+
+Internet Explorer is not supported. The Firefox 128 and Safari/iOS 16.4 floors are
+set by Tailwind v4's own baseline (cascade layers and `@property`), not by the color
+tokens: `oklch()` and `color-mix()` are actually supported earlier (Firefox 113,
+Safari 16.2). Below those floors the Tailwind-generated CSS doesn't apply correctly.
+
 ## Development
 
 This package is built with [`vp pack`](https://viteplus.dev/guide/pack) (tsdown).
