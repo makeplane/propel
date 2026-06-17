@@ -1,3 +1,4 @@
+import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
@@ -93,8 +94,9 @@ export type NavItemProps = Omit<useRender.ComponentProps<"button">, "className" 
 /**
  * A single sidebar navigation row — an inline-start icon, a label, and an optional inline-end slot
  * (count / chevron). Renders a `<button>` by default; pass `render={<a href=… />}` to make it a
- * link while keeping it keyboard- and screen-reader-accessible. Mark the current page with `active`
- * (sets `aria-current="page"`). Faithful to Figma node 1329-396.
+ * link while keeping it keyboard- and screen-reader-accessible. Custom rendered components must
+ * forward their ref and spread props. Mark the current page with `active` (sets
+ * `aria-current="page"`). Faithful to Figma node 1329-396.
  */
 export function NavItem({
   children,
@@ -106,35 +108,38 @@ export function NavItem({
   render,
   ...props
 }: NavItemProps) {
+  const defaultProps: useRender.ElementProps<"button"> = {
+    ...(render == null ? { type: "button" } : null),
+    "aria-current": active ? "page" : undefined,
+    className: navItemVariants({ magnitude, level }),
+    children: (
+      <>
+        {inlineStartNode ? (
+          <span
+            aria-hidden
+            className={cx(
+              "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
+              // Selected/pressed pull the inline-start icon up to the primary tone.
+              "group-active/nav-item:text-icon-primary group-data-active/nav-item:text-icon-primary",
+              // Disabled dims the icon to match the dimmed label.
+              "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
+            )}
+          >
+            {inlineStartNode}
+          </span>
+        ) : null}
+        <span className="min-w-0 flex-1 truncate leading-snug font-medium">{children}</span>
+        {inlineEndNode ? (
+          <span className="flex shrink-0 items-center gap-2">{inlineEndNode}</span>
+        ) : null}
+      </>
+    ),
+  };
+
   return useRender({
-    render: render ?? <button type="button" />,
-    props: {
-      ...props,
-      "aria-current": active ? "page" : undefined,
-      className: navItemVariants({ magnitude, level }),
-      children: (
-        <>
-          {inlineStartNode ? (
-            <span
-              aria-hidden
-              className={cx(
-                "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
-                // Selected/pressed pull the inline-start icon up to the primary tone.
-                "group-active/nav-item:text-icon-primary group-data-active/nav-item:text-icon-primary",
-                // Disabled dims the icon to match the dimmed label.
-                "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
-              )}
-            >
-              {inlineStartNode}
-            </span>
-          ) : null}
-          <span className="min-w-0 flex-1 truncate leading-snug font-medium">{children}</span>
-          {inlineEndNode ? (
-            <span className="flex shrink-0 items-center gap-2">{inlineEndNode}</span>
-          ) : null}
-        </>
-      ),
-    },
+    defaultTagName: "button",
+    render,
+    props: mergeProps(props, defaultProps),
     // The `active` prop is surfaced as `data-active` so the variants above (and the
     // inline-start icon tone) can react to the selected state.
     state: { active },

@@ -71,6 +71,7 @@ export const AsLink: Story = {
     const link = canvas.getByRole("link", { name: "Inbox" });
     await expect(link).toHaveAttribute("href", "#inbox");
     await expect(link).toHaveAttribute("aria-current", "page");
+    await expect(link).not.toHaveAttribute("type");
   },
 };
 
