@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent } from "storybook/test";
 
 import { ExpandableSearch, Search } from "./index";
 
@@ -86,9 +86,7 @@ export const ExpandAndCollapse: Story = {
       <button type="button">elsewhere</button>
     </div>
   ),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
+  play: async ({ canvas }) => {
     // The field is always a real searchbox (no separate toggle); it just renders collapsed
     // until focused. `data-expanded` on its box reflects the open state.
     const input = canvas.getByRole("searchbox", { name: "Search" });
@@ -122,8 +120,7 @@ export const ExpandAndCollapse: Story = {
  */
 export const TypeAndClear: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  play: async ({ canvas }) => {
     const input = canvas.getByRole("searchbox", { name: "Search" });
 
     // No clear button while empty.

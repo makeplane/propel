@@ -3,7 +3,7 @@ import { LoaderCircle } from "lucide-react";
 import * as React from "react";
 
 import { getLoadingButtonProps } from "../../internal/loading-button";
-import { nodeSlotClass } from "../../internal/node-slot";
+import { NodeSlot } from "../../internal/node-slot";
 import {
   type ButtonMagnitude,
   type ButtonProps,
@@ -104,9 +104,7 @@ export function IconButton({
       {loading ? (
         <LoaderCircle aria-hidden className="size-(--node-size) animate-spin" />
       ) : (
-        <span aria-hidden className={nodeSlotClass}>
-          {children}
-        </span>
+        <NodeSlot aria-hidden>{children}</NodeSlot>
       )}
     </button>
   );

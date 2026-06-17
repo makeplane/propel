@@ -3,10 +3,10 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 import { useControllableState } from "../../hooks/use-controllable-state/index";
-import { nodeSlotClass } from "../../internal/node-slot";
+import { NodeSlot } from "../../internal/node-slot";
 
 // The Figma "Nav item" component (node 1329-396) is a single clickable sidebar row:
-// a leading icon, a flexible label that truncates, and an optional trailing slot
+// an inline-start icon, a flexible label that truncates, and an optional inline-end slot
 // (a count chip and/or a disclosure chevron). It has three axes:
 //
 //   • magnitude — the Figma `magnitude` axis. `lg` uses text/14 (the default sidebar
@@ -84,17 +84,17 @@ export type NavItemProps = Omit<useRender.ComponentProps<"button">, "className" 
    */
   inlineStartNode?: React.ReactNode;
   /**
-   * Optional trailing content at the inline-end — typically a `NavItemCount` and/or a
-   * `NavItemChevron`. Logical node slot, matching Button's `inlineEndNode`.
+   * Optional inline-end content — typically a `NavItemCount` and/or a `NavItemChevron`. Logical
+   * node slot, matching Button's `inlineEndNode`.
    */
   inlineEndNode?: React.ReactNode;
 };
 
 /**
- * A single sidebar navigation row — a leading icon, a label, and an optional trailing slot (count /
- * chevron). Renders a `<button>` by default; pass `render={<a href=… />}` to make it a link while
- * keeping it keyboard- and screen-reader-accessible. Mark the current page with `active` (sets
- * `aria-current="page"`). Faithful to Figma node 1329-396.
+ * A single sidebar navigation row — an inline-start icon, a label, and an optional inline-end slot
+ * (count / chevron). Renders a `<button>` by default; pass `render={<a href=… />}` to make it a
+ * link while keeping it keyboard- and screen-reader-accessible. Mark the current page with `active`
+ * (sets `aria-current="page"`). Faithful to Figma node 1329-396.
  */
 export function NavItem({
   children,
@@ -119,7 +119,7 @@ export function NavItem({
               aria-hidden
               className={cx(
                 "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
-                // Selected/pressed pull the leading icon up to the primary tone.
+                // Selected/pressed pull the inline-start icon up to the primary tone.
                 "group-active/nav-item:text-icon-primary group-data-active/nav-item:text-icon-primary",
                 // Disabled dims the icon to match the dimmed label.
                 "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
@@ -136,7 +136,7 @@ export function NavItem({
       ),
     },
     // The `active` prop is surfaced as `data-active` so the variants above (and the
-    // leading-icon tone) can react to the selected state.
+    // inline-start icon tone) can react to the selected state.
     state: { active },
     stateAttributesMapping: {
       active: (value) => (value ? { "data-active": "" } : null),
@@ -145,7 +145,7 @@ export function NavItem({
 }
 
 /**
- * A small count chip for a nav row's trailing slot (e.g. unread / item counts). Uses the Figma
+ * A small count chip for a nav row's inline-end slot (e.g. unread / item counts). Uses the Figma
  * count style: `layer-3` surface, `radius/sm` corners, `text/11`.
  */
 export function NavItemCount({
@@ -168,7 +168,7 @@ export function NavItemCount({
 // The Figma "Nav item / Header" component (node 2487-3138 default, 2487-3137 hover) is
 // a section-title row that sits above a group of nav items: an emphasized group-title
 // label, a small disclosure chevron that toggles the group open/closed, and an optional
-// trailing action (e.g. an "add" icon button) at the inline-end.
+// inline-end action (e.g. an "add" icon button) at the inline-end.
 //
 //   • height   — 32px, matching NavItem.
 //   • padding  — 8px (`spacing/2`) all round, `radius/lg` (8px) corners.
@@ -228,10 +228,9 @@ export type NavItemHeaderProps = Omit<
    */
   chevron: React.ReactNode;
   /**
-   * Optional trailing action at the row's inline-end — typically an `IconButton` such as an "add"
-   * control. Rendered as a sibling of the toggle button (never nested) so the interactive action
-   * does not sit inside the toggle `<button>`. Logical node slot, matching Button's
-   * `inlineEndNode`.
+   * Optional inline-end action — typically an `IconButton` such as an "add" control. Rendered as a
+   * sibling of the toggle button (never nested) so the interactive action does not sit inside the
+   * toggle `<button>`. Logical node slot, matching Button's `inlineEndNode`.
    */
   inlineEndNode?: React.ReactNode;
   /**
@@ -301,7 +300,7 @@ export function NavItemHeader({
         </span>
       </button>
       {inlineEndNode != null ? (
-        <span className={cx(nodeSlotClass, "text-icon-secondary")}>{inlineEndNode}</span>
+        <NodeSlot className="text-icon-secondary">{inlineEndNode}</NodeSlot>
       ) : null}
     </div>
   );

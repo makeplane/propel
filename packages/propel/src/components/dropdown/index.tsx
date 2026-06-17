@@ -4,7 +4,7 @@ import { Check, ChevronRight, Search } from "lucide-react";
 import * as React from "react";
 
 import { useControllableState } from "../../hooks/use-controllable-state/index";
-import { nodeSlotClass } from "../../internal/node-slot";
+import { NodeSlot } from "../../internal/node-slot";
 import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
 import { CheckboxVisual } from "../checkbox/index";
 
@@ -144,7 +144,7 @@ const dropdownItemVariants = cva(
       variant: {
         // Single-line rows: fixed 34px, content vertically centered.
         default: "h-[34px] items-center",
-        // Two-line rows: 6px top padding (Figma) with the leading icon top-aligned
+        // Two-line rows: 6px top padding (Figma) with the inline-start icon top-aligned
         // (align-start) so it sits with the first line; the row grows for the
         // description and keeps a matching 6px bottom.
         "with-description": "min-h-[34px] items-start py-1.5",
@@ -183,7 +183,7 @@ export type DropdownItemProps = Omit<
   description?: React.ReactNode;
   /**
    * Muted text shown inline after the label (e.g. a language's English name). Sits between the
-   * label and the trailing node, on the same line as the label.
+   * label and the inline-end node, on the same line as the label.
    */
   secondaryText?: React.ReactNode;
   /**
@@ -192,8 +192,8 @@ export type DropdownItemProps = Omit<
    */
   inlineEndNode?: React.ReactNode;
   /**
-   * Single-select selected state: keeps the row's own icon and marks the selection with a trailing
-   * checkmark (the row's icon is never replaced). Distinct from the multi-select
+   * Single-select selected state: keeps the row's own icon and marks the selection with an
+   * inline-end checkmark (the row's icon is never replaced). Distinct from the multi-select
    * `DropdownCheckboxItem`, which shows a `Checkbox` on every row.
    */
   selected?: boolean;
@@ -209,7 +209,7 @@ export type DropdownItemProps = Omit<
  * A selectable menu row: an optional `inlineStartNode` (icon or full-size control) + label (+
  * optional description / inline secondary text / `inlineEndNode`) — all of it content, laid out by
  * `variant`. Closes the menu when clicked (Base UI default). Pass `selected` for the single-select
- * trailing-checkmark pattern.
+ * inline-end checkmark pattern.
  */
 export function DropdownItem({
   variant,
@@ -227,7 +227,7 @@ export function DropdownItem({
     <Menu.Item className={dropdownItemVariants({ variant, emphasis })} {...props}>
       {/* The node slots size icons to `--node-size` (16px) and let full-size controls
           (Checkbox/Avatar/swatch) size themselves; the row's text color cascades. */}
-      {inlineStartNode != null ? <span className={nodeSlotClass}>{inlineStartNode}</span> : null}
+      {inlineStartNode != null ? <NodeSlot>{inlineStartNode}</NodeSlot> : null}
       <span className="flex min-w-0 flex-1 flex-col">
         <span className="flex min-w-0 items-baseline gap-1.5">
           <span className="truncate">{label ?? children}</span>
@@ -243,8 +243,8 @@ export function DropdownItem({
           </span>
         ) : null}
       </span>
-      {inlineEndNode != null ? <span className={nodeSlotClass}>{inlineEndNode}</span> : null}
-      {/* Selection is marked with a trailing check — the row's own node is kept. */}
+      {inlineEndNode != null ? <NodeSlot>{inlineEndNode}</NodeSlot> : null}
+      {/* Selection is marked with an inline-end check — the row's own node is kept. */}
       {selected ? (
         <span className="flex h-5 w-4 shrink-0 items-center justify-center">
           <Check className="size-4 text-icon-accent-primary" aria-hidden="true" />
@@ -271,7 +271,7 @@ export type DropdownCheckboxItemProps = Omit<
 };
 
 /**
- * A toggleable multi-select menu row. The leading control is the propel `Checkbox` component
+ * A toggleable multi-select menu row. The inline-start control is the propel `Checkbox` component
  * (driven by this row's Base UI checkbox-item state, so the box reflects
  * `checked`/`indeterminate`/`disabled` without owning its own state). The row keeps the
  * `role="menuitemcheckbox"` a11y semantics and stays open on click. Control it with `checked` +
@@ -324,7 +324,7 @@ export function DropdownCheckboxItem({
       <span className="flex shrink-0 items-center">
         <CheckboxVisual tone="neutral" checked={isChecked} disabled={props.disabled} />
       </span>
-      {inlineStartNode != null ? <span className={nodeSlotClass}>{inlineStartNode}</span> : null}
+      {inlineStartNode != null ? <NodeSlot>{inlineStartNode}</NodeSlot> : null}
       <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
       {inlineEndNode != null ? (
         <span className="shrink-0 text-12 text-tertiary">{inlineEndNode}</span>
@@ -361,8 +361,8 @@ export type DropdownLabelProps = Omit<
   "className" | "style"
 > & {
   /**
-   * Optional trailing content on the heading row — e.g. a "View all" link or a count. Sits at the
-   * end of the label line (the Figma "Dropdown header" trailing slot).
+   * Optional inline-end content on the heading row — e.g. a "View all" link or a count. Sits at the
+   * end of the label line (the Figma "Dropdown header" inline-end slot).
    */
   inlineEndNode?: React.ReactNode;
   children?: React.ReactNode;
@@ -371,7 +371,7 @@ export type DropdownLabelProps = Omit<
 /**
  * A non-interactive section heading for a group of items (the Figma "Dropdown header": `text/12`,
  * `text/tertiary`, title-case). Must be rendered inside a `DropdownGroup`, as the first child, to
- * label the items that follow it. Pass `inlineEndNode` for a trailing "View all" link or count.
+ * label the items that follow it. Pass `inlineEndNode` for an inline-end "View all" link or count.
  */
 export function DropdownLabel({ inlineEndNode, children, ...props }: DropdownLabelProps) {
   return (
@@ -483,7 +483,7 @@ export type DropdownSubTriggerProps = Omit<
 };
 
 /**
- * The row that opens a submenu. Looks like a `DropdownItem` with a trailing chevron; pass
+ * The row that opens a submenu. Looks like a `DropdownItem` with an inline-end chevron; pass
  * `inlineEndNode` for a count `Badge` before the chevron. Must be rendered inside a `DropdownSub`,
  * paired with a `DropdownSubContent`.
  */
@@ -504,9 +504,9 @@ export function DropdownSubTrigger({
       )}
       {...props}
     >
-      {inlineStartNode != null ? <span className={nodeSlotClass}>{inlineStartNode}</span> : null}
+      {inlineStartNode != null ? <NodeSlot>{inlineStartNode}</NodeSlot> : null}
       <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
-      {inlineEndNode != null ? <span className={nodeSlotClass}>{inlineEndNode}</span> : null}
+      {inlineEndNode != null ? <NodeSlot>{inlineEndNode}</NodeSlot> : null}
       <ChevronRight
         className="size-4 shrink-0 text-icon-tertiary group-data-disabled/item:text-icon-disabled rtl:-scale-x-100"
         aria-hidden="true"

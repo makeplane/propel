@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, within } from "storybook/test";
+import { expect } from "storybook/test";
 
 import { Progress } from "./index";
 
@@ -89,8 +89,7 @@ export const CircularMagnitudes: Story = {
 export const Semantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { variant: "linear", value: 32, magnitude: "md", "aria-label": "Upload progress" },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  play: async ({ canvas }) => {
     const bar = canvas.getByRole("progressbar", { name: "Upload progress" });
     await expect(bar).toHaveAttribute("aria-valuenow", "32");
     await expect(canvas.getByText("32%")).toBeInTheDocument();
@@ -105,8 +104,7 @@ export const Semantics: Story = {
 export const CircularSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { variant: "circular", value: 32, magnitude: "md", "aria-label": "Sync progress" },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  play: async ({ canvas }) => {
     const bar = canvas.getByRole("progressbar", { name: "Sync progress" });
     await expect(bar).toHaveAttribute("aria-valuenow", "32");
     await expect(canvas.queryByText("32%")).not.toBeInTheDocument();

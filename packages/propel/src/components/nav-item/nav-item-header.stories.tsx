@@ -2,7 +2,7 @@ import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus } from "lucide-react";
 import * as React from "react";
-import { expect, fn, userEvent, within } from "storybook/test";
+import { expect, fn, userEvent } from "storybook/test";
 
 import { IconButton } from "../icon-button/index";
 import { NavItem, NavItemHeader } from "./index";
@@ -48,7 +48,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 /**
- * With a trailing action: an "add" `IconButton` sits at the inline-end via `inlineEndNode`. The
+ * With an inline-end action: an "add" `IconButton` sits at the inline-end via `inlineEndNode`. The
  * action is a sibling of the toggle button, so clicking it does not toggle the section (and there
  * is no nested-interactive a11y violation).
  */
@@ -61,8 +61,7 @@ export const WithAction: Story = {
       </IconButton>
     ),
   },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
+  play: async ({ canvas, args }) => {
     const header = canvas.getByRole("button", { name: "Inbox" });
     const add = canvas.getByRole("button", { name: "Add to Inbox" });
 
@@ -83,8 +82,8 @@ export const WithAction: Story = {
 /** Uncontrolled: clicking toggles `aria-expanded` and rotates the chevron. */
 export const Uncontrolled: Story = {
   args: { onClick: fn() },
-  play: async ({ canvasElement }) => {
-    const header = within(canvasElement).getByRole("button", { name: "Inbox" });
+  play: async ({ canvas }) => {
+    const header = canvas.getByRole("button", { name: "Inbox" });
 
     // Sections start expanded by default.
     await expect(header).toHaveAttribute("aria-expanded", "true");
@@ -132,8 +131,8 @@ export const Collapsible: Story = {
 export const KeyboardActivation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { onExpandedChange: fn() },
-  play: async ({ canvasElement, args }) => {
-    const header = within(canvasElement).getByRole("button", { name: "Inbox" });
+  play: async ({ canvas, args }) => {
+    const header = canvas.getByRole("button", { name: "Inbox" });
 
     await userEvent.tab();
     await expect(header).toHaveFocus();

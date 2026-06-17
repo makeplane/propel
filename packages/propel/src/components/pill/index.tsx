@@ -4,7 +4,7 @@ import { LoaderCircle } from "lucide-react";
 import * as React from "react";
 
 import { getLoadingButtonProps } from "../../internal/loading-button";
-import { nodeSlotClass } from "../../internal/node-slot";
+import { NodeSlot } from "../../internal/node-slot";
 
 // The Figma "Pills" family (node 1121-11) is three small, 6px-rounded chips that share
 // one chrome: a 1px-bordered `layer-2` rectangle that darkens its background + border
@@ -47,16 +47,6 @@ const labelFontByMagnitude: Record<PillMagnitude, string> = {
   lg: "text-body-sm-regular",
 };
 
-// The slotted node (a 14px leading/trailing icon) and the spinner. Icons inherit the
-// chip's `currentColor`; the spinner matches the node size.
-function PillNode({ children }: { children: React.ReactNode }) {
-  return (
-    <span aria-hidden className={nodeSlotClass}>
-      {children}
-    </span>
-  );
-}
-
 function PillSpinner() {
   return <LoaderCircle aria-hidden className="size-(--node-size) shrink-0 animate-spin" />;
 }
@@ -83,7 +73,7 @@ export type PillButtonProps = Omit<React.ComponentProps<"button">, "className" |
   /** A 14px node (icon/avatar) after the label. */
   inlineEndNode?: React.ReactNode;
   /**
-   * Busy state: swaps the leading node for a spinner, dims the label, and blocks clicks while
+   * Busy state: swaps the inline-start node for a spinner, dims the label, and blocks clicks while
    * staying a real, focusable button (`aria-busy`/`aria-disabled`).
    */
   loading?: boolean;
@@ -91,7 +81,7 @@ export type PillButtonProps = Omit<React.ComponentProps<"button">, "className" |
 
 /**
  * A pill-shaped button — a compact, low-emphasis action chip (e.g. a filter or a "+ Add"
- * affordance). Holds a label with optional leading/trailing nodes. Hover and active are CSS states;
+ * affordance). Holds a label with optional inline-start/end nodes. Hover and active are CSS states;
  * `disabled` and `loading` are props.
  */
 export function PillButton({
@@ -116,9 +106,13 @@ export function PillButton({
       )}
       {...props}
     >
-      {loading ? <PillSpinner /> : inlineStartNode ? <PillNode>{inlineStartNode}</PillNode> : null}
+      {loading ? (
+        <PillSpinner />
+      ) : inlineStartNode ? (
+        <NodeSlot aria-hidden>{inlineStartNode}</NodeSlot>
+      ) : null}
       <PillLabel>{children}</PillLabel>
-      {!loading && inlineEndNode ? <PillNode>{inlineEndNode}</PillNode> : null}
+      {!loading && inlineEndNode ? <NodeSlot aria-hidden>{inlineEndNode}</NodeSlot> : null}
     </button>
   );
 }
@@ -167,9 +161,9 @@ export function PillSwitch({
       )}
       {...props}
     >
-      {inlineStartNode ? <PillNode>{inlineStartNode}</PillNode> : null}
+      {inlineStartNode ? <NodeSlot aria-hidden>{inlineStartNode}</NodeSlot> : null}
       <PillLabel>{children}</PillLabel>
-      {inlineEndNode ? <PillNode>{inlineEndNode}</PillNode> : null}
+      {inlineEndNode ? <NodeSlot aria-hidden>{inlineEndNode}</NodeSlot> : null}
     </Toggle>
   );
 }
@@ -231,7 +225,7 @@ export function IconPill({
       className={iconPillVariants({ magnitude })}
       {...props}
     >
-      {loading ? <PillSpinner /> : <PillNode>{children}</PillNode>}
+      {loading ? <PillSpinner /> : <NodeSlot aria-hidden>{children}</NodeSlot>}
     </button>
   );
 }

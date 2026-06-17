@@ -3,7 +3,7 @@ import { LoaderCircle } from "lucide-react";
 import * as React from "react";
 
 import { getLoadingButtonProps } from "../../internal/loading-button";
-import { nodeSlotClass } from "../../internal/node-slot";
+import { NodeSlot } from "../../internal/node-slot";
 
 // Magnitudes follow the Figma "Buttons" Size scale. Figma ships S/Base/L/XL; those
 // map to sm/md/lg/xl by their px heights (20/24/28/32). Per Figma:
@@ -49,7 +49,7 @@ export const buttonVariants = cva(
       // any larger line-height (e.g. `leading-snug`) inflates the line box and
       // makes the top/bottom padding read as uneven. Link overrides below opt
       // back into a taller line-height since inline link text may wrap.
-      // Each magnitude also sets `--node-size`, the size every leading/trailing node
+      // Each magnitude also sets `--node-size`, the size every inline-start/end node
       // (icon, avatar, ...) renders at. Per Figma's per-size icon values: 14px up to
       // Base, 16px from L up. The slots and the loading spinner read this variable, so
       // the button owns its node sizing in one place.
@@ -223,16 +223,10 @@ export function Button({
       {loading ? (
         <LoaderCircle aria-hidden className="size-(--node-size) animate-spin" />
       ) : inlineStartNode ? (
-        <span aria-hidden className={nodeSlotClass}>
-          {inlineStartNode}
-        </span>
+        <NodeSlot aria-hidden>{inlineStartNode}</NodeSlot>
       ) : null}
       {children}
-      {!loading && inlineEndNode ? (
-        <span aria-hidden className={nodeSlotClass}>
-          {inlineEndNode}
-        </span>
-      ) : null}
+      {!loading && inlineEndNode ? <NodeSlot aria-hidden>{inlineEndNode}</NodeSlot> : null}
     </button>
   );
 }

@@ -1,7 +1,7 @@
 import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, Inbox } from "lucide-react";
-import { expect, fn, userEvent, within } from "storybook/test";
+import { expect, fn, userEvent } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
 import { NavItem, NavItemChevron, NavItemCount, type NavItemMagnitude } from "./index";
@@ -12,7 +12,7 @@ const meta = {
   title: "Components/NavItem",
   component: NavItem,
   subcomponents: { NavItemCount, NavItemChevron },
-  // Icon picker control for the leading icon.
+  // Icon picker control for the inline-start icon.
   argTypes: { inlineStartNode: iconControl },
   parameters: {
     design: {
@@ -40,7 +40,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** A row with a trailing count chip and a disclosure chevron, like a collapsible group. */
+/** A row with an inline-end count chip and a disclosure chevron, like a collapsible group. */
 export const WithTrailing: Story = {
   args: {
     inlineEndNode: (
@@ -55,8 +55,8 @@ export const WithTrailing: Story = {
 /** The current page: filled surface, primary-tone label, and `aria-current="page"`. */
 export const Active: Story = {
   args: { active: true },
-  play: async ({ canvasElement }) => {
-    const item = within(canvasElement).getByRole("button", { name: "Inbox" });
+  play: async ({ canvas }) => {
+    const item = canvas.getByRole("button", { name: "Inbox" });
     await expect(item).toHaveAttribute("aria-current", "page");
   },
 };
@@ -67,8 +67,8 @@ export const AsLink: Story = {
     active: true,
     render: <a href="#inbox" />,
   },
-  play: async ({ canvasElement }) => {
-    const link = within(canvasElement).getByRole("link", { name: "Inbox" });
+  play: async ({ canvas }) => {
+    const link = canvas.getByRole("link", { name: "Inbox" });
     await expect(link).toHaveAttribute("href", "#inbox");
     await expect(link).toHaveAttribute("aria-current", "page");
   },
@@ -83,8 +83,8 @@ export const AsLink: Story = {
 export const KeyboardActivation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { active: true, onClick: fn() },
-  play: async ({ canvasElement, args }) => {
-    const item = within(canvasElement).getByRole("button", { name: "Inbox" });
+  play: async ({ canvas, args }) => {
+    const item = canvas.getByRole("button", { name: "Inbox" });
 
     // The selected row exposes aria-current for assistive tech.
     await expect(item).toHaveAttribute("aria-current", "page");
@@ -149,7 +149,7 @@ export const Levels: Story = {
 };
 
 /**
- * RTL: the leading icon moves to the inline-start (visually the right edge) and the disclosure
+ * RTL: the inline-start icon moves to the inline-start (visually the right edge) and the disclosure
  * chevron mirrors. Wrapped in Base UI's `DirectionProvider`.
  */
 export const RightToLeft: Story = {
