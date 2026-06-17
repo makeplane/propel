@@ -170,7 +170,7 @@ function CommentComposer({
   );
 
   return (
-    <Field className={commentVariants({ magnitude })}>
+    <Field name="comment" className={commentVariants({ magnitude })}>
       <label htmlFor={controlId} className="sr-only">
         {label}
       </label>
@@ -244,7 +244,7 @@ const RECIPE_SOURCE = `function CommentComposer() {
   const isEmpty = value.trim().length === 0;
 
   return (
-    <Field className="flex w-full flex-col overflow-clip rounded-xl border border-subtle-1 bg-layer-2 text-primary">
+    <Field name="comment" className="flex w-full flex-col overflow-clip rounded-xl border border-subtle-1 bg-layer-2 text-primary">
       <label htmlFor={controlId} className="sr-only">Add a comment</label>
       <FieldControl
         id={controlId}

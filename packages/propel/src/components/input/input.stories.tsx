@@ -430,7 +430,7 @@ export const FieldComposition: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
   render: () => (
-    <Field>
+    <Field name="customField">
       <FieldLabel magnitude="md" required>
         Custom field
       </FieldLabel>
@@ -441,6 +441,7 @@ export const FieldComposition: Story = {
   play: async ({ canvas }) => {
     const input = canvas.getByRole("textbox", { name: "Custom field" });
     await expect(input).toBeRequired();
+    await expect(input).toHaveAttribute("name", "customField");
     await expect(canvas.getByText("Use this for custom form controls.")).toBeInTheDocument();
   },
 };
@@ -465,7 +466,7 @@ export const FieldErrorComposition: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
   render: () => (
-    <Field invalid>
+    <Field name="workspaceSlug" invalid>
       <FieldLabel magnitude="md">Workspace slug</FieldLabel>
       <FieldControl defaultValue="Already taken" />
       <FieldError match>Choose a different workspace slug.</FieldError>
@@ -473,6 +474,7 @@ export const FieldErrorComposition: Story = {
   ),
   play: async ({ canvas }) => {
     const input = canvas.getByRole("textbox", { name: "Workspace slug" });
+    await expect(input).toHaveAttribute("name", "workspaceSlug");
     await expect(input).toHaveAttribute("aria-invalid", "true");
     await expect(input).toHaveAccessibleDescription("Choose a different workspace slug.");
   },
