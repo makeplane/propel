@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, within } from "storybook/test";
+
 import { Progress } from "./index";
 
 const meta = {
@@ -57,9 +58,8 @@ export const WithoutLabel: Story = {
 };
 
 /**
- * `variant="circular"` is a small determinate ring — a gray track plus an accent arc
- * proportional to the value, with no label. The arc starts at 12 o'clock and sweeps
- * clockwise.
+ * `variant="circular"` is a small determinate ring — a gray track plus an accent arc proportional
+ * to the value, with no label. The arc starts at 12 o'clock and sweeps clockwise.
  */
 export const Circular: Story = {
   args: { variant: "circular", value: 32, magnitude: "md", "aria-label": "Sync progress" },
@@ -82,9 +82,9 @@ export const CircularMagnitudes: Story = {
 };
 
 /**
- * The linear bar exposes the `progressbar` role with `aria-valuenow`, and the label
- * renders the rounded percentage. Tagged out of the sidebar/docs/manifest but still run
- * under the default `test` tag.
+ * The linear bar exposes the `progressbar` role with `aria-valuenow`, and the label renders the
+ * rounded percentage. Tagged out of the sidebar/docs/manifest but still run under the default
+ * `test` tag.
  */
 export const Semantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -98,9 +98,9 @@ export const Semantics: Story = {
 };
 
 /**
- * The circular variant keeps the same `progressbar` role + `aria-valuenow` (Base UI's
- * Root owns them), and exposes no `%` text. Tagged out of the sidebar/docs/manifest but
- * still run under the default `test` tag.
+ * The circular variant keeps the same `progressbar` role + `aria-valuenow` (Base UI's Root owns
+ * them), and exposes no `%` text. Tagged out of the sidebar/docs/manifest but still run under the
+ * default `test` tag.
  */
 export const CircularSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus, Search, Settings } from "lucide-react";
 import { expect, fn } from "storybook/test";
+
 import { iconControl } from "../../storybook/icon-control";
 import { Button, type ButtonMagnitude, type ButtonVariant } from "./index";
 
@@ -48,8 +49,8 @@ export const Variants: Story = {
 };
 
 /**
- * Tone selects the palette: `neutral` (default) or `danger` (Figma "Error").
- * Danger is shown as a solid fill and a bordered outline.
+ * Tone selects the palette: `neutral` (default) or `danger` (Figma "Error"). Danger is shown as a
+ * solid fill and a bordered outline.
  */
 export const Tones: Story = {
   parameters: { controls: { disable: true } },
@@ -69,9 +70,9 @@ export const Tones: Story = {
 };
 
 /**
- * `emphasis` is link-only (Figma "Emphasis"): `solid` is the blue `link/primary`
- * affordance, `subtle` is the muted gray inline link (uses `text-secondary`).
- * Every non-link variant ignores it.
+ * `emphasis` is link-only (Figma "Emphasis"): `solid` is the blue `link/primary` affordance,
+ * `subtle` is the muted gray inline link (uses `text-secondary`). Every non-link variant ignores
+ * it.
  */
 export const LinkEmphasis: Story = {
   // Iterates `emphasis` (link-only, so `variant` is pinned to link) and labels each
@@ -146,9 +147,9 @@ export const Loading: Story = {
 };
 
 /**
- * Clicking a button fires `onClick`. Tagged `!dev`/`!autodocs`/`!manifest` so it's
- * hidden from the sidebar, docs, and AI manifest — it's a behavior test, not an
- * example — but still runs under the default `test` tag.
+ * Clicking a button fires `onClick`. Tagged `!dev`/`!autodocs`/`!manifest` so it's hidden from the
+ * sidebar, docs, and AI manifest — it's a behavior test, not an example — but still runs under the
+ * default `test` tag.
  */
 export const ClickFiresOnClick: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -161,8 +162,8 @@ export const ClickFiresOnClick: Story = {
 };
 
 /**
- * Tab moves focus onto the button, then **Enter** activates it (fires `onClick`).
- * Native `<button>` semantics — the test guards that the wrapper keeps them.
+ * Tab moves focus onto the button, then **Enter** activates it (fires `onClick`). Native `<button>`
+ * semantics — the test guards that the wrapper keeps them.
  */
 export const EnterActivates: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -202,8 +203,8 @@ export const DisabledBlocksClick: Story = {
 };
 
 /**
- * A `disabled` button is removed from the tab order: Tab does not land on it and
- * keyboard activation (Enter/Space) never fires `onClick`.
+ * A `disabled` button is removed from the tab order: Tab does not land on it and keyboard
+ * activation (Enter/Space) never fires `onClick`.
  */
 export const DisabledNotKeyboardActivatable: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -234,9 +235,9 @@ export const LoadingNotKeyboardActivatable: Story = {
 };
 
 /**
- * A `loading` button shows the spinner, is `aria-busy` + `aria-disabled`, and
- * blocks clicks — but stays a real, focusable button (NOT natively `disabled`)
- * so assistive tech can land on it and announce the busy state.
+ * A `loading` button shows the spinner, is `aria-busy` + `aria-disabled`, and blocks clicks — but
+ * stays a real, focusable button (NOT natively `disabled`) so assistive tech can land on it and
+ * announce the busy state.
  */
 export const LoadingBlocksClick: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

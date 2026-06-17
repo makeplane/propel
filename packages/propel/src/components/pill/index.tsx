@@ -2,6 +2,7 @@ import { Toggle } from "@base-ui/react/toggle";
 import { cva, cx } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
+
 import { getLoadingButtonProps } from "../../internal/loading-button";
 import { nodeSlotClass } from "../../internal/node-slot";
 
@@ -66,12 +67,12 @@ function PillLabel({ children }: { children: React.ReactNode }) {
 }
 
 const pillButtonColors = cx(
-  "cursor-pointer bg-layer-2 border-subtle-1 text-secondary",
-  "hover:bg-layer-2-hover hover:border-strong",
-  "active:bg-layer-2-active active:border-strong active:text-primary",
+  "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
+  "hover:border-strong hover:bg-layer-2-hover",
+  "active:border-strong active:bg-layer-2-active active:text-primary",
   // Disabled + loading drop to a transparent fill with the disabled text/icon color.
-  "disabled:cursor-not-allowed disabled:bg-layer-transparent disabled:border-subtle-1 disabled:text-disabled",
-  "aria-busy:cursor-default aria-busy:bg-layer-transparent aria-busy:border-subtle-1 aria-busy:text-disabled",
+  "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
+  "aria-busy:cursor-default aria-busy:border-subtle-1 aria-busy:bg-layer-transparent aria-busy:text-disabled",
 );
 
 export type PillButtonProps = Omit<React.ComponentProps<"button">, "className" | "style"> & {
@@ -82,16 +83,16 @@ export type PillButtonProps = Omit<React.ComponentProps<"button">, "className" |
   /** A 14px node (icon/avatar) after the label. */
   inlineEndNode?: React.ReactNode;
   /**
-   * Busy state: swaps the leading node for a spinner, dims the label, and blocks
-   * clicks while staying a real, focusable button (`aria-busy`/`aria-disabled`).
+   * Busy state: swaps the leading node for a spinner, dims the label, and blocks clicks while
+   * staying a real, focusable button (`aria-busy`/`aria-disabled`).
    */
   loading?: boolean;
 };
 
 /**
- * A pill-shaped button — a compact, low-emphasis action chip (e.g. a filter or a
- * "+ Add" affordance). Holds a label with optional leading/trailing nodes. Hover and
- * active are CSS states; `disabled` and `loading` are props.
+ * A pill-shaped button — a compact, low-emphasis action chip (e.g. a filter or a "+ Add"
+ * affordance). Holds a label with optional leading/trailing nodes. Hover and active are CSS states;
+ * `disabled` and `loading` are props.
  */
 export function PillButton({
   magnitude,
@@ -123,12 +124,12 @@ export function PillButton({
 }
 
 const pillSwitchColors = cx(
-  "cursor-pointer bg-layer-2 border-subtle-1 text-secondary",
-  "hover:bg-layer-2-hover hover:border-strong",
+  "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
+  "hover:border-strong hover:bg-layer-2-hover",
   // Selected (the toggle's pressed state) is the darker `-selected` fill + strong
   // border + primary label.
-  "data-[pressed]:bg-layer-2-selected data-[pressed]:border-strong data-[pressed]:text-primary",
-  "disabled:cursor-not-allowed disabled:bg-layer-transparent disabled:border-subtle-1 disabled:text-disabled",
+  "data-[pressed]:border-strong data-[pressed]:bg-layer-2-selected data-[pressed]:text-primary",
+  "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
 );
 
 export type PillSwitchProps = Omit<
@@ -144,12 +145,11 @@ export type PillSwitchProps = Omit<
 };
 
 /**
- * A toggle pill — a selectable chip for segmented, on/off choices (e.g. the display
- * properties in a settings menu). Built on Base UI `Toggle`, so it reports
- * `aria-pressed` and is keyboard-operable; the selected look is its pressed state.
- * Control it with `pressed` + `onPressedChange`, or leave it uncontrolled with
- * `defaultPressed`. Compose several inside a Base UI `ToggleGroup` for a single-select
- * set.
+ * A toggle pill — a selectable chip for segmented, on/off choices (e.g. the display properties in a
+ * settings menu). Built on Base UI `Toggle`, so it reports `aria-pressed` and is keyboard-operable;
+ * the selected look is its pressed state. Control it with `pressed` + `onPressedChange`, or leave
+ * it uncontrolled with `defaultPressed`. Compose several inside a Base UI `ToggleGroup` for a
+ * single-select set.
  */
 export function PillSwitch({
   magnitude,
@@ -180,11 +180,11 @@ export function PillSwitch({
 const iconPillVariants = cva(
   cx(
     pillBase,
-    "cursor-pointer bg-layer-2 border-subtle-1 text-icon-secondary",
-    "hover:bg-layer-2-hover hover:border-strong",
-    "active:bg-layer-2-active active:border-strong",
-    "disabled:cursor-not-allowed disabled:bg-layer-transparent disabled:border-subtle-1 disabled:text-icon-disabled",
-    "aria-busy:cursor-default aria-busy:bg-layer-transparent aria-busy:border-subtle-1 aria-busy:text-icon-disabled",
+    "cursor-pointer border-subtle-1 bg-layer-2 text-icon-secondary",
+    "hover:border-strong hover:bg-layer-2-hover",
+    "active:border-strong active:bg-layer-2-active",
+    "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-icon-disabled",
+    "aria-busy:cursor-default aria-busy:border-subtle-1 aria-busy:bg-layer-transparent aria-busy:text-icon-disabled",
   ),
   {
     variants: {
@@ -212,9 +212,8 @@ export type IconPillProps = Omit<
 };
 
 /**
- * An icon-only square pill — a compact icon action chip. Requires an `aria-label`
- * because its content is an icon. Hover and active are CSS states; `disabled` and
- * `loading` are props.
+ * An icon-only square pill — a compact icon action chip. Requires an `aria-label` because its
+ * content is an icon. Hover and active are CSS states; `disabled` and `loading` are props.
  */
 export function IconPill({
   magnitude,

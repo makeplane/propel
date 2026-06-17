@@ -2,6 +2,7 @@ import { Menu } from "@base-ui/react/menu";
 import { cva, cx } from "class-variance-authority";
 import { ChevronRight, Ellipsis } from "lucide-react";
 import * as React from "react";
+
 import { OverlayPanel } from "../../internal/overlay-panel";
 import {
   Dropdown,
@@ -23,7 +24,7 @@ import {
 // single-line flex row the box should hug the glyphs (`leading-none`) and `items-center`
 // does the vertical centering; `py-0.5` restores the crumb/hover-pill height.
 const crumbVariants = cva(
-  "inline-flex items-center gap-1.5 rounded-md px-1 py-0.5 text-14 font-medium leading-none text-tertiary",
+  "inline-flex items-center gap-1.5 rounded-md px-1 py-0.5 text-14 leading-none font-medium text-tertiary",
   {
     variants: {
       // The hoverable crumbs (links, dropdown trigger) get the transparent-hover
@@ -39,9 +40,8 @@ const crumbVariants = cva(
 export type BreadcrumbProps = Omit<React.ComponentProps<"nav">, "className" | "style">;
 
 /**
- * Breadcrumb trail: a `<nav aria-label="Breadcrumb">` wrapping an ordered list.
- * Compose the trail from `BreadcrumbItem`s — the number of crumbs is content the
- * consumer provides, not a prop.
+ * Breadcrumb trail: a `<nav aria-label="Breadcrumb">` wrapping an ordered list. Compose the trail
+ * from `BreadcrumbItem`s — the number of crumbs is content the consumer provides, not a prop.
  */
 export function Breadcrumb({ children, ...props }: BreadcrumbProps) {
   return (
@@ -68,8 +68,8 @@ export function BreadcrumbLink(props: BreadcrumbLinkProps) {
 export type BreadcrumbPageProps = Omit<React.ComponentProps<"span">, "className" | "style">;
 
 /**
- * The current page — the last, non-navigable crumb. Marked `aria-current="page"`
- * so assistive tech announces it, and styled with the stronger `text/primary` token.
+ * The current page — the last, non-navigable crumb. Marked `aria-current="page"` so assistive tech
+ * announces it, and styled with the stronger `text/primary` token.
  */
 export function BreadcrumbPage(props: BreadcrumbPageProps) {
   return (
@@ -111,9 +111,8 @@ export type BreadcrumbDropdownProps = Omit<
 };
 
 /**
- * A collapsed/overflow crumb: an ellipsis trigger that opens a menu of the
- * crumbs hidden to save space. Built on Base UI's `Menu` so it's keyboard- and
- * screen-reader-accessible out of the box.
+ * A collapsed/overflow crumb: an ellipsis trigger that opens a menu of the crumbs hidden to save
+ * space. Built on Base UI's `Menu` so it's keyboard- and screen-reader-accessible out of the box.
  */
 export function BreadcrumbDropdown({
   children,
@@ -149,9 +148,9 @@ export type BreadcrumbDropdownItemProps = Omit<
 >;
 
 /**
- * A single item inside `BreadcrumbDropdown` — a thin wrapper over Base UI's
- * `Menu.Item` with propel's menu-row styling. Render a link inside it (or pass
- * `render`) to make the collapsed crumb navigable.
+ * A single item inside `BreadcrumbDropdown` — a thin wrapper over Base UI's `Menu.Item` with
+ * propel's menu-row styling. Render a link inside it (or pass `render`) to make the collapsed crumb
+ * navigable.
  */
 export function BreadcrumbDropdownItem(props: BreadcrumbDropdownItemProps) {
   return (
@@ -163,13 +162,12 @@ export function BreadcrumbDropdownItem(props: BreadcrumbDropdownItemProps) {
 }
 
 /**
- * A breadcrumb crumb that opens a dropdown menu — the Figma "Dropdown" property
- * of a breadcrumb crumb (default / hover / current). Unlike `BreadcrumbDropdown`
- * (the overflow ellipsis that hides middle crumbs), this is a *real* crumb in the
- * trail whose menu lets the user switch the current step between sibling pages or
- * contexts — e.g. jumping between projects, sub-pages, or views without leaving the
- * breadcrumb. It composes propel's `Dropdown`, so the portaled menu is keyboard- and
- * screen-reader-accessible.
+ * A breadcrumb crumb that opens a dropdown menu — the Figma "Dropdown" property of a breadcrumb
+ * crumb (default / hover / current). Unlike `BreadcrumbDropdown` (the overflow ellipsis that hides
+ * middle crumbs), this is a _real_ crumb in the trail whose menu lets the user switch the current
+ * step between sibling pages or contexts — e.g. jumping between projects, sub-pages, or views
+ * without leaving the breadcrumb. It composes propel's `Dropdown`, so the portaled menu is
+ * keyboard- and screen-reader-accessible.
  *
  * ```tsx
  * <BreadcrumbItem>
@@ -180,7 +178,7 @@ export function BreadcrumbDropdownItem(props: BreadcrumbDropdownItemProps) {
  *       <BreadcrumbMenuItem render={<a href="#" />}>Plane Web</BreadcrumbMenuItem>
  *     </BreadcrumbMenuContent>
  *   </BreadcrumbMenu>
- * </BreadcrumbItem>
+ * </BreadcrumbItem>;
  * ```
  */
 export const BreadcrumbMenu = Dropdown;
@@ -197,14 +195,13 @@ export type BreadcrumbMenuTriggerProps = Omit<
 };
 
 /**
- * The crumb that opens the menu: a hoverable pill (icon + label) with a trailing
- * chevron. That chevron IS the breadcrumb chevron (the same glyph as
- * `BreadcrumbSeparator`): it points right when closed and rotates down
- * (`data-[popup-open]`) while the menu is open, matching the Figma "Dropdown" crumb's
- * default and hover/open states. Because it already serves as the divider to the next
- * crumb, do NOT place a `BreadcrumbSeparator` after a menu crumb, or it renders a
- * second, redundant arrow. It's the `Dropdown`/`Menu` trigger `<button>`, so it keeps
- * the menu's keyboard a11y (Enter / ArrowDown to open) out of the box.
+ * The crumb that opens the menu: a hoverable pill (icon + label) with a trailing chevron. That
+ * chevron IS the breadcrumb chevron (the same glyph as `BreadcrumbSeparator`): it points right when
+ * closed and rotates down (`data-[popup-open]`) while the menu is open, matching the Figma
+ * "Dropdown" crumb's default and hover/open states. Because it already serves as the divider to the
+ * next crumb, do NOT place a `BreadcrumbSeparator` after a menu crumb, or it renders a second,
+ * redundant arrow. It's the `Dropdown`/`Menu` trigger `<button>`, so it keeps the menu's keyboard
+ * a11y (Enter / ArrowDown to open) out of the box.
  */
 export function BreadcrumbMenuTrigger({ icon, children, ...props }: BreadcrumbMenuTriggerProps) {
   return (
@@ -236,8 +233,8 @@ export function BreadcrumbMenuTrigger({ icon, children, ...props }: BreadcrumbMe
 export type BreadcrumbMenuContentProps = DropdownContentProps;
 
 /**
- * The menu surface for a `BreadcrumbMenu` — propel's `DropdownContent`, portaled and
- * positioned under the crumb. Place `BreadcrumbMenuItem`s inside it.
+ * The menu surface for a `BreadcrumbMenu` — propel's `DropdownContent`, portaled and positioned
+ * under the crumb. Place `BreadcrumbMenuItem`s inside it.
  */
 export function BreadcrumbMenuContent(props: BreadcrumbMenuContentProps) {
   return <DropdownContent {...props} />;
@@ -246,9 +243,9 @@ export function BreadcrumbMenuContent(props: BreadcrumbMenuContentProps) {
 export type BreadcrumbMenuItemProps = DropdownItemProps;
 
 /**
- * A row in a `BreadcrumbMenu` — propel's `DropdownItem`. Render a link inside it (via
- * `render`) to make the sibling crumb navigable. `variant` is required (the Dropdown
- * row layout axis); use `"default"` for the single-line sibling list.
+ * A row in a `BreadcrumbMenu` — propel's `DropdownItem`. Render a link inside it (via `render`) to
+ * make the sibling crumb navigable. `variant` is required (the Dropdown row layout axis); use
+ * `"default"` for the single-line sibling list.
  */
 export function BreadcrumbMenuItem(props: BreadcrumbMenuItemProps) {
   return <DropdownItem {...props} />;

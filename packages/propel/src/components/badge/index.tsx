@@ -5,7 +5,7 @@ import * as React from "react";
 // t-shirt scale by their label text size (S 12px, Base 13px, Large 14px), consistent
 // with how Avatar names its steps. Height/padding/radius track Figma per step.
 const badgeVariants = cva(
-  "inline-flex w-fit shrink-0 items-center justify-center gap-1 whitespace-nowrap font-medium leading-none",
+  "inline-flex w-fit shrink-0 items-center justify-center gap-1 leading-none font-medium whitespace-nowrap",
   {
     variants: {
       magnitude: {
@@ -56,9 +56,9 @@ export type BadgeProps = Omit<React.ComponentProps<"span">, "className" | "style
   /** Size of the badge. */
   magnitude: BadgeMagnitude;
   /**
-   * Optional leading icon (e.g. a lucide icon), sized to the magnitude and tinted to
-   * the tone. Named `leadingIcon` (not `icon`) to match Button/Input and leave room
-   * for a future `trailingIcon`.
+   * Optional leading icon (e.g. a lucide icon), sized to the magnitude and tinted to the tone.
+   * Named `leadingIcon` (not `icon`) to match Button/Input and leave room for a future
+   * `trailingIcon`.
    */
   leadingIcon?: React.ReactNode;
 };

@@ -2,13 +2,15 @@ import { Menu } from "@base-ui/react/menu";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { Check, ChevronRight, Search } from "lucide-react";
 import * as React from "react";
+
+import { useControllableState } from "../../hooks/use-controllable-state/index";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
 import { CheckboxVisual } from "../checkbox/index";
 
 /**
- * The dropdown menu root — a Base UI `Menu.Root`. Holds open state and wires the
- * trigger to the content. Compose it with `DropdownTrigger` + `DropdownContent`:
+ * The dropdown menu root — a Base UI `Menu.Root`. Holds open state and wires the trigger to the
+ * content. Compose it with `DropdownTrigger` + `DropdownContent`:
  *
  * ```tsx
  * <Dropdown>
@@ -18,7 +20,7 @@ import { CheckboxVisual } from "../checkbox/index";
  *     <DropdownSeparator />
  *     <DropdownItem label="Delete" />
  *   </DropdownContent>
- * </Dropdown>
+ * </Dropdown>;
  * ```
  */
 type BaseMenuRootProps = React.ComponentProps<typeof Menu.Root>;
@@ -34,8 +36,9 @@ export type DropdownProps = Omit<
   /** Called with the next open state when the menu opens or closes. */
   onOpenChange?: BaseMenuRootProps["onOpenChange"];
   /**
-   * Modal behavior while open: `true` locks page scroll and blocks outside pointer
-   * interaction. @default false
+   * Modal behavior while open: `true` locks page scroll and blocks outside pointer interaction.
+   *
+   * @default false
    */
   modal?: BaseMenuRootProps["modal"];
   /** The trigger and menu surface (`DropdownTrigger`, `DropdownContent`). */
@@ -52,8 +55,8 @@ export type DropdownTriggerProps = Omit<
 >;
 
 /**
- * The element that opens the menu. Renders a `<button>` by default; pass `render`
- * to project the trigger onto your own element (e.g. an icon button).
+ * The element that opens the menu. Renders a `<button>` by default; pass `render` to project the
+ * trigger onto your own element (e.g. an icon button).
  */
 export function DropdownTrigger(props: DropdownTriggerProps) {
   return <Menu.Trigger {...props} />;
@@ -77,29 +80,29 @@ export type DropdownContentProps = Omit<
   /** Alignment of the menu relative to the trigger along `side`. @default "start" */
   align?: React.ComponentProps<typeof Menu.Positioner>["align"];
   /**
-   * Fixed menu width. `anchor` matches the trigger; `sm`/`md`/`lg` are the picker
-   * widths from Figma (256 / 288 / 384px). @default "anchor"
+   * Fixed menu width. `anchor` matches the trigger; `sm`/`md`/`lg` are the picker widths from Figma
+   * (256 / 288 / 384px). @default "anchor"
    */
   width?: DropdownContentWidth;
   /**
-   * A sticky `DropdownSearch` pinned above the list, *outside* the `role="menu"`
-   * element so the menu only contains menu items (ARIA `aria-required-children`).
+   * A sticky `DropdownSearch` pinned above the list, _outside_ the `role="menu"` element so the
+   * menu only contains menu items (ARIA `aria-required-children`).
    */
   search?: React.ReactNode;
   /**
-   * A sticky `DropdownFooter` pinned below the list, *outside* the `role="menu"`
-   * element (same ARIA reasoning as `search`).
+   * A sticky `DropdownFooter` pinned below the list, _outside_ the `role="menu"` element (same ARIA
+   * reasoning as `search`).
    */
   footer?: React.ReactNode;
 };
 
 /**
- * The menu surface. Bundles Base UI's `Portal` + `Positioner` + `Popup` so the menu
- * renders in a portal, positioned against the trigger, with propel's popover styling.
- * Place `DropdownItem`/`DropdownCheckboxItem`/`DropdownSeparator`/`DropdownGroup` as
- * children — they become the `role="menu"` list. Non-menuitem chrome (a search input,
- * a footer note) must go through the `search`/`footer` props so it sits outside the
- * menu role and keeps the surface ARIA-valid.
+ * The menu surface. Bundles Base UI's `Portal` + `Positioner` + `Popup` so the menu renders in a
+ * portal, positioned against the trigger, with propel's popover styling. Place
+ * `DropdownItem`/`DropdownCheckboxItem`/`DropdownSeparator`/`DropdownGroup` as children — they
+ * become the `role="menu"` list. Non-menuitem chrome (a search input, a footer note) must go
+ * through the `search`/`footer` props so it sits outside the menu role and keeps the surface
+ * ARIA-valid.
  */
 export function DropdownContent({
   children,
@@ -132,7 +135,7 @@ const dropdownItemVariants = cva(
   cx(
     // Items are 34px tall (Figma); `rounded-md` radius per design. `--node-size` sizes
     // the icons dropped into the inline-start/end node slots (16px), like Button.
-    "group/item flex w-full select-none gap-2 rounded-md px-2 text-13 outline-none [--node-size:1rem]",
+    "group/item flex w-full gap-2 rounded-md px-2 text-13 outline-none select-none [--node-size:1rem]",
     "text-secondary",
     "data-disabled:pointer-events-none data-disabled:text-disabled",
   ),
@@ -164,15 +167,14 @@ export type DropdownItemProps = Omit<
   "className" | "style" | "label"
 > & {
   /**
-   * Row layout (required). `default` is a single line; `with-description` stacks a
-   * muted second line under the label. Selected/disabled are state props, not
-   * variants.
+   * Row layout (required). `default` is a single line; `with-description` stacks a muted second
+   * line under the label. Selected/disabled are state props, not variants.
    */
   variant: DropdownItemVariant;
   /**
-   * Leading content before the label — an icon (sized to 16px), or a full-size control
-   * such as a `Checkbox`, `Radio`, `Avatar`, or a color swatch. Single-select rows
-   * should use `selected` instead. (Logical node slot, like Button's `inlineStartNode`.)
+   * Leading content before the label — an icon (sized to 16px), or a full-size control such as a
+   * `Checkbox`, `Radio`, `Avatar`, or a color swatch. Single-select rows should use `selected`
+   * instead. (Logical node slot, like Button's `inlineStartNode`.)
    */
   inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
@@ -180,34 +182,34 @@ export type DropdownItemProps = Omit<
   /** Muted secondary line under the label (use with `variant="with-description"`). */
   description?: React.ReactNode;
   /**
-   * Muted text shown inline after the label (e.g. a language's English name). Sits
-   * between the label and the trailing node, on the same line as the label.
+   * Muted text shown inline after the label (e.g. a language's English name). Sits between the
+   * label and the trailing node, on the same line as the label.
    */
   secondaryText?: React.ReactNode;
   /**
-   * Trailing content after the label — a `Badge` count, a keyboard shortcut, value
-   * text, or an icon (sized to 16px). (Logical node slot, like Button's `inlineEndNode`.)
+   * Trailing content after the label — a `Badge` count, a keyboard shortcut, value text, or an icon
+   * (sized to 16px). (Logical node slot, like Button's `inlineEndNode`.)
    */
   inlineEndNode?: React.ReactNode;
   /**
-   * Single-select selected state: keeps the row's own icon and marks the selection
-   * with a trailing checkmark (the row's icon is never replaced). Distinct from the
-   * multi-select `DropdownCheckboxItem`, which shows a `Checkbox` on every row.
+   * Single-select selected state: keeps the row's own icon and marks the selection with a trailing
+   * checkmark (the row's icon is never replaced). Distinct from the multi-select
+   * `DropdownCheckboxItem`, which shows a `Checkbox` on every row.
    */
   selected?: boolean;
   /**
-   * Row emphasis. `default` is a normal selectable row (highlights on hover/keyboard
-   * focus). `link` is a "View all"-style affordance — a pointer cursor and no hover
-   * background. @default "default"
+   * Row emphasis. `default` is a normal selectable row (highlights on hover/keyboard focus). `link`
+   * is a "View all"-style affordance — a pointer cursor and no hover background. @default
+   * "default"
    */
   emphasis?: DropdownItemEmphasis;
 };
 
 /**
- * A selectable menu row: an optional `inlineStartNode` (icon or full-size control) +
- * label (+ optional description / inline secondary text / `inlineEndNode`) — all of it
- * content, laid out by `variant`. Closes the menu when clicked (Base UI default). Pass
- * `selected` for the single-select trailing-checkmark pattern.
+ * A selectable menu row: an optional `inlineStartNode` (icon or full-size control) + label (+
+ * optional description / inline secondary text / `inlineEndNode`) — all of it content, laid out by
+ * `variant`. Closes the menu when clicked (Base UI default). Pass `selected` for the single-select
+ * trailing-checkmark pattern.
  */
 export function DropdownItem({
   variant,
@@ -257,9 +259,9 @@ export type DropdownCheckboxItemProps = Omit<
   "className" | "style" | "label"
 > & {
   /**
-   * Leading content shown after the checkbox — an icon (16px), a color swatch, an
-   * `Avatar`, or a priority glyph (Avatar for assignees, swatch for labels, etc.).
-   * (Logical node slot, like Button's `inlineStartNode`.)
+   * Leading content shown after the checkbox — an icon (16px), a color swatch, an `Avatar`, or a
+   * priority glyph (Avatar for assignees, swatch for labels, etc.). (Logical node slot, like
+   * Button's `inlineStartNode`.)
    */
   inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
@@ -269,11 +271,11 @@ export type DropdownCheckboxItemProps = Omit<
 };
 
 /**
- * A toggleable multi-select menu row. The leading control is the propel `Checkbox`
- * component (driven by this row's Base UI checkbox-item state, so the box reflects
- * `checked`/`indeterminate`/`disabled` without owning its own state). The row keeps
- * the `role="menuitemcheckbox"` a11y semantics and stays open on click. Control it
- * with `checked` + `onCheckedChange`, or leave it uncontrolled with `defaultChecked`.
+ * A toggleable multi-select menu row. The leading control is the propel `Checkbox` component
+ * (driven by this row's Base UI checkbox-item state, so the box reflects
+ * `checked`/`indeterminate`/`disabled` without owning its own state). The row keeps the
+ * `role="menuitemcheckbox"` a11y semantics and stays open on click. Control it with `checked` +
+ * `onCheckedChange`, or leave it uncontrolled with `defaultChecked`.
  */
 export function DropdownCheckboxItem({
   inlineStartNode,
@@ -286,17 +288,20 @@ export function DropdownCheckboxItem({
   ...props
 }: DropdownCheckboxItemProps) {
   // Mirror the row's checked state so the visual propel Checkbox stays in sync for
-  // both controlled (`checked`) and uncontrolled (`defaultChecked`) usage. When
-  // controlled, the prop is the source of truth; when uncontrolled, we track it
-  // locally and forward changes through `onCheckedChange`.
-  const isControlled = checked !== undefined;
-  const [internalChecked, setInternalChecked] = React.useState(defaultChecked ?? false);
-  const isChecked = isControlled ? checked : internalChecked;
+  // both controlled (`checked`) and uncontrolled (`defaultChecked`) usage. The
+  // shared `useControllableState` hook tracks the value internally only when
+  // uncontrolled. Base UI's change event carries an extra `details` argument, so we
+  // forward `onCheckedChange` straight from that handler (where both `next` and
+  // `details` are in scope) and use the hook purely to mirror the visual state.
+  const [isChecked, setChecked] = useControllableState<boolean>({
+    value: checked,
+    defaultValue: defaultChecked ?? false,
+  });
 
   return (
     <Menu.CheckboxItem
       className={cx(
-        "group/item flex h-[34px] w-full cursor-default select-none items-center gap-2 rounded-md px-2 text-13 outline-none [--node-size:1rem]",
+        "group/item flex h-[34px] w-full cursor-default items-center gap-2 rounded-md px-2 text-13 outline-none select-none [--node-size:1rem]",
         "text-secondary",
         "data-highlighted:bg-layer-transparent-hover",
         "data-disabled:pointer-events-none data-disabled:text-disabled",
@@ -304,7 +309,7 @@ export function DropdownCheckboxItem({
       checked={checked}
       defaultChecked={defaultChecked}
       onCheckedChange={(next, details) => {
-        if (!isControlled) setInternalChecked(next);
+        setChecked(next);
         onCheckedChange?.(next, details);
       }}
       {...props}
@@ -344,8 +349,8 @@ export type DropdownGroupProps = Omit<
 >;
 
 /**
- * Groups related items so a `DropdownLabel` can title them with the correct
- * accessibility relationship. Place a `DropdownLabel` first, then the items.
+ * Groups related items so a `DropdownLabel` can title them with the correct accessibility
+ * relationship. Place a `DropdownLabel` first, then the items.
  */
 export function DropdownGroup(props: DropdownGroupProps) {
   return <Menu.Group {...props} />;
@@ -356,18 +361,17 @@ export type DropdownLabelProps = Omit<
   "className" | "style"
 > & {
   /**
-   * Optional trailing content on the heading row — e.g. a "View all" link or a count.
-   * Sits at the end of the label line (the Figma "Dropdown header" trailing slot).
+   * Optional trailing content on the heading row — e.g. a "View all" link or a count. Sits at the
+   * end of the label line (the Figma "Dropdown header" trailing slot).
    */
   inlineEndNode?: React.ReactNode;
   children?: React.ReactNode;
 };
 
 /**
- * A non-interactive section heading for a group of items (the Figma "Dropdown
- * header": `text/12`, `text/tertiary`, title-case). Must be rendered inside a
- * `DropdownGroup`, as the first child, to label the items that follow it. Pass
- * `inlineEndNode` for a trailing "View all" link or count.
+ * A non-interactive section heading for a group of items (the Figma "Dropdown header": `text/12`,
+ * `text/tertiary`, title-case). Must be rendered inside a `DropdownGroup`, as the first child, to
+ * label the items that follow it. Pass `inlineEndNode` for a trailing "View all" link or count.
  */
 export function DropdownLabel({ inlineEndNode, children, ...props }: DropdownLabelProps) {
   return (
@@ -398,10 +402,10 @@ export type DropdownSearchProps = Omit<
 };
 
 /**
- * A sticky search input pinned to the top of a `DropdownContent`. Use it as the
- * first child of the content for filterable menus (Status, Labels, Assignees, …).
- * It keeps focus inside the menu and does not steal Base UI's typeahead because it
- * is a real text input. Drive filtering with `value` + `onValueChange`.
+ * A sticky search input pinned to the top of a `DropdownContent`. Use it as the first child of the
+ * content for filterable menus (Status, Labels, Assignees, …). It keeps focus inside the menu and
+ * does not steal Base UI's typeahead because it is a real text input. Drive filtering with `value`
+ * + `onValueChange`.
  */
 export function DropdownSearch({
   value,
@@ -430,8 +434,8 @@ export function DropdownSearch({
 export type DropdownFooterProps = Omit<React.ComponentProps<"div">, "className" | "style">;
 
 /**
- * A non-interactive footer pinned to the bottom of a `DropdownContent` — e.g.
- * "Type to add a new label." Render it as the last child of the content.
+ * A non-interactive footer pinned to the bottom of a `DropdownContent` — e.g. "Type to add a new
+ * label." Render it as the last child of the content.
  */
 export function DropdownFooter(props: DropdownFooterProps) {
   return (
@@ -443,8 +447,8 @@ export function DropdownFooter(props: DropdownFooterProps) {
 }
 
 /**
- * A submenu root. Wrap a `DropdownSubTrigger` + `DropdownSubContent` in it to nest
- * a second menu that opens from a row. Built on Base UI `Menu.SubmenuRoot`.
+ * A submenu root. Wrap a `DropdownSubTrigger` + `DropdownSubContent` in it to nest a second menu
+ * that opens from a row. Built on Base UI `Menu.SubmenuRoot`.
  */
 type BaseSubmenuRootProps = React.ComponentProps<typeof Menu.SubmenuRoot>;
 
@@ -479,9 +483,9 @@ export type DropdownSubTriggerProps = Omit<
 };
 
 /**
- * The row that opens a submenu. Looks like a `DropdownItem` with a trailing chevron;
- * pass `inlineEndNode` for a count `Badge` before the chevron. Must be rendered inside
- * a `DropdownSub`, paired with a `DropdownSubContent`.
+ * The row that opens a submenu. Looks like a `DropdownItem` with a trailing chevron; pass
+ * `inlineEndNode` for a count `Badge` before the chevron. Must be rendered inside a `DropdownSub`,
+ * paired with a `DropdownSubContent`.
  */
 export function DropdownSubTrigger({
   inlineStartNode,
@@ -493,7 +497,7 @@ export function DropdownSubTrigger({
   return (
     <Menu.SubmenuTrigger
       className={cx(
-        "group/item flex h-[34px] w-full cursor-default select-none items-center gap-2 rounded-md px-2 text-13 outline-none [--node-size:1rem]",
+        "group/item flex h-[34px] w-full cursor-default items-center gap-2 rounded-md px-2 text-13 outline-none select-none [--node-size:1rem]",
         "text-secondary",
         "data-highlighted:bg-layer-transparent-hover data-popup-open:bg-layer-transparent-hover",
         "data-disabled:pointer-events-none data-disabled:text-disabled",
@@ -512,8 +516,8 @@ export function DropdownSubTrigger({
 }
 
 /**
- * The floating surface for a submenu. Same styling as `DropdownContent` but defaults
- * to opening to the right (`side="right"`). Place submenu items inside it.
+ * The floating surface for a submenu. Same styling as `DropdownContent` but defaults to opening to
+ * the right (`side="right"`). Place submenu items inside it.
  */
 export function DropdownSubContent({
   children,

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Activity, LayoutGrid, Settings } from "lucide-react";
 import { expect, waitFor } from "storybook/test";
+
 import { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./index";
 
 const meta = {
@@ -103,11 +104,10 @@ export const UnderlineWithIcons: Story = {
 };
 
 /**
- * When a tab set is wider than the space it has, the row scrolls horizontally
- * instead of overflowing its container. The overlay scrollbar is hidden at rest
- * and fades in on hover/scroll. Keyboard navigation still reaches every tab, and
- * Base UI keeps the focused tab in view. Here the trail is capped to a narrow
- * column so the later tabs scroll into view.
+ * When a tab set is wider than the space it has, the row scrolls horizontally instead of
+ * overflowing its container. The overlay scrollbar is hidden at rest and fades in on hover/scroll.
+ * Keyboard navigation still reaches every tab, and Base UI keeps the focused tab in view. Here the
+ * trail is capped to a narrow column so the later tabs scroll into view.
  */
 export const Overflowing: Story = {
   args: { variant: "underline" },
@@ -137,10 +137,9 @@ export const Overflowing: Story = {
 };
 
 /**
- * The overflowing list is a real horizontal scroll container (`scrollWidth`
- * exceeds `clientWidth`) and scrolling it moves the row. Tagged `!dev`/`!autodocs`/
- * `!manifest` so it stays out of the sidebar, docs, and AI manifest but still runs
- * under the default `test` tag.
+ * The overflowing list is a real horizontal scroll container (`scrollWidth` exceeds `clientWidth`)
+ * and scrolling it moves the row. Tagged `!dev`/`!autodocs`/ `!manifest` so it stays out of the
+ * sidebar, docs, and AI manifest but still runs under the default `test` tag.
  */
 export const OverflowScrolls: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -171,10 +170,9 @@ export const OverflowScrolls: Story = {
 };
 
 /**
- * Real interaction test: clicking a tab selects it (`aria-selected="true"`) and
- * reveals its panel while the previously active panel hides. Tagged `!dev`/
- * `!autodocs`/`!manifest` so it stays out of the sidebar, docs, and AI manifest
- * but still runs under the default `test` tag.
+ * Real interaction test: clicking a tab selects it (`aria-selected="true"`) and reveals its panel
+ * while the previously active panel hides. Tagged `!dev`/ `!autodocs`/`!manifest` so it stays out
+ * of the sidebar, docs, and AI manifest but still runs under the default `test` tag.
  */
 export const ClickActivates: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -214,14 +212,13 @@ export const ClickActivates: Story = {
 };
 
 /**
- * Keyboard / ARIA tab pattern (CI-enforced). Base UI's tablist uses a roving
- * tabindex: it is one Tab stop, only the selected tab has `tabindex=0`, and the
- * arrow keys move *focus* between tabs. Selection is **manual** (Base UI
- * `activateOnFocus` defaults to `false`): arrowing moves focus but does NOT
- * change `aria-selected`/the panel — you commit with Enter/Space (a native
- * `<button>` click). Home/End jump to the first/last tab (Base UI sets
- * `enableHomeAndEndKeys`). Tagged `!dev`/`!autodocs`/`!manifest` so it stays out
- * of the sidebar/docs/AI manifest but still runs under the default `test` tag.
+ * Keyboard / ARIA tab pattern (CI-enforced). Base UI's tablist uses a roving tabindex: it is one
+ * Tab stop, only the selected tab has `tabindex=0`, and the arrow keys move _focus_ between tabs.
+ * Selection is **manual** (Base UI `activateOnFocus` defaults to `false`): arrowing moves focus but
+ * does NOT change `aria-selected`/the panel — you commit with Enter/Space (a native `<button>`
+ * click). Home/End jump to the first/last tab (Base UI sets `enableHomeAndEndKeys`). Tagged
+ * `!dev`/`!autodocs`/`!manifest` so it stays out of the sidebar/docs/AI manifest but still runs
+ * under the default `test` tag.
  */
 export const KeyboardNavigates: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

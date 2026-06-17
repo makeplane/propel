@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Repeat } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent } from "storybook/test";
+
 import { Checkbox } from "./index";
 
 const meta = {
@@ -23,9 +24,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Interactive, label-less checkbox — just the box. Toggle it from the controls
- * or by clicking. With no visible `label`, the accessible name comes from
- * `aria-label`.
+ * Interactive, label-less checkbox — just the box. Toggle it from the controls or by clicking. With
+ * no visible `label`, the accessible name comes from `aria-label`.
  */
 export const Default: Story = {
   play: async ({ canvas, userEvent }) => {
@@ -60,9 +60,8 @@ export const States: Story = {
 };
 
 /**
- * Label-less usage: omit `label` to render the bare box. Give it an accessible
- * name with `aria-label` (or `aria-labelledby`) — e.g. a checkbox in a table
- * row that selects the row.
+ * Label-less usage: omit `label` to render the bare box. Give it an accessible name with
+ * `aria-label` (or `aria-labelledby`) — e.g. a checkbox in a table row that selects the row.
  */
 export const WithoutLabel: Story = {
   parameters: { controls: { disable: true } },
@@ -76,8 +75,8 @@ export const WithLabel: Story = {
 };
 
 /**
- * An optional `leadingIcon` sits between the box and the label, matching the Figma
- * "checkbox with label" icon slot.
+ * An optional `leadingIcon` sits between the box and the label, matching the Figma "checkbox with
+ * label" icon slot.
  */
 export const WithIcon: Story = {
   parameters: { controls: { disable: true } },
@@ -101,8 +100,8 @@ export const Indeterminate: Story = {
 };
 
 /**
- * The Figma "Error" state. The danger tone only colors the *unchecked* border
- * red; once checked, the fill is the same accent blue as every other tone.
+ * The Figma "Error" state. The danger tone only colors the _unchecked_ border red; once checked,
+ * the fill is the same accent blue as every other tone.
  */
 export const Error: Story = {
   parameters: { controls: { disable: true } },
@@ -124,10 +123,10 @@ export const Error: Story = {
 };
 
 /**
- * Keyboard ARIA pattern (WAI-ARIA checkbox): Tab moves focus to the box, **Space**
- * toggles `aria-checked`, and **Enter** must NOT toggle (Enter is reserved for form
- * submission, not the checkbox). Tagged out of the sidebar/docs/manifest — it's a
- * behavior test — but still runs under the default `test` tag.
+ * Keyboard ARIA pattern (WAI-ARIA checkbox): Tab moves focus to the box, **Space** toggles
+ * `aria-checked`, and **Enter** must NOT toggle (Enter is reserved for form submission, not the
+ * checkbox). Tagged out of the sidebar/docs/manifest — it's a behavior test — but still runs under
+ * the default `test` tag.
  */
 export const KeyboardToggle: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -155,14 +154,14 @@ export const KeyboardToggle: Story = {
 };
 
 /**
- * Regression test for the box-shift fix (the `align-top` change). A bare
- * `inline-flex` box baseline-aligns to its line box differently when empty vs.
- * when it contains the check/dash indicator, which used to nudge the box down
- * ~2px on toggle. This asserts the box's `getBoundingClientRect()` is identical
- * across unchecked / checked / indeterminate so that shift can't regress.
+ * Regression test for the box-shift fix (the `align-top` change). A bare `inline-flex` box
+ * baseline-aligns to its line box differently when empty vs. when it contains the check/dash
+ * indicator, which used to nudge the box down ~2px on toggle. This asserts the box's
+ * `getBoundingClientRect()` is identical across unchecked / checked / indeterminate so that shift
+ * can't regress.
  *
- * Tagged `!dev`/`!autodocs`/`!manifest` so it stays out of the sidebar, docs,
- * and the AI/MCP manifest, but still runs under the default `test` tag.
+ * Tagged `!dev`/`!autodocs`/`!manifest` so it stays out of the sidebar, docs, and the AI/MCP
+ * manifest, but still runs under the default `test` tag.
  */
 export const BoxDoesNotShiftOnToggle: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -215,9 +214,9 @@ export const BoxDoesNotShiftOnToggle: Story = {
 };
 
 /**
- * Pure interaction test: a disabled checkbox does not toggle when clicked.
- * Tagged `!dev`/`!autodocs`/`!manifest` so it stays out of the sidebar, docs,
- * and the AI/MCP manifest, but still runs under the default `test` tag.
+ * Pure interaction test: a disabled checkbox does not toggle when clicked. Tagged
+ * `!dev`/`!autodocs`/`!manifest` so it stays out of the sidebar, docs, and the AI/MCP manifest, but
+ * still runs under the default `test` tag.
  */
 export const DisabledDoesNotToggle: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
+
 import { Avatar } from "../avatar/index";
 import { AvatarGroup } from "./index";
 
@@ -50,8 +51,8 @@ export const ThreeMembers: Story = {
 };
 
 /**
- * Overflow pattern: show a few members as images, then a final avatar with a
- * "+N" count for the rest. The counter is just an `Avatar` with a `fallback`.
+ * Overflow pattern: show a few members as images, then a final avatar with a "+N" count for the
+ * rest. The counter is just an `Avatar` with a `fallback`.
  */
 export const OverflowCount: Story = {
   render: (args) => (

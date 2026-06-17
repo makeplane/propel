@@ -1,6 +1,7 @@
 import { useRender } from "@base-ui/react/use-render";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+
 import { nodeSlotClass } from "../../internal/node-slot";
 
 // The Figma "Nav item" component (node 1329-396) is a single clickable sidebar row:
@@ -26,8 +27,8 @@ import { nodeSlotClass } from "../../internal/node-slot";
 
 const navItemVariants = cva(
   cx(
-    "group/nav-item flex h-8 w-full items-center gap-2 rounded-lg pe-2 ps-2 text-start",
-    "bg-layer-transparent text-secondary outline-none transition-colors",
+    "group/nav-item flex h-8 w-full items-center gap-2 rounded-lg ps-2 pe-2 text-start",
+    "bg-layer-transparent text-secondary transition-colors outline-none",
     "cursor-pointer select-none",
     "hover:bg-layer-transparent-hover active:bg-layer-transparent-active active:text-primary",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
@@ -66,19 +67,19 @@ export type NavItemProps = Omit<useRender.ComponentProps<"button">, "className" 
   /** Size of the row label: `lg` (14px, default sidebar) or `md` (13px, compact). */
   magnitude: NavItemMagnitude;
   /**
-   * Nesting depth (1–5). Higher levels indent the row further from the inline-start
-   * so children sit under their parent. Defaults to `1`.
+   * Nesting depth (1–5). Higher levels indent the row further from the inline-start so children sit
+   * under their parent. Defaults to `1`.
    */
   level?: NavItemLevel;
   /**
-   * Whether this row is the current/selected item. Applies the selected surface and
-   * marks the element with `aria-current="page"` for assistive tech.
+   * Whether this row is the current/selected item. Applies the selected surface and marks the
+   * element with `aria-current="page"` for assistive tech.
    */
   active?: boolean;
   /**
-   * Leading content at the inline-start (e.g. a lucide icon), sized to 16px and
-   * `aria-hidden` (the label is the accessible name). Logical node slot, matching
-   * Button/IconButton's `inlineStartNode`.
+   * Leading content at the inline-start (e.g. a lucide icon), sized to 16px and `aria-hidden` (the
+   * label is the accessible name). Logical node slot, matching Button/IconButton's
+   * `inlineStartNode`.
    */
   inlineStartNode?: React.ReactNode;
   /**
@@ -89,11 +90,10 @@ export type NavItemProps = Omit<useRender.ComponentProps<"button">, "className" 
 };
 
 /**
- * A single sidebar navigation row — a leading icon, a label, and an optional trailing
- * slot (count / chevron). Renders a `<button>` by default; pass `render={<a href=… />}`
- * to make it a link while keeping it keyboard- and screen-reader-accessible. Mark the
- * current page with `active` (sets `aria-current="page"`). Faithful to Figma node
- * 1329-396.
+ * A single sidebar navigation row — a leading icon, a label, and an optional trailing slot (count /
+ * chevron). Renders a `<button>` by default; pass `render={<a href=… />}` to make it a link while
+ * keeping it keyboard- and screen-reader-accessible. Mark the current page with `active` (sets
+ * `aria-current="page"`). Faithful to Figma node 1329-396.
  */
 export function NavItem({
   children,
@@ -119,7 +119,7 @@ export function NavItem({
               className={cx(
                 "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
                 // Selected/pressed pull the leading icon up to the primary tone.
-                "group-data-[active]/nav-item:text-icon-primary group-active/nav-item:text-icon-primary",
+                "group-active/nav-item:text-icon-primary group-data-[active]/nav-item:text-icon-primary",
                 // Disabled dims the icon to match the dimmed label.
                 "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
               )}
@@ -127,7 +127,7 @@ export function NavItem({
               {inlineStartNode}
             </span>
           ) : null}
-          <span className="min-w-0 flex-1 truncate font-medium leading-snug">{children}</span>
+          <span className="min-w-0 flex-1 truncate leading-snug font-medium">{children}</span>
           {inlineEndNode ? (
             <span className="flex shrink-0 items-center gap-2">{inlineEndNode}</span>
           ) : null}
@@ -144,8 +144,8 @@ export function NavItem({
 }
 
 /**
- * A small count chip for a nav row's trailing slot (e.g. unread / item counts). Uses
- * the Figma count style: `layer-3` surface, `radius/sm` corners, `text/11`.
+ * A small count chip for a nav row's trailing slot (e.g. unread / item counts). Uses the Figma
+ * count style: `layer-3` surface, `radius/sm` corners, `text/11`.
  */
 export function NavItemCount({
   children,
@@ -197,9 +197,11 @@ const navItemHeaderVariants = cva(
     "group/nav-item-header flex h-8 w-full items-center gap-1 rounded-lg ps-2 pe-1 text-start",
     "bg-layer-transparent text-tertiary transition-colors",
     "select-none",
-    // Tint the row on hover — but not when the toggle is disabled, so a disabled
-    // header doesn't look interactive. Mirrors Input/Search's `has-[:disabled]:hover:…`.
-    "hover:bg-layer-transparent-hover has-[:disabled]:hover:bg-transparent",
+    // Tint the row on hover — but not when the *toggle* is disabled, so a disabled
+    // header doesn't look interactive. Scoped to the direct-child toggle `<button>`
+    // (via `>button`) so a disabled `inlineEndNode` action doesn't suppress it too.
+    "hover:bg-layer-transparent-hover",
+    "has-[>button:disabled]:hover:bg-transparent has-[>button[aria-disabled=true]]:hover:bg-transparent",
   ),
 );
 
@@ -207,7 +209,7 @@ const navItemHeaderVariants = cva(
 // the row so the whole title area is clickable, and owns the focus ring + disabled chrome.
 const navItemHeaderToggleClass = cx(
   "flex min-w-0 flex-1 items-center gap-1 rounded-md py-2 text-start outline-none",
-  "cursor-pointer select-none text-inherit",
+  "cursor-pointer text-inherit select-none",
   "focus-visible:ring-2 focus-visible:ring-accent-strong",
   "disabled:pointer-events-none disabled:text-disabled aria-disabled:pointer-events-none aria-disabled:text-disabled",
 );
@@ -219,22 +221,21 @@ export type NavItemHeaderProps = Omit<
   /** The section title. Truncates with an ellipsis when it overflows. */
   children: React.ReactNode;
   /**
-   * The disclosure chevron glyph, sized to 16px. Figma uses a filled caret-down (a solid
-   * triangle), so pass that glyph rather than a stroked chevron. Points down when the
-   * section is expanded and rotates to point at the inline-start when collapsed. Mirrored
-   * under RTL.
+   * The disclosure chevron glyph, sized to 16px. Figma uses a filled caret-down (a solid triangle),
+   * so pass that glyph rather than a stroked chevron. Points down when the section is expanded and
+   * rotates to point at the inline-start when collapsed. Mirrored under RTL.
    */
   chevron: React.ReactNode;
   /**
-   * Optional trailing action at the row's inline-end — typically an `IconButton` such as
-   * an "add" control. Rendered as a sibling of the toggle button (never nested) so the
-   * interactive action does not sit inside the toggle `<button>`. Logical node slot,
-   * matching Button's `inlineEndNode`.
+   * Optional trailing action at the row's inline-end — typically an `IconButton` such as an "add"
+   * control. Rendered as a sibling of the toggle button (never nested) so the interactive action
+   * does not sit inside the toggle `<button>`. Logical node slot, matching Button's
+   * `inlineEndNode`.
    */
   inlineEndNode?: React.ReactNode;
   /**
-   * Whether the section is expanded (controlled). Drives `aria-expanded` and the chevron
-   * rotation. Pair with `onExpandedChange`. Omit to run uncontrolled via `defaultExpanded`.
+   * Whether the section is expanded (controlled). Drives `aria-expanded` and the chevron rotation.
+   * Pair with `onExpandedChange`. Omit to run uncontrolled via `defaultExpanded`.
    */
   expanded?: boolean;
   /** Initial expanded state when uncontrolled. Defaults to `true` (sections start open). */
@@ -244,12 +245,11 @@ export type NavItemHeaderProps = Omit<
 };
 
 /**
- * A sidebar section header row — an emphasized group title, a disclosure chevron that
- * collapses the section below it, and an optional inline-end action (e.g. an "add"
- * IconButton). The title + chevron are a `<button>` with `aria-expanded` (controlled via
- * `expanded` + `onExpandedChange`, or uncontrolled via `defaultExpanded`); the action is a
- * sibling so it never nests inside that button. The title is the accessible name. Faithful
- * to Figma node 2487-3138.
+ * A sidebar section header row — an emphasized group title, a disclosure chevron that collapses the
+ * section below it, and an optional inline-end action (e.g. an "add" IconButton). The title +
+ * chevron are a `<button>` with `aria-expanded` (controlled via `expanded` + `onExpandedChange`, or
+ * uncontrolled via `defaultExpanded`); the action is a sibling so it never nests inside that
+ * button. The title is the accessible name. Faithful to Figma node 2487-3138.
  */
 export function NavItemHeader({
   children,
@@ -275,6 +275,9 @@ export function NavItemHeader({
         aria-expanded={isExpanded}
         className={navItemHeaderToggleClass}
         onClick={(event) => {
+          // `disabled` already blocks the pointer; `aria-disabled` does not stop
+          // keyboard activation, so bail explicitly to keep the section from toggling.
+          if (event.currentTarget.getAttribute("aria-disabled") === "true") return;
           onClick?.(event);
           if (event.defaultPrevented) return;
           const next = !isExpanded;
@@ -290,7 +293,7 @@ export function NavItemHeader({
             "flex size-4 shrink-0 items-center justify-center text-icon-secondary [&>svg]:size-full",
             // The Figma glyph is a filled caret-down. Collapsed rotates it a quarter turn
             // so it points at the inline-start; RTL mirrors so it still points inward.
-            "transition-transform rotate-90 data-[expanded]:rotate-0 rtl:-rotate-90 rtl:data-[expanded]:rotate-0",
+            "rotate-90 transition-transform data-[expanded]:rotate-0 rtl:-rotate-90 rtl:data-[expanded]:rotate-0",
           )}
         >
           {chevron}
@@ -304,9 +307,9 @@ export function NavItemHeader({
 }
 
 /**
- * The disclosure chevron for an expandable nav row. Decorative (`aria-hidden`); mirror
- * any directional rotation with the writing direction via the `open` prop. As a
- * directional glyph it is flipped under RTL with `rtl:-scale-x-100`.
+ * The disclosure chevron for an expandable nav row. Decorative (`aria-hidden`); mirror any
+ * directional rotation with the writing direction via the `open` prop. As a directional glyph it is
+ * flipped under RTL with `rtl:-scale-x-100`.
  */
 export function NavItemChevron({
   open = false,

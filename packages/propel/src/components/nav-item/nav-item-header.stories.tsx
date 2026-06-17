@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus } from "lucide-react";
 import * as React from "react";
 import { expect, fn, userEvent, within } from "storybook/test";
+
 import { IconButton } from "../icon-button/index";
 import { NavItem, NavItemHeader } from "./index";
 
@@ -47,9 +48,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 /**
- * With a trailing action: an "add" `IconButton` sits at the inline-end via `inlineEndNode`.
- * The action is a sibling of the toggle button, so clicking it does not toggle the section
- * (and there is no nested-interactive a11y violation).
+ * With a trailing action: an "add" `IconButton` sits at the inline-end via `inlineEndNode`. The
+ * action is a sibling of the toggle button, so clicking it does not toggle the section (and there
+ * is no nested-interactive a11y violation).
  */
 export const WithAction: Story = {
   args: {
@@ -124,9 +125,9 @@ export const Collapsible: Story = {
 };
 
 /**
- * Keyboard ARIA pattern: the header is a native `<button>`, so Tab focuses it and both
- * Enter and Space toggle `aria-expanded`. Tagged out of sidebar/docs/manifest while still
- * running under the default `test` tag.
+ * Keyboard ARIA pattern: the header is a native `<button>`, so Tab focuses it and both Enter and
+ * Space toggle `aria-expanded`. Tagged out of sidebar/docs/manifest while still running under the
+ * default `test` tag.
  */
 export const KeyboardActivation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

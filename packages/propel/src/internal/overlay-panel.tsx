@@ -1,5 +1,6 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+
 import { ScrollArea } from "../components/scroll-area/index";
 import { surfaceVariants, type SurfaceVariantProps } from "./surface";
 
@@ -57,8 +58,8 @@ export type OverlayPanelProps = {
   /** Surface corner radius (see `internal/surface`). */
   radius: SurfaceVariantProps["radius"];
   /**
-   * Panel width. `anchor` matches the trigger, `sm`/`md`/`lg` are the fixed picker
-   * widths, `auto` hugs content with a floor. Omit for content width with no floor.
+   * Panel width. `anchor` matches the trigger, `sm`/`md`/`lg` are the fixed picker widths, `auto`
+   * hugs content with a floor. Omit for content width with no floor.
    */
   width?: OverlayPanelWidth;
   /** Sticky content pinned above the scroll body (e.g. a `DropdownSearch`). */

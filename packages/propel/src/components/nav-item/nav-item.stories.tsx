@@ -2,6 +2,7 @@ import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, Inbox } from "lucide-react";
 import { expect, fn, userEvent, within } from "storybook/test";
+
 import { iconControl } from "../../storybook/icon-control";
 import { NavItem, NavItemChevron, NavItemCount, type NavItemMagnitude } from "./index";
 
@@ -74,10 +75,10 @@ export const AsLink: Story = {
 };
 
 /**
- * Keyboard ARIA pattern: NavItem renders a native `<button>`, so Tab moves focus to
- * the row and both **Enter** and **Space** activate it (fire its click handler). The
- * active row also exposes `aria-current="page"`. Tagged out of the
- * sidebar/docs/manifest while still running under the default `test` tag.
+ * Keyboard ARIA pattern: NavItem renders a native `<button>`, so Tab moves focus to the row and
+ * both **Enter** and **Space** activate it (fire its click handler). The active row also exposes
+ * `aria-current="page"`. Tagged out of the sidebar/docs/manifest while still running under the
+ * default `test` tag.
  */
 export const KeyboardActivation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -103,8 +104,8 @@ export const KeyboardActivation: Story = {
 };
 
 /**
- * The prop-driven states side by side at both magnitudes. Hover and pressed are
- * CSS-driven (`hover:` / `active:`) — interact with the rows above to see them.
+ * The prop-driven states side by side at both magnitudes. Hover and pressed are CSS-driven
+ * (`hover:` / `active:`) — interact with the rows above to see them.
  */
 export const States: Story = {
   parameters: { controls: { disable: true } },
@@ -112,7 +113,7 @@ export const States: Story = {
     <div className="flex flex-col gap-6">
       {MAGNITUDES.map((magnitude) => (
         <div key={magnitude} className="flex flex-col gap-1">
-          <p className="text-11 uppercase text-tertiary">{magnitude}</p>
+          <p className="text-11 text-tertiary uppercase">{magnitude}</p>
           <NavItem {...args} magnitude={magnitude} inlineEndNode={<NavItemCount>6</NavItemCount>}>
             Default
           </NavItem>
@@ -148,8 +149,8 @@ export const Levels: Story = {
 };
 
 /**
- * RTL: the leading icon moves to the inline-start (visually the right edge) and the
- * disclosure chevron mirrors. Wrapped in Base UI's `DirectionProvider`.
+ * RTL: the leading icon moves to the inline-start (visually the right edge) and the disclosure
+ * chevron mirrors. Wrapped in Base UI's `DirectionProvider`.
  */
 export const RightToLeft: Story = {
   parameters: { controls: { disable: true } },

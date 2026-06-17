@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { CircleHelp } from "lucide-react";
 import { expect } from "storybook/test";
+
 import { Accordion, AccordionItem, AccordionPanel, AccordionTrigger } from "./index";
 
 // Design-review convention — when to add a pseudo-states "States" story:
@@ -87,16 +88,16 @@ export const WithIcon: Story = {
 };
 
 /**
- * The trigger's interaction states side by side. The accordion trigger styles
- * interaction purely with CSS utilities (`hover:bg-layer-transparent-hover` and
- * `focus-visible:ring-2 focus-visible:ring-accent-strong`), so
- * storybook-addon-pseudo-states can force them statically — no real pointer/keyboard.
+ * The trigger's interaction states side by side. The accordion trigger styles interaction purely
+ * with CSS utilities (`hover:bg-layer-transparent-hover` and `focus-visible:ring-2
+ * focus-visible:ring-accent-strong`), so storybook-addon-pseudo-states can force them statically —
+ * no real pointer/keyboard.
  *
- * One accordion with a row per state: each trigger `<button>` carries a unique id
- * (Base UI forwards it from `AccordionTrigger`), and `parameters.pseudo` maps that id
- * to the pseudo-class to force. A single `Accordion` root keeps a single `region`
- * landmark (multiple roots would collide on the axe `landmark-unique` rule). The Hover
- * row should show the transparent-hover background; the Focus row the accent focus ring.
+ * One accordion with a row per state: each trigger `<button>` carries a unique id (Base UI forwards
+ * it from `AccordionTrigger`), and `parameters.pseudo` maps that id to the pseudo-class to force. A
+ * single `Accordion` root keeps a single `region` landmark (multiple roots would collide on the axe
+ * `landmark-unique` rule). The Hover row should show the transparent-hover background; the Focus
+ * row the accent focus ring.
  */
 export const States: Story = {
   parameters: {
@@ -141,8 +142,8 @@ export const MultipleItems: Story = {
 };
 
 /**
- * Behavior test: clicking a collapsed trigger expands its panel and flips
- * `aria-expanded` to true (a `region` appears); clicking again collapses it.
+ * Behavior test: clicking a collapsed trigger expands its panel and flips `aria-expanded` to true
+ * (a `region` appears); clicking again collapses it.
  */
 export const Interaction: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -177,10 +178,9 @@ export const Interaction: Story = {
 };
 
 /**
- * Keyboard ARIA pattern (WAI-ARIA accordion): Tab moves focus to the trigger and
- * both **Enter** and **Space** toggle `aria-expanded`, showing/hiding the panel
- * region. Tagged out of the sidebar/docs/manifest while still running under the
- * default `test` tag.
+ * Keyboard ARIA pattern (WAI-ARIA accordion): Tab moves focus to the trigger and both **Enter** and
+ * **Space** toggle `aria-expanded`, showing/hiding the panel region. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const KeyboardToggle: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

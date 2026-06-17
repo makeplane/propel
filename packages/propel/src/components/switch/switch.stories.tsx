@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
+
 import { Switch, type SwitchMagnitude } from "./index";
 
 const MAGNITUDES: SwitchMagnitude[] = ["lg", "md", "sm"];
@@ -52,9 +53,9 @@ export const States: Story = {
 };
 
 /**
- * Real interaction: clicking a switch flips `aria-checked`, and a disabled
- * switch stays put. Tagged so it's hidden from the sidebar, docs, and the
- * AI/MCP manifest while still running under the default `test` tag.
+ * Real interaction: clicking a switch flips `aria-checked`, and a disabled switch stays put. Tagged
+ * so it's hidden from the sidebar, docs, and the AI/MCP manifest while still running under the
+ * default `test` tag.
  */
 export const TogglesOnClick: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -70,9 +71,9 @@ export const TogglesOnClick: Story = {
 };
 
 /**
- * Keyboard ARIA pattern (WAI-ARIA switch): Tab moves focus to the switch and
- * **Space** toggles `aria-checked`. Tagged out of the sidebar/docs/manifest while
- * still running under the default `test` tag.
+ * Keyboard ARIA pattern (WAI-ARIA switch): Tab moves focus to the switch and **Space** toggles
+ * `aria-checked`. Tagged out of the sidebar/docs/manifest while still running under the default
+ * `test` tag.
  */
 export const KeyboardToggle: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

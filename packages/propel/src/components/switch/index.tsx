@@ -13,7 +13,7 @@ const trackVariants = cva(
     "bg-icon-placeholder data-[checked]:bg-accent-primary",
     // Unchangeable (disabled or readonly) dims the whole control to 40%,
     // matching Figma's "Unchangeable" states. Disabled also blocks the cursor.
-    "data-[readonly]:opacity-40 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40",
+    "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40 data-[readonly]:opacity-40",
     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-strong",
   ),
   {
@@ -32,7 +32,7 @@ const trackVariants = cva(
 // The thumb stays white in every theme and in both on/off states. `surface-1`
 // is white in light mode but flips dark in dark mode, so the thumb pins to the
 // on-color token (the white-on-tone color) regardless of checked state.
-const thumbVariants = cva("rounded-full bg-on-color shadow-sm transition-transform", {
+const thumbVariants = cva("shadow-sm rounded-full bg-on-color transition-transform", {
   variants: {
     magnitude: {
       lg: "size-4 data-[checked]:translate-x-[12px]",
@@ -48,21 +48,17 @@ export type SwitchProps = Omit<
   React.ComponentProps<typeof BaseSwitch.Root>,
   "className" | "render" | "style"
 > & {
-  /**
-   * Track + thumb size, from the Figma "Toggle" Size scale:
-   * `lg` 30×18, `md` 27×16, `sm` 23×14.
-   */
+  /** Track + thumb size, from the Figma "Toggle" Size scale: `lg` 30×18, `md` 27×16, `sm` 23×14. */
   magnitude: SwitchMagnitude;
 };
 
 /**
- * A switch toggles a single setting on or off. Built on Base UI's `Switch`
- * (so it carries `role="switch"` and full keyboard/form support). Maps to
- * Figma's "Toggle" component.
+ * A switch toggles a single setting on or off. Built on Base UI's `Switch` (so it carries
+ * `role="switch"` and full keyboard/form support). Maps to Figma's "Toggle" component.
  *
- * On/off, `disabled`, and `readOnly` are control state from the primitive, not
- * variants — pass them as props (`checked`/`defaultChecked`, `disabled`,
- * `readOnly`). Only the size axis (`magnitude`) is a visual variant.
+ * On/off, `disabled`, and `readOnly` are control state from the primitive, not variants — pass them
+ * as props (`checked`/`defaultChecked`, `disabled`, `readOnly`). Only the size axis (`magnitude`)
+ * is a visual variant.
  */
 export function Switch({ magnitude, ...props }: SwitchProps) {
   return (

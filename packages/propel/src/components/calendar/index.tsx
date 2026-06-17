@@ -1,6 +1,7 @@
 import { cx } from "class-variance-authority";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker, type DayPickerProps } from "react-day-picker";
+
 import { surfaceVariants } from "../../internal/surface";
 
 // Propel-token class map for react-day-picker's UI parts. We never import its
@@ -67,9 +68,9 @@ const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"]>> = {
 };
 
 /**
- * Props for {@link Calendar}. Forwards every react-day-picker `DayPickerProps`
- * (`mode`, `selected`, `onSelect`, `disabled`, `month`, `defaultMonth`, …) but
- * drops `className`/`style`/`classNames` — styling is owned by propel tokens.
+ * Props for {@link Calendar}. Forwards every react-day-picker `DayPickerProps` (`mode`, `selected`,
+ * `onSelect`, `disabled`, `month`, `defaultMonth`, …) but drops `className`/`style`/`classNames` —
+ * styling is owned by propel tokens.
  */
 // `DayPickerProps` is a discriminated union over `mode`; a plain `Omit` collapses
 // it and de-correlates `selected`/`onSelect`. Omit distributively so each union
@@ -78,10 +79,9 @@ type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K>
 export type CalendarProps = DistributiveOmit<DayPickerProps, "className" | "style" | "classNames">;
 
 /**
- * A date picker built on react-day-picker and styled entirely with propel
- * tokens. Supports `single` and `range` selection via the `mode` prop and is
- * fully keyboard- and screen-reader-accessible (react-day-picker owns the grid
- * semantics). Pass `selected`/`onSelect` to control the selection.
+ * A date picker built on react-day-picker and styled entirely with propel tokens. Supports `single`
+ * and `range` selection via the `mode` prop and is fully keyboard- and screen-reader-accessible
+ * (react-day-picker owns the grid semantics). Pass `selected`/`onSelect` to control the selection.
  */
 export function Calendar(props: CalendarProps) {
   return (

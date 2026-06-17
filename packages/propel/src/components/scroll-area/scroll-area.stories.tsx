@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { ScrollArea } from "./index";
 
 const meta = {
@@ -24,8 +25,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Vertical overflow. The scrollbar is hidden until you hover the area or scroll, then
- * the inset thumb fades in; it darkens on thumb hover and while dragging.
+ * Vertical overflow. The scrollbar is hidden until you hover the area or scroll, then the inset
+ * thumb fades in; it darkens on thumb hover and while dragging.
  */
 export const Default: Story = {
   args: {
@@ -49,7 +50,7 @@ export const BothAxes: Story = {
     children: (
       <div className="flex w-[640px] flex-col gap-2 p-3">
         {Array.from({ length: 30 }, (_, i) => (
-          <p key={i} className="whitespace-nowrap text-13 text-secondary">
+          <p key={i} className="text-13 whitespace-nowrap text-secondary">
             Line {i + 1} of wide content that overflows horizontally as well as down.
           </p>
         ))}

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import type * as React from "react";
 import {
   AlignCenter,
   AlignLeft,
@@ -22,7 +21,9 @@ import {
   Table,
   Underline,
 } from "lucide-react";
+import type * as React from "react";
 import { expect } from "storybook/test";
+
 import {
   Toolbar,
   ToolbarButton,
@@ -160,9 +161,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 /**
- * The `elevation` axis: `raised` draws its own card (border + shadow) so it can hover
- * over content; `flat` draws no surface and sits flush inside an existing bar.
- * Independent of `density` — both rows keep the story's current density.
+ * The `elevation` axis: `raised` draws its own card (border + shadow) so it can hover over content;
+ * `flat` draws no surface and sits flush inside an existing bar. Independent of `density` — both
+ * rows keep the story's current density.
  */
 export const Elevations: Story = {
   argTypes: { elevation: { control: false } },
@@ -175,9 +176,8 @@ export const Elevations: Story = {
 };
 
 /**
- * The `density` axis: `compact` packs the controls to 24px hit targets, `comfortable`
- * gives them 28px. Independent of `elevation` — both rows keep the story's current
- * elevation.
+ * The `density` axis: `compact` packs the controls to 24px hit targets, `comfortable` gives them
+ * 28px. Independent of `elevation` — both rows keep the story's current elevation.
  */
 export const Densities: Story = {
   argTypes: { density: { control: false } },
@@ -190,9 +190,9 @@ export const Densities: Story = {
 };
 
 /**
- * `elevation` and `density` are orthogonal: a `flat` bar can still be `compact`. This
- * is Figma's "fixed + compact" bar — a non-floating surface at the tight 24px density
- * the raised floater also uses.
+ * `elevation` and `density` are orthogonal: a `flat` bar can still be `compact`. This is Figma's
+ * "fixed + compact" bar — a non-floating surface at the tight 24px density the raised floater also
+ * uses.
  */
 export const FlatCompact: Story = {
   args: { elevation: "flat", density: "compact" },
@@ -205,10 +205,10 @@ export const FlatCompact: Story = {
 };
 
 /**
- * Density wiring check that runs in the browser: `density` drives the child controls'
- * size through context, independent of `elevation`, so a `flat` + `compact` toolbar
- * renders 24px controls. Tagged out of the sidebar/docs/manifest — it's a test, not a
- * designer- or agent-facing example — but still runs under the default `test` tag.
+ * Density wiring check that runs in the browser: `density` drives the child controls' size through
+ * context, independent of `elevation`, so a `flat` + `compact` toolbar renders 24px controls.
+ * Tagged out of the sidebar/docs/manifest — it's a test, not a designer- or agent-facing example —
+ * but still runs under the default `test` tag.
  */
 export const DensityDrivesControlSize: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -228,9 +228,9 @@ export const DensityDrivesControlSize: Story = {
 };
 
 /**
- * Because `ToolbarDropdown` composes propel's `Dropdown`, a toolbar menu can hold
- * richer rows than the old `items[]` config allowed: per-row leading icons, a
- * separator between groups, a selected marker, and disabled rows.
+ * Because `ToolbarDropdown` composes propel's `Dropdown`, a toolbar menu can hold richer rows than
+ * the old `items[]` config allowed: per-row leading icons, a separator between groups, a selected
+ * marker, and disabled rows.
  */
 export const ComposableMenu: Story = {
   // Always-open + portaled: keep it out of the Vitest run so its popup can't leak into
@@ -265,10 +265,10 @@ export const ComposableMenu: Story = {
 };
 
 /**
- * Behavioral checks that run in the browser: the root exposes `role="toolbar"`,
- * every icon button is reachable by its accessible name, and clicking a toggle
- * flips its `aria-pressed`. Tagged out of the sidebar/docs/manifest — it's a test,
- * not a designer- or agent-facing example — but still runs under the `test` tag.
+ * Behavioral checks that run in the browser: the root exposes `role="toolbar"`, every icon button
+ * is reachable by its accessible name, and clicking a toggle flips its `aria-pressed`. Tagged out
+ * of the sidebar/docs/manifest — it's a test, not a designer- or agent-facing example — but still
+ * runs under the `test` tag.
  */
 export const Behavior: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -286,12 +286,11 @@ export const Behavior: Story = {
 };
 
 /**
- * Keyboard ARIA pattern (WAI-ARIA toolbar, roving tabindex): the toolbar is a single
- * tab stop — only the active item has `tabindex=0`, the rest `tabindex=-1` — so Tab
- * enters the toolbar once. **Arrow Left/Right** roam focus between items, and a
- * focused button activates with **Enter/Space**. A simple all-button toolbar keeps
- * the navigation deterministic. Tagged out of the sidebar/docs/manifest while still
- * running under the default `test` tag.
+ * Keyboard ARIA pattern (WAI-ARIA toolbar, roving tabindex): the toolbar is a single tab stop —
+ * only the active item has `tabindex=0`, the rest `tabindex=-1` — so Tab enters the toolbar once.
+ * **Arrow Left/Right** roam focus between items, and a focused button activates with
+ * **Enter/Space**. A simple all-button toolbar keeps the navigation deterministic. Tagged out of
+ * the sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const KeyboardRovingFocus: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

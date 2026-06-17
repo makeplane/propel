@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn } from "storybook/test";
-import { Button } from "../button/index";
+
 import { iconControl } from "../../storybook/icon-control";
+import { Button } from "../button/index";
 import { Banner, type BannerTone } from "./index";
 
 const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
@@ -57,10 +58,9 @@ export const Variants: Story = {
 };
 
 /**
- * The full page banner from Figma (see the meta's design link): a message with trailing
- * actions and a dismiss control. `actions` takes any nodes, so the banner composes propel
- * `Button`s, here a ghost, a secondary, and a primary, matching the three buttons plus
- * the close in the design.
+ * The full page banner from Figma (see the meta's design link): a message with trailing actions and
+ * a dismiss control. `actions` takes any nodes, so the banner composes propel `Button`s, here a
+ * ghost, a secondary, and a primary, matching the three buttons plus the close in the design.
  */
 export const WithActions: Story = {
   parameters: { controls: { disable: true } },
@@ -94,10 +94,10 @@ export const Dismissible: Story = {
 };
 
 /**
- * Real interaction test: clicking the dismiss button invokes `onDismiss`. The spy
- * comes from a Storybook `fn()`; the button is queried by its `aria-label`. Tagged
- * `!dev`/`!autodocs`/`!manifest` so it stays out of the sidebar, docs, and AI
- * manifest, but still runs under the default `test` tag.
+ * Real interaction test: clicking the dismiss button invokes `onDismiss`. The spy comes from a
+ * Storybook `fn()`; the button is queried by its `aria-label`. Tagged
+ * `!dev`/`!autodocs`/`!manifest` so it stays out of the sidebar, docs, and AI manifest, but still
+ * runs under the default `test` tag.
  */
 export const DismissCallsHandler: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

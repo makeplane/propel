@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, Plus, Tag, X } from "lucide-react";
 import { expect, fn, userEvent, within } from "storybook/test";
+
 import { IconPill, PillButton, PillSwitch } from "./index";
 
 const MAGNITUDES = ["sm", "md", "lg"] as const;
@@ -45,10 +46,9 @@ export const Magnitudes: Story = {
 };
 
 /**
- * `PillButton` states. Default / hover / active are the chip darkening its fill +
- * border (hover and active are forced here via the pseudo-states addon); `disabled`
- * and `loading` drop to a transparent fill with a dimmed label, and `loading` swaps
- * the leading node for a spinner.
+ * `PillButton` states. Default / hover / active are the chip darkening its fill + border (hover and
+ * active are forced here via the pseudo-states addon); `disabled` and `loading` drop to a
+ * transparent fill with a dimmed label, and `loading` swaps the leading node for a spinner.
  */
 export const States: Story = {
   parameters: {
@@ -77,8 +77,8 @@ export const States: Story = {
 };
 
 /**
- * `PillSwitch` is a toggle: the selected look is its pressed state. Use it for
- * segmented on/off choices (e.g. display properties in a settings menu).
+ * `PillSwitch` is a toggle: the selected look is its pressed state. Use it for segmented on/off
+ * choices (e.g. display properties in a settings menu).
  */
 export const Switch: Story = {
   parameters: { controls: { disable: true } },
@@ -95,9 +95,9 @@ export const Switch: Story = {
 };
 
 /**
- * Icon-only square pills. Require an `aria-label`. `disabled` drops to a transparent
- * fill with the disabled icon color, and `loading` swaps the icon for a spinner tinted
- * with that same disabled icon color.
+ * Icon-only square pills. Require an `aria-label`. `disabled` drops to a transparent fill with the
+ * disabled icon color, and `loading` swaps the icon for a spinner tinted with that same disabled
+ * icon color.
  */
 export const Icons: Story = {
   parameters: { controls: { disable: true } },
@@ -119,9 +119,9 @@ export const Icons: Story = {
 };
 
 /**
- * Clicking a `PillButton` fires its handler, and a `loading` pill blocks the click
- * while staying focusable (`aria-busy`). Tagged out of the sidebar/docs/manifest but
- * still run under the default `test` tag.
+ * Clicking a `PillButton` fires its handler, and a `loading` pill blocks the click while staying
+ * focusable (`aria-busy`). Tagged out of the sidebar/docs/manifest but still run under the default
+ * `test` tag.
  */
 export const ButtonClicks: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -154,8 +154,8 @@ export const ButtonClicks: Story = {
 };
 
 /**
- * `PillSwitch` reports `aria-pressed` and flips it on click (Base UI `Toggle`).
- * Tagged out of the sidebar/docs/manifest but still run under the default `test` tag.
+ * `PillSwitch` reports `aria-pressed` and flips it on click (Base UI `Toggle`). Tagged out of the
+ * sidebar/docs/manifest but still run under the default `test` tag.
  */
 export const SwitchToggles: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

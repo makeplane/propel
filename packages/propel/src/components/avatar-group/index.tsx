@@ -1,4 +1,5 @@
 import type * as React from "react";
+
 import { AvatarGroupContext, type AvatarMagnitude } from "../avatar";
 
 // Figma's "Avatar Groups" component only defines three sizes (Small/Base/Large =

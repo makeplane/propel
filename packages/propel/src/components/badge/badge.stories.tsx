@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check } from "lucide-react";
+
 import { iconControl } from "../../storybook/icon-control";
 import { Badge, type BadgeMagnitude, type BadgeTone } from "./index";
 
@@ -117,8 +118,8 @@ const PLAN_TONES = { paid: "brand", free: "grey" } as const satisfies Record<
 >;
 
 /**
- * The "Plan Badges" treatment: `paid` reads as a `brand`/upgrade accent, `free`
- * as neutral `grey`. These are plain Badge tones, shown here at every magnitude.
+ * The "Plan Badges" treatment: `paid` reads as a `brand`/upgrade accent, `free` as neutral `grey`.
+ * These are plain Badge tones, shown here at every magnitude.
  */
 export const PlanBadges: Story = {
   parameters: {

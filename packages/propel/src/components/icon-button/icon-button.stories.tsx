@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus } from "lucide-react";
 import { expect, fn } from "storybook/test";
+
 import { iconControl } from "../../storybook/icon-control";
 import { IconButton, type IconButtonMagnitude, type IconButtonVariant } from "./index";
 
@@ -33,9 +34,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 /**
- * Every Figma "Type" side by side. The neutral fills are `primary`/`secondary`/
- * `tertiary`/`ghost`; the two Error types are the `danger` tone of `primary`
- * (Error fill) and `secondary` (Error outline) — see {@link Tones}.
+ * Every Figma "Type" side by side. The neutral fills are `primary`/`secondary`/ `tertiary`/`ghost`;
+ * the two Error types are the `danger` tone of `primary` (Error fill) and `secondary` (Error
+ * outline) — see {@link Tones}.
  */
 export const Variants: Story = {
   argTypes: { variant: { control: false }, "aria-label": { control: false } },
@@ -49,8 +50,8 @@ export const Variants: Story = {
 };
 
 /**
- * Tone selects the palette: `neutral` (default) or `danger` (Figma "Error").
- * Danger shows as a solid fill (Error fill) and a bordered outline (Error outline).
+ * Tone selects the palette: `neutral` (default) or `danger` (Figma "Error"). Danger shows as a
+ * solid fill (Error fill) and a bordered outline (Error outline).
  */
 export const Tones: Story = {
   parameters: { controls: { disable: true } },
@@ -112,8 +113,8 @@ export const Disabled: Story = {
 
 /**
  * An IconButton exposes its `aria-label` as the accessible name. Tagged
- * `!dev`/`!autodocs`/`!manifest` so it's hidden from the sidebar, docs, and AI
- * manifest — it's a behavior test, not an example — but still runs under `test`.
+ * `!dev`/`!autodocs`/`!manifest` so it's hidden from the sidebar, docs, and AI manifest — it's a
+ * behavior test, not an example — but still runs under `test`.
  */
 export const HasAccessibleName: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -128,8 +129,8 @@ export const HasAccessibleName: Story = {
 };
 
 /**
- * Tab moves focus onto the icon button (queryable by its `aria-label`), then
- * **Enter** activates it (fires `onClick`).
+ * Tab moves focus onto the icon button (queryable by its `aria-label`), then **Enter** activates it
+ * (fires `onClick`).
  */
 export const EnterActivates: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -157,8 +158,8 @@ export const SpaceActivates: Story = {
 };
 
 /**
- * A `disabled` icon button is removed from the tab order: Tab does not land on it
- * and keyboard activation (Enter/Space) never fires `onClick`.
+ * A `disabled` icon button is removed from the tab order: Tab does not land on it and keyboard
+ * activation (Enter/Space) never fires `onClick`.
  */
 export const DisabledNotKeyboardActivatable: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
