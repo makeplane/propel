@@ -155,15 +155,16 @@ export const DisplayProperties: Story = {
           </div>
           <PanelSeparator />
           <PanelLabel>Group by</PanelLabel>
-          {/* Collapse RadioGroup's default row gap so the rows sit flush like the
-              dropdown's menu items. */}
-          <div className="[&>[role=radiogroup]]:gap-0">
-            <RadioGroup value={groupBy} onValueChange={(v) => setGroupBy(String(v))}>
-              {["Priority", "State", "Cycle", "Labels"].map((g) => (
-                <PanelRadioRow key={g} value={g.toLowerCase()} label={g} />
-              ))}
-            </RadioGroup>
-          </div>
+          {/* Rows sit flush like the dropdown's menu items. */}
+          <RadioGroup
+            density="compact"
+            value={groupBy}
+            onValueChange={(v) => setGroupBy(String(v))}
+          >
+            {["Priority", "State", "Cycle", "Labels"].map((g) => (
+              <PanelRadioRow key={g} value={g.toLowerCase()} label={g} />
+            ))}
+          </RadioGroup>
           <PanelSeparator />
           <div className="flex flex-col">
             <Checkbox
@@ -241,15 +242,16 @@ export const DisplayAccordion: Story = {
                   )}
                 </button>
                 {isOpen && key === "order" ? (
-                  // Items within an expanded category sit flush (0 spacing): collapse
-                  // RadioGroup's default row gap from the parent.
-                  <div className="[&>[role=radiogroup]]:gap-0">
-                    <RadioGroup value={order} onValueChange={(v) => setOrder(String(v))}>
-                      {ORDER.map((o) => (
-                        <PanelRadioRow key={o} value={o.toLowerCase()} label={o} />
-                      ))}
-                    </RadioGroup>
-                  </div>
+                  // Items within an expanded category sit flush (0 spacing).
+                  <RadioGroup
+                    density="compact"
+                    value={order}
+                    onValueChange={(v) => setOrder(String(v))}
+                  >
+                    {ORDER.map((o) => (
+                      <PanelRadioRow key={o} value={o.toLowerCase()} label={o} />
+                    ))}
+                  </RadioGroup>
                 ) : null}
               </div>
             );

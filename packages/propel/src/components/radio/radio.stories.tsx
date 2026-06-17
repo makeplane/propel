@@ -42,6 +42,39 @@ export const Default: Story = {
 };
 
 /**
+ * Row spacing is the group's own `density` prop — `comfortable` (default, 8px gap) or `compact`
+ * (flush rows, e.g. a settings panel where options read like menu items). Consumers set the axis on
+ * the component rather than overriding the gap from the outside.
+ */
+export const Density: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex items-start gap-10">
+      <RadioGroup density="comfortable" defaultValue="low">
+        <label className="flex items-center gap-2 text-13 text-primary">
+          <Radio value="low" />
+          Comfortable
+        </label>
+        <label className="flex items-center gap-2 text-13 text-primary">
+          <Radio value="medium" />
+          8px gap
+        </label>
+      </RadioGroup>
+      <RadioGroup density="compact" defaultValue="low">
+        <label className="flex items-center gap-2 text-13 text-primary">
+          <Radio value="low" />
+          Compact
+        </label>
+        <label className="flex items-center gap-2 text-13 text-primary">
+          <Radio value="medium" />
+          Flush rows
+        </label>
+      </RadioGroup>
+    </div>
+  ),
+};
+
+/**
  * The states from Figma side by side: unselected, selected, disabled, and read-only — each driven
  * by the primitive, not by a variant.
  *
