@@ -106,7 +106,7 @@ const itemVariants = cva(
     "bg-layer-transparent text-icon-secondary outline-none",
     "hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
-    "data-[pressed]:bg-layer-transparent-selected data-[pressed]:text-icon-accent-primary",
+    "data-pressed:bg-layer-transparent-selected data-pressed:text-icon-accent-primary",
     "disabled:pointer-events-none disabled:text-icon-disabled",
     "[&_svg]:shrink-0",
   ),
@@ -206,7 +206,7 @@ const dropdownTriggerVariants = cva(
     "bg-layer-transparent text-13 text-secondary outline-none",
     "hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
-    "data-[popup-open]:bg-layer-transparent-selected",
+    "data-popup-open:bg-layer-transparent-selected",
     "disabled:pointer-events-none disabled:text-disabled",
   ),
   {

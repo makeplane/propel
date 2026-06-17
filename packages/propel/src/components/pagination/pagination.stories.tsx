@@ -87,7 +87,7 @@ export const PageSizeSelector: Story = {
 
     await step("clicking the trigger opens the page-size menu", async () => {
       await userEvent.click(canvas.getByRole("button", { name: /50 per page/i }));
-      await waitFor(() => expect(body.getByRole("menu")).toBeInTheDocument());
+      await expect(await body.findByRole("menuitem", { name: "25" })).toBeInTheDocument();
       // All sizes are listed as menu items.
       for (const n of [25, 50, 100]) {
         await expect(body.getByRole("menuitem", { name: String(n) })).toBeInTheDocument();
@@ -108,10 +108,8 @@ export const PageSizeSelector: Story = {
       await expect(trigger).toHaveFocus();
       // ArrowDown opens the menu and highlights the first item (25).
       await userEvent.keyboard("{ArrowDown}");
-      await waitFor(() => expect(body.getByRole("menu")).toBeInTheDocument());
-      await waitFor(() =>
-        expect(body.getByRole("menuitem", { name: "25" })).toHaveAttribute("data-highlighted"),
-      );
+      const firstItem = await body.findByRole("menuitem", { name: "25" });
+      await waitFor(() => expect(firstItem).toHaveAttribute("data-highlighted"));
       // ArrowDown moves the highlight to the second item (50); Enter selects it.
       await userEvent.keyboard("{ArrowDown}");
       await waitFor(() =>

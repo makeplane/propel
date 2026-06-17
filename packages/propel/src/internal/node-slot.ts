@@ -11,5 +11,5 @@ import { cx } from "class-variance-authority";
 // otherwise. This is the single channel a parent uses to size whatever node it holds.
 export const nodeSlotClass = cx(
   "inline-flex shrink-0 items-center justify-center",
-  "[&>img]:size-[var(--node-size)] [&>svg]:size-[var(--node-size)]",
+  "[&>img]:size-(--node-size) [&>svg]:size-(--node-size)",
 );

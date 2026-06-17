@@ -125,7 +125,7 @@ export function BreadcrumbDropdown({
         aria-label={label}
         className={cx(
           crumbVariants({ interactive: true }),
-          "cursor-default data-[popup-open]:bg-layer-transparent-hover data-[popup-open]:text-primary",
+          "cursor-default data-popup-open:bg-layer-transparent-hover data-popup-open:text-primary",
         )}
         {...props}
       >
@@ -155,7 +155,7 @@ export type BreadcrumbDropdownItemProps = Omit<
 export function BreadcrumbDropdownItem(props: BreadcrumbDropdownItemProps) {
   return (
     <Menu.Item
-      className="flex cursor-default items-center rounded-sm px-2 py-1 text-14 leading-[1.54] text-secondary outline-none select-none data-[highlighted]:bg-layer-transparent-hover data-[highlighted]:text-primary"
+      className="flex cursor-default items-center rounded-sm px-2 py-1 text-14 leading-[1.54] text-secondary outline-none select-none data-highlighted:bg-layer-transparent-hover data-highlighted:text-primary"
       {...props}
     />
   );
@@ -208,7 +208,7 @@ export function BreadcrumbMenuTrigger({ icon, children, ...props }: BreadcrumbMe
     <Menu.Trigger
       className={cx(
         crumbVariants({ interactive: true }),
-        "group/trigger cursor-default data-[popup-open]:bg-layer-transparent-hover data-[popup-open]:text-primary",
+        "group/trigger cursor-default data-popup-open:bg-layer-transparent-hover data-popup-open:text-primary",
       )}
       {...props}
     >
@@ -223,7 +223,7 @@ export function BreadcrumbMenuTrigger({ icon, children, ...props }: BreadcrumbMe
           *closed* chevron so it points left along the mirrored trail — the open
           (rotated-down) chevron must not be mirrored, or it would point up. */}
       <ChevronRight
-        className="size-3.5 shrink-0 text-icon-tertiary transition-transform group-data-[popup-open]/trigger:rotate-90 rtl:not-group-data-[popup-open]/trigger:-scale-x-100"
+        className="size-3.5 shrink-0 text-icon-tertiary transition-transform group-data-popup-open/trigger:rotate-90 rtl:not-group-data-popup-open/trigger:-scale-x-100"
         aria-hidden="true"
       />
     </Menu.Trigger>

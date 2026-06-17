@@ -72,7 +72,7 @@ export function AccordionTrigger({ leadingIcon, children, ...props }: AccordionT
         <span className="flex-1">{children}</span>
         <ChevronDown
           aria-hidden
-          className="size-3.5 shrink-0 text-icon-secondary transition-transform duration-200 group-data-[panel-open]:rotate-180"
+          className="size-3.5 shrink-0 text-icon-secondary transition-transform duration-200 group-data-panel-open:rotate-180"
         />
       </BaseAccordion.Trigger>
     </BaseAccordion.Header>
@@ -92,10 +92,10 @@ export function AccordionPanel({ children, ...props }: AccordionPanelProps) {
   return (
     <BaseAccordion.Panel
       className={cx(
-        "h-[var(--accordion-panel-height)] overflow-hidden",
+        "h-(--accordion-panel-height) overflow-hidden",
         "text-14 text-secondary",
         "transition-[height] duration-200 ease-out",
-        "data-[ending-style]:h-0 data-[starting-style]:h-0",
+        "data-ending-style:h-0 data-starting-style:h-0",
       )}
       {...props}
     >

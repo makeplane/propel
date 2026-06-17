@@ -8,7 +8,7 @@ import { cx } from "class-variance-authority";
 // that compose Base UI ScrollArea directly (e.g. Tabs, whose list is the viewport).
 export const scrollbarClass = cx(
   "flex touch-none p-[3px] opacity-0 transition-opacity duration-150 ease-out select-none",
-  "data-[hovering]:opacity-100 data-[scrolling]:opacity-100",
+  "data-hovering:opacity-100 data-scrolling:opacity-100",
   "data-[orientation=vertical]:w-3",
   "data-[orientation=horizontal]:h-3 data-[orientation=horizontal]:flex-col",
 );

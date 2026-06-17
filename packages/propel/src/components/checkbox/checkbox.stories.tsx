@@ -118,7 +118,7 @@ export const Error: Story = {
     await expect(unchecked).toHaveClass("border-danger-strong");
     // Checked danger box: accent-blue fill, like every other tone.
     await expect(checked).toHaveAttribute("aria-checked", "true");
-    await expect(checked).toHaveClass("data-[checked]:bg-accent-primary");
+    await expect(checked).toHaveClass("data-checked:bg-accent-primary");
   },
 };
 

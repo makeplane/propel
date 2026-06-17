@@ -24,6 +24,7 @@ export default defineConfig({
     jsdoc: true,
   },
   lint: {
+    jsPlugins: ["./tools/oxlint-plugin-propel/src/index.ts"],
     // Tooling/config files are validated by actually building and testing, not by
     // the library's type-aware lint:
     // - .storybook/* — Storybook compiles & type-checks these itself; they use
@@ -38,7 +39,10 @@ export default defineConfig({
     ],
     options: { typeAware: true, typeCheck: true },
     // Project convention: always use `type`, never `interface`.
-    rules: { "typescript/consistent-type-definitions": ["error", "type"] },
+    rules: {
+      "propel/prefer-tailwind-v4-shorthand": "error",
+      "typescript/consistent-type-definitions": ["error", "type"],
+    },
   },
   run: {
     cache: true,

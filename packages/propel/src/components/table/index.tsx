@@ -306,7 +306,7 @@ export function TableCell({
 const actionableTriggerClass = cx(
   "flex h-11 w-full items-center outline-none",
   "bg-layer-transparent hover:bg-layer-transparent-hover focus-visible:bg-layer-transparent-hover",
-  "data-[popup-open]:bg-layer-transparent-active",
+  "data-popup-open:bg-layer-transparent-active",
   "disabled:pointer-events-none disabled:text-disabled",
 );
 

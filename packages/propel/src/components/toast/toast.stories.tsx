@@ -130,12 +130,11 @@ export const ProgressInteraction: Story = {
     />
   ),
   play: async ({ canvas, userEvent }) => {
-    const body = within(document.body);
-
     await userEvent.click(canvas.getByRole("button", { name: /show toast with progress/i }));
 
-    // The toast appears asynchronously in a portal; assert on the document body.
-    const toast = await waitFor(() => body.getByRole("dialog"));
+    // The toast appears asynchronously in a portal; assert its dialog role and
+    // accessible name before making scoped assertions.
+    const toast = await within(document.body).findByRole("dialog", { name: "Toast title" });
     await expect(toast).toBeVisible();
 
     // Base UI's Progress owns the `progressbar` role + `aria-valuenow`; the bar
@@ -202,8 +201,9 @@ export const QueueAndDismiss: Story = {
 
     await userEvent.click(canvas.getByRole("button", { name: /show success toast/i }));
 
-    // The toast appears asynchronously in a portal; assert on the document body.
-    const toast = await waitFor(() => body.getByRole("dialog"));
+    // The toast appears asynchronously in a portal; assert its dialog role and
+    // accessible name before hover/focus assertions.
+    const toast = await body.findByRole("dialog", { name: "Toast title" });
     await expect(toast).toBeVisible();
     await expect(body.getByText("Toast title")).toBeVisible();
     await expect(body.getByText("Description of the toast alert")).toBeVisible();
@@ -244,7 +244,7 @@ export const ActionsInteraction: Story = {
     onLeft.mockClear();
 
     await userEvent.click(canvas.getByRole("button", { name: /show toast with actions/i }));
-    await waitFor(() => body.getByRole("dialog"));
+    await body.findByRole("dialog", { name: "Toast title" });
 
     // The right-aligned primary action fires its handler on click.
     const view = await waitFor(() => body.getByRole("button", { name: "View" }));
@@ -285,7 +285,7 @@ export const KeyboardDismiss: Story = {
     const body = within(document.body);
 
     await userEvent.click(canvas.getByRole("button", { name: /show success toast/i }));
-    const toast = await waitFor(() => body.getByRole("dialog"));
+    const toast = await body.findByRole("dialog", { name: "Toast title" });
     await expect(toast).toBeVisible();
 
     // F6 is Base UI's keyboard entry point: it moves focus into the viewport region
