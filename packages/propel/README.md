@@ -62,7 +62,7 @@ element.
 
 ## Browser support
 
-propel targets modern evergreen browsers. The baseline is set by Tailwind v4 and
+Propel targets modern evergreen browsers. The baseline is set by Tailwind v4 and
 by the color tokens, which use `oklch()` and `color-mix()`:
 
 | Browser     | Minimum |
