@@ -53,7 +53,7 @@ export type TabsProps = Omit<
  *   </TabsList>
  *   <TabsPanel value="overview">…</TabsPanel>
  *   <TabsPanel value="activity">…</TabsPanel>
- * </Tabs>
+ * </Tabs>;
  * ```
  */
 export function Tabs({ variant, ...props }: TabsProps) {

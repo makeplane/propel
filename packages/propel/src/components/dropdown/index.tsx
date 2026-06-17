@@ -20,7 +20,7 @@ import { CheckboxVisual } from "../checkbox/index";
  *     <DropdownSeparator />
  *     <DropdownItem label="Delete" />
  *   </DropdownContent>
- * </Dropdown>
+ * </Dropdown>;
  * ```
  */
 type BaseMenuRootProps = React.ComponentProps<typeof Menu.Root>;
