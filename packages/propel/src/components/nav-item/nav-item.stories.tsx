@@ -13,7 +13,7 @@ const meta = {
   component: NavItem,
   subcomponents: { NavItemCount, NavItemChevron },
   // Icon picker control for the leading icon.
-  argTypes: { leadingIcon: iconControl },
+  argTypes: { inlineStartNode: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -23,7 +23,7 @@ const meta = {
   args: {
     children: "Inbox",
     magnitude: "lg",
-    leadingIcon: <Inbox />,
+    inlineStartNode: <Inbox />,
   },
   // The row stretches to its container; constrain it to a sidebar-like width.
   decorators: [
@@ -43,7 +43,7 @@ export const Default: Story = {};
 /** A row with a trailing count chip and a disclosure chevron, like a collapsible group. */
 export const WithTrailing: Story = {
   args: {
-    trailing: (
+    inlineEndNode: (
       <>
         <NavItemCount>6</NavItemCount>
         <NavItemChevron icon={<ChevronDown />} />
@@ -114,10 +114,15 @@ export const States: Story = {
       {MAGNITUDES.map((magnitude) => (
         <div key={magnitude} className="flex flex-col gap-1">
           <p className="text-11 text-tertiary uppercase">{magnitude}</p>
-          <NavItem {...args} magnitude={magnitude} trailing={<NavItemCount>6</NavItemCount>}>
+          <NavItem {...args} magnitude={magnitude} inlineEndNode={<NavItemCount>6</NavItemCount>}>
             Default
           </NavItem>
-          <NavItem {...args} magnitude={magnitude} active trailing={<NavItemCount>6</NavItemCount>}>
+          <NavItem
+            {...args}
+            magnitude={magnitude}
+            active
+            inlineEndNode={<NavItemCount>6</NavItemCount>}
+          >
             Selected
           </NavItem>
           <NavItem {...args} magnitude={magnitude} disabled>
@@ -154,7 +159,7 @@ export const RightToLeft: Story = {
       <div dir="rtl" className="flex flex-col gap-1">
         <NavItem
           {...args}
-          trailing={
+          inlineEndNode={
             <>
               <NavItemCount>6</NavItemCount>
               <NavItemChevron icon={<ChevronDown />} />

@@ -2,6 +2,8 @@ import { useRender } from "@base-ui/react/use-render";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
+import { nodeSlotClass } from "../../internal/node-slot";
+
 // The Figma "Nav item" component (node 1329-396) is a single clickable sidebar row:
 // a leading icon, a flexible label that truncates, and an optional trailing slot
 // (a count chip and/or a disclosure chevron). It has three axes:
@@ -75,17 +77,16 @@ export type NavItemProps = Omit<useRender.ComponentProps<"button">, "className" 
    */
   active?: boolean;
   /**
-   * Leading icon (e.g. a lucide icon), shown at the inline-start. Sized to 16px and `aria-hidden`
-   * (the label is the accessible name). Named `leadingIcon` (not `icon`) to match Button/Input;
-   * `trailing` already covers the inline-end.
+   * Leading content at the inline-start (e.g. a lucide icon), sized to 16px and `aria-hidden` (the
+   * label is the accessible name). Logical node slot, matching Button/IconButton's
+   * `inlineStartNode`.
    */
-  leadingIcon?: React.ReactNode;
+  inlineStartNode?: React.ReactNode;
   /**
-   * Optional trailing content placed after the label — typically a `NavItemCount` and/or a
-   * `NavItemChevron`. Sits at the inline-end. A generic content slot (not just an icon), so it
-   * stays `trailing` rather than `trailingIcon`.
+   * Optional trailing content at the inline-end — typically a `NavItemCount` and/or a
+   * `NavItemChevron`. Logical node slot, matching Button's `inlineEndNode`.
    */
-  trailing?: React.ReactNode;
+  inlineEndNode?: React.ReactNode;
 };
 
 /**
@@ -99,8 +100,8 @@ export function NavItem({
   magnitude,
   level = 1,
   active = false,
-  leadingIcon,
-  trailing,
+  inlineStartNode,
+  inlineEndNode,
   render,
   ...props
 }: NavItemProps) {
@@ -112,7 +113,7 @@ export function NavItem({
       className: navItemVariants({ magnitude, level }),
       children: (
         <>
-          {leadingIcon ? (
+          {inlineStartNode ? (
             <span
               aria-hidden
               className={cx(
@@ -123,11 +124,13 @@ export function NavItem({
                 "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
               )}
             >
-              {leadingIcon}
+              {inlineStartNode}
             </span>
           ) : null}
           <span className="min-w-0 flex-1 truncate leading-snug font-medium">{children}</span>
-          {trailing ? <span className="flex shrink-0 items-center gap-2">{trailing}</span> : null}
+          {inlineEndNode ? (
+            <span className="flex shrink-0 items-center gap-2">{inlineEndNode}</span>
+          ) : null}
         </>
       ),
     },
@@ -158,6 +161,148 @@ export function NavItemCount({
     >
       {children}
     </span>
+  );
+}
+
+// The Figma "Nav item / Header" component (node 2487-3138 default, 2487-3137 hover) is
+// a section-title row that sits above a group of nav items: an emphasized group-title
+// label, a small disclosure chevron that toggles the group open/closed, and an optional
+// trailing action (e.g. an "add" icon button) at the inline-end.
+//
+//   • height   — 32px, matching NavItem.
+//   • padding  — 8px (`spacing/2`) all round, `radius/lg` (8px) corners.
+//   • label    — `font/body-xs/semibold` (text/13, weight 600), `text/tertiary` tone;
+//                truncates with an ellipsis when it overflows.
+//   • chevron  — a 16px filled caret-down glyph (the Figma "Accordion-open" toggle, a
+//                solid triangle — not a stroked chevron) in `icon/secondary`, pointing
+//                down when the group is expanded. It is a real collapse toggle, so it sits
+//                next to the label inside the toggle button.
+//   • action   — an optional `inlineEndNode` at the row's inline-end, for an IconButton
+//                like "add". Because that control is interactive and the label/chevron are
+//                a toggle button, the two cannot nest (a button inside a button is a
+//                `nested-interactive` a11y violation), so the row is a plain container that
+//                holds the toggle button and the action as siblings.
+//   • surface  — transparent by default; `background/layer/transparent-hover` on hover.
+//
+// The label/chevron toggle renders as a `<button>` carrying `aria-expanded`. It supports
+// both controlled (`expanded` + `onExpandedChange`) and uncontrolled (`defaultExpanded`)
+// use, like other disclosure widgets. The label is the accessible name; the chevron is
+// `aria-hidden` and mirrors under RTL.
+
+// The row container. It is NOT interactive itself — it only lays out the toggle button and
+// the optional inline-end action side by side and owns the hover surface so hovering
+// anywhere on the row (including over the action) tints the whole row, matching Figma.
+const navItemHeaderVariants = cva(
+  cx(
+    "group/nav-item-header flex h-8 w-full items-center gap-1 rounded-lg ps-2 pe-1 text-start",
+    "bg-layer-transparent text-tertiary transition-colors",
+    "select-none",
+    // Tint the row on hover — but not when the *toggle* is disabled, so a disabled
+    // header doesn't look interactive. Scoped to the direct-child toggle `<button>`
+    // (via `>button`) so a disabled `inlineEndNode` action doesn't suppress it too.
+    "hover:bg-layer-transparent-hover",
+    "has-[>button:disabled]:hover:bg-transparent has-[>button[aria-disabled=true]]:hover:bg-transparent",
+  ),
+);
+
+// The toggle button inside the row: it carries the label and the chevron, grows to fill
+// the row so the whole title area is clickable, and owns the focus ring + disabled chrome.
+const navItemHeaderToggleClass = cx(
+  "flex min-w-0 flex-1 items-center gap-1 rounded-md py-2 text-start outline-none",
+  "cursor-pointer text-inherit select-none",
+  "focus-visible:ring-2 focus-visible:ring-accent-strong",
+  "disabled:pointer-events-none disabled:text-disabled aria-disabled:pointer-events-none aria-disabled:text-disabled",
+);
+
+export type NavItemHeaderProps = Omit<
+  React.ComponentPropsWithoutRef<"button">,
+  "className" | "style" | "children"
+> & {
+  /** The section title. Truncates with an ellipsis when it overflows. */
+  children: React.ReactNode;
+  /**
+   * The disclosure chevron glyph, sized to 16px. Figma uses a filled caret-down (a solid triangle),
+   * so pass that glyph rather than a stroked chevron. Points down when the section is expanded and
+   * rotates to point at the inline-start when collapsed. Mirrored under RTL.
+   */
+  chevron: React.ReactNode;
+  /**
+   * Optional trailing action at the row's inline-end — typically an `IconButton` such as an "add"
+   * control. Rendered as a sibling of the toggle button (never nested) so the interactive action
+   * does not sit inside the toggle `<button>`. Logical node slot, matching Button's
+   * `inlineEndNode`.
+   */
+  inlineEndNode?: React.ReactNode;
+  /**
+   * Whether the section is expanded (controlled). Drives `aria-expanded` and the chevron rotation.
+   * Pair with `onExpandedChange`. Omit to run uncontrolled via `defaultExpanded`.
+   */
+  expanded?: boolean;
+  /** Initial expanded state when uncontrolled. Defaults to `true` (sections start open). */
+  defaultExpanded?: boolean;
+  /** Called with the next expanded state when the header is toggled. */
+  onExpandedChange?: (expanded: boolean) => void;
+};
+
+/**
+ * A sidebar section header row — an emphasized group title, a disclosure chevron that collapses the
+ * section below it, and an optional inline-end action (e.g. an "add" IconButton). The title +
+ * chevron are a `<button>` with `aria-expanded` (controlled via `expanded` + `onExpandedChange`, or
+ * uncontrolled via `defaultExpanded`); the action is a sibling so it never nests inside that
+ * button. The title is the accessible name. Faithful to Figma node 2487-3138.
+ */
+export function NavItemHeader({
+  children,
+  chevron,
+  inlineEndNode,
+  expanded,
+  defaultExpanded = true,
+  onExpandedChange,
+  onClick,
+  ...props
+}: NavItemHeaderProps) {
+  const isControlled = expanded !== undefined;
+  const [uncontrolledExpanded, setUncontrolledExpanded] = React.useState(defaultExpanded);
+  const isExpanded = isControlled ? expanded : uncontrolledExpanded;
+
+  return (
+    // `--node-size` (16px) sizes any raw glyph dropped into the inline-end action slot, the
+    // same channel Button/IconButton use.
+    <div className={cx(navItemHeaderVariants(), "[--node-size:1rem]")}>
+      <button
+        {...props}
+        type="button"
+        aria-expanded={isExpanded}
+        className={navItemHeaderToggleClass}
+        onClick={(event) => {
+          // `disabled` already blocks the pointer; `aria-disabled` does not stop
+          // keyboard activation, so bail explicitly to keep the section from toggling.
+          if (event.currentTarget.getAttribute("aria-disabled") === "true") return;
+          onClick?.(event);
+          if (event.defaultPrevented) return;
+          const next = !isExpanded;
+          if (!isControlled) setUncontrolledExpanded(next);
+          onExpandedChange?.(next);
+        }}
+      >
+        <span className="min-w-0 truncate text-body-xs-semibold">{children}</span>
+        <span
+          aria-hidden
+          data-expanded={isExpanded ? "" : undefined}
+          className={cx(
+            "flex size-4 shrink-0 items-center justify-center text-icon-secondary [&>svg]:size-full",
+            // The Figma glyph is a filled caret-down. Collapsed rotates it a quarter turn
+            // so it points at the inline-start; RTL mirrors so it still points inward.
+            "rotate-90 transition-transform data-[expanded]:rotate-0 rtl:-rotate-90 rtl:data-[expanded]:rotate-0",
+          )}
+        >
+          {chevron}
+        </span>
+      </button>
+      {inlineEndNode != null ? (
+        <span className={cx(nodeSlotClass, "text-icon-secondary")}>{inlineEndNode}</span>
+      ) : null}
+    </div>
   );
 }
 
