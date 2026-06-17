@@ -2,6 +2,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
+import { useControllableState } from "../../hooks/use-controllable-state/index";
 import { nodeSlotClass } from "../../internal/node-slot";
 
 // The Figma "Nav item" component (node 1329-396) is a single clickable sidebar row:
@@ -261,9 +262,11 @@ export function NavItemHeader({
   onClick,
   ...props
 }: NavItemHeaderProps) {
-  const isControlled = expanded !== undefined;
-  const [uncontrolledExpanded, setUncontrolledExpanded] = React.useState(defaultExpanded);
-  const isExpanded = isControlled ? expanded : uncontrolledExpanded;
+  const [isExpanded, setExpanded] = useControllableState<boolean>({
+    value: expanded,
+    defaultValue: defaultExpanded,
+    onChange: onExpandedChange,
+  });
 
   return (
     // `--node-size` (16px) sizes any raw glyph dropped into the inline-end action slot, the
@@ -280,9 +283,7 @@ export function NavItemHeader({
           if (event.currentTarget.getAttribute("aria-disabled") === "true") return;
           onClick?.(event);
           if (event.defaultPrevented) return;
-          const next = !isExpanded;
-          if (!isControlled) setUncontrolledExpanded(next);
-          onExpandedChange?.(next);
+          setExpanded(!isExpanded);
         }}
       >
         <span className="min-w-0 truncate text-body-xs-semibold">{children}</span>
