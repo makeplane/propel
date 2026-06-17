@@ -247,7 +247,7 @@ const dropdownChevronVariants = cva("shrink-0 text-icon-secondary", {
  *       Paragraph
  *     </ToolbarDropdownItem>
  *   </ToolbarDropdownContent>
- * </ToolbarDropdown>;
+ * </ToolbarDropdown>
  * ```
  */
 export const ToolbarDropdown = Dropdown;

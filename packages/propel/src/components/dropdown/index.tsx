@@ -2,6 +2,7 @@ import { Menu } from "@base-ui/react/menu";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { Check, ChevronRight, Search } from "lucide-react";
 import * as React from "react";
+
 import { useControllableState } from "../../hooks/use-controllable-state/index";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
@@ -19,7 +20,7 @@ import { CheckboxVisual } from "../checkbox/index";
  *     <DropdownSeparator />
  *     <DropdownItem label="Delete" />
  *   </DropdownContent>
- * </Dropdown>;
+ * </Dropdown>
  * ```
  */
 type BaseMenuRootProps = React.ComponentProps<typeof Menu.Root>;

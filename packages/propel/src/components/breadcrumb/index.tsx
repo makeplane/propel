@@ -178,7 +178,7 @@ export function BreadcrumbDropdownItem(props: BreadcrumbDropdownItemProps) {
  *       <BreadcrumbMenuItem render={<a href="#" />}>Plane Web</BreadcrumbMenuItem>
  *     </BreadcrumbMenuContent>
  *   </BreadcrumbMenu>
- * </BreadcrumbItem>;
+ * </BreadcrumbItem>
  * ```
  */
 export const BreadcrumbMenu = Dropdown;

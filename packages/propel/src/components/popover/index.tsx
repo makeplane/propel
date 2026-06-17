@@ -14,7 +14,7 @@ import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-pan
  *     <RadioGroup>…</RadioGroup>
  *     <Checkbox label="Show empty groups" />
  *   </PopoverContent>
- * </Popover>;
+ * </Popover>
  * ```
  *
  * Unlike `Dropdown`, the surface is a generic floating panel (NOT a `role="menu"`), so it can host
