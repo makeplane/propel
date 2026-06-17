@@ -32,7 +32,7 @@ const trackVariants = cva(
 // The thumb stays white in every theme and in both on/off states. `surface-1`
 // is white in light mode but flips dark in dark mode, so the thumb pins to the
 // on-color token (the white-on-tone color) regardless of checked state.
-const thumbVariants = cva("shadow-sm rounded-full bg-on-color transition-transform", {
+const thumbVariants = cva("rounded-full bg-on-color shadow-raised-100 transition-transform", {
   variants: {
     magnitude: {
       lg: "size-4 data-[checked]:translate-x-[12px]",
