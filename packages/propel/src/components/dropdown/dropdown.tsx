@@ -1,10 +1,8 @@
 import { Menu } from "@base-ui/react/menu";
-import type * as React from "react";
+import type { MenuRoot } from "@base-ui/react/menu";
 
-type BaseMenuRootProps = React.ComponentProps<typeof Menu.Root>;
-
-export type DropdownProps = Omit<
-  BaseMenuRootProps,
+export type DropdownProps<Payload = unknown> = Omit<
+  MenuRoot.Props<Payload>,
   "open" | "defaultOpen" | "onOpenChange" | "modal" | "children"
 > & {
   /** Whether the menu is open. Controlled; pair with `onOpenChange`. */
@@ -12,13 +10,13 @@ export type DropdownProps = Omit<
   /** Whether the menu is open on mount. Uncontrolled. @default false */
   defaultOpen?: boolean;
   /** Called with the next open state when the menu opens or closes. */
-  onOpenChange?: BaseMenuRootProps["onOpenChange"];
+  onOpenChange?: MenuRoot.Props<Payload>["onOpenChange"];
   /** Modal behavior while open. @default false */
-  modal?: BaseMenuRootProps["modal"];
+  modal?: MenuRoot.Props<Payload>["modal"];
   /** The trigger and menu surface (`DropdownTrigger`, `DropdownContent`). */
-  children?: React.ReactNode;
+  children?: MenuRoot.Props<Payload>["children"];
 };
 
-export function Dropdown(props: DropdownProps) {
+export function Dropdown<Payload = unknown>(props: DropdownProps<Payload>) {
   return <Menu.Root {...props} />;
 }

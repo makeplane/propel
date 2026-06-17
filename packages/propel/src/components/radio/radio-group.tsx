@@ -1,13 +1,13 @@
 import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
+import type { RadioGroup as BaseRadioGroupTypes } from "@base-ui/react/radio-group";
 import type { VariantProps } from "class-variance-authority";
-import type * as React from "react";
 
 import { radioGroupVariants } from "./radio-styles";
 
 export type RadioGroupDensity = NonNullable<VariantProps<typeof radioGroupVariants>["density"]>;
 
-export type RadioGroupProps = Omit<
-  React.ComponentProps<typeof BaseRadioGroup>,
+export type RadioGroupProps<Value = string> = Omit<
+  BaseRadioGroupTypes.Props<Value>,
   "className" | "render" | "style"
 > & {
   /** Spacing between options: `comfortable` (default, 8px) or `compact` (flush). */
@@ -15,6 +15,9 @@ export type RadioGroupProps = Omit<
 };
 
 /** Groups a set of `Radio` options so at most one can be selected at a time. Renders a `radiogroup`. */
-export function RadioGroup({ density = "comfortable", ...props }: RadioGroupProps) {
+export function RadioGroup<Value = string>({
+  density = "comfortable",
+  ...props
+}: RadioGroupProps<Value>) {
   return <BaseRadioGroup className={radioGroupVariants({ density })} {...props} />;
 }

@@ -9,7 +9,7 @@ import {
   expandableWrapperClass,
   searchClearButtonClass,
   searchInputClass,
-} from "./search-context";
+} from "./search-styles";
 
 export type ExpandableSearchProps = SearchProps;
 

@@ -8,6 +8,6 @@ export { DropdownLabel, type DropdownLabelProps } from "./dropdown-label";
 export { DropdownSearch, type DropdownSearchProps } from "./dropdown-search";
 export { DropdownSeparator, type DropdownSeparatorProps } from "./dropdown-separator";
 export { DropdownSub, type DropdownSubProps } from "./dropdown-sub";
-export { DropdownSubContent } from "./dropdown-sub-content";
+export { DropdownSubContent, type DropdownSubContentProps } from "./dropdown-sub-content";
 export { DropdownSubTrigger, type DropdownSubTriggerProps } from "./dropdown-sub-trigger";
 export { DropdownTrigger, type DropdownTriggerProps } from "./dropdown-trigger";

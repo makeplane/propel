@@ -4,7 +4,7 @@ import { Ellipsis } from "lucide-react";
 import type * as React from "react";
 
 import { OverlayPanel } from "../../internal/overlay-panel";
-import { crumbVariants } from "./breadcrumb-context";
+import { crumbVariants } from "./breadcrumb-styles";
 
 export type BreadcrumbDropdownProps = Omit<
   React.ComponentProps<typeof Menu.Trigger>,

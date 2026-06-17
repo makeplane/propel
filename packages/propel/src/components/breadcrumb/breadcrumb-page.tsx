@@ -1,7 +1,7 @@
 import { cx } from "class-variance-authority";
 import type * as React from "react";
 
-import { crumbVariants } from "./breadcrumb-context";
+import { crumbVariants } from "./breadcrumb-styles";
 
 export type BreadcrumbPageProps = Omit<React.ComponentProps<"span">, "className" | "style">;
 

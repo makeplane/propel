@@ -4,7 +4,7 @@ import { Search as SearchIcon, X } from "lucide-react";
 import * as React from "react";
 
 import { useControllableState } from "../../hooks/use-controllable-state/index";
-import { searchBoxClass, searchInputClass, searchClearButtonClass } from "./search-context";
+import { searchBoxClass, searchClearButtonClass, searchInputClass } from "./search-styles";
 
 export type SearchProps = Omit<
   React.ComponentProps<typeof BaseInput>,

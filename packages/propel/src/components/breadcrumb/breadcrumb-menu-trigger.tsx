@@ -3,7 +3,7 @@ import { cx } from "class-variance-authority";
 import { ChevronRight } from "lucide-react";
 import type * as React from "react";
 
-import { crumbVariants } from "./breadcrumb-context";
+import { crumbVariants } from "./breadcrumb-styles";
 
 export type BreadcrumbMenuTriggerProps = Omit<
   React.ComponentProps<typeof Menu.Trigger>,

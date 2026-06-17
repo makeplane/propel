@@ -1,9 +1,10 @@
 import { Toggle } from "@base-ui/react/toggle";
+import type { Toggle as BaseToggleTypes } from "@base-ui/react/toggle";
 import { cx } from "class-variance-authority";
 import type * as React from "react";
 
 import { NodeSlot } from "../../internal/node-slot";
-import { labelFontByMagnitude, labelPillSize, PillLabel, type PillMagnitude } from "./pill-context";
+import { labelFontByMagnitude, labelPillSize, PillLabel, type PillMagnitude } from "./pill-shared";
 
 const pillSwitchColors = cx(
   "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
@@ -12,8 +13,8 @@ const pillSwitchColors = cx(
   "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
 );
 
-export type PillSwitchProps = Omit<
-  React.ComponentProps<typeof Toggle>,
+export type PillSwitchProps<Value extends string = string> = Omit<
+  BaseToggleTypes.Props<Value>,
   "className" | "render" | "style"
 > & {
   /** Box scale. `sm` 20px / `md` 24px / `lg` 28px. */
@@ -25,13 +26,13 @@ export type PillSwitchProps = Omit<
 };
 
 /** A toggle pill. */
-export function PillSwitch({
+export function PillSwitch<Value extends string = string>({
   magnitude,
   inlineStartNode,
   inlineEndNode,
   children,
   ...props
-}: PillSwitchProps) {
+}: PillSwitchProps<Value>) {
   return (
     <Toggle
       className={cx(

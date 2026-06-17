@@ -9,9 +9,9 @@ import {
   PillLabel,
   PillSpinner,
   type PillMagnitude,
-} from "./pill-context";
+} from "./pill-shared";
 
-export type { PillMagnitude } from "./pill-context";
+export type { PillMagnitude } from "./pill-shared";
 
 const pillButtonColors = cx(
   "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",

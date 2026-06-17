@@ -1,10 +1,8 @@
 import { Popover as BasePopover } from "@base-ui/react/popover";
-import type * as React from "react";
+import type { PopoverRoot } from "@base-ui/react/popover";
 
-type BasePopoverRootProps = React.ComponentProps<typeof BasePopover.Root>;
-
-export type PopoverProps = Omit<
-  BasePopoverRootProps,
+export type PopoverProps<Payload = unknown> = Omit<
+  PopoverRoot.Props<Payload>,
   "open" | "defaultOpen" | "onOpenChange" | "modal" | "children"
 > & {
   /** Whether the popover is open. Controlled; pair with `onOpenChange`. */
@@ -12,13 +10,13 @@ export type PopoverProps = Omit<
   /** Whether the popover is open on mount. Uncontrolled. @default false */
   defaultOpen?: boolean;
   /** Called with the next open state when the popover opens or closes. */
-  onOpenChange?: BasePopoverRootProps["onOpenChange"];
+  onOpenChange?: PopoverRoot.Props<Payload>["onOpenChange"];
   /** Modal behavior while open. @default false */
-  modal?: BasePopoverRootProps["modal"];
+  modal?: PopoverRoot.Props<Payload>["modal"];
   /** The popover's trigger and panel (`PopoverTrigger`, `PopoverContent`). */
-  children?: React.ReactNode;
+  children?: PopoverRoot.Props<Payload>["children"];
 };
 
-export function Popover(props: PopoverProps) {
+export function Popover<Payload = unknown>(props: PopoverProps<Payload>) {
   return <BasePopover.Root {...props} />;
 }
