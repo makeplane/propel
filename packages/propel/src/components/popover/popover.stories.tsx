@@ -54,6 +54,29 @@ function PanelRadioRow({ value, label }: { value: string; label: string }) {
   );
 }
 
+// The checkbox-toggle footer (show sub-work items / show empty groups) that closes
+// several of the display panels. Each panel gets an independent copy that owns its
+// own state; pass `defaultToggles` to start a key checked.
+function ToggleFooter({ defaultToggles = {} }: { defaultToggles?: Record<string, boolean> }) {
+  const [toggles, setToggles] = React.useState<Record<string, boolean>>(defaultToggles);
+  return (
+    <div className="flex flex-col">
+      <Checkbox
+        tone="neutral"
+        checked={Boolean(toggles.sub)}
+        onCheckedChange={(next) => setToggles((t) => ({ ...t, sub: Boolean(next) }))}
+        label={<span className="flex-1">Show sub-work items</span>}
+      />
+      <Checkbox
+        tone="neutral"
+        checked={Boolean(toggles.empty)}
+        onCheckedChange={(next) => setToggles((t) => ({ ...t, empty: Boolean(next) }))}
+        label={<span className="flex-1">Show empty groups</span>}
+      />
+    </div>
+  );
+}
+
 /**
  * The default popover: a trigger plus a generic floating panel. The panel hosts arbitrary content
  * (here a couple of checkbox toggles) — it is NOT a `role="menu"`, so these controls are valid
@@ -61,32 +84,16 @@ function PanelRadioRow({ value, label }: { value: string; label: string }) {
  * the trigger again.
  */
 export const Default: Story = {
-  render: function DefaultStory() {
-    const [toggles, setToggles] = React.useState<Record<string, boolean>>({ sub: true });
-    return (
-      <Popover>
-        <PopoverTrigger render={<button type="button" className={triggerClass} />}>
-          Options
-        </PopoverTrigger>
-        <PopoverContent width="md" aria-label="Options">
-          <div className="flex flex-col">
-            <Checkbox
-              tone="neutral"
-              checked={Boolean(toggles.sub)}
-              onCheckedChange={(next) => setToggles((t) => ({ ...t, sub: Boolean(next) }))}
-              label={<span className="flex-1">Show sub-work items</span>}
-            />
-            <Checkbox
-              tone="neutral"
-              checked={Boolean(toggles.empty)}
-              onCheckedChange={(next) => setToggles((t) => ({ ...t, empty: Boolean(next) }))}
-              label={<span className="flex-1">Show empty groups</span>}
-            />
-          </div>
-        </PopoverContent>
-      </Popover>
-    );
-  },
+  render: () => (
+    <Popover>
+      <PopoverTrigger render={<button type="button" className={triggerClass} />}>
+        Options
+      </PopoverTrigger>
+      <PopoverContent width="md" aria-label="Options">
+        <ToggleFooter defaultToggles={{ sub: true }} />
+      </PopoverContent>
+    </Popover>
+  ),
   play: async ({ canvas, step }) => {
     await step("open the popover and toggle a checkbox", async () => {
       const trigger = canvas.getByRole("button", { name: "Options" });
@@ -133,7 +140,6 @@ export const DisplayProperties: Story = {
       "Due date": true,
     });
     const [groupBy, setGroupBy] = React.useState("state");
-    const [toggles, setToggles] = React.useState<Record<string, boolean>>({});
     return (
       <Popover>
         <PopoverTrigger render={<button type="button" className={triggerClass} />}>
@@ -166,20 +172,7 @@ export const DisplayProperties: Story = {
             ))}
           </RadioGroup>
           <PanelSeparator />
-          <div className="flex flex-col">
-            <Checkbox
-              tone="neutral"
-              checked={Boolean(toggles.sub)}
-              onCheckedChange={(next) => setToggles((t) => ({ ...t, sub: Boolean(next) }))}
-              label={<span className="flex-1">Show sub-work items</span>}
-            />
-            <Checkbox
-              tone="neutral"
-              checked={Boolean(toggles.empty)}
-              onCheckedChange={(next) => setToggles((t) => ({ ...t, empty: Boolean(next) }))}
-              label={<span className="flex-1">Show empty groups</span>}
-            />
-          </div>
+          <ToggleFooter />
         </PopoverContent>
       </Popover>
     );
@@ -214,7 +207,6 @@ export const DisplayAccordion: Story = {
   render: function DisplayAccordionStory() {
     const [open, setOpen] = React.useState<string | null>("order");
     const [order, setOrder] = React.useState("priority");
-    const [toggles, setToggles] = React.useState<Record<string, boolean>>({});
     const SECTIONS = ["Display Properties", "Group by", "Sub Group by", "Order by"];
     const ORDER = ["Manual - Rank", "Last created", "Last updated", "Priority", "Due date"];
     return (
@@ -257,20 +249,7 @@ export const DisplayAccordion: Story = {
             );
           })}
           <PanelSeparator />
-          <div className="flex flex-col">
-            <Checkbox
-              tone="neutral"
-              checked={Boolean(toggles.sub)}
-              onCheckedChange={(next) => setToggles((t) => ({ ...t, sub: Boolean(next) }))}
-              label={<span className="flex-1">Show sub-work items</span>}
-            />
-            <Checkbox
-              tone="neutral"
-              checked={Boolean(toggles.empty)}
-              onCheckedChange={(next) => setToggles((t) => ({ ...t, empty: Boolean(next) }))}
-              label={<span className="flex-1">Show empty groups</span>}
-            />
-          </div>
+          <ToggleFooter />
         </PopoverContent>
       </Popover>
     );

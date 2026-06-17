@@ -1,8 +1,49 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Activity, LayoutGrid, Settings } from "lucide-react";
+import type { ComponentProps } from "react";
 import { expect, waitFor } from "storybook/test";
 
 import { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./index";
+
+// The standard three-tab set the basic stories share (the only difference between
+// them is the `variant` and whether each tab shows its leading icon).
+const TAB_ITEMS = [
+  {
+    value: "overview",
+    label: "Overview",
+    icon: <LayoutGrid />,
+    panel: "A high-level summary of the project.",
+  },
+  { value: "activity", label: "Activity", icon: <Activity />, panel: "The latest activity feed." },
+  {
+    value: "settings",
+    label: "Settings",
+    icon: <Settings />,
+    panel: "Configuration and preferences.",
+  },
+];
+
+function TabsFixture({
+  withIcons = false,
+  ...props
+}: ComponentProps<typeof Tabs> & { withIcons?: boolean }) {
+  return (
+    <Tabs {...props}>
+      <TabsList>
+        {TAB_ITEMS.map((t) => (
+          <Tab key={t.value} value={t.value} leadingIcon={withIcons ? t.icon : undefined}>
+            {t.label}
+          </Tab>
+        ))}
+      </TabsList>
+      {TAB_ITEMS.map((t) => (
+        <TabsPanel key={t.value} value={t.value}>
+          {t.panel}
+        </TabsPanel>
+      ))}
+    </Tabs>
+  );
+}
 
 const meta = {
   title: "Components/Tabs",
@@ -26,81 +67,25 @@ type Story = StoryObj<typeof meta>;
 /** A working contained tab set: a raised card lifts the active tab inside the pill. */
 export const Contained: Story = {
   args: { variant: "contained" },
-  render: (args) => (
-    <Tabs {...args}>
-      <TabsList>
-        <Tab value="overview">Overview</Tab>
-        <Tab value="activity">Activity</Tab>
-        <Tab value="settings">Settings</Tab>
-      </TabsList>
-      <TabsPanel value="overview">A high-level summary of the project.</TabsPanel>
-      <TabsPanel value="activity">The latest activity feed.</TabsPanel>
-      <TabsPanel value="settings">Configuration and preferences.</TabsPanel>
-    </Tabs>
-  ),
+  render: (args) => <TabsFixture {...args} />,
 };
 
 /** A working underline tab set: a dark bar slides under the active tab. */
 export const Underline: Story = {
   args: { variant: "underline" },
-  render: (args) => (
-    <Tabs {...args}>
-      <TabsList>
-        <Tab value="overview">Overview</Tab>
-        <Tab value="activity">Activity</Tab>
-        <Tab value="settings">Settings</Tab>
-      </TabsList>
-      <TabsPanel value="overview">A high-level summary of the project.</TabsPanel>
-      <TabsPanel value="activity">The latest activity feed.</TabsPanel>
-      <TabsPanel value="settings">Configuration and preferences.</TabsPanel>
-    </Tabs>
-  ),
+  render: (args) => <TabsFixture {...args} />,
 };
 
 /** Both variants accept an optional `leadingIcon` (a 16px slot tinted to the tab's text color). */
 export const WithIcons: Story = {
   args: { variant: "contained" },
-  render: (args) => (
-    <Tabs {...args}>
-      <TabsList>
-        <Tab leadingIcon={<LayoutGrid />} value="overview">
-          Overview
-        </Tab>
-        <Tab leadingIcon={<Activity />} value="activity">
-          Activity
-        </Tab>
-        <Tab leadingIcon={<Settings />} value="settings">
-          Settings
-        </Tab>
-      </TabsList>
-      <TabsPanel value="overview">A high-level summary of the project.</TabsPanel>
-      <TabsPanel value="activity">The latest activity feed.</TabsPanel>
-      <TabsPanel value="settings">Configuration and preferences.</TabsPanel>
-    </Tabs>
-  ),
+  render: (args) => <TabsFixture {...args} withIcons />,
 };
 
 /** The `leadingIcon` slot on the underline variant. */
 export const UnderlineWithIcons: Story = {
   args: { variant: "underline" },
-  render: (args) => (
-    <Tabs {...args}>
-      <TabsList>
-        <Tab leadingIcon={<LayoutGrid />} value="overview">
-          Overview
-        </Tab>
-        <Tab leadingIcon={<Activity />} value="activity">
-          Activity
-        </Tab>
-        <Tab leadingIcon={<Settings />} value="settings">
-          Settings
-        </Tab>
-      </TabsList>
-      <TabsPanel value="overview">A high-level summary of the project.</TabsPanel>
-      <TabsPanel value="activity">The latest activity feed.</TabsPanel>
-      <TabsPanel value="settings">Configuration and preferences.</TabsPanel>
-    </Tabs>
-  ),
+  render: (args) => <TabsFixture {...args} withIcons />,
 };
 
 /**
