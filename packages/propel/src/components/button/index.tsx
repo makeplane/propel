@@ -1,8 +1,8 @@
+import { Button as BaseButton } from "@base-ui/react/button";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
 
-import { getLoadingButtonProps } from "../../internal/loading-button";
 import { NodeSlot } from "../../internal/node-slot";
 
 // Magnitudes follow the Figma "Buttons" Size scale. Figma ships S/Base/L/XL; those
@@ -184,7 +184,7 @@ type ButtonOwnProps = {
   loading?: boolean;
 };
 
-export type ButtonProps = Omit<React.ComponentProps<"button">, "className" | "style"> &
+export type ButtonProps = Omit<React.ComponentProps<typeof BaseButton>, "className" | "style"> &
   ButtonOwnProps;
 
 /**
@@ -205,20 +205,19 @@ export function Button({
   disabled,
   type = "button",
   children,
-  onClick,
   ...props
 }: ButtonProps) {
-  // `loading` is a soft-disabled state: it shows a spinner and must not fire
-  // clicks, but stays a real (focusable) button so screen readers announce the
-  // busy state via `aria-busy` + `aria-disabled`. `disabled` is the hard,
-  // non-focusable state and is the only thing that sets the native attribute.
-  // The spinner and both node slots size to the button's `--node-size`.
+  // `loading` is a soft-disabled state: Base UI keeps it focusable via
+  // `focusableWhenDisabled` while suppressing activation from pointer and keyboard.
+  // A plain `disabled` prop remains the hard, non-focusable native disabled state.
   return (
-    <button
+    <BaseButton
       type={type}
-      {...getLoadingButtonProps({ loading, disabled, onClick })}
-      className={buttonVariants({ variant, tone, magnitude, emphasis })}
       {...props}
+      disabled={disabled || loading}
+      focusableWhenDisabled={loading ? true : undefined}
+      aria-busy={loading ? true : undefined}
+      className={buttonVariants({ variant, tone, magnitude, emphasis })}
     >
       {loading ? (
         <LoaderCircle aria-hidden className="size-(--node-size) animate-spin" />
@@ -227,6 +226,6 @@ export function Button({
       ) : null}
       {children}
       {!loading && inlineEndNode ? <NodeSlot aria-hidden>{inlineEndNode}</NodeSlot> : null}
-    </button>
+    </BaseButton>
   );
 }

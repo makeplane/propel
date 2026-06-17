@@ -175,3 +175,21 @@ export const DisabledNotKeyboardActivatable: Story = {
     await expect(args.onClick).not.toHaveBeenCalled();
   },
 };
+
+/** A `loading` icon button remains focusable with `aria-busy`, but Base UI suppresses activation. */
+export const LoadingBlocksInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn(), loading: true },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Add item" });
+    await expect(button).toHaveAttribute("aria-busy", "true");
+    await expect(button).not.toBeDisabled();
+
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("[Space]");
+    await userEvent.click(button);
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};

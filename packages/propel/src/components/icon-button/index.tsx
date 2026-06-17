@@ -1,8 +1,8 @@
+import { Button as BaseButton } from "@base-ui/react/button";
 import { cx } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
 
-import { getLoadingButtonProps } from "../../internal/loading-button";
 import { NodeSlot } from "../../internal/node-slot";
 import {
   type ButtonMagnitude,
@@ -77,17 +77,17 @@ export function IconButton({
   loading = false,
   disabled,
   type = "button",
-  onClick,
   ...props
 }: IconButtonProps) {
-  // `loading` mirrors Button: a soft-disabled busy state that shows a spinner and
-  // blocks clicks but stays a real, focusable button (`aria-busy`/`aria-disabled`).
-  // `disabled` is the hard, non-focusable native state. The spinner and the node slot
-  // size to `--node-size`, set per magnitude below.
+  // `loading` mirrors Button: Base UI suppresses activation while keeping the
+  // button focusable through `focusableWhenDisabled`; `disabled` remains hard-disabled.
   return (
-    <button
+    <BaseButton
       type={type}
-      {...getLoadingButtonProps({ loading, disabled, onClick })}
+      {...props}
+      disabled={disabled || loading}
+      focusableWhenDisabled={loading ? true : undefined}
+      aria-busy={loading ? true : undefined}
       className={cx(
         // Pass only variant/tone so Button's chrome (background, border, text/icon
         // color, radius) applies, but NOT its text-button geometry. `magnitude` would
@@ -99,13 +99,12 @@ export function IconButton({
         iconButtonSizeByMagnitude[magnitude],
         iconButtonNodeSizeByMagnitude[magnitude],
       )}
-      {...props}
     >
       {loading ? (
         <LoaderCircle aria-hidden className="size-(--node-size) animate-spin" />
       ) : (
         <NodeSlot aria-hidden>{children}</NodeSlot>
       )}
-    </button>
+    </BaseButton>
   );
 }

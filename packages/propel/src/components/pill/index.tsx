@@ -1,9 +1,9 @@
+import { Button as BaseButton } from "@base-ui/react/button";
 import { Toggle } from "@base-ui/react/toggle";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
 
-import { getLoadingButtonProps } from "../../internal/loading-button";
 import { NodeSlot } from "../../internal/node-slot";
 
 // The Figma "Pills" family (node 1121-11) is three small, 6px-rounded chips that share
@@ -63,7 +63,10 @@ const pillButtonColors = cx(
   "aria-busy:cursor-default aria-busy:border-subtle-1 aria-busy:bg-layer-transparent aria-busy:text-disabled",
 );
 
-export type PillButtonProps = Omit<React.ComponentProps<"button">, "className" | "style"> & {
+export type PillButtonProps = Omit<
+  React.ComponentProps<typeof BaseButton>,
+  "className" | "style"
+> & {
   /** Box scale. `sm` 20px / `md` 24px / `lg` 28px. */
   magnitude: PillMagnitude;
   /** A 14px node (icon/avatar) before the label. */
@@ -90,19 +93,20 @@ export function PillButton({
   children,
   type = "button",
   disabled,
-  onClick,
   ...props
 }: PillButtonProps) {
   return (
-    <button
+    <BaseButton
       type={type}
-      {...getLoadingButtonProps({ loading, disabled, onClick })}
+      {...props}
+      disabled={disabled || loading}
+      focusableWhenDisabled={loading ? true : undefined}
+      aria-busy={loading ? true : undefined}
       className={cx(
         labelPillSize({ magnitude }),
         labelFontByMagnitude[magnitude],
         pillButtonColors,
       )}
-      {...props}
     >
       {loading ? (
         <PillSpinner />
@@ -111,7 +115,7 @@ export function PillButton({
       ) : null}
       <PillLabel>{children}</PillLabel>
       {!loading && inlineEndNode ? <NodeSlot aria-hidden>{inlineEndNode}</NodeSlot> : null}
-    </button>
+    </BaseButton>
   );
 }
 
@@ -190,7 +194,7 @@ const iconPillVariants = cva(
 );
 
 export type IconPillProps = Omit<
-  React.ComponentProps<"button">,
+  React.ComponentProps<typeof BaseButton>,
   "className" | "style" | "children"
 > & {
   /** Box scale. `sm` 20px (14px icon) / `md` 24px / `lg` 28px (16px icon). */
@@ -213,17 +217,18 @@ export function IconPill({
   children,
   type = "button",
   disabled,
-  onClick,
   ...props
 }: IconPillProps) {
   return (
-    <button
+    <BaseButton
       type={type}
-      {...getLoadingButtonProps({ loading, disabled, onClick })}
-      className={iconPillVariants({ magnitude })}
       {...props}
+      disabled={disabled || loading}
+      focusableWhenDisabled={loading ? true : undefined}
+      aria-busy={loading ? true : undefined}
+      className={iconPillVariants({ magnitude })}
     >
       {loading ? <PillSpinner /> : <NodeSlot aria-hidden>{children}</NodeSlot>}
-    </button>
+    </BaseButton>
   );
 }

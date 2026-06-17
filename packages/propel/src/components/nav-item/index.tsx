@@ -1,9 +1,9 @@
+import { Collapsible as BaseCollapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
-import { useControllableState } from "../../hooks/use-controllable-state/index";
 import { NodeSlot } from "../../internal/node-slot";
 
 // The Figma "Nav item" component (node 1329-396) is a single clickable sidebar row:
@@ -190,10 +190,9 @@ export function NavItemCount({
 //                holds the toggle button and the action as siblings.
 //   • surface  — transparent by default; `background/layer/transparent-hover` on hover.
 //
-// The label/chevron toggle renders as a `<button>` carrying `aria-expanded`. It supports
-// both controlled (`expanded` + `onExpandedChange`) and uncontrolled (`defaultExpanded`)
-// use, like other disclosure widgets. The label is the accessible name; the chevron is
-// `aria-hidden` and mirrors under RTL.
+// The label/chevron toggle is a Base UI `Collapsible.Trigger`, so the trigger carries
+// `aria-expanded`/`aria-controls` and the group panel is hidden/shown by the primitive.
+// The label is the accessible name; the chevron is `aria-hidden` and mirrors under RTL.
 
 // The row container. It is NOT interactive itself — it only lays out the toggle button and
 // the optional inline-end action side by side and owns the hover surface so hovering
@@ -221,7 +220,7 @@ const navItemHeaderToggleClass = cx(
 );
 
 export type NavItemHeaderProps = Omit<
-  React.ComponentPropsWithoutRef<"button">,
+  React.ComponentProps<typeof BaseCollapsible.Trigger>,
   "className" | "style" | "children"
 > & {
   /** The section title. Truncates with an ellipsis when it overflows. */
@@ -238,77 +237,66 @@ export type NavItemHeaderProps = Omit<
    * toggle `<button>`. Logical node slot, matching Button's `inlineEndNode`.
    */
   inlineEndNode?: React.ReactNode;
-  /**
-   * Whether the section is expanded (controlled). Drives `aria-expanded` and the chevron rotation.
-   * Pair with `onExpandedChange`. Omit to run uncontrolled via `defaultExpanded`.
-   */
-  expanded?: boolean;
-  /** Initial expanded state when uncontrolled. Defaults to `true` (sections start open). */
-  defaultExpanded?: boolean;
-  /** Called with the next expanded state when the header is toggled. */
-  onExpandedChange?: (expanded: boolean) => void;
 };
 
-/**
- * A sidebar section header row — an emphasized group title, a disclosure chevron that collapses the
- * section below it, and an optional inline-end action (e.g. an "add" IconButton). The title +
- * chevron are a `<button>` with `aria-expanded` (controlled via `expanded` + `onExpandedChange`, or
- * uncontrolled via `defaultExpanded`); the action is a sibling so it never nests inside that
- * button. The title is the accessible name. Faithful to Figma node 2487-3138.
- */
-export function NavItemHeader({
-  children,
-  chevron,
-  inlineEndNode,
-  expanded,
-  defaultExpanded = true,
-  onExpandedChange,
-  onClick,
-  ...props
-}: NavItemHeaderProps) {
-  const [isExpanded, setExpanded] = useControllableState<boolean>({
-    value: expanded,
-    defaultValue: defaultExpanded,
-    onChange: onExpandedChange,
-  });
+export type NavItemGroupProps = Omit<
+  React.ComponentProps<typeof BaseCollapsible.Root>,
+  "className" | "style"
+>;
 
+/**
+ * A collapsible sidebar section. It owns the expanded/collapsed state for a `NavItemHeader` trigger
+ * and a `NavItemPanel` body. Sections start open by default.
+ */
+export function NavItemGroup({ defaultOpen = true, ...props }: NavItemGroupProps) {
+  return <BaseCollapsible.Root defaultOpen={defaultOpen} {...props} />;
+}
+
+/**
+ * A sidebar section header row — an emphasized group title, a disclosure chevron that controls the
+ * `NavItemPanel` below it, and an optional inline-end action (e.g. an "add" IconButton). The title
+ * + chevron are a Base UI `Collapsible.Trigger`; the action is a sibling so it never nests inside
+ * that button. The title is the accessible name. Faithful to Figma node 2487-3138.
+ */
+export function NavItemHeader({ children, chevron, inlineEndNode, ...props }: NavItemHeaderProps) {
   return (
     // `--node-size` (16px) sizes any raw glyph dropped into the inline-end action slot, the
     // same channel Button/IconButton use.
     <div className={cx(navItemHeaderVariants(), "[--node-size:1rem]")}>
-      <button
+      <BaseCollapsible.Trigger
         {...props}
         type="button"
-        aria-expanded={isExpanded}
-        className={navItemHeaderToggleClass}
-        onClick={(event) => {
-          // `disabled` already blocks the pointer; `aria-disabled` does not stop
-          // keyboard activation, so bail explicitly to keep the section from toggling.
-          if (event.currentTarget.getAttribute("aria-disabled") === "true") return;
-          onClick?.(event);
-          if (event.defaultPrevented) return;
-          setExpanded(!isExpanded);
-        }}
+        className={cx(navItemHeaderToggleClass, "group/nav-item-header-toggle")}
       >
         <span className="min-w-0 truncate text-body-xs-semibold">{children}</span>
         <span
           aria-hidden
-          data-expanded={isExpanded ? "" : undefined}
           className={cx(
             "flex size-4 shrink-0 items-center justify-center text-icon-secondary [&>svg]:size-full",
             // The Figma glyph is a filled caret-down. Collapsed rotates it a quarter turn
             // so it points at the inline-start; RTL mirrors so it still points inward.
-            "rotate-90 transition-transform data-expanded:rotate-0 rtl:-rotate-90 rtl:data-expanded:rotate-0",
+            "rotate-90 transition-transform group-data-panel-open/nav-item-header-toggle:rotate-0",
+            "rtl:-rotate-90 rtl:group-data-panel-open/nav-item-header-toggle:rotate-0",
           )}
         >
           {chevron}
         </span>
-      </button>
+      </BaseCollapsible.Trigger>
       {inlineEndNode != null ? (
         <NodeSlot className="text-icon-secondary">{inlineEndNode}</NodeSlot>
       ) : null}
     </div>
   );
+}
+
+export type NavItemPanelProps = Omit<
+  React.ComponentProps<typeof BaseCollapsible.Panel>,
+  "className" | "style"
+>;
+
+/** Collapsible content controlled by the preceding `NavItemHeader`. */
+export function NavItemPanel(props: NavItemPanelProps) {
+  return <BaseCollapsible.Panel className="flex flex-col gap-1" {...props} />;
 }
 
 /**
