@@ -40,10 +40,9 @@ export type SearchProps = Omit<
 };
 
 /**
- * A search field — a leading magnifier, a text input, and a clear (✕) button that
- * appears once there's text. Built on Base UI `Input`. Drive it with `value` +
- * `onValueChange` (controlled) or `defaultValue` (uncontrolled). It fills its
- * container's width; wrap it to constrain.
+ * A search field — a leading magnifier, a text input, and a clear (✕) button that appears once
+ * there's text. Built on Base UI `Input`. Drive it with `value` + `onValueChange` (controlled) or
+ * `defaultValue` (uncontrolled). It fills its container's width; wrap it to constrain.
  */
 export function Search({
   value,
@@ -160,13 +159,13 @@ const expandableBoxClass = cx(
 export type ExpandableSearchProps = SearchProps;
 
 /**
- * A search field that collapses to a magnifier icon and expands into a full `Search`-style
- * input while focused — the toolbar/header pattern where search hides until needed. Built
- * on Base UI `Input`. The input itself is the only control (no separate toggle button), so
- * it stays a real `searchbox` for keyboard and screen-reader users; pointer users focus it
- * by clicking the magnifier. It collapses when blurred empty (or on `Escape`) and stays
- * expanded while it has a value. Drive the value with `value` + `onValueChange`
- * (controlled) or `defaultValue` (uncontrolled).
+ * A search field that collapses to a magnifier icon and expands into a full `Search`-style input
+ * while focused — the toolbar/header pattern where search hides until needed. Built on Base UI
+ * `Input`. The input itself is the only control (no separate toggle button), so it stays a real
+ * `searchbox` for keyboard and screen-reader users; pointer users focus it by clicking the
+ * magnifier. It collapses when blurred empty (or on `Escape`) and stays expanded while it has a
+ * value. Drive the value with `value` + `onValueChange` (controlled) or `defaultValue`
+ * (uncontrolled).
  */
 export function ExpandableSearch({
   value,

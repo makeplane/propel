@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+
 import { Avatar } from "../avatar/index";
 import { Badge } from "../badge/index";
 import {
@@ -141,9 +142,9 @@ const STATUSES = [
 // Priority glyphs (Figma "Priority" demo).
 const PRIORITIES = [
   { key: "urgent", label: "Urgent", icon: <span className="text-12">⛔</span> },
-  { key: "high", label: "High", icon: <SignalHigh className="size-4 text-orange-500" /> },
-  { key: "medium", label: "Medium", icon: <SignalMedium className="size-4 text-amber-500" /> },
-  { key: "low", label: "Low", icon: <SignalLow className="size-4 text-blue-500" /> },
+  { key: "high", label: "High", icon: <SignalHigh className="text-orange-500 size-4" /> },
+  { key: "medium", label: "Medium", icon: <SignalMedium className="text-amber-500 size-4" /> },
+  { key: "low", label: "Low", icon: <SignalLow className="text-blue-500 size-4" /> },
   { key: "none", label: "None", icon: <span className="text-tertiary">—</span> },
 ] as const;
 
@@ -189,8 +190,8 @@ function initials(name: string) {
 }
 
 /**
- * Demo 1 — **Status**. Single-select with status icons, a sticky search header, and
- * a leading checkmark on the selected row only.
+ * Demo 1 — **Status**. Single-select with status icons, a sticky search header, and a leading
+ * checkmark on the selected row only.
  */
 export const Status: Story = {
   render: function StatusStory() {
@@ -234,10 +235,10 @@ export const Status: Story = {
 };
 
 /**
- * Demo 2 — **Labels**. Multi-select: each row is a `DropdownCheckboxItem` (the propel
- * `Checkbox` as the leading control) plus a color swatch, with a search header. When
- * the typed query has no exact match, an "Add label" option (Figma `64-626`) appears,
- * separated from the search by a single divider line.
+ * Demo 2 — **Labels**. Multi-select: each row is a `DropdownCheckboxItem` (the propel `Checkbox` as
+ * the leading control) plus a color swatch, with a search header. When the typed query has no exact
+ * match, an "Add label" option (Figma `64-626`) appears, separated from the search by a single
+ * divider line.
  */
 export const Labels: Story = {
   render: function LabelsStory() {
@@ -302,8 +303,8 @@ export const Labels: Story = {
 };
 
 /**
- * Demo 3 — **ActionMenu**. Icon items, a trailing keyboard shortcut (⌘L), a disabled
- * item with a description, a destructive Delete, and separators between groups.
+ * Demo 3 — **ActionMenu**. Icon items, a trailing keyboard shortcut (⌘L), a disabled item with a
+ * description, a destructive Delete, and separators between groups.
  */
 export const ActionMenu: Story = {
   render: () => (
@@ -390,8 +391,8 @@ export const ActionMenu: Story = {
 };
 
 /**
- * Demo 4 — **Description**. Single-select with a two-line label + muted description,
- * laid out in a wider menu.
+ * Demo 4 — **Description**. Single-select with a two-line label + muted description, laid out in a
+ * wider menu.
  */
 export const Description: Story = {
   render: function DescriptionStory() {
@@ -437,8 +438,8 @@ export const Description: Story = {
 };
 
 /**
- * Demo 5 — **Assignees**. Multi-select: a `DropdownCheckboxItem` (propel `Checkbox`)
- * with a propel `Avatar` as the leading content, a search header, and a disabled row.
+ * Demo 5 — **Assignees**. Multi-select: a `DropdownCheckboxItem` (propel `Checkbox`) with a propel
+ * `Avatar` as the leading content, a search header, and a disabled row.
  */
 export const Assignees: Story = {
   render: function AssigneesStory() {
@@ -485,8 +486,8 @@ export const Assignees: Story = {
 };
 
 /**
- * Demo 6 — **LanguagePicker**. Single-select; each row pairs a label with muted
- * secondary text inline (the English name), a search header, and a selected checkmark.
+ * Demo 6 — **LanguagePicker**. Single-select; each row pairs a label with muted secondary text
+ * inline (the English name), a search header, and a selected checkmark.
  */
 export const LanguagePicker: Story = {
   render: function LanguagePickerStory() {
@@ -536,8 +537,8 @@ export const LanguagePicker: Story = {
 };
 
 /**
- * Demo 7 — **Priority**. Multi-select: a `DropdownCheckboxItem` (propel `Checkbox`)
- * with a leading priority glyph, plus a search header.
+ * Demo 7 — **Priority**. Multi-select: a `DropdownCheckboxItem` (propel `Checkbox`) with a leading
+ * priority glyph, plus a search header.
  */
 export const Priority: Story = {
   render: function PriorityStory() {
@@ -581,12 +582,11 @@ export const Priority: Story = {
 const VIEW_ALL_PREVIEW = 2;
 
 /**
- * Regression — **CheckedFillVisible**. Locks in the fix for the invisible
- * checked checkbox: a tone-less `CheckboxVisual` (as rendered by
- * `DropdownCheckboxItem`) used to inherit no fill, so the white check sat on a
- * transparent box and disappeared. Toggling a row to CHECKED must give its box a
- * VISIBLE `bg-accent-primary` fill — a non-transparent background-color equal to
- * the accent-primary token. Not a documented demo; this is a test-only fixture.
+ * Regression — **CheckedFillVisible**. Locks in the fix for the invisible checked checkbox: a
+ * tone-less `CheckboxVisual` (as rendered by `DropdownCheckboxItem`) used to inherit no fill, so
+ * the white check sat on a transparent box and disappeared. Toggling a row to CHECKED must give its
+ * box a VISIBLE `bg-accent-primary` fill — a non-transparent background-color equal to the
+ * accent-primary token. Not a documented demo; this is a test-only fixture.
  */
 export const CheckedFillVisible: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -650,11 +650,11 @@ export const CheckedFillVisible: Story = {
 };
 
 /**
- * Demo 8 — **Filters**. Multi-select across several titled, collapsible sections
- * (Priority, State, Assignee, …). Each item carries a leading icon; a chevron on the
- * heading collapses/expands the category; categories are separated by a divider; and
- * a long category previews only its first few rows with a "View all" toggle that
- * expands the remaining rows inline (and collapses back to "Show less").
+ * Demo 8 — **Filters**. Multi-select across several titled, collapsible sections (Priority, State,
+ * Assignee, …). Each item carries a leading icon; a chevron on the heading collapses/expands the
+ * category; categories are separated by a divider; and a long category previews only its first few
+ * rows with a "View all" toggle that expands the remaining rows inline (and collapses back to "Show
+ * less").
  */
 export const Filters: Story = {
   render: function FiltersStory() {
@@ -802,8 +802,8 @@ export const Filters: Story = {
 };
 
 /**
- * Demo 9 — **EmptyState**. Searching filters the list; when nothing matches, the menu
- * shows a "No matching results" message instead of items.
+ * Demo 9 — **EmptyState**. Searching filters the list; when nothing matches, the menu shows a "No
+ * matching results" message instead of items.
  */
 export const EmptyState: Story = {
   render: function EmptyStateStory() {
@@ -850,8 +850,8 @@ export const EmptyState: Story = {
 };
 
 /**
- * Demo 10 — **Submenu**. Rows carry a trailing count `Badge` and a chevron; hovering
- * one opens a nested submenu of options (built on `DropdownSub`).
+ * Demo 10 — **Submenu**. Rows carry a trailing count `Badge` and a chevron; hovering one opens a
+ * nested submenu of options (built on `DropdownSub`).
  */
 export const Submenu: Story = {
   parameters: {

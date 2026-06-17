@@ -1,6 +1,7 @@
 import { cx } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
+
 import { getLoadingButtonProps } from "../../internal/loading-button";
 import { nodeSlotClass } from "../../internal/node-slot";
 import {
@@ -53,9 +54,9 @@ export type IconButtonProps = Omit<
 > & {
   variant: IconButtonVariant;
   /**
-   * The single node to render (an icon, an avatar, ...), sized to the button's
-   * `--node-size`. It is the button's only content, so it is `children`; decorative,
-   * the accessible name comes from `aria-label`.
+   * The single node to render (an icon, an avatar, ...), sized to the button's `--node-size`. It is
+   * the button's only content, so it is `children`; decorative, the accessible name comes from
+   * `aria-label`.
    */
   children: React.ReactNode;
   /** Required: icon-only buttons have no visible text, so they must be labeled. */
@@ -63,10 +64,10 @@ export type IconButtonProps = Omit<
 };
 
 /**
- * The icon-only form of {@link Button}: a square button with a single glyph and
- * no label. It shares Button's design tokens (`variant`/`tone`/`magnitude`) but
- * is its own component/export. There is no `link` icon button, so `variant`
- * excludes it. An `aria-label` is REQUIRED for the accessible name.
+ * The icon-only form of {@link Button}: a square button with a single glyph and no label. It shares
+ * Button's design tokens (`variant`/`tone`/`magnitude`) but is its own component/export. There is
+ * no `link` icon button, so `variant` excludes it. An `aria-label` is REQUIRED for the accessible
+ * name.
  */
 export function IconButton({
   children,

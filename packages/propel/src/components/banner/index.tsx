@@ -25,12 +25,12 @@ const bannerVariants = cva("flex items-center overflow-clip", {
   // Per Figma the neutral page banner sits on the page surface, while the colored
   // tones use their soft tone surface; inline neutral uses the layered surface.
   compoundVariants: [
-    { variant: "page", tone: "neutral", class: "bg-surface-1 border-subtle" },
-    { variant: "inline", tone: "neutral", class: "bg-surface-2 border-subtle" },
-    { tone: "info", class: "bg-info-subtle border-info-subtle" },
-    { tone: "accent", class: "bg-accent-subtle border-accent-subtle" },
-    { tone: "warning", class: "bg-warning-subtle border-warning-subtle" },
-    { tone: "danger", class: "bg-danger-subtle border-danger-subtle" },
+    { variant: "page", tone: "neutral", class: "border-subtle bg-surface-1" },
+    { variant: "inline", tone: "neutral", class: "border-subtle bg-surface-2" },
+    { tone: "info", class: "border-info-subtle bg-info-subtle" },
+    { tone: "accent", class: "border-accent-subtle bg-accent-subtle" },
+    { tone: "warning", class: "border-warning-subtle bg-warning-subtle" },
+    { tone: "danger", class: "border-danger-subtle bg-danger-subtle" },
   ],
 });
 
@@ -84,9 +84,8 @@ export type BannerProps = Omit<React.ComponentProps<"div">, "className" | "style
   /** Figma Intent: the banner's meaning/color. */
   tone: BannerTone;
   /**
-   * Leading icon. Defaults to a tone-appropriate lucide icon; pass `null` to hide it.
-   * Named `leadingIcon` (not `icon`) to match Button/Input and leave room for a future
-   * `trailingIcon`.
+   * Leading icon. Defaults to a tone-appropriate lucide icon; pass `null` to hide it. Named
+   * `leadingIcon` (not `icon`) to match Button/Input and leave room for a future `trailingIcon`.
    */
   leadingIcon?: React.ReactNode;
   /** The banner's headline. Rendered as its own block above any `children` body. */

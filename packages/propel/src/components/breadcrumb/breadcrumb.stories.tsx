@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Layers } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+
 import {
   Breadcrumb,
   BreadcrumbDropdown,
@@ -74,8 +75,8 @@ export const Default: Story = {
 };
 
 /**
- * When the trail is too long, collapse the middle crumbs behind a dropdown. The
- * ellipsis trigger opens a menu of the hidden crumbs.
+ * When the trail is too long, collapse the middle crumbs behind a dropdown. The ellipsis trigger
+ * opens a menu of the hidden crumbs.
  */
 export const WithDropdown: Story = {
   render: () => (
@@ -103,10 +104,9 @@ export const WithDropdown: Story = {
 };
 
 /**
- * Play test for the collapsed crumb: clicking the ellipsis trigger opens the
- * menu and its items become visible as `menuitem`s. Hidden from the sidebar,
- * docs, and the AI manifest — it's a behavior canary, not a designer example —
- * but still runs under the default `test` tag.
+ * Play test for the collapsed crumb: clicking the ellipsis trigger opens the menu and its items
+ * become visible as `menuitem`s. Hidden from the sidebar, docs, and the AI manifest — it's a
+ * behavior canary, not a designer example — but still runs under the default `test` tag.
  */
 export const DropdownInteraction: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -145,10 +145,10 @@ export const DropdownInteraction: Story = {
 };
 
 /**
- * A crumb that *is* a dropdown — the Figma "Dropdown" crumb. The crumb label opens a
- * menu to switch the current step between sibling pages/contexts (here, switching the
- * "Plane Design" project to a sibling project) without leaving the trail. The trailing
- * chevron points right and rotates down while the menu is open.
+ * A crumb that _is_ a dropdown — the Figma "Dropdown" crumb. The crumb label opens a menu to switch
+ * the current step between sibling pages/contexts (here, switching the "Plane Design" project to a
+ * sibling project) without leaving the trail. The trailing chevron points right and rotates down
+ * while the menu is open.
  */
 export const WithMenuCrumb: Story = {
   render: () => (
@@ -180,9 +180,9 @@ export const WithMenuCrumb: Story = {
 };
 
 /**
- * The menu crumb composes propel's `Dropdown` rows, so it supports the full row
- * vocabulary — here a single-select list (the current sibling carries `selected`,
- * showing the trailing check) for switching the active view.
+ * The menu crumb composes propel's `Dropdown` rows, so it supports the full row vocabulary — here a
+ * single-select list (the current sibling carries `selected`, showing the trailing check) for
+ * switching the active view.
  */
 export const MenuCrumbSelected: Story = {
   render: () => (
@@ -211,12 +211,11 @@ export const MenuCrumbSelected: Story = {
 };
 
 /**
- * Keyboard a11y canary for the breadcrumb (deferred from the keyboard pass). Tabs
- * through the crumbs — links are focusable, the current page is not — then drives the
- * menu crumb entirely from the keyboard: ArrowDown opens it, arrow-nav + Enter
- * selects, Escape closes and returns focus to the trigger. Hidden from the sidebar,
- * docs, and the AI manifest; runs under the default `test` tag. Flake-safe via
- * `waitFor` for the portaled menu opening/closing.
+ * Keyboard a11y canary for the breadcrumb (deferred from the keyboard pass). Tabs through the
+ * crumbs — links are focusable, the current page is not — then drives the menu crumb entirely from
+ * the keyboard: ArrowDown opens it, arrow-nav + Enter selects, Escape closes and returns focus to
+ * the trigger. Hidden from the sidebar, docs, and the AI manifest; runs under the default `test`
+ * tag. Flake-safe via `waitFor` for the portaled menu opening/closing.
  */
 export const KeyboardNavigation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

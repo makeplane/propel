@@ -1,5 +1,6 @@
 import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import * as React from "react";
+
 import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
 
 // propel's scroll container, built on Base UI ScrollArea. Unlike a re-skinned native
@@ -17,9 +18,9 @@ export type ScrollAreaOrientation = "vertical" | "horizontal" | "both";
 export type ScrollAreaProps = {
   /**
    * Which axes scroll (required, no silent default like the other essential axes).
-   * `vertical`/`horizontal` render a single scrollbar; `both` renders both plus the
-   * corner. Render only the axes the content can actually overflow so an unused
-   * scrollbar never reserves space or reveals.
+   * `vertical`/`horizontal` render a single scrollbar; `both` renders both plus the corner. Render
+   * only the axes the content can actually overflow so an unused scrollbar never reserves space or
+   * reveals.
    */
   orientation: ScrollAreaOrientation;
   /** The scrollable content. */
@@ -27,11 +28,10 @@ export type ScrollAreaProps = {
 };
 
 /**
- * A scroll container with propel's overlay scrollbar, built on Base UI `ScrollArea`.
- * Use it to wrap any overflowing content (menus, panels, long lists). Place it as a
- * child of a height-constrained flex column: it grows to fill the column and its
- * viewport scrolls when the content overflows. The scrollbar shows only on hover/scroll
- * and uses the propel scrollbar tokens.
+ * A scroll container with propel's overlay scrollbar, built on Base UI `ScrollArea`. Use it to wrap
+ * any overflowing content (menus, panels, long lists). Place it as a child of a height-constrained
+ * flex column: it grows to fill the column and its viewport scrolls when the content overflows. The
+ * scrollbar shows only on hover/scroll and uses the propel scrollbar tokens.
  */
 export function ScrollArea({ orientation, children }: ScrollAreaProps) {
   const showVertical = orientation !== "horizontal";

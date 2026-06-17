@@ -2,8 +2,8 @@ import * as React from "react";
 
 export type UseControllableStateParams<T> = {
   /**
-   * The controlled value. When provided (not `undefined`), the hook is controlled
-   * and this value is always returned; internal state is never used.
+   * The controlled value. When provided (not `undefined`), the hook is controlled and this value is
+   * always returned; internal state is never used.
    */
   value?: T;
   /** The initial value when uncontrolled. Seeds the internal state. */
@@ -13,12 +13,11 @@ export type UseControllableStateParams<T> = {
 };
 
 /**
- * Manages a value that may be either controlled (a `value` prop is supplied) or
- * uncontrolled (seeded from `defaultValue` and tracked internally). It returns the
- * current value and a setter: the setter updates internal state only when
- * uncontrolled and always calls `onChange`, so the consumer can mirror the value
- * regardless of which mode it is in. A `value` of `undefined` is treated as
- * uncontrolled.
+ * Manages a value that may be either controlled (a `value` prop is supplied) or uncontrolled
+ * (seeded from `defaultValue` and tracked internally). It returns the current value and a setter:
+ * the setter updates internal state only when uncontrolled and always calls `onChange`, so the
+ * consumer can mirror the value regardless of which mode it is in. A `value` of `undefined` is
+ * treated as uncontrolled.
  *
  * ```tsx
  * function Toggle({ pressed, defaultPressed, onPressedChange }: ToggleProps) {

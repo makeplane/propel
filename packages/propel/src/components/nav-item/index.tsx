@@ -25,8 +25,8 @@ import * as React from "react";
 
 const navItemVariants = cva(
   cx(
-    "group/nav-item flex h-8 w-full items-center gap-2 rounded-lg pe-2 ps-2 text-start",
-    "bg-layer-transparent text-secondary outline-none transition-colors",
+    "group/nav-item flex h-8 w-full items-center gap-2 rounded-lg ps-2 pe-2 text-start",
+    "bg-layer-transparent text-secondary transition-colors outline-none",
     "cursor-pointer select-none",
     "hover:bg-layer-transparent-hover active:bg-layer-transparent-active active:text-primary",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
@@ -65,35 +65,34 @@ export type NavItemProps = Omit<useRender.ComponentProps<"button">, "className" 
   /** Size of the row label: `lg` (14px, default sidebar) or `md` (13px, compact). */
   magnitude: NavItemMagnitude;
   /**
-   * Nesting depth (1–5). Higher levels indent the row further from the inline-start
-   * so children sit under their parent. Defaults to `1`.
+   * Nesting depth (1–5). Higher levels indent the row further from the inline-start so children sit
+   * under their parent. Defaults to `1`.
    */
   level?: NavItemLevel;
   /**
-   * Whether this row is the current/selected item. Applies the selected surface and
-   * marks the element with `aria-current="page"` for assistive tech.
+   * Whether this row is the current/selected item. Applies the selected surface and marks the
+   * element with `aria-current="page"` for assistive tech.
    */
   active?: boolean;
   /**
-   * Leading icon (e.g. a lucide icon), shown at the inline-start. Sized to 16px and
-   * `aria-hidden` (the label is the accessible name). Named `leadingIcon` (not `icon`)
-   * to match Button/Input; `trailing` already covers the inline-end.
+   * Leading icon (e.g. a lucide icon), shown at the inline-start. Sized to 16px and `aria-hidden`
+   * (the label is the accessible name). Named `leadingIcon` (not `icon`) to match Button/Input;
+   * `trailing` already covers the inline-end.
    */
   leadingIcon?: React.ReactNode;
   /**
-   * Optional trailing content placed after the label — typically a `NavItemCount`
-   * and/or a `NavItemChevron`. Sits at the inline-end. A generic content slot (not just
-   * an icon), so it stays `trailing` rather than `trailingIcon`.
+   * Optional trailing content placed after the label — typically a `NavItemCount` and/or a
+   * `NavItemChevron`. Sits at the inline-end. A generic content slot (not just an icon), so it
+   * stays `trailing` rather than `trailingIcon`.
    */
   trailing?: React.ReactNode;
 };
 
 /**
- * A single sidebar navigation row — a leading icon, a label, and an optional trailing
- * slot (count / chevron). Renders a `<button>` by default; pass `render={<a href=… />}`
- * to make it a link while keeping it keyboard- and screen-reader-accessible. Mark the
- * current page with `active` (sets `aria-current="page"`). Faithful to Figma node
- * 1329-396.
+ * A single sidebar navigation row — a leading icon, a label, and an optional trailing slot (count /
+ * chevron). Renders a `<button>` by default; pass `render={<a href=… />}` to make it a link while
+ * keeping it keyboard- and screen-reader-accessible. Mark the current page with `active` (sets
+ * `aria-current="page"`). Faithful to Figma node 1329-396.
  */
 export function NavItem({
   children,
@@ -119,7 +118,7 @@ export function NavItem({
               className={cx(
                 "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
                 // Selected/pressed pull the leading icon up to the primary tone.
-                "group-data-[active]/nav-item:text-icon-primary group-active/nav-item:text-icon-primary",
+                "group-active/nav-item:text-icon-primary group-data-[active]/nav-item:text-icon-primary",
                 // Disabled dims the icon to match the dimmed label.
                 "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
               )}
@@ -127,7 +126,7 @@ export function NavItem({
               {leadingIcon}
             </span>
           ) : null}
-          <span className="min-w-0 flex-1 truncate font-medium leading-snug">{children}</span>
+          <span className="min-w-0 flex-1 truncate leading-snug font-medium">{children}</span>
           {trailing ? <span className="flex shrink-0 items-center gap-2">{trailing}</span> : null}
         </>
       ),
@@ -142,8 +141,8 @@ export function NavItem({
 }
 
 /**
- * A small count chip for a nav row's trailing slot (e.g. unread / item counts). Uses
- * the Figma count style: `layer-3` surface, `radius/sm` corners, `text/11`.
+ * A small count chip for a nav row's trailing slot (e.g. unread / item counts). Uses the Figma
+ * count style: `layer-3` surface, `radius/sm` corners, `text/11`.
  */
 export function NavItemCount({
   children,
@@ -163,9 +162,9 @@ export function NavItemCount({
 }
 
 /**
- * The disclosure chevron for an expandable nav row. Decorative (`aria-hidden`); mirror
- * any directional rotation with the writing direction via the `open` prop. As a
- * directional glyph it is flipped under RTL with `rtl:-scale-x-100`.
+ * The disclosure chevron for an expandable nav row. Decorative (`aria-hidden`); mirror any
+ * directional rotation with the writing direction via the `open` prop. As a directional glyph it is
+ * flipped under RTL with `rtl:-scale-x-100`.
  */
 export function NavItemChevron({
   open = false,

@@ -81,26 +81,23 @@ export type InputMagnitude = NonNullable<VariantProps<typeof labelVariants>["mag
 export type InputTone = "neutral" | "danger";
 
 /**
- * The box chrome shared by `Input` and `TextArea`: background and 1px border.
- * Horizontal padding is not part of the shared chrome -> each component adds it
- * itself (`Input` pads the box, `TextArea` pads the control; see the class
- * comment below). The border color is owned entirely by the `tone` variant
- * (rather than overriding a base color, which is order-fragile in Tailwind) so
- * the error treatment always wins:
+ * The box chrome shared by `Input` and `TextArea`: background and 1px border. Horizontal padding is
+ * not part of the shared chrome -> each component adds it itself (`Input` pads the box, `TextArea`
+ * pads the control; see the class comment below). The border color is owned entirely by the `tone`
+ * variant (rather than overriding a base color, which is order-fragile in Tailwind) so the error
+ * treatment always wins:
  *
- *   neutral → subtle border; hover darkens it; on `:focus-within` it becomes
- *             `accent-strong` plus a 2px accent ring at 20% opacity (Figma's
- *             "active" state: border-accent-strong + 0 0 0 2px rgba(accent,.2)).
- *             Hovering the active field must NOT change the chrome, so the accent
- *             border + resting background are re-asserted at the higher
- *             `:focus-within:hover` specificity, which beats the plain `:hover`
- *             styles when both apply (the ring is focus-only, so it already holds).
- *   danger  → `danger-strong` border at ALL times — resting, hover, and focus —
- *             with no accent ring (Figma's "error" state).
+ * Neutral → subtle border; hover darkens it; on `:focus-within` it becomes `accent-strong` plus a
+ * 2px accent ring at 20% opacity (Figma's "active" state: border-accent-strong + 0 0 0 2px
+ * rgba(accent,.2)). Hovering the active field must NOT change the chrome, so the accent border +
+ * resting background are re-asserted at the higher `:focus-within:hover` specificity, which beats
+ * the plain `:hover` styles when both apply (the ring is focus-only, so it already holds). danger →
+ * `danger-strong` border at ALL times — resting, hover, and focus — with no accent ring (Figma's
+ * "error" state).
  *
- * Disabled resets the border to subtle and removes hover/ring affordances. The
- * radius and vertical rhythm differ between Input and TextArea, so they are
- * passed in by each component rather than baked in here.
+ * Disabled resets the border to subtle and removes hover/ring affordances. The radius and vertical
+ * rhythm differ between Input and TextArea, so they are passed in by each component rather than
+ * baked in here.
  */
 const boxVariants = cva(
   cx(
@@ -249,11 +246,10 @@ function FieldHelperText({
 }
 
 /**
- * The shared field chrome, exposed as a compound so callers can build custom
- * controls (e.g. a Select) with the same label/helper/error treatment that
- * `Input` and `TextArea` use. `Field` itself is `Field.Root` (it groups the
- * parts); the label/control/helper/error parts hang off it and map onto Base
- * UI's `Field` parts.
+ * The shared field chrome, exposed as a compound so callers can build custom controls (e.g. a
+ * Select) with the same label/helper/error treatment that `Input` and `TextArea` use. `Field`
+ * itself is `Field.Root` (it groups the parts); the label/control/helper/error parts hang off it
+ * and map onto Base UI's `Field` parts.
  */
 export const Field = Object.assign(
   // The component is `Field.Root`, so `<Field>…</Field>` groups a custom field.
@@ -304,10 +300,10 @@ export type InputProps = Omit<FieldControlProps, "className" | "render" | "style
   };
 
 /**
- * Single-line text field built on Base UI `Field`. Supports leading/trailing
- * icon slots and a `horizontal` orientation where the label sits beside the control.
- * States are element-driven (hover / focus / filled / disabled / invalid), not
- * props — only `tone="danger"` forces the error treatment.
+ * Single-line text field built on Base UI `Field`. Supports leading/trailing icon slots and a
+ * `horizontal` orientation where the label sits beside the control. States are element-driven
+ * (hover / focus / filled / disabled / invalid), not props — only `tone="danger"` forces the error
+ * treatment.
  */
 export function Input({
   magnitude,
@@ -394,9 +390,8 @@ const textAreaMinHeight: Record<InputMagnitude, string> = {
 };
 
 /**
- * Multi-line text field built on Base UI `Field`, rendering the control as a
- * `<textarea>`. Vertical layout only (no `orientation`); `resize-none` by default
- * with a magnitude-driven min-height.
+ * Multi-line text field built on Base UI `Field`, rendering the control as a `<textarea>`. Vertical
+ * layout only (no `orientation`); `resize-none` by default with a magnitude-driven min-height.
  */
 export function TextArea({
   magnitude,

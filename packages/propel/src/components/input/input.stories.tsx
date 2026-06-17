@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Mail, Search } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
+
 import { iconControl } from "../../storybook/icon-control";
 import { Field, Input, type InputMagnitude, TextArea } from "./index";
 
@@ -27,8 +28,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Vertical layout: the `description` sits directly below the label, and the `hint`
- * (helper text) sits below the control.
+ * Vertical layout: the `description` sits directly below the label, and the `hint` (helper text)
+ * sits below the control.
  */
 export const Default: Story = {
   args: {
@@ -54,9 +55,9 @@ export const Horizontal: Story = {
 };
 
 /**
- * The horizontal layout across every magnitude. The `description` stacks below the
- * label in the left column, the `hint` sits below the control, and the error state
- * (which overrides the hint) shows in danger.
+ * The horizontal layout across every magnitude. The `description` stacks below the label in the
+ * left column, the `hint` sits below the control, and the error state (which overrides the hint)
+ * shows in danger.
  */
 export const HorizontalShowcase: Story = {
   // Required axes for the args table; the custom `render` ignores them.
@@ -113,9 +114,9 @@ export const WithIcons: Story = {
 };
 
 /**
- * The element-driven states side by side. Hover/focus/filled aren't props —
- * they come from interacting with the control; `disabled` and the error
- * treatment (`tone="danger"`) are shown statically.
+ * The element-driven states side by side. Hover/focus/filled aren't props — they come from
+ * interacting with the control; `disabled` and the error treatment (`tone="danger"`) are shown
+ * statically.
  */
 export const States: Story = {
   // Required axes for the args table; the custom `render` ignores them.
@@ -198,9 +199,9 @@ export const TextAreaStory: Story = {
 };
 
 /**
- * `TextArea` across every magnitude (`md` / `lg` / `xl`). Magnitude steps the
- * value font-size (13 / 14 / 16) and the box min-height (82 / 100 / 100px); the
- * 12px side / 8px vertical padding and 8px radius stay constant (Figma).
+ * `TextArea` across every magnitude (`md` / `lg` / `xl`). Magnitude steps the value font-size (13 /
+ * 14 / 16) and the box min-height (82 / 100 / 100px); the 12px side / 8px vertical padding and 8px
+ * radius stay constant (Figma).
  */
 export const TextAreaMagnitudes: Story = {
   name: "TextArea Magnitudes",
@@ -222,9 +223,8 @@ export const TextAreaMagnitudes: Story = {
 };
 
 /**
- * Overflowing `TextArea` content scrolls with a native scrollbar that only
- * appears once the text exceeds the box (matching the Dropdown popup), rather
- * than reserving a permanent gutter.
+ * Overflowing `TextArea` content scrolls with a native scrollbar that only appears once the text
+ * exceeds the box (matching the Dropdown popup), rather than reserving a permanent gutter.
  */
 export const TextAreaScroll: Story = {
   name: "TextArea Scroll",
@@ -258,10 +258,10 @@ export const Error: Story = {
 };
 
 /**
- * RTL smoke check: the same stories rendered inside `dir="rtl"`. Text aligns to
- * the right, the leading (start) icon sits on the right edge and the trailing
- * (end) icon on the left, and the horizontal label sits to the right of its
- * control. Excluded from autodocs/manifest — it exists for visual review.
+ * RTL smoke check: the same stories rendered inside `dir="rtl"`. Text aligns to the right, the
+ * leading (start) icon sits on the right edge and the trailing (end) icon on the left, and the
+ * horizontal label sits to the right of its control. Excluded from autodocs/manifest — it exists
+ * for visual review.
  */
 export const RtlVerify: Story = {
   name: "RTL Verify",
@@ -355,8 +355,8 @@ export const LtrVerify: Story = {
 };
 
 /**
- * Typing into the control updates its value. Query by role (`textbox`) and drive
- * it with `userEvent`; an `onChange` spy proves the change handler fires.
+ * Typing into the control updates its value. Query by role (`textbox`) and drive it with
+ * `userEvent`; an `onChange` spy proves the change handler fires.
  */
 export const TypingUpdatesValue: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

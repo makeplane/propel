@@ -16,9 +16,9 @@ export type AccordionProps = Omit<
 >;
 
 /**
- * Groups a set of `AccordionItem`s. Single-open by default; pass `multiple` to allow
- * several panels open at once. Use `defaultValue` (uncontrolled) or `value` +
- * `onValueChange` (controlled) to drive which items are expanded.
+ * Groups a set of `AccordionItem`s. Single-open by default; pass `multiple` to allow several panels
+ * open at once. Use `defaultValue` (uncontrolled) or `value` + `onValueChange` (controlled) to
+ * drive which items are expanded.
  */
 export function Accordion(props: AccordionProps) {
   return <BaseAccordion.Root className="flex w-full flex-col" {...props} />;
@@ -39,17 +39,17 @@ export type AccordionTriggerProps = Omit<
   "className" | "render" | "style"
 > & {
   /**
-   * Optional icon shown before the label, matching the Figma header icon. Named
-   * `leadingIcon` (not `icon`) to match Button/Input, so a `trailingIcon` can be
-   * added later without a breaking rename.
+   * Optional icon shown before the label, matching the Figma header icon. Named `leadingIcon` (not
+   * `icon`) to match Button/Input, so a `trailingIcon` can be added later without a breaking
+   * rename.
    */
   leadingIcon?: React.ReactNode;
 };
 
 /**
- * The clickable header that opens and closes its panel. Renders an optional
- * `leadingIcon`, the label, and a chevron that rotates when the panel is open. Base
- * UI sets `aria-expanded` and `aria-controls` for you.
+ * The clickable header that opens and closes its panel. Renders an optional `leadingIcon`, the
+ * label, and a chevron that rotates when the panel is open. Base UI sets `aria-expanded` and
+ * `aria-controls` for you.
  */
 export function AccordionTrigger({ leadingIcon, children, ...props }: AccordionTriggerProps) {
   return (
@@ -95,7 +95,7 @@ export function AccordionPanel({ children, ...props }: AccordionPanelProps) {
         "h-[var(--accordion-panel-height)] overflow-hidden",
         "text-14 text-secondary",
         "transition-[height] duration-200 ease-out",
-        "data-[starting-style]:h-0 data-[ending-style]:h-0",
+        "data-[ending-style]:h-0 data-[starting-style]:h-0",
       )}
       {...props}
     >

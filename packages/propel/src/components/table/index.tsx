@@ -2,6 +2,7 @@ import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { ChevronDown, ChevronsUpDown, ChevronUp, Ellipsis } from "lucide-react";
 import * as React from "react";
+
 import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
 import { Dropdown, DropdownTrigger } from "../dropdown/index";
 
@@ -27,21 +28,21 @@ const TableVariantContext = React.createContext<TableVariant>("table");
 
 export type TableProps = Omit<React.ComponentProps<"table">, "className" | "style"> & {
   /**
-   * Layout (required). `table` draws row dividers only; `spreadsheet` draws a full
-   * grid (every cell bordered on all sides). Both share the same cell metrics.
+   * Layout (required). `table` draws row dividers only; `spreadsheet` draws a full grid (every cell
+   * bordered on all sides). Both share the same cell metrics.
    */
   variant: TableVariant;
 };
 
 /**
- * Root `<table>`, wrapped in a rounded, hairline-bordered scroll frame. Compose with
- * `TableHeader`, `TableBody`, `TableRow`, `TableHead`, `TableCell`,
- * `TableEditableCell`, and `TableActionCell`. The frame scrolls when the table
- * overflows it (constrain its parent's height to scroll vertically); the header stays
- * pinned to the top, and columns can be pinned with each cell's `pinned` prop.
+ * Root `<table>`, wrapped in a rounded, hairline-bordered scroll frame. Compose with `TableHeader`,
+ * `TableBody`, `TableRow`, `TableHead`, `TableCell`, `TableEditableCell`, and `TableActionCell`.
+ * The frame scrolls when the table overflows it (constrain its parent's height to scroll
+ * vertically); the header stays pinned to the top, and columns can be pinned with each cell's
+ * `pinned` prop.
  *
- * Pass `variant="table"` for row dividers or `variant="spreadsheet"` for a full grid;
- * the cells read it via context.
+ * Pass `variant="table"` for row dividers or `variant="spreadsheet"` for a full grid; the cells
+ * read it via context.
  */
 export function Table({ variant, ...props }: TableProps) {
   return (
@@ -57,7 +58,7 @@ export function Table({ variant, ...props }: TableProps) {
           it overflows, satisfying axe `scrollable-region-focusable` without a stray tab
           stop when the table fits. */}
       <BaseScrollArea.Root className="relative flex max-h-full w-full flex-col overflow-hidden rounded-lg border border-subtle bg-surface-1">
-        <BaseScrollArea.Viewport className="min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-strong">
+        <BaseScrollArea.Viewport className="min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-inset">
           <table
             className="w-full caption-bottom border-collapse text-13 text-primary"
             {...props}
@@ -92,9 +93,9 @@ export function TableBody(props: TableBodyProps) {
 export type TableRowProps = Omit<React.ComponentProps<"tr">, "className" | "style">;
 
 /**
- * A table row (`<tr>`). Body rows sit on `layer-2` and tint to `layer-2-hover` on
- * hover. Dividers are drawn per-cell (so the `spreadsheet` grid works), so the row
- * itself carries only the background + hover.
+ * A table row (`<tr>`). Body rows sit on `layer-2` and tint to `layer-2-hover` on hover. Dividers
+ * are drawn per-cell (so the `spreadsheet` grid works), so the row itself carries only the
+ * background + hover.
  */
 export function TableRow(props: TableRowProps) {
   // `group/body-row` so a `table`-variant cell can drop its bottom divider on the last
@@ -180,13 +181,13 @@ const ariaSort: Record<TableHeadSort, React.AriaAttributes["aria-sort"]> = {
 export type TableHeadProps = Omit<React.ComponentProps<"th">, "className" | "style" | "aria-sort"> &
   VariantProps<typeof tableHeadVariants> & {
     /**
-     * Visual treatment. `sortable` renders a clickable button with a sort chevron;
-     * set it whenever you pass `sort`.
+     * Visual treatment. `sortable` renders a clickable button with a sort chevron; set it whenever
+     * you pass `sort`.
      */
     variant: NonNullable<VariantProps<typeof tableHeadVariants>["variant"]>;
     /**
-     * Current sort state for a sortable header. Drives both the chevron icon
-     * (`asc`→up, `desc`→down, `none`→up/down) and the cell's `aria-sort`.
+     * Current sort state for a sortable header. Drives both the chevron icon (`asc`→up,
+     * `desc`→down, `none`→up/down) and the cell's `aria-sort`.
      */
     sort?: TableHeadSort;
     /** Click handler for the sort control; only used when the header is sortable. */
@@ -196,10 +197,10 @@ export type TableHeadProps = Omit<React.ComponentProps<"th">, "className" | "sty
   };
 
 /**
- * A header cell (`<th>`). Pass `variant="sortable"` (with `sort`/`onSort`) to turn
- * the label into an interactive sort control: it renders a lucide chevron
- * (aria-hidden) and reflects the order via `aria-sort` for assistive tech. Pass
- * `pinned` to make the column sticky on horizontal scroll (set it on the body cells too).
+ * A header cell (`<th>`). Pass `variant="sortable"` (with `sort`/`onSort`) to turn the label into
+ * an interactive sort control: it renders a lucide chevron (aria-hidden) and reflects the order via
+ * `aria-sort` for assistive tech. Pass `pinned` to make the column sticky on horizontal scroll (set
+ * it on the body cells too).
  */
 export function TableHead({
   variant,
@@ -276,8 +277,8 @@ export type TableCellProps = Omit<React.ComponentProps<"td">, "className" | "sty
 
 /**
  * A data cell (`<td>`). 44px tall with `px-4 py-2` and `text-13` body text. Optional
- * `inlineStartNode` / `inlineEndNode` slots hold a leading/trailing icon or `Avatar`
- * (e.g. an avatar before a name). `pinned` keeps the column sticky on horizontal scroll.
+ * `inlineStartNode` / `inlineEndNode` slots hold a leading/trailing icon or `Avatar` (e.g. an
+ * avatar before a name). `pinned` keeps the column sticky on horizontal scroll.
  */
 export function TableCell({
   inlineStartNode,
@@ -319,19 +320,19 @@ export type TableEditableCellProps = Omit<
   "className" | "style" | "children"
 > & {
   /**
-   * The current value shown in the cell (e.g. `"Admin"`). It sits before the
-   * trailing chevron and labels the trigger button.
+   * The current value shown in the cell (e.g. `"Admin"`). It sits before the trailing chevron and
+   * labels the trigger button.
    */
   value: React.ReactNode;
   /**
-   * The dropdown menu shown when the cell is clicked. Pass a propel `Dropdown`
-   * composition — typically a `DropdownContent` with `DropdownItem`s. The cell
-   * owns the `Dropdown` root + the trigger; you only supply the menu surface.
+   * The dropdown menu shown when the cell is clicked. Pass a propel `Dropdown` composition —
+   * typically a `DropdownContent` with `DropdownItem`s. The cell owns the `Dropdown` root + the
+   * trigger; you only supply the menu surface.
    */
   children: React.ReactNode;
   /**
-   * Whether the menu is open (controlled). Pair with `onOpenChange`; omit for an
-   * uncontrolled cell that manages its own open state.
+   * Whether the menu is open (controlled). Pair with `onOpenChange`; omit for an uncontrolled cell
+   * that manages its own open state.
    */
   open?: boolean;
   /** Default open state for an uncontrolled cell. @default false */
@@ -341,8 +342,8 @@ export type TableEditableCellProps = Omit<
   /** Disables the trigger so the cell can't be edited. */
   disabled?: boolean;
   /**
-   * Marks this as the actively-selected cell (e.g. the focused cell in a spreadsheet),
-   * giving it a persistent `layer-transparent-selected` tint a step stronger than hover.
+   * Marks this as the actively-selected cell (e.g. the focused cell in a spreadsheet), giving it a
+   * persistent `layer-transparent-selected` tint a step stronger than hover.
    */
   selected?: boolean;
   /** Pin this cell to the inline-start/end edge when the table scrolls sideways. */
@@ -352,10 +353,9 @@ export type TableEditableCellProps = Omit<
 };
 
 /**
- * An editable data cell (`<td>`). Renders the current `value` plus a trailing
- * chevron as a single button that opens the propel `Dropdown` passed as `children`
- * to pick a new value (Figma "Account type" cell). It owns the `Dropdown` root and
- * trigger, so you only pass the menu surface:
+ * An editable data cell (`<td>`). Renders the current `value` plus a trailing chevron as a single
+ * button that opens the propel `Dropdown` passed as `children` to pick a new value (Figma "Account
+ * type" cell). It owns the `Dropdown` root and trigger, so you only pass the menu surface:
  *
  * ```tsx
  * <TableEditableCell value={role} onOpenChange={…}>
@@ -419,9 +419,9 @@ export type TableActionCellProps = Omit<
   "className" | "style" | "children"
 > & {
   /**
-   * The dropdown menu of row actions. Pass a propel `Dropdown` composition (a
-   * `DropdownContent` with `DropdownItem`s). The cell owns the `Dropdown` root + the
-   * icon trigger; you only supply the menu surface.
+   * The dropdown menu of row actions. Pass a propel `Dropdown` composition (a `DropdownContent`
+   * with `DropdownItem`s). The cell owns the `Dropdown` root + the icon trigger; you only supply
+   * the menu surface.
    */
   children: React.ReactNode;
   /** Accessible name for the trigger (e.g. "Row options"). Required (icon-only). */
@@ -441,10 +441,10 @@ export type TableActionCellProps = Omit<
 };
 
 /**
- * An icon-only action cell (`<td>`) — the trailing "⋯" that opens a menu of actions
- * for the row (Figma's row-options cell). Like `TableEditableCell` it owns the
- * `Dropdown` root + trigger and you pass only the menu surface; the trigger is an
- * icon button with the actionable-cell hover treatment.
+ * An icon-only action cell (`<td>`) — the trailing "⋯" that opens a menu of actions for the row
+ * (Figma's row-options cell). Like `TableEditableCell` it owns the `Dropdown` root + trigger and
+ * you pass only the menu surface; the trigger is an icon button with the actionable-cell hover
+ * treatment.
  */
 export function TableActionCell({
   children,

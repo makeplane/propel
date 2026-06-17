@@ -2,6 +2,7 @@ import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useLayoutEffect } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+
 import { Tooltip } from "./index";
 
 const sidesGridStyle = {
@@ -37,14 +38,14 @@ export const Default: Story = {};
 
 /**
  * The arrow on every side. Base UI's Positioner accepts both physical
- * (`top`/`bottom`/`left`/`right`) and logical (`inline-start`/`inline-end`) sides, and
- * emits the chosen value as `data-side` on the arrow. This story renders one tooltip
- * per side so the arrow's clip-path and edge offset can be reviewed for each — in
- * particular the logical `inline-start`/`inline-end` sides, which previously had no
- * per-side rule and rendered as a full rotated square offset away from the popup.
+ * (`top`/`bottom`/`left`/`right`) and logical (`inline-start`/`inline-end`) sides, and emits the
+ * chosen value as `data-side` on the arrow. This story renders one tooltip per side so the arrow's
+ * clip-path and edge offset can be reviewed for each — in particular the logical
+ * `inline-start`/`inline-end` sides, which previously had no per-side rule and rendered as a full
+ * rotated square offset away from the popup.
  *
- * Tooltips open instantly (`delay: 0`) and stay open (`open`) so all arrows are
- * visible at once; controls are disabled because the per-side args are fixed.
+ * Tooltips open instantly (`delay: 0`) and stay open (`open`) so all arrows are visible at once;
+ * controls are disabled because the per-side args are fixed.
  */
 export const Sides: Story = {
   tags: ["!autodocs", "!manifest", "!test"],
@@ -67,14 +68,13 @@ export const Sides: Story = {
 };
 
 /**
- * The same matrix in right-to-left. Plane runs both LTR and RTL, so the logical
- * sides must flip with writing direction. Wrapped in Base UI's `DirectionProvider`
- * (which the Positioner reads to resolve `inline-start`/`inline-end` to a physical
- * edge) and `dir="rtl"` (which the arrow's logical insets + `rtl:` clip-path variant
- * react to). In RTL, `inline-start` sits to the *right* of its trigger with the arrow
- * pointing left, and `inline-end` mirrors it — both still pointing back at the trigger.
- * The physical `left`/`right`/`top`/`bottom` sides are direction-independent and
- * render the same as LTR.
+ * The same matrix in right-to-left. Plane runs both LTR and RTL, so the logical sides must flip
+ * with writing direction. Wrapped in Base UI's `DirectionProvider` (which the Positioner reads to
+ * resolve `inline-start`/`inline-end` to a physical edge) and `dir="rtl"` (which the arrow's
+ * logical insets + `rtl:` clip-path variant react to). In RTL, `inline-start` sits to the _right_
+ * of its trigger with the arrow pointing left, and `inline-end` mirrors it — both still pointing
+ * back at the trigger. The physical `left`/`right`/`top`/`bottom` sides are direction-independent
+ * and render the same as LTR.
  */
 export const SidesRtl: Story = {
   name: "Sides (RTL)",
@@ -119,8 +119,8 @@ export const SidesRtl: Story = {
 };
 
 /**
- * A keyboard-shortcut hint sits to the right of the label, dimmed at the smaller
- * caption scale — the Figma "Cmd + K" slot. Pass any node to `shortcut`.
+ * A keyboard-shortcut hint sits to the right of the label, dimmed at the smaller caption scale —
+ * the Figma "Cmd + K" slot. Pass any node to `shortcut`.
  */
 export const WithShortcut: Story = {
   args: {
@@ -130,11 +130,11 @@ export const WithShortcut: Story = {
 };
 
 /**
- * Focusing the trigger opens the tooltip (a `role="tooltip"` popup with the label
- * appears); blurring it closes the tooltip again. Focus is used instead of hover so
- * the open/close is deterministic regardless of Base UI's hover delays. Tagged so it
- * stays out of the sidebar, docs, and AI manifest — it's a behavior test, not an
- * example — but still runs under the default `test` tag.
+ * Focusing the trigger opens the tooltip (a `role="tooltip"` popup with the label appears);
+ * blurring it closes the tooltip again. Focus is used instead of hover so the open/close is
+ * deterministic regardless of Base UI's hover delays. Tagged so it stays out of the sidebar, docs,
+ * and AI manifest — it's a behavior test, not an example — but still runs under the default `test`
+ * tag.
  */
 export const ShowsOnFocus: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -165,11 +165,10 @@ export const ShowsOnFocus: Story = {
 };
 
 /**
- * Keyboard ARIA pattern (WAI-ARIA tooltip): once a focused trigger has opened the
- * tooltip, **Escape** dismisses it while focus stays on the trigger. Focus (not
- * hover) keeps the open/close deterministic regardless of Base UI's hover delays.
- * Tagged out of the sidebar/docs/manifest while still running under the default
- * `test` tag.
+ * Keyboard ARIA pattern (WAI-ARIA tooltip): once a focused trigger has opened the tooltip,
+ * **Escape** dismisses it while focus stays on the trigger. Focus (not hover) keeps the open/close
+ * deterministic regardless of Base UI's hover delays. Tagged out of the sidebar/docs/manifest while
+ * still running under the default `test` tag.
  */
 export const EscapeCloses: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

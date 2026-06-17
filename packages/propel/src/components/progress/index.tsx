@@ -58,26 +58,27 @@ export type ProgressProps = Omit<
   /** `linear`: track thickness (`sm` 5px / `md` 8px). `circular`: diameter (`sm` 16px / `md` 20px). */
   magnitude: ProgressMagnitude;
   /**
-   * Show the trailing percentage label. Only applies to `variant="linear"` — the
-   * circular rings are too small for a label, so this is ignored when `circular`.
+   * Show the trailing percentage label. Only applies to `variant="linear"` — the circular rings are
+   * too small for a label, so this is ignored when `circular`.
+   *
    * @default true
    */
   showValue?: boolean;
   /**
-   * Accessible name for the bar. Required: a progress bar needs a name for assistive
-   * tech (the visible percentage is not a substitute).
+   * Accessible name for the bar. Required: a progress bar needs a name for assistive tech (the
+   * visible percentage is not a substitute).
    */
   "aria-label": string;
 };
 
 /**
- * A determinate progress indicator — task completion over time (uploads, imports, the
- * Toast auto-dismiss countdown). Drive it with `value` (0–`max`, default max 100); the
- * fill and `aria-valuenow` follow.
+ * A determinate progress indicator — task completion over time (uploads, imports, the Toast
+ * auto-dismiss countdown). Drive it with `value` (0–`max`, default max 100); the fill and
+ * `aria-valuenow` follow.
  *
- * `variant="linear"` is a horizontal bar with an optional trailing `%` label (shown by
- * default; hide it with `showValue={false}`). `variant="circular"` is a small ring with
- * no label (`showValue` is ignored).
+ * `variant="linear"` is a horizontal bar with an optional trailing `%` label (shown by default;
+ * hide it with `showValue={false}`). `variant="circular"` is a small ring with no label
+ * (`showValue` is ignored).
  */
 export function Progress({ variant, value, magnitude, showValue = true, ...props }: ProgressProps) {
   if (variant === "circular") {

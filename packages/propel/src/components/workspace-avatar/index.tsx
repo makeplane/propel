@@ -1,6 +1,7 @@
 import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
+
 import { type AvatarTone, getAvatarTone, initialsToneClass } from "../avatar";
 
 // Magnitudes follow the same scale as Avatar (Figma "Workspace avatar"): 2xs 16

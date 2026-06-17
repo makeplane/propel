@@ -1,6 +1,7 @@
 import { cva, cx } from "class-variance-authority";
 import { ArrowLeft, ArrowRight, ChevronDown, LoaderCircle, MoreHorizontal } from "lucide-react";
 import * as React from "react";
+
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../dropdown/index";
 
 // Pagination is a single composite navigation control rather than a variant matrix:
@@ -142,8 +143,8 @@ export type PaginationLabels = {
   /** Accessible name for the next-page button. */
   next: string;
   /**
-   * Accessible name for a page button, given its number. Defaults to e.g.
-   * `"Go to page 3"`; the current page is additionally marked `aria-current`.
+   * Accessible name for a page button, given its number. Defaults to e.g. `"Go to page 3"`; the
+   * current page is additionally marked `aria-current`.
    */
   page: (page: number) => string;
   /** Visible text on the per-page selector trigger, given the size. Defaults to `"50"`. */
@@ -172,13 +173,13 @@ export type PaginationProps = Omit<
   /** Called with the target page (1-based) when a control is activated. */
   onPageChange: (page: number) => void;
   /**
-   * The current page is rendered as a loading spinner instead of its number — for
-   * when navigating to that page is in flight.
+   * The current page is rendered as a loading spinner instead of its number — for when navigating
+   * to that page is in flight.
    */
   loading?: boolean;
   /**
-   * Optional per-page size selector (Figma `50 v  per page`). Provide `value`, the
-   * `options`, and `onChange`; omit to hide the selector entirely.
+   * Optional per-page size selector (Figma `50 v per page`). Provide `value`, the `options`, and
+   * `onChange`; omit to hide the selector entirely.
    */
   pageSize?: {
     /** Currently selected page size. */
@@ -189,8 +190,8 @@ export type PaginationProps = Omit<
     onChange: (pageSize: number) => void;
   };
   /**
-   * Optional range label shown before the controls (Figma `1-50 of 250`). Provide
-   * the already-formatted `current` range and `total`.
+   * Optional range label shown before the controls (Figma `1-50 of 250`). Provide the
+   * already-formatted `current` range and `total`.
    */
   range?: {
     /** The visible range, e.g. `"1-50"` (rendered in the primary text color). */
@@ -203,12 +204,11 @@ export type PaginationProps = Omit<
 };
 
 /**
- * Page navigation for a paginated list or table. Renders a `<nav>` landmark holding
- * an optional per-page selector and range label plus an ordered list of page
- * controls: a previous button, first/last anchors with ellipses around a window of
- * pages near the current one, and a next button. The current page is marked
- * `aria-current="page"`; the prev/next ends disable at the bounds and their arrows
- * mirror under RTL.
+ * Page navigation for a paginated list or table. Renders a `<nav>` landmark holding an optional
+ * per-page selector and range label plus an ordered list of page controls: a previous button,
+ * first/last anchors with ellipses around a window of pages near the current one, and a next
+ * button. The current page is marked `aria-current="page"`; the prev/next ends disable at the
+ * bounds and their arrows mirror under RTL.
  */
 export function Pagination({
   page,
@@ -255,14 +255,14 @@ export function Pagination({
               ))}
             </DropdownContent>
           </Dropdown>
-          <span aria-hidden className="whitespace-nowrap text-13 text-tertiary">
+          <span aria-hidden className="text-13 whitespace-nowrap text-tertiary">
             {l.perPage}
           </span>
         </div>
       ) : null}
 
       {range ? (
-        <p className="whitespace-nowrap text-12 text-tertiary">
+        <p className="text-12 whitespace-nowrap text-tertiary">
           <span className="text-primary">{range.current}</span>
           <span>{" of "}</span>
           <span>{range.total}</span>

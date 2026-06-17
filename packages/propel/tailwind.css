@@ -1,0 +1,14 @@
+/*
+ * Tooling-only Tailwind v4 entry. `src/styles/propel.css` is *source* CSS that
+ * deliberately does NOT `@import "tailwindcss"` (the consuming app owns that), so
+ * it can't stand alone as a Tailwind entry. This file pairs Tailwind with propel's
+ * tokens so tools that need the full utility + `@theme` context resolve correctly:
+ * oxfmt's `fmt.sortTailwindcss.stylesheet` in the root `vite.config.ts`. Storybook's
+ * `.storybook/preview.css` imports it too, so there's a single Tailwind entry.
+ *
+ * It lives at the package root (not `src/styles/`) so the build's
+ * `copy: src/styles/*.css` never publishes it — consumers must never get a file
+ * that bundles Tailwind.
+ */
+@import "tailwindcss";
+@import "./src/styles/propel.css";

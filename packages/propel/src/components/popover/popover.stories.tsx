@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import * as React from "react";
 import { useLayoutEffect } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+
 import { Checkbox } from "../checkbox/index";
 import { PillSwitch } from "../pill/index";
 import { Radio, RadioGroup } from "../radio/index";
@@ -54,10 +55,10 @@ function PanelRadioRow({ value, label }: { value: string; label: string }) {
 }
 
 /**
- * The default popover: a trigger plus a generic floating panel. The panel hosts arbitrary
- * content (here a couple of checkbox toggles) — it is NOT a `role="menu"`, so these
- * controls are valid children. Open it by clicking the trigger; dismiss with `Esc`, an
- * outside click, or by toggling the trigger again.
+ * The default popover: a trigger plus a generic floating panel. The panel hosts arbitrary content
+ * (here a couple of checkbox toggles) — it is NOT a `role="menu"`, so these controls are valid
+ * children. Open it by clicking the trigger; dismiss with `Esc`, an outside click, or by toggling
+ * the trigger again.
  */
 export const Default: Story = {
   render: function DefaultStory() {
@@ -115,10 +116,10 @@ export const Default: Story = {
 };
 
 /**
- * **DisplayProperties** — the settings panel that used to live in the Dropdown stories
- * (and had to disable `aria-allowed-attr`). On the non-menu Popover surface the pill
- * group, single-select `Radio` section, and checkbox-toggle footer are all valid
- * children, so axe passes with no suppressions.
+ * **DisplayProperties** — the settings panel that used to live in the Dropdown stories (and had to
+ * disable `aria-allowed-attr`). On the non-menu Popover surface the pill group, single-select
+ * `Radio` section, and checkbox-toggle footer are all valid children, so axe passes with no
+ * suppressions.
  *
  * The selectable property pills are propel's `PillSwitch` (a toggle pill).
  */
@@ -204,9 +205,9 @@ export const DisplayProperties: Story = {
 };
 
 /**
- * **DisplayAccordion** — the other settings panel that used to disable `aria-allowed-attr`
- * in the Dropdown stories. Collapsible sections with an expanded single-select `Radio`
- * sort list and checkbox toggles, all valid on the non-menu Popover surface.
+ * **DisplayAccordion** — the other settings panel that used to disable `aria-allowed-attr` in the
+ * Dropdown stories. Collapsible sections with an expanded single-select `Radio` sort list and
+ * checkbox toggles, all valid on the non-menu Popover surface.
  */
 export const DisplayAccordion: Story = {
   render: function DisplayAccordionStory() {
@@ -299,10 +300,9 @@ export const DisplayAccordion: Story = {
 };
 
 /**
- * The popover is RTL-safe: the positioner resolves logical sides, so opening toward
- * `inline-start` / `inline-end` flips with writing direction. Wrapped in Base UI's
- * `DirectionProvider` (and `dir="rtl"` on the root, since the panel portals to `<body>`)
- * to mirror a real RTL app.
+ * The popover is RTL-safe: the positioner resolves logical sides, so opening toward `inline-start`
+ * / `inline-end` flips with writing direction. Wrapped in Base UI's `DirectionProvider` (and
+ * `dir="rtl"` on the root, since the panel portals to `<body>`) to mirror a real RTL app.
  */
 export const RTL: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

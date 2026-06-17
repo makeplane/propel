@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { AVATAR_TONES } from "../avatar/index";
 import { WorkspaceAvatar, type WorkspaceAvatarMagnitude } from "./index";
 

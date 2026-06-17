@@ -2,6 +2,7 @@ import { Toast as BaseToast } from "@base-ui/react/toast";
 import { cva, cx, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
 import * as React from "react";
+
 import { surfaceVariants } from "../../internal/surface";
 import { Progress } from "../progress/index";
 
@@ -112,10 +113,9 @@ const statusIconVariants = cva("size-4 shrink-0", {
 export type ToastTone = NonNullable<VariantProps<typeof statusIconVariants>["tone"]>;
 
 /**
- * A single action button rendered inside a toast. The toast is a portaled,
- * auto-dismissing surface with no `className`/`style` escape hatch, so an action is
- * declared as data (label + handler) rather than arbitrary markup — keeping the
- * styling on-token and the API closed.
+ * A single action button rendered inside a toast. The toast is a portaled, auto-dismissing surface
+ * with no `className`/`style` escape hatch, so an action is declared as data (label + handler)
+ * rather than arbitrary markup — keeping the styling on-token and the API closed.
  */
 export type ToastAction = {
   /** Visible button text — also its accessible name. */
@@ -125,31 +125,30 @@ export type ToastAction = {
 };
 
 /**
- * Custom data carried on every toast queued through this component. `add({ ... data:
- * { tone } })` selects the status icon + color; `tone` is required so the caller
- * always chooses the intent explicitly. Action buttons are optional and map directly
- * to Figma's toast `button`/`button2` booleans (node 1146-61689): `actions` is the
- * left cluster of 1–2 buttons, `primaryAction` is the right-aligned button shown on
- * the success treatment.
+ * Custom data carried on every toast queued through this component. `add({ ... data: { tone } })`
+ * selects the status icon + color; `tone` is required so the caller always chooses the intent
+ * explicitly. Action buttons are optional and map directly to Figma's toast `button`/`button2`
+ * booleans (node 1146-61689): `actions` is the left cluster of 1–2 buttons, `primaryAction` is the
+ * right-aligned button shown on the success treatment.
  */
 export type ToastData = {
   /** Semantic intent — drives the status icon and its color. */
   tone: ToastTone;
   /**
-   * Completion (0–100) of a long-running task the toast is reporting. When set, a thin
-   * `Progress` bar with a `%` label renders between the description and the action row
-   * (Figma node 1146-61689). Omit it for a plain toast.
+   * Completion (0–100) of a long-running task the toast is reporting. When set, a thin `Progress`
+   * bar with a `%` label renders between the description and the action row (Figma node
+   * 1146-61689). Omit it for a plain toast.
    */
   progress?: number;
   /**
-   * Left-aligned action cluster (Figma's `button` / `button2`). One or two buttons;
-   * extras beyond two are ignored to stay faithful to the design.
+   * Left-aligned action cluster (Figma's `button` / `button2`). One or two buttons; extras beyond
+   * two are ignored to stay faithful to the design.
    */
   actions?: ToastAction[];
   /**
-   * Optional right-aligned action, rendered whenever it's provided (the component
-   * doesn't restrict it by tone). In Figma it appears on the success treatment. Wired
-   * through Base UI's `Toast.Action` so it takes part in the toast's focus management.
+   * Optional right-aligned action, rendered whenever it's provided (the component doesn't restrict
+   * it by tone). In Figma it appears on the success treatment. Wired through Base UI's
+   * `Toast.Action` so it takes part in the toast's focus management.
    */
   primaryAction?: ToastAction;
 };
@@ -170,11 +169,10 @@ export type ToastProviderProps = Omit<
 >;
 
 /**
- * Wraps the app and renders the toast viewport. Mount it once near the root, then
- * queue toasts with `useToast().add({ title, description, data: { tone } })`.
- * Bundles Base UI's `Toast.Provider` (manager + context), a fixed-position
- * `Viewport`, and a styled `Toast` for every queued item — so consumers only manage
- * content, never layout.
+ * Wraps the app and renders the toast viewport. Mount it once near the root, then queue toasts with
+ * `useToast().add({ title, description, data: { tone } })`. Bundles Base UI's `Toast.Provider`
+ * (manager + context), a fixed-position `Viewport`, and a styled `Toast` for every queued item — so
+ * consumers only manage content, never layout.
  */
 export function ToastProvider({ children, ...props }: ToastProviderProps) {
   return (
@@ -201,10 +199,10 @@ export type ToastProps = Omit<
 >;
 
 /**
- * A single styled toast: status icon (auto-selected from `toast.data.tone`), title,
- * description, optional action buttons (from `toast.data.actions` / `primaryAction`),
- * and a close button. Rendered automatically by `ToastProvider` for each queued toast
- * — you normally don't render this directly.
+ * A single styled toast: status icon (auto-selected from `toast.data.tone`), title, description,
+ * optional action buttons (from `toast.data.actions` / `primaryAction`), and a close button.
+ * Rendered automatically by `ToastProvider` for each queued toast — you normally don't render this
+ * directly.
  */
 export function Toast({ toast, ...props }: ToastProps) {
   // `tone` is a required field of `ToastData`, supplied when the toast is queued.
@@ -285,7 +283,7 @@ export function Toast({ toast, ...props }: ToastProps) {
       </div>
       <BaseToast.Close
         aria-label="Dismiss"
-        className="absolute top-1 end-1 inline-flex size-5 items-center justify-center rounded-sm text-icon-tertiary transition-colors hover:bg-layer-transparent-hover"
+        className="absolute end-1 top-1 inline-flex size-5 items-center justify-center rounded-sm text-icon-tertiary transition-colors hover:bg-layer-transparent-hover"
       >
         <X aria-hidden className="size-3.5" />
       </BaseToast.Close>
