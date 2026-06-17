@@ -35,6 +35,10 @@ const toolbarVariants = cva("flex w-fit items-center gap-2 p-1.5 text-secondary"
       raised: surfaceVariants({ elevation: "raised", radius: "lg" }),
       flat: "",
     },
+    density: {
+      compact: "",
+      comfortable: "",
+    },
   },
 });
 
@@ -46,7 +50,7 @@ export type ToolbarElevation = NonNullable<VariantProps<typeof toolbarVariants>[
 // themselves to match the root. Both axes share the root `p-1.5` (6px) padding and
 // `gap-2` (8px) item gap; clusters inside `ToolbarGroup`/`ToolbarToggleGroup` keep a
 // tight `gap-0.5` (2px).
-export type ToolbarDensity = "compact" | "comfortable";
+export type ToolbarDensity = NonNullable<VariantProps<typeof toolbarVariants>["density"]>;
 
 const ToolbarDensityContext = React.createContext<ToolbarDensity>("compact");
 
@@ -76,7 +80,7 @@ export type ToolbarProps = Omit<
 export function Toolbar({ elevation, density, ...props }: ToolbarProps) {
   return (
     <ToolbarDensityContext.Provider value={density}>
-      <BaseToolbar.Root className={toolbarVariants({ elevation })} {...props} />
+      <BaseToolbar.Root className={toolbarVariants({ density, elevation })} {...props} />
     </ToolbarDensityContext.Provider>
   );
 }

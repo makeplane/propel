@@ -1,5 +1,5 @@
 import { Toggle } from "@base-ui/react/toggle";
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
 
@@ -10,13 +10,6 @@ import { NodeSlot } from "../../internal/node-slot";
 // one chrome: a 1px-bordered `layer-2` rectangle that darkens its background + border
 // on interaction. `PillButton` and `IconPill` are buttons (hover / active / disabled /
 // loading); `PillSwitch` is a toggle (default / hover / selected). All three take the
-// `magnitude` axis (`sm` / `md` / `lg`).
-//
-// Despite the name they are NOT fully-rounded — `radius/md` (6px). Per Figma the icon
-// and text colors are the same token per state, so the slots inherit the chip's text
-// color through `currentColor` (a single channel) rather than carrying their own.
-export type PillMagnitude = "sm" | "md" | "lg";
-
 // Shared chip chrome. The interaction colors are applied by each component (they differ
 // between the button states and the toggle's selected state), so the base is only
 // layout + the focus ring. The focus ring is a propel a11y addition (the Figma frames
@@ -40,6 +33,11 @@ const labelPillSize = cva(cx(pillBase, "max-w-[120px] gap-1 py-1 [--node-size:0.
     },
   },
 });
+
+// Despite the name they are NOT fully-rounded — `radius/md` (6px). Per Figma the icon
+// and text colors are the same token per state, so the slots inherit the chip's text
+// color through `currentColor` (a single channel) rather than carrying their own.
+export type PillMagnitude = NonNullable<VariantProps<typeof labelPillSize>["magnitude"]>;
 
 const labelFontByMagnitude: Record<PillMagnitude, string> = {
   sm: "text-12",

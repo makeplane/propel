@@ -2,6 +2,15 @@ import { Progress as BaseProgress } from "@base-ui/react/progress";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
+const rootVariants = cva("", {
+  variants: {
+    variant: {
+      linear: "flex w-full items-center gap-2",
+      circular: "",
+    },
+  },
+});
+
 const trackVariants = cva(
   "relative min-w-0 flex-1 overflow-hidden rounded-full bg-layer-3-selected",
   {
@@ -45,7 +54,7 @@ const RING_STROKE = 2;
 // Both are built on Base UI `Progress`, which owns the `progressbar` role +
 // `aria-valuenow` for us.
 export type ProgressMagnitude = NonNullable<VariantProps<typeof trackVariants>["magnitude"]>;
-export type ProgressVariant = "linear" | "circular";
+export type ProgressVariant = NonNullable<VariantProps<typeof rootVariants>["variant"]>;
 
 export type ProgressProps = Omit<
   React.ComponentProps<typeof BaseProgress.Root>,
@@ -92,7 +101,7 @@ export function Progress({ variant, value, magnitude, showValue = true, ...props
     const dashOffset = circumference * (1 - fraction);
     const center = box / 2;
     return (
-      <BaseProgress.Root value={clampedValue} {...props}>
+      <BaseProgress.Root value={clampedValue} className={rootVariants({ variant })} {...props}>
         <svg
           className={ringVariants({ magnitude })}
           viewBox={`0 0 ${box} ${box}`}
@@ -133,7 +142,7 @@ export function Progress({ variant, value, magnitude, showValue = true, ...props
   }
 
   return (
-    <BaseProgress.Root value={value} className="flex w-full items-center gap-2" {...props}>
+    <BaseProgress.Root value={value} className={rootVariants({ variant })} {...props}>
       <BaseProgress.Track className={trackVariants({ magnitude })}>
         {/* Base UI sets the indicator's `width` (and `inset-inline-start: 0`) from the
             value; we own its fill, pill radius, and the fill transition. */}

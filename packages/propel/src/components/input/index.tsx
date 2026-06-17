@@ -76,10 +76,6 @@ const textAreaTextVariants = cva("", {
 
 export type InputMagnitude = NonNullable<VariantProps<typeof labelVariants>["magnitude"]>;
 
-// All field tones. `danger` is the Figma "error" treatment — it only changes
-// the border + helper color; the rest of the chrome is shared.
-export type InputTone = "neutral" | "danger";
-
 /**
  * The box chrome shared by `Input` and `TextArea`: background and 1px border. Horizontal padding is
  * not part of the shared chrome -> each component adds it itself (`Input` pads the box, `TextArea`
@@ -128,6 +124,10 @@ const boxVariants = cva(
     },
   },
 );
+
+// All field tones. `danger` is the Figma "error" treatment — it only changes
+// the border + helper color; the rest of the chrome is shared.
+export type InputTone = NonNullable<VariantProps<typeof boxVariants>["tone"]>;
 
 // 16px lucide icons in the leading/trailing slots, muted to the Figma
 // `icon/secondary` color.

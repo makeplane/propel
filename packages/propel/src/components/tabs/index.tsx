@@ -1,15 +1,24 @@
 import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
+
+const rootVariants = cva("inline-flex max-w-full flex-col items-start gap-3", {
+  variants: {
+    variant: {
+      contained: "",
+      underline: "",
+    },
+  },
+});
 
 // The Figma "Tabs" component defines two visual treatments. `contained` wraps
 // the tabs in a pill and lifts the active tab onto a raised card; `underline`
 // keeps the tabs flat and slides a dark bar under the active one. Active / hover /
 // pressed are interaction states from the primitive, not variants.
-type TabsVariant = "contained" | "underline";
+export type TabsVariant = NonNullable<VariantProps<typeof rootVariants>["variant"]>;
 
 // Shared so `TabsList`, `Tab`, and `TabsPanel` know which treatment to render
 // without each consumer threading `variant` through every part. `Tabs` (Root)
@@ -27,8 +36,6 @@ const TabsVariantContext = React.createContext<TabsVariant>("contained");
 // width and the `TabsList` scrolls horizontally inside it (it must cap here, not
 // only on the list, for the list's own `max-w-full` to resolve against the parent
 // rather than the unbounded content width).
-const rootVariants = cva("inline-flex max-w-full flex-col items-start gap-3");
-
 export type TabsProps = Omit<
   React.ComponentProps<typeof BaseTabs.Root>,
   "className" | "render" | "style"
@@ -59,7 +66,7 @@ export type TabsProps = Omit<
 export function Tabs({ variant, ...props }: TabsProps) {
   return (
     <TabsVariantContext.Provider value={variant}>
-      <BaseTabs.Root className={rootVariants()} {...props} />
+      <BaseTabs.Root className={rootVariants({ variant })} {...props} />
     </TabsVariantContext.Provider>
   );
 }
