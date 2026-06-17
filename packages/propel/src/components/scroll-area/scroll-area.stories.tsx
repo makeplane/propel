@@ -67,7 +67,7 @@ export const BothAxes: Story = {
   args: {
     orientation: "both",
     children: (
-      <div className="flex w-[640px] flex-col gap-2 p-3">
+      <div className="flex w-160 flex-col gap-2 p-3">
         {Array.from({ length: 30 }, (_, i) => (
           <p key={i} className="text-13 whitespace-nowrap text-secondary">
             Line {i + 1} of wide content that overflows horizontally as well as down.

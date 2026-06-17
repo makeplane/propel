@@ -18,7 +18,7 @@ const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"]>> = {
   // Caption + nav share one row; the label leads, buttons sit at the end.
   month_caption: "flex items-center h-7",
   caption_label: "text-20 font-semibold text-primary",
-  nav: "absolute end-4 top-4 flex items-center gap-1",
+  nav: "absolute inset-e-4 top-4 flex items-center gap-1",
   // 28px transparent icon buttons that tint on hover (Figma "Icon buttons").
   button_previous:
     "inline-flex size-7 items-center justify-center rounded-md text-icon-tertiary hover:bg-layer-transparent-hover disabled:opacity-50",

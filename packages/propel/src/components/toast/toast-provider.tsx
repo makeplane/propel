@@ -22,7 +22,7 @@ export function ToastProvider({ children, ...props }: ToastProviderProps) {
     <BaseToast.Provider {...props}>
       {children}
       <BaseToast.Portal>
-        <BaseToast.Viewport className="fixed end-4 bottom-4 z-50 flex w-[340px] max-w-[calc(100vw-2rem)] flex-col gap-2 rounded-lg outline-none focus-visible:outline-md focus-visible:outline-offset-2 focus-visible:outline-accent-strong">
+        <BaseToast.Viewport className="fixed inset-e-4 bottom-4 z-50 flex w-85 max-w-[calc(100vw-2rem)] flex-col gap-2 rounded-lg outline-none focus-visible:outline-md focus-visible:outline-offset-2 focus-visible:outline-accent-strong">
           <ToastList />
         </BaseToast.Viewport>
       </BaseToast.Portal>

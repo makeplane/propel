@@ -315,7 +315,7 @@ export const Default: Story = {
     docs: { source: { code: RECIPE_SOURCE, language: "tsx" } },
   },
   render: (args) => (
-    <div className="w-[640px]">
+    <div className="w-160">
       <CommentComposer {...args} />
     </div>
   ),
@@ -329,7 +329,7 @@ export const Default: Story = {
 export const Magnitudes: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="flex w-[640px] flex-col gap-6">
+    <div className="flex w-160 flex-col gap-6">
       {MAGNITUDES.map((magnitude) => (
         <CommentComposer key={magnitude} {...args} magnitude={magnitude} />
       ))}

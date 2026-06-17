@@ -23,14 +23,18 @@ function pinnedEdgeBorder(pinned: TablePinned) {
 
 export function pinnedHeadClass(pinned: TablePinned | undefined) {
   if (!pinned) return "z-20";
-  return cx("sticky z-30", pinned === "start" ? "start-0" : "end-0", pinnedEdgeBorder(pinned));
+  return cx(
+    "sticky z-30",
+    pinned === "start" ? "inset-s-0" : "inset-e-0",
+    pinnedEdgeBorder(pinned),
+  );
 }
 
 export function pinnedCellClass(pinned: TablePinned | undefined) {
   if (!pinned) return "";
   return cx(
     "sticky z-10 bg-layer-2 group-hover/body-row:bg-layer-2-hover",
-    pinned === "start" ? "start-0" : "end-0",
+    pinned === "start" ? "inset-s-0" : "inset-e-0",
     pinnedEdgeBorder(pinned),
   );
 }

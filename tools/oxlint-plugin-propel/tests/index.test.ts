@@ -32,6 +32,10 @@ tester.run(RULE_NAME, preferTailwindV4ShorthandRule, {
       name: "keeps arbitrary selectors",
       code: 'const className = "[&[data-highlighted]]:bg-primary";',
     },
+    {
+      name: "keeps non-spacing arbitrary pixel widths",
+      code: 'const className = "w-[342px] sm:w-[1px]";',
+    },
   ],
   invalid: [
     {
@@ -92,6 +96,18 @@ tester.run(RULE_NAME, preferTailwindV4ShorthandRule, {
           'var(--edge-offset)]";',
       ),
       output: 'const className = "hover:inset-e-(--edge-offset) focus:inset-s-(--edge-offset)";',
+      errors: [{ messageId: "preferTailwindV4Shorthand" }],
+    },
+    {
+      name: "fixes logical inset spacing utilities",
+      code: code('const className = "fixed end-' + "4 bottom-4 group-hover:start-" + '1";'),
+      output: 'const className = "fixed inset-e-4 bottom-4 group-hover:inset-s-1";',
+      errors: [{ messageId: "preferTailwindV4Shorthand" }],
+    },
+    {
+      name: "fixes arbitrary pixel widths that match the spacing scale",
+      code: code('const className = "w-[' + "340px] md:w-[" + '640px]";'),
+      output: 'const className = "w-85 md:w-160";',
       errors: [{ messageId: "preferTailwindV4Shorthand" }],
     },
   ],

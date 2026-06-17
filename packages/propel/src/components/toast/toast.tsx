@@ -202,7 +202,7 @@ export function Toast({ toast, ...props }: ToastProps) {
       </div>
       <BaseToast.Close
         aria-label="Dismiss"
-        className="absolute end-1 top-1 inline-flex size-5 items-center justify-center rounded-sm text-icon-tertiary transition-colors hover:bg-layer-transparent-hover"
+        className="absolute inset-e-1 top-1 inline-flex size-5 items-center justify-center rounded-sm text-icon-tertiary transition-colors hover:bg-layer-transparent-hover"
       >
         <X aria-hidden className="size-3.5" />
       </BaseToast.Close>

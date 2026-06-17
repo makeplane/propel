@@ -22,10 +22,10 @@ export const searchClearButtonClass = cx(
 export const expandableWrapperClass = "relative inline-flex size-7 shrink-0";
 
 export const expandableBoxClass = cx(
-  "group/search absolute end-0 top-0 inline-flex h-7 w-7 items-center gap-2 overflow-hidden rounded-md px-1.5",
+  "group/search absolute inset-e-0 top-0 inline-flex h-7 w-7 items-center gap-2 overflow-hidden rounded-md px-1.5",
   "border-sm border-transparent bg-layer-transparent",
   "transition-[width,border-color,background-color] duration-200 ease-out motion-reduce:transition-none",
   "not-data-expanded:hover:bg-layer-transparent-hover",
-  "data-expanded:w-[204px] data-expanded:border-subtle-1 data-expanded:bg-layer-2",
+  "data-expanded:w-51 data-expanded:border-subtle-1 data-expanded:bg-layer-2",
   "data-expanded:focus-within:border-accent-strong data-expanded:focus-within:ring-1 data-expanded:focus-within:ring-accent-strong/35",
 );
