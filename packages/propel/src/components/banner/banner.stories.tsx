@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Info } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
@@ -110,5 +111,33 @@ export const DismissCallsHandler: Story = {
     const button = canvas.getByRole("button", { name: "Dismiss" });
     await userEvent.click(button);
     await expect(args.onDismiss).toHaveBeenCalledTimes(1);
+  },
+};
+
+/**
+ * Optional content branches: consumers can hide the icon, pass a custom icon, render body-only
+ * content, and warning/danger tones use assertive `alert` semantics.
+ */
+export const OptionalContentSemantics: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <div className="flex w-[640px] flex-col gap-3">
+      <Banner variant="inline" tone="warning" leadingIcon={null}>
+        Maintenance starts at 6 PM.
+      </Banner>
+      <Banner
+        variant="inline"
+        tone="info"
+        title="Custom icon"
+        leadingIcon={<Info data-testid="custom-banner-icon" />}
+      />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const warning = canvas.getByRole("alert");
+    await expect(warning).toHaveTextContent("Maintenance starts at 6 PM.");
+    await expect(warning.querySelector("svg")).not.toBeInTheDocument();
+    await expect(canvas.getByTestId("custom-banner-icon")).toBeInTheDocument();
+    await expect(canvas.getByRole("status")).toHaveTextContent("Custom icon");
   },
 };

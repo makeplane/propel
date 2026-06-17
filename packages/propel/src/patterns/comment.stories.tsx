@@ -1,4 +1,3 @@
-import { Field } from "@base-ui/react/field";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
@@ -18,6 +17,7 @@ import { expect, fn, userEvent } from "storybook/test";
 
 import { Button } from "../components/button/index";
 import { IconButton } from "../components/icon-button/index";
+import { Field, FieldControl } from "../components/input/index";
 import {
   Toolbar,
   ToolbarButton,
@@ -140,6 +140,7 @@ function CommentComposer({
   onSubmit,
 }: CommentComposerProps) {
   const isControlled = value !== undefined;
+  const controlId = React.useId();
   const [internalValue, setInternalValue] = React.useState(defaultValue ?? "");
   const currentValue = isControlled ? value : internalValue;
   const isEmpty = currentValue.trim().length === 0;
@@ -157,7 +158,8 @@ function CommentComposer({
   const sendLabel = typeof submitLabel === "string" ? submitLabel : "Comment";
 
   const body = (
-    <Field.Control
+    <FieldControl
+      id={controlId}
       render={<textarea rows={magnitude === "xs" ? 1 : 2} />}
       placeholder={placeholder}
       value={isControlled ? value : undefined}
@@ -168,8 +170,10 @@ function CommentComposer({
   );
 
   return (
-    <Field.Root className={commentVariants({ magnitude })}>
-      <Field.Label className="sr-only">{label}</Field.Label>
+    <Field className={commentVariants({ magnitude })}>
+      <label htmlFor={controlId} className="sr-only">
+        {label}
+      </label>
 
       {magnitude === "xs" ? (
         <>
@@ -223,7 +227,7 @@ function CommentComposer({
           </div>
         </>
       )}
-    </Field.Root>
+    </Field>
   );
 }
 
@@ -235,13 +239,15 @@ CommentComposer.displayName = "CommentComposer";
 // a consumer would copy) instead of an opaque `<CommentComposer />`, since the whole
 // point of this recipe is the composition. Kept to the `base` magnitude shown above.
 const RECIPE_SOURCE = `function CommentComposer() {
+  const controlId = React.useId();
   const [value, setValue] = React.useState("");
   const isEmpty = value.trim().length === 0;
 
   return (
-    <Field.Root className="flex w-full flex-col overflow-clip rounded-xl border border-subtle-1 bg-layer-2 text-primary">
-      <Field.Label className="sr-only">Add a comment</Field.Label>
-      <Field.Control
+    <Field className="flex w-full flex-col overflow-clip rounded-xl border border-subtle-1 bg-layer-2 text-primary">
+      <label htmlFor={controlId} className="sr-only">Add a comment</label>
+      <FieldControl
+        id={controlId}
         render={<textarea rows={2} />}
         placeholder="Add a comment"
         value={value}
@@ -278,7 +284,7 @@ const RECIPE_SOURCE = `function CommentComposer() {
           Comment
         </Button>
       </div>
-    </Field.Root>
+    </Field>
   );
 }`;
 

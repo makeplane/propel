@@ -442,6 +442,37 @@ export const Description: Story = {
 };
 
 /**
+ * `DropdownLabel` titles a grouped section and can carry inline-end metadata; `DropdownFooter`
+ * renders sticky non-menu chrome outside the `role="menu"` list.
+ */
+export const LabelAndFooterSemantics: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <Dropdown>
+      <DropdownTrigger render={<button type="button" className={triggerClass} />}>
+        Grouped menu
+      </DropdownTrigger>
+      <DropdownContent
+        width="sm"
+        footer={<DropdownFooter>Type to add another item.</DropdownFooter>}
+      >
+        <DropdownGroup>
+          <DropdownLabel inlineEndNode={<span>3</span>}>Section</DropdownLabel>
+          <DropdownItem variant="default" label="First item" />
+        </DropdownGroup>
+      </DropdownContent>
+    </Dropdown>
+  ),
+  play: async ({ canvas }) => {
+    await openMenu(canvas, "Grouped menu");
+    await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
+    await expect(document.body).toHaveTextContent("Section");
+    await expect(document.body).toHaveTextContent("3");
+    await expect(document.body).toHaveTextContent("Type to add another item.");
+  },
+};
+
+/**
  * Demo 5 — **Assignees**. Multi-select: a `DropdownCheckboxItem` (propel `Checkbox`) with a propel
  * `Avatar` as the leading content, a search header, and a disabled row.
  */

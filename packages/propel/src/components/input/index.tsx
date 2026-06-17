@@ -16,7 +16,7 @@ import * as React from "react";
 // alignment for a lone label (no description): it adds a magnitude-matched top
 // padding equal to the box's top padding + border (md 6+1, lg 8+1, xl 12+1 px) so
 // the single label line sits level with the control's value instead of hugging the
-// top of the box. It is a `Field.Label` so it never accepts styling from a consumer.
+// top of the box. It is a `FieldLabel` so it never accepts styling from a consumer.
 const labelVariants = cva("font-medium text-primary", {
   variants: {
     magnitude: {
@@ -136,21 +136,29 @@ const iconSlotClass = cx(
   "[&_svg]:size-4",
 );
 
+export type FieldProps = React.ComponentProps<typeof BaseField.Root>;
+
 /**
- * The label row: the label text and the required `*` asterisk in danger. Rendered by
- * `Input`/`TextArea`, but also usable directly when composing a field by hand.
+ * The shared field chrome for custom controls (e.g. a Select) with the same label/helper/error
+ * treatment that `Input` and `TextArea` use. Compose it with the named child exports: `FieldLabel`,
+ * `FieldControl`, `FieldDescription`, and `FieldError`.
  */
-function FieldLabelRow({
-  children,
-  magnitude,
-  required,
-  inset,
-}: {
+export function Field(props: FieldProps) {
+  return <BaseField.Root {...props} />;
+}
+
+export type FieldLabelProps = {
   children: React.ReactNode;
   magnitude: InputMagnitude;
   required?: boolean;
   inset?: boolean;
-}) {
+};
+
+/**
+ * The label row: the label text and the required `*` asterisk in danger. Rendered by
+ * `Input`/`TextArea`, but also usable directly when composing a field by hand.
+ */
+export function FieldLabel({ children, magnitude, required, inset }: FieldLabelProps) {
   return (
     <BaseField.Label
       className={cx("inline-flex items-center gap-0.5", labelVariants({ magnitude, inset }))}
@@ -164,6 +172,27 @@ function FieldLabelRow({
       ) : null}
     </BaseField.Label>
   );
+}
+
+export type FieldDescriptionProps = React.ComponentProps<typeof BaseField.Description>;
+
+/** Supporting / helper text for a custom field. */
+export function FieldDescription(props: FieldDescriptionProps) {
+  return <BaseField.Description {...props} />;
+}
+
+export type FieldErrorProps = React.ComponentProps<typeof BaseField.Error>;
+
+/** Error text for a custom field. */
+export function FieldError(props: FieldErrorProps) {
+  return <BaseField.Error {...props} />;
+}
+
+export type FieldControlProps = React.ComponentProps<typeof BaseField.Control>;
+
+/** Control slot for a custom field. Renders an `<input>` by default. */
+export function FieldControl(props: FieldControlProps) {
+  return <BaseField.Control {...props} />;
 }
 
 // The label column: the label row with its supporting `description` stacked
@@ -203,9 +232,9 @@ function FieldLabelGroup({
   return (
     <div className={labelGroupVariants({ orientation })}>
       {label != null ? (
-        <FieldLabelRow magnitude={magnitude} required={required} inset={inset}>
+        <FieldLabel magnitude={magnitude} required={required} inset={inset}>
           {label}
-        </FieldLabelRow>
+        </FieldLabel>
       ) : null}
       {description != null ? (
         <BaseField.Description className={cx("text-tertiary", helperVariants({ magnitude }))}>
@@ -244,31 +273,6 @@ function FieldHelperText({
   }
   return null;
 }
-
-/**
- * The shared field chrome, exposed as a compound so callers can build custom controls (e.g. a
- * Select) with the same label/helper/error treatment that `Input` and `TextArea` use. `Field`
- * itself is `Field.Root` (it groups the parts); the label/control/helper/error parts hang off it
- * and map onto Base UI's `Field` parts.
- */
-export const Field = Object.assign(
-  // The component is `Field.Root`, so `<Field>…</Field>` groups a custom field.
-  (props: React.ComponentProps<typeof BaseField.Root>) => <BaseField.Root {...props} />,
-  {
-    /** Groups the label, control, and helper/error. Renders a `<div>`. */
-    Root: BaseField.Root,
-    /** The label row primitive (label text + asterisk). */
-    Label: FieldLabelRow,
-    /** Supporting / helper text (`text-tertiary`); used below the label and below the control. */
-    Description: BaseField.Description,
-    /** Error text, shown when the field is invalid (`text-danger`). */
-    Error: BaseField.Error,
-    /** The control slot — renders an `<input>` by default. */
-    Control: BaseField.Control,
-  },
-);
-
-type FieldControlProps = React.ComponentProps<typeof BaseField.Control>;
 
 // Props every text field shares. `className`/`style` are intentionally omitted:
 // the components own their styling so every field looks the same.

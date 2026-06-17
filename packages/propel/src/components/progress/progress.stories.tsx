@@ -110,3 +110,23 @@ export const CircularSemantics: Story = {
     await expect(canvas.queryByText("32%")).not.toBeInTheDocument();
   },
 };
+
+/**
+ * Circular progress clamps values against `max`; `max={0}` is treated as an empty ring instead of
+ * dividing by zero, while the accessible value remains clamped to `0`.
+ */
+export const CircularZeroMax: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: {
+    variant: "circular",
+    value: 32,
+    max: 0,
+    magnitude: "md",
+    "aria-label": "Zero max progress",
+  },
+  play: async ({ canvas }) => {
+    const bar = canvas.getByRole("progressbar", { name: "Zero max progress" });
+    await expect(bar).toHaveAttribute("aria-valuemax", "0");
+    await expect(bar).toHaveAttribute("aria-valuenow", "0");
+  },
+};

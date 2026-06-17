@@ -137,3 +137,53 @@ export const TypeAndClear: Story = {
     await expect(canvas.queryByRole("button", { name: "Clear search" })).not.toBeInTheDocument();
   },
 };
+
+/**
+ * Naming contract: an explicit `aria-labelledby` provides the accessible name without being
+ * overridden by the default "Search" label.
+ */
+export const LabelledBySemantics: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <div className="flex flex-col gap-2">
+      <span id="project-search-label">Find projects</span>
+      <Search aria-labelledby="project-search-label" />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole("searchbox", { name: "Find projects" })).toBeInTheDocument();
+    await expect(canvas.queryByRole("searchbox", { name: "Search" })).not.toBeInTheDocument();
+  },
+};
+
+/**
+ * Disabled fields keep their value visible but do not expose the clear button, so the disabled
+ * input remains a single non-interactive control.
+ */
+export const DisabledHidesClear: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { defaultValue: "Roadmap", disabled: true },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole("searchbox", { name: "Search" })).toBeDisabled();
+    await expect(canvas.queryByRole("button", { name: "Clear search" })).not.toBeInTheDocument();
+  },
+};
+
+/**
+ * `ExpandableSearch` uses the same clear affordance once it has a value; clicking it clears and
+ * keeps focus on the searchbox.
+ */
+export const ExpandableTypeAndClear: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => <ExpandableSearch />,
+  play: async ({ canvas }) => {
+    const input = canvas.getByRole("searchbox", { name: "Search" });
+    await userEvent.click(input);
+    await userEvent.type(input, "Roadmap");
+    await expect(input).toHaveValue("Roadmap");
+
+    await userEvent.click(canvas.getByRole("button", { name: "Clear search" }));
+    await expect(input).toHaveValue("");
+    await expect(input).toHaveFocus();
+  },
+};

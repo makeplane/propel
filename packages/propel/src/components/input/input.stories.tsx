@@ -3,7 +3,16 @@ import { Mail, Search } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
-import { Field, Input, type InputMagnitude, TextArea } from "./index";
+import {
+  Field,
+  FieldControl,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  Input,
+  type InputMagnitude,
+  TextArea,
+} from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
 
@@ -13,7 +22,7 @@ const meta = {
   // Input / TextArea / Field share the same chrome, so document the sibling
   // primitives alongside Input (adds their tabs to the args table + records the
   // relationship in the manifest).
-  subcomponents: { Input, TextArea, Field },
+  subcomponents: { Input, TextArea, Field, FieldLabel, FieldControl, FieldDescription, FieldError },
   // Icon picker controls for the leading/trailing slots.
   argTypes: { leadingIcon: iconControl, trailingIcon: iconControl },
   parameters: {
@@ -410,5 +419,61 @@ export const ErrorAnnouncesInvalid: Story = {
     const input = canvas.getByRole<HTMLInputElement>("textbox", { name: "Email" });
     await expect(input).toHaveAttribute("aria-invalid", "true");
     await expect(canvas.getByText("Enter a valid email address.")).toBeInTheDocument();
+  },
+};
+
+/**
+ * The exported `Field` compound supports custom controls with the same label/helper/error
+ * primitives used by `Input` and `TextArea`.
+ */
+export const FieldComposition: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
+  render: () => (
+    <Field>
+      <FieldLabel magnitude="md" required>
+        Custom field
+      </FieldLabel>
+      <FieldControl placeholder="Custom value" required />
+      <FieldDescription>Use this for custom form controls.</FieldDescription>
+    </Field>
+  ),
+  play: async ({ canvas }) => {
+    const input = canvas.getByRole("textbox", { name: "Custom field" });
+    await expect(input).toBeRequired();
+    await expect(canvas.getByText("Use this for custom form controls.")).toBeInTheDocument();
+  },
+};
+
+/** Consumers can omit propel's generated label group when a native accessible name is provided. */
+export const NativeAriaLabel: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: {
+    magnitude: "md",
+    tone: "neutral",
+    orientation: "vertical",
+    "aria-label": "Search projects",
+    placeholder: "Search",
+  },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole("textbox", { name: "Search projects" })).toBeInTheDocument();
+  },
+};
+
+/** Custom fields can expose invalid state and error text through the named `FieldError` part. */
+export const FieldErrorComposition: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
+  render: () => (
+    <Field invalid>
+      <FieldLabel magnitude="md">Workspace slug</FieldLabel>
+      <FieldControl defaultValue="Already taken" />
+      <FieldError match>Choose a different workspace slug.</FieldError>
+    </Field>
+  ),
+  play: async ({ canvas }) => {
+    const input = canvas.getByRole("textbox", { name: "Workspace slug" });
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(input).toHaveAccessibleDescription("Choose a different workspace slug.");
   },
 };
