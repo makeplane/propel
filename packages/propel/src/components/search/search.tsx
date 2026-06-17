@@ -36,7 +36,7 @@ export function Search({
   const [currentValue, commit] = useControllableState<string>({
     value,
     defaultValue: defaultValue ?? "",
-    onChange: onValueChange,
+    onValueChange,
   });
   const inputRef = React.useRef<HTMLInputElement>(null);
 

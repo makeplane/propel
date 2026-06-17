@@ -2,6 +2,7 @@ import { cx, type VariantProps } from "class-variance-authority";
 import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 import * as React from "react";
 
+import { ChevronGlyphSlot } from "./chevron-glyph-slot";
 import {
   headBorder,
   pinnedHeadClass,
@@ -76,8 +77,4 @@ export function TableHead({
       )}
     </th>
   );
-}
-
-function ChevronGlyphSlot({ Glyph }: { Glyph: typeof ChevronsUpDown }) {
-  return <Glyph aria-hidden className="size-3.5 shrink-0 text-icon-secondary" />;
 }

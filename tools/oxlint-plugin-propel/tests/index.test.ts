@@ -73,5 +73,26 @@ tester.run(RULE_NAME, preferTailwindV4ShorthandRule, {
         'const element = <div className="data-popup-open:bg-layer-transparent-hover h-(--panel-height)" />;',
       errors: [{ messageId: "preferTailwindV4Shorthand" }],
     },
+    {
+      name: "fixes logical inset arbitrary utilities",
+      code: code(
+        'const className = "data-[side=inline-start]:end-[' +
+          "-3px] data-[side=inline-end]:start-[" +
+          '-3px]";',
+      ),
+      output:
+        'const className = "data-[side=inline-start]:inset-e-[-3px] data-[side=inline-end]:inset-s-[-3px]";',
+      errors: [{ messageId: "preferTailwindV4Shorthand" }],
+    },
+    {
+      name: "fixes logical inset css variable utilities",
+      code: code(
+        'const className = "hover:end-[' +
+          "var(--edge-offset)] focus:start-[" +
+          'var(--edge-offset)]";',
+      ),
+      output: 'const className = "hover:inset-e-(--edge-offset) focus:inset-s-(--edge-offset)";',
+      errors: [{ messageId: "preferTailwindV4Shorthand" }],
+    },
   ],
 });

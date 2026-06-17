@@ -3,7 +3,8 @@ import { cva, cx } from "class-variance-authority";
 import type * as React from "react";
 
 import { NodeSlot } from "../../internal/node-slot";
-import { pillBase, PillSpinner, type PillMagnitude } from "./pill-shared";
+import { pillBase, type PillMagnitude } from "./pill-shared";
+import { PillSpinner } from "./pill-spinner";
 
 const iconPillVariants = cva(
   cx(

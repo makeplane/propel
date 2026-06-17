@@ -349,7 +349,7 @@ export const WithPagination: Story = {
           pageSize={{
             value: pageSize,
             options: [5, 10, 25],
-            onChange: (next) => {
+            onValueChange: (next) => {
               setPageSize(next);
               setPage(1);
             },

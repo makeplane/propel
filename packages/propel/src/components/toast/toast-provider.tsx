@@ -1,12 +1,17 @@
 import { Toast as BaseToast } from "@base-ui/react/toast";
+import type { ToastManager } from "@base-ui/react/toast";
 import type * as React from "react";
 
-import { Toast, type ToastData, useToast } from "./toast";
+import type { ToastData } from "./toast";
+import { ToastList } from "./toast-list";
 
 export type ToastProviderProps = Omit<
   React.ComponentProps<typeof BaseToast.Provider>,
-  "className" | "render" | "style"
->;
+  "className" | "render" | "style" | "toastManager"
+> & {
+  /** Optional external manager. Must queue Propel `ToastData` so every toast has a `tone`. */
+  toastManager?: ToastManager<ToastData>;
+};
 
 /**
  * Wraps the app and renders the toast viewport. Mount it once near the root, then queue toasts with
@@ -23,9 +28,4 @@ export function ToastProvider({ children, ...props }: ToastProviderProps) {
       </BaseToast.Portal>
     </BaseToast.Provider>
   );
-}
-
-function ToastList() {
-  const { toasts } = useToast<ToastData>();
-  return toasts.map((toast) => <Toast key={toast.id} toast={toast} />);
 }

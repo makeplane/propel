@@ -27,7 +27,7 @@ export function ExpandableSearch({
   const [currentValue, commit] = useControllableState<string>({
     value,
     defaultValue: defaultValue ?? "",
-    onChange: onValueChange,
+    onValueChange,
   });
   const hasValue = currentValue != null && currentValue !== "";
   const resolvedAriaLabel = ariaLabel ?? (ariaLabelledBy ? undefined : "Search");

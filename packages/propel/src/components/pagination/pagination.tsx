@@ -1,8 +1,9 @@
 import { cva, cx } from "class-variance-authority";
-import { ArrowLeft, ArrowRight, ChevronDown, LoaderCircle, MoreHorizontal } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, LoaderCircle } from "lucide-react";
 import * as React from "react";
 
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../dropdown/index";
+import { PaginationEllipsis } from "./pagination-ellipsis";
 
 // Pagination is a single composite navigation control rather than a variant matrix:
 // the Figma "variant" axis (All pages visible / Near start / Middle / Near end) is
@@ -20,14 +21,14 @@ import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../dro
 // - per-page selector: a `layer-3` pill, 24px tall, radius/md, "50" + chevron-down,
 //   followed by "per page" tertiary text. The pill is the trigger for a propel
 //   Dropdown (single-select) whose menu lists the page-size options; picking one
-//   reports it through `pageSize.onChange`.
+//   reports it through `pageSize.onValueChange`.
 
 // Shared 24px slot used by page numbers, the prev/next buttons and the ellipsis.
 // 24px tall with a 24px minimum width so single digits stay square (per Figma),
 // but the slot grows for wider content — multi-digit page numbers like `100` get
 // their own width plus horizontal padding rather than clipping a fixed square.
 // `radius/sm` for page numbers, `radius/md` for the arrow buttons.
-const slotBase = cx(
+export const slotBase = cx(
   "inline-flex h-6 w-auto min-w-6 shrink-0 items-center justify-center px-1",
   "text-13 text-primary outline-none",
 );
@@ -79,15 +80,6 @@ const perPageTriggerClass = cx(
   "[&_svg]:size-3.5 [&_svg]:shrink-0 [&_svg]:text-icon-secondary",
   "[&[data-popup-open]_svg]:rotate-180",
 );
-
-/** A non-interactive gap marker between distant page numbers. */
-function PaginationEllipsis() {
-  return (
-    <li aria-hidden className={cx(slotBase, "text-icon-placeholder")}>
-      <MoreHorizontal className="size-3.5 shrink-0" />
-    </li>
-  );
-}
 
 // Builds the sequence of visible page tokens. Always shows the first and last page;
 // shows up to one neighbour either side of the current page; inserts an ellipsis
@@ -179,7 +171,7 @@ export type PaginationProps = Omit<
   loading?: boolean;
   /**
    * Optional per-page size selector (Figma `50 v per page`). Provide `value`, the `options`, and
-   * `onChange`; omit to hide the selector entirely.
+   * `onValueChange`; omit to hide the selector entirely.
    */
   pageSize?: {
     /** Currently selected page size. */
@@ -187,7 +179,7 @@ export type PaginationProps = Omit<
     /** Selectable page sizes. */
     options: number[];
     /** Called with the chosen page size. */
-    onChange: (pageSize: number) => void;
+    onValueChange: (pageSize: number) => void;
   };
   /**
    * Optional range label shown before the controls (Figma `1-50 of 250`). Provide the
@@ -234,7 +226,7 @@ export function Pagination({
             its trigger and the menu lists the page sizes, the current one marked with a
             trailing check. The trigger carries the accessible name (the visible size +
             the visually-hidden "per page"), and picking a size reports it through
-            `pageSize.onChange`. Keyboard works via the Dropdown (Enter/ArrowDown opens,
+            `pageSize.onValueChange`. Keyboard works via the Dropdown (Enter/ArrowDown opens,
             arrows move, Enter selects).
           */}
           <Dropdown>
@@ -250,7 +242,7 @@ export function Pagination({
                   variant="default"
                   label={l.perPageValue(option)}
                   selected={option === pageSize.value}
-                  onClick={() => pageSize.onChange(option)}
+                  onClick={() => pageSize.onValueChange(option)}
                 />
               ))}
             </DropdownContent>

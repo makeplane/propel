@@ -1,9 +1,12 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
+import type { TooltipRoot } from "@base-ui/react/tooltip";
 import { cx } from "class-variance-authority";
 import type * as React from "react";
 
-export type TooltipProps = Omit<
-  React.ComponentProps<typeof BaseTooltip.Root>,
+import { TooltipArrow } from "./tooltip-arrow";
+
+export type TooltipProps<Payload = unknown> = Omit<
+  TooltipRoot.Props<Payload>,
   "children" | "className" | "render" | "style"
 > & {
   /** The text (or rich content) shown inside the tooltip popup. */
@@ -51,7 +54,7 @@ export type TooltipProps = Omit<
  * `border-subtle-1`), so the tooltip is light on light themes and dark on dark themes, matching the
  * Figma "Tooltip" component (node 1144-3159).
  */
-export function Tooltip({
+export function Tooltip<Payload = unknown>({
   content,
   shortcut,
   children,
@@ -59,7 +62,7 @@ export function Tooltip({
   sideOffset = 8,
   delay = 600,
   ...rootProps
-}: TooltipProps) {
+}: TooltipProps<Payload>) {
   return (
     <BaseTooltip.Root {...rootProps}>
       <BaseTooltip.Trigger delay={delay} render={children} />
@@ -91,37 +94,5 @@ export function Tooltip({
         </BaseTooltip.Positioner>
       </BaseTooltip.Portal>
     </BaseTooltip.Root>
-  );
-}
-
-/**
- * The little notch that points from the popup back to the trigger. A rotated square sharing the
- * popup's surface (`bg-layer-2`) and border (`border-subtle-1`), so it matches the popup in every
- * theme. Base UI positions it against the active edge and sets `data-side`; the per-side rules tuck
- * the square half-under the popup so only its two outer faces (the triangle) show, with the inner
- * faces hidden behind the popup body. Only surface/border tokens are used — no arbitrary colors.
- */
-function TooltipArrow() {
-  return (
-    <BaseTooltip.Arrow
-      className={cx(
-        "size-2 rotate-45 border-sm border-subtle-1 bg-layer-2",
-        // Pull the square halfway across the popup edge for each side and clip the
-        // adjacent borders so the visible part reads as a clean triangle.
-        "data-[side=bottom]:top-[-3px] data-[side=bottom]:[clip-path:polygon(0_0,100%_0,0_100%)]",
-        "data-[side=top]:bottom-[-3px] data-[side=top]:[clip-path:polygon(100%_0,100%_100%,0_100%)]",
-        "data-[side=left]:right-[-3px] data-[side=left]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
-        "data-[side=right]:left-[-3px] data-[side=right]:[clip-path:polygon(0_0,0_100%,100%_100%)]",
-        // Base UI's Positioner also emits the logical sides `inline-start`/`inline-end`
-        // (the `side` prop accepts them), and Plane runs both LTR and RTL — so these
-        // must flip with writing direction. The edge offset uses logical insets
-        // (`end`/`start` = inset-inline-end/start), which flip automatically; the
-        // polygon clip is physical, so a `rtl:` variant mirrors the triangle. LTR:
-        // inline-start sits left (apex points right), inline-end sits right (apex
-        // points left); RTL swaps both. Physical left/right above stay fixed.
-        "data-[side=inline-start]:end-[-3px] data-[side=inline-start]:[clip-path:polygon(0_0,100%_0,100%_100%)] rtl:data-[side=inline-start]:[clip-path:polygon(0_0,0_100%,100%_100%)]",
-        "data-[side=inline-end]:start-[-3px] data-[side=inline-end]:[clip-path:polygon(0_0,0_100%,100%_100%)] rtl:data-[side=inline-end]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
-      )}
-    />
   );
 }

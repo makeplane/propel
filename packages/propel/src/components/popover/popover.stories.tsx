@@ -313,7 +313,7 @@ export const RTL: Story = {
           </PopoverTrigger>
           <PopoverContent width="md" aria-label="Options">
             <PanelLabel>الترتيب حسب</PanelLabel>
-            <RadioGroup defaultValue="priority">
+            <RadioGroup density="comfortable" defaultValue="priority">
               <PanelRadioRow value="priority" label="الأولوية" />
               <PanelRadioRow value="created" label="تاريخ الإنشاء" />
               <PanelRadioRow value="updated" label="آخر تحديث" />

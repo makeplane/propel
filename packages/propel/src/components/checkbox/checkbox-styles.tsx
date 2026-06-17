@@ -1,5 +1,4 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
-import { Check, Minus } from "lucide-react";
 
 export const checkboxVariants = cva(
   cx(
@@ -25,11 +24,3 @@ export const checkboxVariants = cva(
 type CheckboxVariantProps = VariantProps<typeof checkboxVariants>;
 
 export type CheckboxTone = NonNullable<CheckboxVariantProps["tone"]>;
-
-export function CheckboxGlyph({ indeterminate }: { indeterminate?: boolean }) {
-  return indeterminate ? (
-    <Minus aria-hidden className="size-3" />
-  ) : (
-    <Check aria-hidden className="size-3" />
-  );
-}

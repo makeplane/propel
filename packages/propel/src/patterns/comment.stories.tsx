@@ -16,8 +16,8 @@ import * as React from "react";
 import { expect, fn, userEvent } from "storybook/test";
 
 import { Button } from "../components/button/index";
+import { Field, TextAreaFieldControl } from "../components/field/index";
 import { IconButton } from "../components/icon-button/index";
-import { Field, FieldControl } from "../components/input/index";
 import {
   Toolbar,
   ToolbarButton,
@@ -36,7 +36,7 @@ import {
 // Magnitudes follow the Figma "Comment box" scale (Property 1): base / sm / xs. They
 // share the bordered card surface and step down together so a compact composer stays
 // internally consistent.
-const commentVariants = cva("border border-subtle-1 bg-layer-2 text-primary", {
+const commentComposerVariants = cva("border border-subtle-1 bg-layer-2 text-primary", {
   variants: {
     magnitude: {
       // base/sm use radius/xl (12px) and stack their rows in a column; xs uses
@@ -48,22 +48,7 @@ const commentVariants = cva("border border-subtle-1 bg-layer-2 text-primary", {
   },
 });
 
-type CommentMagnitude = NonNullable<VariantProps<typeof commentVariants>["magnitude"]>;
-
-// The body textarea padding + type scale per magnitude, from Figma's "Add a comment"
-// placeholder row.
-const bodyVariants = cva(
-  "w-full resize-none bg-transparent text-primary outline-none placeholder:text-placeholder",
-  {
-    variants: {
-      magnitude: {
-        base: "min-h-10 p-3 text-14 leading-snug",
-        sm: "min-h-10 p-3 text-14 leading-snug",
-        xs: "min-w-0 flex-1 text-12 leading-tight",
-      },
-    },
-  },
-);
+type CommentMagnitude = NonNullable<VariantProps<typeof commentComposerVariants>["magnitude"]>;
 
 // The formatting controls along the bottom bar (Figma node 2842-3905): a mention /
 // reaction / link cluster, an inline B/I/U cluster, then a list + overflow cluster,
@@ -156,63 +141,37 @@ function CommentComposer({
   };
 
   const sendLabel = typeof submitLabel === "string" ? submitLabel : "Comment";
+  const controlMagnitude = magnitude === "xs" ? "sm" : "lg";
+  const controlSurface = magnitude === "xs" ? "inline" : "embedded";
 
   const body = (
-    <FieldControl
+    <TextAreaFieldControl
       id={controlId}
-      render={<textarea rows={magnitude === "xs" ? 1 : 2} />}
+      rows={magnitude === "xs" ? 1 : 2}
+      magnitude={controlMagnitude}
+      surface={controlSurface}
       placeholder={placeholder}
       value={isControlled ? value : undefined}
       defaultValue={isControlled ? undefined : defaultValue}
       onValueChange={handleValueChange}
-      className={bodyVariants({ magnitude })}
     />
   );
 
   return (
-    <Field name="comment" className={commentVariants({ magnitude })}>
-      <label htmlFor={controlId} className="sr-only">
-        {label}
-      </label>
+    <Field name="comment">
+      <div className={commentComposerVariants({ magnitude })}>
+        <label htmlFor={controlId} className="sr-only">
+          {label}
+        </label>
 
-      {magnitude === "xs" ? (
-        <>
-          {body}
-          <div className="flex shrink-0 items-center gap-1.5">
-            <span aria-hidden className="h-4 w-0 shrink-0 border-s-sm border-subtle-1" />
-            <IconButton variant="ghost" tone="neutral" magnitude="md" aria-label="Attach a file">
-              <Paperclip aria-hidden />
-            </IconButton>
-            <IconButton
-              variant="secondary"
-              tone="neutral"
-              magnitude="md"
-              aria-label={sendLabel}
-              disabled={isEmpty}
-              onClick={handleSubmit}
-            >
-              <ArrowUp aria-hidden />
-            </IconButton>
-          </div>
-        </>
-      ) : (
-        <>
-          {body}
-          <div className="flex min-h-9 items-center justify-between gap-2 py-1 ps-1 pe-1.5">
-            <div className="flex min-w-0 items-center overflow-x-auto">
-              <FormattingToolbar />
-            </div>
-            {magnitude === "base" ? (
-              <Button
-                variant="secondary"
-                tone="neutral"
-                magnitude="md"
-                disabled={isEmpty}
-                onClick={handleSubmit}
-              >
-                {submitLabel}
-              </Button>
-            ) : (
+        {magnitude === "xs" ? (
+          <>
+            {body}
+            <div className="flex shrink-0 items-center gap-1.5">
+              <span aria-hidden className="h-4 w-0 shrink-0 border-s-sm border-subtle-1" />
+              <IconButton variant="ghost" tone="neutral" magnitude="md" aria-label="Attach a file">
+                <Paperclip aria-hidden />
+              </IconButton>
               <IconButton
                 variant="secondary"
                 tone="neutral"
@@ -223,10 +182,41 @@ function CommentComposer({
               >
                 <ArrowUp aria-hidden />
               </IconButton>
-            )}
-          </div>
-        </>
-      )}
+            </div>
+          </>
+        ) : (
+          <>
+            {body}
+            <div className="flex min-h-9 items-center justify-between gap-2 py-1 ps-1 pe-1.5">
+              <div className="flex min-w-0 items-center overflow-x-auto">
+                <FormattingToolbar />
+              </div>
+              {magnitude === "base" ? (
+                <Button
+                  variant="secondary"
+                  tone="neutral"
+                  magnitude="md"
+                  disabled={isEmpty}
+                  onClick={handleSubmit}
+                >
+                  {submitLabel}
+                </Button>
+              ) : (
+                <IconButton
+                  variant="secondary"
+                  tone="neutral"
+                  magnitude="md"
+                  aria-label={sendLabel}
+                  disabled={isEmpty}
+                  onClick={handleSubmit}
+                >
+                  <ArrowUp aria-hidden />
+                </IconButton>
+              )}
+            </div>
+          </>
+        )}
+      </div>
     </Field>
   );
 }
@@ -244,45 +234,48 @@ const RECIPE_SOURCE = `function CommentComposer() {
   const isEmpty = value.trim().length === 0;
 
   return (
-    <Field name="comment" className="flex w-full flex-col overflow-clip rounded-xl border border-subtle-1 bg-layer-2 text-primary">
-      <label htmlFor={controlId} className="sr-only">Add a comment</label>
-      <FieldControl
-        id={controlId}
-        render={<textarea rows={2} />}
-        placeholder="Add a comment"
-        value={value}
-        onValueChange={setValue}
-        className="min-h-10 w-full resize-none bg-transparent p-3 text-14 leading-snug text-primary outline-none placeholder:text-placeholder"
-      />
-      <div className="flex min-h-9 items-center justify-between gap-2 py-1 pe-1.5 ps-1">
-        <Toolbar elevation="flat" density="compact" aria-label="Comment formatting">
-          <ToolbarGroup aria-label="Insert">
-            <ToolbarButton aria-label="Mention someone">
-              <AtSign aria-hidden />
-            </ToolbarButton>
-            <ToolbarButton aria-label="Add reaction">
-              <SmilePlus aria-hidden />
-            </ToolbarButton>
-            <ToolbarButton aria-label="Add link">
-              <Link aria-hidden />
-            </ToolbarButton>
-          </ToolbarGroup>
-          <ToolbarSeparator />
-          <ToolbarGroup aria-label="Text formatting">
-            <ToolbarToggle aria-label="Bold">
-              <Bold aria-hidden />
-            </ToolbarToggle>
-            <ToolbarToggle aria-label="Italic">
-              <Italic aria-hidden />
-            </ToolbarToggle>
-            <ToolbarToggle aria-label="Underline">
-              <Underline aria-hidden />
-            </ToolbarToggle>
-          </ToolbarGroup>
-        </Toolbar>
-        <Button variant="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
-          Comment
-        </Button>
+    <Field name="comment">
+      <div className="flex w-full flex-col overflow-clip rounded-xl border border-subtle-1 bg-layer-2 text-primary">
+        <label htmlFor={controlId} className="sr-only">Add a comment</label>
+        <TextAreaFieldControl
+          id={controlId}
+          rows={2}
+          magnitude="lg"
+          surface="embedded"
+          placeholder="Add a comment"
+          value={value}
+          onValueChange={setValue}
+        />
+        <div className="flex min-h-9 items-center justify-between gap-2 py-1 pe-1.5 ps-1">
+          <Toolbar elevation="flat" density="compact" aria-label="Comment formatting">
+            <ToolbarGroup aria-label="Insert">
+              <ToolbarButton aria-label="Mention someone">
+                <AtSign aria-hidden />
+              </ToolbarButton>
+              <ToolbarButton aria-label="Add reaction">
+                <SmilePlus aria-hidden />
+              </ToolbarButton>
+              <ToolbarButton aria-label="Add link">
+                <Link aria-hidden />
+              </ToolbarButton>
+            </ToolbarGroup>
+            <ToolbarSeparator />
+            <ToolbarGroup aria-label="Text formatting">
+              <ToolbarToggle aria-label="Bold">
+                <Bold aria-hidden />
+              </ToolbarToggle>
+              <ToolbarToggle aria-label="Italic">
+                <Italic aria-hidden />
+              </ToolbarToggle>
+              <ToolbarToggle aria-label="Underline">
+                <Underline aria-hidden />
+              </ToolbarToggle>
+            </ToolbarGroup>
+          </Toolbar>
+          <Button variant="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
+            Comment
+          </Button>
+        </div>
       </div>
     </Field>
   );

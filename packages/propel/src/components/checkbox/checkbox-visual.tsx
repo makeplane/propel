@@ -1,4 +1,5 @@
-import { CheckboxGlyph, checkboxVariants, type CheckboxTone } from "./checkbox-styles";
+import { CheckboxGlyph } from "./checkbox-glyph";
+import { checkboxVariants, type CheckboxTone } from "./checkbox-styles";
 
 export type CheckboxVisualProps = {
   /** Resting color of the box. `danger` is the Figma "Error" state. */

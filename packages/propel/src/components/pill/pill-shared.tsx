@@ -1,6 +1,4 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
-import { LoaderCircle } from "lucide-react";
-import type * as React from "react";
 
 export const pillBase = cx(
   "inline-flex shrink-0 items-center justify-center rounded-md border-sm outline-none",
@@ -24,11 +22,3 @@ export const labelFontByMagnitude: Record<PillMagnitude, string> = {
   md: "text-13",
   lg: "text-body-sm-regular",
 };
-
-export function PillSpinner() {
-  return <LoaderCircle aria-hidden className="size-(--node-size) shrink-0 animate-spin" />;
-}
-
-export function PillLabel({ children }: { children: React.ReactNode }) {
-  return <span className="min-w-0 truncate">{children}</span>;
-}

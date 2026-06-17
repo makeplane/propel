@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
+import { Field, RadioGroupField, RadioGroupFieldOption } from "../field/index";
+import { Fieldset, FieldsetLegend } from "../fieldset/index";
 import { Radio, RadioGroup } from "./index";
 
 const meta = {
@@ -8,7 +10,7 @@ const meta = {
   component: RadioGroup,
   // RadioGroup is composed of Radios, so document Radio's props alongside it
   // (adds a Radio tab to the args table + records the relationship in the manifest).
-  subcomponents: { Radio },
+  subcomponents: { Radio, RadioGroupField, RadioGroupFieldOption },
   parameters: {
     design: {
       type: "figma",
@@ -22,22 +24,34 @@ type Story = StoryObj<typeof meta>;
 
 /** A `RadioGroup` with three options; the first is selected by default. */
 export const Default: Story = {
-  args: { defaultValue: "low" },
+  args: { density: "comfortable", defaultValue: "low" },
   render: (args) => (
-    <RadioGroup {...args}>
-      <label className="flex items-center gap-2 text-13 text-primary">
-        <Radio value="low" />
-        Low
-      </label>
-      <label className="flex items-center gap-2 text-13 text-primary">
-        <Radio value="medium" />
-        Medium
-      </label>
-      <label className="flex items-center gap-2 text-13 text-primary">
-        <Radio value="high" />
-        High
-      </label>
-    </RadioGroup>
+    <Field name="priority">
+      <Fieldset render={<RadioGroup {...args} />}>
+        <FieldsetLegend magnitude="md">Priority</FieldsetLegend>
+        <RadioGroupFieldOption magnitude="md" value="low" label="Low" />
+        <RadioGroupFieldOption magnitude="md" value="medium" label="Medium" />
+        <RadioGroupFieldOption magnitude="md" value="high" label="High" />
+      </Fieldset>
+    </Field>
+  ),
+};
+
+/** The ready-to-use field composition owns the legend, options, and helper text. */
+export const FieldComposition: Story = {
+  args: { density: "comfortable", defaultValue: "low" },
+  render: (args) => (
+    <RadioGroupField
+      {...args}
+      name="priority"
+      label="Priority"
+      magnitude="md"
+      hint="Only one priority can be active."
+    >
+      <RadioGroupFieldOption value="low" label="Low" />
+      <RadioGroupFieldOption value="medium" label="Medium" />
+      <RadioGroupFieldOption value="high" label="High" />
+    </RadioGroupField>
   ),
 };
 
@@ -47,29 +61,24 @@ export const Default: Story = {
  * the component rather than overriding the gap from the outside.
  */
 export const Density: Story = {
+  args: { density: "comfortable" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-start gap-10">
-      <RadioGroup density="comfortable" defaultValue="low">
-        <label className="flex items-center gap-2 text-13 text-primary">
-          <Radio value="low" />
-          Comfortable
-        </label>
-        <label className="flex items-center gap-2 text-13 text-primary">
-          <Radio value="medium" />
-          8px gap
-        </label>
-      </RadioGroup>
-      <RadioGroup density="compact" defaultValue="low">
-        <label className="flex items-center gap-2 text-13 text-primary">
-          <Radio value="low" />
-          Compact
-        </label>
-        <label className="flex items-center gap-2 text-13 text-primary">
-          <Radio value="medium" />
-          Flush rows
-        </label>
-      </RadioGroup>
+      <Field name="comfortableDensity">
+        <Fieldset render={<RadioGroup density="comfortable" defaultValue="low" />}>
+          <FieldsetLegend magnitude="md">Comfortable density</FieldsetLegend>
+          <RadioGroupFieldOption magnitude="md" value="low" label="Comfortable" />
+          <RadioGroupFieldOption magnitude="md" value="medium" label="8px gap" />
+        </Fieldset>
+      </Field>
+      <Field name="compactDensity">
+        <Fieldset render={<RadioGroup density="compact" defaultValue="low" />}>
+          <FieldsetLegend magnitude="md">Compact density</FieldsetLegend>
+          <RadioGroupFieldOption magnitude="md" value="low" label="Compact" />
+          <RadioGroupFieldOption magnitude="md" value="medium" label="Flush rows" />
+        </Fieldset>
+      </Field>
     </div>
   ),
 };
@@ -84,19 +93,20 @@ export const Density: Story = {
  * ARIA-valid `aria-disabled` while keeping the control non-interactive.
  */
 export const States: Story = {
+  args: { density: "comfortable" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-6">
-      <RadioGroup defaultValue="b">
+      <RadioGroup density="comfortable" defaultValue="b">
         <Radio value="a" aria-label="Unselected" />
       </RadioGroup>
-      <RadioGroup defaultValue="b">
+      <RadioGroup density="comfortable" defaultValue="b">
         <Radio value="b" aria-label="Selected" />
       </RadioGroup>
-      <RadioGroup defaultValue="b" disabled>
+      <RadioGroup density="comfortable" defaultValue="b" disabled>
         <Radio value="a" aria-label="Disabled" />
       </RadioGroup>
-      <RadioGroup defaultValue="b" disabled>
+      <RadioGroup density="comfortable" defaultValue="b" disabled>
         <Radio value="b" aria-label="Read only" />
       </RadioGroup>
     </div>
@@ -111,8 +121,9 @@ export const States: Story = {
  */
 export const SelectionBehavior: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
+  args: { density: "comfortable" },
   render: () => (
-    <RadioGroup>
+    <RadioGroup density="comfortable">
       <Radio value="low" aria-label="Low" />
       <Radio value="medium" aria-label="Medium" />
       <Radio value="high" aria-label="High" />
@@ -150,8 +161,9 @@ export const SelectionBehavior: Story = {
  */
 export const KeyboardNavigation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
+  args: { density: "comfortable" },
   render: () => (
-    <RadioGroup defaultValue="low">
+    <RadioGroup density="comfortable" defaultValue="low">
       <Radio value="low" aria-label="Low" />
       <Radio value="medium" aria-label="Medium" />
       <Radio value="high" aria-label="High" />

@@ -2,7 +2,8 @@ import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import { cx } from "class-variance-authority";
 import * as React from "react";
 
-import { CheckboxGlyph, checkboxVariants, type CheckboxTone } from "./checkbox-styles";
+import { CheckboxGlyph } from "./checkbox-glyph";
+import { checkboxVariants, type CheckboxTone } from "./checkbox-styles";
 
 export type { CheckboxTone } from "./checkbox-styles";
 

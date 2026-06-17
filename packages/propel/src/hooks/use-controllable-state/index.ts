@@ -9,13 +9,13 @@ export type UseControllableStateParams<T> = {
   /** The initial value when uncontrolled. Seeds the internal state. */
   defaultValue?: T;
   /** Called with the next value on every change, in both controlled and uncontrolled mode. */
-  onChange?: (next: T) => void;
+  onValueChange?: (next: T) => void;
 };
 
 /**
  * Manages a value that may be either controlled (a `value` prop is supplied) or uncontrolled
  * (seeded from `defaultValue` and tracked internally). It returns the current value and a setter:
- * the setter updates internal state only when uncontrolled and always calls `onChange`, so the
+ * the setter updates internal state only when uncontrolled and always calls `onValueChange`, so the
  * consumer can mirror the value regardless of which mode it is in. A `value` of `undefined` is
  * treated as uncontrolled.
  *
@@ -24,7 +24,7 @@ export type UseControllableStateParams<T> = {
  *   const [isPressed, setPressed] = useControllableState({
  *     value: pressed,
  *     defaultValue: defaultPressed ?? false,
- *     onChange: onPressedChange,
+ *     onValueChange: onPressedChange,
  *   });
  *   return <button aria-pressed={isPressed} onClick={() => setPressed(!isPressed)} />;
  * }
@@ -42,7 +42,7 @@ export function useControllableState<T>(
 export function useControllableState<T>({
   value,
   defaultValue,
-  onChange,
+  onValueChange,
 }: UseControllableStateParams<T>): [T | undefined, (next: T) => void] {
   const isControlled = value !== undefined;
   const [internalValue, setInternalValue] = React.useState(defaultValue);
@@ -51,9 +51,9 @@ export function useControllableState<T>({
   const setValue = React.useCallback(
     (next: T) => {
       if (!isControlled) setInternalValue(next);
-      onChange?.(next);
+      onValueChange?.(next);
     },
-    [isControlled, onChange],
+    [isControlled, onValueChange],
   );
 
   return [current, setValue];

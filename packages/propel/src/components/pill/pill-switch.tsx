@@ -4,7 +4,8 @@ import { cx } from "class-variance-authority";
 import type * as React from "react";
 
 import { NodeSlot } from "../../internal/node-slot";
-import { labelFontByMagnitude, labelPillSize, PillLabel, type PillMagnitude } from "./pill-shared";
+import { PillLabel } from "./pill-label";
+import { labelFontByMagnitude, labelPillSize, type PillMagnitude } from "./pill-shared";
 
 const pillSwitchColors = cx(
   "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",

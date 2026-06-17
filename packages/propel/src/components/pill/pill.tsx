@@ -3,13 +3,9 @@ import { cx } from "class-variance-authority";
 import type * as React from "react";
 
 import { NodeSlot } from "../../internal/node-slot";
-import {
-  labelFontByMagnitude,
-  labelPillSize,
-  PillLabel,
-  PillSpinner,
-  type PillMagnitude,
-} from "./pill-shared";
+import { PillLabel } from "./pill-label";
+import { labelFontByMagnitude, labelPillSize, type PillMagnitude } from "./pill-shared";
+import { PillSpinner } from "./pill-spinner";
 
 export type { PillMagnitude } from "./pill-shared";
 
