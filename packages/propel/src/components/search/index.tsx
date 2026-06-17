@@ -3,6 +3,8 @@ import { cx } from "class-variance-authority";
 import { Search as SearchIcon, X } from "lucide-react";
 import * as React from "react";
 
+import { useControllableState } from "../../hooks/use-controllable-state/index";
+
 // The Figma "Search" component (node 1393-45336) is a single-line search field: a
 // 32px-tall, 8px-radius box with a leading magnifier, the value, and a trailing clear
 // (✕) button that appears once there's text. Built on Base UI `Input` (the text-input
@@ -54,15 +56,12 @@ export function Search({
   "aria-labelledby": ariaLabelledBy,
   ...props
 }: SearchProps) {
-  const isControlled = value !== undefined;
-  const [internalValue, setInternalValue] = React.useState(defaultValue ?? "");
-  const currentValue = isControlled ? value : internalValue;
+  const [currentValue, commit] = useControllableState<string>({
+    value,
+    defaultValue: defaultValue ?? "",
+    onChange: onValueChange,
+  });
   const inputRef = React.useRef<HTMLInputElement>(null);
-
-  const commit = (next: string) => {
-    if (!isControlled) setInternalValue(next);
-    onValueChange?.(next);
-  };
 
   const hasValue = currentValue != null && currentValue !== "";
   // Only default to "Search" when the consumer gives the field no name of its own. An
@@ -177,9 +176,11 @@ export function ExpandableSearch({
   "aria-labelledby": ariaLabelledBy,
   ...props
 }: ExpandableSearchProps) {
-  const isControlled = value !== undefined;
-  const [internalValue, setInternalValue] = React.useState(defaultValue ?? "");
-  const currentValue = isControlled ? value : internalValue;
+  const [currentValue, commit] = useControllableState<string>({
+    value,
+    defaultValue: defaultValue ?? "",
+    onChange: onValueChange,
+  });
   const hasValue = currentValue != null && currentValue !== "";
   // Only default to "Search" when the consumer gives the field no name of its own. An
   // `aria-label` would override an `aria-labelledby`, so skip it when one is provided.
@@ -189,11 +190,6 @@ export function ExpandableSearch({
   const [focused, setFocused] = React.useState(false);
   const showExpanded = focused || hasValue;
   const inputRef = React.useRef<HTMLInputElement>(null);
-
-  const commit = (next: string) => {
-    if (!isControlled) setInternalValue(next);
-    onValueChange?.(next);
-  };
 
   return (
     <div className={expandableWrapperClass}>

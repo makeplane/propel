@@ -44,6 +44,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// A non-navigating anchor for the `render` prop of crumb dropdown/menu items. Activating a
+// bare `href="#"` performs a full document navigation, which tears down the test page in the
+// browser runner — so swallow the default click. Real apps pass a router link here instead.
+const inertAnchor = () => <a href="#" onClick={(event) => event.preventDefault()} />;
+
 /** A three-level trail ending in the current page. */
 export const Default: Story = {
   render: () => (
@@ -87,8 +92,8 @@ export const WithDropdown: Story = {
       <BreadcrumbSeparator />
       <BreadcrumbItem>
         <BreadcrumbDropdown>
-          <BreadcrumbDropdownItem render={<a href="#" />}>Projects</BreadcrumbDropdownItem>
-          <BreadcrumbDropdownItem render={<a href="#" />}>Design</BreadcrumbDropdownItem>
+          <BreadcrumbDropdownItem render={inertAnchor()}>Projects</BreadcrumbDropdownItem>
+          <BreadcrumbDropdownItem render={inertAnchor()}>Design</BreadcrumbDropdownItem>
         </BreadcrumbDropdown>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
@@ -118,8 +123,8 @@ export const DropdownInteraction: Story = {
       <BreadcrumbSeparator />
       <BreadcrumbItem>
         <BreadcrumbDropdown>
-          <BreadcrumbDropdownItem render={<a href="#" />}>Projects</BreadcrumbDropdownItem>
-          <BreadcrumbDropdownItem render={<a href="#" />}>Design</BreadcrumbDropdownItem>
+          <BreadcrumbDropdownItem render={inertAnchor()}>Projects</BreadcrumbDropdownItem>
+          <BreadcrumbDropdownItem render={inertAnchor()}>Design</BreadcrumbDropdownItem>
         </BreadcrumbDropdown>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
@@ -163,9 +168,9 @@ export const WithMenuCrumb: Story = {
             Plane Design
           </BreadcrumbMenuTrigger>
           <BreadcrumbMenuContent>
-            <BreadcrumbMenuItem variant="default" render={<a href="#" />} label="Plane Web" />
-            <BreadcrumbMenuItem variant="default" render={<a href="#" />} label="Plane Mobile" />
-            <BreadcrumbMenuItem variant="default" render={<a href="#" />} label="Plane Server" />
+            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Web" />
+            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Mobile" />
+            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Server" />
           </BreadcrumbMenuContent>
         </BreadcrumbMenu>
       </BreadcrumbItem>
@@ -199,10 +204,10 @@ export const MenuCrumbSelected: Story = {
         <BreadcrumbMenu>
           <BreadcrumbMenuTrigger>List</BreadcrumbMenuTrigger>
           <BreadcrumbMenuContent>
-            <BreadcrumbMenuItem variant="default" selected render={<a href="#" />} label="List" />
-            <BreadcrumbMenuItem variant="default" render={<a href="#" />} label="Board" />
-            <BreadcrumbMenuItem variant="default" render={<a href="#" />} label="Calendar" />
-            <BreadcrumbMenuItem variant="default" render={<a href="#" />} label="Spreadsheet" />
+            <BreadcrumbMenuItem variant="default" selected render={inertAnchor()} label="List" />
+            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Board" />
+            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Calendar" />
+            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Spreadsheet" />
           </BreadcrumbMenuContent>
         </BreadcrumbMenu>
       </BreadcrumbItem>
@@ -231,20 +236,8 @@ export const KeyboardNavigation: Story = {
             Plane Design
           </BreadcrumbMenuTrigger>
           <BreadcrumbMenuContent>
-            {/* In a real breadcrumb the sibling switcher navigates via a router
-                (preventDefault + client-side nav). Activating a bare `href="#"`
-                here would perform a full document navigation, which tears down the
-                test page in the browser runner — so swallow the default. */}
-            <BreadcrumbMenuItem
-              variant="default"
-              render={<a href="#" onClick={(event) => event.preventDefault()} />}
-              label="Plane Web"
-            />
-            <BreadcrumbMenuItem
-              variant="default"
-              render={<a href="#" onClick={(event) => event.preventDefault()} />}
-              label="Plane Mobile"
-            />
+            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Web" />
+            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Mobile" />
           </BreadcrumbMenuContent>
         </BreadcrumbMenu>
       </BreadcrumbItem>

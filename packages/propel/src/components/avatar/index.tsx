@@ -84,6 +84,10 @@ export type AvatarProps = Omit<
   fallback?: React.ReactNode;
   /** Initials background color. Defaults to a stable color derived from `alt`. */
   tone?: AvatarTone;
+  /**
+   * Avatar size. Optional because an `Avatar` inside an `AvatarGroup` inherits the group's
+   * magnitude; standalone it falls back to `md`.
+   */
   magnitude?: AvatarMagnitude;
 };
 
@@ -93,10 +97,10 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
   // it off `src` would miss the load/error case. Initials = a label tone color +
   // white text; the person icon = the neutral layer + a muted placeholder icon.
   const hasInitials = fallback != null;
-  // An explicit `magnitude` wins; otherwise inherit the group's (if inside one).
-  // There is no default — size must come from the prop or an enclosing AvatarGroup.
+  // An explicit `magnitude` wins; otherwise inherit the group's (if inside one); a
+  // standalone avatar with neither falls back to `md` so it always has a size.
   const groupMagnitude = React.useContext(AvatarGroupContext);
-  const effectiveMagnitude = magnitude ?? groupMagnitude;
+  const effectiveMagnitude = magnitude ?? groupMagnitude ?? "md";
   // The tone is auto-derived from the name unless explicitly set, so each person
   // gets a stable color without the caller having to choose one.
   const resolvedTone = tone ?? getAvatarTone(alt ?? "");
@@ -124,12 +128,7 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
             : "bg-layer-1 text-icon-placeholder",
         )}
       >
-        {fallback ?? (
-          <User
-            aria-hidden
-            className={effectiveMagnitude ? iconSizeByMagnitude[effectiveMagnitude] : undefined}
-          />
-        )}
+        {fallback ?? <User aria-hidden className={iconSizeByMagnitude[effectiveMagnitude]} />}
       </BaseAvatar.Fallback>
     </BaseAvatar.Root>
   );

@@ -43,6 +43,25 @@ export const Default: Story = {
   },
 };
 
+/** Horizontal overflow only: a single horizontal scrollbar, shown on demand. */
+export const Horizontal: Story = {
+  args: {
+    orientation: "horizontal",
+    children: (
+      <div className="flex w-max gap-3 p-3">
+        {Array.from({ length: 20 }, (_, i) => (
+          <div
+            key={i}
+            className="flex h-16 w-40 shrink-0 items-center justify-center rounded-md bg-layer-2 text-13 text-secondary"
+          >
+            Card {i + 1}
+          </div>
+        ))}
+      </div>
+    ),
+  },
+};
+
 /** Both axes overflow: a vertical and a horizontal scrollbar, each shown on demand. */
 export const BothAxes: Story = {
   args: {

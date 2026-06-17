@@ -142,9 +142,13 @@ const STATUSES = [
 // Priority glyphs (Figma "Priority" demo).
 const PRIORITIES = [
   { key: "urgent", label: "Urgent", icon: <span className="text-12">⛔</span> },
-  { key: "high", label: "High", icon: <SignalHigh className="text-orange-500 size-4" /> },
-  { key: "medium", label: "Medium", icon: <SignalMedium className="text-amber-500 size-4" /> },
-  { key: "low", label: "Low", icon: <SignalLow className="text-blue-500 size-4" /> },
+  { key: "high", label: "High", icon: <SignalHigh className="size-4 text-label-orange-icon" /> },
+  {
+    key: "medium",
+    label: "Medium",
+    icon: <SignalMedium className="size-4 text-label-yellow-icon" />,
+  },
+  { key: "low", label: "Low", icon: <SignalLow className="size-4 text-label-indigo-icon" /> },
   { key: "none", label: "None", icon: <span className="text-tertiary">—</span> },
 ] as const;
 
