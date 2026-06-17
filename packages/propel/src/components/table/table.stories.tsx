@@ -493,7 +493,7 @@ export const StickyHeaderAndColumns: Story = {
     // and the inline-start edge (pinned column).
     const nameHeader = canvas.getByRole("columnheader", { name: "Name" });
     await expect(nameHeader).toHaveClass("sticky");
-    await expect(nameHeader).toHaveClass("start-0");
+    await expect(nameHeader).toHaveClass("inset-s-0");
     await expect(nameHeader).toHaveClass("top-0");
   },
 };
