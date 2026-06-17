@@ -205,6 +205,23 @@ export const SingleGap: Story = {
 };
 
 /**
+ * Symmetric single-gap case on the trailing side: the lone skipped page before the final anchor is
+ * rendered as a number rather than hidden behind an ellipsis.
+ */
+export const SingleTrailingGap: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { page: 5, pageCount: 8 },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole("button", { name: "Go to page 7" })).toBeInTheDocument();
+    await expect(canvas.queryByRole("button", { name: "Go to page 2" })).not.toBeInTheDocument();
+
+    for (const n of [1, 4, 5, 6, 7, 8]) {
+      await expect(canvas.getByRole("button", { name: `Go to page ${n}` })).toBeInTheDocument();
+    }
+  },
+};
+
+/**
  * Behavioral checks: the nav landmark is named, the current page is marked `aria-current` and
  * disabled, the previous button is disabled at the first page, and activating a page number reports
  * the new page through `onPageChange`.
@@ -302,8 +319,19 @@ export const KeyboardNavigation: Story = {
       await expect(onPageChange).toHaveBeenLastCalledWith(25);
     });
 
+    await step("Prev moves back from an enabled page", async () => {
+      const prev = canvas.getByRole("button", { name: "Go to previous page" });
+      await expect(prev).toBeEnabled();
+      await userEvent.click(prev);
+      await expect(onPageChange).toHaveBeenLastCalledWith(24);
+      await expect(canvas.getByRole("button", { name: "Go to page 24" })).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
+    });
+
     await step("Next is disabled at the last page and never fires", async () => {
-      // Space took us to the last page (25), so Next is now at its bound.
+      await userEvent.click(canvas.getByRole("button", { name: "Go to page 25" }));
       const next = canvas.getByRole("button", { name: "Go to next page" });
       await expect(next).toBeDisabled();
       onPageChange.mockClear();

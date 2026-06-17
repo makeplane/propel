@@ -31,11 +31,9 @@ const withTheme: Decorator = (Story, context) => {
   const theme: Theme = THEMES.includes(candidate as Theme) ? (candidate as Theme) : TEST_THEME;
   useLayoutEffect(() => {
     const el = document.documentElement;
-    const previous = el.dataset.theme;
     el.dataset.theme = theme;
     return () => {
-      if (previous == null) delete el.dataset.theme;
-      else el.dataset.theme = previous;
+      delete el.dataset.theme;
     };
   }, [theme]);
   return <Story />;
