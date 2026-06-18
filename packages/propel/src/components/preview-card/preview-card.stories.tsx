@@ -23,7 +23,16 @@ export const Default: Story = {
       The open-source project tracker{" "}
       <PreviewCard>
         <PreviewCardTrigger
-          render={<a href="https://plane.so" className="text-accent-strong underline" />}
+          render={
+            // Real external href for link semantics, but cancel navigation: the Vitest
+            // browser runner shares one page across story files, so a real navigation
+            // tears down the iframe and fails unrelated stories.
+            <a
+              href="https://plane.so"
+              className="text-accent-strong underline"
+              onClick={(event) => event.preventDefault()}
+            />
+          }
         >
           Plane
         </PreviewCardTrigger>

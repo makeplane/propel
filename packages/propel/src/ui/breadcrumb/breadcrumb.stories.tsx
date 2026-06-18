@@ -35,15 +35,21 @@ export const Default: Story = {
   render: () => (
     <Breadcrumb>
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Plane</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Plane
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Projects</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Projects
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Design</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Design
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
@@ -67,7 +73,9 @@ export const MenuTrigger: Story = {
   render: () => (
     <Breadcrumb>
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Plane</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Plane
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>

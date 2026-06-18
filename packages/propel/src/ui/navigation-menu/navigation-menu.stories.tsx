@@ -47,6 +47,11 @@ const RESOURCE_LINKS = [
   { href: "#changelog", title: "Changelog", description: "What shipped recently." },
 ];
 
+// The demo links carry real hrefs for correct anchor semantics, but cancel navigation:
+// the Vitest browser runner shares one page across story files, so an activated link
+// navigates the page, tears down the iframe, and fails unrelated stories.
+const cancelNavigation = (event: React.MouseEvent) => event.preventDefault();
+
 /** A menu with two dropdown items and a bare top-level link. */
 export const Default: Story = {
   render: () => (
@@ -58,7 +63,7 @@ export const Default: Story = {
             <ul className="grid w-[28rem] grid-cols-2 gap-1 p-2">
               {PRODUCT_LINKS.map((item) => (
                 <li key={item.href}>
-                  <NavigationMenuLink render={<a href={item.href} />}>
+                  <NavigationMenuLink render={<a href={item.href} onClick={cancelNavigation} />}>
                     <span className="block text-14 font-medium text-primary">{item.title}</span>
                     <span className="block text-12 text-tertiary">{item.description}</span>
                   </NavigationMenuLink>
@@ -74,7 +79,7 @@ export const Default: Story = {
             <ul className="flex w-72 flex-col gap-1 p-2">
               {RESOURCE_LINKS.map((item) => (
                 <li key={item.href}>
-                  <NavigationMenuLink render={<a href={item.href} />}>
+                  <NavigationMenuLink render={<a href={item.href} onClick={cancelNavigation} />}>
                     <span className="block text-14 font-medium text-primary">{item.title}</span>
                     <span className="block text-12 text-tertiary">{item.description}</span>
                   </NavigationMenuLink>
@@ -85,7 +90,9 @@ export const Default: Story = {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuLink render={<a href="#pricing" />}>Pricing</NavigationMenuLink>
+          <NavigationMenuLink render={<a href="#pricing" onClick={cancelNavigation} />}>
+            Pricing
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
 
@@ -132,7 +139,7 @@ export const OpenContent: Story = {
             <ul className="flex w-72 flex-col gap-1 p-2">
               {PRODUCT_LINKS.map((item) => (
                 <li key={item.href}>
-                  <NavigationMenuLink render={<a href={item.href} />}>
+                  <NavigationMenuLink render={<a href={item.href} onClick={cancelNavigation} />}>
                     {item.title}
                   </NavigationMenuLink>
                 </li>

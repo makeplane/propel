@@ -18,9 +18,6 @@ import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vite-plus";
 import { configDefaults } from "vite-plus/test/config";
 
-// Shared source of truth for the theme list (also used by `.storybook/preview.tsx`)
-// so the per-theme test projects below can't drift from the toolbar/a11y themes.
-import { THEMES } from "./.storybook/themes";
 const dirname =
   typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
@@ -81,17 +78,14 @@ export default defineConfig({
   // Keep vite's dev/test server out of nested agent worktrees (`.claude/worktrees/<name>`,
   // full second checkouts living inside the workspace root). See the root `vite.config.ts`.
   server: { watch: { ignored: ["**/.claude/**"] } },
-  // Crawl every story up front so the dep optimizer pre-bundles all of their imports in a
-  // single pass at server start. Otherwise the browser discovers story deps lazily, vite
-  // re-optimizes mid-run, and the new bundle hash 404s in-flight module requests across the
-  // parallel browser instances ("Failed to fetch dynamically imported module"). Listing the
-  // stories as optimizer entries makes the cold-start optimize complete before any test loads.
+  // Pre-bundle every story's deps in a single optimizer pass at server start. Without this the
+  // browser discovers deps lazily, so a late story importing a not-yet-bundled dep triggers a
+  // mid-run re-optimize; that commits a new bundle, reloads the page, and 404s the module
+  // requests in flight at that moment ("Failed to fetch dynamically imported module"). Listing
+  // the stories as optimizer entries + holding the server until the crawl finishes makes the
+  // bundle complete before any test loads.
   optimizeDeps: {
     entries: ["src/**/*.stories.tsx"],
-    // Hold the server until the full story crawl finishes so the optimizer pre-bundles
-    // everything in ONE pass. Otherwise vite commits a first pass, the crawl then adds the
-    // stories' deps, and the re-bundle flips every module's hash -- 404ing in-flight
-    // requests from the parallel browser instances on a cold cache.
     holdUntilCrawlEnd: true,
   },
   test: {
@@ -99,56 +93,25 @@ export default defineConfig({
     // worktree checkouts (each carries a duplicate copy of every story). The storybook
     // project below extends this config, so the exclude applies to it too.
     exclude: [...configDefaults.exclude, "**/.claude/**"],
-    // Cap how many story files run at once. Each runs in all four theme instances (see
-    // `browser.instances` below), so the default scheduler on a 16-core machine launches
-    // dozens of chromium contexts simultaneously; under that pressure pages drop their
-    // WebSocket ("Browser connection was closed") and in-flight module requests race the
-    // first dep-optimize pass ("Failed to fetch dynamically imported module"). Both are
-    // infra flakes, not product failures. A moderate cap keeps real parallelism (this is
-    // not `--no-file-parallelism`) while staying within what one browser pool serves
-    // reliably; each file is fast, so the wall-clock cost is small.
-    maxWorkers: 4,
-    // A SINGLE Storybook test project. The addon-vitest plugin identifies its project by
-    // the `.storybook` configDir (it overrides the name to `storybook:<configDir>` when
-    // launched from the Storybook UI), so there can only be one project per configDir --
-    // multiple projects sharing one `.storybook` collide on that name and break the
-    // in-Storybook test runner.
-    //
-    // The a11y gate still runs every story in every theme by fanning out over Vitest
-    // browser `instances` (the supported multi-config axis): one chromium instance per
-    // theme, each injecting its theme through `env` (`STORYBOOK_TEST_THEME`). The custom
-    // `withTheme` decorator in `.storybook/preview.tsx` reads that env at runtime and sets
-    // `data-theme` on <html>. (addon-themes' own decorator does not run under addon-vitest,
-    // which previously left the gate blind to every non-light theme.)
+    // The standard Storybook Vitest-addon project: one chromium browser instance running
+    // every story as a test (render → play → a11y gate). See the addon docs:
+    // https://storybook.js.org/docs/writing-tests/integrations/vitest-addon
     projects: [
       {
         extends: true,
         plugins: [
           // The plugin runs tests for the stories defined in the Storybook config.
-          // https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
           storybookTest({
             configDir: path.join(dirname, ".storybook"),
           }),
         ],
         test: {
           name: "storybook",
-          // Retry transient browser-context failures. Even with the concurrency cap
-          // above, a chromium page can occasionally drop its connection or a module
-          // import can time out under load -- infrastructure flakes, not product
-          // failures -- so a couple of retries keep CI deterministic.
-          retry: 2,
           browser: {
             enabled: true,
             headless: true,
             provider: playwright({}),
-            // One browser instance per theme; each sets `data-theme` from its `env`.
-            // A unique `name` is required because Vitest otherwise derives the same
-            // `storybook (chromium)` for every same-browser instance.
-            instances: THEMES.map((theme) => ({
-              browser: "chromium",
-              name: theme,
-              env: { STORYBOOK_TEST_THEME: theme },
-            })),
+            instances: [{ browser: "chromium" }],
           },
         },
       },

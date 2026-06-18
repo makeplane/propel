@@ -65,7 +65,9 @@ export const Active: Story = {
 export const AsLink: Story = {
   args: {
     active: true,
-    render: <a href="#inbox" />,
+    // Real href for link semantics, but cancel navigation: the Vitest browser runner
+    // shares one page across story files, so a real navigation tears down the iframe.
+    render: <a href="#inbox" onClick={(event) => event.preventDefault()} />,
   },
   play: async ({ canvas }) => {
     const link = canvas.getByRole("link", { name: "Inbox" });

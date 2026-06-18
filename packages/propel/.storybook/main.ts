@@ -3,8 +3,12 @@ import tailwindcss from "@tailwindcss/vite";
 
 const config: StorybookConfig = {
   framework: "@storybook/react-vite",
-  // Stories live next to the components/hooks they document.
-  stories: ["../src/**/*.stories.@(ts|tsx)", "../src/**/*.mdx"],
+  // Stories live next to the components/hooks they document. (No `*.mdx` glob:
+  // propel has no standalone MDX docs pages — docs are autodocs-generated from the
+  // CSF stories below — and an empty glob makes addon-vitest warn "No story files
+  // found for the specified pattern". Add it back here if a hand-written .mdx page
+  // is ever introduced.)
+  stories: ["../src/**/*.stories.@(ts|tsx)"],
   features: {
     // RCM (Volar + TS Language Server) — faster, higher-quality component metadata.
     // Today it only powers addon-mcp (AI docs); Storybook plans to extend it to the

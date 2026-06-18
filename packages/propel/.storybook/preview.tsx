@@ -1,63 +1,20 @@
 import { DirectionProvider } from "@base-ui/react/direction-provider";
+import { withThemeByDataAttribute } from "@storybook/addon-themes";
 import type { Decorator, Preview } from "@storybook/react-vite";
 import { useLayoutEffect } from "react";
 
 import "./preview.css";
-import { type Theme, THEMES } from "./themes";
+import { THEMES } from "./themes";
 
-// Stories render real anchors (`<a href>`, including an external `https://plane.so` in the
-// preview-card stories) to demonstrate link semantics, but they only ASSERT those semantics
-// (role/href) -- none exercise actual navigation. Under the Vitest browser runner every story
-// file shares one page, so if a link is ever activated (a play step, a stray Enter after a
-// focus assertion, an external href) the page navigates, the shared iframe is torn down, and
-// *unrelated* story files fail with "Cannot connect to the iframe" -- aborting the whole run
-// at a random file. Cancel the default navigation for every anchor click at the document level
-// (capture phase, so nothing can stopPropagation first; a keyboard Enter on a focused link also
-// dispatches a click). preventDefault leaves href/role intact for assertions and does not stop
-// Base UI's own click handlers, so menus still close on selection.
-if (typeof document !== "undefined") {
-  document.addEventListener(
-    "click",
-    (event) => {
-      if ((event.target as Element | null)?.closest?.("a[href]")) event.preventDefault();
-    },
-    true,
-  );
-}
-
-// Per-test-instance theme, injected by `vite.config.ts` through each Vitest browser
-// instance's `env` (`STORYBOOK_TEST_THEME`) so the a11y gate can run every story in
-// every theme. An env var is untrusted input, so validate it against the known THEMES;
-// anything unset, empty, or unrecognized falls back to `light` (e.g. `storybook dev`,
-// where the toolbar global drives the theme instead). Without this, a bogus value would
-// set `data-theme` to a theme with no tokens and the gate would run against nothing.
-const envTheme = import.meta.env.STORYBOOK_TEST_THEME;
-const TEST_THEME: Theme = THEMES.includes(envTheme as Theme) ? (envTheme as Theme) : "light";
-
-// Apply the active theme by setting `data-theme` on <html>. We do this with a custom
-// decorator rather than `@storybook/addon-themes`' `withThemeByDataAttribute` because
-// that addon's decorator does NOT run under `@storybook/addon-vitest` (the headless
-// test render leaves `data-theme` unset), which silently left the a11y gate blind to
-// every non-light theme. This decorator runs in both environments: it uses the toolbar
-// `theme` global when set (manual), else the per-project `TEST_THEME` (CI), else light.
-// NOTE: `||` (not `??`) because addon-vitest passes an EMPTY STRING for an unset global,
-// not `undefined`. The themed `bg-canvas` on <body> (preview.css) then gives axe the
-// real backdrop to compute contrast against.
-const withTheme: Decorator = (Story, context) => {
-  // Validate the toolbar global against the known theme list before trusting it: a
-  // URL `?globals=theme:...` (or a future global) could hand us an arbitrary string.
-  // Fall back to the per-project `TEST_THEME` (light in manual) when it isn't valid.
-  const candidate = context.globals.theme;
-  const theme: Theme = THEMES.includes(candidate as Theme) ? (candidate as Theme) : TEST_THEME;
-  useLayoutEffect(() => {
-    const el = document.documentElement;
-    el.dataset.theme = theme;
-    return () => {
-      delete el.dataset.theme;
-    };
-  }, [theme]);
-  return <Story />;
-};
+// Standard `@storybook/addon-themes` theme decorator: sets `data-theme` on <html> (which drives
+// propel's tokens via `@variant` in variables.css) from the `theme` global — the toolbar in
+// `storybook dev`, or `defaultTheme` when there's no toolbar (the addon-vitest test run). It also
+// registers the Theme toolbar dropdown, so no manual `globalTypes.theme` is needed.
+const withTheme = withThemeByDataAttribute({
+  attributeName: "data-theme",
+  defaultTheme: "light",
+  themes: Object.fromEntries(THEMES.map((theme) => [theme, theme])),
+});
 
 // Toolbar Direction switcher → drives both the DOM `dir` attribute (which powers
 // CSS logical properties + Tailwind `rtl:` utilities, and reaches portaled popups)
@@ -86,23 +43,11 @@ const preview: Preview = {
   // opt-in). The Docs page aggregates all of a component's stories + the props
   // table into one scrollable view — the surface a designer reviews during an audit.
   tags: ["autodocs"],
-  // Toolbar theme switcher → sets `data-theme` on <html>, which drives propel's
-  // multi-theme tokens (light / dark / *-contrast via `@variant` in variables.css).
+  // Theme (`withThemeByDataAttribute`, sets `data-theme`) + writing direction (LTR/RTL).
   decorators: [withTheme, withDirection],
   globalTypes: {
-    // Toolbar Theme dropdown (light / dark / *-contrast) for manual review. In tests
-    // the theme comes from the per-project `TEST_THEME` instead (no toolbar there).
-    theme: {
-      description: "Theme",
-      defaultValue: "light",
-      toolbar: {
-        title: "Theme",
-        icon: "paintbrush",
-        items: THEMES.map((value) => ({ value, title: value })),
-        dynamicTitle: true,
-      },
-    },
-    // Toolbar Direction dropdown (LTR / RTL) for reviewing layout mirroring.
+    // Toolbar Direction dropdown (LTR / RTL) for reviewing layout mirroring. (The Theme
+    // dropdown is registered by `withThemeByDataAttribute` above.)
     direction: {
       description: "Writing direction (LTR / RTL)",
       defaultValue: "ltr",
@@ -138,10 +83,7 @@ const preview: Preview = {
     },
 
     a11y: {
-      // All four themes enforce the axe gate (fail CI on violations): each theme runs in
-      // its own test project (see vite.config.ts). The #99 label-contrast gaps are fixed in
-      // variables.css, and primary buttons / the selected calendar day now use `text-inverse`
-      // for AA contrast on the brand surface. ('todo' = report-only, 'off' = skip.)
+      // The axe gate fails CI on violations ('todo' = report-only, 'off' = skip).
       test: "error",
     },
   },
