@@ -81,11 +81,33 @@ export default defineConfig({
   // Keep vite's dev/test server out of nested agent worktrees (`.claude/worktrees/<name>`,
   // full second checkouts living inside the workspace root). See the root `vite.config.ts`.
   server: { watch: { ignored: ["**/.claude/**"] } },
+  // Crawl every story up front so the dep optimizer pre-bundles all of their imports in a
+  // single pass at server start. Otherwise the browser discovers story deps lazily, vite
+  // re-optimizes mid-run, and the new bundle hash 404s in-flight module requests across the
+  // parallel browser instances ("Failed to fetch dynamically imported module"). Listing the
+  // stories as optimizer entries makes the cold-start optimize complete before any test loads.
+  optimizeDeps: {
+    entries: ["src/**/*.stories.tsx"],
+    // Hold the server until the full story crawl finishes so the optimizer pre-bundles
+    // everything in ONE pass. Otherwise vite commits a first pass, the crawl then adds the
+    // stories' deps, and the re-bundle flips every module's hash -- 404ing in-flight
+    // requests from the parallel browser instances on a cold cache.
+    holdUntilCrawlEnd: true,
+  },
   test: {
     // Vitest ignores `.gitignore`, so its file discovery would otherwise crawl those
     // worktree checkouts (each carries a duplicate copy of every story). The storybook
     // project below extends this config, so the exclude applies to it too.
     exclude: [...configDefaults.exclude, "**/.claude/**"],
+    // Cap how many story files run at once. Each runs in all four theme instances (see
+    // `browser.instances` below), so the default scheduler on a 16-core machine launches
+    // dozens of chromium contexts simultaneously; under that pressure pages drop their
+    // WebSocket ("Browser connection was closed") and in-flight module requests race the
+    // first dep-optimize pass ("Failed to fetch dynamically imported module"). Both are
+    // infra flakes, not product failures. A moderate cap keeps real parallelism (this is
+    // not `--no-file-parallelism`) while staying within what one browser pool serves
+    // reliably; each file is fast, so the wall-clock cost is small.
+    maxWorkers: 4,
     // A SINGLE Storybook test project. The addon-vitest plugin identifies its project by
     // the `.storybook` configDir (it overrides the name to `storybook:<configDir>` when
     // launched from the Storybook UI), so there can only be one project per configDir --
@@ -110,13 +132,11 @@ export default defineConfig({
         ],
         test: {
           name: "storybook",
-          // Retry once on failure. On a cold start, Vite's dep optimizer can re-bundle
-          // a Storybook internal dep (e.g. @storybook/react-dom-shim) mid-run and
-          // invalidate the cached module URL, so a story file intermittently fails to
-          // import with "Failed to fetch dynamically imported module". It's a dep-
-          // optimizer timing race, not a product failure (the dep is cached by the
-          // retry), so a single retry clears it and keeps CI deterministic.
-          retry: 1,
+          // Retry transient browser-context failures. Even with the concurrency cap
+          // above, a chromium page can occasionally drop its connection or a module
+          // import can time out under load -- infrastructure flakes, not product
+          // failures -- so a couple of retries keep CI deterministic.
+          retry: 2,
           browser: {
             enabled: true,
             headless: true,

@@ -5,6 +5,26 @@ import { useLayoutEffect } from "react";
 import "./preview.css";
 import { type Theme, THEMES } from "./themes";
 
+// Stories render real anchors (`<a href>`, including an external `https://plane.so` in the
+// preview-card stories) to demonstrate link semantics, but they only ASSERT those semantics
+// (role/href) -- none exercise actual navigation. Under the Vitest browser runner every story
+// file shares one page, so if a link is ever activated (a play step, a stray Enter after a
+// focus assertion, an external href) the page navigates, the shared iframe is torn down, and
+// *unrelated* story files fail with "Cannot connect to the iframe" -- aborting the whole run
+// at a random file. Cancel the default navigation for every anchor click at the document level
+// (capture phase, so nothing can stopPropagation first; a keyboard Enter on a focused link also
+// dispatches a click). preventDefault leaves href/role intact for assertions and does not stop
+// Base UI's own click handlers, so menus still close on selection.
+if (typeof document !== "undefined") {
+  document.addEventListener(
+    "click",
+    (event) => {
+      if ((event.target as Element | null)?.closest?.("a[href]")) event.preventDefault();
+    },
+    true,
+  );
+}
+
 // Per-test-instance theme, injected by `vite.config.ts` through each Vitest browser
 // instance's `env` (`STORYBOOK_TEST_THEME`) so the a11y gate can run every story in
 // every theme. An env var is untrusted input, so validate it against the known THEMES;
