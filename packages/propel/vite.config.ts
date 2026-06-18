@@ -16,6 +16,7 @@ import { fileURLToPath } from "node:url";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vite-plus";
+import { configDefaults } from "vite-plus/test/config";
 
 // Shared source of truth for the theme list (also used by `.storybook/preview.tsx`)
 // so the per-theme test projects below can't drift from the toolbar/a11y themes.
@@ -77,7 +78,14 @@ export default defineConfig({
       },
     ],
   },
+  // Keep vite's dev/test server out of nested agent worktrees (`.claude/worktrees/<name>`,
+  // full second checkouts living inside the workspace root). See the root `vite.config.ts`.
+  server: { watch: { ignored: ["**/.claude/**"] } },
   test: {
+    // Vitest ignores `.gitignore`, so its file discovery would otherwise crawl those
+    // worktree checkouts (each carries a duplicate copy of every story). The storybook
+    // project below extends this config, so the exclude applies to it too.
+    exclude: [...configDefaults.exclude, "**/.claude/**"],
     // A SINGLE Storybook test project. The addon-vitest plugin identifies its project by
     // the `.storybook` configDir (it overrides the name to `storybook:<configDir>` when
     // launched from the Storybook UI), so there can only be one project per configDir --
