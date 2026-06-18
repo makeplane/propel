@@ -1,5 +1,5 @@
-import { DropdownContent, type DropdownContentProps } from "../dropdown/index";
+import { MenuContent, type MenuContentProps } from "../menu/index";
 
 /** The menu surface for a `ToolbarDropdown`. */
-export const ToolbarDropdownContent = DropdownContent;
-export type ToolbarDropdownContentProps = DropdownContentProps;
+export const ToolbarDropdownContent = MenuContent;
+export type ToolbarDropdownContentProps = MenuContentProps;

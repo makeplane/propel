@@ -1,54 +1,26 @@
-import { Toast as BaseToast } from "@base-ui/react/toast";
-import { cva, cx, type VariantProps } from "class-variance-authority";
+import type { Toast as BaseToast } from "@base-ui/react/toast";
 import { X } from "lucide-react";
-import * as React from "react";
 
-import { surfaceVariants } from "../../internal/surface";
+import {
+  Toast as ToastRoot,
+  ToastAction,
+  ToastClose,
+  ToastContent,
+  ToastDescription,
+  ToastStatusIcon,
+  type ToastTone,
+  ToastTitle,
+  createToastManager as createBaseToastManager,
+  useToastManager,
+} from "../../ui/toast/index";
 import { Progress } from "../progress/index";
-import { SolidCircleAlert } from "./solid-circle-alert";
-import { SolidCircleCheck } from "./solid-circle-check";
-import { SolidCircleX } from "./solid-circle-x";
-import type { StatusIconProps } from "./solid-icon";
-import { SolidInfo } from "./solid-info";
-import { SolidTriangleAlert } from "./solid-triangle-alert";
-
-// Solid status icons. Figma's toast (node 1144-3158) uses *filled* status glyphs —
-// a tone-colored disc/triangle with the symbol knocked out of it — not lucide's
-// stroke-based outlines. lucide-react ships no filled equivalents (every status
-// icon is outline-only), so these are hand-authored on the same 24×24 grid lucide
-// uses. The shape fills with `currentColor` (set per-tone via `text-icon-*`) and
-// the inner symbol is a true cut-out (even-odd fill rule), so it shows the card
-// surface behind it — reading as white on light, dark on dark, with no hardcoded
-// color. Signature matches lucide so the rest of the component is unchanged.
-type StatusIcon = (props: StatusIconProps) => React.JSX.Element;
 
 // The semantic intent of a toast (Figma "Property 1": Default / Variant2 / Variant3
 // = success / danger / info). `warning` and `neutral` round out the standard set.
-// Each tone auto-selects a filled status icon and its color token — the caller never
-// passes an icon. `tone` is required and lives in the toast's `data` payload (see `ToastData`).
-const STATUS_ICON: Record<ToastTone, StatusIcon> = {
-  success: SolidCircleCheck,
-  danger: SolidCircleX,
-  info: SolidInfo,
-  warning: SolidTriangleAlert,
-  neutral: SolidCircleAlert,
-};
-
-// Status-icon color per tone, straight from propel's `icon/*` tokens. The icon is
-// the only tone-colored element; surface/border/text stay neutral, matching Figma.
-const statusIconVariants = cva("size-4 shrink-0", {
-  variants: {
-    tone: {
-      success: "text-icon-success-primary",
-      danger: "text-icon-danger-primary",
-      info: "text-icon-info-primary",
-      warning: "text-icon-warning-primary",
-      neutral: "text-icon-tertiary",
-    },
-  },
-});
-
-export type ToastTone = NonNullable<VariantProps<typeof statusIconVariants>["tone"]>;
+// Each tone auto-selects a filled status icon and its color token (see `ToastStatusIcon`) —
+// the caller never passes an icon. `tone` is required and lives in the toast's `data`
+// payload (see `ToastData`).
+export type { ToastTone };
 
 /**
  * A single action button rendered inside a toast. The toast is a portaled, auto-dismissing surface
@@ -95,27 +67,14 @@ export type ToastData = {
 // `ToastData` as the default payload. Consumers can still pass a narrower extension
 // type, but the default path requires the `tone` data this renderer needs.
 export function createToastManager<Data extends ToastData = ToastData>() {
-  return BaseToast.createToastManager<Data>();
+  return createBaseToastManager<Data>();
 }
 
 export function useToast<Data extends ToastData = ToastData>() {
-  return BaseToast.useToastManager<Data>();
+  return useToastManager<Data>();
 }
 
-// Shared action-button styling, straight from Figma's "Buttons" sub-frame: a 24px-tall
-// pill with a 40px min width, `md` radius, 13px medium secondary text, transparent
-// background that fills on hover. Used for both the left cluster and the right action.
-const actionButtonClassName = cx(
-  "inline-flex h-6 min-w-10 shrink-0 items-center justify-center gap-1 rounded-md px-2",
-  "text-13 font-medium text-secondary outline-none",
-  "bg-layer-transparent transition-colors hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
-  "focus-visible:ring-2 focus-visible:ring-accent-strong",
-);
-
-export type ToastProps = Omit<
-  React.ComponentProps<typeof BaseToast.Root>,
-  "className" | "render" | "style"
->;
+export type ToastProps = Omit<React.ComponentProps<typeof BaseToast.Root>, "className" | "style">;
 
 /**
  * A single styled toast: status icon (auto-selected from `toast.data.tone`), title, description,
@@ -132,7 +91,6 @@ export function Toast({ toast, ...props }: ToastProps) {
       'propel Toast requires a `tone` in the toast\'s data payload, e.g. toast.add({ title, data: { tone: "info" } }).',
     );
   }
-  const StatusIcon = STATUS_ICON[data.tone];
   // Action buttons, per Figma (node 1146-61689): a left cluster of up to two buttons
   // plus an optional right-aligned primary action. The button row only renders when
   // there's at least one of either, so an action-less toast keeps its tight layout.
@@ -140,26 +98,15 @@ export function Toast({ toast, ...props }: ToastProps) {
   const primaryAction = data.primaryAction;
   const hasActionRow = leftActions.length > 0 || primaryAction != null;
   return (
-    <BaseToast.Root
-      toast={toast}
-      // Surface: the shared floating-card surface (white `surface-1`, subtle
-      // border) with `raised` overlay shadow and `lg` radius. `data-[ending]`
-      // fades the toast on dismiss.
-      className={cx(
-        surfaceVariants({ elevation: "raised", radius: "lg" }),
-        "relative flex w-full items-start gap-2 px-4 py-3",
-        "transition-opacity data-ending:opacity-0",
-      )}
-      {...props}
-    >
+    <ToastRoot toast={toast} {...props}>
       {/* Status icon sits in a 2px-padded column so it baselines with the title. */}
       <span className="flex items-center py-0.5">
-        <StatusIcon aria-hidden className={statusIconVariants({ tone: data.tone })} />
+        <ToastStatusIcon tone={data.tone} />
       </span>
-      <div className="flex min-w-0 flex-1 flex-col gap-3">
+      <ToastContent>
         <div className="flex flex-col gap-1">
-          <BaseToast.Title className="text-14 font-medium text-primary" />
-          <BaseToast.Description className="text-13 text-tertiary" />
+          <ToastTitle />
+          <ToastDescription />
         </div>
         {data.progress != null ? (
           <Progress
@@ -183,7 +130,7 @@ export function Toast({ toast, ...props }: ToastProps) {
                   // for this short, static-per-render list.
                   key={index}
                   type="button"
-                  className={actionButtonClassName}
+                  className="inline-flex h-6 min-w-10 shrink-0 items-center justify-center gap-1 rounded-md bg-layer-transparent px-2 text-13 font-medium text-secondary transition-colors outline-none hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong active:bg-layer-transparent-active"
                   onClick={action.onClick}
                 >
                   {action.label}
@@ -193,19 +140,14 @@ export function Toast({ toast, ...props }: ToastProps) {
             {primaryAction ? (
               // The right-aligned action is wired through Base UI's `Toast.Action` so it
               // takes part in the toast's focus management.
-              <BaseToast.Action className={actionButtonClassName} onClick={primaryAction.onClick}>
-                {primaryAction.label}
-              </BaseToast.Action>
+              <ToastAction onClick={primaryAction.onClick}>{primaryAction.label}</ToastAction>
             ) : null}
           </div>
         ) : null}
-      </div>
-      <BaseToast.Close
-        aria-label="Dismiss"
-        className="absolute inset-e-1 top-1 inline-flex size-5 items-center justify-center rounded-sm text-icon-tertiary transition-colors hover:bg-layer-transparent-hover"
-      >
+      </ToastContent>
+      <ToastClose aria-label="Dismiss">
         <X aria-hidden className="size-3.5" />
-      </BaseToast.Close>
-    </BaseToast.Root>
+      </ToastClose>
+    </ToastRoot>
   );
 }

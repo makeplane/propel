@@ -1,15 +1,31 @@
-import { Fieldset as BaseFieldset } from "@base-ui/react/fieldset";
-import { cva } from "class-variance-authority";
 import type * as React from "react";
 
-const fieldsetVariants = cva("flex min-w-0 flex-col gap-3");
+import {
+  Fieldset as FieldsetRoot,
+  type FieldsetProps as FieldsetRootProps,
+  FieldsetLegend,
+  type FieldsetLegendProps,
+} from "../../ui/fieldset";
 
-export type FieldsetProps = Omit<
-  React.ComponentProps<typeof BaseFieldset.Root>,
-  "className" | "style"
->;
+export type FieldsetProps = FieldsetRootProps & {
+  /** The legend text labelling the group. */
+  legend: React.ReactNode;
+  /** Legend text size. */
+  legendMagnitude: FieldsetLegendProps["magnitude"];
+  /** The grouped controls. */
+  children: React.ReactNode;
+};
 
-/** Groups a legend with related controls. */
-export function Fieldset(props: FieldsetProps) {
-  return <BaseFieldset.Root className={fieldsetVariants()} {...props} />;
+/**
+ * The ready-made fieldset: groups a `legend` with its related controls for the 90% case. Pass the
+ * legend text and `legendMagnitude`; everything else flows through to the underlying fieldset
+ * root.
+ */
+export function Fieldset({ legend, legendMagnitude, children, ...props }: FieldsetProps) {
+  return (
+    <FieldsetRoot {...props}>
+      <FieldsetLegend magnitude={legendMagnitude}>{legend}</FieldsetLegend>
+      {children}
+    </FieldsetRoot>
+  );
 }

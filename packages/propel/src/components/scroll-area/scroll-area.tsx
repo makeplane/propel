@@ -1,7 +1,12 @@
-import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import * as React from "react";
 
-import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
+import {
+  ScrollArea as ScrollAreaRoot,
+  ScrollAreaCorner,
+  ScrollAreaScrollbar,
+  ScrollAreaThumb,
+  ScrollAreaViewport,
+} from "../../ui/scroll-area";
 
 // propel's scroll container, built on Base UI ScrollArea. Unlike a re-skinned native
 // scrollbar it paints a real DOM thumb, so it renders consistently across browsers
@@ -42,21 +47,19 @@ export function ScrollArea({ orientation, children }: ScrollAreaProps) {
     // column; the Viewport is a `flex-1` child whose `overflow: scroll` (set by Base UI)
     // gives it an automatic min-height of 0, so it bounds to the column and scrolls. The
     // scrollbars are positioned absolutely by Base UI, so they never take flex space.
-    <BaseScrollArea.Root className="relative flex min-h-0 flex-1 flex-col">
-      <BaseScrollArea.Viewport className="min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none">
-        {children}
-      </BaseScrollArea.Viewport>
+    <ScrollAreaRoot>
+      <ScrollAreaViewport>{children}</ScrollAreaViewport>
       {showVertical ? (
-        <BaseScrollArea.Scrollbar orientation="vertical" className={scrollbarClass}>
-          <BaseScrollArea.Thumb className={scrollbarThumbClass} />
-        </BaseScrollArea.Scrollbar>
+        <ScrollAreaScrollbar orientation="vertical">
+          <ScrollAreaThumb />
+        </ScrollAreaScrollbar>
       ) : null}
       {showHorizontal ? (
-        <BaseScrollArea.Scrollbar orientation="horizontal" className={scrollbarClass}>
-          <BaseScrollArea.Thumb className={scrollbarThumbClass} />
-        </BaseScrollArea.Scrollbar>
+        <ScrollAreaScrollbar orientation="horizontal">
+          <ScrollAreaThumb />
+        </ScrollAreaScrollbar>
       ) : null}
-      {orientation === "both" ? <BaseScrollArea.Corner /> : null}
-    </BaseScrollArea.Root>
+      {orientation === "both" ? <ScrollAreaCorner /> : null}
+    </ScrollAreaRoot>
   );
 }

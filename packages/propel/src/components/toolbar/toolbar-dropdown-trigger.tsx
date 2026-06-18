@@ -1,30 +1,24 @@
 import { Menu } from "@base-ui/react/menu";
-import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
-import { ChevronDown } from "lucide-react";
-import * as React from "react";
+import type * as React from "react";
 
-import {
-  dropdownChevronVariants,
-  dropdownTriggerVariants,
-  ToolbarDensityContext,
-} from "./toolbar-context";
+import { ToolbarDropdownTriggerSurface } from "../../ui/toolbar/index";
 
 export type ToolbarDropdownTriggerProps = Omit<
   React.ComponentProps<typeof Menu.Trigger>,
-  "className" | "render" | "style"
+  "className" | "style"
 >;
 
 /** The trigger that opens a `ToolbarDropdown`: a label plus chevron. */
-export function ToolbarDropdownTrigger({ children, ...props }: ToolbarDropdownTriggerProps) {
-  const density = React.useContext(ToolbarDensityContext);
+export function ToolbarDropdownTrigger({
+  children,
+  render,
+  ...props
+}: ToolbarDropdownTriggerProps) {
+  // The toolbar item renders as a `Menu.Trigger`; a consumer `render` customizes that
+  // inner element (not the wrapping `Toolbar.Button`), so it is nested onto the trigger.
   return (
-    <BaseToolbar.Button
-      render={<Menu.Trigger />}
-      className={dropdownTriggerVariants({ density })}
-      {...props}
-    >
+    <ToolbarDropdownTriggerSurface render={<Menu.Trigger render={render} />} {...props}>
       {children}
-      <ChevronDown aria-hidden className={dropdownChevronVariants({ density })} />
-    </BaseToolbar.Button>
+    </ToolbarDropdownTriggerSurface>
   );
 }

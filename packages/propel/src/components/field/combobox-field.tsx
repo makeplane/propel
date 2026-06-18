@@ -14,12 +14,12 @@ import {
   ComboboxPositioner,
   type ComboboxProps,
   ComboboxTrigger,
-} from "../combobox/index";
-import { Field } from "./field";
-import { FieldDescription } from "./field-description";
-import { FieldHelperText } from "./field-helper-text";
-import { FieldLabel } from "./field-label";
-import type { FieldMagnitude } from "./field-styles";
+} from "../../ui/combobox/index";
+import { Field } from "../../ui/field/field";
+import { FieldDescription } from "../../ui/field/field-description";
+import { FieldHelperText } from "../../ui/field/field-helper-text";
+import { FieldLabel } from "../../ui/field/field-label";
+import type { FieldMagnitude } from "../../ui/field/variants";
 
 export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items"> & {
   /** Supporting text shown below the input. */

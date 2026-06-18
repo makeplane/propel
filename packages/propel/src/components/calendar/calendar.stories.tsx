@@ -77,9 +77,8 @@ export const WithDisabledDays: Story = {
 
 /**
  * Behavior tests: the month grid renders day buttons, clicking a day selects it, and a disabled day
- * stays unselectable. Tagged out of the sidebar/docs/manifest — it's a test canary, not a designer-
- * or agent-facing example — but still runs under the default `test` tag. A fixed `defaultMonth`
- * keeps the grid deterministic.
+ * stays unselectable. Tagged out of the sidebar/docs/manifest but still runs under `test`. A fixed
+ * `defaultMonth` keeps the grid deterministic.
  */
 export const Behavior: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -97,13 +96,9 @@ export const Behavior: Story = {
     );
   },
   play: async ({ canvas, userEvent }) => {
-    // The grid renders day cells; react-day-picker labels day buttons with the
-    // full date ("…, January 15th, 2025") and a selected day gains ", selected".
     const day15 = canvas.getByRole("button", { name: /January 15th, 2025$/ });
     await expect(day15).toBeInTheDocument();
 
-    // Clicking a day marks its grid cell selected (react-day-picker sets
-    // `aria-selected` on the gridcell, and the button's label gains "selected").
     await userEvent.click(day15);
     await expect(
       canvas.getByRole("button", { name: /January 15th, 2025, selected$/ }),
@@ -111,27 +106,22 @@ export const Behavior: Story = {
     const selectedCell = canvas.getByRole("gridcell", { selected: true });
     await expect(selectedCell).toHaveAttribute("data-day", "2025-01-15");
 
-    // A disabled day (Jan 1) renders a disabled, non-interactive button: it
-    // exposes `disabled`/`pointer-events: none`, so it can never be selected.
     const day1 = canvas.getByRole("button", { name: /January 1st, 2025$/ });
     await expect(day1).toBeDisabled();
     await expect(getComputedStyle(day1).pointerEvents).toBe("none");
-    // The earlier selection is the only selected cell — the disabled day added none.
     await expect(canvas.getAllByRole("gridcell", { selected: true })).toHaveLength(1);
   },
 };
 
 /**
  * Keyboard ARIA pattern (WAI-ARIA grid date picker): Tab moves focus into the month grid, **Arrow
- * keys** move the focused day (Right = +1 day, Down = +7 days), and **Enter** selects it
- * (`aria-selected` on the gridcell). A fixed `defaultMonth` and a known starting selection keep the
- * focused day deterministic. Tagged out of the sidebar/docs/manifest while still running under the
- * default `test` tag.
+ * keys** move the focused day (Right = +1 day, Down = +7 days), and **Enter** selects it. A fixed
+ * `defaultMonth` and known selection keep the focused day deterministic. Tagged out of the
+ * sidebar/docs/manifest but still runs under `test`.
  */
 export const KeyboardNavigation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => {
-    // Pre-select Jan 15 so react-day-picker makes that the focusable day on Tab.
     const [selected, setSelected] = React.useState<Date | undefined>(new Date(2025, 0, 15));
     return (
       <Calendar
@@ -143,26 +133,19 @@ export const KeyboardNavigation: Story = {
     );
   },
   play: async ({ canvas, userEvent }) => {
-    // The grid is a single tab stop (only the selected/active day is tabbable), but
-    // the month-nav chevrons precede it in the tab order. Tab forward until focus
-    // reaches the grid's focusable day (Jan 15, the current selection).
     const day15 = canvas.getByRole("button", { name: /January 15th, 2025, selected$/ });
     for (let i = 0; i < 4 && document.activeElement !== day15; i++) {
       await userEvent.tab();
     }
     await expect(day15).toHaveFocus();
 
-    // Arrow Right moves the focused day forward one day (Jan 16).
     await userEvent.keyboard("{ArrowRight}");
     await expect(canvas.getByRole("button", { name: /January 16th, 2025$/ })).toHaveFocus();
 
-    // Arrow Down moves the focused day forward one week (Jan 23).
     await userEvent.keyboard("{ArrowDown}");
     const day23 = canvas.getByRole("button", { name: /January 23rd, 2025$/ });
     await expect(day23).toHaveFocus();
 
-    // Enter selects the focused day; its gridcell gains aria-selected and it is the
-    // single selected cell (the previous selection moved with the keyboard).
     await userEvent.keyboard("{Enter}");
     await expect(
       canvas.getByRole("button", { name: /January 23rd, 2025, selected$/ }),

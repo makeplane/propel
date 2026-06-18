@@ -1,40 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Minus, Plus } from "lucide-react";
 import * as React from "react";
 import { expect, fn, userEvent, waitFor } from "storybook/test";
 
 import { Button } from "../button/index";
 import {
-  AutocompleteField,
   CheckboxGroupField,
   CheckboxGroupFieldOption,
-  ComboboxField,
-  Field,
-  FieldError,
-  FieldLabel,
   InputField,
   RadioGroupField,
   RadioGroupFieldOption,
   SelectField,
   SwitchField,
 } from "../field/index";
-import {
-  NumberField,
-  NumberFieldDecrement,
-  NumberFieldGroup,
-  NumberFieldIncrement,
-  NumberFieldInput,
-} from "../number-field/index";
-import {
-  Slider,
-  SliderControl,
-  SliderIndicator,
-  SliderThumb,
-  SliderTrack,
-  SliderValue,
-} from "../slider/index";
 import { Form } from "./index";
 
+// Components-tier story: the ready-made `Form` composed with same-tier field controls.
 const meta = {
   title: "Components/Form",
   component: Form,
@@ -43,8 +23,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const REGIONS = ["us-central-1", "us-east-1", "eu-central-1", "ap-west-1"];
-const IMAGES = ["nginx:1.29-alpine", "node:22-slim", "postgres:18", "redis:8.2.2-alpine"];
 const SERVER_TYPES = [
   { label: "General purpose", value: "general" },
   { label: "Compute optimized", value: "compute" },
@@ -53,12 +31,8 @@ const SERVER_TYPES = [
 
 type LaunchServerValues = {
   allowedProtocols: string[];
-  containerImage: string;
   homepage: string;
-  numOfInstances: number;
-  region: string;
   restartOnFailure: boolean;
-  scalingThreshold: number[];
   serverType: string;
   storageType: string;
 };
@@ -103,31 +77,6 @@ function ExampleForm({ onFormSubmit }: ExampleFormProps) {
         }}
         error={Array.isArray(homepageError) ? homepageError.join(" ") : homepageError}
       />
-      <ComboboxField
-        name="region"
-        label="Region"
-        controlLabel="region"
-        magnitude="md"
-        items={REGIONS}
-        defaultValue="us-central-1"
-        required
-        placeholder="Select region"
-        description="Choose the closest deployment region."
-        emptyLabel="No regions found."
-      />
-      <AutocompleteField
-        name="containerImage"
-        label="Container image"
-        controlLabel="container image"
-        magnitude="md"
-        items={IMAGES}
-        mode="both"
-        defaultValue="nginx:1.29-alpine"
-        required
-        placeholder="Search images"
-        description="Pick an image tag that already exists in the registry."
-        emptyLabel="No images found."
-      />
       <SelectField
         name="serverType"
         label="Server type"
@@ -137,40 +86,6 @@ function ExampleForm({ onFormSubmit }: ExampleFormProps) {
         required
         description="Select the resource profile for this server."
       />
-      <Field name="numOfInstances">
-        <NumberField defaultValue={2} min={1} max={64} required>
-          <FieldLabel magnitude="md">Instances</FieldLabel>
-          <NumberFieldGroup>
-            <NumberFieldDecrement aria-label="Decrease instances">
-              <Minus aria-hidden className="size-4" />
-            </NumberFieldDecrement>
-            <NumberFieldInput />
-            <NumberFieldIncrement aria-label="Increase instances">
-              <Plus aria-hidden className="size-4" />
-            </NumberFieldIncrement>
-          </NumberFieldGroup>
-          <FieldError magnitude="md" />
-        </NumberField>
-      </Field>
-      <Field name="scalingThreshold">
-        <Slider
-          defaultValue={[0.2, 0.8]}
-          min={0}
-          max={1}
-          step={0.01}
-          format={{ style: "percent", maximumFractionDigits: 0 }}
-        >
-          <FieldLabel magnitude="md">Scaling threshold</FieldLabel>
-          <SliderValue />
-          <SliderControl>
-            <SliderTrack>
-              <SliderIndicator />
-              <SliderThumb aria-label="Minimum threshold" />
-              <SliderThumb aria-label="Maximum threshold" />
-            </SliderTrack>
-          </SliderControl>
-        </Slider>
-      </Field>
       <RadioGroupField
         name="storageType"
         label="Storage type"
@@ -211,6 +126,7 @@ export const Default: Story = {
   render: () => <ExampleForm />,
 };
 
+/** Submitting with the disallowed domain surfaces the server error on the homepage field. */
 export const SubmitWithErrors: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => <ExampleForm onFormSubmit={fn()} />,

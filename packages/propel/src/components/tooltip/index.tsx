@@ -1,2 +1,3 @@
 export { Tooltip, type TooltipProps } from "./tooltip";
-export { TooltipProvider, type TooltipProviderProps } from "./tooltip-provider";
+// Re-export the shared-timing provider so tooltip groups can be assembled from one entry.
+export { TooltipProvider, type TooltipProviderProps } from "../../ui/tooltip";

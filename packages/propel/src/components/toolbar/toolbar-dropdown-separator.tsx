@@ -1,5 +1,5 @@
-import { DropdownSeparator, type DropdownSeparatorProps } from "../dropdown/index";
+import { MenuSeparator, type MenuSeparatorProps } from "../../ui/menu/index";
 
 /** A divider between groups of `ToolbarDropdownItem`s. */
-export const ToolbarDropdownSeparator = DropdownSeparator;
-export type ToolbarDropdownSeparatorProps = DropdownSeparatorProps;
+export const ToolbarDropdownSeparator = MenuSeparator;
+export type ToolbarDropdownSeparatorProps = MenuSeparatorProps;

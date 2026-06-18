@@ -2,13 +2,13 @@ import { cx } from "class-variance-authority";
 import { Ellipsis } from "lucide-react";
 import type * as React from "react";
 
-import { Dropdown, DropdownTrigger, type DropdownProps } from "../dropdown/index";
+import { Menu, MenuTrigger, type MenuProps } from "../../ui/menu/index";
 import {
   actionableTriggerClass,
   pinnedCellClass,
   type TablePinned,
   useTableCellClass,
-} from "./table-context";
+} from "../../ui/table/index";
 
 export type TableActionCellProps = Omit<
   React.ComponentProps<"td">,
@@ -25,7 +25,7 @@ export type TableActionCellProps = Omit<
   /** Default open state for an uncontrolled cell. @default false */
   defaultOpen?: boolean;
   /** Called when the menu requests to open or close. */
-  onOpenChange?: DropdownProps["onOpenChange"];
+  onOpenChange?: MenuProps["onOpenChange"];
   /** Disables the trigger. */
   disabled?: boolean;
   /** Pin this cell to the inline-start/end edge when the table scrolls sideways. */
@@ -47,8 +47,8 @@ export function TableActionCell({
   const className = useTableCellClass();
   return (
     <td className={cx(className, "p-0", pinnedCellClass(pinned))} {...props}>
-      <Dropdown open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
-        <DropdownTrigger
+      <Menu open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+        <MenuTrigger
           disabled={disabled}
           aria-label={ariaLabel}
           render={
@@ -61,9 +61,9 @@ export function TableActionCell({
           <span className="flex size-5 shrink-0 items-center justify-center text-icon-secondary group-disabled/action-cell:text-icon-disabled">
             {icon ?? <Ellipsis aria-hidden className="size-3.5" />}
           </span>
-        </DropdownTrigger>
+        </MenuTrigger>
         {children}
-      </Dropdown>
+      </Menu>
     </td>
   );
 }

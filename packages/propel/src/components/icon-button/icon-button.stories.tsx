@@ -11,7 +11,6 @@ const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/IconButton",
   component: IconButton,
-  // Icon picker control for the single glyph (the button's `children`).
   argTypes: { children: iconControl },
   parameters: {
     design: {
@@ -34,7 +33,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 /**
- * Every Figma "Type" side by side. The neutral fills are `primary`/`secondary`/ `tertiary`/`ghost`;
+ * Every Figma "Type" side by side. The neutral fills are `primary`/`secondary`/`tertiary`/`ghost`;
  * the two Error types are the `danger` tone of `primary` (Error fill) and `secondary` (Error
  * outline) — see {@link Tones}.
  */
@@ -112,9 +111,8 @@ export const Disabled: Story = {
 };
 
 /**
- * An IconButton exposes its `aria-label` as the accessible name. Tagged
- * `!dev`/`!autodocs`/`!manifest` so it's hidden from the sidebar, docs, and AI manifest — it's a
- * behavior test, not an example — but still runs under `test`.
+ * An IconButton exposes its `aria-label` as the accessible name. Tagged out of the
+ * sidebar/docs/manifest but still runs under `test`.
  */
 export const HasAccessibleName: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -128,10 +126,7 @@ export const HasAccessibleName: Story = {
   },
 };
 
-/**
- * Tab moves focus onto the icon button (queryable by its `aria-label`), then **Enter** activates it
- * (fires `onClick`).
- */
+/** Tab moves focus onto the icon button, then **Enter** activates it (fires `onClick`). */
 export const EnterActivates: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { onClick: fn() },

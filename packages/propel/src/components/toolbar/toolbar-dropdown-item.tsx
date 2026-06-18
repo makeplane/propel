@@ -1,5 +1,5 @@
-import { DropdownItem, type DropdownItemProps } from "../dropdown/index";
+import { MenuItem, type MenuItemProps } from "../menu/index";
 
 /** A selectable row in a `ToolbarDropdown`. */
-export const ToolbarDropdownItem = DropdownItem;
-export type ToolbarDropdownItemProps = DropdownItemProps;
+export const ToolbarDropdownItem = MenuItem;
+export type ToolbarDropdownItemProps = MenuItemProps;

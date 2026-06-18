@@ -5,19 +5,20 @@ import { Field, FieldDescription, FieldError, FieldLabel } from "../field/index"
 import {
   Autocomplete,
   AutocompleteClear,
+  AutocompleteContent,
   AutocompleteEmpty,
   AutocompleteInput,
   AutocompleteInputGroup,
   AutocompleteItem,
   AutocompleteList,
-  AutocompletePopup,
-  AutocompletePortal,
-  AutocompletePositioner,
   AutocompleteTrigger,
 } from "./index";
 
 const IMAGES = ["nginx:1.29-alpine", "node:22-slim", "postgres:18", "redis:8.2.2-alpine"];
 
+// Components-tier story: the ready-made `AutocompleteContent` collapses the
+// portal/positioner/popup boilerplate into one element. The UI-tier `Autocomplete`
+// story assembles those raw parts by hand.
 const meta = {
   title: "Components/Autocomplete",
   component: Autocomplete,
@@ -26,9 +27,7 @@ const meta = {
     AutocompleteInput,
     AutocompleteClear,
     AutocompleteTrigger,
-    AutocompletePortal,
-    AutocompletePositioner,
-    AutocompletePopup,
+    AutocompleteContent,
     AutocompleteList,
     AutocompleteItem,
     AutocompleteEmpty,
@@ -38,7 +37,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Autocomplete composes with Field labels and descriptions for free-form searchable input. */
+/** Autocomplete using the ready-made `AutocompleteContent` surface for free-form searchable input. */
 export const Default: Story = {
   args: { items: IMAGES, mode: "both", required: true },
   render: (args) => (
@@ -51,20 +50,16 @@ export const Default: Story = {
           <AutocompleteTrigger />
         </AutocompleteInputGroup>
         <FieldDescription magnitude="md">Enter a registry URL with optional tags.</FieldDescription>
-        <AutocompletePortal>
-          <AutocompletePositioner>
-            <AutocompletePopup>
-              <AutocompleteEmpty>No matches</AutocompleteEmpty>
-              <AutocompleteList>
-                {IMAGES.map((image) => (
-                  <AutocompleteItem key={image} value={image}>
-                    {image}
-                  </AutocompleteItem>
-                ))}
-              </AutocompleteList>
-            </AutocompletePopup>
-          </AutocompletePositioner>
-        </AutocompletePortal>
+        <AutocompleteContent>
+          <AutocompleteEmpty>No matches</AutocompleteEmpty>
+          <AutocompleteList>
+            {IMAGES.map((image) => (
+              <AutocompleteItem key={image} value={image}>
+                {image}
+              </AutocompleteItem>
+            ))}
+          </AutocompleteList>
+        </AutocompleteContent>
         <FieldError magnitude="md" />
       </Autocomplete>
     </Field>

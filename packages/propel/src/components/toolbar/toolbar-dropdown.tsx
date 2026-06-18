@@ -1,5 +1,5 @@
-import { Dropdown, type DropdownProps } from "../dropdown/index";
+import { Menu, type MenuProps } from "../../ui/menu/index";
 
 /** The dropdown menu root in a toolbar. */
-export const ToolbarDropdown = Dropdown;
-export type ToolbarDropdownProps = DropdownProps;
+export const ToolbarDropdown = Menu;
+export type ToolbarDropdownProps = MenuProps;

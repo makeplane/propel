@@ -1,12 +1,12 @@
 import type * as React from "react";
 
-import { CheckboxGroup, type CheckboxGroupProps } from "../checkbox-group/index";
-import { Fieldset, FieldsetLegend } from "../fieldset/index";
-import { Field } from "./field";
-import { FieldDescription } from "./field-description";
-import { FieldHelperText } from "./field-helper-text";
-import { FieldOptionMagnitudeProvider } from "./field-option-magnitude-provider";
-import type { FieldMagnitude } from "./field-styles";
+import { CheckboxGroup, type CheckboxGroupProps } from "../../ui/checkbox-group/index";
+import { Field } from "../../ui/field/field";
+import { FieldDescription } from "../../ui/field/field-description";
+import { FieldHelperText } from "../../ui/field/field-helper-text";
+import { FieldOptionMagnitudeProvider } from "../../ui/field/field-option-magnitude-provider";
+import type { FieldMagnitude } from "../../ui/field/variants";
+import { Fieldset, FieldsetLegend } from "../../ui/fieldset/index";
 
 export type CheckboxGroupFieldProps = Omit<CheckboxGroupProps, "children" | "density" | "name"> & {
   /** Checkbox option rows, usually `CheckboxGroupFieldOption`. */

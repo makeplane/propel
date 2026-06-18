@@ -1,13 +1,19 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import type { TooltipRoot } from "@base-ui/react/tooltip";
-import { cx } from "class-variance-authority";
 import type * as React from "react";
 
-import { TooltipArrow } from "./tooltip-arrow";
+import {
+  Tooltip as TooltipRootPart,
+  TooltipArrow,
+  TooltipPopup,
+  TooltipPortal,
+  TooltipPositioner,
+  TooltipTrigger,
+} from "../../ui/tooltip";
 
 export type TooltipProps<Payload = unknown> = Omit<
   TooltipRoot.Props<Payload>,
-  "children" | "className" | "render" | "style"
+  "children" | "className" | "style"
 > & {
   /** The text (or rich content) shown inside the tooltip popup. */
   content: React.ReactNode;
@@ -50,9 +56,10 @@ export type TooltipProps<Payload = unknown> = Omit<
  * `role="tooltip"` and wired to the trigger. Pass the trigger as `children`, the label as
  * `content`, and an optional `shortcut` for a dimmed keyboard hint.
  *
- * Colors come from propel's adaptive surface tokens (`bg-layer-2` / `text-primary` /
- * `border-subtle-1`), so the tooltip is light on light themes and dark on dark themes, matching the
- * Figma "Tooltip" component (node 1144-3159).
+ * Composes the `ui/tooltip` parts (`Tooltip` root + `TooltipTrigger` + `TooltipPortal` →
+ * `TooltipPositioner` → `TooltipPopup` + `TooltipArrow`). Colors come from propel's adaptive
+ * surface tokens (`bg-layer-2` / `text-primary` / `border-subtle-1`), so the tooltip is light on
+ * light themes and dark on dark themes, matching the Figma "Tooltip" component (node 1144-3159).
  */
 export function Tooltip<Payload = unknown>({
   content,
@@ -64,25 +71,16 @@ export function Tooltip<Payload = unknown>({
   ...rootProps
 }: TooltipProps<Payload>) {
   return (
-    <BaseTooltip.Root {...rootProps}>
-      <BaseTooltip.Trigger delay={delay} render={children} />
-      <BaseTooltip.Portal>
-        <BaseTooltip.Positioner side={side} sideOffset={sideOffset}>
-          <BaseTooltip.Popup
-            // Base UI wires the popup to the trigger via `aria-describedby` but does
-            // not set a role; declare `role="tooltip"` so the popup matches the ARIA
-            // tooltip pattern and is queryable as one by assistive tech and tests.
-            role="tooltip"
-            // Inverse-adaptive surface: the popup uses `layer/2` + `text/primary`
-            // + `border/subtle-1`, which resolve to a light card on light themes and
-            // a dark card on dark themes (Figma's light/dark "Tooltip" modes).
-            // `caption-md/regular` text; `radius/md`; overlay shadow; padding
-            // 6px/8px and a 12px gap to the shortcut — all straight from the spec.
-            className={cx(
-              "flex items-center gap-3 rounded-md border-sm border-subtle-1 bg-layer-2 px-2 py-1.5",
-              "text-caption-md-regular text-primary shadow-overlay-200",
-            )}
-          >
+    <TooltipRootPart {...rootProps}>
+      <TooltipTrigger delay={delay} render={children} />
+      <TooltipPortal>
+        <TooltipPositioner side={side} sideOffset={sideOffset}>
+          {/* Base UI wires the popup to the trigger via `aria-describedby` but does
+              not set a role; declare `role="tooltip"` so the popup matches the ARIA
+              tooltip pattern and is queryable as one by assistive tech and tests. The
+              popup chrome (inverse-adaptive surface, caption text, radius, shadow,
+              padding, and the gap to the shortcut) lives on the atomic `TooltipPopup`. */}
+          <TooltipPopup role="tooltip">
             {content}
             {shortcut != null ? (
               // The keyboard-shortcut hint: dimmed `text/disabled` at the smaller
@@ -90,9 +88,9 @@ export function Tooltip<Payload = unknown>({
               <span className="text-caption-sm-regular text-disabled">{shortcut}</span>
             ) : null}
             <TooltipArrow />
-          </BaseTooltip.Popup>
-        </BaseTooltip.Positioner>
-      </BaseTooltip.Portal>
-    </BaseTooltip.Root>
+          </TooltipPopup>
+        </TooltipPositioner>
+      </TooltipPortal>
+    </TooltipRootPart>
   );
 }

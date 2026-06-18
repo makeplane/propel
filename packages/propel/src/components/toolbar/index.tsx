@@ -1,5 +1,19 @@
-export { Toolbar, type ToolbarDensity, type ToolbarElevation, type ToolbarProps } from "./toolbar";
-export { ToolbarButton, type ToolbarButtonProps } from "./toolbar-button";
+export {
+  Toolbar,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarSeparator,
+  ToolbarToggle,
+  ToolbarToggleGroup,
+  type ToolbarButtonProps,
+  type ToolbarDensity,
+  type ToolbarElevation,
+  type ToolbarGroupProps,
+  type ToolbarProps,
+  type ToolbarSeparatorProps,
+  type ToolbarToggleGroupProps,
+  type ToolbarToggleProps,
+} from "../../ui/toolbar/index";
 export { ToolbarDropdown, type ToolbarDropdownProps } from "./toolbar-dropdown";
 export {
   ToolbarDropdownContent,
@@ -14,7 +28,3 @@ export {
   ToolbarDropdownTrigger,
   type ToolbarDropdownTriggerProps,
 } from "./toolbar-dropdown-trigger";
-export { ToolbarGroup, type ToolbarGroupProps } from "./toolbar-group";
-export { ToolbarSeparator, type ToolbarSeparatorProps } from "./toolbar-separator";
-export { ToolbarToggle, type ToolbarToggleProps } from "./toolbar-toggle";
-export { ToolbarToggleGroup, type ToolbarToggleGroupProps } from "./toolbar-toggle-group";

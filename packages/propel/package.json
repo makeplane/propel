@@ -30,6 +30,14 @@
     "**/*.css"
   ],
   "exports": {
+    "./base/*": {
+      "types": "./dist/base/*/index.d.ts",
+      "import": "./dist/base/*/index.js"
+    },
+    "./ui/*": {
+      "types": "./dist/ui/*/index.d.ts",
+      "import": "./dist/ui/*/index.js"
+    },
     "./components/*": {
       "types": "./dist/components/*/index.d.ts",
       "import": "./dist/components/*/index.js"

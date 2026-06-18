@@ -4,7 +4,7 @@ import * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Avatar } from "../avatar/index";
-import { DropdownContent, DropdownItem } from "../dropdown/index";
+import { MenuContent, MenuItem } from "../menu/index";
 import { Pagination } from "../pagination/index";
 import {
   Table,
@@ -217,8 +217,8 @@ const ROLES = ["Admin", "Member", "Guest"];
 
 /**
  * **Editable cells.** Each "Account type" cell is a `TableEditableCell`: clicking it opens a propel
- * `Dropdown` to pick a new value, which updates the row in place (Figma "Account type" editable
- * cell). The cell tints on hover and while its menu is open; the last-clicked cell keeps a stronger
+ * `Menu` to pick a new value, which updates the row in place (Figma "Account type" editable cell).
+ * The cell tints on hover and while its menu is open; the last-clicked cell keeps a stronger
  * `selected` tint to mark the active cell. Works in both table variants.
  */
 export const EditableCells: Story = {
@@ -256,9 +256,9 @@ export const EditableCells: Story = {
                   if (next) setSelectedEmail(person.email);
                 }}
               >
-                <DropdownContent>
+                <MenuContent>
                   {ROLES.map((role) => (
-                    <DropdownItem
+                    <MenuItem
                       key={role}
                       variant="default"
                       label={role}
@@ -266,7 +266,7 @@ export const EditableCells: Story = {
                       onClick={() => setRole(person.email, role)}
                     />
                   ))}
-                </DropdownContent>
+                </MenuContent>
               </TableEditableCell>
             </TableRow>
           ))}
@@ -408,9 +408,9 @@ export const RichRows: Story = {
               </TableCell>
               <TableCell>{person.email}</TableCell>
               <TableEditableCell value={person.role} aria-label={`Account type for ${person.name}`}>
-                <DropdownContent>
+                <MenuContent>
                   {ROLES.map((role) => (
-                    <DropdownItem
+                    <MenuItem
                       key={role}
                       variant="default"
                       label={role}
@@ -418,13 +418,13 @@ export const RichRows: Story = {
                       onClick={() => setRole(person.email, role)}
                     />
                   ))}
-                </DropdownContent>
+                </MenuContent>
               </TableEditableCell>
               <TableActionCell aria-label={`Options for ${person.name}`}>
-                <DropdownContent>
-                  <DropdownItem variant="default" inlineStartNode={<Pencil />} label="Edit" />
-                  <DropdownItem variant="default" inlineStartNode={<Trash2 />} label="Delete" />
-                </DropdownContent>
+                <MenuContent>
+                  <MenuItem variant="default" inlineStartNode={<Pencil />} label="Edit" />
+                  <MenuItem variant="default" inlineStartNode={<Trash2 />} label="Delete" />
+                </MenuContent>
               </TableActionCell>
             </TableRow>
           ))}
@@ -564,11 +564,11 @@ export const SortableKeyboard: Story = {
 };
 
 /**
- * **Keyboard: editable cell.** Tab/Enter on the editable cell's trigger opens the portaled
- * `Dropdown`; Arrow Down moves the highlight onto the first item and Enter selects it, updating the
- * cell value in place; Escape closes the menu and returns focus to the cell trigger. The menu is
- * portaled, so it's queried from the document body by its unique item text. Tagged so it stays out
- * of the sidebar, docs, and AI manifest while still running under the default `test` tag.
+ * **Keyboard: editable cell.** Tab/Enter on the editable cell's trigger opens the portaled `Menu`;
+ * Arrow Down moves the highlight onto the first item and Enter selects it, updating the cell value
+ * in place; Escape closes the menu and returns focus to the cell trigger. The menu is portaled, so
+ * it's queried from the document body by its unique item text. Tagged so it stays out of the
+ * sidebar, docs, and AI manifest while still running under the default `test` tag.
  */
 export const EditableCellKeyboard: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -587,9 +587,9 @@ export const EditableCellKeyboard: Story = {
           <TableRow>
             <TableCell>Chargers</TableCell>
             <TableEditableCell value={role} aria-label="Account type for Chargers">
-              <DropdownContent>
+              <MenuContent>
                 {ROLES.map((r) => (
-                  <DropdownItem
+                  <MenuItem
                     key={r}
                     variant="default"
                     label={r}
@@ -597,7 +597,7 @@ export const EditableCellKeyboard: Story = {
                     onClick={() => setRole(r)}
                   />
                 ))}
-              </DropdownContent>
+              </MenuContent>
             </TableEditableCell>
           </TableRow>
         </TableBody>

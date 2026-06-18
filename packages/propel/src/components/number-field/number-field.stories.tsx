@@ -1,72 +1,36 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Minus, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { Field, FieldError, FieldLabel } from "../field/index";
-import {
-  NumberField,
-  NumberFieldDecrement,
-  NumberFieldGroup,
-  NumberFieldIncrement,
-  NumberFieldInput,
-} from "./index";
+import { NumberField } from "./index";
 
+// Components-tier story: the ready-made `NumberField` — a numeric input flanked by
+// −/+ buttons, wired for you. Drive it with `value`/`defaultValue`, bound it with
+// `min`/`max`/`step`. The UI-tier story shows how to compose the parts with custom
+// button icons or labels.
 const meta = {
   title: "Components/NumberField",
   component: NumberField,
-  subcomponents: { NumberFieldGroup, NumberFieldInput, NumberFieldDecrement, NumberFieldIncrement },
+  args: { "aria-label": "Number of instances" },
 } satisfies Meta<typeof NumberField>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** NumberField composes inside Field.Root so labels, errors, and native validation work. */
+/** A bounded numeric input with stepper buttons. */
 export const Default: Story = {
-  args: { defaultValue: 2, min: 1, max: 64, required: true },
-  render: (args) => (
-    <Field name="instances">
-      <NumberField {...args}>
-        <FieldLabel magnitude="md">Number of instances</FieldLabel>
-        <NumberFieldGroup>
-          <NumberFieldDecrement aria-label="Decrease instances">
-            <Minus aria-hidden className="size-4" />
-          </NumberFieldDecrement>
-          <NumberFieldInput />
-          <NumberFieldIncrement aria-label="Increase instances">
-            <Plus aria-hidden className="size-4" />
-          </NumberFieldIncrement>
-        </NumberFieldGroup>
-        <FieldError magnitude="md" />
-      </NumberField>
-    </Field>
-  ),
+  args: { defaultValue: 2, min: 1, max: 64 },
 };
 
+/** Clicking the +/- buttons steps the value within `min`/`max`. */
 export const IncrementAndDecrement: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { defaultValue: 2, min: 1, max: 64 },
-  render: (args) => (
-    <Field name="instances">
-      <NumberField {...args}>
-        <FieldLabel magnitude="md">Number of instances</FieldLabel>
-        <NumberFieldGroup>
-          <NumberFieldDecrement aria-label="Decrease instances">
-            <Minus aria-hidden className="size-4" />
-          </NumberFieldDecrement>
-          <NumberFieldInput />
-          <NumberFieldIncrement aria-label="Increase instances">
-            <Plus aria-hidden className="size-4" />
-          </NumberFieldIncrement>
-        </NumberFieldGroup>
-      </NumberField>
-    </Field>
-  ),
   play: async ({ canvas, userEvent }) => {
     const input = canvas.getByRole("textbox", { name: "Number of instances" });
     await expect(input).toHaveDisplayValue("2");
-    await userEvent.click(canvas.getByRole("button", { name: "Increase instances" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Increase" }));
     await expect(input).toHaveDisplayValue("3");
-    await userEvent.click(canvas.getByRole("button", { name: "Decrease instances" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Decrease" }));
     await expect(input).toHaveDisplayValue("2");
   },
 };

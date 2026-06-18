@@ -1,1 +1,1 @@
-export * from "./scroll-area";
+export { ScrollArea, type ScrollAreaOrientation, type ScrollAreaProps } from "./scroll-area";

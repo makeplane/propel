@@ -2,14 +2,14 @@ import { cx } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
-import { Dropdown, DropdownTrigger, type DropdownProps } from "../dropdown/index";
+import { Menu, MenuTrigger, type MenuProps } from "../../ui/menu/index";
 import {
   actionableTriggerClass,
   pinnedCellClass,
   selectedTriggerClass,
   type TablePinned,
   useTableCellClass,
-} from "./table-context";
+} from "../../ui/table/index";
 
 export type TableEditableCellProps = Omit<
   React.ComponentProps<"td">,
@@ -24,7 +24,7 @@ export type TableEditableCellProps = Omit<
   /** Default open state for an uncontrolled cell. @default false */
   defaultOpen?: boolean;
   /** Called when the menu requests to open or close. */
-  onOpenChange?: DropdownProps["onOpenChange"];
+  onOpenChange?: MenuProps["onOpenChange"];
   /** Disables the trigger so the cell can't be edited. */
   disabled?: boolean;
   /** Marks this as the actively-selected cell. */
@@ -51,8 +51,8 @@ export function TableEditableCell({
   const className = useTableCellClass();
   return (
     <td className={cx(className, "p-0", pinnedCellClass(pinned))} {...props}>
-      <Dropdown open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
-        <DropdownTrigger
+      <Menu open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+        <MenuTrigger
           disabled={disabled}
           aria-label={ariaLabel}
           render={
@@ -73,9 +73,9 @@ export function TableEditableCell({
               className="size-3.5 text-icon-secondary group-disabled/editable-cell:text-icon-disabled"
             />
           </span>
-        </DropdownTrigger>
+        </MenuTrigger>
         {children}
-      </Dropdown>
+      </Menu>
     </td>
   );
 }

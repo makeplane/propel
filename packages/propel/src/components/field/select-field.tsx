@@ -1,5 +1,9 @@
 import type * as React from "react";
 
+import { Field } from "../../ui/field/field";
+import { FieldDescription } from "../../ui/field/field-description";
+import { FieldHelperText } from "../../ui/field/field-helper-text";
+import type { FieldMagnitude } from "../../ui/field/variants";
 import {
   Select,
   SelectIcon,
@@ -14,11 +18,7 @@ import {
   type SelectProps,
   SelectTrigger,
   SelectValue,
-} from "../select/index";
-import { Field } from "./field";
-import { FieldDescription } from "./field-description";
-import { FieldHelperText } from "./field-helper-text";
-import type { FieldMagnitude } from "./field-styles";
+} from "../../ui/select/index";
 
 export type SelectFieldOption = {
   label: React.ReactNode;

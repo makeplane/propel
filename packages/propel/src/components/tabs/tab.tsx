@@ -1,53 +1,51 @@
-import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 import * as React from "react";
 
+import { NodeSlot } from "../../internal/node-slot";
 import {
-  tabIconVariants,
-  tabVariants,
-  TabsVariantContext,
-  underlineBarTrackVariants,
-  underlineBarVariants,
-  underlineLabelVariants,
-} from "./tabs-context";
+  Tab as TabRoot,
+  type TabProps as TabRootProps,
+  TabUnderlineBar,
+  TabUnderlineLabel,
+} from "../../ui/tabs";
+import { TabsVariantContext } from "../../ui/tabs/tabs-context";
 
-export type TabProps = Omit<
-  React.ComponentProps<typeof BaseTabs.Tab>,
-  "className" | "render" | "style"
-> & {
+export type TabProps = TabRootProps & {
   /**
-   * Optional leading icon (e.g. a lucide icon), sized to 16px and tinted to the tab's text color.
-   * Named `leadingIcon` to match Button/Input and leave room for a future `trailingIcon`.
+   * Node rendered before the label (inline-start). Sized to the tab's `--node-size` (16px) and
+   * tinted to the tab's text color. Decorative, kept out of the name.
    */
-  leadingIcon?: React.ReactNode;
+  inlineStartNode?: React.ReactNode;
 };
 
-/** A single tab button. `value` ties it to the `TabsPanel` of the same `value`. */
-export function Tab({ leadingIcon, children, ...props }: TabProps) {
+/**
+ * The ready-made tab button: composes the atomic `Tab` and lays out an optional `inlineStartNode`
+ * with the label. The `underline` variant additionally renders the sliding bar track beneath the
+ * label.
+ */
+export function Tab({ inlineStartNode, children, ...props }: TabProps) {
   const variant = React.useContext(TabsVariantContext);
-  const iconNode = leadingIcon ? (
-    <span aria-hidden className={tabIconVariants()}>
-      {leadingIcon}
-    </span>
+  const iconNode = inlineStartNode ? (
+    <NodeSlot aria-hidden className="[--node-size:1rem]">
+      {inlineStartNode}
+    </NodeSlot>
   ) : null;
 
   if (variant === "underline") {
     return (
-      <BaseTabs.Tab className={tabVariants({ variant })} {...props}>
-        <span className={underlineLabelVariants()}>
+      <TabRoot {...props}>
+        <TabUnderlineLabel>
           {iconNode}
           {children}
-        </span>
-        <span className={underlineBarTrackVariants()}>
-          <span aria-hidden className={underlineBarVariants()} />
-        </span>
-      </BaseTabs.Tab>
+        </TabUnderlineLabel>
+        <TabUnderlineBar />
+      </TabRoot>
     );
   }
 
   return (
-    <BaseTabs.Tab className={tabVariants({ variant })} {...props}>
+    <TabRoot {...props}>
       {iconNode}
       {children}
-    </BaseTabs.Tab>
+    </TabRoot>
   );
 }

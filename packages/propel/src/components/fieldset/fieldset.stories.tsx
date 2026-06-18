@@ -1,15 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { CheckboxGroup } from "../checkbox-group/index";
-import { CheckboxGroupFieldOption, Field, InputField, RadioGroupFieldOption } from "../field/index";
-import { RadioGroup } from "../radio/index";
-import { Fieldset, FieldsetLegend } from "./index";
+import { InputField } from "../field/index";
+import { Fieldset } from "./index";
 
+// Components-tier story: the ready-made `<Fieldset legend=…>` plus same-tier field controls.
 const meta = {
   title: "Components/Fieldset",
   component: Fieldset,
-  subcomponents: { FieldsetLegend },
+  args: { legendMagnitude: "md" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=2053-281",
+    },
+  },
 } satisfies Meta<typeof Fieldset>;
 
 export default meta;
@@ -17,9 +22,9 @@ type Story = StoryObj<typeof meta>;
 
 /** Fieldset groups related fields under one accessible legend. */
 export const Default: Story = {
-  render: () => (
-    <Fieldset>
-      <FieldsetLegend magnitude="md">Billing details</FieldsetLegend>
+  args: {
+    legend: "Billing details",
+    children: (
       <div className="flex w-80 flex-col gap-4">
         <InputField
           magnitude="md"
@@ -38,45 +43,23 @@ export const Default: Story = {
           placeholder="US-123"
         />
       </div>
-    </Fieldset>
-  ),
+    ),
+  },
 };
 
+/** The legend names the group landmark for assistive tech. */
 export const GroupSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => (
-    <Fieldset>
-      <FieldsetLegend magnitude="md">Shipping address</FieldsetLegend>
+  args: {
+    legend: "Shipping address",
+    children: (
       <div className="w-80">
         <InputField magnitude="md" tone="neutral" orientation="vertical" name="city" label="City" />
       </div>
-    </Fieldset>
-  ),
+    ),
+  },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("group", { name: "Shipping address" })).toBeInTheDocument();
     await expect(canvas.getByRole("textbox", { name: "City" })).toHaveAttribute("name", "city");
   },
-};
-
-/** Fieldset can render a Base UI group root while keeping one shared legend. */
-export const WithControlGroups: Story = {
-  render: () => (
-    <div className="flex w-80 flex-col gap-6">
-      <Field name="storageType">
-        <Fieldset render={<RadioGroup density="comfortable" defaultValue="ssd" />}>
-          <FieldsetLegend magnitude="md">Storage type</FieldsetLegend>
-          <RadioGroupFieldOption magnitude="md" value="ssd" label="SSD" />
-          <RadioGroupFieldOption magnitude="md" value="hdd" label="HDD" />
-        </Fieldset>
-      </Field>
-      <Field name="allowedProtocols">
-        <Fieldset render={<CheckboxGroup density="comfortable" defaultValue={["https"]} />}>
-          <FieldsetLegend magnitude="md">Allowed protocols</FieldsetLegend>
-          <CheckboxGroupFieldOption magnitude="md" tone="neutral" value="http" label="HTTP" />
-          <CheckboxGroupFieldOption magnitude="md" tone="neutral" value="https" label="HTTPS" />
-          <CheckboxGroupFieldOption magnitude="md" tone="neutral" value="ssh" label="SSH" />
-        </Fieldset>
-      </Field>
-    </div>
-  ),
 };

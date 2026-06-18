@@ -22,7 +22,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // A plain trigger button styled with propel tokens — the popover itself doesn't ship a
-// trigger style, so stories provide one (the same one the Dropdown stories use).
+// trigger style, so stories provide one (the same one the Menu stories use).
 const triggerClass =
   "inline-flex h-8 items-center gap-1.5 rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none";
 
@@ -123,7 +123,7 @@ export const Default: Story = {
 };
 
 /**
- * **DisplayProperties** — the settings panel that used to live in the Dropdown stories (and had to
+ * **DisplayProperties** — the settings panel that used to live in the Menu stories (and had to
  * disable `aria-allowed-attr`). On the non-menu Popover surface the pill group, single-select
  * `Radio` section, and checkbox-toggle footer are all valid children, so axe passes with no
  * suppressions.
@@ -200,8 +200,8 @@ export const DisplayProperties: Story = {
 
 /**
  * **DisplayAccordion** — the other settings panel that used to disable `aria-allowed-attr` in the
- * Dropdown stories. Collapsible sections with an expanded single-select `Radio` sort list and
- * checkbox toggles, all valid on the non-menu Popover surface.
+ * Menu stories. Collapsible sections with an expanded single-select `Radio` sort list and checkbox
+ * toggles, all valid on the non-menu Popover surface.
  */
 export const DisplayAccordion: Story = {
   render: function DisplayAccordionStory() {

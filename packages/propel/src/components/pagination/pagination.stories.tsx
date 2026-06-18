@@ -43,7 +43,7 @@ export const WithSelectorAndRange: Story = {
 };
 
 /**
- * The page-size selector is a propel Dropdown: its `layer-3` pill trigger is labeled "50 per page";
+ * The page-size selector is a propel Menu: its `layer-3` pill trigger is labeled "50 per page";
  * clicking it opens the portaled menu of sizes (the current one marked with a check), and picking
  * one reports it through `pageSize.onValueChange` and updates the trigger. Keyboard works too —
  * ArrowDown opens the menu and arrow+Enter selects.

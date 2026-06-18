@@ -4,7 +4,7 @@ import * as React from "react";
 import { ScrollArea } from "../components/scroll-area/index";
 import { surfaceVariants, type SurfaceVariantProps } from "./surface";
 
-// The shared scrollable-overlay shell. Dropdown menus, the popover panel, the
+// The shared scrollable-overlay shell. Menu surfaces, the popover panel, the
 // breadcrumb overflow menu and the toolbar picker all render the same thing: an
 // elevated surface capped at the positioner's available height, whose body scrolls
 // inside a `ScrollArea` while optional sticky chrome (a search header, a footer)

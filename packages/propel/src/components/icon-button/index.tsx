@@ -1,1 +1,3 @@
-export * from "./icon-button";
+// Ready-made 1:1 re-export of the ui primitive. Drop down to `@plane/propel/ui/icon-button` only
+// when you need the lower-level parts.
+export * from "../../ui/icon-button";

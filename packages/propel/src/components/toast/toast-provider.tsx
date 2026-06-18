@@ -1,13 +1,18 @@
-import { Toast as BaseToast } from "@base-ui/react/toast";
+import type { Toast as BaseToast } from "@base-ui/react/toast";
 import type { ToastManager } from "@base-ui/react/toast";
 import type * as React from "react";
 
+import {
+  ToastPortal,
+  ToastProvider as ToastProviderRoot,
+  ToastViewport,
+} from "../../ui/toast/index";
 import type { ToastData } from "./toast";
 import { ToastList } from "./toast-list";
 
 export type ToastProviderProps = Omit<
   React.ComponentProps<typeof BaseToast.Provider>,
-  "className" | "render" | "style" | "toastManager"
+  "className" | "style" | "toastManager"
 > & {
   /** Optional external manager. Must queue Propel `ToastData` so every toast has a `tone`. */
   toastManager?: ToastManager<ToastData>;
@@ -15,17 +20,18 @@ export type ToastProviderProps = Omit<
 
 /**
  * Wraps the app and renders the toast viewport. Mount it once near the root, then queue toasts with
- * `useToast().add({ title, description, data: { tone } })`.
+ * `useToast().add({ title, description, data: { tone } })`. Composes the atomic `ui/toast` parts
+ * (Provider + Portal + Viewport) and the manager-driven {@link ToastList}.
  */
 export function ToastProvider({ children, ...props }: ToastProviderProps) {
   return (
-    <BaseToast.Provider {...props}>
+    <ToastProviderRoot {...props}>
       {children}
-      <BaseToast.Portal>
-        <BaseToast.Viewport className="fixed inset-e-4 bottom-4 z-50 flex w-85 max-w-[calc(100vw-2rem)] flex-col gap-2 rounded-lg outline-none focus-visible:outline-md focus-visible:outline-offset-2 focus-visible:outline-accent-strong">
+      <ToastPortal>
+        <ToastViewport>
           <ToastList />
-        </BaseToast.Viewport>
-      </BaseToast.Portal>
-    </BaseToast.Provider>
+        </ToastViewport>
+      </ToastPortal>
+    </ToastProviderRoot>
   );
 }

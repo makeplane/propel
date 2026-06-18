@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
 import { Field, RadioGroupField, RadioGroupFieldOption } from "../field/index";
-import { Fieldset, FieldsetLegend } from "../fieldset/index";
+import { Fieldset } from "../fieldset/index";
 import { Radio, RadioGroup } from "./index";
 
 const meta = {
@@ -27,8 +27,7 @@ export const Default: Story = {
   args: { density: "comfortable", defaultValue: "low" },
   render: (args) => (
     <Field name="priority">
-      <Fieldset render={<RadioGroup {...args} />}>
-        <FieldsetLegend magnitude="md">Priority</FieldsetLegend>
+      <Fieldset legend="Priority" legendMagnitude="md" render={<RadioGroup {...args} />}>
         <RadioGroupFieldOption magnitude="md" value="low" label="Low" />
         <RadioGroupFieldOption magnitude="md" value="medium" label="Medium" />
         <RadioGroupFieldOption magnitude="md" value="high" label="High" />
@@ -66,15 +65,21 @@ export const Density: Story = {
   render: () => (
     <div className="flex items-start gap-10">
       <Field name="comfortableDensity">
-        <Fieldset render={<RadioGroup density="comfortable" defaultValue="low" />}>
-          <FieldsetLegend magnitude="md">Comfortable density</FieldsetLegend>
+        <Fieldset
+          legend="Comfortable density"
+          legendMagnitude="md"
+          render={<RadioGroup density="comfortable" defaultValue="low" />}
+        >
           <RadioGroupFieldOption magnitude="md" value="low" label="Comfortable" />
           <RadioGroupFieldOption magnitude="md" value="medium" label="8px gap" />
         </Fieldset>
       </Field>
       <Field name="compactDensity">
-        <Fieldset render={<RadioGroup density="compact" defaultValue="low" />}>
-          <FieldsetLegend magnitude="md">Compact density</FieldsetLegend>
+        <Fieldset
+          legend="Compact density"
+          legendMagnitude="md"
+          render={<RadioGroup density="compact" defaultValue="low" />}
+        >
           <RadioGroupFieldOption magnitude="md" value="low" label="Compact" />
           <RadioGroupFieldOption magnitude="md" value="medium" label="Flush rows" />
         </Fieldset>

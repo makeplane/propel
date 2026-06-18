@@ -1,20 +1,16 @@
-import { Field as BaseField } from "@base-ui/react/field";
 import type * as React from "react";
 
-import type { InputProps } from "../input/index";
-import { FieldHelperText } from "./field-helper-text";
-import { FieldLabelGroup } from "./field-label-group";
-import {
-  iconSlotClass,
-  type InputMagnitude,
-  type InputTone,
-  inputFieldBoxVariants,
-  inputFieldContentVariants,
-  inputFieldRootVariants,
-} from "./field-styles";
-import { InputFieldControl } from "./input-field-control";
+import { FieldHelperText } from "../../ui/field/field-helper-text";
+import { FieldLabelGroup } from "../../ui/field/field-label-group";
+import { InputFieldBox } from "../../ui/field/input-field-box";
+import { InputFieldContent } from "../../ui/field/input-field-content";
+import { InputFieldControl } from "../../ui/field/input-field-control";
+import { InputFieldIconSlot } from "../../ui/field/input-field-icon-slot";
+import { InputFieldRoot } from "../../ui/field/input-field-root";
+import type { InputMagnitude, InputTone } from "../../ui/field/variants";
+import type { InputProps } from "../../ui/input/index";
 
-export type { InputMagnitude, InputTone } from "./field-styles";
+export type { InputMagnitude, InputTone } from "../../ui/field/variants";
 
 export type InputFieldProps = Omit<InputProps, "magnitude"> & {
   /** Magnitude scale. `md` | `lg` | `xl`. */
@@ -59,11 +55,11 @@ export function InputField({
   ...controlProps
 }: InputFieldProps) {
   return (
-    <BaseField.Root
+    <InputFieldRoot
       name={name}
       disabled={disabled}
       invalid={tone === "danger" || undefined}
-      className={inputFieldRootVariants({ orientation })}
+      orientation={orientation}
     >
       <FieldLabelGroup
         magnitude={magnitude}
@@ -72,22 +68,14 @@ export function InputField({
         description={description}
         orientation={orientation}
       />
-      <div className={inputFieldContentVariants({ orientation })}>
-        <div className={inputFieldBoxVariants({ magnitude, tone })}>
-          {inlineStartNode ? (
-            <span aria-hidden className={iconSlotClass}>
-              {inlineStartNode}
-            </span>
-          ) : null}
+      <InputFieldContent orientation={orientation}>
+        <InputFieldBox magnitude={magnitude} tone={tone}>
+          {inlineStartNode ? <InputFieldIconSlot>{inlineStartNode}</InputFieldIconSlot> : null}
           <InputFieldControl required={required} magnitude={magnitude} {...controlProps} />
-          {inlineEndNode ? (
-            <span aria-hidden className={iconSlotClass}>
-              {inlineEndNode}
-            </span>
-          ) : null}
-        </div>
+          {inlineEndNode ? <InputFieldIconSlot>{inlineEndNode}</InputFieldIconSlot> : null}
+        </InputFieldBox>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
-      </div>
-    </BaseField.Root>
+      </InputFieldContent>
+    </InputFieldRoot>
   );
 }

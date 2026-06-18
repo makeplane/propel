@@ -5,6 +5,7 @@ import { Field, FieldError, FieldLabel } from "../field/index";
 import {
   Combobox,
   ComboboxClear,
+  ComboboxContent,
   ComboboxEmpty,
   ComboboxInput,
   ComboboxInputGroup,
@@ -12,14 +13,14 @@ import {
   ComboboxItemIndicator,
   ComboboxLabel,
   ComboboxList,
-  ComboboxPopup,
-  ComboboxPortal,
-  ComboboxPositioner,
   ComboboxTrigger,
 } from "./index";
 
 const REGIONS = ["us-central-1", "us-east-1", "eu-central-1", "ap-west-1"];
 
+// Components-tier story: the ready-made `ComboboxContent` collapses the
+// portal/positioner/popup boilerplate into one element. The UI-tier `Combobox`
+// story assembles those raw parts by hand.
 const meta = {
   title: "Components/Combobox",
   component: Combobox,
@@ -29,9 +30,7 @@ const meta = {
     ComboboxInput,
     ComboboxClear,
     ComboboxTrigger,
-    ComboboxPortal,
-    ComboboxPositioner,
-    ComboboxPopup,
+    ComboboxContent,
     ComboboxList,
     ComboboxItem,
     ComboboxItemIndicator,
@@ -42,7 +41,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Combobox owns the input and popup composition for choosing from filterable items. */
+/** Combobox using the ready-made `ComboboxContent` surface for filterable selection. */
 export const Default: Story = {
   args: { items: REGIONS, required: true },
   render: (args) => (
@@ -54,21 +53,17 @@ export const Default: Story = {
           <ComboboxClear />
           <ComboboxTrigger />
         </ComboboxInputGroup>
-        <ComboboxPortal>
-          <ComboboxPositioner>
-            <ComboboxPopup>
-              <ComboboxEmpty>No matches</ComboboxEmpty>
-              <ComboboxList>
-                {REGIONS.map((region) => (
-                  <ComboboxItem key={region} value={region}>
-                    <ComboboxItemIndicator />
-                    <span>{region}</span>
-                  </ComboboxItem>
-                ))}
-              </ComboboxList>
-            </ComboboxPopup>
-          </ComboboxPositioner>
-        </ComboboxPortal>
+        <ComboboxContent>
+          <ComboboxEmpty>No matches</ComboboxEmpty>
+          <ComboboxList>
+            {REGIONS.map((region) => (
+              <ComboboxItem key={region} value={region}>
+                <ComboboxItemIndicator />
+                <span>{region}</span>
+              </ComboboxItem>
+            ))}
+          </ComboboxList>
+        </ComboboxContent>
         <FieldError magnitude="md" />
       </Combobox>
     </Field>

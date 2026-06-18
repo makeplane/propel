@@ -1,2 +1,10 @@
 export { Checkbox, type CheckboxProps, type CheckboxTone } from "./checkbox";
-export { CheckboxVisual, type CheckboxVisualProps } from "./checkbox-visual";
+// Re-export the presentational visual + atomic parts so the full checkbox surface is importable
+// from this convenience.
+export {
+  type CheckboxIndicatorProps,
+  CheckboxIndicator,
+  CheckboxGlyph,
+  CheckboxVisual,
+  type CheckboxVisualProps,
+} from "../../ui/checkbox";

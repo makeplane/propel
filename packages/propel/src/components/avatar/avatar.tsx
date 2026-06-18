@@ -1,66 +1,19 @@
-import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
-import { cva, cx, type VariantProps } from "class-variance-authority";
 import { User } from "lucide-react";
 import * as React from "react";
 
-// Magnitudes follow the Figma "Avatar" component scale (px): 2xs 16 → 3xl 64.
-// Border is 1px (`border-sm`) up to 32px and 2px (`border-lg`) from 40px up.
-const avatarVariants = cva(
-  "relative inline-flex shrink-0 items-center justify-center overflow-clip rounded-full border-subtle",
-  {
-    variants: {
-      magnitude: {
-        "2xs": "size-4 border-sm text-caption-2xs-regular",
-        xs: "size-5 border-sm text-11",
-        sm: "size-6 border-sm text-12",
-        md: "size-7 border-sm text-13",
-        lg: "size-8 border-sm text-16",
-        xl: "size-10 border-lg text-18",
-        "2xl": "size-14 border-lg text-24",
-        "3xl": "size-16 border-lg text-28",
-      },
-    },
-  },
-);
+import {
+  Avatar as AvatarRoot,
+  AvatarFallback,
+  AvatarGroupContext,
+  AvatarImage,
+  type AvatarMagnitude,
+  type AvatarProps as AvatarRootProps,
+  type AvatarTone,
+  getAvatarTone,
+} from "../../ui/avatar";
 
-export type AvatarMagnitude = NonNullable<VariantProps<typeof avatarVariants>["magnitude"]>;
-
-/**
- * Set by `AvatarGroup` to give every avatar inside it the same `magnitude`, so a group stays
- * consistently sized. An avatar's own `magnitude` prop takes precedence.
- */
-export const AvatarGroupContext = React.createContext<AvatarMagnitude | undefined>(undefined);
-
-// The initials tone palette the designer defined for avatars (Figma label colors).
-export const AVATAR_TONES = ["orange", "indigo", "emerald", "crimson", "pink", "purple"] as const;
-export type AvatarTone = (typeof AVATAR_TONES)[number];
-
-// Initials background per tone. The label colors are wired into `@theme inline`,
-// so these are plain utilities. Exported so WorkspaceAvatar shares the same palette.
-export const initialsToneClass: Record<AvatarTone, string> = {
-  orange: "bg-label-orange-bg-strong",
-  indigo: "bg-label-indigo-bg-strong",
-  emerald: "bg-label-emerald-bg-strong",
-  crimson: "bg-label-crimson-bg-strong",
-  pink: "bg-label-pink-bg-strong",
-  purple: "bg-label-purple-bg-strong",
-};
-
-/**
- * Deterministically pick a tone from a seed (e.g. a name or user id) so the same person always gets
- * the same color — the "system picks it" behavior. Used as the default when `tone` is not set; pass
- * `tone` to override.
- */
-export function getAvatarTone(seed: string): AvatarTone {
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = (hash * 31 + seed.charCodeAt(i)) | 0;
-  }
-  return AVATAR_TONES[Math.abs(hash) % AVATAR_TONES.length];
-}
-
-// Person-icon (anonymous) sizes per magnitude, straight from Figma's "icon"
-// values — an explicit px size at each step, not a fixed fraction of the avatar.
+// Person-icon (anonymous) sizes per magnitude, straight from Figma's "icon" values —
+// an explicit px size at each step, not a fixed fraction of the avatar.
 const iconSizeByMagnitude: Record<AvatarMagnitude, string> = {
   "2xs": "size-3.5", // 14px
   xs: "size-3.5", // 14px
@@ -72,10 +25,7 @@ const iconSizeByMagnitude: Record<AvatarMagnitude, string> = {
   "3xl": "size-8", // 32px
 };
 
-export type AvatarProps = Omit<
-  React.ComponentProps<typeof BaseAvatar.Root>,
-  "className" | "render" | "style"
-> & {
+export type AvatarProps = AvatarRootProps & {
   /** Image URL. When omitted, or while it is loading/failing, the fallback shows. */
   src?: string;
   /** Accessible name for the avatar (the person it represents). */
@@ -84,52 +34,32 @@ export type AvatarProps = Omit<
   fallback?: React.ReactNode;
   /** Initials background color. Defaults to a stable color derived from `alt`. */
   tone?: AvatarTone;
-  /**
-   * Avatar size. Optional because an `Avatar` inside an `AvatarGroup` inherits the group's
-   * magnitude; standalone it falls back to `md`.
-   */
-  magnitude?: AvatarMagnitude;
 };
 
+/**
+ * The ready-made avatar: an image that falls back to initials (or an anonymous person icon),
+ * composed from the `ui/avatar` parts (`Avatar` root + `AvatarImage` + `AvatarFallback`). Pass
+ * `src` for the photo, `fallback` for initials, and optionally `tone` (otherwise derived from
+ * `alt`).
+ */
 export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: AvatarProps) {
-  // Base UI shows the fallback whenever the image is absent, loading, or failed,
-  // so the colored-initials styling lives on the Fallback element itself — keying
-  // it off `src` would miss the load/error case. Initials = a label tone color +
-  // white text; the person icon = the neutral layer + a muted placeholder icon.
+  // Base UI shows the fallback whenever the image is absent, loading, or failed, so the
+  // colored-initials styling lives on the Fallback element itself. Initials = a label tone
+  // color; the anonymous person icon = the neutral `none` tone.
   const hasInitials = fallback != null;
-  // An explicit `magnitude` wins; otherwise inherit the group's (if inside one); a
-  // standalone avatar with neither falls back to `md` so it always has a size.
   const groupMagnitude = React.useContext(AvatarGroupContext);
   const effectiveMagnitude = magnitude ?? groupMagnitude ?? "md";
-  // The tone is auto-derived from the name unless explicitly set, so each person
-  // gets a stable color without the caller having to choose one.
+  // The tone is auto-derived from the name unless explicitly set, so each person gets a
+  // stable color without the caller having to choose one.
   const resolvedTone = tone ?? getAvatarTone(alt ?? "");
   return (
-    <BaseAvatar.Root
-      // `role="img"` + `aria-label` give the avatar one accessible name in every
-      // state (image / initials / icon); the inner image is decorative so there's
-      // exactly one named image. Consumers can override via spread props.
-      role="img"
-      aria-label={alt}
-      // The `border-subtle` from `avatarVariants` is the avatar's only border. Inside
-      // an AvatarGroup that same border separates overlapping siblings, matching
-      // Figma's single `border/subtle` ring — there is no extra outer ring.
-      className={cx(avatarVariants({ magnitude: effectiveMagnitude }), "bg-layer-1")}
-      {...props}
-    >
-      {src ? <BaseAvatar.Image src={src} alt="" className="size-full object-cover" /> : null}
-      <BaseAvatar.Fallback
-        className={cx(
-          "flex size-full items-center justify-center leading-none",
-          // Initials: tone label color + white text. Icon (anonymous): neutral
-          // layer + the muted `placeholder` icon color (Figma `icon/placeholder`).
-          hasInitials
-            ? `${initialsToneClass[resolvedTone]} text-on-color`
-            : "bg-layer-1 text-icon-placeholder",
-        )}
-      >
+    // `role="img"` + `aria-label` give the avatar one accessible name in every state
+    // (image / initials / icon); the inner image is decorative.
+    <AvatarRoot role="img" aria-label={alt} magnitude={magnitude} {...props}>
+      {src ? <AvatarImage src={src} alt="" /> : null}
+      <AvatarFallback tone={hasInitials ? resolvedTone : "none"}>
         {fallback ?? <User aria-hidden className={iconSizeByMagnitude[effectiveMagnitude]} />}
-      </BaseAvatar.Fallback>
-    </BaseAvatar.Root>
+      </AvatarFallback>
+    </AvatarRoot>
   );
 }

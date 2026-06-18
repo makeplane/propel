@@ -1,13 +1,12 @@
 import { Menu } from "@base-ui/react/menu";
-import { cx } from "class-variance-authority";
 import { ChevronRight } from "lucide-react";
 import type * as React from "react";
 
-import { crumbVariants } from "./breadcrumb-styles";
+import { BreadcrumbTrigger } from "../../ui/breadcrumb";
 
 export type BreadcrumbMenuTriggerProps = Omit<
   React.ComponentProps<typeof Menu.Trigger>,
-  "className" | "render" | "style"
+  "className" | "style"
 > & {
   /** Leading content, typically a work-item/page icon. */
   icon?: React.ReactNode;
@@ -18,13 +17,7 @@ export type BreadcrumbMenuTriggerProps = Omit<
 /** The crumb that opens a `BreadcrumbMenu`. */
 export function BreadcrumbMenuTrigger({ icon, children, ...props }: BreadcrumbMenuTriggerProps) {
   return (
-    <Menu.Trigger
-      className={cx(
-        crumbVariants({ interactive: true }),
-        "group/trigger cursor-default data-popup-open:bg-layer-transparent-hover data-popup-open:text-primary",
-      )}
-      {...props}
-    >
+    <Menu.Trigger render={<BreadcrumbTrigger group />} {...props}>
       {icon != null ? (
         <span className="flex size-4 shrink-0 items-center justify-center text-icon-tertiary">
           {icon}

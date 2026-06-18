@@ -1,10 +1,14 @@
 import type * as React from "react";
 
-import { Field } from "./field";
-import { FieldHelperText } from "./field-helper-text";
-import { FieldLabelGroup } from "./field-label-group";
-import { type InputMagnitude, type InputTone, textAreaFieldBoxVariants } from "./field-styles";
-import { TextAreaFieldControl, type TextAreaFieldControlProps } from "./text-area-field-control";
+import { Field } from "../../ui/field/field";
+import { FieldHelperText } from "../../ui/field/field-helper-text";
+import { FieldLabelGroup } from "../../ui/field/field-label-group";
+import { TextAreaFieldBox } from "../../ui/field/text-area-field-box";
+import {
+  TextAreaFieldControl,
+  type TextAreaFieldControlProps,
+} from "../../ui/field/text-area-field-control";
+import type { InputMagnitude, InputTone } from "../../ui/field/variants";
 
 export type TextAreaFieldProps = Omit<TextAreaFieldControlProps, "magnitude" | "surface"> & {
   /** Magnitude scale. `md` | `lg` | `xl`. */
@@ -49,14 +53,14 @@ export function TextAreaField({
         orientation="vertical"
       />
       <div className="flex w-full flex-col gap-1.5">
-        <div className={textAreaFieldBoxVariants({ tone })}>
+        <TextAreaFieldBox tone={tone}>
           <TextAreaFieldControl
             required={required}
             magnitude={magnitude}
             surface="field"
             {...controlProps}
           />
-        </div>
+        </TextAreaFieldBox>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </div>
     </Field>

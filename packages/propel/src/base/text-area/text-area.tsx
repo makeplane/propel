@@ -8,7 +8,7 @@ type NativeTextAreaProps = Omit<
   keyof BaseFieldControlProps | "children" | "className" | "style"
 >;
 
-export type BaseTextAreaProps = Omit<BaseFieldControlProps, "render"> &
+export type BaseTextAreaProps = BaseFieldControlProps &
   NativeTextAreaProps & {
     /** The default value of the textarea. Use when uncontrolled. */
     defaultValue?: React.ComponentProps<"textarea">["defaultValue"];

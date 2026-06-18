@@ -2,9 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
-import { inputFieldBoxVariants, type InputMagnitude } from "../field/field-styles";
 import { Field, FieldError, FieldLabel } from "../field/index";
-import { Input } from "./index";
+import { Input, type InputMagnitude, inputFieldBoxVariants } from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
 

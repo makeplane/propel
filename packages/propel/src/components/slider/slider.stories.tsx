@@ -1,59 +1,55 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { Field } from "../field/index";
-import {
-  Slider,
-  SliderControl,
-  SliderIndicator,
-  SliderLabel,
-  SliderThumb,
-  SliderTrack,
-  SliderValue,
-} from "./index";
+import { Slider } from "./index";
 
+// Components-tier story: the ready-made single-thumb `Slider`. It composes the
+// `ui/slider` parts (label + value + control + track + indicator + thumb) for you —
+// pass `label` (or `aria-label`), `min`/`max`/`step`, and an optional `format`. The
+// UI-tier story shows how to assemble the parts (e.g. a two-thumb range).
 const meta = {
   title: "Components/Slider",
   component: Slider,
-  subcomponents: {
-    SliderLabel,
-    SliderValue,
-    SliderControl,
-    SliderTrack,
-    SliderIndicator,
-    SliderThumb,
-  },
+  decorators: [
+    (Story) => (
+      <div className="w-80">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Slider>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Slider labels its value and thumbs while using Field.Root for form naming. */
+/** A labelled single-thumb slider. */
 export const Default: Story = {
+  args: { label: "Volume", defaultValue: 40, min: 0, max: 100, step: 1 },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole("slider", { name: "Volume" })).toBeInTheDocument();
+  },
+};
+
+/** `format` (Intl options) controls the readout — here a percentage. */
+export const Percentage: Story = {
   args: {
-    defaultValue: [0.2, 0.8],
+    label: "Opacity",
+    defaultValue: 0.6,
     min: 0,
     max: 1,
     step: 0.01,
     format: { style: "percent", maximumFractionDigits: 0 },
   },
-  render: (args) => (
-    <Field name="scalingThreshold">
-      <Slider {...args}>
-        <SliderLabel>Scaling threshold</SliderLabel>
-        <SliderValue />
-        <SliderControl>
-          <SliderTrack>
-            <SliderIndicator />
-            <SliderThumb index={0} aria-label="Minimum threshold" />
-            <SliderThumb index={1} aria-label="Maximum threshold" />
-          </SliderTrack>
-        </SliderControl>
-      </Slider>
-    </Field>
-  ),
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole("slider", { name: "Minimum threshold" })).toBeInTheDocument();
-    await expect(canvas.getByRole("slider", { name: "Maximum threshold" })).toBeInTheDocument();
+    await expect(canvas.getByRole("slider", { name: "Opacity" })).toBeInTheDocument();
+  },
+};
+
+/** Without a visible `label`, name the thumb with `aria-label`. */
+export const WithoutLabel: Story = {
+  parameters: { controls: { disable: true } },
+  args: { "aria-label": "Brightness", defaultValue: 50, min: 0, max: 100, step: 1 },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole("slider", { name: "Brightness" })).toBeInTheDocument();
   },
 };

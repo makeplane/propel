@@ -4,17 +4,13 @@ import { expect, within } from "storybook/test";
 import { Field, FieldError } from "../field/index";
 import {
   Select,
+  SelectContent,
   SelectIcon,
   SelectItem,
   SelectItemIndicator,
   SelectItemText,
   SelectLabel,
   SelectList,
-  SelectPopup,
-  SelectPortal,
-  SelectPositioner,
-  SelectScrollDownArrow,
-  SelectScrollUpArrow,
   SelectTrigger,
   SelectValue,
 } from "./index";
@@ -25,6 +21,9 @@ const SERVER_TYPES = [
   { label: "Memory optimized", value: "memory" },
 ];
 
+// Components-tier story: the ready-made `SelectContent` collapses the
+// portal/positioner/popup boilerplate into one element. The UI-tier `Select`
+// story assembles those raw parts by hand.
 const meta = {
   title: "Components/Select",
   component: Select,
@@ -33,22 +32,18 @@ const meta = {
     SelectTrigger,
     SelectValue,
     SelectIcon,
-    SelectPortal,
-    SelectPositioner,
-    SelectPopup,
+    SelectContent,
     SelectList,
     SelectItem,
     SelectItemIndicator,
     SelectItemText,
-    SelectScrollUpArrow,
-    SelectScrollDownArrow,
   },
 } satisfies Meta<typeof Select>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Trigger-based select control composed inside Field.Root for names and validation. */
+/** Trigger-based select using the ready-made `SelectContent` surface inside a `Field`. */
 export const Default: Story = {
   args: { items: SERVER_TYPES, defaultValue: "general", required: true },
   render: (args) => (
@@ -61,20 +56,16 @@ export const Default: Story = {
             <SelectIcon />
           </SelectTrigger>
         </div>
-        <SelectPortal>
-          <SelectPositioner>
-            <SelectPopup>
-              <SelectList>
-                {SERVER_TYPES.map(({ label, value }) => (
-                  <SelectItem key={value} value={value}>
-                    <SelectItemIndicator />
-                    <SelectItemText>{label}</SelectItemText>
-                  </SelectItem>
-                ))}
-              </SelectList>
-            </SelectPopup>
-          </SelectPositioner>
-        </SelectPortal>
+        <SelectContent>
+          <SelectList>
+            {SERVER_TYPES.map(({ label, value }) => (
+              <SelectItem key={value} value={value}>
+                <SelectItemIndicator />
+                <SelectItemText>{label}</SelectItemText>
+              </SelectItem>
+            ))}
+          </SelectList>
+        </SelectContent>
         <FieldError magnitude="md" />
       </Select>
     </Field>

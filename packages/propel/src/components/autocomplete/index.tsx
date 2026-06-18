@@ -1,17 +1,19 @@
-export { Autocomplete, type AutocompleteProps } from "./autocomplete";
-export { AutocompleteClear, type AutocompleteClearProps } from "./autocomplete-clear";
-export { AutocompleteEmpty, type AutocompleteEmptyProps } from "./autocomplete-empty";
-export { AutocompleteInput, type AutocompleteInputProps } from "./autocomplete-input";
+export { AutocompleteContent, type AutocompleteContentProps } from "./autocomplete-content";
+// Re-export the atomic autocomplete parts so a full autocomplete can be assembled from one entry.
 export {
+  Autocomplete,
+  type AutocompleteProps,
+  AutocompleteClear,
+  type AutocompleteClearProps,
+  AutocompleteEmpty,
+  type AutocompleteEmptyProps,
+  AutocompleteInput,
+  type AutocompleteInputProps,
   AutocompleteInputGroup,
   type AutocompleteInputGroupProps,
-} from "./autocomplete-input-group";
-export { AutocompleteItem, type AutocompleteItemProps } from "./autocomplete-item";
-export { AutocompleteList } from "./autocomplete-list";
-export { AutocompletePopup, type AutocompletePopupProps } from "./autocomplete-popup";
-export { AutocompletePortal } from "./autocomplete-portal";
-export {
-  AutocompletePositioner,
-  type AutocompletePositionerProps,
-} from "./autocomplete-positioner";
-export { AutocompleteTrigger, type AutocompleteTriggerProps } from "./autocomplete-trigger";
+  AutocompleteItem,
+  type AutocompleteItemProps,
+  AutocompleteList,
+  AutocompleteTrigger,
+  type AutocompleteTriggerProps,
+} from "../../ui/autocomplete";

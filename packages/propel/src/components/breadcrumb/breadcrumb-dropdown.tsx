@@ -1,14 +1,13 @@
 import { Menu } from "@base-ui/react/menu";
-import { cx } from "class-variance-authority";
 import { Ellipsis } from "lucide-react";
 import type * as React from "react";
 
 import { OverlayPanel } from "../../internal/overlay-panel";
-import { crumbVariants } from "./breadcrumb-styles";
+import { BreadcrumbTrigger } from "../../ui/breadcrumb";
 
 export type BreadcrumbDropdownProps = Omit<
   React.ComponentProps<typeof Menu.Trigger>,
-  "className" | "render" | "style"
+  "className" | "style"
 > & {
   /** The collapsed crumbs shown in the menu. */
   children?: React.ReactNode;
@@ -24,14 +23,7 @@ export function BreadcrumbDropdown({
 }: BreadcrumbDropdownProps) {
   return (
     <Menu.Root>
-      <Menu.Trigger
-        aria-label={label}
-        className={cx(
-          crumbVariants({ interactive: true }),
-          "cursor-default data-popup-open:bg-layer-transparent-hover data-popup-open:text-primary",
-        )}
-        {...props}
-      >
+      <Menu.Trigger aria-label={label} render={<BreadcrumbTrigger />} {...props}>
         <Ellipsis className="size-3.5" />
       </Menu.Trigger>
       <Menu.Portal>

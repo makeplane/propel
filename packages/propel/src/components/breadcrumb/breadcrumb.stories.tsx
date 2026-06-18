@@ -184,7 +184,7 @@ export const WithMenuCrumb: Story = {
 };
 
 /**
- * The menu crumb composes propel's `Dropdown` rows, so it supports the full row vocabulary — here a
+ * The menu crumb composes propel's `Menu` rows, so it supports the full row vocabulary — here a
  * single-select list (the current sibling carries `selected`, showing the trailing check) for
  * switching the active view.
  */

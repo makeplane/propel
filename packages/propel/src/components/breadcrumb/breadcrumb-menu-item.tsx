@@ -1,8 +1,8 @@
-import { DropdownItem, type DropdownItemProps } from "../dropdown/index";
+import { MenuItem, type MenuItemProps } from "../menu/index";
 
-export type BreadcrumbMenuItemProps = DropdownItemProps;
+export type BreadcrumbMenuItemProps = MenuItemProps;
 
 /** A row in a `BreadcrumbMenu`. */
 export function BreadcrumbMenuItem(props: BreadcrumbMenuItemProps) {
-  return <DropdownItem {...props} />;
+  return <MenuItem {...props} />;
 }

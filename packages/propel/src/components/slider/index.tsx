@@ -1,7 +1,15 @@
 export { Slider, type SliderProps } from "./slider";
-export { SliderControl, type SliderControlProps } from "./slider-control";
-export { SliderIndicator, type SliderIndicatorProps } from "./slider-indicator";
-export { SliderLabel, type SliderLabelProps } from "./slider-label";
-export { SliderThumb, type SliderThumbProps } from "./slider-thumb";
-export { SliderTrack, type SliderTrackProps } from "./slider-track";
-export { SliderValue, type SliderValueProps } from "./slider-value";
+export {
+  SliderControl,
+  type SliderControlProps,
+  SliderIndicator,
+  type SliderIndicatorProps,
+  SliderLabel,
+  type SliderLabelProps,
+  SliderThumb,
+  type SliderThumbProps,
+  SliderTrack,
+  type SliderTrackProps,
+  SliderValue,
+  type SliderValueProps,
+} from "../../ui/slider";

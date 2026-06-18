@@ -1,10 +1,10 @@
 import type * as React from "react";
 
-import { Field } from "./field";
-import { FieldHelperText } from "./field-helper-text";
-import { FieldItem } from "./field-item";
-import { FieldItemContent } from "./field-item-content";
-import type { FieldMagnitude } from "./field-styles";
+import { Field } from "../../ui/field/field";
+import { FieldHelperText } from "../../ui/field/field-helper-text";
+import { FieldItem } from "../../ui/field/field-item";
+import { FieldItemContent } from "../../ui/field/field-item-content";
+import type { FieldMagnitude } from "../../ui/field/variants";
 import {
   SwitchFieldControl,
   type SwitchFieldControlMagnitude,

@@ -1,6 +1,5 @@
-export { NavItem, type NavItemLevel, type NavItemMagnitude, type NavItemProps } from "./nav-item";
-export { NavItemChevron } from "./nav-item-chevron";
-export { NavItemCount } from "./nav-item-count";
-export { NavItemGroup, type NavItemGroupProps } from "./nav-item-group";
-export { NavItemHeader, type NavItemHeaderProps } from "./nav-item-header";
-export { NavItemPanel, type NavItemPanelProps } from "./nav-item-panel";
+// Ready-made 1:1 re-export of the ui primitives. The NavItem part set (NavItem, NavItemHeader,
+// NavItemChevron, NavItemCount, NavItemGroup, NavItemPanel) is already an ergonomic, fully-composed
+// Plane component set assembled per nav structure, so a single wrapper would add no value. Drop down
+// to `@plane/propel/ui/nav-item` for the same parts.
+export * from "../../ui/nav-item";

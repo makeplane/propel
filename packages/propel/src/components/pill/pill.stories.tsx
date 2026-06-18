@@ -46,9 +46,9 @@ export const Magnitudes: Story = {
 };
 
 /**
- * `PillButton` states. Default / hover / active are the chip darkening its fill + border (hover and
- * active are forced here via the pseudo-states addon); `disabled` and `loading` drop to a
- * transparent fill with a dimmed label, and `loading` swaps the inline-start node for a spinner.
+ * `PillButton` states. Default / hover / active darken the chip's fill + border (hover and active
+ * forced via the pseudo-states addon); `disabled` and `loading` drop to a transparent fill with a
+ * dimmed label, and `loading` swaps the inline-start node for a spinner.
  */
 export const States: Story = {
   parameters: {
@@ -96,8 +96,7 @@ export const Switch: Story = {
 
 /**
  * Icon-only square pills. Require an `aria-label`. `disabled` drops to a transparent fill with the
- * disabled icon color, and `loading` swaps the icon for a spinner tinted with that same disabled
- * icon color.
+ * disabled icon color, and `loading` swaps the icon for a spinner tinted with that same color.
  */
 export const Icons: Story = {
   parameters: { controls: { disable: true } },
@@ -120,8 +119,7 @@ export const Icons: Story = {
 
 /**
  * Clicking a `PillButton` fires its handler, and a `loading` pill blocks the click while staying
- * focusable (`aria-busy`). Tagged out of the sidebar/docs/manifest but still run under the default
- * `test` tag.
+ * focusable (`aria-busy`). Tagged out of the sidebar/docs/manifest but still run under `test`.
  */
 export const ButtonClicks: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -146,7 +144,6 @@ export const ButtonClicks: Story = {
 
     const busy = canvas.getByRole("button", { name: "Busy" });
     await expect(busy).toHaveAttribute("aria-busy", "true");
-    // The busy pill is focusable but does not act on click.
     await userEvent.click(busy);
     await expect(onLoadingClick).not.toHaveBeenCalled();
   },
@@ -154,7 +151,7 @@ export const ButtonClicks: Story = {
 
 /**
  * `PillSwitch` reports `aria-pressed` and flips it on click (Base UI `Toggle`). Tagged out of the
- * sidebar/docs/manifest but still run under the default `test` tag.
+ * sidebar/docs/manifest but still run under `test`.
  */
 export const SwitchToggles: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

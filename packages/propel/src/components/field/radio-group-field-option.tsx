@@ -1,10 +1,10 @@
 import type * as React from "react";
 
-import { FieldItem } from "./field-item";
-import { FieldItemContent } from "./field-item-content";
-import type { FieldMagnitude } from "./field-styles";
+import { FieldItem } from "../../ui/field/field-item";
+import { FieldItemContent } from "../../ui/field/field-item-content";
+import { useFieldOptionMagnitude } from "../../ui/field/use-field-option-magnitude";
+import type { FieldMagnitude } from "../../ui/field/variants";
 import { RadioFieldControl, type RadioFieldControlProps } from "./radio-field-control";
-import { useFieldOptionMagnitude } from "./use-field-option-magnitude";
 
 export type RadioGroupFieldOptionProps = RadioFieldControlProps & {
   /** Visible option label. */

@@ -1,8 +1,8 @@
-import { DropdownContent, type DropdownContentProps } from "../dropdown/index";
+import { MenuContent, type MenuContentProps } from "../menu/index";
 
-export type BreadcrumbMenuContentProps = DropdownContentProps;
+export type BreadcrumbMenuContentProps = MenuContentProps;
 
 /** The menu surface for a `BreadcrumbMenu`. */
 export function BreadcrumbMenuContent(props: BreadcrumbMenuContentProps) {
-  return <DropdownContent {...props} />;
+  return <MenuContent {...props} />;
 }

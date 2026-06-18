@@ -1,3 +1,8 @@
-export { Popover, type PopoverProps } from "./popover";
 export { PopoverContent, type PopoverContentProps } from "./popover-content";
-export { PopoverTrigger, type PopoverTriggerProps } from "./popover-trigger";
+// Re-export the atomic root + trigger so a popover can be assembled from one entry.
+export {
+  Popover,
+  type PopoverProps,
+  PopoverTrigger,
+  type PopoverTriggerProps,
+} from "../../ui/popover";

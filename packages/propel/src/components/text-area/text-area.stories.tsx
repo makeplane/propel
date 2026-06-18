@@ -2,9 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type * as React from "react";
 import { expect } from "storybook/test";
 
-import { textAreaFieldBoxVariants } from "../field/field-styles";
 import { Field, FieldError, FieldLabel } from "../field/index";
-import { TextArea } from "./index";
+import { TextArea, textAreaFieldBoxVariants } from "./index";
 
 const meta = {
   title: "Components/TextArea",

@@ -1,3 +1,3 @@
-export { IconPill, type IconPillProps } from "./icon-pill";
-export { PillButton, type PillButtonProps, type PillMagnitude } from "./pill";
-export { PillSwitch, type PillSwitchProps } from "./pill-switch";
+// Ready-made 1:1 re-export of the ui primitive. Drop down to `@plane/propel/ui/pill` only
+// when you need the lower-level parts.
+export * from "../../ui/pill";

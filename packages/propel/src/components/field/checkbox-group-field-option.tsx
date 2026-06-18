@@ -1,15 +1,18 @@
 import type * as React from "react";
 
-import type { CheckboxTone } from "../checkbox/index";
-import { CheckboxFieldControl, type CheckboxFieldControlProps } from "./checkbox-field-control";
-import { FieldItem } from "./field-item";
-import { FieldItemContent } from "./field-item-content";
-import type { FieldMagnitude } from "./field-styles";
-import { useFieldOptionMagnitude } from "./use-field-option-magnitude";
+import type { CheckboxTone } from "../../ui/checkbox/index";
+import {
+  CheckboxFieldControl,
+  type CheckboxFieldControlProps,
+} from "../../ui/field/checkbox-field-control";
+import { FieldItem } from "../../ui/field/field-item";
+import { FieldItemContent } from "../../ui/field/field-item-content";
+import { useFieldOptionMagnitude } from "../../ui/field/use-field-option-magnitude";
+import type { FieldMagnitude } from "../../ui/field/variants";
 
 export type CheckboxGroupFieldOptionProps = Omit<
   CheckboxFieldControlProps,
-  "aria-label" | "label" | "leadingIcon" | "tone"
+  "aria-label" | "label" | "inlineStartNode" | "tone"
 > & {
   /** Visible option label. */
   label: React.ReactNode;
