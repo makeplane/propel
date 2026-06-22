@@ -52,12 +52,20 @@ export const Anatomy: Story = {
         <AlertDialogBackdrop />
         <AlertDialogViewport>
           <AlertDialogPopup>
-            <div className="flex w-80 flex-col gap-2">
-              <AlertDialogTitle>Delete account?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This permanently deletes your account and cannot be undone.
-              </AlertDialogDescription>
-              <div className="mt-2 flex justify-end gap-2">
+            {/*
+             * Two layout groups, separated by the parent's gap (never a margin on a
+             * child): an "intro" (title + description) and the "actions" row. These
+             * boundaries are the future anatomy surfaces — e.g. AlertDialogIntro and
+             * AlertDialogActions — so define them correctly here before hardening.
+             */}
+            <div className="flex w-80 flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <AlertDialogTitle>Delete account?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This permanently deletes your account and cannot be undone.
+                </AlertDialogDescription>
+              </div>
+              <div className="flex justify-end gap-2">
                 <AlertDialogClose render={<button type="button" className={neutralButton} />}>
                   Cancel
                 </AlertDialogClose>

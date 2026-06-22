@@ -53,17 +53,24 @@ export const Anatomy: Story = {
         <DrawerViewport>
           <DrawerPopup>
             <DrawerContent>
-              <div className="flex items-start justify-between gap-4">
-                <DrawerTitle>Work item details</DrawerTitle>
-                <DrawerClose
-                  render={
-                    <button type="button" aria-label="Close" className="size-7">
-                      <X aria-hidden className="size-4" />
-                    </button>
-                  }
-                />
+              {/*
+               * Two layout groups, separated by DrawerContent's own gap: a header
+               * (title + corner close) grouped with the description, then the body
+               * region. Future anatomy surfaces — e.g. DrawerHeader and DrawerBody.
+               */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-start justify-between gap-4">
+                  <DrawerTitle>Work item details</DrawerTitle>
+                  <DrawerClose
+                    render={
+                      <button type="button" aria-label="Close" className="size-7">
+                        <X aria-hidden className="size-4" />
+                      </button>
+                    }
+                  />
+                </div>
+                <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
               </div>
-              <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
               <div className="text-14 text-secondary">Panel body content goes here.</div>
             </DrawerContent>
           </DrawerPopup>
@@ -91,8 +98,10 @@ export const DefaultOpen: Story = {
         <DrawerViewport>
           <DrawerPopup>
             <DrawerContent>
-              <DrawerTitle>Filters</DrawerTitle>
-              <DrawerDescription>This drawer started open.</DrawerDescription>
+              <div className="flex flex-col gap-2">
+                <DrawerTitle>Filters</DrawerTitle>
+                <DrawerDescription>This drawer started open.</DrawerDescription>
+              </div>
             </DrawerContent>
           </DrawerPopup>
         </DrawerViewport>

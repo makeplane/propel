@@ -50,21 +50,28 @@ export const Anatomy: Story = {
         <DialogBackdrop />
         <DialogViewport>
           <DialogPopup>
-            <div className="flex w-80 flex-col gap-2">
-              <div className="flex items-start justify-between gap-4">
-                <DialogTitle>Delete project</DialogTitle>
-                <DialogClose
-                  render={
-                    <button type="button" aria-label="Close" className="size-7">
-                      <X aria-hidden className="size-4" />
-                    </button>
-                  }
-                />
+            {/*
+             * Layout groups separated by the parent's gap (never a margin on a child):
+             * a header (title + corner close) grouped with the description, then the
+             * actions row. Future anatomy surfaces — e.g. DialogHeader and DialogActions.
+             */}
+            <div className="flex w-80 flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-start justify-between gap-4">
+                  <DialogTitle>Delete project</DialogTitle>
+                  <DialogClose
+                    render={
+                      <button type="button" aria-label="Close" className="size-7">
+                        <X aria-hidden className="size-4" />
+                      </button>
+                    }
+                  />
+                </div>
+                <DialogDescription>
+                  This permanently removes the project and all of its work items.
+                </DialogDescription>
               </div>
-              <DialogDescription>
-                This permanently removes the project and all of its work items.
-              </DialogDescription>
-              <div className="mt-2 flex justify-end gap-2">
+              <div className="flex justify-end gap-2">
                 <DialogClose render={<button type="button" className={triggerClass} />}>
                   Cancel
                 </DialogClose>
@@ -100,12 +107,14 @@ export const NonDismissable: Story = {
         <DialogBackdrop />
         <DialogViewport>
           <DialogPopup>
-            <div className="flex w-80 flex-col gap-2">
-              <DialogTitle>Unsaved changes</DialogTitle>
-              <DialogDescription>
-                Choose an action — clicking outside won&apos;t dismiss.
-              </DialogDescription>
-              <div className="mt-2 flex justify-end">
+            <div className="flex w-80 flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <DialogTitle>Unsaved changes</DialogTitle>
+                <DialogDescription>
+                  Choose an action — clicking outside won&apos;t dismiss.
+                </DialogDescription>
+              </div>
+              <div className="flex justify-end">
                 <DialogClose render={<button type="button" className={triggerClass} />}>
                   Discard
                 </DialogClose>

@@ -88,9 +88,16 @@ export const Modal: Story = {
         <PopoverBackdrop />
         <PopoverPositioner side="bottom" sideOffset={8}>
           <PopoverPopup>
+            {/*
+             * Two layout groups, separated by the parent's gap (never a margin on a
+             * child): an "intro" (title + description) and the "actions" row. Future
+             * anatomy surfaces — e.g. PopoverIntro and PopoverActions.
+             */}
             <div className="flex w-56 flex-col gap-2 p-2">
-              <PopoverTitle>Confirm</PopoverTitle>
-              <PopoverDescription>Focus is trapped while this is open.</PopoverDescription>
+              <div className="flex flex-col gap-2">
+                <PopoverTitle>Confirm</PopoverTitle>
+                <PopoverDescription>Focus is trapped while this is open.</PopoverDescription>
+              </div>
               <div className="flex justify-end">
                 <PopoverClose render={<button type="button" className={triggerClass} />}>
                   Close
