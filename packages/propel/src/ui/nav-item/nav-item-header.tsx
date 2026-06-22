@@ -2,7 +2,7 @@ import { Collapsible as BaseCollapsible } from "@base-ui/react/collapsible";
 import { cx } from "class-variance-authority";
 import type * as React from "react";
 
-import { NodeSlot } from "../../internal/node-slot";
+import { nodeSlotClass } from "../../internal/node-slot";
 import { navItemHeaderToggleClass } from "./nav-item-context";
 import { navItemHeaderVariants } from "./variants";
 
@@ -40,7 +40,7 @@ export function NavItemHeader({ children, chevron, inlineEndNode, ...props }: Na
         </span>
       </BaseCollapsible.Trigger>
       {inlineEndNode != null ? (
-        <NodeSlot className="text-icon-secondary">{inlineEndNode}</NodeSlot>
+        <span className={cx(nodeSlotClass, "text-icon-secondary")}>{inlineEndNode}</span>
       ) : null}
     </div>
   );

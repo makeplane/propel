@@ -2,7 +2,7 @@ import { cx, type VariantProps } from "class-variance-authority";
 import { CircleAlert, Info, Megaphone, TriangleAlert, X, type LucideIcon } from "lucide-react";
 import * as React from "react";
 
-import { NodeSlot } from "../../internal/node-slot";
+import { nodeSlotClass } from "../../internal/node-slot";
 import { bannerVariants } from "./variants";
 
 type BannerVariant = NonNullable<VariantProps<typeof bannerVariants>["variant"]>;
@@ -94,9 +94,9 @@ export function Banner({
       {inlineStartNode === undefined ? (
         <DefaultIcon aria-hidden className={cx("shrink-0", iconSize, toneIconClass[tone])} />
       ) : inlineStartNode ? (
-        <NodeSlot aria-hidden className={cx(nodeSizeVar, toneIconClass[tone])}>
+        <span aria-hidden className={cx(nodeSlotClass, nodeSizeVar, toneIconClass[tone])}>
           {inlineStartNode}
-        </NodeSlot>
+        </span>
       ) : null}
       <div
         className={cx("min-w-0 flex-1 text-14 leading-relaxed", textWeight, toneTextClass[tone])}
