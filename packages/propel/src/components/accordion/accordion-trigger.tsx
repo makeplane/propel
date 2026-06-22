@@ -1,10 +1,11 @@
-import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import { NodeSlot } from "../../internal/node-slot";
 import {
   AccordionTrigger as AccordionTriggerRoot,
   type AccordionTriggerProps as AccordionTriggerRootProps,
+  AccordionTriggerIndicator,
+  AccordionTriggerTitle,
 } from "../../ui/accordion";
 
 export type AccordionTriggerProps = AccordionTriggerRootProps & {
@@ -16,8 +17,9 @@ export type AccordionTriggerProps = AccordionTriggerRootProps & {
 };
 
 /**
- * The ready-made accordion trigger: composes the atomic `AccordionTrigger` and lays out an optional
- * `inlineStartNode`, the label, and the chevron that rotates when the panel opens.
+ * The ready-made accordion trigger: composes the atomic `AccordionTrigger` with an optional
+ * `inlineStartNode`, the `AccordionTriggerTitle`, and the `AccordionTriggerIndicator` chevron that
+ * rotates when the panel opens.
  */
 export function AccordionTrigger({ inlineStartNode, children, ...props }: AccordionTriggerProps) {
   return (
@@ -27,11 +29,8 @@ export function AccordionTrigger({ inlineStartNode, children, ...props }: Accord
           {inlineStartNode}
         </NodeSlot>
       ) : null}
-      <span className="flex-1">{children}</span>
-      <ChevronDown
-        aria-hidden
-        className="size-3.5 shrink-0 text-icon-secondary transition-transform duration-200 group-data-panel-open:rotate-180"
-      />
+      <AccordionTriggerTitle>{children}</AccordionTriggerTitle>
+      <AccordionTriggerIndicator />
     </AccordionTriggerRoot>
   );
 }

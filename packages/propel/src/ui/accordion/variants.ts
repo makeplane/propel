@@ -29,3 +29,20 @@ export const accordionPanelVariants = cva(
     "data-ending-style:h-0 data-starting-style:h-0",
   ),
 );
+
+// The trigger's growing label. `flex-1` fills the row so the indicator sits at the
+// trailing edge; `min-w-0` lets long labels wrap/shrink instead of overflowing.
+export const accordionTriggerTitleVariants = cva("min-w-0 flex-1 text-start");
+
+// The disclosure caret inside the trigger. Rotates 180° when the item's panel opens
+// (Base UI sets `data-panel-open` on the trigger, which carries the `group` class).
+export const accordionTriggerIndicatorVariants = cva(
+  cx(
+    "inline-flex shrink-0 items-center justify-center text-icon-secondary",
+    "transition-transform duration-200 group-data-panel-open:rotate-180",
+  ),
+);
+
+// The padded inner content of a panel. Padding lives here, never on the
+// height-animating `AccordionPanel` (padding there would jump the open/close height).
+export const accordionPanelContentVariants = cva("px-3 pb-3");

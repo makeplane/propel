@@ -7,5 +7,11 @@ export {
   type AccordionHeaderProps,
   AccordionItem,
   type AccordionItemProps,
+  AccordionPanelContent,
+  type AccordionPanelContentProps,
   type AccordionProps,
+  AccordionTriggerIndicator,
+  type AccordionTriggerIndicatorProps,
+  AccordionTriggerTitle,
+  type AccordionTriggerTitleProps,
 } from "../../ui/accordion";
