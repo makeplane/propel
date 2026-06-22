@@ -86,9 +86,7 @@ export const WithIcon: Story = {
       {ITEMS.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
           <AccordionHeader>
-            <AccordionTrigger inlineStartNode={<CircleHelp aria-hidden className="size-4" />}>
-              {item.label}
-            </AccordionTrigger>
+            <AccordionTrigger inlineStartNode={<CircleHelp />}>{item.label}</AccordionTrigger>
           </AccordionHeader>
           <AccordionPanel>{item.body}</AccordionPanel>
         </AccordionItem>

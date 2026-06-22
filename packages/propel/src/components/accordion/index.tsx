@@ -10,6 +10,8 @@ export {
   AccordionPanelContent,
   type AccordionPanelContentProps,
   type AccordionProps,
+  AccordionTriggerIcon,
+  type AccordionTriggerIconProps,
   AccordionTriggerIndicator,
   type AccordionTriggerIndicatorProps,
   AccordionTriggerTitle,

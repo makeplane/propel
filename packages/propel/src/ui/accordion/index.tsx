@@ -4,6 +4,7 @@ export { AccordionItem, type AccordionItemProps } from "./accordion-item";
 export { AccordionPanel, type AccordionPanelProps } from "./accordion-panel";
 export { AccordionPanelContent, type AccordionPanelContentProps } from "./accordion-panel-content";
 export { AccordionTrigger, type AccordionTriggerProps } from "./accordion-trigger";
+export { AccordionTriggerIcon, type AccordionTriggerIconProps } from "./accordion-trigger-icon";
 export {
   AccordionTriggerIndicator,
   type AccordionTriggerIndicatorProps,

@@ -1,9 +1,9 @@
 import type * as React from "react";
 
-import { NodeSlot } from "../../internal/node-slot";
 import {
   AccordionTrigger as AccordionTriggerRoot,
   type AccordionTriggerProps as AccordionTriggerRootProps,
+  AccordionTriggerIcon,
   AccordionTriggerIndicator,
   AccordionTriggerTitle,
 } from "../../ui/accordion";
@@ -24,11 +24,7 @@ export type AccordionTriggerProps = AccordionTriggerRootProps & {
 export function AccordionTrigger({ inlineStartNode, children, ...props }: AccordionTriggerProps) {
   return (
     <AccordionTriggerRoot {...props}>
-      {inlineStartNode ? (
-        <NodeSlot aria-hidden className="text-icon-secondary">
-          {inlineStartNode}
-        </NodeSlot>
-      ) : null}
+      {inlineStartNode ? <AccordionTriggerIcon>{inlineStartNode}</AccordionTriggerIcon> : null}
       <AccordionTriggerTitle>{children}</AccordionTriggerTitle>
       <AccordionTriggerIndicator />
     </AccordionTriggerRoot>

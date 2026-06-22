@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { CircleHelp } from "lucide-react";
 import { expect } from "storybook/test";
 
 import {
@@ -8,6 +9,7 @@ import {
   AccordionPanel,
   AccordionPanelContent,
   AccordionTrigger,
+  AccordionTriggerIcon,
   AccordionTriggerIndicator,
   AccordionTriggerTitle,
 } from "./index";
@@ -23,6 +25,7 @@ const meta = {
     AccordionItem,
     AccordionHeader,
     AccordionTrigger,
+    AccordionTriggerIcon,
     AccordionTriggerTitle,
     AccordionTriggerIndicator,
     AccordionPanel,
@@ -54,6 +57,9 @@ export const Default: Story = {
         <AccordionItem key={item.value} value={item.value}>
           <AccordionHeader>
             <AccordionTrigger>
+              <AccordionTriggerIcon>
+                <CircleHelp />
+              </AccordionTriggerIcon>
               <AccordionTriggerTitle>{item.label}</AccordionTriggerTitle>
               <AccordionTriggerIndicator />
             </AccordionTrigger>
