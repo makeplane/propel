@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { Button } from "../button";
 import {
   AlertDialog,
   AlertDialogBackdrop,
@@ -17,11 +18,8 @@ import {
 // Portal › Backdrop › Viewport › Popup, plus Title/Description/Close). The
 // components-tier `AlertDialogContent` ready-made composes the portal/backdrop/
 // viewport/popup for you. AlertDialog is always modal and non-dismissible, so it
-// requires an explicit Close response.
-const neutralButton =
-  "inline-flex h-8 items-center rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none";
-const dangerButton =
-  "inline-flex h-8 items-center rounded-md bg-danger-primary px-3 text-13 text-on-color outline-none";
+// requires an explicit Close response. Trigger and Close compose the `Button`
+// primitive via Base UI's `render` prop rather than raw `<button>` elements.
 
 const meta = {
   title: "UI/AlertDialog",
@@ -45,9 +43,9 @@ type Story = StoryObj<typeof meta>;
 export const Anatomy: Story = {
   render: () => (
     <AlertDialog>
-      <AlertDialogTrigger render={<button type="button" className={dangerButton} />}>
+      <Button variant="primary" tone="danger" magnitude="xl" render={<AlertDialogTrigger />}>
         Delete account
-      </AlertDialogTrigger>
+      </Button>
       <AlertDialogPortal>
         <AlertDialogBackdrop />
         <AlertDialogViewport>
@@ -66,12 +64,22 @@ export const Anatomy: Story = {
                 </AlertDialogDescription>
               </div>
               <div className="flex justify-end gap-2">
-                <AlertDialogClose render={<button type="button" className={neutralButton} />}>
+                <Button
+                  variant="secondary"
+                  tone="neutral"
+                  magnitude="xl"
+                  render={<AlertDialogClose />}
+                >
                   Cancel
-                </AlertDialogClose>
-                <AlertDialogClose render={<button type="button" className={dangerButton} />}>
+                </Button>
+                <Button
+                  variant="primary"
+                  tone="danger"
+                  magnitude="xl"
+                  render={<AlertDialogClose />}
+                >
                   Delete
-                </AlertDialogClose>
+                </Button>
               </div>
             </div>
           </AlertDialogPopup>

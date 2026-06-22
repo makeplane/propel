@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { X } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { Button } from "../../ui/button";
+import { IconButton } from "../../ui/icon-button";
 import {
   Dialog,
   DialogClose,
@@ -13,9 +15,9 @@ import {
 
 // Components-tier story: uses the ready-made `DialogContent`, which composes the
 // portal/backdrop/centering-viewport/popup so a consumer only writes the trigger
-// and the popup body.
-const triggerClass =
-  "inline-flex h-8 items-center rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none";
+// and the popup body. Trigger/Close compose the `Button` (or `IconButton` for the
+// corner close) primitive via Base UI's `render` prop — the styled primitive is the
+// outer element so its look wins, the dialog part supplies the behavior.
 
 const meta = {
   title: "Components/Dialog",
@@ -30,9 +32,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Dialog>
-      <DialogTrigger render={<button type="button" className={triggerClass} />}>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogTrigger />}>
         Delete project
-      </DialogTrigger>
+      </Button>
       <DialogContent>
         {/*
          * Layout groups separated by the parent's gap (never a margin on a child):
@@ -43,13 +45,15 @@ export const Default: Story = {
           <div className="flex flex-col gap-2">
             <div className="flex items-start justify-between gap-4">
               <DialogTitle>Delete project</DialogTitle>
-              <DialogClose
-                render={
-                  <button type="button" aria-label="Close" className="size-7">
-                    <X aria-hidden className="size-4" />
-                  </button>
-                }
-              />
+              <IconButton
+                variant="ghost"
+                tone="neutral"
+                magnitude="lg"
+                aria-label="Close"
+                render={<DialogClose />}
+              >
+                <X />
+              </IconButton>
             </div>
             <DialogDescription>
               This permanently removes the project and all of its work items. This action can&apos;t
@@ -57,19 +61,12 @@ export const Default: Story = {
             </DialogDescription>
           </div>
           <div className="flex justify-end gap-2">
-            <DialogClose render={<button type="button" className={triggerClass} />}>
+            <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
               Cancel
-            </DialogClose>
-            <DialogClose
-              render={
-                <button
-                  type="button"
-                  className="inline-flex h-8 items-center rounded-md bg-danger-primary px-3 text-13 text-on-color outline-none"
-                />
-              }
-            >
+            </Button>
+            <Button variant="primary" tone="danger" magnitude="xl" render={<DialogClose />}>
               Delete
-            </DialogClose>
+            </Button>
           </div>
         </div>
       </DialogContent>
@@ -99,9 +96,9 @@ export const EscapeCloses: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Dialog>
-      <DialogTrigger render={<button type="button" className={triggerClass} />}>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogTrigger />}>
         Open settings
-      </DialogTrigger>
+      </Button>
       <DialogContent>
         <div className="flex w-80 flex-col gap-2">
           <DialogTitle>Settings</DialogTitle>

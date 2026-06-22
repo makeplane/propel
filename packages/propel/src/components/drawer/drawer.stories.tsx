@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { X } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { Button } from "../../ui/button";
+import { IconButton } from "../../ui/icon-button";
 import {
   Drawer,
   DrawerClose,
@@ -13,9 +15,10 @@ import {
 
 // Components-tier story: uses the ready-made `DrawerPanel`, which composes the
 // portal/backdrop/edge-viewport/sliding-popup/padded-content so a consumer only
-// writes the trigger and the panel body.
-const triggerClass =
-  "inline-flex h-8 items-center rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none";
+// writes the trigger and the panel body. Trigger/Close compose the `Button` (or
+// `IconButton` for the corner close) primitive via Base UI's `render` prop — the
+// styled primitive is the outer element so its look wins, the drawer part supplies
+// the behavior.
 
 const meta = {
   title: "Components/Drawer",
@@ -30,9 +33,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Drawer>
-      <DrawerTrigger render={<button type="button" className={triggerClass} />}>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
         Open details
-      </DrawerTrigger>
+      </Button>
       <DrawerPanel>
         {/*
          * Two layout groups, separated by the panel's own gap: a header (title +
@@ -42,13 +45,15 @@ export const Default: Story = {
         <div className="flex flex-col gap-2">
           <div className="flex items-start justify-between gap-4">
             <DrawerTitle>Work item details</DrawerTitle>
-            <DrawerClose
-              render={
-                <button type="button" aria-label="Close" className="size-7">
-                  <X aria-hidden className="size-4" />
-                </button>
-              }
-            />
+            <IconButton
+              variant="ghost"
+              tone="neutral"
+              magnitude="lg"
+              aria-label="Close"
+              render={<DrawerClose />}
+            >
+              <X />
+            </IconButton>
           </div>
           <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
         </div>
@@ -80,9 +85,9 @@ export const EscapeCloses: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Drawer>
-      <DrawerTrigger render={<button type="button" className={triggerClass} />}>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
         Open filters
-      </DrawerTrigger>
+      </Button>
       <DrawerPanel>
         <DrawerTitle>Filters</DrawerTitle>
         <DrawerDescription>Press Escape to dismiss.</DrawerDescription>

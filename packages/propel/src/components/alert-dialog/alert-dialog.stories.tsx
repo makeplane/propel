@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { Button } from "../../ui/button";
 import {
   AlertDialog,
   AlertDialogClose,
@@ -12,11 +13,9 @@ import {
 
 // Components-tier story: uses the ready-made `AlertDialogContent`, which composes
 // the portal/backdrop/centering-viewport/popup so a consumer only writes the
-// trigger and the popup body.
-const neutralButton =
-  "inline-flex h-8 items-center rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none";
-const dangerButton =
-  "inline-flex h-8 items-center rounded-md bg-danger-primary px-3 text-13 text-on-color outline-none";
+// trigger and the popup body. Trigger and Close compose the `Button` primitive via
+// Base UI's `render` prop — Button is the outer element so its styling wins, while
+// the dialog part it renders supplies the open/close behavior.
 
 const meta = {
   title: "Components/AlertDialog",
@@ -37,9 +36,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <AlertDialog>
-      <AlertDialogTrigger render={<button type="button" className={dangerButton} />}>
+      <Button variant="primary" tone="danger" magnitude="xl" render={<AlertDialogTrigger />}>
         Delete project
-      </AlertDialogTrigger>
+      </Button>
       <AlertDialogContent>
         {/*
          * Two layout groups, separated by the parent's gap (never a margin on a
@@ -56,12 +55,12 @@ export const Default: Story = {
             </AlertDialogDescription>
           </div>
           <div className="flex justify-end gap-2">
-            <AlertDialogClose render={<button type="button" className={neutralButton} />}>
+            <Button variant="secondary" tone="neutral" magnitude="xl" render={<AlertDialogClose />}>
               Cancel
-            </AlertDialogClose>
-            <AlertDialogClose render={<button type="button" className={dangerButton} />}>
+            </Button>
+            <Button variant="primary" tone="danger" magnitude="xl" render={<AlertDialogClose />}>
               Delete
-            </AlertDialogClose>
+            </Button>
           </div>
         </div>
       </AlertDialogContent>

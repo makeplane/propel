@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { Button } from "../button";
 import {
   Popover,
   PopoverArrow,
@@ -18,9 +19,9 @@ import {
 // UI-tier story: assembles the ATOMIC popover parts by hand (Root › Trigger ›
 // Portal › Positioner › Popup, plus Viewport/Title/Description/Arrow/Close). The
 // components-tier `PopoverContent` ready-made composes the portal/positioner/panel
-// surface for you.
-const triggerClass =
-  "inline-flex h-8 items-center rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none";
+// surface for you. Trigger/Close compose the `Button` primitive via Base UI's
+// `render` prop — the styled primitive is the outer element so its look wins, the
+// popover part supplies the behavior.
 
 const meta = {
   title: "UI/Popover",
@@ -46,9 +47,9 @@ type Story = StoryObj<typeof meta>;
 export const Anatomy: Story = {
   render: () => (
     <Popover>
-      <PopoverTrigger render={<button type="button" className={triggerClass} />}>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
         About
-      </PopoverTrigger>
+      </Button>
       <PopoverPortal>
         <PopoverPositioner side="bottom" sideOffset={8}>
           <PopoverPopup>
@@ -81,9 +82,9 @@ export const Anatomy: Story = {
 export const Modal: Story = {
   render: () => (
     <Popover modal>
-      <PopoverTrigger render={<button type="button" className={triggerClass} />}>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
         Open menu
-      </PopoverTrigger>
+      </Button>
       <PopoverPortal>
         <PopoverBackdrop />
         <PopoverPositioner side="bottom" sideOffset={8}>
@@ -99,9 +100,9 @@ export const Modal: Story = {
                 <PopoverDescription>Focus is trapped while this is open.</PopoverDescription>
               </div>
               <div className="flex justify-end">
-                <PopoverClose render={<button type="button" className={triggerClass} />}>
+                <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverClose />}>
                   Close
-                </PopoverClose>
+                </Button>
               </div>
             </div>
           </PopoverPopup>

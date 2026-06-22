@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { X } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { Button } from "../button";
+import { IconButton } from "../icon-button";
 import {
   Drawer,
   DrawerBackdrop,
@@ -18,9 +20,10 @@ import {
 // UI-tier story: assembles the ATOMIC drawer parts by hand (Root › Trigger ›
 // Portal › Backdrop › Viewport › Popup › Content, plus Title/Description/Close).
 // The components-tier `DrawerPanel` ready-made composes the portal/backdrop/
-// viewport/popup/content for you.
-const triggerClass =
-  "inline-flex h-8 items-center rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none";
+// viewport/popup/content for you. Trigger/Close compose the `Button` (or
+// `IconButton` for the corner close) primitive via Base UI's `render` prop — the
+// styled primitive is the outer element so its look wins, the drawer part supplies
+// the behavior.
 
 const meta = {
   title: "UI/Drawer",
@@ -45,9 +48,9 @@ type Story = StoryObj<typeof meta>;
 export const Anatomy: Story = {
   render: () => (
     <Drawer>
-      <DrawerTrigger render={<button type="button" className={triggerClass} />}>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
         Open drawer
-      </DrawerTrigger>
+      </Button>
       <DrawerPortal>
         <DrawerBackdrop />
         <DrawerViewport>
@@ -61,13 +64,15 @@ export const Anatomy: Story = {
               <div className="flex flex-col gap-2">
                 <div className="flex items-start justify-between gap-4">
                   <DrawerTitle>Work item details</DrawerTitle>
-                  <DrawerClose
-                    render={
-                      <button type="button" aria-label="Close" className="size-7">
-                        <X aria-hidden className="size-4" />
-                      </button>
-                    }
-                  />
+                  <IconButton
+                    variant="ghost"
+                    tone="neutral"
+                    magnitude="lg"
+                    aria-label="Close"
+                    render={<DrawerClose />}
+                  >
+                    <X />
+                  </IconButton>
                 </div>
                 <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
               </div>

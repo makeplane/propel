@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { X } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { Button } from "../button";
+import { IconButton } from "../icon-button";
 import {
   Dialog,
   DialogBackdrop,
@@ -17,9 +19,10 @@ import {
 // UI-tier story: assembles the ATOMIC dialog parts (Root › Trigger › Portal ›
 // Backdrop › Viewport › Popup, plus Title/Description/Close). The components-tier
 // `DialogContent` ready-made composes the portal/backdrop/viewport/popup for you;
-// here you wire that boilerplate by hand.
-const triggerClass =
-  "inline-flex h-8 items-center rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none";
+// here you wire that boilerplate by hand. Trigger/Close compose the `Button` (or
+// `IconButton` for the corner close) primitive via Base UI's `render` prop — the
+// styled primitive is the outer element so its look wins, the dialog part supplies
+// the behavior.
 
 const meta = {
   title: "UI/Dialog",
@@ -43,9 +46,9 @@ type Story = StoryObj<typeof meta>;
 export const Anatomy: Story = {
   render: () => (
     <Dialog>
-      <DialogTrigger render={<button type="button" className={triggerClass} />}>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogTrigger />}>
         Open dialog
-      </DialogTrigger>
+      </Button>
       <DialogPortal>
         <DialogBackdrop />
         <DialogViewport>
@@ -59,22 +62,24 @@ export const Anatomy: Story = {
               <div className="flex flex-col gap-2">
                 <div className="flex items-start justify-between gap-4">
                   <DialogTitle>Delete project</DialogTitle>
-                  <DialogClose
-                    render={
-                      <button type="button" aria-label="Close" className="size-7">
-                        <X aria-hidden className="size-4" />
-                      </button>
-                    }
-                  />
+                  <IconButton
+                    variant="ghost"
+                    tone="neutral"
+                    magnitude="lg"
+                    aria-label="Close"
+                    render={<DialogClose />}
+                  >
+                    <X />
+                  </IconButton>
                 </div>
                 <DialogDescription>
                   This permanently removes the project and all of its work items.
                 </DialogDescription>
               </div>
               <div className="flex justify-end gap-2">
-                <DialogClose render={<button type="button" className={triggerClass} />}>
+                <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
                   Cancel
-                </DialogClose>
+                </Button>
               </div>
             </div>
           </DialogPopup>
@@ -100,9 +105,9 @@ export const Anatomy: Story = {
 export const NonDismissable: Story = {
   render: () => (
     <Dialog disablePointerDismissal>
-      <DialogTrigger render={<button type="button" className={triggerClass} />}>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogTrigger />}>
         Open locked dialog
-      </DialogTrigger>
+      </Button>
       <DialogPortal>
         <DialogBackdrop />
         <DialogViewport>
@@ -115,9 +120,9 @@ export const NonDismissable: Story = {
                 </DialogDescription>
               </div>
               <div className="flex justify-end">
-                <DialogClose render={<button type="button" className={triggerClass} />}>
+                <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
                   Discard
-                </DialogClose>
+                </Button>
               </div>
             </div>
           </DialogPopup>
