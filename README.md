@@ -2,6 +2,16 @@
 
 A [Vite+](https://viteplus.dev) monorepo.
 
+## Docs
+
+- [`design.md`](./design.md) — the shared design + code contract: how we name
+  component **properties** and structure component **anatomy**.
+- [`integration.md`](./integration.md) — how we adopt propel into Plane: the
+  explicit-first rollout, composing primitives with Base UI `render`, and the
+  remaining anatomy work.
+- [`packages/propel/README.md`](./packages/propel/README.md) — the `@plane/propel`
+  package: install, usage, and component conventions.
+
 ## Prerequisites
 
 Install the `vp` CLI globally:
