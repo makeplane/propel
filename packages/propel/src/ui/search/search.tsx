@@ -7,7 +7,7 @@ import { useControllableState } from "../../hooks/use-controllable-state/index";
 import { searchBoxClass, searchClearButtonClass, searchInputClass } from "./variants";
 
 export type SearchProps = Omit<
-  React.ComponentProps<typeof BaseInput>,
+  BaseInput.Props,
   "className" | "style" | "type" | "value" | "defaultValue" | "onValueChange"
 > & {
   /** Current text. Controlled; pair with `onValueChange`. */

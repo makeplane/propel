@@ -1,7 +1,7 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import type * as React from "react";
 
-type BaseTooltipProviderProps = React.ComponentProps<typeof BaseTooltip.Provider>;
+type BaseTooltipProviderProps = BaseTooltip.Provider.Props;
 
 export type TooltipProviderProps = Omit<
   BaseTooltipProviderProps,

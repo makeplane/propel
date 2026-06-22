@@ -1,10 +1,6 @@
 import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
-import type * as React from "react";
 
-export type ToolbarSeparatorProps = Omit<
-  React.ComponentProps<typeof BaseToolbar.Separator>,
-  "className" | "style"
->;
+export type ToolbarSeparatorProps = Omit<BaseToolbar.Separator.Props, "className" | "style">;
 
 /** A thin vertical rule that visually divides one cluster of controls from the next. */
 export function ToolbarSeparator(props: ToolbarSeparatorProps) {

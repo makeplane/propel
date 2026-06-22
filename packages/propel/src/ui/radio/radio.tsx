@@ -1,9 +1,8 @@
 import { Radio as BaseRadio } from "@base-ui/react/radio";
-import type * as React from "react";
 
 import { radioVariants } from "./variants";
 
-export type RadioProps = Omit<React.ComponentProps<typeof BaseRadio.Root>, "className" | "style">;
+export type RadioProps = Omit<BaseRadio.Root.Props, "className" | "style">;
 
 /**
  * A single radio ring (Base UI `Radio.Root`). The 16px ring follows Figma node 2159-4535; the

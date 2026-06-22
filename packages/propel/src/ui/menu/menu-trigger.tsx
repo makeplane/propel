@@ -1,10 +1,6 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import type * as React from "react";
 
-export type MenuTriggerProps = Omit<
-  React.ComponentProps<typeof BaseMenu.Trigger>,
-  "className" | "style"
->;
+export type MenuTriggerProps = Omit<BaseMenu.Trigger.Props, "className" | "style">;
 
 /**
  * The element that opens the menu. Renders a `<button>` by default; pass `render` to project the

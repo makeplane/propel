@@ -1,11 +1,10 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { Check } from "lucide-react";
-import type * as React from "react";
 
 import { menuItemIndicatorVariants } from "./variants";
 
 export type MenuCheckboxItemIndicatorProps = Omit<
-  React.ComponentProps<typeof BaseMenu.CheckboxItemIndicator>,
+  BaseMenu.CheckboxItemIndicator.Props,
   "className" | "style"
 >;
 

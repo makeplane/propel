@@ -1,8 +1,7 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
-import type * as React from "react";
 
 export type ContextMenuSubmenuRootProps = Omit<
-  React.ComponentProps<typeof BaseContextMenu.SubmenuRoot>,
+  BaseContextMenu.SubmenuRoot.Props,
   "className" | "style"
 >;
 

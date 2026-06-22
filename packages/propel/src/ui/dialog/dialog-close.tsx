@@ -1,12 +1,8 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
-import type * as React from "react";
 
 import { dialogCloseVariants } from "./variants";
 
-export type DialogCloseProps = Omit<
-  React.ComponentProps<typeof BaseDialog.Close>,
-  "className" | "style"
->;
+export type DialogCloseProps = Omit<BaseDialog.Close.Props, "className" | "style">;
 
 /**
  * A button that closes the dialog when activated. Renders a ghost button by default; children are

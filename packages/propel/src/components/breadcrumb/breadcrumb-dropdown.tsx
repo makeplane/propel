@@ -5,10 +5,7 @@ import type * as React from "react";
 import { OverlayPanel } from "../../internal/overlay-panel";
 import { BreadcrumbTrigger } from "../../ui/breadcrumb";
 
-export type BreadcrumbDropdownProps = Omit<
-  React.ComponentProps<typeof Menu.Trigger>,
-  "className" | "style"
-> & {
+export type BreadcrumbDropdownProps = Omit<Menu.Trigger.Props, "className" | "style"> & {
   /** The collapsed crumbs shown in the menu. */
   children?: React.ReactNode;
   /** Accessible name for the trigger. Defaults to "Show more breadcrumbs". */

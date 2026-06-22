@@ -1,13 +1,9 @@
 import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
-import type * as React from "react";
 
 import { scrollAreaCornerVariants } from "./variants";
 
 /** Props for {@link ScrollAreaCorner}; 1:1 with Base UI `ScrollArea.Corner`. */
-export type ScrollAreaCornerProps = Omit<
-  React.ComponentProps<typeof BaseScrollArea.Corner>,
-  "className" | "style"
->;
+export type ScrollAreaCornerProps = Omit<BaseScrollArea.Corner.Props, "className" | "style">;
 
 /** 1:1 wrapper around Base UI `ScrollArea.Corner`. */
 export function ScrollAreaCorner(props: ScrollAreaCornerProps) {

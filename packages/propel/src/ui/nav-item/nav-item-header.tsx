@@ -7,7 +7,7 @@ import { navItemHeaderToggleClass } from "./nav-item-context";
 import { navItemHeaderVariants } from "./variants";
 
 export type NavItemHeaderProps = Omit<
-  React.ComponentProps<typeof BaseCollapsible.Trigger>,
+  BaseCollapsible.Trigger.Props,
   "className" | "style" | "children"
 > & {
   /** The section title. */

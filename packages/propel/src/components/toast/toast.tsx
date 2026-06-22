@@ -74,7 +74,7 @@ export function useToast<Data extends ToastData = ToastData>() {
   return useToastManager<Data>();
 }
 
-export type ToastProps = Omit<React.ComponentProps<typeof BaseToast.Root>, "className" | "style">;
+export type ToastProps = Omit<BaseToast.Root.Props, "className" | "style">;
 
 /**
  * A single styled toast: status icon (auto-selected from `toast.data.tone`), title, description,

@@ -33,7 +33,7 @@ export type TooltipProps<Payload = unknown> = Omit<
    *
    * @default "top"
    */
-  side?: React.ComponentProps<typeof BaseTooltip.Positioner>["side"];
+  side?: BaseTooltip.Positioner.Props["side"];
   /**
    * Gap in pixels between the trigger and the popup. Leaves room for the arrow.
    *

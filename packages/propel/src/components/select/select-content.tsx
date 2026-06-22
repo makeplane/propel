@@ -13,7 +13,6 @@ export type SelectContentProps = SelectPopupProps & {
 
 /** The select list surface: portal + positioner + popup with Propel overlay styling. */
 export function SelectContent({
-  children,
   side = "bottom",
   sideOffset = 4,
   align = "start",
@@ -22,7 +21,7 @@ export function SelectContent({
   return (
     <SelectPortal>
       <SelectPositioner side={side} sideOffset={sideOffset} align={align}>
-        <SelectPopup {...props}>{children}</SelectPopup>
+        <SelectPopup {...props} />
       </SelectPositioner>
     </SelectPortal>
   );

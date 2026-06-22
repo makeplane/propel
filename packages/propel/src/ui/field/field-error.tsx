@@ -1,12 +1,8 @@
 import { Field as BaseField } from "@base-ui/react/field";
-import type * as React from "react";
 
 import { fieldErrorVariants, type InputMagnitude } from "./variants";
 
-export type FieldErrorProps = Omit<
-  React.ComponentProps<typeof BaseField.Error>,
-  "className" | "style"
-> & {
+export type FieldErrorProps = Omit<BaseField.Error.Props, "className" | "style"> & {
   /** Text size matched to the field control. */
   magnitude: InputMagnitude;
 };

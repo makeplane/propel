@@ -22,7 +22,6 @@ export type PreviewCardContentProps = PreviewCardPopupProps & {
  * `align` through to the positioner.
  */
 export function PreviewCardContent({
-  children,
   side = "bottom",
   sideOffset = 4,
   align = "center",
@@ -32,7 +31,7 @@ export function PreviewCardContent({
     <PreviewCardPortal>
       <PreviewCardBackdrop />
       <PreviewCardPositioner side={side} sideOffset={sideOffset} align={align}>
-        <PreviewCardPopup {...props}>{children}</PreviewCardPopup>
+        <PreviewCardPopup {...props} />
       </PreviewCardPositioner>
     </PreviewCardPortal>
   );

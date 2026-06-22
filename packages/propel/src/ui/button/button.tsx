@@ -1,6 +1,5 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { type VariantProps } from "class-variance-authority";
-import type * as React from "react";
 
 import { buttonVariants } from "./variants";
 
@@ -25,8 +24,7 @@ type ButtonOwnProps = {
   emphasis?: ButtonEmphasis;
 };
 
-export type ButtonProps = Omit<React.ComponentProps<typeof BaseButton>, "className" | "style"> &
-  ButtonOwnProps;
+export type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & ButtonOwnProps;
 
 /**
  * A plain accessible button built on propel's design tokens. Pick a look with `variant` (Figma
@@ -40,7 +38,6 @@ export function Button({
   magnitude,
   emphasis,
   type = "button",
-  children,
   ...props
 }: ButtonProps) {
   return (
@@ -48,8 +45,6 @@ export function Button({
       type={type}
       className={buttonVariants({ variant, tone, magnitude, emphasis })}
       {...props}
-    >
-      {children}
-    </BaseButton>
+    />
   );
 }

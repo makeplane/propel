@@ -1,9 +1,8 @@
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check } from "lucide-react";
-import type * as React from "react";
 
 export type ComboboxItemIndicatorProps = Omit<
-  React.ComponentProps<typeof BaseCombobox.ItemIndicator>,
+  BaseCombobox.ItemIndicator.Props,
   "className" | "style"
 >;
 

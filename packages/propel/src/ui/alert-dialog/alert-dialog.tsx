@@ -1,10 +1,6 @@
 import { AlertDialog as BaseAlertDialog } from "@base-ui/react/alert-dialog";
-import type * as React from "react";
 
-export type AlertDialogProps = Omit<
-  React.ComponentProps<typeof BaseAlertDialog.Root>,
-  "className" | "style"
->;
+export type AlertDialogProps = Omit<BaseAlertDialog.Root.Props, "className" | "style">;
 
 /**
  * The alert dialog root that wires up open state and accessibility for its parts. Always modal and

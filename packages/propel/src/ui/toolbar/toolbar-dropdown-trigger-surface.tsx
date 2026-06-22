@@ -6,7 +6,7 @@ import { ToolbarDensityContext } from "./toolbar-context";
 import { dropdownChevronVariants, dropdownTriggerVariants } from "./variants";
 
 export type ToolbarDropdownTriggerSurfaceProps = Omit<
-  React.ComponentProps<typeof BaseToolbar.Button>,
+  BaseToolbar.Button.Props,
   "className" | "style"
 >;
 

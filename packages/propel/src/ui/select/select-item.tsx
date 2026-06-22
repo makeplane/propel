@@ -1,12 +1,8 @@
 import { Select as BaseSelect } from "@base-ui/react/select";
-import type * as React from "react";
 
 import { selectItemVariants } from "./variants";
 
-export type SelectItemProps = Omit<
-  React.ComponentProps<typeof BaseSelect.Item>,
-  "className" | "style"
->;
+export type SelectItemProps = Omit<BaseSelect.Item.Props, "className" | "style">;
 
 export function SelectItem(props: SelectItemProps) {
   return <BaseSelect.Item className={selectItemVariants()} {...props} />;

@@ -1,10 +1,9 @@
 import { NumberField as BaseNumberField } from "@base-ui/react/number-field";
-import type * as React from "react";
 
 import { numberFieldButtonVariants } from "./variants";
 
 export type NumberFieldDecrementProps = Omit<
-  React.ComponentProps<typeof BaseNumberField.Decrement>,
+  BaseNumberField.Decrement.Props,
   "className" | "style"
 >;
 

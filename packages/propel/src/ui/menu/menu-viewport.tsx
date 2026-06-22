@@ -1,10 +1,6 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import type * as React from "react";
 
-export type MenuViewportProps = Omit<
-  React.ComponentProps<typeof BaseMenu.Viewport>,
-  "className" | "style"
->;
+export type MenuViewportProps = Omit<BaseMenu.Viewport.Props, "className" | "style">;
 
 /**
  * A content wrapper inside the popup that morphs/clips during submenu or size transitions. Wraps

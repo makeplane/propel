@@ -1,12 +1,8 @@
 import { Field as BaseField } from "@base-ui/react/field";
-import type * as React from "react";
 
 import { fieldDescriptionVariants, type InputMagnitude } from "./variants";
 
-export type FieldDescriptionProps = Omit<
-  React.ComponentProps<typeof BaseField.Description>,
-  "className" | "style"
-> & {
+export type FieldDescriptionProps = Omit<BaseField.Description.Props, "className" | "style"> & {
   /** Text size matched to the field control. */
   magnitude: InputMagnitude;
 };

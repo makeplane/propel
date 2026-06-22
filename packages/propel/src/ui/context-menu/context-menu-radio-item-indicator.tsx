@@ -1,11 +1,10 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
 import { Check } from "lucide-react";
-import type * as React from "react";
 
 import { contextMenuItemIndicatorVariants } from "./variants";
 
 export type ContextMenuRadioItemIndicatorProps = Omit<
-  React.ComponentProps<typeof BaseContextMenu.RadioItemIndicator>,
+  BaseContextMenu.RadioItemIndicator.Props,
   "className" | "style"
 >;
 

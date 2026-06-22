@@ -1,14 +1,10 @@
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
-import type * as React from "react";
 
 import { checkboxVariants, type CheckboxTone } from "./variants";
 
 export type { CheckboxTone } from "./variants";
 
-export type CheckboxProps = Omit<
-  React.ComponentProps<typeof BaseCheckbox.Root>,
-  "className" | "style"
-> & {
+export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style"> & {
   /** Resting color of the box. `danger` is the Figma "Error" state. */
   tone: CheckboxTone;
 };
@@ -19,10 +15,6 @@ export type CheckboxProps = Omit<
  * — are passed through. Give it an accessible name with `aria-label`/`aria-labelledby`, or pair it
  * with a `<label htmlFor>`.
  */
-export function Checkbox({ tone, children, ...props }: CheckboxProps) {
-  return (
-    <BaseCheckbox.Root className={checkboxVariants({ tone })} {...props}>
-      {children}
-    </BaseCheckbox.Root>
-  );
+export function Checkbox({ tone, ...props }: CheckboxProps) {
+  return <BaseCheckbox.Root className={checkboxVariants({ tone })} {...props} />;
 }

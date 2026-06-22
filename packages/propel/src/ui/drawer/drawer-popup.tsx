@@ -1,12 +1,8 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
-import type * as React from "react";
 
 import { drawerPopupVariants } from "./variants";
 
-export type DrawerPopupProps = Omit<
-  React.ComponentProps<typeof BaseDrawer.Popup>,
-  "className" | "style"
->;
+export type DrawerPopupProps = Omit<BaseDrawer.Popup.Props, "className" | "style">;
 
 /**
  * The sliding panel itself. Defaults to a right-edge drawer that slides in/out using Base UI's

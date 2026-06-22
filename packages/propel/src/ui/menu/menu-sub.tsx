@@ -1,7 +1,7 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type * as React from "react";
 
-type BaseSubmenuRootProps = React.ComponentProps<typeof BaseMenu.SubmenuRoot>;
+type BaseSubmenuRootProps = BaseMenu.SubmenuRoot.Props;
 
 export type MenuSubProps = Omit<
   BaseSubmenuRootProps,

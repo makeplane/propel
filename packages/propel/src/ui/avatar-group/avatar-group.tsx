@@ -23,12 +23,10 @@ export type AvatarGroupProps = Omit<React.ComponentProps<"div">, "className" | "
 //     <Avatar src={a} />
 //     <Avatar src={b} />
 //   </AvatarGroup>
-export function AvatarGroup({ children, magnitude, ...props }: AvatarGroupProps) {
+export function AvatarGroup({ magnitude, ...props }: AvatarGroupProps) {
   return (
     <AvatarGroupContext.Provider value={magnitude}>
-      <div className={avatarGroupVariants()} {...props}>
-        {children}
-      </div>
+      <div className={avatarGroupVariants()} {...props} />
     </AvatarGroupContext.Provider>
   );
 }

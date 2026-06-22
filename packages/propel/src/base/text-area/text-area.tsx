@@ -1,7 +1,7 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import * as React from "react";
 
-type BaseFieldControlProps = React.ComponentProps<typeof BaseField.Control>;
+type BaseFieldControlProps = BaseField.Control.Props;
 
 type NativeTextAreaProps = Omit<
   React.ComponentProps<"textarea">,

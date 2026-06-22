@@ -1,9 +1,8 @@
 import { Meter as BaseMeter } from "@base-ui/react/meter";
-import type * as React from "react";
 
 import { meterRootVariants } from "./variants";
 
-export type MeterProps = Omit<React.ComponentProps<typeof BaseMeter.Root>, "className" | "style">;
+export type MeterProps = Omit<BaseMeter.Root.Props, "className" | "style">;
 
 /**
  * A static gauge that graphs a numeric `value` within a known range (`min`/`max`, default 0–100):

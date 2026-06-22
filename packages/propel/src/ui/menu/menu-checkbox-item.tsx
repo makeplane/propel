@@ -1,14 +1,13 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { cx } from "class-variance-authority";
-import type * as React from "react";
 
 export type MenuCheckboxItemProps = Omit<
-  React.ComponentProps<typeof BaseMenu.CheckboxItem>,
+  BaseMenu.CheckboxItem.Props,
   "className" | "style" | "label"
 >;
 
 /** A toggleable multi-select menu row with `role="menuitemcheckbox"`. Wraps `Menu.CheckboxItem` 1:1. */
-export function MenuCheckboxItem({ children, ...props }: MenuCheckboxItemProps) {
+export function MenuCheckboxItem(props: MenuCheckboxItemProps) {
   return (
     <BaseMenu.CheckboxItem
       className={cx(
@@ -18,8 +17,6 @@ export function MenuCheckboxItem({ children, ...props }: MenuCheckboxItemProps) 
         "data-disabled:pointer-events-none data-disabled:text-disabled",
       )}
       {...props}
-    >
-      {children}
-    </BaseMenu.CheckboxItem>
+    />
   );
 }

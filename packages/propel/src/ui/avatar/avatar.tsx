@@ -40,10 +40,7 @@ export function getAvatarTone(seed: string): AvatarTone {
 }
 
 /** Props for {@link Avatar} (the Base UI `Avatar.Root`), plus a `magnitude`. */
-export type AvatarProps = Omit<
-  React.ComponentProps<typeof BaseAvatar.Root>,
-  "className" | "style"
-> & {
+export type AvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> & {
   /**
    * Avatar size. Optional because an `Avatar` inside an `AvatarGroup` inherits the group's
    * magnitude; standalone it falls back to `md`.

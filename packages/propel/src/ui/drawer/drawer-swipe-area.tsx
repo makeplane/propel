@@ -1,10 +1,6 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
-import type * as React from "react";
 
-export type DrawerSwipeAreaProps = Omit<
-  React.ComponentProps<typeof BaseDrawer.SwipeArea>,
-  "className" | "style"
->;
+export type DrawerSwipeAreaProps = Omit<BaseDrawer.SwipeArea.Props, "className" | "style">;
 
 /**
  * An off-screen edge hit area that lets users swipe the closed drawer open from the screen edge.

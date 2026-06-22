@@ -1,12 +1,8 @@
 import { Toast as BaseToast } from "@base-ui/react/toast";
-import type * as React from "react";
 
 import { toastContentVariants } from "./variants";
 
-export type ToastContentProps = Omit<
-  React.ComponentProps<typeof BaseToast.Content>,
-  "className" | "style"
->;
+export type ToastContentProps = Omit<BaseToast.Content.Props, "className" | "style">;
 
 /**
  * A container for the contents of a toast (title, description, actions). Maps 1:1 to

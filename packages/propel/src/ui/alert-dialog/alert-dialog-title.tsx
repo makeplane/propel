@@ -1,12 +1,8 @@
 import { AlertDialog as BaseAlertDialog } from "@base-ui/react/alert-dialog";
-import type * as React from "react";
 
 import { alertDialogTitleVariants } from "./variants";
 
-export type AlertDialogTitleProps = Omit<
-  React.ComponentProps<typeof BaseAlertDialog.Title>,
-  "className" | "style"
->;
+export type AlertDialogTitleProps = Omit<BaseAlertDialog.Title.Props, "className" | "style">;
 
 /**
  * The accessible title for the alert dialog. Base UI links it to the popup via `aria-labelledby`.

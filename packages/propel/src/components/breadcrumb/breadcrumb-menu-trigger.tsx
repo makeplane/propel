@@ -4,10 +4,7 @@ import type * as React from "react";
 
 import { BreadcrumbTrigger } from "../../ui/breadcrumb";
 
-export type BreadcrumbMenuTriggerProps = Omit<
-  React.ComponentProps<typeof Menu.Trigger>,
-  "className" | "style"
-> & {
+export type BreadcrumbMenuTriggerProps = Omit<Menu.Trigger.Props, "className" | "style"> & {
   /** Leading content, typically a work-item/page icon. */
   icon?: React.ReactNode;
   /** The crumb label. */

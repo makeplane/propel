@@ -1,10 +1,9 @@
 import { NavigationMenu as BaseNavigationMenu } from "@base-ui/react/navigation-menu";
-import type * as React from "react";
 
 import { navigationMenuTriggerVariants } from "./variants";
 
 export type NavigationMenuTriggerProps = Omit<
-  React.ComponentProps<typeof BaseNavigationMenu.Trigger>,
+  BaseNavigationMenu.Trigger.Props,
   "className" | "style"
 >;
 

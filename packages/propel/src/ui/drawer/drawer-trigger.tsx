@@ -1,10 +1,6 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
-import type * as React from "react";
 
-export type DrawerTriggerProps = Omit<
-  React.ComponentProps<typeof BaseDrawer.Trigger>,
-  "className" | "style"
->;
+export type DrawerTriggerProps = Omit<BaseDrawer.Trigger.Props, "className" | "style">;
 
 /**
  * The control that opens the drawer. Base UI wires `aria-haspopup`/`aria-expanded` and reflects

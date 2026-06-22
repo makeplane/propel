@@ -1,12 +1,8 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
-import type * as React from "react";
 
 import { drawerCloseVariants } from "./variants";
 
-export type DrawerCloseProps = Omit<
-  React.ComponentProps<typeof BaseDrawer.Close>,
-  "className" | "style"
->;
+export type DrawerCloseProps = Omit<BaseDrawer.Close.Props, "className" | "style">;
 
 /**
  * A control that closes the drawer when activated. Place inside the content for a dismiss button.

@@ -1,12 +1,8 @@
 import { Field as BaseField } from "@base-ui/react/field";
-import type * as React from "react";
 
 import { inputFieldRootVariants } from "./variants";
 
-export type InputFieldRootProps = Omit<
-  React.ComponentProps<typeof BaseField.Root>,
-  "className" | "style"
-> & {
+export type InputFieldRootProps = Omit<BaseField.Root.Props, "className" | "style"> & {
   /** Label placement: `vertical` (label above) | `horizontal` (label beside). */
   orientation: "vertical" | "horizontal";
 };

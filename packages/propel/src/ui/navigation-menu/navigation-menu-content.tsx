@@ -1,8 +1,7 @@
 import { NavigationMenu as BaseNavigationMenu } from "@base-ui/react/navigation-menu";
-import type * as React from "react";
 
 export type NavigationMenuContentProps = Omit<
-  React.ComponentProps<typeof BaseNavigationMenu.Content>,
+  BaseNavigationMenu.Content.Props,
   "className" | "style"
 >;
 

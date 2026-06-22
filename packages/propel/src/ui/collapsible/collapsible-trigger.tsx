@@ -1,12 +1,8 @@
 import { Collapsible as BaseCollapsible } from "@base-ui/react/collapsible";
-import type * as React from "react";
 
 import { collapsibleTriggerVariants } from "./variants";
 
-export type CollapsibleTriggerProps = Omit<
-  React.ComponentProps<typeof BaseCollapsible.Trigger>,
-  "className" | "style"
->;
+export type CollapsibleTriggerProps = Omit<BaseCollapsible.Trigger.Props, "className" | "style">;
 
 /**
  * The button that opens and closes the panel. Base UI sets `aria-expanded`/`aria-controls` and

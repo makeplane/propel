@@ -1,6 +1,5 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
 import { type VariantProps } from "class-variance-authority";
-import type * as React from "react";
 
 import { ringVariants } from "./variants";
 
@@ -17,10 +16,7 @@ const RING_STROKE = 2;
 type RingMagnitude = NonNullable<VariantProps<typeof ringVariants>["magnitude"]>;
 
 /** Props for {@link ProgressCircle}. */
-export type ProgressCircleProps = Omit<
-  React.ComponentProps<typeof BaseProgress.Root>,
-  "className" | "style" | "value"
-> & {
+export type ProgressCircleProps = Omit<BaseProgress.Root.Props, "className" | "style" | "value"> & {
   /** Completion from 0 to `max` (default max 100). */
   value: number;
   /** Diameter (`sm` 16px / `md` 20px). */

@@ -6,7 +6,7 @@ import { TabsVariantContext } from "./tabs-context";
 import { TabsIndicator } from "./tabs-indicator";
 import { tabsListVariants } from "./variants";
 
-export type TabsListProps = Omit<React.ComponentProps<typeof BaseTabs.List>, "className" | "style">;
+export type TabsListProps = Omit<BaseTabs.List.Props, "className" | "style">;
 
 /**
  * The row of tabs (Base UI `Tabs.List`). Renders the active-tab `TabsIndicator` for the underline

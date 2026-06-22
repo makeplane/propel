@@ -1,9 +1,8 @@
 import { Menubar as BaseMenubar } from "@base-ui/react/menubar";
-import type * as React from "react";
 
 import { menubarVariants } from "./variants";
 
-export type MenubarProps = Omit<React.ComponentProps<typeof BaseMenubar>, "className" | "style">;
+export type MenubarProps = Omit<BaseMenubar.Props, "className" | "style">;
 
 /**
  * The container for an application menu bar — wraps a horizontal row of `Menu.Root`s so they share

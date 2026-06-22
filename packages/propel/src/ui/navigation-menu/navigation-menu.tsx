@@ -1,10 +1,6 @@
 import { NavigationMenu as BaseNavigationMenu } from "@base-ui/react/navigation-menu";
-import type * as React from "react";
 
-export type NavigationMenuProps = Omit<
-  React.ComponentProps<typeof BaseNavigationMenu.Root>,
-  "className" | "style"
->;
+export type NavigationMenuProps = Omit<BaseNavigationMenu.Root.Props, "className" | "style">;
 
 /**
  * The root of a navigation menu — a collection of links and dropdown menus for site navigation.

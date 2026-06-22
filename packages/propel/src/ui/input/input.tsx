@@ -1,11 +1,10 @@
 import { Input as BaseInput } from "@base-ui/react/input";
-import type * as React from "react";
 
 import { inputVariants, type InputMagnitude } from "./variants";
 
 export type { InputMagnitude };
 
-export type InputProps = Omit<React.ComponentProps<typeof BaseInput>, "className" | "style"> & {
+export type InputProps = Omit<BaseInput.Props, "className" | "style"> & {
   /** Text size for the input value. */
   magnitude: InputMagnitude;
 };

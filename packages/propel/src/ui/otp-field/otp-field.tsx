@@ -1,12 +1,8 @@
 import { OTPFieldPreview as BaseOTPField } from "@base-ui/react/otp-field";
-import type * as React from "react";
 
 import { otpFieldRootVariants } from "./variants";
 
-export type OTPFieldProps = Omit<
-  React.ComponentProps<typeof BaseOTPField.Root>,
-  "className" | "style"
->;
+export type OTPFieldProps = Omit<BaseOTPField.Root.Props, "className" | "style">;
 
 /**
  * A one-time-password / verification-code field composed of individual character slots. Drive the

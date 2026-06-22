@@ -1,10 +1,9 @@
 import { Autocomplete as BaseAutocomplete } from "@base-ui/react/autocomplete";
-import type * as React from "react";
 
 import { autocompletePositionerVariants } from "./variants";
 
 export type AutocompletePositionerProps = Omit<
-  React.ComponentProps<typeof BaseAutocomplete.Positioner>,
+  BaseAutocomplete.Positioner.Props,
   "className" | "style"
 >;
 

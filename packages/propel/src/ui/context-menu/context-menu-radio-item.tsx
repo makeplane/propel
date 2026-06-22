@@ -1,10 +1,9 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
-import type * as React from "react";
 
 import { contextMenuItemVariants } from "./variants";
 
 export type ContextMenuRadioItemProps = Omit<
-  React.ComponentProps<typeof BaseContextMenu.RadioItem>,
+  BaseContextMenu.RadioItem.Props,
   "className" | "style"
 >;
 

@@ -6,10 +6,7 @@ import { type PillMagnitude } from "./pill-shared";
 import { PillSpinner } from "./pill-spinner";
 import { iconPillVariants } from "./variants";
 
-export type IconPillProps = Omit<
-  React.ComponentProps<typeof BaseButton>,
-  "className" | "style" | "children"
-> & {
+export type IconPillProps = Omit<BaseButton.Props, "className" | "style" | "children"> & {
   /** Box scale. */
   magnitude: PillMagnitude;
   /** The icon, sized and tinted by the pill. */

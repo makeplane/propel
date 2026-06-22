@@ -1,14 +1,10 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
 import { type VariantProps } from "class-variance-authority";
-import type * as React from "react";
 
 import { rootVariants } from "./variants";
 
 /** Props for {@link Progress} (the Base UI `Progress.Root`). */
-export type ProgressProps = Omit<
-  React.ComponentProps<typeof BaseProgress.Root>,
-  "className" | "style"
-> &
+export type ProgressProps = Omit<BaseProgress.Root.Props, "className" | "style"> &
   VariantProps<typeof rootVariants>;
 
 /**

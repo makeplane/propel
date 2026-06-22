@@ -1,12 +1,8 @@
 import { Separator as BaseSeparator } from "@base-ui/react/separator";
-import type * as React from "react";
 
 import { separatorVariants } from "./variants";
 
-export type SeparatorProps = Omit<
-  React.ComponentProps<typeof BaseSeparator>,
-  "className" | "style"
->;
+export type SeparatorProps = Omit<BaseSeparator.Props, "className" | "style">;
 
 /**
  * A thin rule that visually divides content. Pass `orientation` (`"horizontal"` default |

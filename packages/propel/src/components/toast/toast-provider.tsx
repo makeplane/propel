@@ -1,6 +1,5 @@
 import type { Toast as BaseToast } from "@base-ui/react/toast";
 import type { ToastManager } from "@base-ui/react/toast";
-import type * as React from "react";
 
 import {
   ToastPortal,
@@ -11,7 +10,7 @@ import type { ToastData } from "./toast";
 import { ToastList } from "./toast-list";
 
 export type ToastProviderProps = Omit<
-  React.ComponentProps<typeof BaseToast.Provider>,
+  BaseToast.Provider.Props,
   "className" | "style" | "toastManager"
 > & {
   /** Optional external manager. Must queue Propel `ToastData` so every toast has a `tone`. */

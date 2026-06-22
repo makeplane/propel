@@ -3,15 +3,9 @@ import type { AccordionItem as BaseAccordionItem } from "@base-ui/react/accordio
 
 import { accordionItemVariants } from "./variants";
 
-export type AccordionItemProps<Value = string> = Omit<
-  BaseAccordionItem.Props,
-  "className" | "style" | "value"
-> & {
-  /** Unique value that identifies this item within its `Accordion`. */
-  value?: Value;
-};
+export type AccordionItemProps = Omit<BaseAccordionItem.Props, "className" | "style">;
 
 /** A single collapsible section: pairs an `AccordionHeader` and `AccordionPanel`. */
-export function AccordionItem<Value = string>(props: AccordionItemProps<Value>) {
+export function AccordionItem(props: AccordionItemProps) {
   return <BaseAccordion.Item className={accordionItemVariants()} {...props} />;
 }

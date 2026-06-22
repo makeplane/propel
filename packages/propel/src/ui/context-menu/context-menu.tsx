@@ -1,10 +1,6 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
-import type * as React from "react";
 
-export type ContextMenuProps = Omit<
-  React.ComponentProps<typeof BaseContextMenu.Root>,
-  "className" | "style"
->;
+export type ContextMenuProps = Omit<BaseContextMenu.Root.Props, "className" | "style">;
 
 /**
  * Root of the context menu. Wraps `ContextMenu.Root` 1:1; opens at the pointer on right click or

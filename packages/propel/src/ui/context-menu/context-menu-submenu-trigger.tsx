@@ -1,11 +1,10 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
 import { cx } from "class-variance-authority";
-import type * as React from "react";
 
 import { contextMenuItemVariants } from "./variants";
 
 export type ContextMenuSubmenuTriggerProps = Omit<
-  React.ComponentProps<typeof BaseContextMenu.SubmenuTrigger>,
+  BaseContextMenu.SubmenuTrigger.Props,
   "className" | "style"
 >;
 

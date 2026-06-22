@@ -5,16 +5,13 @@ import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-pan
 
 export type MenuContentWidth = OverlayPanelWidth;
 
-export type MenuContentProps = Omit<
-  React.ComponentProps<typeof BaseMenu.Popup>,
-  "className" | "style"
-> & {
+export type MenuContentProps = Omit<BaseMenu.Popup.Props, "className" | "style"> & {
   /** Which side of the trigger the menu opens toward. @default "bottom" */
-  side?: React.ComponentProps<typeof BaseMenu.Positioner>["side"];
+  side?: BaseMenu.Positioner.Props["side"];
   /** Distance in px between the trigger and the menu. @default 4 */
-  sideOffset?: React.ComponentProps<typeof BaseMenu.Positioner>["sideOffset"];
+  sideOffset?: BaseMenu.Positioner.Props["sideOffset"];
   /** Alignment of the menu relative to the trigger along `side`. @default "start" */
-  align?: React.ComponentProps<typeof BaseMenu.Positioner>["align"];
+  align?: BaseMenu.Positioner.Props["align"];
   /** Fixed menu width. @default "anchor" */
   width?: MenuContentWidth;
   /** Sticky chrome pinned above the role="menu" popup. */
@@ -24,7 +21,6 @@ export type MenuContentProps = Omit<
 };
 
 export function MenuContentSurface({
-  children,
   side,
   sideOffset,
   align,
@@ -33,9 +29,9 @@ export function MenuContentSurface({
   footer,
   ...props
 }: MenuContentProps & {
-  side: React.ComponentProps<typeof BaseMenu.Positioner>["side"];
-  sideOffset: React.ComponentProps<typeof BaseMenu.Positioner>["sideOffset"];
-  align: React.ComponentProps<typeof BaseMenu.Positioner>["align"];
+  side: BaseMenu.Positioner.Props["side"];
+  sideOffset: BaseMenu.Positioner.Props["sideOffset"];
+  align: BaseMenu.Positioner.Props["align"];
 }) {
   return (
     <BaseMenu.Portal>
@@ -46,9 +42,7 @@ export function MenuContentSurface({
         className="outline-none"
       >
         <OverlayPanel elevation="overlay" radius="lg" width={width} header={search} footer={footer}>
-          <BaseMenu.Popup className="p-1 outline-none" {...props}>
-            {children}
-          </BaseMenu.Popup>
+          <BaseMenu.Popup className="p-1 outline-none" {...props} />
         </OverlayPanel>
       </BaseMenu.Positioner>
     </BaseMenu.Portal>

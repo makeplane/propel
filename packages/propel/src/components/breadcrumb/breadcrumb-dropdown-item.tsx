@@ -1,10 +1,6 @@
 import { Menu } from "@base-ui/react/menu";
-import type * as React from "react";
 
-export type BreadcrumbDropdownItemProps = Omit<
-  React.ComponentProps<typeof Menu.Item>,
-  "className" | "style"
->;
+export type BreadcrumbDropdownItemProps = Omit<Menu.Item.Props, "className" | "style">;
 
 /** A single item inside `BreadcrumbDropdown`. */
 export function BreadcrumbDropdownItem(props: BreadcrumbDropdownItemProps) {

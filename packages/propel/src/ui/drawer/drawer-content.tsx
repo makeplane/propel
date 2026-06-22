@@ -1,12 +1,8 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
-import type * as React from "react";
 
 import { drawerContentVariants } from "./variants";
 
-export type DrawerContentProps = Omit<
-  React.ComponentProps<typeof BaseDrawer.Content>,
-  "className" | "style"
->;
+export type DrawerContentProps = Omit<BaseDrawer.Content.Props, "className" | "style">;
 
 /**
  * The padded inner content region of the popup. Holds the title, description, body, and close

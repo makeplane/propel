@@ -1,12 +1,8 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
-import type * as React from "react";
 
 import { dialogViewportVariants } from "./variants";
 
-export type DialogViewportProps = Omit<
-  React.ComponentProps<typeof BaseDialog.Viewport>,
-  "className" | "style"
->;
+export type DialogViewportProps = Omit<BaseDialog.Viewport.Props, "className" | "style">;
 
 /**
  * The full-screen container that centers the popup and provides a scrollable area for tall content.

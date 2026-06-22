@@ -1,10 +1,9 @@
 import { NavigationMenu as BaseNavigationMenu } from "@base-ui/react/navigation-menu";
-import type * as React from "react";
 
 import { navigationMenuViewportVariants } from "./variants";
 
 export type NavigationMenuViewportProps = Omit<
-  React.ComponentProps<typeof BaseNavigationMenu.Viewport>,
+  BaseNavigationMenu.Viewport.Props,
   "className" | "style"
 >;
 

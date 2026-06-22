@@ -1,10 +1,6 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
-import type * as React from "react";
 
-export type DrawerIndentProps = Omit<
-  React.ComponentProps<typeof BaseDrawer.Indent>,
-  "className" | "style"
->;
+export type DrawerIndentProps = Omit<BaseDrawer.Indent.Props, "className" | "style">;
 
 /**
  * Wraps page content that should scale/shift inward as the drawer opens (the indent effect). Place

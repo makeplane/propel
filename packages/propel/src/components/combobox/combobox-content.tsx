@@ -16,7 +16,6 @@ export type ComboboxContentProps = ComboboxPopupProps & {
 
 /** The combobox list surface: portal + positioner + popup with Propel overlay styling. */
 export function ComboboxContent({
-  children,
   side = "bottom",
   sideOffset = 4,
   align = "start",
@@ -25,7 +24,7 @@ export function ComboboxContent({
   return (
     <ComboboxPortal>
       <ComboboxPositioner side={side} sideOffset={sideOffset} align={align}>
-        <ComboboxPopup {...props}>{children}</ComboboxPopup>
+        <ComboboxPopup {...props} />
       </ComboboxPositioner>
     </ComboboxPortal>
   );

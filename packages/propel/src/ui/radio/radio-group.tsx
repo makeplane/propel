@@ -6,7 +6,9 @@ import { radioGroupVariants } from "./variants";
 
 export type RadioGroupDensity = NonNullable<VariantProps<typeof radioGroupVariants>["density"]>;
 
-export type RadioGroupProps<Value = string> = Omit<
+// Mirror `BaseRadioGroup`'s own `Value` generic (default `any`); the typed/safe variant is the
+// components-tier `RadioGroupField`.
+export type RadioGroupProps<Value = any> = Omit<
   BaseRadioGroupTypes.Props<Value>,
   "className" | "style"
 > & {
@@ -15,6 +17,6 @@ export type RadioGroupProps<Value = string> = Omit<
 };
 
 /** Groups a set of `Radio` options so at most one can be selected at a time. Renders a `radiogroup`. */
-export function RadioGroup<Value = string>({ density, ...props }: RadioGroupProps<Value>) {
+export function RadioGroup<Value = any>({ density, ...props }: RadioGroupProps<Value>) {
   return <BaseRadioGroup className={radioGroupVariants({ density })} {...props} />;
 }

@@ -1,10 +1,6 @@
 import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
-import type * as React from "react";
 
-export type PreviewCardProps = Omit<
-  React.ComponentProps<typeof BasePreviewCard.Root>,
-  "className" | "style"
->;
+export type PreviewCardProps = Omit<BasePreviewCard.Root.Props, "className" | "style">;
 
 /**
  * The root of a preview card — a popup that appears when a link is hovered, showing a preview for

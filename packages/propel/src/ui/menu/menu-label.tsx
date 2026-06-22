@@ -1,10 +1,7 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type * as React from "react";
 
-export type MenuLabelProps = Omit<
-  React.ComponentProps<typeof BaseMenu.GroupLabel>,
-  "className" | "style"
-> & {
+export type MenuLabelProps = Omit<BaseMenu.GroupLabel.Props, "className" | "style"> & {
   /** Optional inline-end content on the heading row. */
   inlineEndNode?: React.ReactNode;
   children?: React.ReactNode;

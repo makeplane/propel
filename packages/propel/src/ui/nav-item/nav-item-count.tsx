@@ -2,10 +2,7 @@ import { cx } from "class-variance-authority";
 import type * as React from "react";
 
 /** A small count chip for a nav row's inline-end slot. */
-export function NavItemCount({
-  children,
-  ...props
-}: Omit<React.ComponentProps<"span">, "className" | "style">) {
+export function NavItemCount(props: Omit<React.ComponentProps<"span">, "className" | "style">) {
   return (
     <span
       className={cx(
@@ -13,8 +10,6 @@ export function NavItemCount({
         "bg-layer-3 text-11 leading-tight text-secondary",
       )}
       {...props}
-    >
-      {children}
-    </span>
+    />
   );
 }

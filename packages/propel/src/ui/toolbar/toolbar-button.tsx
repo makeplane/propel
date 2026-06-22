@@ -4,10 +4,7 @@ import * as React from "react";
 import { ToolbarDensityContext } from "./toolbar-context";
 import { itemVariants } from "./variants";
 
-export type ToolbarButtonProps = Omit<
-  React.ComponentProps<typeof BaseToolbar.Button>,
-  "className" | "style"
-> & {
+export type ToolbarButtonProps = Omit<BaseToolbar.Button.Props, "className" | "style"> & {
   /** Accessible name for the icon button. */
   "aria-label": string;
 };

@@ -1,10 +1,9 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
-import type * as React from "react";
 
 import { contextMenuGroupLabelVariants } from "./variants";
 
 export type ContextMenuGroupLabelProps = Omit<
-  React.ComponentProps<typeof BaseContextMenu.GroupLabel>,
+  BaseContextMenu.GroupLabel.Props,
   "className" | "style"
 >;
 

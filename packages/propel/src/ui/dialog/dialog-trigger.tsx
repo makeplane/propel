@@ -1,10 +1,6 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
-import type * as React from "react";
 
-export type DialogTriggerProps = Omit<
-  React.ComponentProps<typeof BaseDialog.Trigger>,
-  "className" | "style"
->;
+export type DialogTriggerProps = Omit<BaseDialog.Trigger.Props, "className" | "style">;
 
 /**
  * The button that opens the dialog. Base UI manages `aria-haspopup`/`aria-expanded` and focus

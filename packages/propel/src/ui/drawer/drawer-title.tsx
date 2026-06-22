@@ -1,12 +1,8 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
-import type * as React from "react";
 
 import { drawerTitleVariants } from "./variants";
 
-export type DrawerTitleProps = Omit<
-  React.ComponentProps<typeof BaseDrawer.Title>,
-  "className" | "style"
->;
+export type DrawerTitleProps = Omit<BaseDrawer.Title.Props, "className" | "style">;
 
 /**
  * The accessible heading for the drawer. Base UI wires it as the popup's `aria-labelledby` target.

@@ -1,12 +1,8 @@
 import { Meter as BaseMeter } from "@base-ui/react/meter";
-import type * as React from "react";
 
 import { meterIndicatorVariants } from "./variants";
 
-export type MeterIndicatorProps = Omit<
-  React.ComponentProps<typeof BaseMeter.Indicator>,
-  "className" | "style"
->;
+export type MeterIndicatorProps = Omit<BaseMeter.Indicator.Props, "className" | "style">;
 
 /**
  * The filled portion of the track, sized to the value. Base UI sets its `width` inline from the

@@ -23,7 +23,6 @@ export type NavigationMenuPanelProps = NavigationMenuPopupProps & {
  * per-item content remain children.
  */
 export function NavigationMenuPanel({
-  children,
   side = "bottom",
   sideOffset = 4,
   align = "start",
@@ -32,7 +31,7 @@ export function NavigationMenuPanel({
   return (
     <NavigationMenuPortal>
       <NavigationMenuPositioner side={side} sideOffset={sideOffset} align={align}>
-        <NavigationMenuPopup {...props}>{children}</NavigationMenuPopup>
+        <NavigationMenuPopup {...props} />
       </NavigationMenuPositioner>
     </NavigationMenuPortal>
   );

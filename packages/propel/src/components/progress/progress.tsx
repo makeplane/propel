@@ -1,5 +1,4 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
-import * as React from "react";
 
 import {
   Progress as ProgressRoot,
@@ -24,10 +23,7 @@ import {
 export type ProgressMagnitude = NonNullable<ProgressTrackProps["magnitude"]>;
 export type ProgressVariant = "linear" | "circular";
 
-export type ProgressProps = Omit<
-  React.ComponentProps<typeof BaseProgress.Root>,
-  "className" | "style" | "value"
-> & {
+export type ProgressProps = Omit<BaseProgress.Root.Props, "className" | "style" | "value"> & {
   /** `linear` = a horizontal bar. `circular` = a determinate ring. */
   variant: ProgressVariant;
   /** Completion from 0 to `max` (default max 100). */

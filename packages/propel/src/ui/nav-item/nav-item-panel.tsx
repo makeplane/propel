@@ -1,10 +1,6 @@
 import { Collapsible as BaseCollapsible } from "@base-ui/react/collapsible";
-import type * as React from "react";
 
-export type NavItemPanelProps = Omit<
-  React.ComponentProps<typeof BaseCollapsible.Panel>,
-  "className" | "style"
->;
+export type NavItemPanelProps = Omit<BaseCollapsible.Panel.Props, "className" | "style">;
 
 /** Collapsible content controlled by the preceding `NavItemHeader`. */
 export function NavItemPanel(props: NavItemPanelProps) {

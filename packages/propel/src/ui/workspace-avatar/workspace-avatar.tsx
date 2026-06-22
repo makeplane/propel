@@ -9,10 +9,7 @@ export type WorkspaceAvatarMagnitude = NonNullable<
   VariantProps<typeof workspaceAvatarVariants>["magnitude"]
 >;
 
-export type WorkspaceAvatarProps = Omit<
-  React.ComponentProps<typeof BaseAvatar.Root>,
-  "className" | "style"
-> & {
+export type WorkspaceAvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> & {
   /** Workspace logo URL. Falls back to the initial when absent/loading/failed. */
   src?: string;
   /** Accessible name for the workspace avatar. */

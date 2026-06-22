@@ -1,12 +1,8 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
-import type * as React from "react";
 
 import { drawerViewportVariants } from "./variants";
 
-export type DrawerViewportProps = Omit<
-  React.ComponentProps<typeof BaseDrawer.Viewport>,
-  "className" | "style"
->;
+export type DrawerViewportProps = Omit<BaseDrawer.Viewport.Props, "className" | "style">;
 
 /**
  * The fixed, full-screen layer that positions the popup against a screen edge. Wraps the

@@ -1,10 +1,9 @@
 import { NavigationMenu as BaseNavigationMenu } from "@base-ui/react/navigation-menu";
-import type * as React from "react";
 
 import { navigationMenuBackdropVariants } from "./variants";
 
 export type NavigationMenuBackdropProps = Omit<
-  React.ComponentProps<typeof BaseNavigationMenu.Backdrop>,
+  BaseNavigationMenu.Backdrop.Props,
   "className" | "style"
 >;
 

@@ -1,12 +1,8 @@
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
-import type * as React from "react";
 
 import { tabsIndicatorVariants } from "./variants";
 
-export type TabsIndicatorProps = Omit<
-  React.ComponentProps<typeof BaseTabs.Indicator>,
-  "className" | "style"
->;
+export type TabsIndicatorProps = Omit<BaseTabs.Indicator.Props, "className" | "style">;
 
 /**
  * The underline bar. Surfaced for callers composing a custom list; the built-in `TabsList` already

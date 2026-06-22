@@ -1,12 +1,8 @@
 import { AlertDialog as BaseAlertDialog } from "@base-ui/react/alert-dialog";
-import type * as React from "react";
 
 import { alertDialogCloseVariants } from "./variants";
 
-export type AlertDialogCloseProps = Omit<
-  React.ComponentProps<typeof BaseAlertDialog.Close>,
-  "className" | "style"
->;
+export type AlertDialogCloseProps = Omit<BaseAlertDialog.Close.Props, "className" | "style">;
 
 /**
  * A button that closes the alert dialog when activated. Renders a ghost button by default; children

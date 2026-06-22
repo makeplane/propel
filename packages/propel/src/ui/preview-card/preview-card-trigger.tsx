@@ -1,10 +1,6 @@
 import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
-import type * as React from "react";
 
-export type PreviewCardTriggerProps = Omit<
-  React.ComponentProps<typeof BasePreviewCard.Trigger>,
-  "className" | "style"
->;
+export type PreviewCardTriggerProps = Omit<BasePreviewCard.Trigger.Props, "className" | "style">;
 
 /**
  * The link that opens the preview card on hover/focus. Renders an `<a>`; inherits its surrounding

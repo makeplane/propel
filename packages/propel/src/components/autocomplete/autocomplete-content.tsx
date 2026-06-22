@@ -19,7 +19,6 @@ export type AutocompleteContentProps = AutocompletePopupProps & {
 
 /** The autocomplete list surface: portal + positioner + popup with Propel overlay styling. */
 export function AutocompleteContent({
-  children,
   side = "bottom",
   sideOffset = 4,
   align = "start",
@@ -28,7 +27,7 @@ export function AutocompleteContent({
   return (
     <AutocompletePortal>
       <AutocompletePositioner side={side} sideOffset={sideOffset} align={align}>
-        <AutocompletePopup {...props}>{children}</AutocompletePopup>
+        <AutocompletePopup {...props} />
       </AutocompletePositioner>
     </AutocompletePortal>
   );

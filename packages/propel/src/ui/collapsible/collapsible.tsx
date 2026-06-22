@@ -1,10 +1,6 @@
 import { Collapsible as BaseCollapsible } from "@base-ui/react/collapsible";
-import type * as React from "react";
 
-export type CollapsibleProps = Omit<
-  React.ComponentProps<typeof BaseCollapsible.Root>,
-  "className" | "style"
->;
+export type CollapsibleProps = Omit<BaseCollapsible.Root.Props, "className" | "style">;
 
 /**
  * A single show/hide disclosure — the one-item primitive that `Accordion` generalizes. Uncontrolled

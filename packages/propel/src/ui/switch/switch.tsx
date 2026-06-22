@@ -1,15 +1,11 @@
 import { Switch as BaseSwitch } from "@base-ui/react/switch";
 import { type VariantProps } from "class-variance-authority";
-import type * as React from "react";
 
 import { trackVariants } from "./variants";
 
 export type SwitchMagnitude = NonNullable<VariantProps<typeof trackVariants>["magnitude"]>;
 
-export type SwitchProps = Omit<
-  React.ComponentProps<typeof BaseSwitch.Root>,
-  "className" | "style"
-> & {
+export type SwitchProps = Omit<BaseSwitch.Root.Props, "className" | "style"> & {
   /** Track size, from the Figma "Toggle" Size scale: `lg` 30×18, `md` 27×16, `sm` 23×14. */
   magnitude: SwitchMagnitude;
 };

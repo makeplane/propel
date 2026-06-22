@@ -1,10 +1,6 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import type * as React from "react";
 
-export type MenuSeparatorProps = Omit<
-  React.ComponentProps<typeof BaseMenu.Separator>,
-  "className" | "style"
->;
+export type MenuSeparatorProps = Omit<BaseMenu.Separator.Props, "className" | "style">;
 
 /** A thin divider between groups of items. */
 export function MenuSeparator(props: MenuSeparatorProps) {

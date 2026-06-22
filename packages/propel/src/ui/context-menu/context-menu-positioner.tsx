@@ -1,10 +1,9 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
-import type * as React from "react";
 
 import { contextMenuPositionerVariants } from "./variants";
 
 export type ContextMenuPositionerProps = Omit<
-  React.ComponentProps<typeof BaseContextMenu.Positioner>,
+  BaseContextMenu.Positioner.Props,
   "className" | "style"
 >;
 

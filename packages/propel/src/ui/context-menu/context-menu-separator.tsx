@@ -1,10 +1,9 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
-import type * as React from "react";
 
 import { contextMenuSeparatorVariants } from "./variants";
 
 export type ContextMenuSeparatorProps = Omit<
-  React.ComponentProps<typeof BaseContextMenu.Separator>,
+  BaseContextMenu.Separator.Props,
   "className" | "style"
 >;
 

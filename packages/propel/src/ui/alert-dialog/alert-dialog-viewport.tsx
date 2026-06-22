@@ -1,12 +1,8 @@
 import { AlertDialog as BaseAlertDialog } from "@base-ui/react/alert-dialog";
-import type * as React from "react";
 
 import { alertDialogViewportVariants } from "./variants";
 
-export type AlertDialogViewportProps = Omit<
-  React.ComponentProps<typeof BaseAlertDialog.Viewport>,
-  "className" | "style"
->;
+export type AlertDialogViewportProps = Omit<BaseAlertDialog.Viewport.Props, "className" | "style">;
 
 /**
  * The full-screen container that centers the popup and provides a scrollable area for tall content.

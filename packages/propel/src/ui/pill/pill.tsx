@@ -17,10 +17,7 @@ const pillButtonColors = cx(
   "aria-busy:cursor-default aria-busy:border-subtle-1 aria-busy:bg-layer-transparent aria-busy:text-disabled",
 );
 
-export type PillButtonProps = Omit<
-  React.ComponentProps<typeof BaseButton>,
-  "className" | "style"
-> & {
+export type PillButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
   /** Box scale. `sm` 20px / `md` 24px / `lg` 28px. */
   magnitude: PillMagnitude;
   /** A 14px node before the label. */

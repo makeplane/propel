@@ -1,8 +1,7 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
-import type * as React from "react";
 
 export type DrawerIndentBackgroundProps = Omit<
-  React.ComponentProps<typeof BaseDrawer.IndentBackground>,
+  BaseDrawer.IndentBackground.Props,
   "className" | "style"
 >;
 

@@ -1,10 +1,9 @@
 import { AlertDialog as BaseAlertDialog } from "@base-ui/react/alert-dialog";
-import type * as React from "react";
 
 import { alertDialogDescriptionVariants } from "./variants";
 
 export type AlertDialogDescriptionProps = Omit<
-  React.ComponentProps<typeof BaseAlertDialog.Description>,
+  BaseAlertDialog.Description.Props,
   "className" | "style"
 >;
 

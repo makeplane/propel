@@ -1,7 +1,6 @@
 import { Toast as BaseToast } from "@base-ui/react/toast";
-import type * as React from "react";
 
-export type ToastProviderProps = React.ComponentProps<typeof BaseToast.Provider>;
+export type ToastProviderProps = BaseToast.Provider.Props;
 
 /**
  * Provides the context for creating and managing toasts. Structural — carries no styling. Maps 1:1

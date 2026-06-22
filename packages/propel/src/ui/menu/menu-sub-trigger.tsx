@@ -1,14 +1,13 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { cx } from "class-variance-authority";
-import type * as React from "react";
 
 export type MenuSubTriggerProps = Omit<
-  React.ComponentProps<typeof BaseMenu.SubmenuTrigger>,
+  BaseMenu.SubmenuTrigger.Props,
   "className" | "style" | "label"
 >;
 
 /** The row that opens a submenu. Wraps `Menu.SubmenuTrigger` 1:1. */
-export function MenuSubTrigger({ children, ...props }: MenuSubTriggerProps) {
+export function MenuSubTrigger(props: MenuSubTriggerProps) {
   return (
     <BaseMenu.SubmenuTrigger
       className={cx(
@@ -18,8 +17,6 @@ export function MenuSubTrigger({ children, ...props }: MenuSubTriggerProps) {
         "data-disabled:pointer-events-none data-disabled:text-disabled",
       )}
       {...props}
-    >
-      {children}
-    </BaseMenu.SubmenuTrigger>
+    />
   );
 }

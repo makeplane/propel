@@ -1,12 +1,8 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
-import type * as React from "react";
 
 import { drawerBackdropVariants } from "./variants";
 
-export type DrawerBackdropProps = Omit<
-  React.ComponentProps<typeof BaseDrawer.Backdrop>,
-  "className" | "style"
->;
+export type DrawerBackdropProps = Omit<BaseDrawer.Backdrop.Props, "className" | "style">;
 
 /**
  * The dimmed overlay behind the drawer. Fades in/out via Base UI's
