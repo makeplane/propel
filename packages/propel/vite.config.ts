@@ -1,8 +1,10 @@
 /// <reference types="vitest/config" />
 import { existsSync, readdirSync } from "node:fs";
-// Build one entry per component/hook so each is published as its own subpath
-// (`@plane/propel/components/<name>`, `@plane/propel/hooks/<name>`). There is no
-// root barrel.
+// Build one entry per primitive/component/hook so each is published as its own
+// subpath. The three component tiers each get a group: `base` (Base UI extensions),
+// `ui` (Base UI parts styled with Plane tokens), and `components` (ready-made
+// compositions of `ui`) — e.g. `@plane/propel/ui/<name>`, `@plane/propel/hooks/<name>`.
+// There is no root barrel.
 //
 // We read the folders directly and feed tsdown a *named* entry object. A bare
 // glob that matches a single file collapses to a root `index` output (and a `.`
@@ -14,17 +16,15 @@ import { fileURLToPath } from "node:url";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vite-plus";
+import { configDefaults } from "vite-plus/test/config";
 
-// Shared source of truth for the theme list (also used by `.storybook/preview.tsx`)
-// so the per-theme test projects below can't drift from the toolbar/a11y themes.
-import { THEMES } from "./.storybook/themes";
 const dirname =
   typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 function subpathEntries(): Record<string, string> {
   const entry: Record<string, string> = {};
-  for (const group of ["components", "hooks"]) {
+  for (const group of ["base", "ui", "components", "hooks"]) {
     const dir = `src/${group}`;
     if (!existsSync(dir)) continue;
     for (const dirent of readdirSync(dir, {
@@ -44,8 +44,8 @@ function subpathEntries(): Record<string, string> {
 // Library build via `vp pack` (tsdown). tsdown auto-externalizes everything in
 // `dependencies` + `peerDependencies`, so there is no hand-maintained external
 // allowlist. The package.json `exports` map is static wildcards (see that file),
-// so adding `src/components/button/index.ts` exposes
-// `@plane/propel/components/button` with no config or manifest edits.
+// so adding `src/ui/button/index.ts` exposes
+// `@plane/propel/ui/button` with no config or manifest edits.
 export default defineConfig({
   pack: {
     entry: subpathEntries(),
@@ -75,50 +75,43 @@ export default defineConfig({
       },
     ],
   },
+  // Keep vite's dev/test server out of nested agent worktrees (`.claude/worktrees/<name>`,
+  // full second checkouts living inside the workspace root). See the root `vite.config.ts`.
+  server: { watch: { ignored: ["**/.claude/**"] } },
+  // Pre-bundle every story's deps in a single optimizer pass at server start. Without this the
+  // browser discovers deps lazily, so a late story importing a not-yet-bundled dep triggers a
+  // mid-run re-optimize; that commits a new bundle, reloads the page, and 404s the module
+  // requests in flight at that moment ("Failed to fetch dynamically imported module"). Listing
+  // the stories as optimizer entries + holding the server until the crawl finishes makes the
+  // bundle complete before any test loads.
+  optimizeDeps: {
+    entries: ["src/**/*.stories.tsx"],
+    holdUntilCrawlEnd: true,
+  },
   test: {
-    // A SINGLE Storybook test project. The addon-vitest plugin identifies its project by
-    // the `.storybook` configDir (it overrides the name to `storybook:<configDir>` when
-    // launched from the Storybook UI), so there can only be one project per configDir --
-    // multiple projects sharing one `.storybook` collide on that name and break the
-    // in-Storybook test runner.
-    //
-    // The a11y gate still runs every story in every theme by fanning out over Vitest
-    // browser `instances` (the supported multi-config axis): one chromium instance per
-    // theme, each injecting its theme through `env` (`STORYBOOK_TEST_THEME`). The custom
-    // `withTheme` decorator in `.storybook/preview.tsx` reads that env at runtime and sets
-    // `data-theme` on <html>. (addon-themes' own decorator does not run under addon-vitest,
-    // which previously left the gate blind to every non-light theme.)
+    // Vitest ignores `.gitignore`, so its file discovery would otherwise crawl those
+    // worktree checkouts (each carries a duplicate copy of every story). The storybook
+    // project below extends this config, so the exclude applies to it too.
+    exclude: [...configDefaults.exclude, "**/.claude/**"],
+    // The standard Storybook Vitest-addon project: one chromium browser instance running
+    // every story as a test (render → play → a11y gate). See the addon docs:
+    // https://storybook.js.org/docs/writing-tests/integrations/vitest-addon
     projects: [
       {
         extends: true,
         plugins: [
           // The plugin runs tests for the stories defined in the Storybook config.
-          // https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
           storybookTest({
             configDir: path.join(dirname, ".storybook"),
           }),
         ],
         test: {
           name: "storybook",
-          // Retry once on failure. On a cold start, Vite's dep optimizer can re-bundle
-          // a Storybook internal dep (e.g. @storybook/react-dom-shim) mid-run and
-          // invalidate the cached module URL, so a story file intermittently fails to
-          // import with "Failed to fetch dynamically imported module". It's a dep-
-          // optimizer timing race, not a product failure (the dep is cached by the
-          // retry), so a single retry clears it and keeps CI deterministic.
-          retry: 1,
           browser: {
             enabled: true,
             headless: true,
             provider: playwright({}),
-            // One browser instance per theme; each sets `data-theme` from its `env`.
-            // A unique `name` is required because Vitest otherwise derives the same
-            // `storybook (chromium)` for every same-browser instance.
-            instances: THEMES.map((theme) => ({
-              browser: "chromium",
-              name: theme,
-              env: { STORYBOOK_TEST_THEME: theme },
-            })),
+            instances: [{ browser: "chromium" }],
           },
         },
       },

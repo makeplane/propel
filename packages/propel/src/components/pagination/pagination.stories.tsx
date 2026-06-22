@@ -37,15 +37,15 @@ export const WithSelectorAndRange: Story = {
   args: {
     page: 1,
     pageCount: 5,
-    pageSize: { value: 50, options: [25, 50, 100], onChange: () => {} },
+    pageSize: { value: 50, options: [25, 50, 100], onValueChange: () => {} },
     range: { current: "1-50", total: 250 },
   },
 };
 
 /**
- * The page-size selector is a propel Dropdown: its `layer-3` pill trigger is labeled "50 per page";
+ * The page-size selector is a propel Menu: its `layer-3` pill trigger is labeled "50 per page";
  * clicking it opens the portaled menu of sizes (the current one marked with a check), and picking
- * one reports it through `pageSize.onChange` and updates the trigger. Keyboard works too —
+ * one reports it through `pageSize.onValueChange` and updates the trigger. Keyboard works too —
  * ArrowDown opens the menu and arrow+Enter selects.
  */
 export const PageSizeSelector: Story = {
@@ -53,21 +53,21 @@ export const PageSizeSelector: Story = {
   args: {
     page: 1,
     pageCount: 5,
-    pageSize: { value: 50, options: [25, 50, 100], onChange: fn() },
+    pageSize: { value: 50, options: [25, 50, 100], onValueChange: fn() },
     range: { current: "1-50", total: 250 },
   },
   // Drive `pageSize.value` from state so selecting an option visibly updates the
-  // trigger, while still spying on the provided `onChange`.
+  // trigger, while still spying on the provided `onValueChange`.
   render: function Render(args) {
     const [value, setValue] = React.useState(args.pageSize?.value ?? 50);
-    const spy = args.pageSize?.onChange;
+    const spy = args.pageSize?.onValueChange;
     return (
       <Pagination
         {...args}
         pageSize={{
           value,
           options: args.pageSize?.options ?? [25, 50, 100],
-          onChange: (next) => {
+          onValueChange: (next) => {
             spy?.(next);
             setValue(next);
           },
@@ -78,7 +78,7 @@ export const PageSizeSelector: Story = {
   play: async ({ args, canvas, step }) => {
     // The portaled menu renders outside the story canvas, so query the document body.
     const body = within(document.body);
-    const onChange = args.pageSize?.onChange as ReturnType<typeof fn>;
+    const onValueChange = args.pageSize?.onValueChange as ReturnType<typeof fn>;
 
     await step("the trigger is a labeled button showing the current size", async () => {
       const trigger = canvas.getByRole("button", { name: /50 per page/i });
@@ -96,7 +96,7 @@ export const PageSizeSelector: Story = {
 
     await step("selecting a size reports it and updates the trigger", async () => {
       await userEvent.click(body.getByRole("menuitem", { name: "100" }));
-      await expect(onChange).toHaveBeenLastCalledWith(100);
+      await expect(onValueChange).toHaveBeenLastCalledWith(100);
       await waitFor(() =>
         expect(canvas.getByRole("button", { name: /100 per page/i })).toBeInTheDocument(),
       );
@@ -116,7 +116,7 @@ export const PageSizeSelector: Story = {
         expect(body.getByRole("menuitem", { name: "50" })).toHaveAttribute("data-highlighted"),
       );
       await userEvent.keyboard("{Enter}");
-      await expect(onChange).toHaveBeenLastCalledWith(50);
+      await expect(onValueChange).toHaveBeenLastCalledWith(50);
       await waitFor(() =>
         expect(canvas.getByRole("button", { name: /50 per page/i })).toBeInTheDocument(),
       );
@@ -137,7 +137,7 @@ export const Variants: Story = {
         page={1}
         pageCount={5}
         onPageChange={() => {}}
-        pageSize={{ value: 50, options: [25, 50, 100], onChange: () => {} }}
+        pageSize={{ value: 50, options: [25, 50, 100], onValueChange: () => {} }}
         range={{ current: "1-50", total: 250 }}
         labels={{ root: "All pages visible" }}
       />
@@ -145,7 +145,7 @@ export const Variants: Story = {
         page={1}
         pageCount={100}
         onPageChange={() => {}}
-        pageSize={{ value: 50, options: [25, 50, 100], onChange: () => {} }}
+        pageSize={{ value: 50, options: [25, 50, 100], onValueChange: () => {} }}
         range={{ current: "1-50", total: 5000 }}
         labels={{ root: "Near start" }}
       />
@@ -153,7 +153,7 @@ export const Variants: Story = {
         page={45}
         pageCount={100}
         onPageChange={() => {}}
-        pageSize={{ value: 50, options: [25, 50, 100], onChange: () => {} }}
+        pageSize={{ value: 50, options: [25, 50, 100], onValueChange: () => {} }}
         range={{ current: "2000-2050", total: 5000 }}
         labels={{ root: "Middle" }}
       />
@@ -161,7 +161,7 @@ export const Variants: Story = {
         page={100}
         pageCount={100}
         onPageChange={() => {}}
-        pageSize={{ value: 50, options: [25, 50, 100], onChange: () => {} }}
+        pageSize={{ value: 50, options: [25, 50, 100], onValueChange: () => {} }}
         range={{ current: "4951-5000", total: 5000 }}
         labels={{ root: "Near end" }}
       />
@@ -199,6 +199,23 @@ export const SingleGap: Story = {
     await expect(canvas.queryByRole("button", { name: "Go to page 7" })).not.toBeInTheDocument();
     // Anchors and window are present: 1 2 3 4 5 … 8.
     for (const n of [1, 3, 4, 5, 8]) {
+      await expect(canvas.getByRole("button", { name: `Go to page ${n}` })).toBeInTheDocument();
+    }
+  },
+};
+
+/**
+ * Symmetric single-gap case on the trailing side: the lone skipped page before the final anchor is
+ * rendered as a number rather than hidden behind an ellipsis.
+ */
+export const SingleTrailingGap: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { page: 5, pageCount: 8 },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole("button", { name: "Go to page 7" })).toBeInTheDocument();
+    await expect(canvas.queryByRole("button", { name: "Go to page 2" })).not.toBeInTheDocument();
+
+    for (const n of [1, 4, 5, 6, 7, 8]) {
       await expect(canvas.getByRole("button", { name: `Go to page ${n}` })).toBeInTheDocument();
     }
   },
@@ -302,8 +319,19 @@ export const KeyboardNavigation: Story = {
       await expect(onPageChange).toHaveBeenLastCalledWith(25);
     });
 
+    await step("Prev moves back from an enabled page", async () => {
+      const prev = canvas.getByRole("button", { name: "Go to previous page" });
+      await expect(prev).toBeEnabled();
+      await userEvent.click(prev);
+      await expect(onPageChange).toHaveBeenLastCalledWith(24);
+      await expect(canvas.getByRole("button", { name: "Go to page 24" })).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
+    });
+
     await step("Next is disabled at the last page and never fires", async () => {
-      // Space took us to the last page (25), so Next is now at its bound.
+      await userEvent.click(canvas.getByRole("button", { name: "Go to page 25" }));
       const next = canvas.getByRole("button", { name: "Go to next page" });
       await expect(next).toBeDisabled();
       onPageChange.mockClear();

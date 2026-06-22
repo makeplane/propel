@@ -5,6 +5,7 @@ import * as React from "react";
 import { useLayoutEffect } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { Button } from "../../ui/button";
 import { Checkbox } from "../checkbox/index";
 import { PillSwitch } from "../pill/index";
 import { Radio, RadioGroup } from "../radio/index";
@@ -20,11 +21,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-// A plain trigger button styled with propel tokens — the popover itself doesn't ship a
-// trigger style, so stories provide one (the same one the Dropdown stories use).
-const triggerClass =
-  "inline-flex h-8 items-center gap-1.5 rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none";
 
 // ---------------------------------------------------------------------------
 // Demo-only fixtures. The section heading + divider + radio row below are minimal
@@ -86,9 +82,9 @@ function ToggleFooter({ defaultToggles = {} }: { defaultToggles?: Record<string,
 export const Default: Story = {
   render: () => (
     <Popover>
-      <PopoverTrigger render={<button type="button" className={triggerClass} />}>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
         Options
-      </PopoverTrigger>
+      </Button>
       <PopoverContent width="md" aria-label="Options">
         <ToggleFooter defaultToggles={{ sub: true }} />
       </PopoverContent>
@@ -123,7 +119,7 @@ export const Default: Story = {
 };
 
 /**
- * **DisplayProperties** — the settings panel that used to live in the Dropdown stories (and had to
+ * **DisplayProperties** — the settings panel that used to live in the Menu stories (and had to
  * disable `aria-allowed-attr`). On the non-menu Popover surface the pill group, single-select
  * `Radio` section, and checkbox-toggle footer are all valid children, so axe passes with no
  * suppressions.
@@ -142,9 +138,9 @@ export const DisplayProperties: Story = {
     const [groupBy, setGroupBy] = React.useState("state");
     return (
       <Popover>
-        <PopoverTrigger render={<button type="button" className={triggerClass} />}>
+        <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
           Display
-        </PopoverTrigger>
+        </Button>
         <PopoverContent width="md" aria-label="Display options">
           <PanelLabel>Display Properties</PanelLabel>
           <div className="flex flex-wrap gap-1.5 px-2 py-1.5">
@@ -200,8 +196,8 @@ export const DisplayProperties: Story = {
 
 /**
  * **DisplayAccordion** — the other settings panel that used to disable `aria-allowed-attr` in the
- * Dropdown stories. Collapsible sections with an expanded single-select `Radio` sort list and
- * checkbox toggles, all valid on the non-menu Popover surface.
+ * Menu stories. Collapsible sections with an expanded single-select `Radio` sort list and checkbox
+ * toggles, all valid on the non-menu Popover surface.
  */
 export const DisplayAccordion: Story = {
   render: function DisplayAccordionStory() {
@@ -211,9 +207,9 @@ export const DisplayAccordion: Story = {
     const ORDER = ["Manual - Rank", "Last created", "Last updated", "Priority", "Due date"];
     return (
       <Popover>
-        <PopoverTrigger render={<button type="button" className={triggerClass} />}>
+        <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
           Display options
-        </PopoverTrigger>
+        </Button>
         <PopoverContent width="md" aria-label="Display options">
           {SECTIONS.map((title) => {
             const key = title.split(" ")[0].toLowerCase();
@@ -308,12 +304,12 @@ export const RTL: Story = {
     return (
       <DirectionProvider direction="rtl">
         <Popover>
-          <PopoverTrigger render={<button type="button" className={triggerClass} />}>
+          <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
             خيارات
-          </PopoverTrigger>
+          </Button>
           <PopoverContent width="md" aria-label="Options">
             <PanelLabel>الترتيب حسب</PanelLabel>
-            <RadioGroup defaultValue="priority">
+            <RadioGroup density="comfortable" defaultValue="priority">
               <PanelRadioRow value="priority" label="الأولوية" />
               <PanelRadioRow value="created" label="تاريخ الإنشاء" />
               <PanelRadioRow value="updated" label="آخر تحديث" />

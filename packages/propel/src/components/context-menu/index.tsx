@@ -1,0 +1,40 @@
+export { ContextMenuItem, type ContextMenuItemProps } from "./context-menu-item";
+export { ContextMenuLinkItem, type ContextMenuLinkItemProps } from "./context-menu-link-item";
+export {
+  ContextMenuSubmenuTrigger,
+  type ContextMenuSubmenuTriggerProps,
+} from "./context-menu-submenu-trigger";
+// Re-export the atomic structural parts so a full context menu is importable from this convenience.
+export {
+  ContextMenu,
+  ContextMenuArrow,
+  type ContextMenuArrowProps,
+  ContextMenuBackdrop,
+  type ContextMenuBackdropProps,
+  ContextMenuCheckboxItem,
+  ContextMenuCheckboxItemIndicator,
+  type ContextMenuCheckboxItemIndicatorProps,
+  type ContextMenuCheckboxItemProps,
+  ContextMenuGroup,
+  ContextMenuGroupLabel,
+  type ContextMenuGroupLabelProps,
+  type ContextMenuGroupProps,
+  ContextMenuPopup,
+  type ContextMenuPopupProps,
+  ContextMenuPortal,
+  ContextMenuPositioner,
+  type ContextMenuPositionerProps,
+  type ContextMenuProps,
+  ContextMenuRadioGroup,
+  type ContextMenuRadioGroupProps,
+  ContextMenuRadioItem,
+  ContextMenuRadioItemIndicator,
+  type ContextMenuRadioItemIndicatorProps,
+  type ContextMenuRadioItemProps,
+  ContextMenuSeparator,
+  type ContextMenuSeparatorProps,
+  ContextMenuSubmenuRoot,
+  type ContextMenuSubmenuRootProps,
+  ContextMenuTrigger,
+  type ContextMenuTriggerProps,
+} from "../../ui/context-menu";

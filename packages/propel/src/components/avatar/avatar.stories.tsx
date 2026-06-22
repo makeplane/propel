@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { AVATAR_TONES, Avatar, type AvatarMagnitude } from "./index";
+import { AVATAR_TONES, type AvatarMagnitude, Avatar } from "./index";
 
 const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 

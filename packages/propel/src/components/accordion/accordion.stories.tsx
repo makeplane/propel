@@ -2,7 +2,13 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { CircleHelp } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { Accordion, AccordionItem, AccordionPanel, AccordionTrigger } from "./index";
+import {
+  Accordion,
+  AccordionHeader,
+  AccordionItem,
+  AccordionPanel,
+  AccordionTrigger,
+} from "./index";
 
 // Design-review convention — when to add a pseudo-states "States" story:
 //   * Only components that style interaction via CSS `hover:` / `active:` /
@@ -19,7 +25,7 @@ import { Accordion, AccordionItem, AccordionPanel, AccordionTrigger } from "./in
 const meta = {
   title: "Components/Accordion",
   component: Accordion,
-  subcomponents: { AccordionItem, AccordionTrigger, AccordionPanel },
+  subcomponents: { AccordionItem, AccordionHeader, AccordionTrigger, AccordionPanel },
   // Give the centered canvas a sensible width so the full-width accordion has room.
   decorators: [
     (Story) => (
@@ -63,7 +69,9 @@ export const Default: Story = {
     <Accordion {...args} defaultValue={["what"]}>
       {ITEMS.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
-          <AccordionTrigger>{item.label}</AccordionTrigger>
+          <AccordionHeader>
+            <AccordionTrigger>{item.label}</AccordionTrigger>
+          </AccordionHeader>
           <AccordionPanel>{item.body}</AccordionPanel>
         </AccordionItem>
       ))}
@@ -71,15 +79,17 @@ export const Default: Story = {
   ),
 };
 
-/** Each trigger can carry a `leadingIcon`, matching the Figma header icon. */
+/** Each trigger can carry a `inlineStartNode`, matching the Figma header icon. */
 export const WithIcon: Story = {
   render: (args) => (
     <Accordion {...args} defaultValue={["what"]}>
       {ITEMS.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
-          <AccordionTrigger leadingIcon={<CircleHelp aria-hidden className="size-4" />}>
-            {item.label}
-          </AccordionTrigger>
+          <AccordionHeader>
+            <AccordionTrigger inlineStartNode={<CircleHelp aria-hidden className="size-4" />}>
+              {item.label}
+            </AccordionTrigger>
+          </AccordionHeader>
           <AccordionPanel>{item.body}</AccordionPanel>
         </AccordionItem>
       ))}
@@ -117,7 +127,9 @@ export const States: Story = {
         ] as const
       ).map(([label, id]) => (
         <AccordionItem key={label} value={id}>
-          <AccordionTrigger id={id}>{label} — What is Plane?</AccordionTrigger>
+          <AccordionHeader>
+            <AccordionTrigger id={id}>{label} — What is Plane?</AccordionTrigger>
+          </AccordionHeader>
           <AccordionPanel>Plane is an open-source project management tool.</AccordionPanel>
         </AccordionItem>
       ))}
@@ -133,7 +145,9 @@ export const MultipleItems: Story = {
     <Accordion {...args} defaultValue={["what", "pricing"]}>
       {ITEMS.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
-          <AccordionTrigger>{item.label}</AccordionTrigger>
+          <AccordionHeader>
+            <AccordionTrigger>{item.label}</AccordionTrigger>
+          </AccordionHeader>
           <AccordionPanel>{item.body}</AccordionPanel>
         </AccordionItem>
       ))}
@@ -150,7 +164,9 @@ export const Interaction: Story = {
   render: () => (
     <Accordion>
       <AccordionItem value="a">
-        <AccordionTrigger>Section A</AccordionTrigger>
+        <AccordionHeader>
+          <AccordionTrigger>Section A</AccordionTrigger>
+        </AccordionHeader>
         <AccordionPanel>Panel A content</AccordionPanel>
       </AccordionItem>
     </Accordion>
@@ -187,7 +203,9 @@ export const KeyboardToggle: Story = {
   render: () => (
     <Accordion>
       <AccordionItem value="a">
-        <AccordionTrigger>Section A</AccordionTrigger>
+        <AccordionHeader>
+          <AccordionTrigger>Section A</AccordionTrigger>
+        </AccordionHeader>
         <AccordionPanel>Panel A content</AccordionPanel>
       </AccordionItem>
     </Accordion>

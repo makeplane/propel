@@ -54,15 +54,21 @@ export const Default: Story = {
   render: () => (
     <Breadcrumb>
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Plane</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Plane
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Projects</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Projects
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Design</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Design
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
@@ -87,7 +93,9 @@ export const WithDropdown: Story = {
   render: () => (
     <Breadcrumb>
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Plane</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Plane
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
@@ -98,7 +106,9 @@ export const WithDropdown: Story = {
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Components</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Components
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
@@ -118,7 +128,9 @@ export const DropdownInteraction: Story = {
   render: () => (
     <Breadcrumb>
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Plane</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Plane
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
@@ -158,7 +170,9 @@ export const WithMenuCrumb: Story = {
   render: () => (
     <Breadcrumb>
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Plane</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Plane
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
@@ -184,7 +198,7 @@ export const WithMenuCrumb: Story = {
 };
 
 /**
- * The menu crumb composes propel's `Dropdown` rows, so it supports the full row vocabulary — here a
+ * The menu crumb composes propel's `Menu` rows, so it supports the full row vocabulary — here a
  * single-select list (the current sibling carries `selected`, showing the trailing check) for
  * switching the active view.
  */
@@ -192,7 +206,9 @@ export const MenuCrumbSelected: Story = {
   render: () => (
     <Breadcrumb>
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Plane</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Plane
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>
@@ -226,7 +242,9 @@ export const KeyboardNavigation: Story = {
   render: () => (
     <Breadcrumb>
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Plane</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Plane
+        </BreadcrumbLink>
       </BreadcrumbItem>
       <BreadcrumbSeparator />
       <BreadcrumbItem>

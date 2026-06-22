@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, Plus, Tag, X } from "lucide-react";
-import { expect, fn, userEvent, within } from "storybook/test";
+import { expect, fn, userEvent } from "storybook/test";
 
 import { IconPill, PillButton, PillSwitch } from "./index";
 
@@ -26,7 +26,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** A pill-shaped button. Holds a label with optional leading/trailing nodes. */
+/** A pill-shaped button. Holds a label with optional inline-start/end nodes. */
 export const Button: Story = {
   args: { magnitude: "md", inlineStartNode: <Plus />, children: "Add label" },
 };
@@ -46,9 +46,9 @@ export const Magnitudes: Story = {
 };
 
 /**
- * `PillButton` states. Default / hover / active are the chip darkening its fill + border (hover and
- * active are forced here via the pseudo-states addon); `disabled` and `loading` drop to a
- * transparent fill with a dimmed label, and `loading` swaps the leading node for a spinner.
+ * `PillButton` states. Default / hover / active darken the chip's fill + border (hover and active
+ * forced via the pseudo-states addon); `disabled` and `loading` drop to a transparent fill with a
+ * dimmed label, and `loading` swaps the inline-start node for a spinner.
  */
 export const States: Story = {
   parameters: {
@@ -96,8 +96,7 @@ export const Switch: Story = {
 
 /**
  * Icon-only square pills. Require an `aria-label`. `disabled` drops to a transparent fill with the
- * disabled icon color, and `loading` swaps the icon for a spinner tinted with that same disabled
- * icon color.
+ * disabled icon color, and `loading` swaps the icon for a spinner tinted with that same color.
  */
 export const Icons: Story = {
   parameters: { controls: { disable: true } },
@@ -120,8 +119,7 @@ export const Icons: Story = {
 
 /**
  * Clicking a `PillButton` fires its handler, and a `loading` pill blocks the click while staying
- * focusable (`aria-busy`). Tagged out of the sidebar/docs/manifest but still run under the default
- * `test` tag.
+ * focusable (`aria-busy`). Tagged out of the sidebar/docs/manifest but still run under `test`.
  */
 export const ButtonClicks: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -135,19 +133,17 @@ export const ButtonClicks: Story = {
       </PillButton>
     </div>
   ),
-  play: async ({ canvasElement }) => {
+  play: async ({ canvas }) => {
     const { onClick, onLoadingClick } = clickSpies;
     onClick.mockClear();
     onLoadingClick.mockClear();
 
-    const canvas = within(canvasElement);
     const button = canvas.getByRole("button", { name: "Click me" });
     await userEvent.click(button);
     await expect(onClick).toHaveBeenCalledTimes(1);
 
     const busy = canvas.getByRole("button", { name: "Busy" });
     await expect(busy).toHaveAttribute("aria-busy", "true");
-    // The busy pill is focusable but does not act on click.
     await userEvent.click(busy);
     await expect(onLoadingClick).not.toHaveBeenCalled();
   },
@@ -155,7 +151,7 @@ export const ButtonClicks: Story = {
 
 /**
  * `PillSwitch` reports `aria-pressed` and flips it on click (Base UI `Toggle`). Tagged out of the
- * sidebar/docs/manifest but still run under the default `test` tag.
+ * sidebar/docs/manifest but still run under `test`.
  */
 export const SwitchToggles: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -164,8 +160,7 @@ export const SwitchToggles: Story = {
       Toggle me
     </PillSwitch>
   ),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  play: async ({ canvas }) => {
     const toggle = canvas.getByRole("button", { name: "Toggle me" });
     await expect(toggle).toHaveAttribute("aria-pressed", "false");
     await userEvent.click(toggle);

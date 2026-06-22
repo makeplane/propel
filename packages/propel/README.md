@@ -93,6 +93,17 @@ vp test             # run tests
   folder; static wildcard `exports` (`./components/*`, `./hooks/*`) expose them
   as `@plane/propel/components/<name>` / `hooks/<name>` automatically — no
   `exports` edits and no barrel to maintain when you add a folder.
+- **Component folders have a public boundary.** `index.tsx` only re-exports the
+  public API for that component folder. Public components and public child
+  components live in sibling kebab-case files (`button.tsx`,
+  `accordion-trigger.tsx`, `table-cell.tsx`). Do not use `Object.assign` or
+  namespace-style APIs such as `Foo.Bar`; export `FooBar` as its own component
+  instead.
+- **Keep shared implementation private and accurately named.** Shared class
+  maps, CVA variants, and helpers should live in private sibling files such as
+  `*-styles.ts`, `*-shared.tsx`, or a real `*-context.tsx` when React context is
+  involved. Do not create public child files that only re-export from a
+  monolithic parent file.
 - `vp pack` needs at least one component or hook to build (a component library
   with zero entries has nothing to compile).
 - Compose classes with [`clsx`](https://github.com/lukeed/clsx) only — **do not

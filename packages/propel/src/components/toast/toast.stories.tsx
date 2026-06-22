@@ -1,7 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import * as React from "react";
 import { expect, fn, waitFor, within } from "storybook/test";
 
-import { type ToastData, type ToastTone, ToastProvider, useToast } from "./index";
+import {
+  Toast,
+  type ToastData,
+  type ToastProps,
+  type ToastTone,
+  ToastProvider,
+  useToast,
+} from "./index";
 
 const TONES: ToastTone[] = ["success", "danger", "info", "warning", "neutral"];
 
@@ -15,11 +23,15 @@ const actionSpies = { onPrimary: fn(), onLeft: fn() };
 function Trigger({
   tone,
   label,
+  title = "Toast title",
+  description = "Description of the toast alert",
   data,
   onAdd,
 }: {
   tone: ToastTone;
   label?: string;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
   data?: Omit<ToastData, "tone">;
   onAdd?: () => void;
 }) {
@@ -30,8 +42,8 @@ function Trigger({
       className="inline-flex h-8 items-center rounded-md border-sm border-subtle-1 bg-layer-2 px-3 text-13 font-medium text-secondary"
       onClick={() => {
         add({
-          title: "Toast title",
-          description: "Description of the toast alert",
+          title,
+          description,
           data: { tone, ...data },
         });
         onAdd?.();
@@ -40,6 +52,25 @@ function Trigger({
       {label ?? `Show ${tone} toast`}
     </button>
   );
+}
+
+class ToastErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { message: string | null }
+> {
+  state = { message: null };
+
+  static getDerivedStateFromError(error: unknown) {
+    return { message: error instanceof Error ? error.message : String(error) };
+  }
+
+  render() {
+    if (this.state.message) {
+      return <div role="alert">{this.state.message}</div>;
+    }
+
+    return this.props.children;
+  }
 }
 
 const meta = {
@@ -142,6 +173,75 @@ export const ProgressInteraction: Story = {
     const bar = await waitFor(() => within(toast).getByRole("progressbar"));
     await expect(bar).toHaveAttribute("aria-valuenow", "32");
     await expect(within(toast).getByText("32%")).toBeVisible();
+  },
+};
+
+/**
+ * Coverage-focused tone test: queue every supported tone in one story so each status icon function
+ * renders at least once. Hidden from docs/sidebar/manifest because Tones is the public showcase.
+ */
+export const ToneIconsInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <div className="flex flex-wrap gap-2">
+      {TONES.map((tone) => (
+        <Trigger key={tone} tone={tone} />
+      ))}
+    </div>
+  ),
+  play: async ({ canvas, userEvent }) => {
+    const body = within(document.body);
+
+    for (const button of canvas.getAllByRole("button", { name: /show .* toast/i })) {
+      await userEvent.click(button);
+    }
+
+    await waitFor(async () => {
+      await expect(await body.findAllByRole("dialog", { name: "Toast title" })).toHaveLength(
+        TONES.length,
+      );
+    });
+  },
+};
+
+/**
+ * Accessibility fallback for progress: when a toast has no usable string title, the progressbar
+ * keeps a stable accessible name instead of becoming unnamed.
+ */
+export const ProgressFallbackName: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <Trigger
+      tone="info"
+      label="Show unnamed progress toast"
+      title={<span>Progress task</span>}
+      data={{ progress: 64 }}
+    />
+  ),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole("button", { name: /show unnamed progress toast/i }));
+
+    const progressbar = await within(document.body).findByRole("progressbar", {
+      name: "Progress",
+    });
+    await expect(progressbar).toHaveAttribute("aria-valuenow", "64");
+  },
+};
+
+/**
+ * Invalid toast data should fail loudly with guidance. The boundary makes that user-facing failure
+ * testable without weakening the production component's strict `tone` requirement.
+ */
+export const MissingToneThrows: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  decorators: [(Story) => <Story />],
+  render: () => (
+    <ToastErrorBoundary>
+      <Toast toast={{ id: "missing-tone", title: "Missing tone" } as ToastProps["toast"]} />
+    </ToastErrorBoundary>
+  ),
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole("alert")).toHaveTextContent("propel Toast requires");
   },
 };
 

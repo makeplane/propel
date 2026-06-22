@@ -9,12 +9,15 @@ catalog:
   "@types/node": ^24
   typescript: ^5
   vite: npm:@voidzero-dev/vite-plus-core@latest
-  vitest: npm:@voidzero-dev/vite-plus-test@latest
-  vite-plus: latest
+  vitest: 4.1.9
+  vite-plus: ^0.2.0
 
 overrides:
   vite: "catalog:"
   vitest: "catalog:"
+  # @valibot/to-json-schema@1.7.1 (via @storybook/addon-mcp's tmcp deps) needs valibot ^1.4.0,
+  # but the tree otherwise resolves 1.2.0. Force the higher line to satisfy that peer.
+  valibot: ^1.4.0
   # Transitive Dependabot security pins, scoped to the specific chains that pull the
   # vulnerable versions so the override can't silently apply to a future or runtime
   # dependency path. Regenerate the lockfile after editing, and keep these in sync with
@@ -32,11 +35,17 @@ overrides:
   "wrangler>esbuild": 0.28.1
 
 peerDependencyRules:
+  # storybook@10.4.6 still declares its vite-plus peer as ^0.1.15, but its only use of vite-plus
+  # (the optional `vite-plus/versions` subpath) is API-compatible with the 0.2.x we run. Accept it
+  # the same way as the vite/vitest forks. (Removable once storybookjs/storybook#35221 ships and
+  # the published peer range widens to `^0.1.15 || ^0.2.0`.)
   allowAny:
     - vite
+    - vite-plus
     - vitest
   allowedVersions:
     vite: "*"
+    vite-plus: "*"
     vitest: "*"
 
 allowBuilds:

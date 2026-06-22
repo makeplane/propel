@@ -75,15 +75,15 @@ export const WithLabel: Story = {
 };
 
 /**
- * An optional `leadingIcon` sits between the box and the label, matching the Figma "checkbox with
- * label" icon slot.
+ * An optional `inlineStartNode` sits between the box and the label, matching the Figma "checkbox
+ * with label" icon slot.
  */
 export const WithIcon: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <Checkbox
       tone="neutral"
-      leadingIcon={<Repeat aria-hidden className="size-3.5" />}
+      inlineStartNode={<Repeat aria-hidden className="size-3.5" />}
       label="Sync automatically"
       defaultChecked
     />

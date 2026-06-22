@@ -1,0 +1,57 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect } from "storybook/test";
+
+import { Meter } from "./index";
+
+// Components-tier story: the ready-made `<Meter value label />`, which composes the
+// `ui/meter` parts (root + label + track › indicator + value). The UI-tier story
+// assembles those parts by hand.
+const meta = {
+  title: "Components/Meter",
+  component: Meter,
+  args: { value: 64, label: "Disk usage" },
+  decorators: [
+    (Story) => (
+      <div className="w-64">
+        <Story />
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof Meter>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+/** Drive the gauge with `value`; the fill and the formatted readout follow. */
+export const Default: Story = {};
+
+/** Several fill levels of the ready-made meter. */
+export const Levels: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex flex-col gap-4">
+      {[15, 50, 90].map((value) => (
+        <Meter key={value} value={value} label="Storage" />
+      ))}
+    </div>
+  ),
+};
+
+/** `format` (an `Intl.NumberFormatOptions`) formats the readout — here as a percentage. */
+export const Formatted: Story = {
+  args: { value: 0.42, label: "Quota", format: { style: "percent" }, max: 1 },
+  parameters: { controls: { disable: true } },
+};
+
+/**
+ * Behavior: the ready-made meter exposes `role="meter"` with the current value via `aria-valuenow`.
+ * Tagged out of the sidebar/docs/manifest but still runs under `test`.
+ */
+export const HasMeterRole: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { value: 42, label: undefined, "aria-label": "Quota" },
+  play: async ({ canvas }) => {
+    const meter = canvas.getByRole("meter", { name: "Quota" });
+    await expect(meter).toHaveAttribute("aria-valuenow", "42");
+  },
+};

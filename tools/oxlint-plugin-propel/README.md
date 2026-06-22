@@ -31,6 +31,27 @@ It also handles grouped, peer, named, and negated presence data variants:
 "group-data-popup-open/trigger:text-primary";
 ```
 
+Fixes logical inset arbitrary utilities:
+
+```tsx
+"data-[side=inline-start]:end-[-3px]";
+"data-[side=inline-start]:inset-e-[-3px]";
+```
+
+Fixes logical inset scale utilities:
+
+```tsx
+"end-4";
+"inset-e-4";
+```
+
+Fixes arbitrary pixel widths that map exactly to the spacing scale:
+
+```tsx
+"w-[340px]";
+"w-85";
+```
+
 The rule intentionally does not rewrite valued arbitrary data selectors such as `data-[state=open]:...` or arbitrary values with fallbacks such as `h-[var(--height,auto)]`.
 
 ## Development

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useLayoutEffect } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { Tooltip } from "./index";
+import { Tooltip, TooltipProvider } from "./index";
 
 const sidesGridStyle = {
   display: "grid",
@@ -186,5 +186,38 @@ export const EscapeCloses: Story = {
     await userEvent.keyboard("{Escape}");
     await waitFor(() => expect(screen.queryByText("Tooltip text")).toBeNull());
     await expect(trigger).toHaveFocus();
+  },
+};
+
+/**
+ * The provider shares open/close timing across tooltips in a group. This exercises the exported
+ * provider wrapper and keeps the accessibility assertion on the real portaled tooltip.
+ */
+export const SharedProviderTiming: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <TooltipProvider delay={0} closeDelay={0}>
+      <div className="flex gap-2">
+        <Tooltip content="First tooltip">
+          <button type="button">First trigger</button>
+        </Tooltip>
+        <Tooltip content="Second tooltip">
+          <button type="button">Second trigger</button>
+        </Tooltip>
+      </div>
+    </TooltipProvider>
+  ),
+  play: async ({ canvas }) => {
+    const body = within(document.body);
+
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "First trigger" })).toHaveFocus();
+    const firstTooltip = await body.findByRole("tooltip");
+    await expect(firstTooltip).toHaveTextContent("First tooltip");
+
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "Second trigger" })).toHaveFocus();
+    await waitFor(() => expect(body.getByRole("tooltip")).toHaveTextContent("Second tooltip"));
   },
 };

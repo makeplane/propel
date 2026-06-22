@@ -5,11 +5,37 @@ export const RULE_NAME = "prefer-tailwind-v4-shorthand";
 const cssVariableArbitraryValue = /\[var\((--[A-Za-z0-9_-]+)\)\]/g;
 const presenceDataVariant =
   /(^|[\s:])(not-)?((?:group-|peer-|in-)?data-)\[([A-Za-z][A-Za-z0-9_-]*)\]((?:\/[A-Za-z][A-Za-z0-9_-]*)?):/g;
+const logicalInsetArbitraryUtility = /(^|[\s:])(start|end)-(\[[^\]\s]+\]|\(--[A-Za-z0-9_-]+\))/g;
+const logicalInsetScaleUtility = /(^|[\s:])(start|end)-(\d+(?:\.\d+)?)/g;
+const spacingWidthArbitraryPixelUtility = /(^|[\s:])w-\[(\d+)px\]/g;
+
+const logicalInsetUtilityPrefix = {
+  end: "inset-e",
+  start: "inset-s",
+} satisfies Record<string, string>;
 
 export function normalizeTailwindV4Shorthand(value: string): string {
   return value
     .replace(cssVariableArbitraryValue, "($1)")
-    .replace(presenceDataVariant, "$1$2$3$4$5:");
+    .replace(presenceDataVariant, "$1$2$3$4$5:")
+    .replace(
+      logicalInsetArbitraryUtility,
+      (_, boundary: string, side: keyof typeof logicalInsetUtilityPrefix, value: string) =>
+        `${boundary}${logicalInsetUtilityPrefix[side]}-${value}`,
+    )
+    .replace(
+      logicalInsetScaleUtility,
+      (_, boundary: string, side: keyof typeof logicalInsetUtilityPrefix, value: string) =>
+        `${boundary}${logicalInsetUtilityPrefix[side]}-${value}`,
+    )
+    .replace(spacingWidthArbitraryPixelUtility, (match, boundary: string, pixels: string) => {
+      const numericPixels = Number(pixels);
+      if (!Number.isInteger(numericPixels) || numericPixels <= 0 || numericPixels % 4 !== 0) {
+        return match;
+      }
+
+      return `${boundary}w-${numericPixels / 4}`;
+    });
 }
 
 function quoteStringLiteral(raw: string, value: string): string {

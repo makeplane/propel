@@ -5,6 +5,7 @@ import { WorkspaceAvatar, type WorkspaceAvatarMagnitude } from "./index";
 
 const MAGNITUDES: WorkspaceAvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
+// Components-tier story: the ready-made `WorkspaceAvatar` single component.
 const meta = {
   title: "Components/WorkspaceAvatar",
   component: WorkspaceAvatar,

@@ -32,6 +32,10 @@ tester.run(RULE_NAME, preferTailwindV4ShorthandRule, {
       name: "keeps arbitrary selectors",
       code: 'const className = "[&[data-highlighted]]:bg-primary";',
     },
+    {
+      name: "keeps non-spacing arbitrary pixel widths",
+      code: 'const className = "w-[342px] sm:w-[1px]";',
+    },
   ],
   invalid: [
     {
@@ -71,6 +75,39 @@ tester.run(RULE_NAME, preferTailwindV4ShorthandRule, {
       ),
       output:
         'const element = <div className="data-popup-open:bg-layer-transparent-hover h-(--panel-height)" />;',
+      errors: [{ messageId: "preferTailwindV4Shorthand" }],
+    },
+    {
+      name: "fixes logical inset arbitrary utilities",
+      code: code(
+        'const className = "data-[side=inline-start]:end-[' +
+          "-3px] data-[side=inline-end]:start-[" +
+          '-3px]";',
+      ),
+      output:
+        'const className = "data-[side=inline-start]:inset-e-[-3px] data-[side=inline-end]:inset-s-[-3px]";',
+      errors: [{ messageId: "preferTailwindV4Shorthand" }],
+    },
+    {
+      name: "fixes logical inset css variable utilities",
+      code: code(
+        'const className = "hover:end-[' +
+          "var(--edge-offset)] focus:start-[" +
+          'var(--edge-offset)]";',
+      ),
+      output: 'const className = "hover:inset-e-(--edge-offset) focus:inset-s-(--edge-offset)";',
+      errors: [{ messageId: "preferTailwindV4Shorthand" }],
+    },
+    {
+      name: "fixes logical inset spacing utilities",
+      code: code('const className = "fixed end-' + "4 bottom-4 group-hover:start-" + '1";'),
+      output: 'const className = "fixed inset-e-4 bottom-4 group-hover:inset-s-1";',
+      errors: [{ messageId: "preferTailwindV4Shorthand" }],
+    },
+    {
+      name: "fixes arbitrary pixel widths that match the spacing scale",
+      code: code('const className = "w-[' + "340px] md:w-[" + '640px]";'),
+      output: 'const className = "w-85 md:w-160";',
       errors: [{ messageId: "preferTailwindV4Shorthand" }],
     },
   ],

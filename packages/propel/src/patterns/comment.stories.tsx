@@ -1,4 +1,3 @@
-import { Field } from "@base-ui/react/field";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
@@ -16,15 +15,16 @@ import {
 import * as React from "react";
 import { expect, fn, userEvent } from "storybook/test";
 
-import { Button } from "../components/button/index";
-import { IconButton } from "../components/icon-button/index";
+import { Button } from "../ui/button/index";
+import { Field, TextAreaFieldControl } from "../ui/field/index";
+import { IconButton } from "../ui/icon-button/index";
 import {
   Toolbar,
   ToolbarButton,
   ToolbarGroup,
   ToolbarSeparator,
   ToolbarToggle,
-} from "../components/toolbar/index";
+} from "../ui/toolbar/index";
 
 // A comment composer is a compositional (application-level) component, not a propel
 // primitive: it is assembled entirely from propel building blocks (Toolbar, Button,
@@ -36,7 +36,7 @@ import {
 // Magnitudes follow the Figma "Comment box" scale (Property 1): base / sm / xs. They
 // share the bordered card surface and step down together so a compact composer stays
 // internally consistent.
-const commentVariants = cva("border border-subtle-1 bg-layer-2 text-primary", {
+const commentComposerVariants = cva("border border-subtle-1 bg-layer-2 text-primary", {
   variants: {
     magnitude: {
       // base/sm use radius/xl (12px) and stack their rows in a column; xs uses
@@ -48,22 +48,7 @@ const commentVariants = cva("border border-subtle-1 bg-layer-2 text-primary", {
   },
 });
 
-type CommentMagnitude = NonNullable<VariantProps<typeof commentVariants>["magnitude"]>;
-
-// The body textarea padding + type scale per magnitude, from Figma's "Add a comment"
-// placeholder row.
-const bodyVariants = cva(
-  "w-full resize-none bg-transparent text-primary outline-none placeholder:text-placeholder",
-  {
-    variants: {
-      magnitude: {
-        base: "min-h-10 p-3 text-14 leading-snug",
-        sm: "min-h-10 p-3 text-14 leading-snug",
-        xs: "min-w-0 flex-1 text-12 leading-tight",
-      },
-    },
-  },
-);
+type CommentMagnitude = NonNullable<VariantProps<typeof commentComposerVariants>["magnitude"]>;
 
 // The formatting controls along the bottom bar (Figma node 2842-3905): a mention /
 // reaction / link cluster, an inline B/I/U cluster, then a list + overflow cluster,
@@ -140,6 +125,7 @@ function CommentComposer({
   onSubmit,
 }: CommentComposerProps) {
   const isControlled = value !== undefined;
+  const controlId = React.useId();
   const [internalValue, setInternalValue] = React.useState(defaultValue ?? "");
   const currentValue = isControlled ? value : internalValue;
   const isEmpty = currentValue.trim().length === 0;
@@ -155,60 +141,37 @@ function CommentComposer({
   };
 
   const sendLabel = typeof submitLabel === "string" ? submitLabel : "Comment";
+  const controlMagnitude = magnitude === "xs" ? "sm" : "lg";
+  const controlSurface = magnitude === "xs" ? "inline" : "embedded";
 
   const body = (
-    <Field.Control
-      render={<textarea rows={magnitude === "xs" ? 1 : 2} />}
+    <TextAreaFieldControl
+      id={controlId}
+      rows={magnitude === "xs" ? 1 : 2}
+      magnitude={controlMagnitude}
+      surface={controlSurface}
       placeholder={placeholder}
       value={isControlled ? value : undefined}
       defaultValue={isControlled ? undefined : defaultValue}
       onValueChange={handleValueChange}
-      className={bodyVariants({ magnitude })}
     />
   );
 
   return (
-    <Field.Root className={commentVariants({ magnitude })}>
-      <Field.Label className="sr-only">{label}</Field.Label>
+    <Field name="comment">
+      <div className={commentComposerVariants({ magnitude })}>
+        <label htmlFor={controlId} className="sr-only">
+          {label}
+        </label>
 
-      {magnitude === "xs" ? (
-        <>
-          {body}
-          <div className="flex shrink-0 items-center gap-1.5">
-            <span aria-hidden className="h-4 w-0 shrink-0 border-s-sm border-subtle-1" />
-            <IconButton variant="ghost" tone="neutral" magnitude="md" aria-label="Attach a file">
-              <Paperclip aria-hidden />
-            </IconButton>
-            <IconButton
-              variant="secondary"
-              tone="neutral"
-              magnitude="md"
-              aria-label={sendLabel}
-              disabled={isEmpty}
-              onClick={handleSubmit}
-            >
-              <ArrowUp aria-hidden />
-            </IconButton>
-          </div>
-        </>
-      ) : (
-        <>
-          {body}
-          <div className="flex min-h-9 items-center justify-between gap-2 py-1 ps-1 pe-1.5">
-            <div className="flex min-w-0 items-center overflow-x-auto">
-              <FormattingToolbar />
-            </div>
-            {magnitude === "base" ? (
-              <Button
-                variant="secondary"
-                tone="neutral"
-                magnitude="md"
-                disabled={isEmpty}
-                onClick={handleSubmit}
-              >
-                {submitLabel}
-              </Button>
-            ) : (
+        {magnitude === "xs" ? (
+          <>
+            {body}
+            <div className="flex shrink-0 items-center gap-1.5">
+              <span aria-hidden className="h-4 w-0 shrink-0 border-s-sm border-subtle-1" />
+              <IconButton variant="ghost" tone="neutral" magnitude="md" aria-label="Attach a file">
+                <Paperclip aria-hidden />
+              </IconButton>
               <IconButton
                 variant="secondary"
                 tone="neutral"
@@ -219,11 +182,42 @@ function CommentComposer({
               >
                 <ArrowUp aria-hidden />
               </IconButton>
-            )}
-          </div>
-        </>
-      )}
-    </Field.Root>
+            </div>
+          </>
+        ) : (
+          <>
+            {body}
+            <div className="flex min-h-9 items-center justify-between gap-2 py-1 ps-1 pe-1.5">
+              <div className="flex min-w-0 items-center overflow-x-auto">
+                <FormattingToolbar />
+              </div>
+              {magnitude === "base" ? (
+                <Button
+                  variant="secondary"
+                  tone="neutral"
+                  magnitude="md"
+                  disabled={isEmpty}
+                  onClick={handleSubmit}
+                >
+                  {submitLabel}
+                </Button>
+              ) : (
+                <IconButton
+                  variant="secondary"
+                  tone="neutral"
+                  magnitude="md"
+                  aria-label={sendLabel}
+                  disabled={isEmpty}
+                  onClick={handleSubmit}
+                >
+                  <ArrowUp aria-hidden />
+                </IconButton>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </Field>
   );
 }
 
@@ -235,50 +229,55 @@ CommentComposer.displayName = "CommentComposer";
 // a consumer would copy) instead of an opaque `<CommentComposer />`, since the whole
 // point of this recipe is the composition. Kept to the `base` magnitude shown above.
 const RECIPE_SOURCE = `function CommentComposer() {
+  const controlId = React.useId();
   const [value, setValue] = React.useState("");
   const isEmpty = value.trim().length === 0;
 
   return (
-    <Field.Root className="flex w-full flex-col overflow-clip rounded-xl border border-subtle-1 bg-layer-2 text-primary">
-      <Field.Label className="sr-only">Add a comment</Field.Label>
-      <Field.Control
-        render={<textarea rows={2} />}
-        placeholder="Add a comment"
-        value={value}
-        onValueChange={setValue}
-        className="min-h-10 w-full resize-none bg-transparent p-3 text-14 leading-snug text-primary outline-none placeholder:text-placeholder"
-      />
-      <div className="flex min-h-9 items-center justify-between gap-2 py-1 pe-1.5 ps-1">
-        <Toolbar elevation="flat" density="compact" aria-label="Comment formatting">
-          <ToolbarGroup aria-label="Insert">
-            <ToolbarButton aria-label="Mention someone">
-              <AtSign aria-hidden />
-            </ToolbarButton>
-            <ToolbarButton aria-label="Add reaction">
-              <SmilePlus aria-hidden />
-            </ToolbarButton>
-            <ToolbarButton aria-label="Add link">
-              <Link aria-hidden />
-            </ToolbarButton>
-          </ToolbarGroup>
-          <ToolbarSeparator />
-          <ToolbarGroup aria-label="Text formatting">
-            <ToolbarToggle aria-label="Bold">
-              <Bold aria-hidden />
-            </ToolbarToggle>
-            <ToolbarToggle aria-label="Italic">
-              <Italic aria-hidden />
-            </ToolbarToggle>
-            <ToolbarToggle aria-label="Underline">
-              <Underline aria-hidden />
-            </ToolbarToggle>
-          </ToolbarGroup>
-        </Toolbar>
-        <Button variant="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
-          Comment
-        </Button>
+    <Field name="comment">
+      <div className="flex w-full flex-col overflow-clip rounded-xl border border-subtle-1 bg-layer-2 text-primary">
+        <label htmlFor={controlId} className="sr-only">Add a comment</label>
+        <TextAreaFieldControl
+          id={controlId}
+          rows={2}
+          magnitude="lg"
+          surface="embedded"
+          placeholder="Add a comment"
+          value={value}
+          onValueChange={setValue}
+        />
+        <div className="flex min-h-9 items-center justify-between gap-2 py-1 pe-1.5 ps-1">
+          <Toolbar elevation="flat" density="compact" aria-label="Comment formatting">
+            <ToolbarGroup aria-label="Insert">
+              <ToolbarButton aria-label="Mention someone">
+                <AtSign aria-hidden />
+              </ToolbarButton>
+              <ToolbarButton aria-label="Add reaction">
+                <SmilePlus aria-hidden />
+              </ToolbarButton>
+              <ToolbarButton aria-label="Add link">
+                <Link aria-hidden />
+              </ToolbarButton>
+            </ToolbarGroup>
+            <ToolbarSeparator />
+            <ToolbarGroup aria-label="Text formatting">
+              <ToolbarToggle aria-label="Bold">
+                <Bold aria-hidden />
+              </ToolbarToggle>
+              <ToolbarToggle aria-label="Italic">
+                <Italic aria-hidden />
+              </ToolbarToggle>
+              <ToolbarToggle aria-label="Underline">
+                <Underline aria-hidden />
+              </ToolbarToggle>
+            </ToolbarGroup>
+          </Toolbar>
+          <Button variant="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
+            Comment
+          </Button>
+        </div>
       </div>
-    </Field.Root>
+    </Field>
   );
 }`;
 
@@ -316,7 +315,7 @@ export const Default: Story = {
     docs: { source: { code: RECIPE_SOURCE, language: "tsx" } },
   },
   render: (args) => (
-    <div className="w-[640px]">
+    <div className="w-160">
       <CommentComposer {...args} />
     </div>
   ),
@@ -330,7 +329,7 @@ export const Default: Story = {
 export const Magnitudes: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="flex w-[640px] flex-col gap-6">
+    <div className="flex w-160 flex-col gap-6">
       {MAGNITUDES.map((magnitude) => (
         <CommentComposer key={magnitude} {...args} magnitude={magnitude} />
       ))}

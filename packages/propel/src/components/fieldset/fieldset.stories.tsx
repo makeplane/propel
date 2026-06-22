@@ -1,0 +1,65 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect } from "storybook/test";
+
+import { InputField } from "../field/index";
+import { Fieldset } from "./index";
+
+// Components-tier story: the ready-made `<Fieldset legend=…>` plus same-tier field controls.
+const meta = {
+  title: "Components/Fieldset",
+  component: Fieldset,
+  args: { legendMagnitude: "md" },
+  parameters: {
+    design: {
+      type: "figma",
+      url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=2053-281",
+    },
+  },
+} satisfies Meta<typeof Fieldset>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+/** Fieldset groups related fields under one accessible legend. */
+export const Default: Story = {
+  args: {
+    legend: "Billing details",
+    children: (
+      <div className="flex w-80 flex-col gap-4">
+        <InputField
+          magnitude="md"
+          tone="neutral"
+          orientation="vertical"
+          name="company"
+          label="Company"
+          placeholder="Acme Inc."
+        />
+        <InputField
+          magnitude="md"
+          tone="neutral"
+          orientation="vertical"
+          name="taxId"
+          label="Tax ID"
+          placeholder="US-123"
+        />
+      </div>
+    ),
+  },
+};
+
+/** The legend names the group landmark for assistive tech. */
+export const GroupSemantics: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: {
+    legend: "Shipping address",
+    children: (
+      <div className="w-80">
+        <InputField magnitude="md" tone="neutral" orientation="vertical" name="city" label="City" />
+      </div>
+    ),
+  },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole("group", { name: "Shipping address" })).toBeInTheDocument();
+    await expect(canvas.getByRole("textbox", { name: "City" })).toHaveAttribute("name", "city");
+  },
+};
