@@ -15,9 +15,9 @@ import {
 import * as React from "react";
 import { expect, fn, userEvent } from "storybook/test";
 
+import { IconButton } from "../components/icon-button/index";
 import { Button } from "../ui/button/index";
 import { Field, TextAreaFieldControl } from "../ui/field/index";
-import { IconButton } from "../ui/icon-button/index";
 import {
   Toolbar,
   ToolbarButton,

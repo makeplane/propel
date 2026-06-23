@@ -1,3 +1,13 @@
-// Ready-made 1:1 re-export of the ui primitive. Drop down to `@plane/propel/ui/icon-button` only
-// when you need the lower-level parts.
-export * from "../../ui/icon-button";
+export { IconButton, type IconButtonProps } from "./icon-button";
+// Re-export the atomic parts so the full anatomy is importable from this convenience.
+export {
+  IconButtonIcon,
+  type IconButtonIconProps,
+  type IconButtonMagnitude,
+  IconButtonRoot,
+  type IconButtonRootProps,
+  IconButtonSpinner,
+  type IconButtonSpinnerProps,
+  type IconButtonTone,
+  type IconButtonVariant,
+} from "../../ui/icon-button";

@@ -1,5 +1,6 @@
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
 
+import { nodeSlotClass } from "../../internal/node-slot";
 import {
   buttonVariants,
   type ButtonMagnitude,
@@ -50,3 +51,16 @@ export function iconButtonRootVariants({
 }): string {
   return [buttonVariants({ variant, tone }), iconButtonGeometryVariants({ magnitude })].join(" ");
 }
+
+// The icon slot: the button's single glyph. Sizes its one child to the root's
+// inherited `--node-size` (via the shared node-slot class). Decorative — the accessible
+// name lives on the root's `aria-label` — so the slot is `aria-hidden`.
+export const iconButtonIconVariants = cva(nodeSlotClass);
+
+// The loading indicator shown in place of the icon. A single spinning glyph sized to
+// the root's `--node-size`. Decorative (the root carries `aria-busy`), so it is
+// `aria-hidden`. Like the accordion indicator it bakes a default glyph (a spinner),
+// which a caller can override via `children`.
+export const iconButtonSpinnerVariants = cva(
+  cx("inline-flex shrink-0 items-center justify-center", "[&>svg]:size-(--node-size)"),
+);

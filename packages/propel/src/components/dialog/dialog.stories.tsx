@@ -3,7 +3,7 @@ import { X } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Button } from "../../ui/button";
-import { IconButton } from "../../ui/icon-button";
+import { IconButton } from "../icon-button";
 import {
   Dialog,
   DialogClose,
