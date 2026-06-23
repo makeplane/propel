@@ -13,7 +13,13 @@ import {
   createToastManager as createBaseToastManager,
   useToastManager,
 } from "../../ui/toast/index";
+import { toastActionVariants } from "../../ui/toast/variants";
 import { Progress } from "../progress/index";
+import {
+  toastActionClusterVariants,
+  toastActionRowVariants,
+  toastTextGroupVariants,
+} from "./variants";
 
 // The semantic intent of a toast (Figma "Property 1": Default / Variant2 / Variant3
 // = success / danger / info). `warning` and `neutral` round out the standard set.
@@ -99,12 +105,10 @@ export function Toast({ toast, ...props }: ToastProps) {
   const hasActionRow = leftActions.length > 0 || primaryAction != null;
   return (
     <ToastRoot toast={toast} {...props}>
-      {/* Status icon sits in a 2px-padded column so it baselines with the title. */}
-      <span className="flex items-center py-0.5">
-        <ToastStatusIcon tone={data.tone} />
-      </span>
+      {/* `mt-0.5` on the icon (via statusIconVariants) baselines it with the title. */}
+      <ToastStatusIcon tone={data.tone} />
       <ToastContent>
-        <div className="flex flex-col gap-1">
+        <div className={toastTextGroupVariants()}>
           <ToastTitle />
           <ToastDescription />
         </div>
@@ -122,15 +126,15 @@ export function Toast({ toast, ...props }: ToastProps) {
           // by its own padding — that lines the button label up with the title text
           // while the hover fill bleeds left. The left cluster grows to fill so the
           // primary action pins to the inline-end edge. RTL-safe via logical utilities.
-          <div className="flex w-full gap-1.5">
-            <div className="-ms-2 flex min-w-0 flex-1 items-center gap-1.5">
+          <div className={toastActionRowVariants()}>
+            <div className={toastActionClusterVariants()}>
               {leftActions.map((action, index) => (
                 <button
                   // Actions are positional and have no stable id; index keys are fine
                   // for this short, static-per-render list.
                   key={index}
                   type="button"
-                  className="inline-flex h-6 min-w-10 shrink-0 items-center justify-center gap-1 rounded-md bg-layer-transparent px-2 text-13 font-medium text-secondary transition-colors outline-none hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong active:bg-layer-transparent-active"
+                  className={toastActionVariants()}
                   onClick={action.onClick}
                 >
                   {action.label}
