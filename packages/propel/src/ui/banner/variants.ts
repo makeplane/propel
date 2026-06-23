@@ -1,4 +1,6 @@
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
+
+import { nodeSlotClass } from "../../internal/node-slot";
 
 // Banner = the Figma "Banners" component. Two scopes (`variant`) and five intents
 // (`tone`). `page` is a full-width strip with a bottom border that sits at the top
@@ -31,3 +33,69 @@ export const bannerVariants = cva("flex items-center overflow-clip", {
     { tone: "danger", class: "border-danger-subtle bg-danger-subtle" },
   ],
 });
+
+// Foreground (icon) color per tone, mapped from the Figma `icon/*` tokens.
+// The page banner uses a 20px icon; inline uses a 16px icon (per Figma typography).
+export const bannerIconVariants = cva("shrink-0", {
+  variants: {
+    variant: {
+      page: "size-5",
+      inline: "size-4",
+    },
+    tone: {
+      neutral: "text-icon-secondary",
+      info: "text-icon-info-secondary",
+      accent: "text-icon-accent-primary",
+      warning: "text-icon-warning-primary",
+      danger: "text-icon-danger-primary",
+    },
+  },
+});
+
+// The leading node slot (when a custom `inlineStartNode` is passed).
+// Combines the static nodeSlotClass with variant-driven size token and tone color.
+export const bannerIconNodeVariants = cva(nodeSlotClass, {
+  variants: {
+    variant: {
+      page: "[--node-size:1.25rem]",
+      inline: "[--node-size:1rem]",
+    },
+    tone: {
+      neutral: "text-icon-secondary",
+      info: "text-icon-info-secondary",
+      accent: "text-icon-accent-primary",
+      warning: "text-icon-warning-primary",
+      danger: "text-icon-danger-primary",
+    },
+  },
+});
+
+// Foreground (message text) color per tone. warning/danger use the primary token
+// because their secondary text step doesn't meet WCAG AA on the soft background.
+// Page banners use medium-weight text; inline uses regular-weight (per Figma).
+export const bannerBodyVariants = cva("min-w-0 flex-1 text-14 leading-relaxed", {
+  variants: {
+    variant: {
+      page: "font-medium",
+      inline: "font-normal",
+    },
+    tone: {
+      neutral: "text-secondary",
+      info: "text-info-primary",
+      accent: "text-accent-primary",
+      warning: "text-warning-primary",
+      danger: "text-danger-primary",
+    },
+  },
+});
+
+// Trailing actions wrapper: always the same layout regardless of variant/tone.
+export const bannerActionsVariants = cva("flex shrink-0 items-center gap-2");
+
+// Dismiss button: always the same layout and chrome regardless of variant/tone.
+export const bannerDismissVariants = cva(
+  cx(
+    "flex shrink-0 items-center justify-center rounded-md p-1 text-icon-tertiary",
+    "hover:bg-layer-1",
+  ),
+);
