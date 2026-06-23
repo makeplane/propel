@@ -25,10 +25,15 @@ export const navigationMenuLinkVariants = cva(
   ),
 );
 
-// Rotates the caret while the popup is open; reads the parent Trigger's
-// `group-data-popup-open` state.
+// The disclosure caret slot inside a Trigger. Sizes its child SVG to `--node-size`
+// (default 1rem, matching the trigger's line-height) and rotates while the popup is
+// open; reads the parent Trigger's `group-data-popup-open` state.
 export const navigationMenuIconVariants = cva(
-  "flex size-4 items-center justify-center text-icon-secondary transition-transform group-data-popup-open:rotate-180",
+  cx(
+    "inline-flex shrink-0 items-center justify-center [--node-size:1rem]",
+    "[&>svg]:size-(--node-size)",
+    "text-icon-secondary transition-transform group-data-popup-open:rotate-180",
+  ),
 );
 
 export const navigationMenuPositionerVariants = cva("z-50 outline-none");

@@ -197,7 +197,7 @@ function TriggerRow({ children }: { children: React.ReactNode }) {
     <NavigationMenuTrigger>
       {children}
       <NavigationMenuIcon>
-        <ChevronDown aria-hidden className="size-3.5" />
+        <ChevronDown aria-hidden />
       </NavigationMenuIcon>
     </NavigationMenuTrigger>
   );
