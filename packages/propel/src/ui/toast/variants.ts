@@ -16,7 +16,7 @@ export const toastViewportVariants = cva(
   ),
 );
 
-export const toastRootVariants = cva(
+export const toastVariants = cva(
   cx(
     surfaceVariants({ elevation: "raised", radius: "lg" }),
     "relative flex w-full items-start gap-2 px-4 py-3",
@@ -73,7 +73,7 @@ export const toastCloseVariants = cva(
 // the only tone-colored element; surface/border/text stay neutral, matching Figma.
 // `mt-0.5` nudges the icon 2px down so it visually aligns with the title baseline
 // when the toast root uses `items-start` — eliminates the need for a wrapper span.
-export const statusIconVariants = cva("mt-0.5 size-4 shrink-0", {
+export const toastStatusIconVariants = cva("mt-0.5 size-4 shrink-0", {
   variants: {
     tone: {
       success: "text-icon-success-primary",

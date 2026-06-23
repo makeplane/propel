@@ -103,7 +103,7 @@ export function Toast({ toast, ...props }: ToastProps) {
   const hasActionRow = leftActions.length > 0 || primaryAction != null;
   return (
     <ToastRoot toast={toast} {...props}>
-      {/* `mt-0.5` on the icon (via statusIconVariants) baselines it with the title. */}
+      {/* `mt-0.5` on the icon (via toastStatusIconVariants) baselines it with the title. */}
       <ToastStatusIcon tone={data.tone} />
       <ToastContent>
         <ToastTextGroup>

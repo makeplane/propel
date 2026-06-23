@@ -1,6 +1,6 @@
 import { Toast as BaseToast } from "@base-ui/react/toast";
 
-import { toastRootVariants } from "./variants";
+import { toastVariants } from "./variants";
 
 export type ToastProps = Omit<BaseToast.Root.Props, "className" | "style">;
 
@@ -9,5 +9,5 @@ export type ToastProps = Omit<BaseToast.Root.Props, "className" | "style">;
  * floating-card surface. Maps 1:1 to `Toast.Root`.
  */
 export function Toast(props: ToastProps) {
-  return <BaseToast.Root className={toastRootVariants()} {...props} />;
+  return <BaseToast.Root className={toastVariants()} {...props} />;
 }

@@ -7,9 +7,9 @@ import { SolidCircleX } from "./solid-circle-x";
 import type { StatusIconProps } from "./solid-icon";
 import { SolidInfo } from "./solid-info";
 import { SolidTriangleAlert } from "./solid-triangle-alert";
-import { statusIconVariants } from "./variants";
+import { toastStatusIconVariants } from "./variants";
 
-export type ToastTone = NonNullable<VariantProps<typeof statusIconVariants>["tone"]>;
+export type ToastTone = NonNullable<VariantProps<typeof toastStatusIconVariants>["tone"]>;
 
 type StatusIcon = (props: StatusIconProps) => React.JSX.Element;
 
@@ -35,5 +35,5 @@ export type ToastStatusIconProps = Omit<StatusIconProps, "className"> & {
  */
 export function ToastStatusIcon({ tone, ...props }: ToastStatusIconProps) {
   const Icon = STATUS_ICON[tone];
-  return <Icon aria-hidden className={statusIconVariants({ tone })} {...props} />;
+  return <Icon aria-hidden className={toastStatusIconVariants({ tone })} {...props} />;
 }
