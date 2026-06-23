@@ -27,7 +27,12 @@ export const Default: Story = {
   args: { density: "comfortable", defaultValue: "low" },
   render: (args) => (
     <Field name="priority">
-      <Fieldset legend="Priority" legendMagnitude="md" render={<RadioGroup {...args} />}>
+      <Fieldset
+        bordered={false}
+        legend="Priority"
+        legendMagnitude="md"
+        render={<RadioGroup {...args} />}
+      >
         <RadioGroupFieldOption magnitude="md" value="low" label="Low" />
         <RadioGroupFieldOption magnitude="md" value="medium" label="Medium" />
         <RadioGroupFieldOption magnitude="md" value="high" label="High" />
@@ -66,6 +71,7 @@ export const Density: Story = {
     <div className="flex items-start gap-10">
       <Field name="comfortableDensity">
         <Fieldset
+          bordered={false}
           legend="Comfortable density"
           legendMagnitude="md"
           render={<RadioGroup density="comfortable" defaultValue="low" />}
@@ -76,6 +82,7 @@ export const Density: Story = {
       </Field>
       <Field name="compactDensity">
         <Fieldset
+          bordered={false}
           legend="Compact density"
           legendMagnitude="md"
           render={<RadioGroup density="compact" defaultValue="low" />}
