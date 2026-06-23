@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Info } from "lucide-react";
+import { Info, X } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { Button } from "../button/index";
@@ -127,7 +127,9 @@ export const WithActions: Story = {
           Update now
         </Button>
       </BannerActions>
-      <BannerDismiss onClick={fn()} />
+      <BannerDismiss onClick={fn()}>
+        <X aria-hidden />
+      </BannerDismiss>
     </Banner>
   ),
 };
@@ -148,7 +150,9 @@ export const DismissCallsHandler: Story = {
       <BannerBody variant={args.variant} tone={args.tone}>
         <BannerTitle>There is something that needs your attention</BannerTitle>
       </BannerBody>
-      <BannerDismiss onClick={dismissSpy} />
+      <BannerDismiss onClick={dismissSpy}>
+        <X aria-hidden />
+      </BannerDismiss>
     </Banner>
   ),
   play: async ({ canvas, userEvent }) => {

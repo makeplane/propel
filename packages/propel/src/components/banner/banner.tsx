@@ -1,4 +1,4 @@
-import { CircleAlert, Info, Megaphone, TriangleAlert, type LucideIcon } from "lucide-react";
+import { CircleAlert, Info, Megaphone, TriangleAlert, X, type LucideIcon } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -71,7 +71,11 @@ export function Banner({
         {children ? <BannerDescription>{children}</BannerDescription> : null}
       </BannerBody>
       {actions ? <BannerActions>{actions}</BannerActions> : null}
-      {onDismiss ? <BannerDismiss onClick={onDismiss} /> : null}
+      {onDismiss ? (
+        <BannerDismiss onClick={onDismiss}>
+          <X aria-hidden />
+        </BannerDismiss>
+      ) : null}
     </BannerRoot>
   );
 }
