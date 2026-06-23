@@ -6,8 +6,12 @@ import { Button } from "../../ui/button";
 import { IconButton } from "../../ui/icon-button";
 import {
   Drawer,
+  DrawerBody,
   DrawerClose,
   DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerHeaderContent,
   DrawerPanel,
   DrawerTitle,
   DrawerTrigger,
@@ -15,21 +19,32 @@ import {
 
 // Components-tier story: uses the ready-made `DrawerPanel`, which composes the
 // portal/backdrop/edge-viewport/sliding-popup/padded-content so a consumer only
-// writes the trigger and the panel body. Trigger/Close compose the `Button` (or
-// `IconButton` for the corner close) primitive via Base UI's `render` prop — the
-// styled primitive is the outer element so its look wins, the drawer part supplies
-// the behavior.
+// writes the trigger and the panel body. The header/body/footer layout is supplied
+// by the `DrawerHeader`/`DrawerBody`/`DrawerFooter` anatomy parts — no layout
+// `className` lives here. Trigger/Close compose the `Button` (or `IconButton` for
+// the corner close) primitive via Base UI's `render` prop — the styled primitive is
+// the outer element so its look wins, the drawer part supplies the behavior.
 
 const meta = {
   title: "Components/Drawer",
   component: Drawer,
-  subcomponents: { DrawerTrigger, DrawerPanel, DrawerTitle, DrawerDescription, DrawerClose },
+  subcomponents: {
+    DrawerTrigger,
+    DrawerPanel,
+    DrawerHeader,
+    DrawerHeaderContent,
+    DrawerBody,
+    DrawerFooter,
+    DrawerTitle,
+    DrawerDescription,
+    DrawerClose,
+  },
 } satisfies Meta<typeof Drawer>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** A right-edge panel: title, dismiss button, and body. Opens from the trigger and slides in. */
+/** A right-edge panel: header (title + dismiss), body, and footer actions. Slides in from the end. */
 export const Default: Story = {
   render: () => (
     <Drawer>
@@ -37,27 +52,30 @@ export const Default: Story = {
         Open details
       </Button>
       <DrawerPanel side="end">
-        {/*
-         * Two layout groups, separated by the panel's own gap: a header (title +
-         * corner close) grouped with the description, then the body region.
-         * Future anatomy surfaces — e.g. DrawerHeader and DrawerBody.
-         */}
-        <div className="flex flex-col gap-2">
-          <div className="flex items-start justify-between gap-4">
+        <DrawerHeader>
+          <DrawerHeaderContent>
             <DrawerTitle>Work item details</DrawerTitle>
-            <IconButton
-              variant="ghost"
-              tone="neutral"
-              magnitude="lg"
-              aria-label="Close"
-              render={<DrawerClose />}
-            >
-              <X />
-            </IconButton>
-          </div>
-          <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
-        </div>
-        <div className="text-14 text-secondary">Panel body content goes here.</div>
+            <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
+          </DrawerHeaderContent>
+          <IconButton
+            variant="ghost"
+            tone="neutral"
+            magnitude="lg"
+            aria-label="Close"
+            render={<DrawerClose />}
+          >
+            <X />
+          </IconButton>
+        </DrawerHeader>
+        <DrawerBody>Panel body content goes here.</DrawerBody>
+        <DrawerFooter>
+          <Button variant="ghost" tone="neutral" magnitude="lg" render={<DrawerClose />}>
+            Cancel
+          </Button>
+          <Button variant="primary" tone="neutral" magnitude="lg">
+            Save
+          </Button>
+        </DrawerFooter>
       </DrawerPanel>
     </Drawer>
   ),
@@ -77,7 +95,7 @@ export const Default: Story = {
   },
 };
 
-/** A left-edge panel: same structure, anchored to the inline-start edge and slides in from the left. */
+/** A left-edge panel: same anatomy, anchored to the inline-start edge and slides in from the left. */
 export const StartSide: Story = {
   render: () => (
     <Drawer>
@@ -85,21 +103,21 @@ export const StartSide: Story = {
         Open navigation
       </Button>
       <DrawerPanel side="start">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-start justify-between gap-4">
+        <DrawerHeader>
+          <DrawerHeaderContent>
             <DrawerTitle>Navigation</DrawerTitle>
-            <IconButton
-              variant="ghost"
-              tone="neutral"
-              magnitude="lg"
-              aria-label="Close"
-              render={<DrawerClose />}
-            >
-              <X />
-            </IconButton>
-          </div>
-        </div>
-        <div className="text-14 text-secondary">Navigation links go here.</div>
+          </DrawerHeaderContent>
+          <IconButton
+            variant="ghost"
+            tone="neutral"
+            magnitude="lg"
+            aria-label="Close"
+            render={<DrawerClose />}
+          >
+            <X />
+          </IconButton>
+        </DrawerHeader>
+        <DrawerBody>Navigation links go here.</DrawerBody>
       </DrawerPanel>
     </Drawer>
   ),
@@ -131,8 +149,12 @@ export const EscapeCloses: Story = {
         Open filters
       </Button>
       <DrawerPanel side="end">
-        <DrawerTitle>Filters</DrawerTitle>
-        <DrawerDescription>Press Escape to dismiss.</DrawerDescription>
+        <DrawerHeader>
+          <DrawerHeaderContent>
+            <DrawerTitle>Filters</DrawerTitle>
+            <DrawerDescription>Press Escape to dismiss.</DrawerDescription>
+          </DrawerHeaderContent>
+        </DrawerHeader>
       </DrawerPanel>
     </Drawer>
   ),
