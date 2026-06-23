@@ -2,7 +2,10 @@ import type * as React from "react";
 
 import { previewCardBodyVariants } from "./variants";
 
-export type PreviewCardBodyProps = Omit<React.ComponentPropsWithoutRef<"div">, "className" | "style">;
+export type PreviewCardBodyProps = Omit<
+  React.ComponentPropsWithoutRef<"div">,
+  "className" | "style"
+>;
 
 /**
  * The text content area of the card — typically holds a `PreviewCardTitle` and
