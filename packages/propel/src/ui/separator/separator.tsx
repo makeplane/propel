@@ -32,6 +32,8 @@ export function Separator({ decorative, ...props }: SeparatorProps) {
   // is removed from the a11y tree: it takes `role="none"` and drops `aria-orientation` (an `<div>`
   // without `role="separator"` may not carry it). We spread these only when decorative so we never
   // clobber Base UI's defaults with `undefined` on the semantic path.
-  const a11y = decorative ? { role: "none", "aria-orientation": undefined, "aria-hidden": true } : null;
+  const a11y = decorative
+    ? { role: "none", "aria-orientation": undefined, "aria-hidden": true }
+    : null;
   return <BaseSeparator className={separatorVariants()} {...props} {...a11y} />;
 }
