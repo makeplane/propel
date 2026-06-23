@@ -15,6 +15,12 @@ export const toolbarVariants = cva("flex w-fit items-center gap-2 p-1.5 text-sec
   },
 });
 
+export const groupVariants = cva("flex items-center gap-0.5");
+
+export const separatorVariants = cva("mx-1 h-5 w-0 shrink-0 border-s-sm border-subtle-1");
+
+export const toggleGroupVariants = cva("flex items-center gap-0.5");
+
 export const itemVariants = cva(
   cx(
     "inline-flex shrink-0 items-center justify-center rounded-md",
@@ -35,7 +41,7 @@ export const itemVariants = cva(
   },
 );
 
-export const dropdownTriggerVariants = cva(
+export const dropdownTriggerButtonVariants = cva(
   cx(
     "inline-flex shrink-0 items-center gap-1 rounded-md px-2",
     "bg-layer-transparent text-13 text-secondary outline-none",
@@ -54,7 +60,7 @@ export const dropdownTriggerVariants = cva(
   },
 );
 
-export const dropdownChevronVariants = cva("shrink-0 text-icon-secondary", {
+export const dropdownTriggerIndicatorVariants = cva("shrink-0 text-icon-secondary", {
   variants: {
     density: {
       compact: "size-3.5",

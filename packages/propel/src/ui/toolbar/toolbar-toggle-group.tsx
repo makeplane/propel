@@ -1,6 +1,8 @@
 import { ToggleGroup } from "@base-ui/react/toggle-group";
 import type { ToggleGroup as BaseToggleGroupTypes } from "@base-ui/react/toggle-group";
 
+import { toggleGroupVariants } from "./variants";
+
 export type ToolbarToggleGroupProps<Value extends string = string> = Omit<
   BaseToggleGroupTypes.Props<Value>,
   "className" | "style"
@@ -13,5 +15,5 @@ export type ToolbarToggleGroupProps<Value extends string = string> = Omit<
 export function ToolbarToggleGroup<Value extends string = string>(
   props: ToolbarToggleGroupProps<Value>,
 ) {
-  return <ToggleGroup className="flex items-center gap-0.5" {...props} />;
+  return <ToggleGroup className={toggleGroupVariants()} {...props} />;
 }

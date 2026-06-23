@@ -15,7 +15,8 @@ import { expect } from "storybook/test";
 import {
   Toolbar,
   ToolbarButton,
-  ToolbarDropdownTriggerSurface,
+  ToolbarDropdownTriggerButton,
+  ToolbarDropdownTriggerIndicator,
   ToolbarGroup,
   ToolbarSeparator,
   ToolbarToggle,
@@ -25,7 +26,7 @@ import {
 // UI-tier story: composes the ATOMIC toolbar parts (each renders a single control).
 // The components-tier `Toolbar` story shows the ready-made `ToolbarDropdown` (which composes
 // propel's Dropdown/Menu). Here you assemble the raw controls — buttons, toggles, toggle groups,
-// separators — plus the bare `ToolbarDropdownTriggerSurface` chrome (without an attached menu).
+// separators — plus the bare `ToolbarDropdownTriggerButton` + `ToolbarDropdownTriggerIndicator` chrome (without an attached menu).
 const meta = {
   title: "UI/Toolbar",
   component: Toolbar,
@@ -35,7 +36,8 @@ const meta = {
     ToolbarToggle,
     ToolbarToggleGroup,
     ToolbarSeparator,
-    ToolbarDropdownTriggerSurface,
+    ToolbarDropdownTriggerButton,
+    ToolbarDropdownTriggerIndicator,
   },
   args: { elevation: "raised", density: "compact" },
 } satisfies Meta<typeof Toolbar>;
@@ -50,7 +52,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: (args) => (
     <Toolbar {...args}>
-      <ToolbarDropdownTriggerSurface aria-label="Text style">Text</ToolbarDropdownTriggerSurface>
+      <ToolbarDropdownTriggerButton aria-label="Text style">
+        Text
+        <ToolbarDropdownTriggerIndicator />
+      </ToolbarDropdownTriggerButton>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
         <ToolbarToggle aria-label="Bold">
