@@ -27,6 +27,7 @@ export const Default: Story = {
   args: {
     magnitude: "md",
     surface: "field",
+    resize: "vertical",
     "aria-label": "Comment",
     placeholder: "Leave a comment...",
     rows: 4,
@@ -40,7 +41,7 @@ export const Default: Story = {
 
 export const FieldComposition: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { magnitude: "md", surface: "field", rows: 3 },
+  args: { magnitude: "md", surface: "field", resize: "vertical", rows: 3 },
   render: (args) => (
     <Field name="comment">
       <FieldLabel magnitude="md">Comment</FieldLabel>
@@ -59,7 +60,7 @@ export const FieldComposition: Story = {
 
 export const FieldErrorAssociation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { magnitude: "md", surface: "field", rows: 3 },
+  args: { magnitude: "md", surface: "field", resize: "vertical", rows: 3 },
   render: (args) => (
     <Field name="comment" invalid>
       <FieldLabel magnitude="md">Comment</FieldLabel>
