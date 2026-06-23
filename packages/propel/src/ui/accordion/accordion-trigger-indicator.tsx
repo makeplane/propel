@@ -1,4 +1,3 @@
-import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import { accordionTriggerIndicatorVariants } from "./variants";
@@ -9,14 +8,10 @@ export type AccordionTriggerIndicatorProps = Omit<
 >;
 
 /**
- * The disclosure caret shown at the trigger's inline-end. Rotates when the item's panel opens.
- * Decorative (the trigger carries the a11y state), so it is `aria-hidden`. Defaults to a chevron;
- * pass `children` to use a different glyph.
+ * The disclosure caret slot at the trigger's inline-end. Renders whatever svg you pass (sized to
+ * the trigger's `--node-size`) and rotates toward the inline-end while collapsed, to point down
+ * when the panel opens. Decorative — the trigger carries the a11y state — so it is `aria-hidden`.
  */
-export function AccordionTriggerIndicator({ children, ...props }: AccordionTriggerIndicatorProps) {
-  return (
-    <span aria-hidden className={accordionTriggerIndicatorVariants()} {...props}>
-      {children ?? <ChevronDown className="size-3.5" />}
-    </span>
-  );
+export function AccordionTriggerIndicator(props: AccordionTriggerIndicatorProps) {
+  return <span aria-hidden className={accordionTriggerIndicatorVariants()} {...props} />;
 }

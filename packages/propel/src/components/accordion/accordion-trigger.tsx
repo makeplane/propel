@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -26,7 +27,9 @@ export function AccordionTrigger({ inlineStartNode, children, ...props }: Accord
     <AccordionTriggerRoot {...props}>
       {inlineStartNode ? <AccordionTriggerIcon>{inlineStartNode}</AccordionTriggerIcon> : null}
       <AccordionTriggerTitle>{children}</AccordionTriggerTitle>
-      <AccordionTriggerIndicator />
+      <AccordionTriggerIndicator>
+        <ChevronDown />
+      </AccordionTriggerIndicator>
     </AccordionTriggerRoot>
   );
 }

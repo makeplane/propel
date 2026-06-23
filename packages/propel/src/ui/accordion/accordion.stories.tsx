@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { CircleHelp } from "lucide-react";
+import { ChevronDown, CircleHelp } from "lucide-react";
 import { expect } from "storybook/test";
 
 import {
@@ -33,7 +33,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className="w-[474px]">
+      <div className="w-118.5">
         <Story />
       </div>
     ),
@@ -44,9 +44,21 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const ITEMS = [
-  { value: "what", label: "What is Plane?", body: "An open-source project management tool." },
-  { value: "pricing", label: "How does pricing work?", body: "Free to self-host." },
-  { value: "import", label: "Can I import my data?", body: "Yes, from common trackers." },
+  {
+    value: "what",
+    label: "What is Plane?",
+    body: "An open-source project management tool.",
+  },
+  {
+    value: "pricing",
+    label: "How does pricing work?",
+    body: "Free to self-host.",
+  },
+  {
+    value: "import",
+    label: "Can I import my data?",
+    body: "Yes, from common trackers.",
+  },
 ];
 
 /** Assemble the atomic parts: Root › Item › Header › Trigger, plus Panel. */
@@ -61,7 +73,9 @@ export const Default: Story = {
                 <CircleHelp />
               </AccordionTriggerIcon>
               <AccordionTriggerTitle>{item.label}</AccordionTriggerTitle>
-              <AccordionTriggerIndicator />
+              <AccordionTriggerIndicator>
+                <ChevronDown />
+              </AccordionTriggerIndicator>
             </AccordionTrigger>
           </AccordionHeader>
           <AccordionPanel>

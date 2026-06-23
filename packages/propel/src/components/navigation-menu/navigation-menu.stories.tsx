@@ -40,15 +40,39 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const PRODUCT_LINKS = [
-  { href: "#issues", title: "Issues", description: "Track work items across projects." },
-  { href: "#cycles", title: "Cycles", description: "Time-boxed sprints for your team." },
-  { href: "#modules", title: "Modules", description: "Group related work into modules." },
-  { href: "#pages", title: "Pages", description: "Rich documents that live with your work." },
+  {
+    href: "#issues",
+    title: "Issues",
+    description: "Track work items across projects.",
+  },
+  {
+    href: "#cycles",
+    title: "Cycles",
+    description: "Time-boxed sprints for your team.",
+  },
+  {
+    href: "#modules",
+    title: "Modules",
+    description: "Group related work into modules.",
+  },
+  {
+    href: "#pages",
+    title: "Pages",
+    description: "Rich documents that live with your work.",
+  },
 ];
 
 const RESOURCE_LINKS = [
-  { href: "#docs", title: "Documentation", description: "Guides and API references." },
-  { href: "#changelog", title: "Changelog", description: "What shipped recently." },
+  {
+    href: "#docs",
+    title: "Documentation",
+    description: "Guides and API references.",
+  },
+  {
+    href: "#changelog",
+    title: "Changelog",
+    description: "What shipped recently.",
+  },
 ];
 
 // The demo links carry real hrefs for correct anchor semantics, but cancel navigation:
@@ -64,7 +88,7 @@ export const Default: Story = {
         <NavigationMenuItem>
           <TriggerRow>Product</TriggerRow>
           <NavigationMenuContent>
-            <ul className="grid w-[28rem] grid-cols-2 gap-1 p-2">
+            <ul className="grid w-md grid-cols-2 gap-1 p-2">
               {PRODUCT_LINKS.map((item) => (
                 <li key={item.href}>
                   <NavigationMenuLink render={<a href={item.href} onClick={cancelNavigation} />}>

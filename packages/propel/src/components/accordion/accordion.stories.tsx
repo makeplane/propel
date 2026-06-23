@@ -25,11 +25,16 @@ import {
 const meta = {
   title: "Components/Accordion",
   component: Accordion,
-  subcomponents: { AccordionItem, AccordionHeader, AccordionTrigger, AccordionPanel },
+  subcomponents: {
+    AccordionItem,
+    AccordionHeader,
+    AccordionTrigger,
+    AccordionPanel,
+  },
   // Give the centered canvas a sensible width so the full-width accordion has room.
   decorators: [
     (Story) => (
-      <div className="w-[474px]">
+      <div className="w-118.5">
         <Story />
       </div>
     ),
