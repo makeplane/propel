@@ -1,17 +1,17 @@
 export { Toolbar, type ToolbarProps } from "./toolbar";
 export { ToolbarButton, type ToolbarButtonProps } from "./toolbar-button";
 export {
-  ToolbarDropdownTriggerButton,
-  type ToolbarDropdownTriggerButtonProps,
-} from "./toolbar-dropdown-trigger-button";
+  ToolbarMenuTriggerButton,
+  type ToolbarMenuTriggerButtonProps,
+} from "./toolbar-menu-trigger-button";
 export {
-  ToolbarDropdownTriggerIndicator,
-  type ToolbarDropdownTriggerIndicatorProps,
-} from "./toolbar-dropdown-trigger-indicator";
+  ToolbarMenuTriggerIndicator,
+  type ToolbarMenuTriggerIndicatorProps,
+} from "./toolbar-menu-trigger-indicator";
 export {
-  ToolbarDropdownTriggerLabel,
-  type ToolbarDropdownTriggerLabelProps,
-} from "./toolbar-dropdown-trigger-label";
+  ToolbarMenuTriggerLabel,
+  type ToolbarMenuTriggerLabelProps,
+} from "./toolbar-menu-trigger-label";
 export { ToolbarGroup, type ToolbarGroupProps } from "./toolbar-group";
 export { ToolbarItemIcon, type ToolbarItemIconProps } from "./toolbar-item-icon";
 export { ToolbarSeparator, type ToolbarSeparatorProps } from "./toolbar-separator";

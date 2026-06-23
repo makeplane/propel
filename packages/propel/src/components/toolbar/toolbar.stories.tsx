@@ -27,11 +27,11 @@ import { expect } from "storybook/test";
 import {
   Toolbar,
   ToolbarButton,
-  ToolbarDropdown,
-  ToolbarDropdownContent,
-  ToolbarDropdownItem,
-  ToolbarDropdownSeparator,
-  ToolbarDropdownTrigger,
+  ToolbarMenu,
+  ToolbarMenuContent,
+  ToolbarMenuItem,
+  ToolbarMenuSeparator,
+  ToolbarMenuTrigger,
   ToolbarGroup,
   ToolbarItemIcon,
   ToolbarSeparator,
@@ -47,22 +47,22 @@ const FONTS = ["Sans", "Serif", "Mono"];
 function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
   return (
     <Toolbar {...args}>
-      <ToolbarDropdown>
-        <ToolbarDropdownTrigger aria-label="Text style">Text</ToolbarDropdownTrigger>
-        <ToolbarDropdownContent>
+      <ToolbarMenu>
+        <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
+        <ToolbarMenuContent>
           {TEXT_STYLES.map((style) => (
-            <ToolbarDropdownItem key={style} variant="default" label={style} />
+            <ToolbarMenuItem key={style} variant="default" label={style} />
           ))}
-        </ToolbarDropdownContent>
-      </ToolbarDropdown>
-      <ToolbarDropdown>
-        <ToolbarDropdownTrigger aria-label="Font">Aa</ToolbarDropdownTrigger>
-        <ToolbarDropdownContent>
+        </ToolbarMenuContent>
+      </ToolbarMenu>
+      <ToolbarMenu>
+        <ToolbarMenuTrigger aria-label="Font">Aa</ToolbarMenuTrigger>
+        <ToolbarMenuContent>
           {FONTS.map((font) => (
-            <ToolbarDropdownItem key={font} variant="default" label={font} />
+            <ToolbarMenuItem key={font} variant="default" label={font} />
           ))}
-        </ToolbarDropdownContent>
-      </ToolbarDropdown>
+        </ToolbarMenuContent>
+      </ToolbarMenu>
       <ToolbarButton aria-label="Comment">
         <ToolbarItemIcon>
           <MessageSquare />
@@ -172,11 +172,11 @@ const meta = {
     ToolbarToggle,
     ToolbarToggleGroup,
     ToolbarSeparator,
-    ToolbarDropdown,
-    ToolbarDropdownTrigger,
-    ToolbarDropdownContent,
-    ToolbarDropdownItem,
-    ToolbarDropdownSeparator,
+    ToolbarMenu,
+    ToolbarMenuTrigger,
+    ToolbarMenuContent,
+    ToolbarMenuItem,
+    ToolbarMenuSeparator,
   },
   args: { elevation: "raised", density: "compact" },
   render: (args) => <FormattingToolbar {...args} />,
@@ -264,9 +264,9 @@ export const DensityDrivesControlSize: Story = {
 };
 
 /**
- * Because `ToolbarDropdown` composes propel's `Dropdown`, a toolbar menu can hold richer rows than
- * the old `items[]` config allowed: per-row leading icons, a separator between groups, a selected
- * marker, and disabled rows.
+ * Because `ToolbarMenu` composes propel's `Menu`, a toolbar menu can hold richer rows than the old
+ * `items[]` config allowed: per-row leading icons, a separator between groups, a selected marker,
+ * and disabled rows.
  */
 export const ComposableMenu: Story = {
   // Always-open + portaled: keep it out of the Vitest run so its popup can't leak into
@@ -275,27 +275,27 @@ export const ComposableMenu: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <Toolbar {...args}>
-      <ToolbarDropdown defaultOpen>
-        <ToolbarDropdownTrigger aria-label="Text style">Text</ToolbarDropdownTrigger>
-        <ToolbarDropdownContent>
-          <ToolbarDropdownItem
+      <ToolbarMenu defaultOpen>
+        <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
+        <ToolbarMenuContent>
+          <ToolbarMenuItem
             variant="default"
             inlineStartNode={<Pilcrow />}
             label="Paragraph"
             selected
           />
-          <ToolbarDropdownItem variant="default" inlineStartNode={<Heading1 />} label="Heading 1" />
-          <ToolbarDropdownItem variant="default" inlineStartNode={<Heading2 />} label="Heading 2" />
-          <ToolbarDropdownItem variant="default" inlineStartNode={<Heading3 />} label="Heading 3" />
-          <ToolbarDropdownSeparator />
-          <ToolbarDropdownItem
+          <ToolbarMenuItem variant="default" inlineStartNode={<Heading1 />} label="Heading 1" />
+          <ToolbarMenuItem variant="default" inlineStartNode={<Heading2 />} label="Heading 2" />
+          <ToolbarMenuItem variant="default" inlineStartNode={<Heading3 />} label="Heading 3" />
+          <ToolbarMenuSeparator />
+          <ToolbarMenuItem
             variant="default"
             inlineStartNode={<Code />}
             label="Code block"
             disabled
           />
-        </ToolbarDropdownContent>
-      </ToolbarDropdown>
+        </ToolbarMenuContent>
+      </ToolbarMenu>
     </Toolbar>
   ),
 };

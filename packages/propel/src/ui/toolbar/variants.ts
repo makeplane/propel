@@ -49,10 +49,10 @@ export const toolbarItemVariants = cva(
 // or className onto the child.
 export const toolbarItemIconVariants = cva(cx(nodeSlotClass, "text-current"));
 
-// The styled chrome for a toolbar dropdown trigger: a horizontal control that pairs a
+// The styled chrome for a toolbar menu trigger: a horizontal control that pairs a
 // text label with a disclosure indicator. The label's typography lives on the label
 // part, not here.
-export const toolbarDropdownTriggerButtonVariants = cva(
+export const toolbarMenuTriggerButtonVariants = cva(
   cx(
     "inline-flex shrink-0 items-center gap-1 rounded-md px-2",
     "bg-layer-transparent text-secondary outline-none",
@@ -71,12 +71,10 @@ export const toolbarDropdownTriggerButtonVariants = cva(
   },
 );
 
-// The text label region of a dropdown trigger (e.g. "Text", "Aa"). Its own part so the
+// The text label region of a menu trigger (e.g. "Text", "Aa"). Its own part so the
 // trigger button holds no raw typography.
-export const toolbarDropdownTriggerLabelVariants = cva("text-13");
+export const toolbarMenuTriggerLabelVariants = cva("text-13");
 
 // The disclosure caret at the trigger's inline-end. Sizes its single child to the
 // trigger's `--node-size` and tints it; a slot, like `ToolbarItemIcon`.
-export const toolbarDropdownTriggerIndicatorVariants = cva(
-  cx(nodeSlotClass, "text-icon-secondary"),
-);
+export const toolbarMenuTriggerIndicatorVariants = cva(cx(nodeSlotClass, "text-icon-secondary"));

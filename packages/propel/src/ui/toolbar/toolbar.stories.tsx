@@ -15,9 +15,9 @@ import { expect } from "storybook/test";
 import {
   Toolbar,
   ToolbarButton,
-  ToolbarDropdownTriggerButton,
-  ToolbarDropdownTriggerIndicator,
-  ToolbarDropdownTriggerLabel,
+  ToolbarMenuTriggerButton,
+  ToolbarMenuTriggerIndicator,
+  ToolbarMenuTriggerLabel,
   ToolbarGroup,
   ToolbarItemIcon,
   ToolbarSeparator,
@@ -26,10 +26,10 @@ import {
 } from "./index";
 
 // UI-tier story: composes the ATOMIC toolbar parts (each renders a single element). The icon inside
-// every control is its own `ToolbarItemIcon` slot, and the dropdown trigger pairs a
-// `ToolbarDropdownTriggerLabel` with a `ToolbarDropdownTriggerIndicator` — the controls hold no raw
+// every control is its own `ToolbarItemIcon` slot, and the menu trigger pairs a
+// `ToolbarMenuTriggerLabel` with a `ToolbarMenuTriggerIndicator` — the controls hold no raw
 // glyph sizing or label typography. The components-tier `Toolbar` story shows the ready-made
-// `ToolbarDropdown` and `ToolbarDropdownTrigger` that compose these parts for you.
+// `ToolbarMenu` and `ToolbarMenuTrigger` that compose these parts for you.
 const meta = {
   title: "UI/Toolbar",
   component: Toolbar,
@@ -40,9 +40,9 @@ const meta = {
     ToolbarToggle,
     ToolbarToggleGroup,
     ToolbarSeparator,
-    ToolbarDropdownTriggerButton,
-    ToolbarDropdownTriggerLabel,
-    ToolbarDropdownTriggerIndicator,
+    ToolbarMenuTriggerButton,
+    ToolbarMenuTriggerLabel,
+    ToolbarMenuTriggerIndicator,
   },
   args: { elevation: "raised", density: "compact" },
 } satisfies Meta<typeof Toolbar>;
@@ -51,17 +51,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * A formatting bar assembled from raw parts: a dropdown-trigger surface (label + caret), an inline
+ * A formatting bar assembled from raw parts: a menu-trigger surface (label + caret), an inline
  * B/I/U/S toggle group cluster, an exclusive alignment toggle-group, and link/image action
  * buttons.
  */
 export const Default: Story = {
   render: (args) => (
     <Toolbar {...args}>
-      <ToolbarDropdownTriggerButton aria-label="Text style">
-        <ToolbarDropdownTriggerLabel>Text</ToolbarDropdownTriggerLabel>
-        <ToolbarDropdownTriggerIndicator />
-      </ToolbarDropdownTriggerButton>
+      <ToolbarMenuTriggerButton aria-label="Text style">
+        <ToolbarMenuTriggerLabel>Text</ToolbarMenuTriggerLabel>
+        <ToolbarMenuTriggerIndicator />
+      </ToolbarMenuTriggerButton>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
         <ToolbarToggle aria-label="Bold">
