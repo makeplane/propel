@@ -1,10 +1,18 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { nodeSlotClass } from "../../internal/node-slot";
+
 // Search size scale: sm/md/lg map to the Figma height steps (28/32/36px).
-// `--node-size` drives both the leading magnifier icon and trailing clear icon
-// via the node-slot pattern (`[&>svg]:size-(--node-size)`), so all glyph sizing
-// is owned here rather than baked on each <svg> element.
-export const searchBoxVariants = cva(
+// `--node-size` (set on each box part) drives both the leading magnifier and the
+// trailing clear glyph via the node-slot pattern (`[&>svg]:size-(--node-size)`), so
+// all glyph sizing is owned here rather than baked on each <svg> element. Per the
+// Figma spec the icon size, border-radius, height-per-step, placeholder style, and
+// focus-state border change are always the same; only the height step (`magnitude`)
+// and the expandable behavior are adjustable.
+
+// The Search root: a `<label>` box with the leading icon, input, and (when filled)
+// clear button. Holds the border, radius, focus ring, and `--node-size`.
+export const searchVariants = cva(
   cx(
     "group/search inline-flex w-full items-center gap-2 rounded-lg border-sm border-subtle-1 bg-layer-2",
     "transition-colors hover:bg-layer-2-hover",
@@ -22,6 +30,16 @@ export const searchBoxVariants = cva(
   },
 );
 
+// The leading magnifier slot — a decorative `<span>` that sizes its single child to
+// the box's `--node-size`. Tints toward the placeholder color, brightening on focus.
+export const searchIconVariants = cva(
+  cx(
+    nodeSlotClass,
+    "text-icon-placeholder transition-colors group-focus-within/search:text-icon-secondary",
+  ),
+);
+
+// The text field itself. Fills the row; placeholder + disabled colors live here.
 export const searchInputVariants = cva(
   cx(
     "min-w-0 flex-1 bg-transparent text-primary outline-none",
@@ -39,14 +57,9 @@ export const searchInputVariants = cva(
   },
 );
 
-// The leading magnifier — sized from --node-size set on the box.
-export const searchIconClass = cx(
-  "shrink-0 text-icon-placeholder transition-colors group-focus-within/search:text-icon-secondary",
-  "[&>svg]:size-(--node-size)",
-);
-
-// The trailing clear button — square, sized to --node-size, focus ring on accent.
-export const searchClearButtonVariants = cva(
+// The trailing clear slot — a square `<button>` sized to `--node-size`, focus ring on
+// accent. Renders whatever glyph is passed (the node-slot sizes it).
+export const searchClearVariants = cva(
   cx(
     "inline-flex shrink-0 items-center justify-center rounded-sm text-icon-secondary outline-none",
     "transition-colors hover:bg-layer-transparent-hover",
@@ -64,9 +77,9 @@ export const searchClearButtonVariants = cva(
   },
 );
 
-// Expandable-search wrapper: reserves the collapsed square; expands from the
-// inline-end edge so the icon stays on the left as the box widens.
-export const expandableWrapperVariants = cva("relative inline-flex shrink-0", {
+// Expandable-search viewport: a `<div>` that reserves the collapsed square and anchors
+// the expanding box, so the icon stays on the inline-start as the box widens.
+export const searchExpandableViewportVariants = cva("relative inline-flex shrink-0", {
   variants: {
     magnitude: {
       sm: "size-7",
@@ -76,7 +89,10 @@ export const expandableWrapperVariants = cva("relative inline-flex shrink-0", {
   },
 });
 
-export const expandableBoxVariants = cva(
+// The expandable box: a `<label>` that collapses to a magnifier square and expands from
+// the inline-end edge while focused or filled (`data-expanded`). Same chrome family as
+// `searchVariants`, but transparent at rest and animating its width.
+export const searchExpandableVariants = cva(
   cx(
     "group/search absolute inset-e-0 top-0 inline-flex items-center gap-2 overflow-hidden rounded-md",
     "border-sm border-transparent bg-layer-transparent",
@@ -96,5 +112,5 @@ export const expandableBoxVariants = cva(
   },
 );
 
-type SearchBoxVariantProps = VariantProps<typeof searchBoxVariants>;
-export type SearchMagnitude = NonNullable<SearchBoxVariantProps["magnitude"]>;
+type SearchVariantProps = VariantProps<typeof searchVariants>;
+export type SearchMagnitude = NonNullable<SearchVariantProps["magnitude"]>;
