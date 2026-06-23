@@ -1,6 +1,6 @@
 import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Inbox } from "lucide-react";
+import { ChevronDown, Inbox } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
 
 import {
@@ -64,7 +64,9 @@ export const WithTrailing: Story = {
       <NavItemLabel>Inbox</NavItemLabel>
       <NavItemTrailing>
         <NavItemCount>6</NavItemCount>
-        <NavItemChevron />
+        <NavItemChevron>
+          <ChevronDown />
+        </NavItemChevron>
       </NavItemTrailing>
     </NavItem>
   ),
@@ -219,7 +221,9 @@ export const RightToLeft: Story = {
           <NavItemLabel>الوارد</NavItemLabel>
           <NavItemTrailing>
             <NavItemCount>6</NavItemCount>
-            <NavItemChevron />
+            <NavItemChevron>
+              <ChevronDown />
+            </NavItemChevron>
           </NavItemTrailing>
         </NavItem>
         <NavItem {...args} level={2}>

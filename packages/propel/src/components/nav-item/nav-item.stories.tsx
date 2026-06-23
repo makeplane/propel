@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Inbox, LayoutGrid } from "lucide-react";
+import { ChevronDown, Inbox, LayoutGrid } from "lucide-react";
 import { expect } from "storybook/test";
 
 import {
@@ -75,7 +75,9 @@ export const Default: Story = {
         <NavItemHeader>
           <NavItemHeaderToggle>
             <NavItemHeaderLabel>Your teams</NavItemHeaderLabel>
-            <NavItemHeaderIndicator />
+            <NavItemHeaderIndicator>
+              <ChevronDown />
+            </NavItemHeaderIndicator>
           </NavItemHeaderToggle>
         </NavItemHeader>
         <NavItemPanel>
@@ -99,7 +101,9 @@ export const ToggleSection: Story = {
       <NavItemHeader>
         <NavItemHeaderToggle>
           <NavItemHeaderLabel>Your teams</NavItemHeaderLabel>
-          <NavItemHeaderIndicator />
+          <NavItemHeaderIndicator>
+            <ChevronDown />
+          </NavItemHeaderIndicator>
         </NavItemHeaderToggle>
       </NavItemHeader>
       <NavItemPanel>

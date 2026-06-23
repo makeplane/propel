@@ -1,6 +1,6 @@
 import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Plus } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
 import * as React from "react";
 import { expect, fn, userEvent } from "storybook/test";
 
@@ -63,7 +63,9 @@ const meta = {
       <NavItemHeader>
         <NavItemHeaderToggle>
           <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
-          <NavItemHeaderIndicator />
+          <NavItemHeaderIndicator>
+            <ChevronDown />
+          </NavItemHeaderIndicator>
         </NavItemHeaderToggle>
       </NavItemHeader>
       <DemoPanel />
@@ -89,7 +91,9 @@ export const WithAction: Story = {
         <NavItemHeader>
           <NavItemHeaderToggle>
             <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
-            <NavItemHeaderIndicator />
+            <NavItemHeaderIndicator>
+              <ChevronDown />
+            </NavItemHeaderIndicator>
           </NavItemHeaderToggle>
           <NavItemHeaderAction>
             <IconButton variant="tertiary" tone="neutral" magnitude="sm" aria-label="Add to Inbox">
@@ -125,7 +129,9 @@ export const Uncontrolled: Story = {
       <NavItemHeader>
         <NavItemHeaderToggle onClick={fn()}>
           <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
-          <NavItemHeaderIndicator />
+          <NavItemHeaderIndicator>
+            <ChevronDown />
+          </NavItemHeaderIndicator>
         </NavItemHeaderToggle>
       </NavItemHeader>
       <DemoPanel />
@@ -157,7 +163,9 @@ export const Collapsible: Story = {
         <NavItemHeader>
           <NavItemHeaderToggle>
             <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
-            <NavItemHeaderIndicator />
+            <NavItemHeaderIndicator>
+              <ChevronDown />
+            </NavItemHeaderIndicator>
           </NavItemHeaderToggle>
         </NavItemHeader>
         <DemoPanel />
@@ -178,7 +186,9 @@ export const CollapsiblePanelVisibility: Story = {
       <NavItemHeader>
         <NavItemHeaderToggle>
           <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
-          <NavItemHeaderIndicator />
+          <NavItemHeaderIndicator>
+            <ChevronDown />
+          </NavItemHeaderIndicator>
         </NavItemHeaderToggle>
       </NavItemHeader>
       <NavItemPanel>
@@ -214,7 +224,9 @@ export const Controlled: Story = {
         <NavItemHeader>
           <NavItemHeaderToggle>
             <NavItemHeaderLabel>{open ? "Collapse inbox" : "Expand inbox"}</NavItemHeaderLabel>
-            <NavItemHeaderIndicator />
+            <NavItemHeaderIndicator>
+              <ChevronDown />
+            </NavItemHeaderIndicator>
           </NavItemHeaderToggle>
         </NavItemHeader>
         <DemoPanel />
@@ -235,7 +247,9 @@ export const KeyboardActivation: Story = {
       <NavItemHeader>
         <NavItemHeaderToggle>
           <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
-          <NavItemHeaderIndicator />
+          <NavItemHeaderIndicator>
+            <ChevronDown />
+          </NavItemHeaderIndicator>
         </NavItemHeaderToggle>
       </NavItemHeader>
       <DemoPanel />
@@ -265,7 +279,9 @@ export const RightToLeft: Story = {
           <NavItemHeader>
             <NavItemHeaderToggle>
               <NavItemHeaderLabel>الوارد</NavItemHeaderLabel>
-              <NavItemHeaderIndicator />
+              <NavItemHeaderIndicator>
+                <ChevronDown />
+              </NavItemHeaderIndicator>
             </NavItemHeaderToggle>
             <NavItemHeaderAction>
               <IconButton variant="tertiary" tone="neutral" magnitude="sm" aria-label="إضافة">
