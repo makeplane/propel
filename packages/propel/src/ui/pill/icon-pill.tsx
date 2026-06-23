@@ -2,9 +2,8 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import type * as React from "react";
 
 import { NodeSlot } from "../../internal/node-slot";
-import { type PillMagnitude } from "./pill-shared";
 import { PillSpinner } from "./pill-spinner";
-import { iconPillVariants } from "./variants";
+import { iconPillVariants, type PillMagnitude } from "./variants";
 
 export type IconPillProps = Omit<BaseButton.Props, "className" | "style" | "children"> & {
   /** Box scale. */

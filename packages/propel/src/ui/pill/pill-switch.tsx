@@ -1,18 +1,10 @@
 import { Toggle } from "@base-ui/react/toggle";
 import type { Toggle as BaseToggleTypes } from "@base-ui/react/toggle";
-import { cx } from "class-variance-authority";
 import type * as React from "react";
 
 import { NodeSlot } from "../../internal/node-slot";
 import { PillLabel } from "./pill-label";
-import { labelFontByMagnitude, labelPillSize, type PillMagnitude } from "./pill-shared";
-
-const pillSwitchColors = cx(
-  "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
-  "hover:border-strong hover:bg-layer-2-hover",
-  "data-pressed:border-strong data-pressed:bg-layer-2-selected data-pressed:text-primary",
-  "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
-);
+import { pillSwitchVariants, type PillMagnitude } from "./variants";
 
 export type PillSwitchProps<Value extends string = string> = Omit<
   BaseToggleTypes.Props<Value>,
@@ -35,14 +27,7 @@ export function PillSwitch<Value extends string = string>({
   ...props
 }: PillSwitchProps<Value>) {
   return (
-    <Toggle
-      className={cx(
-        labelPillSize({ magnitude }),
-        labelFontByMagnitude[magnitude],
-        pillSwitchColors,
-      )}
-      {...props}
-    >
+    <Toggle className={pillSwitchVariants({ magnitude })} {...props}>
       {inlineStartNode ? <NodeSlot aria-hidden>{inlineStartNode}</NodeSlot> : null}
       <PillLabel>{children}</PillLabel>
       {inlineEndNode ? <NodeSlot aria-hidden>{inlineEndNode}</NodeSlot> : null}
