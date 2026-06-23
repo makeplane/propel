@@ -4,6 +4,8 @@ import { cva } from "class-variance-authority";
 // → 3xl 64. Square with a radius that grows with size: rounded-sm (16–24),
 // rounded-md (28–40), rounded-lg (56–64). Border 1px up to 32px, 2px from 40px up.
 // `bg-layer-1` is the avatar's own neutral backdrop (shows behind a transparent fallback).
+// The rounded-square shape (never circular) is always the same: it reads as a
+// workspace, not a person.
 export const workspaceAvatarVariants = cva(
   "relative inline-flex shrink-0 items-center justify-center overflow-clip border-subtle bg-layer-1",
   {
@@ -21,6 +23,10 @@ export const workspaceAvatarVariants = cva(
     },
   },
 );
+
+// The workspace logo image. Fills and crops to the square frame so non-square
+// logos never stretch.
+export const workspaceAvatarImageVariants = cva("size-full object-cover");
 
 // The fallback's `tone` colors the initials surface. `none` (the default) is the
 // anonymous/icon state — neutral layer + muted text. The named tones are the Figma
