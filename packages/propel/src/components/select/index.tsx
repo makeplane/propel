@@ -3,6 +3,8 @@ export { SelectContent, type SelectContentProps } from "./select-content";
 export {
   Select,
   type SelectProps,
+  SelectField,
+  type SelectFieldProps,
   SelectIcon,
   type SelectIconProps,
   SelectItem,

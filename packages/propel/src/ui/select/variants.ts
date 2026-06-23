@@ -2,6 +2,11 @@ import { cva, cx } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
 
+// The field region that stacks the label over the trigger as a column. Holds the
+// gap between `SelectLabel` and `SelectTrigger`; sizes to its widest child (the
+// trigger carries `min-w-48`) so the label never forces the column wider.
+export const selectFieldVariants = cva("flex w-fit flex-col gap-1.5");
+
 export const selectLabelVariants = cva("text-14 font-medium text-primary");
 
 // The trigger wraps the selected value + trailing icon in a single flex row.

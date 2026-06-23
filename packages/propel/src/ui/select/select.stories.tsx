@@ -5,6 +5,7 @@ import { expect, within } from "storybook/test";
 import { Field, FieldError } from "../field/index";
 import {
   Select,
+  SelectField,
   SelectIcon,
   SelectItem,
   SelectItemIndicator,
@@ -30,6 +31,7 @@ const meta = {
   title: "UI/Select",
   component: Select,
   subcomponents: {
+    SelectField,
     SelectLabel,
     SelectTrigger,
     SelectValue,
@@ -55,7 +57,7 @@ export const Default: Story = {
   render: (args) => (
     <Field name="serverType">
       <Select {...args}>
-        <div className="flex w-fit flex-col gap-1.5">
+        <SelectField>
           <SelectLabel>Server type</SelectLabel>
           <SelectTrigger magnitude="md">
             <SelectValue />
@@ -63,7 +65,7 @@ export const Default: Story = {
               <ChevronsUpDown />
             </SelectIcon>
           </SelectTrigger>
-        </div>
+        </SelectField>
         <SelectPortal>
           <SelectPositioner>
             <SelectPopup>

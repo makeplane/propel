@@ -1,4 +1,5 @@
 export { Select, type SelectProps } from "./select";
+export { SelectField, type SelectFieldProps } from "./select-field";
 export { SelectIcon, type SelectIconProps } from "./select-icon";
 export { SelectItem, type SelectItemMagnitude, type SelectItemProps } from "./select-item";
 export { SelectItemIndicator, type SelectItemIndicatorProps } from "./select-item-indicator";
