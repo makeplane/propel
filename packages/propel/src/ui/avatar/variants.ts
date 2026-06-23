@@ -44,3 +44,34 @@ export const avatarVariants = cva(
     },
   },
 );
+
+// Initials background utility per tone — the same palette as `avatarFallbackVariants`
+// but exposed as a plain map for consumers (e.g. WorkspaceAvatar) that style their own
+// fallback surface without using `AvatarFallback`. All className decisions live here in
+// variants.ts, not scattered across component files.
+export const avatarToneBgClass = {
+  orange: "bg-label-orange-bg-strong",
+  indigo: "bg-label-indigo-bg-strong",
+  emerald: "bg-label-emerald-bg-strong",
+  crimson: "bg-label-crimson-bg-strong",
+  pink: "bg-label-pink-bg-strong",
+  purple: "bg-label-purple-bg-strong",
+} as const;
+
+// Person-icon (anonymous) sizes per magnitude, straight from Figma's "icon" values —
+// an explicit px size at each step, not a fixed fraction of the avatar. Kept as a cva
+// so the icon slot is styled through the variants system, not a raw Record lookup.
+export const avatarIconVariants = cva("", {
+  variants: {
+    magnitude: {
+      "2xs": "size-3.5", // 14px
+      xs: "size-3.5", // 14px
+      sm: "size-4", // 16px
+      md: "size-5", // 20px
+      lg: "size-6", // 24px
+      xl: "size-6", // 24px
+      "2xl": "size-8", // 32px
+      "3xl": "size-8", // 32px
+    },
+  },
+});
