@@ -4,6 +4,7 @@ import {
   AlignLeft,
   AlignRight,
   Bold,
+  ChevronDown,
   Image,
   Italic,
   Link,
@@ -60,7 +61,9 @@ export const Default: Story = {
     <Toolbar {...args}>
       <ToolbarMenuTriggerButton aria-label="Text style">
         <ToolbarMenuTriggerLabel>Text</ToolbarMenuTriggerLabel>
-        <ToolbarMenuTriggerIndicator />
+        <ToolbarMenuTriggerIndicator>
+          <ChevronDown />
+        </ToolbarMenuTriggerIndicator>
       </ToolbarMenuTriggerButton>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">

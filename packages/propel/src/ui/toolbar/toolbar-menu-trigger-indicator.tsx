@@ -1,4 +1,3 @@
-import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import { toolbarMenuTriggerIndicatorVariants } from "./variants";
@@ -9,17 +8,10 @@ export type ToolbarMenuTriggerIndicatorProps = Omit<
 >;
 
 /**
- * The disclosure caret shown at the inline-end of a toolbar menu trigger. Sizes its single child to
- * the trigger's `--node-size`. Decorative (the trigger button carries the a11y state), so it is
- * `aria-hidden`. Defaults to a chevron; pass `children` to use a different glyph.
+ * The disclosure caret slot at the inline-end of a toolbar menu trigger. Renders whatever svg you
+ * pass (sized to the trigger's `--node-size`) and tints it. Decorative (the trigger button carries
+ * the a11y state), so it is `aria-hidden`.
  */
-export function ToolbarMenuTriggerIndicator({
-  children,
-  ...props
-}: ToolbarMenuTriggerIndicatorProps) {
-  return (
-    <span aria-hidden className={toolbarMenuTriggerIndicatorVariants()} {...props}>
-      {children ?? <ChevronDown />}
-    </span>
-  );
+export function ToolbarMenuTriggerIndicator(props: ToolbarMenuTriggerIndicatorProps) {
+  return <span aria-hidden className={toolbarMenuTriggerIndicatorVariants()} {...props} />;
 }

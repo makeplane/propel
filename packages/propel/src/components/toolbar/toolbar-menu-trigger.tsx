@@ -1,4 +1,5 @@
 import { Menu } from "@base-ui/react/menu";
+import { ChevronDown } from "lucide-react";
 
 import {
   ToolbarMenuTriggerButton,
@@ -15,7 +16,9 @@ export function ToolbarMenuTrigger({ render, children, ...props }: ToolbarMenuTr
   return (
     <ToolbarMenuTriggerButton render={<Menu.Trigger render={render} />} {...props}>
       <ToolbarMenuTriggerLabel>{children}</ToolbarMenuTriggerLabel>
-      <ToolbarMenuTriggerIndicator />
+      <ToolbarMenuTriggerIndicator>
+        <ChevronDown />
+      </ToolbarMenuTriggerIndicator>
     </ToolbarMenuTriggerButton>
   );
 }
