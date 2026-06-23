@@ -9,7 +9,7 @@ export type ToggleGroupProps<Value extends string = string> = Omit<
   "className" | "style"
 > & {
   /** Size applied to every `Toggle` in the group (each `Toggle` can still override it). */
-  magnitude?: ToggleMagnitude;
+  magnitude: ToggleMagnitude;
 };
 
 /**
@@ -18,7 +18,7 @@ export type ToggleGroupProps<Value extends string = string> = Omit<
  * toggle inside via context. Maps 1:1 to Base UI's `ToggleGroup`.
  */
 export function ToggleGroup<Value extends string = string>({
-  magnitude = "md",
+  magnitude,
   children,
   ...props
 }: ToggleGroupProps<Value>) {
