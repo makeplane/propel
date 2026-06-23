@@ -6,12 +6,16 @@ import { expect, waitFor } from "storybook/test";
 import {
   NavigationMenu,
   NavigationMenuContent,
+  NavigationMenuContentList,
   NavigationMenuIcon,
   NavigationMenuItem,
   NavigationMenuLink,
+  NavigationMenuLinkDescription,
+  NavigationMenuLinkTitle,
   NavigationMenuList,
   NavigationMenuPanel,
   NavigationMenuTrigger,
+  NavigationMenuTriggerLabel,
   NavigationMenuViewport,
 } from "./index";
 
@@ -24,8 +28,14 @@ const meta = {
   subcomponents: {
     NavigationMenuList,
     NavigationMenuItem,
+    NavigationMenuTrigger,
+    NavigationMenuTriggerLabel,
+    NavigationMenuIcon,
     NavigationMenuContent,
+    NavigationMenuContentList,
     NavigationMenuLink,
+    NavigationMenuLinkTitle,
+    NavigationMenuLinkDescription,
     NavigationMenuPanel,
   },
   parameters: {
@@ -80,6 +90,30 @@ const RESOURCE_LINKS = [
 // navigates the page, tears down the iframe, and fails unrelated stories.
 const cancelNavigation = (event: React.MouseEvent) => event.preventDefault();
 
+/** A rich content link pairing a title with a description, wrapped in its list item. */
+function ContentLink({ href, title, description }: (typeof PRODUCT_LINKS)[number]) {
+  return (
+    <li>
+      <NavigationMenuLink variant="card" render={<a href={href} onClick={cancelNavigation} />}>
+        <NavigationMenuLinkTitle>{title}</NavigationMenuLinkTitle>
+        <NavigationMenuLinkDescription>{description}</NavigationMenuLinkDescription>
+      </NavigationMenuLink>
+    </li>
+  );
+}
+
+/** A trigger row that pairs the label with the rotating disclosure caret. */
+function TriggerRow({ children }: { children: React.ReactNode }) {
+  return (
+    <NavigationMenuTrigger>
+      <NavigationMenuTriggerLabel>{children}</NavigationMenuTriggerLabel>
+      <NavigationMenuIcon>
+        <ChevronDown aria-hidden />
+      </NavigationMenuIcon>
+    </NavigationMenuTrigger>
+  );
+}
+
 /** Two dropdown items plus a bare top-level link, opening into the shared `NavigationMenuPanel`. */
 export const Default: Story = {
   render: () => (
@@ -90,35 +124,28 @@ export const Default: Story = {
           <NavigationMenuContent>
             <ul className="grid w-md grid-cols-2 gap-1 p-2">
               {PRODUCT_LINKS.map((item) => (
-                <li key={item.href}>
-                  <NavigationMenuLink render={<a href={item.href} onClick={cancelNavigation} />}>
-                    <span className="block text-14 font-medium text-primary">{item.title}</span>
-                    <span className="block text-12 text-tertiary">{item.description}</span>
-                  </NavigationMenuLink>
-                </li>
+                <ContentLink key={item.href} {...item} />
               ))}
-            </ul>
+            </NavigationMenuContentList>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <TriggerRow>Resources</TriggerRow>
           <NavigationMenuContent>
-            <ul className="flex w-72 flex-col gap-1 p-2">
+            <NavigationMenuContentList>
               {RESOURCE_LINKS.map((item) => (
-                <li key={item.href}>
-                  <NavigationMenuLink render={<a href={item.href} onClick={cancelNavigation} />}>
-                    <span className="block text-14 font-medium text-primary">{item.title}</span>
-                    <span className="block text-12 text-tertiary">{item.description}</span>
-                  </NavigationMenuLink>
-                </li>
+                <ContentLink key={item.href} {...item} />
               ))}
-            </ul>
+            </NavigationMenuContentList>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuLink render={<a href="#pricing" onClick={cancelNavigation} />}>
+          <NavigationMenuLink
+            variant="item"
+            render={<a href="#pricing" onClick={cancelNavigation} />}
+          >
             Pricing
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -160,15 +187,18 @@ export const OpenContent: Story = {
         <NavigationMenuItem>
           <TriggerRow>Product</TriggerRow>
           <NavigationMenuContent>
-            <ul className="flex w-72 flex-col gap-1 p-2">
+            <NavigationMenuContentList>
               {PRODUCT_LINKS.map((item) => (
                 <li key={item.href}>
-                  <NavigationMenuLink render={<a href={item.href} onClick={cancelNavigation} />}>
-                    {item.title}
+                  <NavigationMenuLink
+                    variant="card"
+                    render={<a href={item.href} onClick={cancelNavigation} />}
+                  >
+                    <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
                   </NavigationMenuLink>
                 </li>
               ))}
-            </ul>
+            </NavigationMenuContentList>
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenuList>
@@ -190,15 +220,3 @@ export const OpenContent: Story = {
     });
   },
 };
-
-/** A trigger row that pairs the label with the rotating disclosure caret. */
-function TriggerRow({ children }: { children: React.ReactNode }) {
-  return (
-    <NavigationMenuTrigger>
-      {children}
-      <NavigationMenuIcon>
-        <ChevronDown aria-hidden />
-      </NavigationMenuIcon>
-    </NavigationMenuTrigger>
-  );
-}
