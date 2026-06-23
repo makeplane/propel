@@ -3,18 +3,14 @@ import type * as React from "react";
 
 import { Menu, MenuTrigger, type MenuProps } from "../../ui/menu/index";
 import {
-  actionableTriggerVariants,
-  pinnedCellVariants,
-  selectedTriggerVariants,
-  tableCellVariants,
-  type TablePinned,
-  useTableVariant,
+  TableCell,
+  type TableCellProps,
+  TableCellTrigger,
+  TableCellTriggerIndicator,
+  TableCellTriggerLabel,
 } from "../../ui/table/index";
 
-export type TableEditableCellProps = Omit<
-  React.ComponentProps<"td">,
-  "className" | "style" | "children"
-> & {
+export type TableEditableCellProps = Omit<TableCellProps, "padding" | "children"> & {
   /** The current value shown in the cell. */
   value: React.ReactNode;
   /** The dropdown menu shown when the cell is clicked. */
@@ -29,8 +25,6 @@ export type TableEditableCellProps = Omit<
   disabled?: boolean;
   /** Marks this as the actively-selected cell. */
   selected?: boolean;
-  /** Pin this cell to the inline-start/end edge when the table scrolls sideways. */
-  pinned?: TablePinned;
   /** Accessible name for the trigger when the value alone isn't descriptive. */
   "aria-label"?: string;
 };
@@ -44,45 +38,24 @@ export function TableEditableCell({
   onOpenChange,
   disabled,
   selected,
-  pinned,
   "aria-label": ariaLabel,
   ...props
 }: TableEditableCellProps) {
-  const tableVariant = useTableVariant();
   return (
-    <td
-      className={[
-        tableCellVariants({ tableVariant }),
-        "p-0",
-        pinnedCellVariants({ pinned: pinned ?? "none" }),
-      ].join(" ")}
-      {...props}
-    >
+    <TableCell padding="trigger" {...props}>
       <Menu open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
         <MenuTrigger
           disabled={disabled}
           aria-label={ariaLabel}
-          render={
-            <button
-              type="button"
-              className={[
-                actionableTriggerVariants(),
-                "group/editable-cell justify-between gap-1 px-4 text-start",
-                selected ? selectedTriggerVariants() : "",
-              ].join(" ")}
-            />
-          }
+          render={<TableCellTrigger variant="editable" selected={selected} />}
         >
-          <span className="min-w-0 truncate">{value}</span>
-          <span className="flex size-5 shrink-0 items-center justify-center">
-            <ChevronDown
-              aria-hidden
-              className="size-3.5 text-icon-secondary group-disabled/editable-cell:text-icon-disabled"
-            />
-          </span>
+          <TableCellTriggerLabel>{value}</TableCellTriggerLabel>
+          <TableCellTriggerIndicator>
+            <ChevronDown />
+          </TableCellTriggerIndicator>
         </MenuTrigger>
         {children}
       </Menu>
-    </td>
+    </TableCell>
   );
 }

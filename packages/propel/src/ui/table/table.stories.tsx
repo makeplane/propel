@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
@@ -7,20 +8,38 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableCellContent,
+  TableCellLayout,
+  TableCellSlot,
   TableHead,
   TableHeader,
+  TableHeadSortIndicator,
+  TableHeadSortTrigger,
+  TableHeadTitle,
   TableRow,
-  type TableHeadSort,
 } from "./index";
 
 // UI-tier story: composes the ATOMIC table parts (each renders a single table element).
-// The components-tier `Table` story shows the ready-made editable/action cells (which compose
-// propel's Menu) plus Pagination. Here you assemble the raw structure — Table › Header/Body ›
-// Row › Head/Cell — and use the bare sortable `TableHead` (without an attached menu).
+// The components-tier `Table` story shows the ready-made `TableHead`/`TableCell` (which compose
+// these parts), the editable/action cells (which compose propel's Menu), plus Pagination. Here you
+// assemble the raw structure — Table › Header/Body › Row › Head/Cell — and wire the sort control by
+// hand from `TableHeadSortTrigger` + `TableHeadSortIndicator`.
 const meta = {
   title: "UI/Table",
   component: Table,
-  subcomponents: { TableHeader, TableBody, TableRow, TableHead, TableCell },
+  subcomponents: {
+    TableHeader,
+    TableBody,
+    TableRow,
+    TableHead,
+    TableHeadTitle,
+    TableHeadSortTrigger,
+    TableHeadSortIndicator,
+    TableCell,
+    TableCellLayout,
+    TableCellContent,
+    TableCellSlot,
+  },
   args: { variant: "table" },
 } satisfies Meta<typeof Table>;
 
@@ -44,8 +63,8 @@ export const Default: Story = {
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead key={c} variant="default">
-              {c}
+            <TableHead key={c}>
+              <TableHeadTitle>{c}</TableHeadTitle>
             </TableHead>
           ))}
         </TableRow>
@@ -53,18 +72,31 @@ export const Default: Story = {
       <TableBody>
         {PEOPLE.map((person) => (
           <TableRow key={person.email}>
-            <TableCell
-              inlineStartNode={
-                <Avatar magnitude="xs" role="img" aria-label={person.name}>
-                  <AvatarFallback tone="indigo">{person.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-              }
-            >
-              {person.name}
+            <TableCell>
+              <TableCellLayout>
+                <TableCellSlot>
+                  <Avatar magnitude="xs" role="img" aria-label={person.name}>
+                    <AvatarFallback tone="indigo">{person.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                </TableCellSlot>
+                <TableCellContent>{person.name}</TableCellContent>
+              </TableCellLayout>
             </TableCell>
-            <TableCell>{person.display}</TableCell>
-            <TableCell>{person.email}</TableCell>
-            <TableCell>{person.role}</TableCell>
+            <TableCell>
+              <TableCellLayout>
+                <TableCellContent>{person.display}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+            <TableCell>
+              <TableCellLayout>
+                <TableCellContent>{person.email}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+            <TableCell>
+              <TableCellLayout>
+                <TableCellContent>{person.role}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -85,8 +117,8 @@ export const Spreadsheet: Story = {
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead key={c} variant="default">
-              {c}
+            <TableHead key={c}>
+              <TableHeadTitle>{c}</TableHeadTitle>
             </TableHead>
           ))}
         </TableRow>
@@ -94,10 +126,26 @@ export const Spreadsheet: Story = {
       <TableBody>
         {PEOPLE.map((person) => (
           <TableRow key={person.email}>
-            <TableCell>{person.name}</TableCell>
-            <TableCell>{person.display}</TableCell>
-            <TableCell>{person.email}</TableCell>
-            <TableCell>{person.role}</TableCell>
+            <TableCell>
+              <TableCellLayout>
+                <TableCellContent>{person.name}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+            <TableCell>
+              <TableCellLayout>
+                <TableCellContent>{person.display}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+            <TableCell>
+              <TableCellLayout>
+                <TableCellContent>{person.email}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+            <TableCell>
+              <TableCellLayout>
+                <TableCellContent>{person.role}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -105,29 +153,50 @@ export const Spreadsheet: Story = {
   ),
 };
 
+const sortGlyph = { asc: ChevronUp, desc: ChevronDown, none: ChevronsUpDown } as const;
+const ariaSort = { asc: "ascending", desc: "descending", none: "none" } as const;
+type Sort = keyof typeof sortGlyph;
+
 /**
- * A sortable header (`variant="sortable"`): renders the label as a button with a sort chevron and
- * reflects the order through `aria-sort`. Clicking cycles none → asc → desc.
+ * A sortable header, assembled from the atomic parts: a `TableHeadSortTrigger` button wrapping a
+ * `TableHeadTitle` and a `TableHeadSortIndicator` chevron, with `aria-sort` on the `<th>`. Clicking
+ * cycles none → asc → desc.
  */
 export const Sortable: Story = {
   render: function SortableStory(args) {
-    const [sort, setSort] = React.useState<TableHeadSort>("none");
+    const [sort, setSort] = React.useState<Sort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
+    const SortGlyph = sortGlyph[sort];
     return (
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="sortable" sort={sort} onSort={cycle}>
-              Name
+            <TableHead aria-sort={ariaSort[sort]}>
+              <TableHeadSortTrigger onClick={cycle}>
+                <TableHeadTitle>Name</TableHeadTitle>
+                <TableHeadSortIndicator>
+                  <SortGlyph />
+                </TableHeadSortIndicator>
+              </TableHeadSortTrigger>
             </TableHead>
-            <TableHead variant="default">Email</TableHead>
+            <TableHead>
+              <TableHeadTitle>Email</TableHeadTitle>
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {PEOPLE.map((person) => (
             <TableRow key={person.email}>
-              <TableCell>{person.name}</TableCell>
-              <TableCell>{person.email}</TableCell>
+              <TableCell>
+                <TableCellLayout>
+                  <TableCellContent>{person.name}</TableCellContent>
+                </TableCellLayout>
+              </TableCell>
+              <TableCell>
+                <TableCellLayout>
+                  <TableCellContent>{person.email}</TableCellContent>
+                </TableCellLayout>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -156,30 +225,48 @@ export const PinnedColumn: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="default" pinned="start">
-              Name
+            <TableHead pinned="start">
+              <TableHeadTitle>Name</TableHeadTitle>
             </TableHead>
-            <TableHead variant="default">Display name</TableHead>
-            <TableHead variant="default">Email</TableHead>
-            <TableHead variant="default">Account type</TableHead>
+            <TableHead>
+              <TableHeadTitle>Display name</TableHeadTitle>
+            </TableHead>
+            <TableHead>
+              <TableHeadTitle>Email</TableHeadTitle>
+            </TableHead>
+            <TableHead>
+              <TableHeadTitle>Account type</TableHeadTitle>
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {PEOPLE.map((person) => (
             <TableRow key={person.email}>
-              <TableCell
-                pinned="start"
-                inlineStartNode={
-                  <Avatar magnitude="xs" role="img" aria-label={person.name}>
-                    <AvatarFallback tone="indigo">{person.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                }
-              >
-                {person.name}
+              <TableCell pinned="start">
+                <TableCellLayout>
+                  <TableCellSlot>
+                    <Avatar magnitude="xs" role="img" aria-label={person.name}>
+                      <AvatarFallback tone="indigo">{person.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </TableCellSlot>
+                  <TableCellContent>{person.name}</TableCellContent>
+                </TableCellLayout>
               </TableCell>
-              <TableCell>{person.display}</TableCell>
-              <TableCell>{person.email}</TableCell>
-              <TableCell>{person.role}</TableCell>
+              <TableCell>
+                <TableCellLayout>
+                  <TableCellContent>{person.display}</TableCellContent>
+                </TableCellLayout>
+              </TableCell>
+              <TableCell>
+                <TableCellLayout>
+                  <TableCellContent>{person.email}</TableCellContent>
+                </TableCellLayout>
+              </TableCell>
+              <TableCell>
+                <TableCellLayout>
+                  <TableCellContent>{person.role}</TableCellContent>
+                </TableCellLayout>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

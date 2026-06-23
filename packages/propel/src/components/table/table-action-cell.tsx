@@ -3,17 +3,13 @@ import type * as React from "react";
 
 import { Menu, MenuTrigger, type MenuProps } from "../../ui/menu/index";
 import {
-  actionableTriggerVariants,
-  pinnedCellVariants,
-  tableCellVariants,
-  type TablePinned,
-  useTableVariant,
+  TableCell,
+  type TableCellProps,
+  TableCellTrigger,
+  TableCellTriggerIndicator,
 } from "../../ui/table/index";
 
-export type TableActionCellProps = Omit<
-  React.ComponentProps<"td">,
-  "className" | "style" | "children"
-> & {
+export type TableActionCellProps = Omit<TableCellProps, "padding" | "children"> & {
   /** The dropdown menu of row actions. */
   children: React.ReactNode;
   /** Accessible name for the trigger (e.g. "Row options"). Required (icon-only). */
@@ -28,8 +24,6 @@ export type TableActionCellProps = Omit<
   onOpenChange?: MenuProps["onOpenChange"];
   /** Disables the trigger. */
   disabled?: boolean;
-  /** Pin this cell to the inline-start/end edge when the table scrolls sideways. */
-  pinned?: TablePinned;
 };
 
 /** An icon-only action cell (`<td>`) that opens a row-actions dropdown. */
@@ -41,39 +35,20 @@ export function TableActionCell({
   defaultOpen,
   onOpenChange,
   disabled,
-  pinned,
   ...props
 }: TableActionCellProps) {
-  const tableVariant = useTableVariant();
   return (
-    <td
-      className={[
-        tableCellVariants({ tableVariant }),
-        "p-0",
-        pinnedCellVariants({ pinned: pinned ?? "none" }),
-      ].join(" ")}
-      {...props}
-    >
+    <TableCell padding="trigger" {...props}>
       <Menu open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
         <MenuTrigger
           disabled={disabled}
           aria-label={ariaLabel}
-          render={
-            <button
-              type="button"
-              className={[
-                actionableTriggerVariants(),
-                "group/action-cell justify-center px-4",
-              ].join(" ")}
-            />
-          }
+          render={<TableCellTrigger variant="action" />}
         >
-          <span className="flex size-5 shrink-0 items-center justify-center text-icon-secondary group-disabled/action-cell:text-icon-disabled">
-            {icon ?? <Ellipsis aria-hidden className="size-3.5" />}
-          </span>
+          <TableCellTriggerIndicator>{icon ?? <Ellipsis />}</TableCellTriggerIndicator>
         </MenuTrigger>
         {children}
       </Menu>
-    </td>
+    </TableCell>
   );
 }
