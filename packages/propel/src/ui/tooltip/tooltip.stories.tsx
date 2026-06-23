@@ -8,6 +8,7 @@ import {
   TooltipPortal,
   TooltipPositioner,
   TooltipProvider,
+  TooltipShortcut,
   TooltipTrigger,
 } from "./index";
 
@@ -26,6 +27,7 @@ const meta = {
     TooltipPositioner,
     TooltipPopup,
     TooltipArrow,
+    TooltipShortcut,
   },
 } satisfies Meta<typeof Tooltip>;
 
