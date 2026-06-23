@@ -3,14 +3,17 @@ import { expect, fn, userEvent } from "storybook/test";
 
 import { Button } from "../button/index";
 import { Field, FieldError, FieldLabel, InputFieldControl } from "../field/index";
-import { Form } from "./index";
+import { Form, FormActions, FormBody } from "./index";
 
-// UI-tier story: composes the atomic `Form` with raw `Field` primitives (label +
-// control + error). The ready-made labeled-field conveniences (InputField,
-// SelectField, …) live in the components tier — see the `Components/Form` story.
+// UI-tier story: composes the atomic `Form` parts — `FormBody` (the field stack, with
+// its single/multi-column `layout` axis) and `FormActions` (the bottom actions bar) —
+// with raw `Field` primitives (label + control + error). The ready-made labeled-field
+// conveniences (InputField, SelectField, …) live in the components tier — see the
+// `Components/Form` story.
 const meta = {
   title: "UI/Form",
   component: Form,
+  subcomponents: { FormBody, FormActions },
   parameters: { layout: "centered" },
   decorators: [
     (Story) => (
@@ -24,36 +27,43 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** A form assembled from `Form` + `Field`/`FieldLabel`/`InputFieldControl`/`FieldError`. */
+/** A form assembled from `Form` › `FormBody` (`Field`…) + `FormActions`. */
 export const Default: Story = {
-  args: { layout: "single" },
   render: (args) => (
     <Form {...args}>
-      <Field name="email">
-        <FieldLabel magnitude="md">Email</FieldLabel>
-        <InputFieldControl magnitude="md" type="email" required placeholder="you@example.com" />
-        <FieldError magnitude="md" />
-      </Field>
-      <Button type="submit" variant="primary" tone="neutral" magnitude="md">
-        Submit
-      </Button>
+      <FormBody layout="single">
+        <Field name="email">
+          <FieldLabel magnitude="md">Email</FieldLabel>
+          <InputFieldControl magnitude="md" type="email" required placeholder="you@example.com" />
+          <FieldError magnitude="md" />
+        </Field>
+      </FormBody>
+      <FormActions variant="inline">
+        <Button type="submit" variant="primary" tone="neutral" magnitude="md">
+          Submit
+        </Button>
+      </FormActions>
     </Form>
   ),
 };
 
 /** Native constraint validation: submitting an empty required field shows the error. */
 export const Validation: Story = {
-  args: { layout: "single", onSubmit: fn((e) => e.preventDefault()) },
+  args: { onSubmit: fn((e) => e.preventDefault()) },
   render: (args) => (
     <Form {...args}>
-      <Field name="email">
-        <FieldLabel magnitude="md">Email</FieldLabel>
-        <InputFieldControl magnitude="md" type="email" required placeholder="you@example.com" />
-        <FieldError magnitude="md" />
-      </Field>
-      <Button type="submit" variant="primary" tone="neutral" magnitude="md">
-        Submit
-      </Button>
+      <FormBody layout="single">
+        <Field name="email">
+          <FieldLabel magnitude="md">Email</FieldLabel>
+          <InputFieldControl magnitude="md" type="email" required placeholder="you@example.com" />
+          <FieldError magnitude="md" />
+        </Field>
+      </FormBody>
+      <FormActions variant="inline">
+        <Button type="submit" variant="primary" tone="neutral" magnitude="md">
+          Submit
+        </Button>
+      </FormActions>
     </Form>
   ),
   play: async ({ canvas }) => {
