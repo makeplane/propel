@@ -44,10 +44,10 @@ export const Default: Story = {
     <Slider {...args}>
       <SliderLabel>Volume</SliderLabel>
       <SliderValue />
-      <SliderControl>
+      <SliderControl magnitude="md">
         <SliderTrack>
           <SliderIndicator />
-          <SliderThumb aria-label="Volume" />
+          <SliderThumb magnitude="md" aria-label="Volume" />
         </SliderTrack>
       </SliderControl>
     </Slider>
@@ -70,11 +70,11 @@ export const Range: Story = {
     <Slider {...args}>
       <SliderLabel>Scaling threshold</SliderLabel>
       <SliderValue />
-      <SliderControl>
+      <SliderControl magnitude="md">
         <SliderTrack>
           <SliderIndicator />
-          <SliderThumb index={0} aria-label="Minimum threshold" />
-          <SliderThumb index={1} aria-label="Maximum threshold" />
+          <SliderThumb magnitude="md" index={0} aria-label="Minimum threshold" />
+          <SliderThumb magnitude="md" index={1} aria-label="Maximum threshold" />
         </SliderTrack>
       </SliderControl>
     </Slider>

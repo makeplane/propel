@@ -6,6 +6,7 @@ export {
   type SliderIndicatorProps,
   SliderLabel,
   type SliderLabelProps,
+  type SliderMagnitude,
   SliderThumb,
   type SliderThumbProps,
   SliderTrack,
