@@ -3,6 +3,7 @@ import type * as React from "react";
 import { Field } from "../../ui/field/field";
 import { FieldHelperText } from "../../ui/field/field-helper-text";
 import { FieldLabelGroup } from "../../ui/field/field-label-group";
+import { InputFieldContent } from "../../ui/field/input-field-content";
 import { TextAreaFieldBox } from "../../ui/field/text-area-field-box";
 import {
   TextAreaFieldControl,
@@ -52,7 +53,7 @@ export function TextAreaField({
         description={description}
         orientation="vertical"
       />
-      <div className="flex w-full flex-col gap-1.5">
+      <InputFieldContent orientation="vertical">
         <TextAreaFieldBox tone={tone}>
           <TextAreaFieldControl
             required={required}
@@ -62,7 +63,7 @@ export function TextAreaField({
           />
         </TextAreaFieldBox>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
-      </div>
+      </InputFieldContent>
     </Field>
   );
 }

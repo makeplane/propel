@@ -1,5 +1,7 @@
 import { Field as BaseField } from "@base-ui/react/field";
 
+import { fieldRootVariants } from "./variants";
+
 export type FieldProps = Omit<BaseField.Root.Props, "className" | "style">;
 
 /**
@@ -7,5 +9,5 @@ export type FieldProps = Omit<BaseField.Root.Props, "className" | "style">;
  * `TextAreaFieldControl`, `FieldDescription`, and `FieldError`.
  */
 export function Field(props: FieldProps) {
-  return <BaseField.Root className="flex flex-col gap-1.5" {...props} />;
+  return <BaseField.Root className={fieldRootVariants()} {...props} />;
 }
