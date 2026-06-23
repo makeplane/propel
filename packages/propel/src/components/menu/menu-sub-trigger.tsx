@@ -1,8 +1,12 @@
-import { ChevronRight } from "lucide-react";
 import type * as React from "react";
 
-import { NodeSlot } from "../../internal/node-slot";
 import {
+  MenuItemContent,
+  MenuItemIcon,
+  MenuItemSubmenuIndicator,
+  MenuItemTitle,
+  MenuItemTitleRow,
+  MenuItemTrailing,
   MenuSubTrigger as MenuSubTriggerRoot,
   type MenuSubTriggerProps as MenuSubTriggerRootProps,
 } from "../../ui/menu";
@@ -18,7 +22,7 @@ export type MenuSubTriggerProps = MenuSubTriggerRootProps & {
 
 /**
  * The ready-made submenu trigger row: composes the atomic `MenuSubTrigger` and lays out optional
- * leading/trailing nodes, the label, and the chevron.
+ * leading/trailing nodes, the label, and the submenu chevron indicator.
  */
 export function MenuSubTrigger({
   inlineStartNode,
@@ -29,13 +33,14 @@ export function MenuSubTrigger({
 }: MenuSubTriggerProps) {
   return (
     <MenuSubTriggerRoot {...props}>
-      {inlineStartNode != null ? <NodeSlot>{inlineStartNode}</NodeSlot> : null}
-      <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
-      {inlineEndNode != null ? <NodeSlot>{inlineEndNode}</NodeSlot> : null}
-      <ChevronRight
-        className="size-4 shrink-0 text-icon-tertiary group-data-disabled/item:text-icon-disabled rtl:-scale-x-100"
-        aria-hidden="true"
-      />
+      {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
+      <MenuItemContent>
+        <MenuItemTitleRow>
+          <MenuItemTitle>{label ?? children}</MenuItemTitle>
+        </MenuItemTitleRow>
+      </MenuItemContent>
+      {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}
+      <MenuItemSubmenuIndicator />
     </MenuSubTriggerRoot>
   );
 }

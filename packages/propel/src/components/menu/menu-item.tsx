@@ -1,8 +1,17 @@
-import { Check } from "lucide-react";
 import type * as React from "react";
 
-import { NodeSlot } from "../../internal/node-slot";
-import { MenuItem as MenuItemRoot, type MenuItemProps as MenuItemRootProps } from "../../ui/menu";
+import {
+  MenuItem as MenuItemRoot,
+  MenuItemContent,
+  MenuItemDescription,
+  MenuItemIcon,
+  MenuItemSecondaryText,
+  MenuItemSelectedIndicator,
+  MenuItemTitle,
+  MenuItemTitleRow,
+  MenuItemTrailing,
+  type MenuItemProps as MenuItemRootProps,
+} from "../../ui/menu";
 
 export type MenuItemProps = MenuItemRootProps & {
   /** Leading content before the label. */
@@ -35,28 +44,18 @@ export function MenuItem({
 }: MenuItemProps) {
   return (
     <MenuItemRoot {...props}>
-      {inlineStartNode != null ? <NodeSlot>{inlineStartNode}</NodeSlot> : null}
-      <span className="flex min-w-0 flex-1 flex-col">
-        <span className="flex min-w-0 items-baseline gap-1.5">
-          <span className="truncate">{label ?? children}</span>
+      {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
+      <MenuItemContent>
+        <MenuItemTitleRow>
+          <MenuItemTitle>{label ?? children}</MenuItemTitle>
           {secondaryText != null ? (
-            <span className="shrink-0 truncate text-12 text-tertiary group-data-disabled/item:text-disabled">
-              {secondaryText}
-            </span>
+            <MenuItemSecondaryText>{secondaryText}</MenuItemSecondaryText>
           ) : null}
-        </span>
-        {description != null ? (
-          <span className="truncate text-12 text-tertiary group-data-disabled/item:text-disabled">
-            {description}
-          </span>
-        ) : null}
-      </span>
-      {inlineEndNode != null ? <NodeSlot>{inlineEndNode}</NodeSlot> : null}
-      {selected ? (
-        <span className="flex h-5 w-4 shrink-0 items-center justify-center">
-          <Check className="size-4 text-icon-accent-primary" aria-hidden="true" />
-        </span>
-      ) : null}
+        </MenuItemTitleRow>
+        {description != null ? <MenuItemDescription>{description}</MenuItemDescription> : null}
+      </MenuItemContent>
+      {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}
+      {selected ? <MenuItemSelectedIndicator /> : null}
     </MenuItemRoot>
   );
 }

@@ -1,7 +1,11 @@
 import type * as React from "react";
 
-import { NodeSlot } from "../../internal/node-slot";
 import {
+  MenuItemContent,
+  MenuItemIcon,
+  MenuItemTitle,
+  MenuItemTitleRow,
+  MenuItemTrailing,
   MenuLinkItem as MenuLinkItemRoot,
   type MenuLinkItemProps as MenuLinkItemRootProps,
 } from "../../ui/menu";
@@ -28,9 +32,13 @@ export function MenuLinkItem({
 }: MenuLinkItemProps) {
   return (
     <MenuLinkItemRoot {...props}>
-      {inlineStartNode != null ? <NodeSlot>{inlineStartNode}</NodeSlot> : null}
-      <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
-      {inlineEndNode != null ? <NodeSlot>{inlineEndNode}</NodeSlot> : null}
+      {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
+      <MenuItemContent>
+        <MenuItemTitleRow>
+          <MenuItemTitle>{label ?? children}</MenuItemTitle>
+        </MenuItemTitleRow>
+      </MenuItemContent>
+      {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}
     </MenuLinkItemRoot>
   );
 }

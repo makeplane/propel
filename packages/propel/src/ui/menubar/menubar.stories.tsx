@@ -46,7 +46,7 @@ export const Default: Story = {
         <MenuTrigger render={<button type="button" className={triggerClass} />}>File</MenuTrigger>
         <MenuPortal>
           <MenuPositioner sideOffset={4}>
-            <MenuPopup>
+            <MenuPopup surface="raised">
               <MenuItem variant="default">New file</MenuItem>
               <MenuItem variant="default">Open…</MenuItem>
               <MenuSeparator />
@@ -59,7 +59,7 @@ export const Default: Story = {
         <MenuTrigger render={<button type="button" className={triggerClass} />}>Edit</MenuTrigger>
         <MenuPortal>
           <MenuPositioner sideOffset={4}>
-            <MenuPopup>
+            <MenuPopup surface="raised">
               <MenuItem variant="default">Undo</MenuItem>
               <MenuItem variant="default">Redo</MenuItem>
             </MenuPopup>
