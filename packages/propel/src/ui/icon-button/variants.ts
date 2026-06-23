@@ -1,5 +1,12 @@
 import { cva } from "class-variance-authority";
 
+import {
+  buttonVariants,
+  type ButtonMagnitude,
+  type ButtonTone,
+  type ButtonVariant,
+} from "../button/index";
+
 // IconButton's own geometry, separate from Button's label-driven chrome (which comes
 // from composing `buttonVariants({ variant, tone })`). Icon buttons are square — a
 // fixed `size-N` box per Figma's "Icon button" Size scale (S/Base/L/XL = 20/24/28/32px,
@@ -11,7 +18,7 @@ import { cva } from "class-variance-authority";
 // adds a height, min-width, and horizontal padding meant for labelled buttons, which
 // would beat this square `size-N` (cx does not dedupe conflicting utilities) and leave
 // the button rectangular.
-export const iconButtonVariants = cva("", {
+const iconButtonGeometryVariants = cva("", {
   variants: {
     magnitude: {
       sm: "size-5 [--node-size:0.875rem]", // 20px box, 14px glyph
@@ -21,3 +28,25 @@ export const iconButtonVariants = cva("", {
     },
   },
 });
+
+// Re-alias ButtonMagnitude under the IconButton name so callers can type props
+// without importing from the button entry. The values are identical.
+export type IconButtonMagnitude = ButtonMagnitude;
+
+/**
+ * Produces the full className for the icon button root element. Merges Button's visual chrome
+ * (`buttonVariants({ variant, tone })`) with icon button's square geometry and `--node-size` glyph
+ * scale (`iconButtonGeometryVariants({ magnitude })`). All className composition lives here so the
+ * component file only calls this function.
+ */
+export function iconButtonRootVariants({
+  variant,
+  tone,
+  magnitude,
+}: {
+  variant: Exclude<ButtonVariant, "link">;
+  tone: ButtonTone;
+  magnitude: ButtonMagnitude;
+}): string {
+  return [buttonVariants({ variant, tone }), iconButtonGeometryVariants({ magnitude })].join(" ");
+}

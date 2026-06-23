@@ -1,17 +1,10 @@
 import { Button as BaseButton } from "@base-ui/react/button";
-import { cx } from "class-variance-authority";
 import { LoaderCircle } from "lucide-react";
 import * as React from "react";
 
 import { NodeSlot } from "../../internal/node-slot";
-import {
-  type ButtonMagnitude,
-  type ButtonProps,
-  type ButtonTone,
-  type ButtonVariant,
-  buttonVariants,
-} from "../../ui/button/index";
-import { iconButtonVariants } from "./variants";
+import { type ButtonProps, type ButtonTone, type ButtonVariant } from "../../ui/button/index";
+import { iconButtonRootVariants } from "./variants";
 
 // Figma "Icon button" Type axis: Primary/Secondary/Tertiary/Error/Error outline/
 // Ghost. There is no link icon button, so IconButton drops Button's `link`
@@ -19,7 +12,7 @@ import { iconButtonVariants } from "./variants";
 // `variant` + `tone`, the same compound tokens Button uses for everything but link.
 export type IconButtonVariant = Exclude<ButtonVariant, "link">;
 export type IconButtonTone = ButtonTone;
-export type IconButtonMagnitude = ButtonMagnitude;
+export { type IconButtonMagnitude } from "./variants";
 
 export type IconButtonProps = Omit<ButtonProps, "variant" | "emphasis"> & {
   variant: IconButtonVariant;
@@ -60,11 +53,11 @@ export function IconButton({
       disabled={disabled || loading}
       focusableWhenDisabled={loading ? true : undefined}
       aria-busy={loading ? true : undefined}
-      // Pass only variant/tone to `buttonVariants` so Button's chrome (background,
+      // Pass only variant/tone to buttonVariants so Button's chrome (background,
       // border, text/icon color, radius) applies but NOT its text-button geometry;
-      // `iconButtonVariants` then layers the square `size-N` box and `--node-size`
-      // glyph scale per magnitude (see its comment for why magnitude is kept separate).
-      className={cx(buttonVariants({ variant, tone }), iconButtonVariants({ magnitude }))}
+      // iconButtonRootVariants layers the square `size-N` box and `--node-size`
+      // glyph scale per magnitude (see variants.ts for why magnitude is kept separate).
+      className={iconButtonRootVariants({ variant, tone, magnitude })}
     >
       {loading ? (
         <LoaderCircle aria-hidden className="size-(--node-size) animate-spin" />
