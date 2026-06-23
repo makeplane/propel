@@ -4,6 +4,7 @@ import { expect, userEvent, waitFor, within } from "storybook/test";
 import {
   PreviewCard,
   PreviewCardArrow,
+  PreviewCardBody,
   PreviewCardContent,
   PreviewCardDescription,
   PreviewCardTitle,
@@ -21,6 +22,7 @@ const meta = {
     PreviewCardTrigger,
     PreviewCardContent,
     PreviewCardArrow,
+    PreviewCardBody,
     PreviewCardTitle,
     PreviewCardDescription,
   },
@@ -50,12 +52,12 @@ export const Default: Story = {
           Plane
         </PreviewCardTrigger>
         <PreviewCardContent side="top">
-          <div className="flex w-56 flex-col gap-1">
+          <PreviewCardBody>
             <PreviewCardTitle>Plane</PreviewCardTitle>
             <PreviewCardDescription>
               Open-source project management for issues, sprints, and roadmaps.
             </PreviewCardDescription>
-          </div>
+          </PreviewCardBody>
           <PreviewCardArrow />
         </PreviewCardContent>
       </PreviewCard>{" "}

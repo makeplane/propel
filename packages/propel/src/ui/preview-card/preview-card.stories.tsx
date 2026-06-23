@@ -5,6 +5,7 @@ import {
   PreviewCard,
   PreviewCardArrow,
   PreviewCardBackdrop,
+  PreviewCardBody,
   PreviewCardDescription,
   PreviewCardPopup,
   PreviewCardPortal,
@@ -31,6 +32,7 @@ const meta = {
     PreviewCardViewport,
     PreviewCardPopup,
     PreviewCardArrow,
+    PreviewCardBody,
     PreviewCardTitle,
     PreviewCardDescription,
   },
@@ -63,12 +65,12 @@ export const Anatomy: Story = {
           <PreviewCardBackdrop />
           <PreviewCardPositioner side="top" sideOffset={4}>
             <PreviewCardPopup>
-              <div className="flex w-56 flex-col gap-1">
+              <PreviewCardBody>
                 <PreviewCardTitle>Plane</PreviewCardTitle>
                 <PreviewCardDescription>
                   Open-source project management for issues, sprints, and roadmaps.
                 </PreviewCardDescription>
-              </div>
+              </PreviewCardBody>
               <PreviewCardArrow />
             </PreviewCardPopup>
           </PreviewCardPositioner>

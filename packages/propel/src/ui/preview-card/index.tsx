@@ -1,6 +1,7 @@
 export { PreviewCard, type PreviewCardProps } from "./preview-card";
 export { PreviewCardArrow, type PreviewCardArrowProps } from "./preview-card-arrow";
 export { PreviewCardBackdrop, type PreviewCardBackdropProps } from "./preview-card-backdrop";
+export { PreviewCardBody, type PreviewCardBodyProps } from "./preview-card-body";
 export {
   PreviewCardDescription,
   type PreviewCardDescriptionProps,

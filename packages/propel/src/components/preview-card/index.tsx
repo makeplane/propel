@@ -5,6 +5,8 @@ export {
   type PreviewCardProps,
   PreviewCardArrow,
   type PreviewCardArrowProps,
+  PreviewCardBody,
+  type PreviewCardBodyProps,
   PreviewCardDescription,
   type PreviewCardDescriptionProps,
   PreviewCardImage,
