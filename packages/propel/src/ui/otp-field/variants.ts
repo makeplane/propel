@@ -1,16 +1,36 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 
 /** Root: a horizontal row of character slots (and optional separators). */
 export const otpFieldRootVariants = cva("flex items-center gap-2");
 
-/** Input: a single character cell with the input chrome tokens. */
+/**
+ * Input: a single character cell with the input chrome tokens.
+ *
+ * Magnitude — controls the box size (sm/md/lg); required, no default. tone — neutral for the
+ * default state, danger for the error state; required, no default.
+ */
 export const otpFieldInputVariants = cva(
-  cx(
-    "size-9 rounded-md border-sm border-subtle bg-layer-2 text-center text-14 text-primary outline-none",
-    "focus:border-accent-strong focus:ring-2 focus:ring-accent-strong/20",
-    "data-disabled:cursor-not-allowed data-disabled:text-disabled",
-  ),
+  "rounded-md border-sm bg-layer-2 text-center text-primary outline-none data-disabled:cursor-not-allowed data-disabled:text-disabled",
+  {
+    variants: {
+      magnitude: {
+        sm: "size-8 text-13",
+        md: "size-9 text-14",
+        lg: "size-10 text-16",
+      },
+      tone: {
+        neutral:
+          "border-subtle focus:border-accent-strong focus:ring-2 focus:ring-accent-strong/20",
+        danger: "border-danger-strong focus:ring-2 focus:ring-danger-strong/20",
+      },
+    },
+  },
 );
+
+type OTPFieldInputVariantProps = VariantProps<typeof otpFieldInputVariants>;
+
+export type OTPFieldInputMagnitude = NonNullable<OTPFieldInputVariantProps["magnitude"]>;
+export type OTPFieldInputTone = NonNullable<OTPFieldInputVariantProps["tone"]>;
 
 /** Separator: a visual divider between groups of slots (e.g. `123-456`). */
 export const otpFieldSeparatorVariants = cva("text-tertiary");

@@ -31,9 +31,19 @@ export const Default: Story = {
       </span>
       {Array.from({ length: args.length }, (_, index) =>
         index === 0 ? (
-          <OTPFieldInput key={index} aria-labelledby={FIRST_SLOT_LABEL_ID} />
+          <OTPFieldInput
+            key={index}
+            magnitude="md"
+            tone="neutral"
+            aria-labelledby={FIRST_SLOT_LABEL_ID}
+          />
         ) : (
-          <OTPFieldInput key={index} aria-label={`Character ${index + 1}`} />
+          <OTPFieldInput
+            key={index}
+            magnitude="md"
+            tone="neutral"
+            aria-label={`Character ${index + 1}`}
+          />
         ),
       )}
     </OTPField>
@@ -51,13 +61,45 @@ export const Grouped: Story = {
       <span id={FIRST_SLOT_LABEL_ID} className="sr-only">
         Character 1
       </span>
-      <OTPFieldInput aria-labelledby={FIRST_SLOT_LABEL_ID} />
-      <OTPFieldInput aria-label="Character 2" />
-      <OTPFieldInput aria-label="Character 3" />
+      <OTPFieldInput magnitude="md" tone="neutral" aria-labelledby={FIRST_SLOT_LABEL_ID} />
+      <OTPFieldInput magnitude="md" tone="neutral" aria-label="Character 2" />
+      <OTPFieldInput magnitude="md" tone="neutral" aria-label="Character 3" />
       <OTPFieldSeparator>-</OTPFieldSeparator>
-      <OTPFieldInput aria-label="Character 4" />
-      <OTPFieldInput aria-label="Character 5" />
-      <OTPFieldInput aria-label="Character 6" />
+      <OTPFieldInput magnitude="md" tone="neutral" aria-label="Character 4" />
+      <OTPFieldInput magnitude="md" tone="neutral" aria-label="Character 5" />
+      <OTPFieldInput magnitude="md" tone="neutral" aria-label="Character 6" />
+    </OTPField>
+  ),
+  play: async ({ canvas }) => {
+    await expect(canvas.getAllByRole("textbox")).toHaveLength(6);
+  },
+};
+
+/** All boxes show the danger border when the code is invalid. */
+export const Error: Story = {
+  args: { length: 6 },
+  render: (args) => (
+    <OTPField {...args} aria-label="Verification code">
+      <span id={FIRST_SLOT_LABEL_ID} className="sr-only">
+        Character 1
+      </span>
+      {Array.from({ length: args.length }, (_, index) =>
+        index === 0 ? (
+          <OTPFieldInput
+            key={index}
+            magnitude="md"
+            tone="danger"
+            aria-labelledby={FIRST_SLOT_LABEL_ID}
+          />
+        ) : (
+          <OTPFieldInput
+            key={index}
+            magnitude="md"
+            tone="danger"
+            aria-label={`Character ${index + 1}`}
+          />
+        ),
+      )}
     </OTPField>
   ),
   play: async ({ canvas }) => {
