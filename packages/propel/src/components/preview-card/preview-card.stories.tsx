@@ -1,7 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { PreviewCard, PreviewCardArrow, PreviewCardContent, PreviewCardTrigger } from "./index";
+import {
+  PreviewCard,
+  PreviewCardArrow,
+  PreviewCardContent,
+  PreviewCardDescription,
+  PreviewCardTitle,
+  PreviewCardTrigger,
+} from "./index";
 
 // Components-tier story: uses the ready-made `PreviewCardContent`, which composes
 // the portal/backdrop/positioner/popup so a consumer only writes the trigger and
@@ -10,7 +17,13 @@ import { PreviewCard, PreviewCardArrow, PreviewCardContent, PreviewCardTrigger }
 const meta = {
   title: "Components/PreviewCard",
   component: PreviewCard,
-  subcomponents: { PreviewCardTrigger, PreviewCardContent, PreviewCardArrow },
+  subcomponents: {
+    PreviewCardTrigger,
+    PreviewCardContent,
+    PreviewCardArrow,
+    PreviewCardTitle,
+    PreviewCardDescription,
+  },
 } satisfies Meta<typeof PreviewCard>;
 
 export default meta;
@@ -38,10 +51,10 @@ export const Default: Story = {
         </PreviewCardTrigger>
         <PreviewCardContent side="top">
           <div className="flex w-56 flex-col gap-1">
-            <span className="text-14 font-semibold text-primary">Plane</span>
-            <span className="text-13 text-secondary">
+            <PreviewCardTitle>Plane</PreviewCardTitle>
+            <PreviewCardDescription>
               Open-source project management for issues, sprints, and roadmaps.
-            </span>
+            </PreviewCardDescription>
           </div>
           <PreviewCardArrow />
         </PreviewCardContent>

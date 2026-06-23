@@ -5,6 +5,12 @@ export {
   type PreviewCardProps,
   PreviewCardArrow,
   type PreviewCardArrowProps,
+  PreviewCardDescription,
+  type PreviewCardDescriptionProps,
+  PreviewCardImage,
+  type PreviewCardImageProps,
+  PreviewCardTitle,
+  type PreviewCardTitleProps,
   PreviewCardTrigger,
   type PreviewCardTriggerProps,
 } from "../../ui/preview-card";

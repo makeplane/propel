@@ -4,6 +4,11 @@ import { cva, cx } from "class-variance-authority";
 // open state through `data-*` attributes, so there are no styling axes
 // (variant/tone/magnitude) to expose. The cva pairings below hold the static
 // chrome for every styled part in one place, with no `className` at the boundary.
+//
+// The anatomy also includes three propel-extended parts — Image, Title, and
+// Description — that have no Base UI counterpart. Their styles below encode the
+// "always the same" items from the design spec: image overflow/cover-fit and the
+// title/description font hierarchy.
 
 export const previewCardPositionerVariants = cva("z-50 outline-none");
 
@@ -23,3 +28,16 @@ export const previewCardBackdropVariants = cva(
     "data-ending-style:opacity-0 data-starting-style:opacity-0",
   ),
 );
+
+// Arrow inherits the popup's background so the caret blends with the card surface.
+export const previewCardArrowVariants = cva("text-layer-1");
+
+// Image: overflow-hidden + object-cover bake in the "always the same" thumbnail
+// treatment from the design spec. Width/height are set by the consumer's layout.
+export const previewCardImageVariants = cva("overflow-hidden rounded-md object-cover");
+
+// Title: matches the heading hierarchy in the Figma spec.
+export const previewCardTitleVariants = cva("text-14 font-semibold text-primary");
+
+// Description: secondary supporting text beneath the title.
+export const previewCardDescriptionVariants = cva("text-13 text-secondary");
