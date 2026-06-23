@@ -3,11 +3,14 @@ import type * as React from "react";
 import {
   Fieldset as FieldsetRoot,
   type FieldsetProps as FieldsetRootProps,
+  FieldsetDescription,
   FieldsetLegend,
   type FieldsetLegendProps,
 } from "../../ui/fieldset";
 
 export type FieldsetProps = FieldsetRootProps & {
+  /** Supporting text shown below the legend. */
+  description?: React.ReactNode;
   /** The legend text labelling the group. */
   legend: React.ReactNode;
   /** Legend text size. */
@@ -18,13 +21,20 @@ export type FieldsetProps = FieldsetRootProps & {
 
 /**
  * The ready-made fieldset: groups a `legend` with its related controls for the 90% case. Pass the
- * legend text and `legendMagnitude`; everything else flows through to the underlying fieldset
- * root.
+ * legend text, `legendMagnitude`, and whether the group is `bordered`; everything else flows
+ * through to the underlying fieldset root.
  */
-export function Fieldset({ legend, legendMagnitude, children, ...props }: FieldsetProps) {
+export function Fieldset({
+  description,
+  legend,
+  legendMagnitude,
+  children,
+  ...props
+}: FieldsetProps) {
   return (
     <FieldsetRoot {...props}>
       <FieldsetLegend magnitude={legendMagnitude}>{legend}</FieldsetLegend>
+      {description != null ? <FieldsetDescription>{description}</FieldsetDescription> : null}
       {children}
     </FieldsetRoot>
   );

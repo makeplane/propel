@@ -1,6 +1,14 @@
 import { cva } from "class-variance-authority";
 
-export const fieldsetVariants = cva("flex min-w-0 flex-col gap-3");
+export const fieldsetVariants = cva("flex min-w-0 flex-col gap-3", {
+  variants: {
+    /** Whether a visible border wraps the group. */
+    bordered: {
+      true: "rounded-md border-sm border-subtle p-4",
+      false: "",
+    },
+  },
+});
 
 export const fieldsetLegendVariants = cva("font-medium text-primary", {
   variants: {
@@ -11,3 +19,6 @@ export const fieldsetLegendVariants = cva("font-medium text-primary", {
     },
   },
 });
+
+/** Supporting text shown directly below the legend. */
+export const fieldsetDescriptionVariants = cva("text-13 text-tertiary");

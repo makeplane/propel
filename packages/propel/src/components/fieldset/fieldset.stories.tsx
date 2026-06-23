@@ -8,7 +8,7 @@ import { Fieldset } from "./index";
 const meta = {
   title: "Components/Fieldset",
   component: Fieldset,
-  args: { legendMagnitude: "md" },
+  args: { legendMagnitude: "md", bordered: false },
   parameters: {
     design: {
       type: "figma",
@@ -24,6 +24,38 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     legend: "Billing details",
+    children: (
+      <div className="flex w-80 flex-col gap-4">
+        <InputField
+          magnitude="md"
+          tone="neutral"
+          orientation="vertical"
+          name="company"
+          label="Company"
+          placeholder="Acme Inc."
+        />
+        <InputField
+          magnitude="md"
+          tone="neutral"
+          orientation="vertical"
+          name="taxId"
+          label="Tax ID"
+          placeholder="US-123"
+        />
+      </div>
+    ),
+  },
+};
+
+/**
+ * A bordered fieldset draws a visible boundary around the group, useful when the group sits among
+ * other content.
+ */
+export const Bordered: Story = {
+  args: {
+    bordered: true,
+    legend: "Billing details",
+    description: "Enter your billing information below.",
     children: (
       <div className="flex w-80 flex-col gap-4">
         <InputField

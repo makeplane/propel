@@ -42,7 +42,10 @@ export function CheckboxGroupField({
 }: CheckboxGroupFieldProps) {
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
-      <Fieldset render={<CheckboxGroup density={density} disabled={disabled} {...groupProps} />}>
+      <Fieldset
+        bordered={false}
+        render={<CheckboxGroup density={density} disabled={disabled} {...groupProps} />}
+      >
         <FieldsetLegend magnitude={magnitude}>{label}</FieldsetLegend>
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
