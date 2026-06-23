@@ -1,7 +1,7 @@
 import { ToggleGroup } from "@base-ui/react/toggle-group";
 import type { ToggleGroup as BaseToggleGroupTypes } from "@base-ui/react/toggle-group";
 
-import { toggleGroupVariants } from "./variants";
+import { toolbarToggleGroupVariants } from "./variants";
 
 export type ToolbarToggleGroupProps<Value extends string = string> = Omit<
   BaseToggleGroupTypes.Props<Value>,
@@ -15,5 +15,5 @@ export type ToolbarToggleGroupProps<Value extends string = string> = Omit<
 export function ToolbarToggleGroup<Value extends string = string>(
   props: ToolbarToggleGroupProps<Value>,
 ) {
-  return <ToggleGroup className={toggleGroupVariants()} {...props} />;
+  return <ToggleGroup className={toolbarToggleGroupVariants()} {...props} />;
 }

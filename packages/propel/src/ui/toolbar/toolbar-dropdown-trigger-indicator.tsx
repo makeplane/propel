@@ -1,7 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
-import { dropdownTriggerIndicatorVariants } from "./variants";
+import { toolbarDropdownTriggerIndicatorVariants } from "./variants";
 
 export type ToolbarDropdownTriggerIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
@@ -18,7 +18,7 @@ export function ToolbarDropdownTriggerIndicator({
   ...props
 }: ToolbarDropdownTriggerIndicatorProps) {
   return (
-    <span aria-hidden className={dropdownTriggerIndicatorVariants()} {...props}>
+    <span aria-hidden className={toolbarDropdownTriggerIndicatorVariants()} {...props}>
       {children ?? <ChevronDown />}
     </span>
   );

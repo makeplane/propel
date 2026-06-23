@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { itemIconVariants } from "./variants";
+import { toolbarItemIconVariants } from "./variants";
 
 export type ToolbarItemIconProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
@@ -13,5 +13,5 @@ export type ToolbarItemIconProps = Omit<
  * control carries the accessible name via `aria-label`), so it is `aria-hidden`.
  */
 export function ToolbarItemIcon(props: ToolbarItemIconProps) {
-  return <span aria-hidden className={itemIconVariants()} {...props} />;
+  return <span aria-hidden className={toolbarItemIconVariants()} {...props} />;
 }

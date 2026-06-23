@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { dropdownTriggerLabelVariants } from "./variants";
+import { toolbarDropdownTriggerLabelVariants } from "./variants";
 
 export type ToolbarDropdownTriggerLabelProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
@@ -12,5 +12,5 @@ export type ToolbarDropdownTriggerLabelProps = Omit<
  * button holds no raw typography — the button is the control, this is its label region.
  */
 export function ToolbarDropdownTriggerLabel(props: ToolbarDropdownTriggerLabelProps) {
-  return <span className={dropdownTriggerLabelVariants()} {...props} />;
+  return <span className={toolbarDropdownTriggerLabelVariants()} {...props} />;
 }

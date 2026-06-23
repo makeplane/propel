@@ -16,16 +16,16 @@ export const toolbarVariants = cva("flex w-fit items-center gap-2 p-1.5 text-sec
   },
 });
 
-export const groupVariants = cva("flex items-center gap-0.5");
+export const toolbarGroupVariants = cva("flex items-center gap-0.5");
 
-export const separatorVariants = cva("mx-1 h-5 w-0 shrink-0 border-s-sm border-subtle-1");
+export const toolbarSeparatorVariants = cva("mx-1 h-5 w-0 shrink-0 border-s-sm border-subtle-1");
 
-export const toggleGroupVariants = cva("flex items-center gap-0.5");
+export const toolbarToggleGroupVariants = cva("flex items-center gap-0.5");
 
 // The square hit target for an icon control (button or toggle). Holds only the box,
 // chrome, and the `--node-size` the child icon scales to via `ToolbarItemIcon` — the
 // glyph itself is a separate node-slot part, never sized by a descendant selector here.
-export const itemVariants = cva(
+export const toolbarItemVariants = cva(
   cx(
     "inline-flex shrink-0 items-center justify-center rounded-md",
     "bg-layer-transparent text-icon-secondary outline-none",
@@ -47,12 +47,12 @@ export const itemVariants = cva(
 // The decorative glyph inside an icon control. Sizes its single child to the item's
 // `--node-size` (via the shared node-slot class) and tints it. A slot — bakes no size
 // or className onto the child.
-export const itemIconVariants = cva(cx(nodeSlotClass, "text-current"));
+export const toolbarItemIconVariants = cva(cx(nodeSlotClass, "text-current"));
 
 // The styled chrome for a toolbar dropdown trigger: a horizontal control that pairs a
 // text label with a disclosure indicator. The label's typography lives on the label
 // part, not here.
-export const dropdownTriggerButtonVariants = cva(
+export const toolbarDropdownTriggerButtonVariants = cva(
   cx(
     "inline-flex shrink-0 items-center gap-1 rounded-md px-2",
     "bg-layer-transparent text-secondary outline-none",
@@ -73,8 +73,10 @@ export const dropdownTriggerButtonVariants = cva(
 
 // The text label region of a dropdown trigger (e.g. "Text", "Aa"). Its own part so the
 // trigger button holds no raw typography.
-export const dropdownTriggerLabelVariants = cva("text-13");
+export const toolbarDropdownTriggerLabelVariants = cva("text-13");
 
 // The disclosure caret at the trigger's inline-end. Sizes its single child to the
 // trigger's `--node-size` and tints it; a slot, like `ToolbarItemIcon`.
-export const dropdownTriggerIndicatorVariants = cva(cx(nodeSlotClass, "text-icon-secondary"));
+export const toolbarDropdownTriggerIndicatorVariants = cva(
+  cx(nodeSlotClass, "text-icon-secondary"),
+);
