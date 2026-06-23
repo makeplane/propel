@@ -1,9 +1,11 @@
 import { Menu } from "@base-ui/react/menu";
-import { ChevronRight } from "lucide-react";
 import type * as React from "react";
 
-import { BreadcrumbTrigger } from "../../ui/breadcrumb";
-import { crumbMenuTriggerIconSlotVariants, crumbMenuTriggerIndicatorVariants } from "./variants";
+import {
+  BreadcrumbTrigger,
+  BreadcrumbTriggerIcon,
+  BreadcrumbTriggerIndicator,
+} from "../../ui/breadcrumb";
 
 export type BreadcrumbMenuTriggerProps = Omit<Menu.Trigger.Props, "className" | "style"> & {
   /** Leading content, typically a work-item/page icon. */
@@ -16,13 +18,9 @@ export type BreadcrumbMenuTriggerProps = Omit<Menu.Trigger.Props, "className" | 
 export function BreadcrumbMenuTrigger({ icon, children, ...props }: BreadcrumbMenuTriggerProps) {
   return (
     <Menu.Trigger render={<BreadcrumbTrigger group />} {...props}>
-      {icon != null ? (
-        <span aria-hidden className={crumbMenuTriggerIconSlotVariants()}>
-          {icon}
-        </span>
-      ) : null}
+      {icon != null ? <BreadcrumbTriggerIcon>{icon}</BreadcrumbTriggerIcon> : null}
       {children}
-      <ChevronRight aria-hidden className={crumbMenuTriggerIndicatorVariants()} />
+      <BreadcrumbTriggerIndicator />
     </Menu.Trigger>
   );
 }

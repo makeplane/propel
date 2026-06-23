@@ -3,9 +3,8 @@ import { Ellipsis } from "lucide-react";
 import type * as React from "react";
 
 import { NodeSlot } from "../../internal/node-slot";
-import { OverlayPanel } from "../../internal/overlay-panel";
 import { BreadcrumbTrigger } from "../../ui/breadcrumb";
-import { crumbDropdownPopupVariants } from "./variants";
+import { MenuContent } from "../menu/index";
 
 export type BreadcrumbDropdownProps = Omit<Menu.Trigger.Props, "className" | "style"> & {
   /** The collapsed crumbs shown in the menu. */
@@ -27,13 +26,7 @@ export function BreadcrumbDropdown({
           <Ellipsis />
         </NodeSlot>
       </Menu.Trigger>
-      <Menu.Portal>
-        <Menu.Positioner side="bottom" align="start" sideOffset={4}>
-          <OverlayPanel elevation="raised" radius="md" width="auto">
-            <Menu.Popup className={crumbDropdownPopupVariants()}>{children}</Menu.Popup>
-          </OverlayPanel>
-        </Menu.Positioner>
-      </Menu.Portal>
+      <MenuContent width="auto">{children}</MenuContent>
     </Menu.Root>
   );
 }

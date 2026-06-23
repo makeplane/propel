@@ -8,6 +8,7 @@ import {
   BreadcrumbDropdownItem,
   BreadcrumbItem,
   BreadcrumbLink,
+  BreadcrumbList,
   BreadcrumbMenu,
   BreadcrumbMenuContent,
   BreadcrumbMenuItem,
@@ -22,6 +23,7 @@ const meta = {
   // A Breadcrumb is assembled from these parts, so document them alongside it
   // (adds tabs to the args table + records the relationship in the manifest).
   subcomponents: {
+    BreadcrumbList,
     BreadcrumbItem,
     BreadcrumbLink,
     BreadcrumbSeparator,
@@ -53,27 +55,29 @@ const inertAnchor = () => <a href="#" onClick={(event) => event.preventDefault()
 export const Default: Story = {
   render: () => (
     <Breadcrumb>
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-          Plane
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-          Projects
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-          Design
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbPage>Work items</BreadcrumbPage>
-      </BreadcrumbItem>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+            Plane
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+            Projects
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+            Design
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Work items</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
     </Breadcrumb>
   ),
   play: async ({ canvas }) => {
@@ -92,28 +96,30 @@ export const Default: Story = {
 export const WithDropdown: Story = {
   render: () => (
     <Breadcrumb>
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-          Plane
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbDropdown>
-          <BreadcrumbDropdownItem render={inertAnchor()}>Projects</BreadcrumbDropdownItem>
-          <BreadcrumbDropdownItem render={inertAnchor()}>Design</BreadcrumbDropdownItem>
-        </BreadcrumbDropdown>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-          Components
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-      </BreadcrumbItem>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+            Plane
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbDropdown>
+            <BreadcrumbDropdownItem render={inertAnchor()}>Projects</BreadcrumbDropdownItem>
+            <BreadcrumbDropdownItem render={inertAnchor()}>Design</BreadcrumbDropdownItem>
+          </BreadcrumbDropdown>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+            Components
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
     </Breadcrumb>
   ),
 };
@@ -127,22 +133,24 @@ export const DropdownInteraction: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Breadcrumb>
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-          Plane
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbDropdown>
-          <BreadcrumbDropdownItem render={inertAnchor()}>Projects</BreadcrumbDropdownItem>
-          <BreadcrumbDropdownItem render={inertAnchor()}>Design</BreadcrumbDropdownItem>
-        </BreadcrumbDropdown>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-      </BreadcrumbItem>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+            Plane
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbDropdown>
+            <BreadcrumbDropdownItem render={inertAnchor()}>Projects</BreadcrumbDropdownItem>
+            <BreadcrumbDropdownItem render={inertAnchor()}>Design</BreadcrumbDropdownItem>
+          </BreadcrumbDropdown>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
     </Breadcrumb>
   ),
   play: async ({ canvas }) => {
@@ -169,28 +177,30 @@ export const DropdownInteraction: Story = {
 export const WithMenuCrumb: Story = {
   render: () => (
     <Breadcrumb>
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-          Plane
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbMenu>
-          <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
-          <BreadcrumbMenuContent>
-            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Web" />
-            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Mobile" />
-            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Server" />
-          </BreadcrumbMenuContent>
-        </BreadcrumbMenu>
-      </BreadcrumbItem>
-      {/* No `BreadcrumbSeparator` after a menu crumb: its own chevron IS the
-          breadcrumb chevron (and rotates down while the menu is open), so a
-          separate separator would render a second, redundant arrow. */}
-      <BreadcrumbItem>
-        <BreadcrumbPage>Components</BreadcrumbPage>
-      </BreadcrumbItem>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+            Plane
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbMenu>
+            <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
+            <BreadcrumbMenuContent>
+              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Web" />
+              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Mobile" />
+              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Server" />
+            </BreadcrumbMenuContent>
+          </BreadcrumbMenu>
+        </BreadcrumbItem>
+        {/* No `BreadcrumbSeparator` after a menu crumb: its own chevron IS the
+            breadcrumb chevron (and rotates down while the menu is open), so a
+            separate separator would render a second, redundant arrow. */}
+        <BreadcrumbItem>
+          <BreadcrumbPage>Components</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
     </Breadcrumb>
   ),
 };
@@ -203,27 +213,29 @@ export const WithMenuCrumb: Story = {
 export const MenuCrumbSelected: Story = {
   render: () => (
     <Breadcrumb>
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-          Plane
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbPage>Work items</BreadcrumbPage>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbMenu>
-          <BreadcrumbMenuTrigger>List</BreadcrumbMenuTrigger>
-          <BreadcrumbMenuContent>
-            <BreadcrumbMenuItem variant="default" selected render={inertAnchor()} label="List" />
-            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Board" />
-            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Calendar" />
-            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Spreadsheet" />
-          </BreadcrumbMenuContent>
-        </BreadcrumbMenu>
-      </BreadcrumbItem>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+            Plane
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Work items</BreadcrumbPage>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbMenu>
+            <BreadcrumbMenuTrigger>List</BreadcrumbMenuTrigger>
+            <BreadcrumbMenuContent>
+              <BreadcrumbMenuItem variant="default" selected render={inertAnchor()} label="List" />
+              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Board" />
+              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Calendar" />
+              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Spreadsheet" />
+            </BreadcrumbMenuContent>
+          </BreadcrumbMenu>
+        </BreadcrumbItem>
+      </BreadcrumbList>
     </Breadcrumb>
   ),
 };
@@ -239,25 +251,27 @@ export const KeyboardNavigation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Breadcrumb>
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-          Plane
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbMenu>
-          <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
-          <BreadcrumbMenuContent>
-            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Web" />
-            <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Mobile" />
-          </BreadcrumbMenuContent>
-        </BreadcrumbMenu>
-      </BreadcrumbItem>
-      {/* Menu crumb's own chevron is the breadcrumb chevron; no separator after it. */}
-      <BreadcrumbItem>
-        <BreadcrumbPage>Components</BreadcrumbPage>
-      </BreadcrumbItem>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+            Plane
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbMenu>
+            <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
+            <BreadcrumbMenuContent>
+              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Web" />
+              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Mobile" />
+            </BreadcrumbMenuContent>
+          </BreadcrumbMenu>
+        </BreadcrumbItem>
+        {/* Menu crumb's own chevron is the breadcrumb chevron; no separator after it. */}
+        <BreadcrumbItem>
+          <BreadcrumbPage>Components</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
     </Breadcrumb>
   ),
   play: async ({ canvas, step }) => {

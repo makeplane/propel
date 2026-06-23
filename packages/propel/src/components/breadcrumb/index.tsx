@@ -5,6 +5,8 @@ export {
   type BreadcrumbItemProps,
   BreadcrumbLink,
   type BreadcrumbLinkProps,
+  BreadcrumbList,
+  type BreadcrumbListProps,
   BreadcrumbPage,
   type BreadcrumbPageProps,
   BreadcrumbSeparator,

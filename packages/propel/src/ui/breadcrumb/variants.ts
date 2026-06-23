@@ -1,4 +1,6 @@
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
+
+import { nodeSlotClass } from "../../internal/node-slot";
 
 /** Base chrome shared by every crumb item (link, page, trigger). */
 export const crumbVariants = cva(
@@ -45,3 +47,24 @@ export const crumbSeparatorVariants = cva(
 
 /** The `<ol>` that carries the ordered trail of crumbs. */
 export const crumbListVariants = cva("flex items-center gap-0.5");
+
+/**
+ * A decorative leading icon inside a `BreadcrumbTrigger`. Sizes its single child to 16 px via
+ * `--node-size` (the shared node-slot class) and tints it, so callers pass a bare icon.
+ */
+export const crumbTriggerIconVariants = cva(
+  cx(nodeSlotClass, "text-icon-tertiary [--node-size:1rem]"),
+);
+
+/**
+ * The trailing chevron inside a `BreadcrumbTrigger`. Fixed 14 px, points toward the inline-end at
+ * rest and rotates down (90°) while the menu is open; mirrored in RTL. The trigger carries
+ * `group/trigger`, so the rotation keys off `group-data-popup-open/trigger`.
+ */
+export const crumbTriggerIndicatorVariants = cva(
+  cx(
+    "inline-flex shrink-0 items-center justify-center text-icon-tertiary [&>svg]:size-3.5",
+    "transition-transform group-data-popup-open/trigger:rotate-90",
+    "rtl:not-group-data-popup-open/trigger:-scale-x-100",
+  ),
+);
