@@ -1,16 +1,15 @@
-import { User } from "lucide-react";
 import * as React from "react";
 
 import {
   Avatar as AvatarRoot,
   AvatarFallback,
   AvatarGroupContext,
+  AvatarIcon,
   AvatarImage,
   type AvatarProps as AvatarRootProps,
   type AvatarTone,
   getAvatarTone,
 } from "../../ui/avatar";
-import { avatarIconVariants } from "../../ui/avatar/variants";
 
 export type AvatarProps = AvatarRootProps & {
   /** Image URL. When omitted, or while it is loading/failing, the fallback shows. */
@@ -45,9 +44,7 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
     <AvatarRoot role="img" aria-label={alt} magnitude={magnitude} {...props}>
       {src ? <AvatarImage src={src} alt="" /> : null}
       <AvatarFallback tone={hasInitials ? resolvedTone : "none"}>
-        {fallback ?? (
-          <User aria-hidden className={avatarIconVariants({ magnitude: effectiveMagnitude })} />
-        )}
+        {fallback ?? <AvatarIcon magnitude={effectiveMagnitude} />}
       </AvatarFallback>
     </AvatarRoot>
   );

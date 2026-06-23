@@ -1,4 +1,6 @@
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
+
+import { nodeSlotClass } from "../../internal/node-slot";
 
 export const avatarImageVariants = cva("size-full object-cover");
 
@@ -58,20 +60,21 @@ export const avatarToneBgClass = {
   purple: "bg-label-purple-bg-strong",
 } as const;
 
-// Person-icon (anonymous) sizes per magnitude, straight from Figma's "icon" values —
-// an explicit px size at each step, not a fixed fraction of the avatar. Kept as a cva
-// so the icon slot is styled through the variants system, not a raw Record lookup.
-export const avatarIconVariants = cva("", {
+// The anonymous person-icon slot (the Figma "icon" content state). A node-slot: it
+// sizes whatever single child it's given to the inherited `--node-size`, never baking a
+// size onto the child. `--node-size` is set per magnitude from Figma's explicit "icon"
+// px values (not a fixed fraction of the avatar), and the glyph is tinted muted.
+export const avatarIconVariants = cva(cx(nodeSlotClass, "text-icon-placeholder"), {
   variants: {
     magnitude: {
-      "2xs": "size-3.5", // 14px
-      xs: "size-3.5", // 14px
-      sm: "size-4", // 16px
-      md: "size-5", // 20px
-      lg: "size-6", // 24px
-      xl: "size-6", // 24px
-      "2xl": "size-8", // 32px
-      "3xl": "size-8", // 32px
+      "2xs": "[--node-size:0.875rem]", // 14px
+      xs: "[--node-size:0.875rem]", // 14px
+      sm: "[--node-size:1rem]", // 16px
+      md: "[--node-size:1.25rem]", // 20px
+      lg: "[--node-size:1.5rem]", // 24px
+      xl: "[--node-size:1.5rem]", // 24px
+      "2xl": "[--node-size:2rem]", // 32px
+      "3xl": "[--node-size:2rem]", // 32px
     },
   },
 });
