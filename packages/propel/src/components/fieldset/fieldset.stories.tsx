@@ -9,6 +9,13 @@ const meta = {
   title: "Components/Fieldset",
   component: Fieldset,
   args: { legendMagnitude: "md", bordered: false },
+  decorators: [
+    (Story) => (
+      <div className="w-80">
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
     design: {
       type: "figma",
@@ -25,7 +32,7 @@ export const Default: Story = {
   args: {
     legend: "Billing details",
     children: (
-      <div className="flex w-80 flex-col gap-4">
+      <>
         <InputField
           magnitude="md"
           tone="neutral"
@@ -42,7 +49,7 @@ export const Default: Story = {
           label="Tax ID"
           placeholder="US-123"
         />
-      </div>
+      </>
     ),
   },
 };
@@ -57,7 +64,7 @@ export const Bordered: Story = {
     legend: "Billing details",
     description: "Enter your billing information below.",
     children: (
-      <div className="flex w-80 flex-col gap-4">
+      <>
         <InputField
           magnitude="md"
           tone="neutral"
@@ -74,7 +81,7 @@ export const Bordered: Story = {
           label="Tax ID"
           placeholder="US-123"
         />
-      </div>
+      </>
     ),
   },
 };
@@ -85,9 +92,7 @@ export const GroupSemantics: Story = {
   args: {
     legend: "Shipping address",
     children: (
-      <div className="w-80">
-        <InputField magnitude="md" tone="neutral" orientation="vertical" name="city" label="City" />
-      </div>
+      <InputField magnitude="md" tone="neutral" orientation="vertical" name="city" label="City" />
     ),
   },
   play: async ({ canvas }) => {

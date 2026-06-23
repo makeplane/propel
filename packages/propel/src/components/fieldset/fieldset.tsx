@@ -3,6 +3,7 @@ import type * as React from "react";
 import {
   Fieldset as FieldsetRoot,
   type FieldsetProps as FieldsetRootProps,
+  FieldsetBody,
   FieldsetDescription,
   FieldsetLegend,
   type FieldsetLegendProps,
@@ -35,7 +36,7 @@ export function Fieldset({
     <FieldsetRoot {...props}>
       <FieldsetLegend magnitude={legendMagnitude}>{legend}</FieldsetLegend>
       {description != null ? <FieldsetDescription>{description}</FieldsetDescription> : null}
-      {children}
+      <FieldsetBody>{children}</FieldsetBody>
     </FieldsetRoot>
   );
 }
