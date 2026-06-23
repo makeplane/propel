@@ -5,8 +5,10 @@ import {
   Collapsible as CollapsibleRoot,
   type CollapsibleProps as CollapsibleRootProps,
   CollapsiblePanel,
+  CollapsiblePanelContent,
   CollapsibleTrigger,
   CollapsibleTriggerIndicator,
+  CollapsibleTriggerTitle,
 } from "../../ui/collapsible";
 
 export type CollapsibleProps = CollapsibleRootProps & {
@@ -28,14 +30,16 @@ export function Collapsible({ trigger, children, indicator, ...props }: Collapsi
   return (
     <CollapsibleRoot {...props}>
       <CollapsibleTrigger>
-        <span className="flex-1">{trigger}</span>
+        <CollapsibleTriggerTitle>{trigger}</CollapsibleTriggerTitle>
         {indicator ? (
           <CollapsibleTriggerIndicator>
             <ChevronDown />
           </CollapsibleTriggerIndicator>
         ) : null}
       </CollapsibleTrigger>
-      <CollapsiblePanel>{children}</CollapsiblePanel>
+      <CollapsiblePanel>
+        <CollapsiblePanelContent>{children}</CollapsiblePanelContent>
+      </CollapsiblePanel>
     </CollapsibleRoot>
   );
 }

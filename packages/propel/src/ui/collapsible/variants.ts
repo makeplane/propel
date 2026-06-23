@@ -10,12 +10,17 @@ import { nodeSlotClass } from "../../internal/node-slot";
 
 export const collapsibleTriggerVariants = cva(
   cx(
-    "group flex w-full items-center justify-between gap-2 text-start [--node-size:1rem]",
+    "group flex w-full items-center gap-2 text-start [--node-size:1rem]",
     "text-14 font-medium text-primary",
     "cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
     "disabled:cursor-not-allowed disabled:opacity-60",
   ),
 );
+
+// The trigger's growing label. `flex-1` fills the row so a trailing
+// `CollapsibleTriggerIndicator` sits at the inline-end edge; `min-w-0` lets a long
+// label wrap/shrink instead of overflowing.
+export const collapsibleTriggerTitleVariants = cva("min-w-0 flex-1 text-start");
 
 export const collapsiblePanelVariants = cva(
   cx(
@@ -27,6 +32,11 @@ export const collapsiblePanelVariants = cva(
     "data-ending-style:h-0 data-starting-style:h-0",
   ),
 );
+
+// The padded inner content of a panel. Padding lives here, never on the
+// height-animating `CollapsiblePanel` (padding there would offset the measured
+// open/close height and jump the transition).
+export const collapsiblePanelContentVariants = cva("pt-2");
 
 // The disclosure caret at the trigger's inline-end. Per Figma the caret (a
 // chevron-down) points down at rest and flips up when the panel opens. Base UI

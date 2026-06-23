@@ -3,8 +3,12 @@ export { Collapsible, type CollapsibleProps } from "./collapsible";
 export {
   CollapsiblePanel,
   type CollapsiblePanelProps,
+  CollapsiblePanelContent,
+  type CollapsiblePanelContentProps,
   CollapsibleTrigger,
   type CollapsibleTriggerProps,
   CollapsibleTriggerIndicator,
   type CollapsibleTriggerIndicatorProps,
+  CollapsibleTriggerTitle,
+  type CollapsibleTriggerTitleProps,
 } from "../../ui/collapsible";
