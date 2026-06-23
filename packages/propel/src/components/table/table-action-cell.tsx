@@ -1,13 +1,13 @@
-import { cx } from "class-variance-authority";
 import { Ellipsis } from "lucide-react";
 import type * as React from "react";
 
 import { Menu, MenuTrigger, type MenuProps } from "../../ui/menu/index";
 import {
-  actionableTriggerClass,
-  pinnedCellClass,
+  actionableTriggerVariants,
+  pinnedCellVariants,
+  tableCellVariants,
   type TablePinned,
-  useTableCellClass,
+  useTableVariant,
 } from "../../ui/table/index";
 
 export type TableActionCellProps = Omit<
@@ -44,9 +44,16 @@ export function TableActionCell({
   pinned,
   ...props
 }: TableActionCellProps) {
-  const className = useTableCellClass();
+  const tableVariant = useTableVariant();
   return (
-    <td className={cx(className, "p-0", pinnedCellClass(pinned))} {...props}>
+    <td
+      className={[
+        tableCellVariants({ tableVariant }),
+        "p-0",
+        pinnedCellVariants({ pinned: pinned ?? "none" }),
+      ].join(" ")}
+      {...props}
+    >
       <Menu open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
         <MenuTrigger
           disabled={disabled}
@@ -54,7 +61,10 @@ export function TableActionCell({
           render={
             <button
               type="button"
-              className={cx(actionableTriggerClass, "group/action-cell justify-center px-4")}
+              className={[
+                actionableTriggerVariants(),
+                "group/action-cell justify-center px-4",
+              ].join(" ")}
             />
           }
         >

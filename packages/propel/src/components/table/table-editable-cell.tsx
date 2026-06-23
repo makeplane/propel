@@ -1,14 +1,14 @@
-import { cx } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import { Menu, MenuTrigger, type MenuProps } from "../../ui/menu/index";
 import {
-  actionableTriggerClass,
-  pinnedCellClass,
-  selectedTriggerClass,
+  actionableTriggerVariants,
+  pinnedCellVariants,
+  selectedTriggerVariants,
+  tableCellVariants,
   type TablePinned,
-  useTableCellClass,
+  useTableVariant,
 } from "../../ui/table/index";
 
 export type TableEditableCellProps = Omit<
@@ -48,9 +48,16 @@ export function TableEditableCell({
   "aria-label": ariaLabel,
   ...props
 }: TableEditableCellProps) {
-  const className = useTableCellClass();
+  const tableVariant = useTableVariant();
   return (
-    <td className={cx(className, "p-0", pinnedCellClass(pinned))} {...props}>
+    <td
+      className={[
+        tableCellVariants({ tableVariant }),
+        "p-0",
+        pinnedCellVariants({ pinned: pinned ?? "none" }),
+      ].join(" ")}
+      {...props}
+    >
       <Menu open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
         <MenuTrigger
           disabled={disabled}
@@ -58,11 +65,11 @@ export function TableEditableCell({
           render={
             <button
               type="button"
-              className={cx(
-                actionableTriggerClass,
+              className={[
+                actionableTriggerVariants(),
                 "group/editable-cell justify-between gap-1 px-4 text-start",
-                selected ? selectedTriggerClass : null,
-              )}
+                selected ? selectedTriggerVariants() : "",
+              ].join(" ")}
             />
           }
         >

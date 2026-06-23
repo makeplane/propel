@@ -1,15 +1,10 @@
-import { cx, type VariantProps } from "class-variance-authority";
+import { type VariantProps } from "class-variance-authority";
 import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 import * as React from "react";
 
 import { ChevronGlyphSlot } from "./chevron-glyph-slot";
-import {
-  headBorder,
-  pinnedHeadClass,
-  TableVariantContext,
-  type TablePinned,
-} from "./table-context";
-import { tableHeadVariants } from "./variants";
+import { TableVariantContext, type TablePinned } from "./table-context";
+import { pinnedHeadVariants, tableHeadBorderVariants, tableHeadVariants } from "./variants";
 
 /** Sort direction of a sortable `TableHead`. `none` shows the neutral affordance. */
 export type TableHeadSort = "asc" | "desc" | "none";
@@ -56,11 +51,11 @@ export function TableHead({
     <th
       scope="col"
       aria-sort={isSortable ? ariaSort[sort] : undefined}
-      className={cx(
+      className={[
         tableHeadVariants({ variant }),
-        headBorder[tableVariant],
-        pinnedHeadClass(pinned),
-      )}
+        tableHeadBorderVariants({ tableVariant }),
+        pinnedHeadVariants({ pinned: pinned ?? "none" }),
+      ].join(" ")}
       {...props}
     >
       {hasSortControl ? (

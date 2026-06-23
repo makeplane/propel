@@ -1,12 +1,7 @@
-import { cx } from "class-variance-authority";
-import type * as React from "react";
+import * as React from "react";
 
-import {
-  pinnedCellClass,
-  TableCellSlot,
-  type TablePinned,
-  useTableCellClass,
-} from "./table-context";
+import { TableVariantContext, type TablePinned } from "./table-context";
+import { pinnedCellVariants, tableCellVariants } from "./variants";
 
 export type TableCellProps = Omit<React.ComponentProps<"td">, "className" | "style"> & {
   /** Leading content beside the cell text — an icon or an `Avatar`. */
@@ -25,13 +20,24 @@ export function TableCell({
   children,
   ...props
 }: TableCellProps) {
-  const className = useTableCellClass();
+  const tableVariant = React.useContext(TableVariantContext);
   return (
-    <td className={cx(className, "px-4 py-2", pinnedCellClass(pinned))} {...props}>
+    <td
+      className={[
+        tableCellVariants({ tableVariant }),
+        "px-4 py-2",
+        pinnedCellVariants({ pinned: pinned ?? "none" }),
+      ].join(" ")}
+      {...props}
+    >
       <div className="flex items-center gap-2">
-        {inlineStartNode != null ? <TableCellSlot>{inlineStartNode}</TableCellSlot> : null}
+        {inlineStartNode != null ? (
+          <span className="flex shrink-0 items-center">{inlineStartNode}</span>
+        ) : null}
         <div className="min-w-0 flex-1 truncate">{children}</div>
-        {inlineEndNode != null ? <TableCellSlot>{inlineEndNode}</TableCellSlot> : null}
+        {inlineEndNode != null ? (
+          <span className="flex shrink-0 items-center">{inlineEndNode}</span>
+        ) : null}
       </div>
     </td>
   );
