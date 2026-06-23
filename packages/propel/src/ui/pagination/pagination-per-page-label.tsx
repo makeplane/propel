@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { perPageLabelVariants } from "./variants";
+import { paginationPerPageLabelVariants } from "./variants";
 
 export type PaginationPerPageLabelProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
@@ -12,5 +12,5 @@ export type PaginationPerPageLabelProps = Omit<
  * `aria-hidden`.
  */
 export function PaginationPerPageLabel(props: PaginationPerPageLabelProps) {
-  return <span aria-hidden className={perPageLabelVariants()} {...props} />;
+  return <span aria-hidden className={paginationPerPageLabelVariants()} {...props} />;
 }

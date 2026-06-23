@@ -24,17 +24,17 @@ export {
 } from "./pagination-range-current";
 export { PaginationSpinner, type PaginationSpinnerProps } from "./pagination-spinner";
 export {
-  arrowButtonVariants,
-  ellipsisVariants,
-  pageButtonVariants,
+  paginationArrowButtonVariants,
+  paginationEllipsisVariants,
   paginationItemVariants,
   paginationListVariants,
+  paginationPageButtonVariants,
+  paginationPerPageIndicatorVariants,
+  paginationPerPageLabelVariants,
+  paginationPerPageTriggerVariants,
+  paginationPerPageVariants,
+  paginationRangeCurrentVariants,
+  paginationRangeVariants,
+  paginationSpinnerVariants,
   paginationVariants,
-  perPageIndicatorVariants,
-  perPageLabelVariants,
-  perPageTriggerVariants,
-  perPageVariants,
-  rangeCurrentVariants,
-  rangeVariants,
-  spinnerVariants,
 } from "./variants";

@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { rangeCurrentVariants } from "./variants";
+import { paginationRangeCurrentVariants } from "./variants";
 
 export type PaginationRangeCurrentProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
@@ -12,5 +12,5 @@ export type PaginationRangeCurrentProps = Omit<
  * color.
  */
 export function PaginationRangeCurrent(props: PaginationRangeCurrentProps) {
-  return <span className={rangeCurrentVariants()} {...props} />;
+  return <span className={paginationRangeCurrentVariants()} {...props} />;
 }

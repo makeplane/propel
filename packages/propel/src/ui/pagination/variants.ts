@@ -30,7 +30,7 @@ const slotBase = cx(
   "text-13 text-primary outline-none",
 );
 
-export const pageButtonVariants = cva(
+export const paginationPageButtonVariants = cva(
   cx(
     slotBase,
     "rounded-sm bg-layer-transparent",
@@ -52,7 +52,7 @@ export const pageButtonVariants = cva(
   },
 );
 
-export const arrowButtonVariants = cva(
+export const paginationArrowButtonVariants = cva(
   cx(
     slotBase,
     "rounded-md bg-layer-transparent text-icon-secondary",
@@ -68,25 +68,25 @@ export const arrowButtonVariants = cva(
 // A non-interactive gap marker between distant page numbers. Sizes its single child
 // (the more-horizontal glyph, 14px) via the shared node-slot class and tints it the
 // placeholder color, instead of baking a specific glyph/size in.
-export const ellipsisVariants = cva(
+export const paginationEllipsisVariants = cva(
   cx(slotBase, "text-icon-placeholder [--node-size:0.875rem]", nodeSlotClass),
 );
 
 // The current page can render a spinner in place of its number while navigating to it
 // is in flight. A node-slot sized to 14px that spins its child; placeholder tint.
-export const spinnerVariants = cva(
+export const paginationSpinnerVariants = cva(
   cx(nodeSlotClass, "animate-spin text-icon-placeholder [--node-size:0.875rem]"),
 );
 
 // The per-page region (Figma `50 v per page`): the selector pill followed by the
 // trailing "per page" text. Grows to fill the leading space before the page list.
-export const perPageVariants = cva("flex min-w-0 flex-1 items-center gap-2");
+export const paginationPerPageVariants = cva("flex min-w-0 flex-1 items-center gap-2");
 
 // The per-page selector trigger (Figma `4762-503`): a `layer-3` pill, 24px tall,
 // `radius/md`, holding the current size + a chevron-down. It's the trigger for the
 // page-size Menu, so it gets a focus ring; the `group` lets its chevron indicator
 // rotate while the menu is open.
-export const perPageTriggerVariants = cva(
+export const paginationPerPageTriggerVariants = cva(
   cx(
     "group inline-flex h-6 min-w-10 cursor-default items-center justify-center gap-1 rounded-md px-2",
     "bg-layer-3 text-13 font-medium text-secondary outline-none",
@@ -98,7 +98,7 @@ export const perPageTriggerVariants = cva(
 // The chevron indicator inside the per-page trigger. Sizes its single child (14px) and
 // rotates a half-turn while the menu is open (Base UI sets `data-popup-open` on the
 // trigger, which carries the `group` class).
-export const perPageIndicatorVariants = cva(
+export const paginationPerPageIndicatorVariants = cva(
   cx(
     nodeSlotClass,
     "text-icon-secondary [--node-size:0.875rem]",
@@ -107,11 +107,11 @@ export const perPageIndicatorVariants = cva(
 );
 
 // The trailing "per page" text after the selector pill.
-export const perPageLabelVariants = cva("text-13 whitespace-nowrap text-tertiary");
+export const paginationPerPageLabelVariants = cva("text-13 whitespace-nowrap text-tertiary");
 
 // The optional range label shown before the controls (Figma `1-50 of 250`): tertiary,
 // nowrap. The current range inside it is emphasized via `PaginationRangeCurrent`.
-export const rangeVariants = cva("text-12 whitespace-nowrap text-tertiary");
+export const paginationRangeVariants = cva("text-12 whitespace-nowrap text-tertiary");
 
 // The emphasized current-range portion (e.g. `1-50`) inside `PaginationRange`.
-export const rangeCurrentVariants = cva("text-primary");
+export const paginationRangeCurrentVariants = cva("text-primary");

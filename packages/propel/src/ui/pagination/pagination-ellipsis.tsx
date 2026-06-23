@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { ellipsisVariants } from "./variants";
+import { paginationEllipsisVariants } from "./variants";
 
 export type PaginationEllipsisProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
@@ -13,5 +13,5 @@ export type PaginationEllipsisProps = Omit<
  * `aria-hidden`.
  */
 export function PaginationEllipsis(props: PaginationEllipsisProps) {
-  return <span aria-hidden className={ellipsisVariants()} {...props} />;
+  return <span aria-hidden className={paginationEllipsisVariants()} {...props} />;
 }

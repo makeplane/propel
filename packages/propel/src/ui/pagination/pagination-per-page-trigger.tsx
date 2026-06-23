@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { perPageTriggerVariants } from "./variants";
+import { paginationPerPageTriggerVariants } from "./variants";
 
 export type PaginationPerPageTriggerProps = Omit<
   useRender.ComponentProps<"button">,
@@ -16,7 +16,7 @@ export type PaginationPerPageTriggerProps = Omit<
 export function PaginationPerPageTrigger({ render, ...props }: PaginationPerPageTriggerProps) {
   const defaultProps: useRender.ElementProps<"button"> = {
     ...(render == null ? { type: "button" } : null),
-    className: perPageTriggerVariants(),
+    className: paginationPerPageTriggerVariants(),
   };
 
   return useRender({

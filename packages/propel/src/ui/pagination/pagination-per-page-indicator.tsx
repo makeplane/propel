@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { perPageIndicatorVariants } from "./variants";
+import { paginationPerPageIndicatorVariants } from "./variants";
 
 export type PaginationPerPageIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
@@ -13,5 +13,5 @@ export type PaginationPerPageIndicatorProps = Omit<
  * accessible name and state — so `aria-hidden`.
  */
 export function PaginationPerPageIndicator(props: PaginationPerPageIndicatorProps) {
-  return <span aria-hidden className={perPageIndicatorVariants()} {...props} />;
+  return <span aria-hidden className={paginationPerPageIndicatorVariants()} {...props} />;
 }

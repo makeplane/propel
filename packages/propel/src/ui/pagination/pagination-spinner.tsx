@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { spinnerVariants } from "./variants";
+import { paginationSpinnerVariants } from "./variants";
 
 export type PaginationSpinnerProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
@@ -13,5 +13,5 @@ export type PaginationSpinnerProps = Omit<
  * Decorative, so `aria-hidden`.
  */
 export function PaginationSpinner(props: PaginationSpinnerProps) {
-  return <span aria-hidden className={spinnerVariants()} {...props} />;
+  return <span aria-hidden className={paginationSpinnerVariants()} {...props} />;
 }

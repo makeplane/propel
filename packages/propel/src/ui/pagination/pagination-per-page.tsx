@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { perPageVariants } from "./variants";
+import { paginationPerPageVariants } from "./variants";
 
 export type PaginationPerPageProps = Omit<React.ComponentProps<"div">, "className" | "style">;
 
@@ -9,5 +9,5 @@ export type PaginationPerPageProps = Omit<React.ComponentProps<"div">, "classNam
  * `PaginationPerPageLabel`.
  */
 export function PaginationPerPage(props: PaginationPerPageProps) {
-  return <div className={perPageVariants()} {...props} />;
+  return <div className={paginationPerPageVariants()} {...props} />;
 }
