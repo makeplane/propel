@@ -1,13 +1,20 @@
-import { cx } from "class-variance-authority";
-import { MoreHorizontal } from "lucide-react";
+import type * as React from "react";
 
-import { slotBase } from "./variants";
+import { type PaginationMagnitude, ellipsisVariants } from "./variants";
 
-/** A non-interactive gap marker between distant page numbers. */
-export function PaginationEllipsis() {
+export type PaginationEllipsisProps = {
+  magnitude: PaginationMagnitude;
+  children: React.ReactNode;
+};
+
+/**
+ * A non-interactive gap marker between distant page numbers. Pass the ellipsis icon as `children`;
+ * it is sized via `[&>svg]`.
+ */
+export function PaginationEllipsis({ magnitude, children }: PaginationEllipsisProps) {
   return (
-    <li aria-hidden className={cx(slotBase, "text-icon-placeholder")}>
-      <MoreHorizontal className="size-3.5 shrink-0" />
+    <li aria-hidden className={ellipsisVariants({ magnitude })}>
+      {children}
     </li>
   );
 }

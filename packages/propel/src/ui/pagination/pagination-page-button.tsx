@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { pageButtonVariants } from "./variants";
+import { type PaginationMagnitude, pageButtonVariants } from "./variants";
 
 export type PaginationPageButtonProps = Omit<
   React.ComponentProps<"button">,
@@ -8,12 +8,14 @@ export type PaginationPageButtonProps = Omit<
 > & {
   /** Whether this button represents the current page (renders the pressed/selected fill). */
   current: boolean;
+  /** Size of the slot. */
+  magnitude: PaginationMagnitude;
 };
 
 /**
- * A styled page-number button. Applies `pageButtonVariants({ current })`; pass the page number (or
- * a loading spinner) as `children` and wire `aria-current`/`onClick` through props.
+ * A styled page-number button. Applies `pageButtonVariants({ current, magnitude })`; pass the page
+ * number (or a loading spinner) as `children` and wire `aria-current`/`onClick` through props.
  */
-export function PaginationPageButton({ current, ...props }: PaginationPageButtonProps) {
-  return <button type="button" className={pageButtonVariants({ current })} {...props} />;
+export function PaginationPageButton({ current, magnitude, ...props }: PaginationPageButtonProps) {
+  return <button type="button" className={pageButtonVariants({ current, magnitude })} {...props} />;
 }

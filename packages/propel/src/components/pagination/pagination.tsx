@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, ChevronDown, LoaderCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, LoaderCircle, MoreHorizontal } from "lucide-react";
 import * as React from "react";
 
 import { Menu, MenuTrigger } from "../../ui/menu/index";
@@ -177,7 +177,7 @@ export function Pagination({
             arrows move, Enter selects).
           */}
           <Menu>
-            <MenuTrigger render={<PaginationPerPageTrigger />}>
+            <MenuTrigger render={<PaginationPerPageTrigger magnitude="md" />}>
               <span>{l.perPageValue(pageSize.value)}</span>
               <span className="sr-only">{l.perPage}</span>
               <ChevronDown aria-hidden className="transition-transform" />
@@ -211,6 +211,7 @@ export function Pagination({
       <ul className="flex items-center gap-1.5">
         <li>
           <PaginationArrowButton
+            magnitude="md"
             aria-label={l.previous}
             disabled={atStart}
             onClick={() => onPageChange(page - 1)}
@@ -221,12 +222,17 @@ export function Pagination({
 
         {tokens.map((token) => {
           if (token === "ellipsis-start" || token === "ellipsis-end") {
-            return <PaginationEllipsis key={token} />;
+            return (
+              <PaginationEllipsis key={token} magnitude="md">
+                <MoreHorizontal aria-hidden />
+              </PaginationEllipsis>
+            );
           }
           const isCurrent = token === page;
           return (
             <li key={token}>
               <PaginationPageButton
+                magnitude="md"
                 aria-label={l.page(token)}
                 aria-current={isCurrent ? "page" : undefined}
                 current={isCurrent}
@@ -248,6 +254,7 @@ export function Pagination({
 
         <li>
           <PaginationArrowButton
+            magnitude="md"
             aria-label={l.next}
             disabled={atEnd}
             onClick={() => onPageChange(page + 1)}

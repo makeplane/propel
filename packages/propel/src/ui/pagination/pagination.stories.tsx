@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { PaginationArrowButton, PaginationEllipsis, PaginationPageButton } from "./index";
@@ -12,7 +12,7 @@ const meta = {
   title: "UI/Pagination",
   component: PaginationPageButton,
   subcomponents: { PaginationArrowButton, PaginationEllipsis },
-  args: { current: false, children: "1" },
+  args: { current: false, children: "1", magnitude: "md" },
 } satisfies Meta<typeof PaginationPageButton>;
 
 export default meta;
@@ -27,13 +27,14 @@ export const Default: Story = {
     <nav aria-label="Pagination">
       <ul className="flex items-center gap-0.5">
         <li>
-          <PaginationArrowButton aria-label="Go to previous page" disabled>
+          <PaginationArrowButton magnitude="md" aria-label="Go to previous page" disabled>
             <ChevronLeft />
           </PaginationArrowButton>
         </li>
         {PAGES.map((n) => (
           <li key={n}>
             <PaginationPageButton
+              magnitude="md"
               current={n === 1}
               aria-current={n === 1 ? "page" : undefined}
               aria-label={`Go to page ${n}`}
@@ -44,7 +45,7 @@ export const Default: Story = {
           </li>
         ))}
         <li>
-          <PaginationArrowButton aria-label="Go to next page">
+          <PaginationArrowButton magnitude="md" aria-label="Go to next page">
             <ChevronRight />
           </PaginationArrowButton>
         </li>
@@ -66,13 +67,14 @@ export const WithEllipsis: Story = {
     <nav aria-label="Pagination">
       <ul className="flex items-center gap-0.5">
         <li>
-          <PaginationArrowButton aria-label="Go to previous page">
+          <PaginationArrowButton magnitude="md" aria-label="Go to previous page">
             <ChevronLeft />
           </PaginationArrowButton>
         </li>
         {[1, 2, 3].map((n) => (
           <li key={n}>
             <PaginationPageButton
+              magnitude="md"
               current={n === 2}
               aria-current={n === 2 ? "page" : undefined}
               aria-label={`Go to page ${n}`}
@@ -82,14 +84,16 @@ export const WithEllipsis: Story = {
             </PaginationPageButton>
           </li>
         ))}
-        <PaginationEllipsis />
+        <PaginationEllipsis magnitude="md">
+          <MoreHorizontal aria-hidden />
+        </PaginationEllipsis>
         <li>
-          <PaginationPageButton current={false} aria-label="Go to page 100">
+          <PaginationPageButton magnitude="md" current={false} aria-label="Go to page 100">
             100
           </PaginationPageButton>
         </li>
         <li>
-          <PaginationArrowButton aria-label="Go to next page">
+          <PaginationArrowButton magnitude="md" aria-label="Go to next page">
             <ChevronRight />
           </PaginationArrowButton>
         </li>

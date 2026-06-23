@@ -1,5 +1,5 @@
 export { PaginationArrowButton, type PaginationArrowButtonProps } from "./pagination-arrow-button";
-export { PaginationEllipsis } from "./pagination-ellipsis";
+export { PaginationEllipsis, type PaginationEllipsisProps } from "./pagination-ellipsis";
 export { PaginationPageButton, type PaginationPageButtonProps } from "./pagination-page-button";
 export {
   PaginationPerPageTrigger,
@@ -7,7 +7,8 @@ export {
 } from "./pagination-per-page-trigger";
 export {
   arrowButtonVariants,
+  ellipsisVariants,
   pageButtonVariants,
   perPageTriggerVariants,
-  slotBase,
+  type PaginationMagnitude,
 } from "./variants";
