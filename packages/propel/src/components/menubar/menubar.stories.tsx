@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Copy, FilePlus, FolderOpen, Redo2, Save, Scissors, Undo2 } from "lucide-react";
 import { expect, userEvent, waitFor } from "storybook/test";
 
-import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from "../menu/index";
-import { Menubar } from "./index";
+import { Menu, MenuContent, MenuItem, MenuSeparator } from "../menu/index";
+import { Menubar, MenubarTrigger } from "./index";
 
 // Components-tier story: the `Menubar` container hosts a row of `Menu` roots, each
 // using the ready-made `MenuContent` surface plus the rich `MenuItem` rows
@@ -11,14 +11,11 @@ import { Menubar } from "./index";
 const meta = {
   title: "Components/Menubar",
   component: Menubar,
-  subcomponents: { Menu, MenuTrigger, MenuContent, MenuItem },
+  subcomponents: { MenubarTrigger, Menu, MenuContent, MenuItem },
 } satisfies Meta<typeof Menubar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-const triggerClass =
-  "inline-flex h-7 items-center rounded-sm px-2.5 text-13 text-secondary outline-none data-popup-open:bg-layer-transparent-hover";
 
 /** A row of menus, each opening a ready-made `MenuContent` of icon rows. */
 export const Default: Story = {
@@ -36,7 +33,7 @@ export const Default: Story = {
   render: () => (
     <Menubar>
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>File</MenuTrigger>
+        <MenubarTrigger>File</MenubarTrigger>
         <MenuContent width="sm">
           <MenuItem variant="default" inlineStartNode={<FilePlus />} label="New file" />
           <MenuItem variant="default" inlineStartNode={<FolderOpen />} label="Open…" />
@@ -45,7 +42,7 @@ export const Default: Story = {
         </MenuContent>
       </Menu>
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>Edit</MenuTrigger>
+        <MenubarTrigger>Edit</MenubarTrigger>
         <MenuContent width="sm">
           <MenuItem variant="default" inlineStartNode={<Undo2 />} label="Undo" />
           <MenuItem variant="default" inlineStartNode={<Redo2 />} label="Redo" />

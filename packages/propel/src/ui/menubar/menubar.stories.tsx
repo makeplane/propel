@@ -8,9 +8,8 @@ import {
   MenuPortal,
   MenuPositioner,
   MenuSeparator,
-  MenuTrigger,
 } from "../menu/index";
-import { Menubar } from "./index";
+import { Menubar, MenubarTrigger } from "./index";
 
 // UI-tier story: the `Menubar` container hosts a row of atomic `Menu` roots, each
 // assembled from raw parts (Trigger › Portal › Positioner › Popup › Item). The
@@ -18,14 +17,11 @@ import { Menubar } from "./index";
 const meta = {
   title: "UI/Menubar",
   component: Menubar,
-  subcomponents: { Menu, MenuTrigger, MenuPortal, MenuPositioner, MenuPopup, MenuItem },
+  subcomponents: { MenubarTrigger, Menu, MenuPortal, MenuPositioner, MenuPopup, MenuItem },
 } satisfies Meta<typeof Menubar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-const triggerClass =
-  "inline-flex h-7 items-center rounded-sm px-2.5 text-13 text-secondary outline-none data-popup-open:bg-layer-transparent-hover";
 
 /** A row of menus sharing arrow-key navigation and single-open behavior. */
 export const Default: Story = {
@@ -43,7 +39,7 @@ export const Default: Story = {
   render: () => (
     <Menubar>
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>File</MenuTrigger>
+        <MenubarTrigger>File</MenubarTrigger>
         <MenuPortal>
           <MenuPositioner sideOffset={4}>
             <MenuPopup>
@@ -56,7 +52,7 @@ export const Default: Story = {
         </MenuPortal>
       </Menu>
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>Edit</MenuTrigger>
+        <MenubarTrigger>Edit</MenubarTrigger>
         <MenuPortal>
           <MenuPositioner sideOffset={4}>
             <MenuPopup>
