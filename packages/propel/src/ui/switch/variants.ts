@@ -10,7 +10,7 @@ import { cva, cx } from "class-variance-authority";
 // `--switch-thumb-travel`); the thumb reads them off its parent track rather
 // than taking its own size prop — the node-slot philosophy applied to the knob,
 // so the track stays the single source of the size axis.
-export const trackVariants = cva(
+export const switchVariants = cva(
   cx(
     "relative inline-flex shrink-0 items-center rounded-full p-px transition-colors",
     // Off track = Figma icon/placeholder; on track = accent/primary.
@@ -37,7 +37,7 @@ export const trackVariants = cva(
 // In RTL the thumb travels toward the inline-start edge, so the translate is
 // negated. The thumb stays white in every theme and in both on/off states:
 // `on-color` is the white-on-tone token, which holds across the theme flip.
-export const thumbVariants = cva(
+export const switchThumbVariants = cva(
   cx(
     "size-(--switch-thumb-size) rounded-full bg-on-color shadow-raised-100 transition-transform",
     "data-checked:translate-x-(--switch-thumb-travel)",

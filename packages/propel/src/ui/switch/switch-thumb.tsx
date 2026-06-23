@@ -1,6 +1,6 @@
 import { Switch as BaseSwitch } from "@base-ui/react/switch";
 
-import { thumbVariants } from "./variants";
+import { switchThumbVariants } from "./variants";
 
 export type SwitchThumbProps = Omit<BaseSwitch.Thumb.Props, "className" | "style">;
 
@@ -11,5 +11,5 @@ export type SwitchThumbProps = Omit<BaseSwitch.Thumb.Props, "className" | "style
  * own.
  */
 export function SwitchThumb(props: SwitchThumbProps) {
-  return <BaseSwitch.Thumb className={thumbVariants()} {...props} />;
+  return <BaseSwitch.Thumb className={switchThumbVariants()} {...props} />;
 }
