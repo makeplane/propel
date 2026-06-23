@@ -118,7 +118,8 @@ export const menuItemSelectedIndicatorVariants = cva(
 
 /**
  * The chevron that marks a submenu trigger, pinned at the row's inline-end. Sizes its single child
- * to `--node-size`, tints it, and mirrors under RTL. Decorative; defaults to a chevron glyph.
+ * to `--node-size`, tints it, and mirrors under RTL. Decorative; renders the glyph passed as its
+ * child.
  */
 export const menuItemSubmenuIndicatorVariants = cva(
   cx(

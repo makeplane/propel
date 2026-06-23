@@ -1,3 +1,4 @@
+import { Check } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -55,7 +56,11 @@ export function MenuItem({
         {description != null ? <MenuItemDescription>{description}</MenuItemDescription> : null}
       </MenuItemContent>
       {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}
-      {selected ? <MenuItemSelectedIndicator /> : null}
+      {selected ? (
+        <MenuItemSelectedIndicator>
+          <Check />
+        </MenuItemSelectedIndicator>
+      ) : null}
     </MenuItemRoot>
   );
 }

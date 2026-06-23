@@ -1,3 +1,4 @@
+import { ChevronRight } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -40,7 +41,9 @@ export function MenuSubTrigger({
         </MenuItemTitleRow>
       </MenuItemContent>
       {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}
-      <MenuItemSubmenuIndicator />
+      <MenuItemSubmenuIndicator>
+        <ChevronRight />
+      </MenuItemSubmenuIndicator>
     </MenuSubTriggerRoot>
   );
 }

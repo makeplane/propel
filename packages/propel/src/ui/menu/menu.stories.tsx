@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { CircleDot, Copy, Pencil, Trash2 } from "lucide-react";
+import { Check, CircleDot, Copy, Pencil, Trash2 } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent, waitFor } from "storybook/test";
 
@@ -90,7 +90,9 @@ export const Default: Story = {
                   <MenuItemTitle>Duplicate</MenuItemTitle>
                 </MenuItemTitleRow>
               </MenuItemContent>
-              <MenuItemSelectedIndicator />
+              <MenuItemSelectedIndicator>
+                <Check />
+              </MenuItemSelectedIndicator>
             </MenuItem>
             <MenuSeparator />
             <MenuItem variant="default">
