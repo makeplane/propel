@@ -12,6 +12,16 @@ export {
 export { ContextMenuGroup, type ContextMenuGroupProps } from "./context-menu-group";
 export { ContextMenuGroupLabel, type ContextMenuGroupLabelProps } from "./context-menu-group-label";
 export { ContextMenuItem, type ContextMenuItemProps } from "./context-menu-item";
+export { ContextMenuItemIcon, type ContextMenuItemIconProps } from "./context-menu-item-icon";
+export {
+  ContextMenuItemIndicator,
+  type ContextMenuItemIndicatorProps,
+} from "./context-menu-item-indicator";
+export { ContextMenuItemLabel, type ContextMenuItemLabelProps } from "./context-menu-item-label";
+export {
+  ContextMenuItemShortcut,
+  type ContextMenuItemShortcutProps,
+} from "./context-menu-item-shortcut";
 export { ContextMenuLinkItem, type ContextMenuLinkItemProps } from "./context-menu-link-item";
 export { ContextMenuPopup, type ContextMenuPopupProps } from "./context-menu-popup";
 export { ContextMenuPortal } from "./context-menu-portal";
@@ -31,4 +41,8 @@ export {
   ContextMenuSubmenuTrigger,
   type ContextMenuSubmenuTriggerProps,
 } from "./context-menu-submenu-trigger";
+export {
+  ContextMenuSubmenuTriggerIndicator,
+  type ContextMenuSubmenuTriggerIndicatorProps,
+} from "./context-menu-submenu-trigger-indicator";
 export { ContextMenuTrigger, type ContextMenuTriggerProps } from "./context-menu-trigger";

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Check, Copy, Scissors, Trash2 } from "lucide-react";
 import { expect, fireEvent, waitFor } from "storybook/test";
 
 import {
@@ -6,16 +7,22 @@ import {
   ContextMenuGroup,
   ContextMenuGroupLabel,
   ContextMenuItem,
+  ContextMenuItemIcon,
+  ContextMenuItemIndicator,
+  ContextMenuItemLabel,
+  ContextMenuItemShortcut,
   ContextMenuPopup,
   ContextMenuPortal,
   ContextMenuPositioner,
   ContextMenuSeparator,
+  ContextMenuSubmenuTriggerIndicator,
   ContextMenuTrigger,
 } from "./index";
 
 // UI-tier story: assemble the ATOMIC context-menu parts by hand — Root › Trigger,
-// then Portal › Positioner › Popup wrapping items, separators and groups. The
-// components-tier story uses the rich `ContextMenuItem` (icon + label) rows.
+// then Portal › Positioner › Popup wrapping items composed from their region parts
+// (icon, label, shortcut, indicator), separators and groups. The components-tier
+// story uses the rich `ContextMenuItem` (icon + label) rows.
 const meta = {
   title: "UI/ContextMenu",
   component: ContextMenu,
@@ -25,6 +32,11 @@ const meta = {
     ContextMenuPositioner,
     ContextMenuPopup,
     ContextMenuItem,
+    ContextMenuItemIcon,
+    ContextMenuItemLabel,
+    ContextMenuItemShortcut,
+    ContextMenuItemIndicator,
+    ContextMenuSubmenuTriggerIndicator,
     ContextMenuSeparator,
     ContextMenuGroup,
     ContextMenuGroupLabel,
@@ -49,12 +61,31 @@ export const Default: Story = {
           <ContextMenuPopup>
             <ContextMenuGroup>
               <ContextMenuGroupLabel>Actions</ContextMenuGroupLabel>
-              <ContextMenuItem tone="neutral">Cut</ContextMenuItem>
-              <ContextMenuItem tone="neutral">Copy</ContextMenuItem>
-              <ContextMenuItem tone="neutral">Paste</ContextMenuItem>
+              <ContextMenuItem tone="neutral">
+                <ContextMenuItemIcon>
+                  <Scissors />
+                </ContextMenuItemIcon>
+                <ContextMenuItemLabel>Cut</ContextMenuItemLabel>
+                <ContextMenuItemShortcut>⌘X</ContextMenuItemShortcut>
+              </ContextMenuItem>
+              <ContextMenuItem tone="neutral">
+                <ContextMenuItemIcon>
+                  <Copy />
+                </ContextMenuItemIcon>
+                <ContextMenuItemLabel>Copy</ContextMenuItemLabel>
+                <ContextMenuItemShortcut>⌘C</ContextMenuItemShortcut>
+                <ContextMenuItemIndicator>
+                  <Check />
+                </ContextMenuItemIndicator>
+              </ContextMenuItem>
             </ContextMenuGroup>
             <ContextMenuSeparator />
-            <ContextMenuItem tone="danger">Delete</ContextMenuItem>
+            <ContextMenuItem tone="danger">
+              <ContextMenuItemIcon>
+                <Trash2 />
+              </ContextMenuItemIcon>
+              <ContextMenuItemLabel>Delete</ContextMenuItemLabel>
+            </ContextMenuItem>
           </ContextMenuPopup>
         </ContextMenuPositioner>
       </ContextMenuPortal>
