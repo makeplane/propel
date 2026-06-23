@@ -5,6 +5,7 @@ import {
   OTPFieldInput,
   type OTPFieldInputMagnitude,
   type OTPFieldInputTone,
+  OTPFieldLabel,
   type OTPFieldProps as OTPFieldRootProps,
 } from "../../ui/otp-field";
 
@@ -33,9 +34,7 @@ export function OTPField({ length, magnitude, tone, ...props }: OTPFieldProps) {
   const firstSlotLabelId = React.useId();
   return (
     <OTPFieldRoot length={length} {...props}>
-      <span id={firstSlotLabelId} className="sr-only">
-        Character 1
-      </span>
+      <OTPFieldLabel id={firstSlotLabelId}>Character 1</OTPFieldLabel>
       {Array.from({ length }, (_, index) =>
         // Base UI ignores `aria-label` on the first slot, so name it via `aria-labelledby`
         // (pointing at the hidden label); the rest carry an `aria-label`.

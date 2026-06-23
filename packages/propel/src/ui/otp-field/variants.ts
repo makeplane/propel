@@ -34,3 +34,11 @@ export type OTPFieldInputTone = NonNullable<OTPFieldInputVariantProps["tone"]>;
 
 /** Separator: a visual divider between groups of slots (e.g. `123-456`). */
 export const otpFieldSeparatorVariants = cva("text-tertiary");
+
+/**
+ * Label: the visually-hidden accessible name backing the first slot. Base UI ignores `aria-label`
+ * on the first input and names it from `aria-labelledby` instead, so the field needs a real
+ * (hidden) label element. Its `sr-only` styling lives here so neither the components tier nor a
+ * direct composition carries a raw `className`.
+ */
+export const otpFieldLabelVariants = cva("sr-only");

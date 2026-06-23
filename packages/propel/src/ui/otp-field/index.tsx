@@ -5,4 +5,5 @@ export {
   type OTPFieldInputMagnitude,
   type OTPFieldInputTone,
 } from "./otp-field-input";
+export { OTPFieldLabel, type OTPFieldLabelProps } from "./otp-field-label";
 export { OTPFieldSeparator, type OTPFieldSeparatorProps } from "./otp-field-separator";
