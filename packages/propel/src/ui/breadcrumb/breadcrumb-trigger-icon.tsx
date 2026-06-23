@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { crumbTriggerIconVariants } from "./variants";
+import { breadcrumbTriggerIconVariants } from "./variants";
 
 export type BreadcrumbTriggerIconProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
@@ -13,5 +13,5 @@ export type BreadcrumbTriggerIconProps = Omit<
  * accessible name), so it is `aria-hidden`.
  */
 export function BreadcrumbTriggerIcon(props: BreadcrumbTriggerIconProps) {
-  return <span aria-hidden className={crumbTriggerIconVariants()} {...props} />;
+  return <span aria-hidden className={breadcrumbTriggerIconVariants()} {...props} />;
 }

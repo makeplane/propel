@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import type * as React from "react";
 
-import { crumbTriggerIndicatorVariants } from "./variants";
+import { breadcrumbTriggerIndicatorVariants } from "./variants";
 
 export type BreadcrumbTriggerIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
@@ -19,7 +19,7 @@ export function BreadcrumbTriggerIndicator({
   ...props
 }: BreadcrumbTriggerIndicatorProps) {
   return (
-    <span aria-hidden className={crumbTriggerIndicatorVariants()} {...props}>
+    <span aria-hidden className={breadcrumbTriggerIndicatorVariants()} {...props}>
       {children ?? <ChevronRight />}
     </span>
   );

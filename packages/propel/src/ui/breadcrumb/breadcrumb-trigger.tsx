@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { crumbTriggerVariants } from "./variants";
+import { breadcrumbTriggerVariants } from "./variants";
 
 export type BreadcrumbTriggerProps = Omit<
   useRender.ComponentProps<"button">,
@@ -18,7 +18,7 @@ export type BreadcrumbTriggerProps = Omit<
 export function BreadcrumbTrigger({ group = false, render, ...props }: BreadcrumbTriggerProps) {
   const defaultProps: useRender.ElementProps<"button"> = {
     ...(render == null ? { type: "button" } : null),
-    className: crumbTriggerVariants({ group }),
+    className: breadcrumbTriggerVariants({ group }),
   };
 
   return useRender({

@@ -11,11 +11,12 @@ export {
   type BreadcrumbTriggerIndicatorProps,
 } from "./breadcrumb-trigger-indicator";
 export {
-  crumbItemVariants,
-  crumbListVariants,
-  crumbSeparatorVariants,
-  crumbTriggerIconVariants,
-  crumbTriggerIndicatorVariants,
-  crumbTriggerVariants,
-  crumbVariants,
+  breadcrumbItemVariants,
+  breadcrumbLinkVariants,
+  breadcrumbListVariants,
+  breadcrumbPageVariants,
+  breadcrumbSeparatorVariants,
+  breadcrumbTriggerIconVariants,
+  breadcrumbTriggerIndicatorVariants,
+  breadcrumbTriggerVariants,
 } from "./variants";

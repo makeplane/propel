@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import type * as React from "react";
 
-import { crumbSeparatorVariants } from "./variants";
+import { breadcrumbSeparatorVariants } from "./variants";
 
 export type BreadcrumbSeparatorProps = Omit<React.ComponentProps<"li">, "className" | "style">;
 
@@ -11,7 +11,7 @@ export type BreadcrumbSeparatorProps = Omit<React.ComponentProps<"li">, "classNa
  */
 export function BreadcrumbSeparator({ children, ...props }: BreadcrumbSeparatorProps) {
   return (
-    <li aria-hidden role="presentation" className={crumbSeparatorVariants()} {...props}>
+    <li aria-hidden role="presentation" className={breadcrumbSeparatorVariants()} {...props}>
       {children ?? <ChevronRight aria-hidden />}
     </li>
   );
