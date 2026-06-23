@@ -4,22 +4,20 @@ import { X } from "lucide-react";
 import {
   Toast as ToastRoot,
   ToastAction,
+  ToastActionButton,
+  ToastActionGroup,
+  ToastActions,
   ToastClose,
   ToastContent,
   ToastDescription,
   ToastStatusIcon,
   type ToastTone,
+  ToastTextGroup,
   ToastTitle,
   createToastManager as createBaseToastManager,
   useToastManager,
 } from "../../ui/toast/index";
-import { toastActionVariants } from "../../ui/toast/variants";
 import { Progress } from "../progress/index";
-import {
-  toastActionClusterVariants,
-  toastActionRowVariants,
-  toastTextGroupVariants,
-} from "./variants";
 
 // The semantic intent of a toast (Figma "Property 1": Default / Variant2 / Variant3
 // = success / danger / info). `warning` and `neutral` round out the standard set.
@@ -108,10 +106,10 @@ export function Toast({ toast, ...props }: ToastProps) {
       {/* `mt-0.5` on the icon (via statusIconVariants) baselines it with the title. */}
       <ToastStatusIcon tone={data.tone} />
       <ToastContent>
-        <div className={toastTextGroupVariants()}>
+        <ToastTextGroup>
           <ToastTitle />
           <ToastDescription />
-        </div>
+        </ToastTextGroup>
         {data.progress != null ? (
           <Progress
             variant="linear"
@@ -121,36 +119,32 @@ export function Toast({ toast, ...props }: ToastProps) {
           />
         ) : null}
         {hasActionRow ? (
-          // The row already sits in the content column (past the icon), so the left
-          // cluster just needs `-ms-2` to pull each button's transparent px-2 pill back
-          // by its own padding — that lines the button label up with the title text
-          // while the hover fill bleeds left. The left cluster grows to fill so the
-          // primary action pins to the inline-end edge. RTL-safe via logical utilities.
-          <div className={toastActionRowVariants()}>
-            <div className={toastActionClusterVariants()}>
+          // The left cluster grows to fill so the primary action pins to the inline-end
+          // edge; `ToastActionGroup` carries the offset that lines the buttons up with
+          // the title text. RTL-safe via logical utilities (owned by the ui parts).
+          <ToastActions>
+            <ToastActionGroup>
               {leftActions.map((action, index) => (
-                <button
+                <ToastActionButton
                   // Actions are positional and have no stable id; index keys are fine
                   // for this short, static-per-render list.
                   key={index}
-                  type="button"
-                  className={toastActionVariants()}
                   onClick={action.onClick}
                 >
                   {action.label}
-                </button>
+                </ToastActionButton>
               ))}
-            </div>
+            </ToastActionGroup>
             {primaryAction ? (
               // The right-aligned action is wired through Base UI's `Toast.Action` so it
               // takes part in the toast's focus management.
               <ToastAction onClick={primaryAction.onClick}>{primaryAction.label}</ToastAction>
             ) : null}
-          </div>
+          </ToastActions>
         ) : null}
       </ToastContent>
       <ToastClose aria-label="Dismiss">
-        <X aria-hidden className="size-3.5" />
+        <X />
       </ToastClose>
     </ToastRoot>
   );
