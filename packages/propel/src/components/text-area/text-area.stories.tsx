@@ -1,27 +1,26 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import type * as React from "react";
 import { expect } from "storybook/test";
 
 import { Field, FieldError, FieldLabel } from "../field/index";
-import { TextArea, textAreaFieldBoxVariants } from "./index";
+import { TextArea, TextAreaBox } from "./index";
 
 const meta = {
   title: "Components/TextArea",
   component: TextArea,
+  subcomponents: { TextAreaBox },
+  decorators: [
+    (Story) => (
+      <div className="w-80">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof TextArea>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-function TextAreaSurface({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="w-80">
-      <div className={textAreaFieldBoxVariants({ tone: "neutral" })}>{children}</div>
-    </div>
-  );
-}
-
-/** Styled textarea leaf. It uses the internal Base UI-backed textarea primitive for Field wiring. */
+/** Styled textarea leaf framed by `TextAreaBox`. Uses the Base UI-backed primitive for Field wiring. */
 export const Default: Story = {
   args: {
     magnitude: "md",
@@ -32,9 +31,9 @@ export const Default: Story = {
     rows: 4,
   },
   render: (args) => (
-    <TextAreaSurface>
+    <TextAreaBox tone="neutral">
       <TextArea {...args} />
-    </TextAreaSurface>
+    </TextAreaBox>
   ),
 };
 
@@ -44,9 +43,9 @@ export const FieldComposition: Story = {
   render: (args) => (
     <Field name="comment">
       <FieldLabel magnitude="md">Comment</FieldLabel>
-      <TextAreaSurface>
+      <TextAreaBox tone="neutral">
         <TextArea {...args} placeholder="Leave a comment..." />
-      </TextAreaSurface>
+      </TextAreaBox>
     </Field>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -63,9 +62,9 @@ export const FieldErrorAssociation: Story = {
   render: (args) => (
     <Field name="comment" invalid>
       <FieldLabel magnitude="md">Comment</FieldLabel>
-      <TextAreaSurface>
+      <TextAreaBox tone="danger">
         <TextArea {...args} defaultValue="No" />
-      </TextAreaSurface>
+      </TextAreaBox>
       <FieldError magnitude="md" match={true}>
         Add a little more detail.
       </FieldError>
