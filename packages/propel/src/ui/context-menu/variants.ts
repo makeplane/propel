@@ -26,7 +26,7 @@ export const contextMenuItemVariants = cva(
       tone: {
         neutral: "text-secondary data-highlighted:text-primary",
         danger:
-          "text-danger-secondary data-disabled:text-disabled data-highlighted:text-danger-primary",
+          "text-danger-primary data-disabled:text-disabled data-highlighted:text-danger-primary",
       },
     },
   },
@@ -46,7 +46,7 @@ export const contextMenuSubmenuTriggerVariants = cva(
       tone: {
         neutral: "text-secondary data-highlighted:text-primary data-popup-open:text-primary",
         danger:
-          "text-danger-secondary data-disabled:text-disabled data-highlighted:text-danger-primary data-popup-open:text-danger-primary",
+          "text-danger-primary data-disabled:text-disabled data-highlighted:text-danger-primary data-popup-open:text-danger-primary",
       },
     },
   },
