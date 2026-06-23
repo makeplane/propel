@@ -97,6 +97,21 @@ export const Magnitudes: Story = {
   ),
 };
 
+/** `stretch="full"` fills the container (e.g. a form row or mobile CTA). */
+export const Stretch: Story = {
+  argTypes: { stretch: { control: false }, children: { control: false } },
+  render: (args) => (
+    <div className="flex w-64 flex-col gap-2">
+      <Button {...args} stretch="auto">
+        Auto width
+      </Button>
+      <Button {...args} stretch="full">
+        Full width
+      </Button>
+    </div>
+  ),
+};
+
 /**
  * Clicking the button fires `onClick`. Tagged out of the sidebar/docs/manifest but still runs under
  * the default `test` tag.

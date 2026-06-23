@@ -3,6 +3,7 @@ import type * as React from "react";
 
 import { NodeSlot } from "../../internal/node-slot";
 import { Button as ButtonRoot, type ButtonProps as ButtonRootProps } from "../../ui/button";
+import { buttonLabelClass } from "../../ui/button/variants";
 
 export type ButtonProps = ButtonRootProps & {
   /**
@@ -47,7 +48,8 @@ export function Button({
       ) : inlineStartNode ? (
         <NodeSlot aria-hidden>{inlineStartNode}</NodeSlot>
       ) : null}
-      {children}
+      {/* buttonLabelClass dims the label when the root is aria-busy (loading). */}
+      <span className={buttonLabelClass}>{children}</span>
       {!loading && inlineEndNode ? <NodeSlot aria-hidden>{inlineEndNode}</NodeSlot> : null}
     </ButtonRoot>
   );

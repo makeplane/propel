@@ -4,6 +4,7 @@ export { Button, type ButtonProps } from "./button";
 export {
   type ButtonEmphasis,
   type ButtonMagnitude,
+  type ButtonStretch,
   type ButtonTone,
   type ButtonVariant,
   buttonVariants,

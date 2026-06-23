@@ -128,7 +128,7 @@ export const WithIcons: Story = {
   ),
 };
 
-/** The loading state shows a spinner, sets `aria-busy`, and blocks interaction. */
+/** The loading state shows a spinner, sets `aria-busy`, and blocks interaction. The label dims. */
 export const Loading: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
@@ -141,6 +141,21 @@ export const Loading: Story = {
       </Button>
       <Button {...args} variant="tertiary" loading>
         Please wait
+      </Button>
+    </div>
+  ),
+};
+
+/** `stretch="full"` fills the container (e.g. a form row or mobile CTA). */
+export const Stretch: Story = {
+  parameters: { controls: { disable: true } },
+  render: (args) => (
+    <div className="flex w-64 flex-col gap-2">
+      <Button {...args} stretch="full">
+        Full-width
+      </Button>
+      <Button {...args} variant="secondary" stretch="full">
+        Full-width outline
       </Button>
     </div>
   ),
