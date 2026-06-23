@@ -8,9 +8,12 @@ catalogMode: prefer
 catalog:
   "@types/node": ^24
   typescript: ^5
-  vite: npm:@voidzero-dev/vite-plus-core@latest
+  # Pin the Vite+ toolchain to an exact version (was `@latest`). `@latest` re-resolved to a
+  # different `@voidzero-dev/vite-plus-core` on every install, so the bundled `oxfmt` drifted
+  # between local and CI and formatted the same file differently — keep it deterministic.
+  vite: npm:@voidzero-dev/vite-plus-core@0.2.1
   vitest: 4.1.9
-  vite-plus: ^0.2.0
+  vite-plus: 0.2.1
 
 overrides:
   vite: "catalog:"
@@ -25,7 +28,6 @@ overrides:
   "miniflare>ws": 8.21.0
   "storybook>ws": 8.21.0
   "@vitest/browser>ws": 8.21.0
-  "@voidzero-dev/vite-plus-test>ws": 8.21.0
   "@changesets/parse>js-yaml": 4.2.0
   "read-yaml-file>js-yaml": 4.2.0
   "storybook>esbuild": 0.28.1
