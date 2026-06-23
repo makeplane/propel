@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -5,6 +6,7 @@ import {
   type CollapsibleProps as CollapsibleRootProps,
   CollapsiblePanel,
   CollapsibleTrigger,
+  CollapsibleTriggerIndicator,
 } from "../../ui/collapsible";
 
 export type CollapsibleProps = CollapsibleRootProps & {
@@ -12,17 +14,27 @@ export type CollapsibleProps = CollapsibleRootProps & {
   trigger: React.ReactNode;
   /** The collapsible content region. */
   children: React.ReactNode;
+  /** Whether to show the rotating chevron indicator at the trigger's inline-end. */
+  indicator: boolean;
 };
 
 /**
  * The ready-made collapsible: a single show/hide disclosure that wires the trigger and panel for
- * the 90% case. Pass `trigger` for the toggle button and `children` for the body; forward
- * `defaultOpen` (uncontrolled) or `open` + `onOpenChange` (controlled) to drive it.
+ * the 90% case. Pass `trigger` for the toggle button label and `children` for the body; forward
+ * `defaultOpen` (uncontrolled) or `open` + `onOpenChange` (controlled) to drive it. Set
+ * `indicator={false}` to omit the rotating chevron from the trigger.
  */
-export function Collapsible({ trigger, children, ...props }: CollapsibleProps) {
+export function Collapsible({ trigger, children, indicator, ...props }: CollapsibleProps) {
   return (
     <CollapsibleRoot {...props}>
-      <CollapsibleTrigger>{trigger}</CollapsibleTrigger>
+      <CollapsibleTrigger>
+        <span className="flex-1">{trigger}</span>
+        {indicator ? (
+          <CollapsibleTriggerIndicator>
+            <ChevronDown />
+          </CollapsibleTriggerIndicator>
+        ) : null}
+      </CollapsibleTrigger>
       <CollapsiblePanel>{children}</CollapsiblePanel>
     </CollapsibleRoot>
   );

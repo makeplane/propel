@@ -5,4 +5,6 @@ export {
   type CollapsiblePanelProps,
   CollapsibleTrigger,
   type CollapsibleTriggerProps,
+  CollapsibleTriggerIndicator,
+  type CollapsibleTriggerIndicatorProps,
 } from "../../ui/collapsible";
