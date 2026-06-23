@@ -68,8 +68,8 @@ export const badgeIconVariants = cva(nodeSlotClass);
 export const badgeLabelVariants = cva("min-w-0");
 
 // The optional dismiss/remove action at the badge's inline-end. A button that sizes its
-// single child (an X glyph by default) to the badge's `--node-size`, inherits the tone's
-// text color, and dims slightly until hovered so it reads as secondary to the label.
+// single child (the dismiss glyph, passed in) to the badge's `--node-size`, inherits the
+// tone's text color, and dims slightly until hovered so it reads as secondary to the label.
 export const badgeDismissVariants = cva(
   cx(
     nodeSlotClass,

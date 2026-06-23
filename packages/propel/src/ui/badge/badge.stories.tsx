@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 import {
   Badge,
@@ -122,7 +122,9 @@ export const WithDismiss: Story = {
       {MAGNITUDES.map((magnitude) => (
         <Badge key={magnitude} {...args} tone="brand" magnitude={magnitude}>
           <BadgeLabel>Label</BadgeLabel>
-          <BadgeDismiss aria-label="Remove label" />
+          <BadgeDismiss aria-label="Remove label">
+            <X />
+          </BadgeDismiss>
         </Badge>
       ))}
     </div>

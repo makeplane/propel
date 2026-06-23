@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -40,7 +41,11 @@ export function Badge({
     <BadgeRoot {...props}>
       {inlineStartNode ? <BadgeIcon>{inlineStartNode}</BadgeIcon> : null}
       <BadgeLabel>{children}</BadgeLabel>
-      {onDismiss ? <BadgeDismiss aria-label={dismissLabel} onClick={onDismiss} /> : null}
+      {onDismiss ? (
+        <BadgeDismiss aria-label={dismissLabel} onClick={onDismiss}>
+          <X />
+        </BadgeDismiss>
+      ) : null}
     </BadgeRoot>
   );
 }
