@@ -40,12 +40,17 @@ export const accordionTriggerIconVariants = cva(cx(nodeSlotClass, "text-icon-sec
 // trailing edge; `min-w-0` lets long labels wrap/shrink instead of overflowing.
 export const accordionTriggerTitleVariants = cva("min-w-0 flex-1 text-start");
 
-// The disclosure caret inside the trigger. Rotates 180° when the item's panel opens
-// (Base UI sets `data-panel-open` on the trigger, which carries the `group` class).
+// The disclosure caret inside the trigger. Per Figma the caret points toward the
+// inline-end when collapsed and rotates to point down when the panel opens (Base UI
+// sets `data-panel-open` on the trigger, which carries the `group` class). The glyph
+// is a chevron-down at rest (the open state), rotated a quarter-turn while collapsed —
+// toward the inline-end, mirrored under RTL.
 export const accordionTriggerIndicatorVariants = cva(
   cx(
     "inline-flex shrink-0 items-center justify-center text-icon-secondary",
-    "transition-transform duration-200 group-data-panel-open:rotate-180",
+    "transition-transform duration-200",
+    "-rotate-90 group-data-panel-open:rotate-0",
+    "rtl:rotate-90 rtl:group-data-panel-open:rotate-0",
   ),
 );
 
