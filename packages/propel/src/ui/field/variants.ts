@@ -4,7 +4,7 @@ import { nodeSlotClass } from "../../internal/node-slot";
 
 export type { InputMagnitude } from "../input/variants";
 
-export const fieldRootVariants = cva("flex flex-col gap-1.5");
+export const fieldVariants = cva("flex flex-col gap-1.5");
 
 export const fieldLabelVariants = cva(
   cx("inline-flex items-center gap-0.5", "font-medium text-primary"),
@@ -130,7 +130,9 @@ export const textAreaFieldBoxVariants = cva(
 
 // The decorative 16px node at the control's inline start/end. Sizes its single child
 // to `--node-size` (via the shared node-slot class) and tints it.
-export const iconSlotVariants = cva(cx(nodeSlotClass, "text-icon-secondary [--node-size:1rem]"));
+export const inputFieldIconSlotVariants = cva(
+  cx(nodeSlotClass, "text-icon-secondary [--node-size:1rem]"),
+);
 
 export const fieldItemVariants = cva(
   cx(
@@ -140,7 +142,7 @@ export const fieldItemVariants = cva(
   ),
 );
 
-export const labelGroupVariants = cva("flex flex-col gap-1", {
+export const fieldLabelGroupVariants = cva("flex flex-col gap-1", {
   variants: {
     orientation: {
       vertical: "w-full",

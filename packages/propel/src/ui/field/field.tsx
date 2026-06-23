@@ -1,6 +1,6 @@
 import { Field as BaseField } from "@base-ui/react/field";
 
-import { fieldRootVariants } from "./variants";
+import { fieldVariants } from "./variants";
 
 export type FieldProps = Omit<BaseField.Root.Props, "className" | "style">;
 
@@ -9,5 +9,5 @@ export type FieldProps = Omit<BaseField.Root.Props, "className" | "style">;
  * `TextAreaFieldControl`, `FieldDescription`, and `FieldError`.
  */
 export function Field(props: FieldProps) {
-  return <BaseField.Root className={fieldRootVariants()} {...props} />;
+  return <BaseField.Root className={fieldVariants()} {...props} />;
 }
