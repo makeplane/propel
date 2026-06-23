@@ -1,9 +1,14 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { cx, type VariantProps } from "class-variance-authority";
+import { type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-import { navItemVariants } from "./variants";
+import {
+  navItemIconClass,
+  navItemLabelClass,
+  navItemTrailingClass,
+  navItemVariants,
+} from "./variants";
 
 export type NavItemMagnitude = NonNullable<VariantProps<typeof navItemVariants>["magnitude"]>;
 export type NavItemLevel = NonNullable<VariantProps<typeof navItemVariants>["level"]>;
@@ -41,21 +46,12 @@ export function NavItem({
     children: (
       <>
         {inlineStartNode ? (
-          <span
-            aria-hidden
-            className={cx(
-              "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
-              "group-active/nav-item:text-icon-primary group-data-active/nav-item:text-icon-primary",
-              "group-disabled/nav-item:text-icon-disabled group-aria-disabled/nav-item:text-icon-disabled",
-            )}
-          >
+          <span aria-hidden className={navItemIconClass}>
             {inlineStartNode}
           </span>
         ) : null}
-        <span className="min-w-0 flex-1 truncate leading-snug font-medium">{children}</span>
-        {inlineEndNode ? (
-          <span className="flex shrink-0 items-center gap-2">{inlineEndNode}</span>
-        ) : null}
+        <span className={navItemLabelClass}>{children}</span>
+        {inlineEndNode ? <span className={navItemTrailingClass}>{inlineEndNode}</span> : null}
       </>
     ),
   };

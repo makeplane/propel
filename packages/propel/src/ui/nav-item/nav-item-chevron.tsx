@@ -1,5 +1,6 @@
-import { cx } from "class-variance-authority";
 import type * as React from "react";
+
+import { navItemChevronVariants } from "./variants";
 
 /** The disclosure chevron for an expandable nav row. */
 export function NavItemChevron({
@@ -15,10 +16,7 @@ export function NavItemChevron({
     <span
       aria-hidden
       data-open={open ? "" : undefined}
-      className={cx(
-        "flex size-4 shrink-0 items-center justify-center text-icon-placeholder [&>svg]:size-full",
-        "transition-transform data-open:rotate-180 rtl:-scale-x-100",
-      )}
+      className={navItemChevronVariants({ open })}
     >
       {icon}
     </span>
