@@ -1,4 +1,6 @@
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
+
+import { nodeSlotClass } from "../../internal/node-slot";
 
 // "Always the same" per Figma design spec (issue #142):
 // - Pill-shaped border-radius (fully rounded ends)
@@ -7,17 +9,32 @@ import { cva } from "class-variance-authority";
 // - Font weight
 // - Single-line text (no wrapping)
 // - Hover/press/disabled/loading visual treatment
+// - Leading/trailing node position (inline-start / inline-end), sized per size step
+//
+// "Depends (adjustable)" → props: label (children), leading/trailing node, magnitude,
+// selected/unselected (PillSwitch pressed state), disabled, and which interactive part
+// (PillButton vs PillSwitch vs IconPill). magnitude has no sensible default, so it is a
+// required prop on every container part — no cva `defaultVariants`.
 
-// Shared structural base baked into all pill cva below.
+// Shared structural base baked into every pill container cva below.
 const pillBase =
   "inline-flex shrink-0 items-center justify-center rounded-full border-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-strong";
 
-// ─── Label pill (PillButton) ─────────────────────────────────────────────────
+// Shared label-pill box (PillButton + PillSwitch): a 14px node scale, capped width, and
+// per-magnitude height/padding/font.
+const labelPillBox = cx(pillBase, "max-w-[120px] gap-1 py-1 [--node-size:0.875rem]");
+
+const labelPillMagnitude = {
+  sm: "h-5 px-1.5 text-12",
+  md: "h-6 px-1.5 text-13",
+  lg: "h-7 px-2 text-body-sm-regular",
+} as const;
+
+// ─── Containers (one styled element each) ────────────────────────────────────
 
 export const pillButtonVariants = cva(
   [
-    pillBase,
-    "max-w-[120px] gap-1 py-1 [--node-size:0.875rem]",
+    labelPillBox,
     "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
     "hover:border-strong hover:bg-layer-2-hover",
     "active:border-strong active:bg-layer-2-active active:text-primary",
@@ -25,39 +42,22 @@ export const pillButtonVariants = cva(
     "aria-busy:cursor-default aria-busy:border-subtle-1 aria-busy:bg-layer-transparent aria-busy:text-disabled",
   ],
   {
-    variants: {
-      magnitude: {
-        sm: "h-5 px-1.5 text-12",
-        md: "h-6 px-1.5 text-13",
-        lg: "h-7 px-2 text-body-sm-regular",
-      },
-    },
+    variants: { magnitude: labelPillMagnitude },
   },
 );
 
-// ─── Label pill (PillSwitch) ─────────────────────────────────────────────────
-
 export const pillSwitchVariants = cva(
   [
-    pillBase,
-    "max-w-[120px] gap-1 py-1 [--node-size:0.875rem]",
+    labelPillBox,
     "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
     "hover:border-strong hover:bg-layer-2-hover",
     "data-pressed:border-strong data-pressed:bg-layer-2-selected data-pressed:text-primary",
     "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
   ],
   {
-    variants: {
-      magnitude: {
-        sm: "h-5 px-1.5 text-12",
-        md: "h-6 px-1.5 text-13",
-        lg: "h-7 px-2 text-body-sm-regular",
-      },
-    },
+    variants: { magnitude: labelPillMagnitude },
   },
 );
-
-// ─── Icon pill ───────────────────────────────────────────────────────────────
 
 export const iconPillVariants = cva(
   [
@@ -78,5 +78,20 @@ export const iconPillVariants = cva(
     },
   },
 );
+
+// ─── Inline parts (one element each) ─────────────────────────────────────────
+
+// The single-line label inside a label pill. `min-w-0` lets it shrink and `truncate`
+// keeps it on one line per the Figma spec.
+export const pillLabelVariants = cva("min-w-0 truncate");
+
+// A decorative leading/trailing node slot (the Figma inline-start / inline-end node).
+// Sizes whatever single child is passed to the pill's inherited `--node-size`; the tint
+// comes from the container's text color, so no color is baked here.
+export const pillIconVariants = cva(nodeSlotClass);
+
+// The busy spinner that replaces a node while a pill is loading. It is itself the svg,
+// so it sizes directly to the pill's `--node-size`; tinted by the container text color.
+export const pillSpinnerVariants = cva("size-(--node-size) shrink-0 animate-spin");
 
 export type PillMagnitude = NonNullable<Parameters<typeof pillButtonVariants>[0]>["magnitude"];
