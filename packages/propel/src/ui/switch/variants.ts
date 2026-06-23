@@ -35,9 +35,9 @@ export const thumbVariants = cva(
   {
     variants: {
       magnitude: {
-        lg: "size-4 data-checked:translate-x-[12px]",
-        md: "size-3.5 data-checked:translate-x-[11px]",
-        sm: "size-3 data-checked:translate-x-[9px]",
+        lg: "size-4 data-checked:translate-x-[12px] rtl:data-checked:-translate-x-[12px]",
+        md: "size-3.5 data-checked:translate-x-[11px] rtl:data-checked:-translate-x-[11px]",
+        sm: "size-3 data-checked:translate-x-[9px] rtl:data-checked:-translate-x-[9px]",
       },
     },
   },
