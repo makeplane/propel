@@ -15,7 +15,19 @@ export const meterTrackVariants = cva("h-1.5 w-full overflow-hidden rounded-full
 /**
  * Indicator: the filled portion. Base UI sets its `width` inline from the meter value, so we own
  * only the fill, pill radius, and the width transition — never a hardcoded width.
+ *
+ * The `tone` variant encodes the spec's color breakpoints: - `low` → value is in the suboptimal low
+ * range → warning color - `medium` → value is in the optimal / default range → brand/accent color -
+ * `high` → value is in the suboptimal high range → success color
+ *
+ * No `defaultVariants` — callers must supply `tone` explicitly.
  */
-export const meterIndicatorVariants = cva(
-  "h-full rounded-full bg-accent-primary transition-[width] duration-200",
-);
+export const meterIndicatorVariants = cva("h-full rounded-full transition-[width] duration-200", {
+  variants: {
+    tone: {
+      low: "bg-warning-primary",
+      medium: "bg-accent-primary",
+      high: "bg-success-primary",
+    },
+  },
+});

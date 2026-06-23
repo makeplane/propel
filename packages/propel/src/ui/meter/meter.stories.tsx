@@ -30,7 +30,7 @@ export const Default: Story = {
     <Meter {...args}>
       <MeterLabel>Disk usage</MeterLabel>
       <MeterTrack>
-        <MeterIndicator />
+        <MeterIndicator tone="medium" />
       </MeterTrack>
       <MeterValue />
     </Meter>
@@ -46,7 +46,7 @@ export const Levels: Story = {
         <Meter key={value} value={value}>
           <MeterLabel>Storage</MeterLabel>
           <MeterTrack>
-            <MeterIndicator />
+            <MeterIndicator tone="medium" />
           </MeterTrack>
           <MeterValue />
         </Meter>
@@ -64,7 +64,7 @@ export const HasMeterRole: Story = {
   render: () => (
     <Meter value={42} aria-label="Quota">
       <MeterTrack>
-        <MeterIndicator />
+        <MeterIndicator tone="medium" />
       </MeterTrack>
       <MeterValue />
     </Meter>
