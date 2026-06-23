@@ -4,10 +4,13 @@ import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Button } from "../button";
 import {
   Popover,
+  PopoverActions,
   PopoverArrow,
   PopoverBackdrop,
+  PopoverBody,
   PopoverClose,
   PopoverDescription,
+  PopoverIntro,
   PopoverPopup,
   PopoverPortal,
   PopoverPositioner,
@@ -17,11 +20,11 @@ import {
 } from "./index";
 
 // UI-tier story: assembles the ATOMIC popover parts by hand (Root › Trigger ›
-// Portal › Positioner › Popup, plus Viewport/Title/Description/Arrow/Close). The
-// components-tier `PopoverContent` ready-made composes the portal/positioner/panel
-// surface for you. Trigger/Close compose the `Button` primitive via Base UI's
-// `render` prop — the styled primitive is the outer element so its look wins, the
-// popover part supplies the behavior.
+// Portal › Positioner › Popup, plus Viewport/Body/Intro/Actions/Title/Description/
+// Arrow/Close). The components-tier `PopoverContent` ready-made composes the
+// portal/positioner/panel surface for you. Trigger/Close compose the `Button`
+// primitive via Base UI's `render` prop — the styled primitive is the outer element
+// so its look wins, the popover part supplies the behavior.
 
 const meta = {
   title: "UI/Popover",
@@ -33,6 +36,9 @@ const meta = {
     PopoverPositioner,
     PopoverViewport,
     PopoverPopup,
+    PopoverBody,
+    PopoverIntro,
+    PopoverActions,
     PopoverTitle,
     PopoverDescription,
     PopoverArrow,
@@ -54,12 +60,14 @@ export const Anatomy: Story = {
         <PopoverPositioner side="bottom" sideOffset={8}>
           <PopoverPopup>
             <PopoverViewport>
-              <div className="flex w-56 flex-col gap-1 p-2">
-                <PopoverTitle>Keyboard shortcuts</PopoverTitle>
-                <PopoverDescription>
-                  Press <kbd>?</kbd> anywhere to see the full list.
-                </PopoverDescription>
-              </div>
+              <PopoverBody>
+                <PopoverIntro>
+                  <PopoverTitle>Keyboard shortcuts</PopoverTitle>
+                  <PopoverDescription>
+                    Press <kbd>?</kbd> anywhere to see the full list.
+                  </PopoverDescription>
+                </PopoverIntro>
+              </PopoverBody>
             </PopoverViewport>
             <PopoverArrow />
           </PopoverPopup>
@@ -90,21 +98,21 @@ export const Modal: Story = {
         <PopoverPositioner side="bottom" sideOffset={8}>
           <PopoverPopup>
             {/*
-             * Two layout groups, separated by the parent's gap (never a margin on a
-             * child): an "intro" (title + description) and the "actions" row. Future
-             * anatomy surfaces — e.g. PopoverIntro and PopoverActions.
+             * Two layout regions, separated by the body's gap (never a margin on a
+             * child): a `PopoverIntro` (title + description) and a `PopoverActions`
+             * row. `PopoverBody` owns the padding + column layout.
              */}
-            <div className="flex w-56 flex-col gap-2 p-2">
-              <div className="flex flex-col gap-2">
+            <PopoverBody>
+              <PopoverIntro>
                 <PopoverTitle>Confirm</PopoverTitle>
                 <PopoverDescription>Focus is trapped while this is open.</PopoverDescription>
-              </div>
-              <div className="flex justify-end">
+              </PopoverIntro>
+              <PopoverActions>
                 <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverClose />}>
                   Close
                 </Button>
-              </div>
-            </div>
+              </PopoverActions>
+            </PopoverBody>
           </PopoverPopup>
         </PopoverPositioner>
       </PopoverPortal>

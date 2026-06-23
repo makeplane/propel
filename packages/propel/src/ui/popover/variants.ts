@@ -1,12 +1,32 @@
 import { cva } from "class-variance-authority";
 
 export const popoverPositionerVariants = cva("z-50 outline-none");
+// Spec "always the same": shadow/elevation, border-radius, max-width constraint, and
+// the open/close scale-fade. `max-w-xs` caps the popup at a readable column width.
 export const popoverPopupVariants = cva(
-  "rounded-lg border-sm border-subtle bg-layer-1 p-1 shadow-overlay-100 outline-none" +
+  "max-w-xs rounded-lg border-sm border-subtle bg-layer-1 p-1 shadow-overlay-100 outline-none" +
     " origin-(--transform-origin) transition-[opacity,transform] duration-150" +
     " data-starting-style:scale-95 data-starting-style:opacity-0" +
     " data-ending-style:scale-95 data-ending-style:opacity-0",
 );
+// The padded content column inside the popup: stacks its children vertically and
+// supplies the internal padding (the bare popup carries only the surface chrome).
+// The gap spaces sibling layout regions — e.g. an intro from an actions row — so
+// regions are separated by the parent's gap, never a margin on a child.
+export const popoverBodyVariants = cva("flex flex-col gap-2 p-2");
+// The popup's leading text group: a `PopoverTitle` stacked over a
+// `PopoverDescription`, spaced by a tight gap.
+export const popoverIntroVariants = cva("flex flex-col gap-1");
+// The popup's trailing controls row (e.g. a `PopoverClose` styled as a button):
+// pushes its children to the inline-end and spaces them by a gap.
+export const popoverActionsVariants = cva("flex justify-end gap-2");
+// The bare scroll-body popup used inside an elevated panel surface (see the
+// components-tier `PopoverContent`, which supplies the surface chrome via the shared
+// overlay panel). Carries only the inner padding + focus outline reset — never the
+// border / bg / shadow / radius, which would double up with the panel surface. The
+// standalone `popoverPopupVariants` (above) is the self-contained surface used when
+// the popup is NOT wrapped in a panel.
+export const popoverPanelPopupVariants = cva("p-1 outline-none");
 export const popoverBackdropVariants = cva(
   "fixed inset-0 bg-backdrop transition-opacity duration-200" +
     " data-ending-style:opacity-0 data-starting-style:opacity-0",
