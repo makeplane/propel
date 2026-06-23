@@ -6,6 +6,12 @@ export {
   AlertDialogDescription,
   type AlertDialogDescriptionProps,
 } from "./alert-dialog-description";
+export { AlertDialogHeader, type AlertDialogHeaderProps } from "./alert-dialog-header";
+export {
+  AlertDialogIcon,
+  type AlertDialogIconProps,
+  type AlertDialogIconTone,
+} from "./alert-dialog-icon";
 export { AlertDialogIntro, type AlertDialogIntroProps } from "./alert-dialog-intro";
 export { AlertDialogPopup, type AlertDialogPopupProps } from "./alert-dialog-popup";
 export { AlertDialogPortal } from "./alert-dialog-portal";

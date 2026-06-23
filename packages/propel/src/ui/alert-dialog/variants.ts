@@ -1,11 +1,14 @@
 import { cva, cx } from "class-variance-authority";
 
+import { nodeSlotClass } from "../../internal/node-slot";
+
 // AlertDialog is a structural overlay primitive. It is always modal and
 // non-dismissible, and Base UI drives every interactive state (open/closed,
-// starting/ending transition styles) as data attributes — so there are no
-// styling axes (variant/tone/magnitude) to expose. The cva pairings below hold
-// the static chrome so each part is styled in one place, with no `className` at
-// the boundary. Root, Trigger, and Portal carry no styling.
+// starting/ending transition styles) as data attributes. The one design axis the
+// spec calls out is the leading icon's intent (destructive vs informational), which
+// the `AlertDialogIcon` exposes as a required `tone` — every other part is static
+// chrome held in a single cva so there is no `className` at the boundary. Root,
+// Trigger, and Portal carry no styling.
 
 export const alertDialogBackdropVariants = cva(
   cx(
@@ -34,9 +37,31 @@ export const alertDialogTitleVariants = cva("text-16 font-semibold text-primary"
 
 export const alertDialogDescriptionVariants = cva("text-14 text-secondary");
 
+// Header: the top region that places the leading icon at the inline-start of the
+// intro (icon left of title, per spec). Items align to the start so a multi-line
+// description keeps the icon level with the title.
+export const alertDialogHeaderVariants = cva("flex items-start gap-3");
+
+// Icon: the decorative leading glyph beside the title. Sizes its single child to
+// `--node-size` (via the shared node-slot class) and tints it by `tone` — the
+// destructive-vs-informational axis the spec marks as adjustable. The glyph itself
+// (warning/error/info) is whatever child the caller passes. No default tone: the
+// caller must state the intent.
+export const alertDialogIconVariants = cva(cx(nodeSlotClass, "mt-0.5 [--node-size:1.25rem]"), {
+  variants: {
+    tone: {
+      danger: "text-icon-danger",
+      warning: "text-icon-warning-primary",
+      info: "text-icon-info-primary",
+      success: "text-icon-success-primary",
+    },
+  },
+});
+
 // Intro: groups the title and description with consistent vertical spacing.
-// Always the same per spec (spacing between title and description).
-export const alertDialogIntroVariants = cva("flex flex-col gap-2");
+// Always the same per spec (spacing between title and description). `min-w-0` lets
+// long copy wrap instead of pushing the icon out of the header row.
+export const alertDialogIntroVariants = cva("flex min-w-0 flex-col gap-2");
 
 // Actions: right-aligns action buttons with consistent horizontal spacing.
 // Always the same per spec (action button placement, right-aligned in footer).

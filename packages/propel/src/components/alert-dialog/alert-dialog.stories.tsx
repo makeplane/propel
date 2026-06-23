@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { TriangleAlert } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Button } from "../../ui/button";
@@ -8,6 +9,8 @@ import {
   AlertDialogClose,
   AlertDialogContent,
   AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogIcon,
   AlertDialogIntro,
   AlertDialogTitle,
   AlertDialogTrigger,
@@ -25,6 +28,8 @@ const meta = {
   subcomponents: {
     AlertDialogTrigger,
     AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogIcon,
     AlertDialogIntro,
     AlertDialogTitle,
     AlertDialogDescription,
@@ -44,13 +49,18 @@ export const Default: Story = {
         Delete project
       </Button>
       <AlertDialogContent>
-        <AlertDialogIntro>
-          <AlertDialogTitle>Delete project?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This permanently removes the project and all of its work items. This action can&apos;t
-            be undone.
-          </AlertDialogDescription>
-        </AlertDialogIntro>
+        <AlertDialogHeader>
+          <AlertDialogIcon tone="danger">
+            <TriangleAlert />
+          </AlertDialogIcon>
+          <AlertDialogIntro>
+            <AlertDialogTitle>Delete project?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This permanently removes the project and all of its work items. This action can&apos;t
+              be undone.
+            </AlertDialogDescription>
+          </AlertDialogIntro>
+        </AlertDialogHeader>
         <AlertDialogActions>
           <Button variant="secondary" tone="neutral" magnitude="xl" render={<AlertDialogClose />}>
             Cancel

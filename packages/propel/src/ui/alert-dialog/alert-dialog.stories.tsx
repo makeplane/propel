@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { TriangleAlert } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Button } from "../button";
@@ -8,6 +9,8 @@ import {
   AlertDialogBackdrop,
   AlertDialogClose,
   AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogIcon,
   AlertDialogIntro,
   AlertDialogPopup,
   AlertDialogPortal,
@@ -32,6 +35,8 @@ const meta = {
     AlertDialogBackdrop,
     AlertDialogViewport,
     AlertDialogPopup,
+    AlertDialogHeader,
+    AlertDialogIcon,
     AlertDialogIntro,
     AlertDialogTitle,
     AlertDialogDescription,
@@ -54,12 +59,17 @@ export const Anatomy: Story = {
         <AlertDialogBackdrop />
         <AlertDialogViewport>
           <AlertDialogPopup>
-            <AlertDialogIntro>
-              <AlertDialogTitle>Delete account?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This permanently deletes your account and cannot be undone.
-              </AlertDialogDescription>
-            </AlertDialogIntro>
+            <AlertDialogHeader>
+              <AlertDialogIcon tone="danger">
+                <TriangleAlert />
+              </AlertDialogIcon>
+              <AlertDialogIntro>
+                <AlertDialogTitle>Delete account?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This permanently deletes your account and cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogIntro>
+            </AlertDialogHeader>
             <AlertDialogActions>
               <Button
                 variant="secondary"
