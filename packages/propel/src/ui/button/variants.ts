@@ -1,5 +1,7 @@
 import { cva, cx } from "class-variance-authority";
 
+import { nodeSlotClass } from "../../internal/node-slot";
+
 // Magnitudes follow the Figma "Buttons" Size scale. Figma ships S/Base/L/XL; those
 // map to sm/md/lg/xl by their px heights (20/24/28/32). Per Figma:
 // S -> text-12/px-1.5; Base & L -> text-13; XL -> text-14. All chrome'd magnitudes
@@ -159,7 +161,15 @@ export const buttonVariants = cva(
   },
 );
 
-// The label element inside a Button (components tier). When the parent button is
-// `aria-busy` (loading), it dims via the `group-aria-busy:` sibling of the `group`
-// class on the root. The spinner replaces the icon slot; this class fades the text.
-export const buttonLabelClass = cx("group-aria-busy:opacity-50");
+// The text label inside a Button. When the parent button is `aria-busy` (loading)
+// it dims via the `group-aria-busy:` sibling of the `group` class on the root: the
+// spinner replaces the inline-start node, and this fades the text alongside it.
+export const buttonLabelVariants = cva("group-aria-busy:opacity-50");
+
+// A decorative node beside the label. Reuses the shared node-slot chrome so its
+// single child is sized to the button's inherited `--node-size`.
+export const buttonIconVariants = cva(nodeSlotClass);
+
+// The loading indicator that replaces the inline-start node while busy. Sized to
+// the button's `--node-size` and spun; `shrink-0` keeps it from collapsing.
+export const buttonSpinnerVariants = cva("size-(--node-size) shrink-0 animate-spin");

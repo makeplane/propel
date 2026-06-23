@@ -1,9 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus, Search, Settings } from "lucide-react";
-import { expect, fn } from "storybook/test";
+import { expect, fn, userEvent as baseUserEvent } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
-import { Button, type ButtonMagnitude, type ButtonVariant } from "./index";
+import {
+  Button,
+  ButtonIcon,
+  ButtonLabel,
+  type ButtonMagnitude,
+  ButtonSpinner,
+  type ButtonVariant,
+} from "./index";
 
 const VARIANTS: ButtonVariant[] = ["primary", "secondary", "tertiary", "ghost", "link"];
 const MAGNITUDES: ButtonMagnitude[] = ["sm", "md", "lg", "xl"];
@@ -11,6 +18,8 @@ const MAGNITUDES: ButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/Button",
   component: Button,
+  // Anatomy parts the ready-made Button composes (UI tier).
+  subcomponents: { ButtonIcon, ButtonLabel, ButtonSpinner },
   // Icon picker controls for the two icon slots.
   argTypes: { inlineStartNode: iconControl, inlineEndNode: iconControl },
   parameters: {
@@ -209,10 +218,14 @@ export const SpaceActivates: Story = {
 export const DisabledBlocksClick: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { onClick: fn(), disabled: true },
-  play: async ({ args, canvas, userEvent }) => {
+  play: async ({ args, canvas }) => {
     const button = canvas.getByRole("button", { name: "Button" });
     await expect(button).toBeDisabled();
-    await userEvent.click(button);
+    // A disabled button sets `pointer-events: none`, so the default user-event guard
+    // refuses to click it. Disable that guard so the click is dispatched at the element;
+    // the native disabled button must still ignore it and never fire `onClick`.
+    const user = baseUserEvent.setup({ pointerEventsCheck: 0 });
+    await user.click(button);
     await expect(args.onClick).not.toHaveBeenCalled();
   },
 };

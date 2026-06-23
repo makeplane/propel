@@ -6,6 +6,9 @@ import { buttonVariants } from "./variants";
 // Re-exported so `buttonVariants` stays part of the button entry's public surface
 // (e.g. `icon-button` composes it).
 export { buttonVariants } from "./variants";
+export { ButtonIcon, type ButtonIconProps } from "./button-icon";
+export { ButtonLabel, type ButtonLabelProps } from "./button-label";
+export { ButtonSpinner, type ButtonSpinnerProps } from "./button-spinner";
 
 export type ButtonVariant = NonNullable<VariantProps<typeof buttonVariants>["variant"]>;
 export type ButtonTone = NonNullable<VariantProps<typeof buttonVariants>["tone"]>;
