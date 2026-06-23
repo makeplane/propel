@@ -16,5 +16,7 @@ export const tooltipArrowVariants = cva(
     "data-[side=inline-end]:inset-s-[-3px] data-[side=inline-end]:[clip-path:polygon(0_0,0_100%,100%_100%)] rtl:data-[side=inline-end]:[clip-path:polygon(0_0,100%_0,100%_100%)]",
   ),
 );
-/** Keyboard-shortcut hint rendered to the inline-end of the tooltip label, dimmed at caption scale. */
-export const tooltipShortcutVariants = cva("text-caption-sm-regular text-disabled");
+// Keyboard-shortcut hint rendered to the inline-end of the tooltip label (Figma "Cmd + K"):
+// one notch smaller than the label and tinted `text/tertiary` so it reads as a dimmer,
+// secondary cue while still meeting text-contrast on the popup surface.
+export const tooltipShortcutVariants = cva("text-caption-sm-regular text-tertiary");
