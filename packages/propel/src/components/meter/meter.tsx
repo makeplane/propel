@@ -2,6 +2,7 @@ import type * as React from "react";
 
 import {
   Meter as MeterRoot,
+  MeterHeader,
   MeterIndicator,
   MeterLabel,
   MeterTrack,
@@ -129,13 +130,20 @@ export function Meter({
     optimum,
   });
 
+  const hasLabel = label != null;
+  const header = hasLabel || showValue;
+
   return (
     <MeterRoot min={min} max={max} {...props}>
-      {label == null ? null : <MeterLabel>{label}</MeterLabel>}
+      {header ? (
+        <MeterHeader>
+          {hasLabel ? <MeterLabel>{label}</MeterLabel> : null}
+          {showValue ? <MeterValue /> : null}
+        </MeterHeader>
+      ) : null}
       <MeterTrack>
         <MeterIndicator tone={tone} />
       </MeterTrack>
-      {showValue ? <MeterValue /> : null}
     </MeterRoot>
   );
 }

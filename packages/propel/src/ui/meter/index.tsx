@@ -1,4 +1,5 @@
 export { Meter, type MeterProps } from "./meter";
+export { MeterHeader, type MeterHeaderProps } from "./meter-header";
 export {
   MeterIndicator,
   type MeterIndicatorProps,

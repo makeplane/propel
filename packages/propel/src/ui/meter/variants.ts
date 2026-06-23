@@ -1,12 +1,20 @@
 import { cva } from "class-variance-authority";
 
-/** Root: a vertical stack holding the label/value row and the track. */
+/** Root: a vertical stack holding the header row and the track. */
 export const meterRootVariants = cva("flex w-full flex-col gap-1");
+
+/**
+ * Header: the row above the track that pairs the label and value. Per the spec the label sits at
+ * the inline-start and the value text at the inline-end (`justify-between`), both vertically
+ * centered — an anatomy extension beyond Base UI's parts so the components tier holds no raw
+ * layout.
+ */
+export const meterHeaderVariants = cva("flex items-center justify-between gap-2");
 
 /** Label: the meter's accessible name, rendered as visible text. */
 export const meterLabelVariants = cva("text-13 font-medium text-secondary");
 
-/** Value: the formatted current value, shown alongside the label. */
+/** Value: the formatted current value, shown at the header's inline-end. */
 export const meterValueVariants = cva("text-13 text-tertiary");
 
 /** Track: the full range rail that contains the indicator. */
