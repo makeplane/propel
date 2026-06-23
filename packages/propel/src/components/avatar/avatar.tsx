@@ -1,3 +1,4 @@
+import { User } from "lucide-react";
 import * as React from "react";
 
 import {
@@ -44,7 +45,11 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
     <AvatarRoot role="img" aria-label={alt} magnitude={magnitude} {...props}>
       {src ? <AvatarImage src={src} alt="" /> : null}
       <AvatarFallback tone={hasInitials ? resolvedTone : "none"}>
-        {fallback ?? <AvatarIcon magnitude={effectiveMagnitude} />}
+        {fallback ?? (
+          <AvatarIcon magnitude={effectiveMagnitude}>
+            <User />
+          </AvatarIcon>
+        )}
       </AvatarFallback>
     </AvatarRoot>
   );

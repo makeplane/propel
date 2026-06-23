@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { User } from "lucide-react";
 import { expect } from "storybook/test";
 
 import {
@@ -77,7 +78,9 @@ export const States: Story = {
       </Avatar>
       <Avatar magnitude="lg" role="img" aria-label="Anonymous">
         <AvatarFallback tone="none">
-          <AvatarIcon magnitude="lg" />
+          <AvatarIcon magnitude="lg">
+            <User />
+          </AvatarIcon>
         </AvatarFallback>
       </Avatar>
     </div>
