@@ -43,9 +43,11 @@ export const Default: Story = {
     <Progress layout="linear" value={32}>
       <ProgressLabel>Upload progress</ProgressLabel>
       <ProgressTrack magnitude="md">
-        <ProgressIndicator />
+        <ProgressIndicator tone="brand" />
       </ProgressTrack>
-      <ProgressValue>{(_, value) => (value == null ? "" : `${Math.round(value)}%`)}</ProgressValue>
+      <ProgressValue tone="brand">
+        {(_, value) => (value == null ? "" : `${Math.round(value)}%`)}
+      </ProgressValue>
     </Progress>
   ),
   play: async ({ canvas }) => {
@@ -57,14 +59,14 @@ export const Default: Story = {
 
 /**
  * The atomic determinate ring — a styled `Progress.Root` wrapping an SVG. It owns its own
- * `progressbar` role; pass `aria-label` for the accessible name and `magnitude` for the diameter
- * (`sm` 16px / `md` 20px).
+ * `progressbar` role; pass `aria-label` for the accessible name, `magnitude` for the diameter (`sm`
+ * 16px / `md` 20px), and `tone` for the arc fill color.
  */
 export const Circle: Story = {
   render: () => (
     <div className="flex items-center gap-4">
-      <ProgressCircle value={32} magnitude="sm" aria-label="Small sync progress" />
-      <ProgressCircle value={64} magnitude="md" aria-label="Medium sync progress" />
+      <ProgressCircle value={32} magnitude="sm" tone="brand" aria-label="Small sync progress" />
+      <ProgressCircle value={64} magnitude="md" tone="brand" aria-label="Medium sync progress" />
     </div>
   ),
 };

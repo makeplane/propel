@@ -6,30 +6,39 @@ import {
   ProgressIndicator,
   ProgressTrack,
   ProgressValue,
+  type ProgressIndicatorProps,
   type ProgressTrackProps,
 } from "../../ui/progress";
 
 // The Figma "Progress" component has two variants:
-//  - linear (node 1990-51): a pill-shaped track (`layer-3-selected`) with an
-//    accent-filled indicator and an optional trailing percentage label
-//    (`text/accent/primary`, 12px medium). `magnitude` only changes the track
-//    thickness — `sm` 5px, `md` 8px.
+//  - linear (node 1990-51): a pill-shaped track (`layer-3-selected`) with a toned indicator
+//    and an optional trailing percentage label (12px medium). `magnitude` only changes the
+//    track thickness — `sm` 5px, `md` 8px.
 //  - circular (node 5736-3457): a small determinate ring — a subtle track circle
-//    (`layer-3-selected`, the same surface the linear track uses) plus an accent arc
-//    (`background/accent/primary`) proportional to the value, with rounded caps and no
-//    label. `magnitude` changes the diameter — `sm` 16px, `md` 20px.
+//    (`layer-3-selected`) plus a toned arc proportional to the value, with rounded caps and
+//    no label. `magnitude` changes the diameter — `sm` 16px, `md` 20px.
 // Both are built on Base UI `Progress`, which owns the `progressbar` role +
 // `aria-valuenow` for us.
 export type ProgressMagnitude = NonNullable<ProgressTrackProps["magnitude"]>;
+export type ProgressTone = NonNullable<ProgressIndicatorProps["tone"]>;
 export type ProgressVariant = "linear" | "circular";
 
 export type ProgressProps = Omit<BaseProgress.Root.Props, "className" | "style" | "value"> & {
   /** `linear` = a horizontal bar. `circular` = a determinate ring. */
   variant: ProgressVariant;
-  /** Completion from 0 to `max` (default max 100). */
-  value: number;
+  /**
+   * Completion from 0 to `max` (default max 100). Pass `null` for indeterminate mode — the bar
+   * animates a sliding fill and `aria-valuenow` is unset. Only applies to `variant="linear"`;
+   * `circular` always requires a number.
+   */
+  value: number | null;
   /** `linear`: track thickness (`sm` 5px / `md` 8px). `circular`: diameter (`sm` 16px / `md` 20px). */
   magnitude: ProgressMagnitude;
+  /**
+   * Fill color for the indicator (and arc). Maps to semantic signal: `brand` is the default accent,
+   * `success`/`warning`/`danger` encode task outcome.
+   */
+  tone: ProgressTone;
   /**
    * Show the trailing percentage label. Only applies to `variant="linear"` — the circular rings are
    * too small for a label, so this is ignored when `circular`.
@@ -53,13 +62,26 @@ export type ProgressProps = Omit<BaseProgress.Root.Props, "className" | "style" 
  * hide it with `showValue={false}`). `variant="circular"` is a small ring with no label
  * (`showValue` is ignored).
  *
+ * `tone` controls the fill color: `brand` is the accent blue, `success`/`warning`/`danger` encode
+ * outcome semantics (green/amber/red).
+ *
  * Composed from the `ui/progress` primitives (`Progress` root, `ProgressTrack`,
  * `ProgressIndicator`, `ProgressValue`, `ProgressCircle`), which are built on Base UI `Progress`
  * (it owns the `progressbar` role + `aria-valuenow`).
  */
-export function Progress({ variant, value, magnitude, showValue = true, ...props }: ProgressProps) {
+export function Progress({
+  variant,
+  value,
+  magnitude,
+  tone,
+  showValue = true,
+  ...props
+}: ProgressProps) {
   if (variant === "circular") {
-    return <ProgressCircle value={value} magnitude={magnitude} {...props} />;
+    // The circular ring always needs a concrete value to compute its arc geometry; indeterminate
+    // mode is a linear-only feature. Fall back to 0 for null so the ring renders empty rather
+    // than throwing.
+    return <ProgressCircle value={value ?? 0} magnitude={magnitude} tone={tone} {...props} />;
   }
 
   return (
@@ -67,10 +89,10 @@ export function Progress({ variant, value, magnitude, showValue = true, ...props
       <ProgressTrack magnitude={magnitude}>
         {/* Base UI sets the indicator's `width` (and `inset-inline-start: 0`) from the
             value; the ui primitive owns its fill, pill radius, and the fill transition. */}
-        <ProgressIndicator />
+        <ProgressIndicator tone={tone} />
       </ProgressTrack>
       {showValue ? (
-        <ProgressValue>
+        <ProgressValue tone={tone}>
           {(_, currentValue) => (currentValue == null ? "" : `${Math.round(currentValue)}%`)}
         </ProgressValue>
       ) : null}
