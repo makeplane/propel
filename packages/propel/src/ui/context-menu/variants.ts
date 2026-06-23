@@ -16,10 +16,40 @@ export const contextMenuPopupVariants = cva(
 /** Item rows: shared styling for Item, LinkItem, CheckboxItem, RadioItem and SubmenuTrigger. */
 export const contextMenuItemVariants = cva(
   cx(
-    "flex h-8 cursor-default items-center gap-2 rounded-md px-2 text-13 text-secondary outline-none select-none",
-    "data-highlighted:bg-layer-transparent-hover data-highlighted:text-primary",
+    "flex h-8 cursor-default items-center gap-2 rounded-md px-2 text-13 outline-none select-none",
+    "data-highlighted:bg-layer-transparent-hover",
     "data-disabled:pointer-events-none data-disabled:text-disabled",
   ),
+  {
+    variants: {
+      /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+      tone: {
+        neutral: "text-secondary data-highlighted:text-primary",
+        danger:
+          "text-danger-secondary data-disabled:text-disabled data-highlighted:text-danger-primary",
+      },
+    },
+  },
+);
+
+/** Submenu trigger row: extends item styles with the `group/item` marker and popup-open highlight. */
+export const contextMenuSubmenuTriggerVariants = cva(
+  cx(
+    "group/item flex h-8 cursor-default items-center gap-2 rounded-md px-2 text-13 outline-none select-none",
+    "data-highlighted:bg-layer-transparent-hover",
+    "data-popup-open:bg-layer-transparent-hover",
+    "data-disabled:pointer-events-none data-disabled:text-disabled",
+  ),
+  {
+    variants: {
+      /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+      tone: {
+        neutral: "text-secondary data-highlighted:text-primary data-popup-open:text-primary",
+        danger:
+          "text-danger-secondary data-disabled:text-disabled data-highlighted:text-danger-primary data-popup-open:text-danger-primary",
+      },
+    },
+  },
 );
 
 /** Indicator slot inside radio/checkbox items. */

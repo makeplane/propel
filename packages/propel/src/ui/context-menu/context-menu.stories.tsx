@@ -49,12 +49,12 @@ export const Default: Story = {
           <ContextMenuPopup>
             <ContextMenuGroup>
               <ContextMenuGroupLabel>Actions</ContextMenuGroupLabel>
-              <ContextMenuItem>Cut</ContextMenuItem>
-              <ContextMenuItem>Copy</ContextMenuItem>
-              <ContextMenuItem>Paste</ContextMenuItem>
+              <ContextMenuItem tone="neutral">Cut</ContextMenuItem>
+              <ContextMenuItem tone="neutral">Copy</ContextMenuItem>
+              <ContextMenuItem tone="neutral">Paste</ContextMenuItem>
             </ContextMenuGroup>
             <ContextMenuSeparator />
-            <ContextMenuItem>Delete</ContextMenuItem>
+            <ContextMenuItem tone="danger">Delete</ContextMenuItem>
           </ContextMenuPopup>
         </ContextMenuPositioner>
       </ContextMenuPortal>

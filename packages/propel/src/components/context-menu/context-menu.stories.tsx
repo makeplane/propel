@@ -45,25 +45,25 @@ export const Default: Story = {
         <ContextMenuPositioner>
           <ContextMenuPopup>
             <ContextMenuItem
+              tone="neutral"
               inlineStartNode={<Scissors />}
               label="Cut"
               inlineEndNode={<span className="text-12 text-tertiary">⌘X</span>}
             />
             <ContextMenuItem
+              tone="neutral"
               inlineStartNode={<Copy />}
               label="Copy"
               inlineEndNode={<span className="text-12 text-tertiary">⌘C</span>}
             />
             <ContextMenuItem
+              tone="neutral"
               inlineStartNode={<ClipboardPaste />}
               label="Paste"
               inlineEndNode={<span className="text-12 text-tertiary">⌘V</span>}
             />
             <ContextMenuSeparator />
-            <ContextMenuItem
-              inlineStartNode={<Trash2 className="text-danger-primary" />}
-              label={<span className="text-danger-primary">Delete</span>}
-            />
+            <ContextMenuItem tone="danger" inlineStartNode={<Trash2 />} label="Delete" />
           </ContextMenuPopup>
         </ContextMenuPositioner>
       </ContextMenuPortal>

@@ -20,7 +20,8 @@ export type ContextMenuItemProps = Omit<ContextMenuItemRootProps, "label"> & {
 
 /**
  * The ready-made menu row: composes the atomic `ContextMenuItem` and lays out optional leading and
- * trailing content slots, the label, and a trailing check for single-select selected state.
+ * trailing content slots, the label, and a trailing check for single-select selected state. Pass
+ * `tone="danger"` for destructive actions.
  */
 export function ContextMenuItem({
   inlineStartNode,
