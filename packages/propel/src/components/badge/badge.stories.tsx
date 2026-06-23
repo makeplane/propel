@@ -1,8 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check } from "lucide-react";
+import { fn } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
-import { Badge, type BadgeMagnitude, type BadgeTone } from "./index";
+import {
+  Badge,
+  BadgeDismiss,
+  BadgeIcon,
+  BadgeLabel,
+  type BadgeMagnitude,
+  type BadgeTone,
+} from "./index";
 
 const TONES: BadgeTone[] = [
   "neutral",
@@ -22,10 +30,13 @@ const TONES: BadgeTone[] = [
 const MAGNITUDES: BadgeMagnitude[] = ["sm", "md", "lg"];
 
 // Badge is static — no interaction-state styling — so it gets no pseudo-states story;
-// its variation is fully covered by Tones + Magnitudes.
+// its variation is fully covered by Tones + Magnitudes. This is the ready-made
+// composition: the `Badge` pill plus optional leading icon (`inlineStartNode`) and a
+// trailing dismiss action (`onDismiss`), all wired to the atomic `ui/badge` parts.
 const meta = {
   title: "Components/Badge",
   component: Badge,
+  subcomponents: { BadgeIcon, BadgeLabel, BadgeDismiss },
   argTypes: { inlineStartNode: iconControl },
   args: {
     children: "Badge",
@@ -88,6 +99,27 @@ export const WithIcon: Story = {
           inlineStartNode={<Check />}
         >
           Done
+        </Badge>
+      ))}
+    </div>
+  ),
+};
+
+/** A dismissible badge: passing `onDismiss` adds a trailing remove button. */
+export const Dismissible: Story = {
+  parameters: { controls: { disable: true } },
+  render: (args) => (
+    <div className="flex items-center gap-3">
+      {MAGNITUDES.map((magnitude) => (
+        <Badge
+          key={magnitude}
+          {...args}
+          tone="brand"
+          magnitude={magnitude}
+          dismissLabel="Remove label"
+          onDismiss={fn()}
+        >
+          Label
         </Badge>
       ))}
     </div>

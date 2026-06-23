@@ -1,8 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check } from "lucide-react";
 
-import { iconControl } from "../../storybook/icon-control";
-import { Badge, type BadgeMagnitude, type BadgeTone } from "./index";
+import {
+  Badge,
+  BadgeDismiss,
+  BadgeIcon,
+  BadgeLabel,
+  type BadgeMagnitude,
+  type BadgeTone,
+} from "./index";
 
 const TONES: BadgeTone[] = [
   "neutral",
@@ -26,16 +32,18 @@ const MAGNITUDES: BadgeMagnitude[] = ["sm", "md", "lg"];
 //      "Design" panel (@storybook/addon-designs) shows code + Figma side by side.
 //   2. Components that style interaction via CSS `hover:`/`active:`/`focus-visible:`
 //      utilities get a `States` story using storybook-addon-pseudo-states to force
-//      those pseudo-classes side by side (see e.g. Accordion). Badge is static — it
-//      has no interaction-state styling — so it gets NO pseudo-states story; its
-//      variation is fully covered by Tones + Magnitudes.
+//      those pseudo-classes side by side (see e.g. Accordion). The badge pill itself
+//      is static — it has no interaction-state styling — so it gets NO pseudo-states
+//      story; its variation is fully covered by Tones + Magnitudes.
+//
+// These ui stories show the atomic anatomy: each part (`Badge`, `BadgeIcon`,
+// `BadgeLabel`, `BadgeDismiss`) is a single styled element, composed by hand. The
+// ready-made `Components/Badge` composition wraps the same parts behind convenience props.
 const meta = {
   title: "UI/Badge",
   component: Badge,
-  // Give the `inlineStartNode` ReactNode prop a usable icon picker in the Controls panel.
-  argTypes: { inlineStartNode: iconControl },
+  subcomponents: { BadgeIcon, BadgeLabel, BadgeDismiss },
   args: {
-    children: "Badge",
     tone: "neutral",
     magnitude: "md",
     variant: "solid",
@@ -46,6 +54,11 @@ const meta = {
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1532-1177",
     },
   },
+  render: (args) => (
+    <Badge {...args}>
+      <BadgeLabel>Badge</BadgeLabel>
+    </Badge>
+  ),
 } satisfies Meta<typeof Badge>;
 
 export default meta;
@@ -55,15 +68,14 @@ export const Default: Story = {};
 
 /** Every color/intent the badge supports, side by side. */
 export const Tones: Story = {
-  // The grid iterates `tone` and labels each swatch with the tone name, so disable just
-  // those two controls; `magnitude` and `inlineStartNode` stay live and update every swatch
-  // at once.
-  argTypes: { tone: { control: false }, children: { control: false } },
+  // The grid iterates `tone` and labels each swatch with the tone name, so disable that
+  // control; `magnitude` stays live and updates every swatch at once.
+  argTypes: { tone: { control: false } },
   render: (args) => (
     <div className="flex flex-wrap items-center gap-3">
       {TONES.map((tone) => (
         <Badge key={tone} {...args} tone={tone}>
-          {tone}
+          <BadgeLabel>{tone}</BadgeLabel>
         </Badge>
       ))}
     </div>
@@ -72,33 +84,45 @@ export const Tones: Story = {
 
 /** The three sizes (Figma S / Base / Large). */
 export const Magnitudes: Story = {
-  // Iterates `magnitude` (and labels with it); `tone` and `inlineStartNode` stay live.
-  argTypes: { magnitude: { control: false }, children: { control: false } },
+  // Iterates `magnitude` (and labels with it); `tone` stays live.
+  argTypes: { magnitude: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
         <Badge key={magnitude} {...args} magnitude={magnitude}>
-          {magnitude}
+          <BadgeLabel>{magnitude}</BadgeLabel>
         </Badge>
       ))}
     </div>
   ),
 };
 
-/** Badges with an optional leading icon, which is sized to the magnitude and tinted to the tone. */
+/** A leading `BadgeIcon`, sized to the magnitude and tinted to the tone. */
 export const WithIcon: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <Badge
-          key={magnitude}
-          {...args}
-          tone="success"
-          magnitude={magnitude}
-          inlineStartNode={<Check />}
-        >
-          Done
+        <Badge key={magnitude} {...args} tone="success" magnitude={magnitude}>
+          <BadgeIcon>
+            <Check />
+          </BadgeIcon>
+          <BadgeLabel>Done</BadgeLabel>
+        </Badge>
+      ))}
+    </div>
+  ),
+};
+
+/** A trailing `BadgeDismiss` remove action, sized to the magnitude and tinted to the tone. */
+export const WithDismiss: Story = {
+  parameters: { controls: { disable: true } },
+  render: (args) => (
+    <div className="flex items-center gap-3">
+      {MAGNITUDES.map((magnitude) => (
+        <Badge key={magnitude} {...args} tone="brand" magnitude={magnitude}>
+          <BadgeLabel>Label</BadgeLabel>
+          <BadgeDismiss aria-label="Remove label" />
         </Badge>
       ))}
     </div>
@@ -136,7 +160,7 @@ export const PlanBadges: Story = {
         <div key={plan} className="flex items-center gap-3">
           {MAGNITUDES.map((magnitude) => (
             <Badge key={magnitude} {...args} tone={PLAN_TONES[plan]} magnitude={magnitude}>
-              {plan === "paid" ? "Paid" : "Free"}
+              <BadgeLabel>{plan === "paid" ? "Paid" : "Free"}</BadgeLabel>
             </Badge>
           ))}
         </div>

@@ -1,3 +1,13 @@
-// Ready-made 1:1 re-export of the ui primitive. Drop down to `@plane/propel/ui/badge` only
-// when you need the lower-level parts.
-export * from "../../ui/badge";
+export { Badge, type BadgeProps } from "./badge";
+// Re-export the atomic parts so a full badge is composable from this convenience.
+export {
+  BadgeDismiss,
+  type BadgeDismissProps,
+  BadgeIcon,
+  type BadgeIconProps,
+  BadgeLabel,
+  type BadgeLabelProps,
+  type BadgeMagnitude,
+  type BadgeTone,
+  type BadgeVariant,
+} from "../../ui/badge";
