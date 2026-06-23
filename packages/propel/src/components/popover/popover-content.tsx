@@ -29,7 +29,7 @@ export function PopoverContent({
         side={side}
         sideOffset={sideOffset}
         align={align}
-        className="outline-none"
+        className="z-50 outline-none"
       >
         <OverlayPanel elevation="overlay" radius="lg" width={width}>
           <BasePopover.Popup className="p-1 outline-none" {...props} />
