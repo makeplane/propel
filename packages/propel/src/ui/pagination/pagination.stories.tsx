@@ -2,17 +2,31 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { PaginationArrowButton, PaginationEllipsis, PaginationPageButton } from "./index";
+import {
+  Pagination,
+  PaginationArrowButton,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationList,
+  PaginationPageButton,
+} from "./index";
 
-// UI-tier story: composes the ATOMIC pagination parts (each renders a single styled control).
+// UI-tier story: composes the ATOMIC pagination parts (each renders a single element).
 // The components-tier `Pagination` story owns the truncation logic, the per-page Menu and the
-// range label. Here you lay out the raw slots yourself inside a `<nav>` › `<ul>`: prev/next
-// arrows, page-number buttons (one marked `current`), and the non-interactive ellipsis.
+// range label. Here you lay out the raw slots yourself: the `Pagination` nav wraps a
+// `PaginationList`, whose `PaginationItem`s hold prev/next arrows, page-number buttons (one
+// marked `current`), and the non-interactive ellipsis (an icon slot).
 const meta = {
   title: "UI/Pagination",
   component: PaginationPageButton,
-  subcomponents: { PaginationArrowButton, PaginationEllipsis },
-  args: { current: false, children: "1", magnitude: "md" },
+  subcomponents: {
+    Pagination,
+    PaginationList,
+    PaginationItem,
+    PaginationArrowButton,
+    PaginationEllipsis,
+  },
+  args: { current: false, children: "1" },
 } satisfies Meta<typeof PaginationPageButton>;
 
 export default meta;
@@ -24,17 +38,16 @@ const PAGES = [1, 2, 3, 4, 5];
 export const Default: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <nav aria-label="Pagination">
-      <ul className="flex items-center gap-0.5">
-        <li>
-          <PaginationArrowButton magnitude="md" aria-label="Go to previous page" disabled>
+    <Pagination aria-label="Pagination">
+      <PaginationList>
+        <PaginationItem>
+          <PaginationArrowButton aria-label="Go to previous page" disabled>
             <ChevronLeft />
           </PaginationArrowButton>
-        </li>
+        </PaginationItem>
         {PAGES.map((n) => (
-          <li key={n}>
+          <PaginationItem key={n}>
             <PaginationPageButton
-              magnitude="md"
               current={n === 1}
               aria-current={n === 1 ? "page" : undefined}
               aria-label={`Go to page ${n}`}
@@ -42,15 +55,15 @@ export const Default: Story = {
             >
               {n}
             </PaginationPageButton>
-          </li>
+          </PaginationItem>
         ))}
-        <li>
-          <PaginationArrowButton magnitude="md" aria-label="Go to next page">
+        <PaginationItem>
+          <PaginationArrowButton aria-label="Go to next page">
             <ChevronRight />
           </PaginationArrowButton>
-        </li>
-      </ul>
-    </nav>
+        </PaginationItem>
+      </PaginationList>
+    </Pagination>
   ),
   play: async ({ canvas }) => {
     // Page 1 is current (pressed fill + aria-current) and the prev arrow is disabled at the start.
@@ -64,17 +77,16 @@ export const Default: Story = {
 export const WithEllipsis: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <nav aria-label="Pagination">
-      <ul className="flex items-center gap-0.5">
-        <li>
-          <PaginationArrowButton magnitude="md" aria-label="Go to previous page">
+    <Pagination aria-label="Pagination">
+      <PaginationList>
+        <PaginationItem>
+          <PaginationArrowButton aria-label="Go to previous page">
             <ChevronLeft />
           </PaginationArrowButton>
-        </li>
+        </PaginationItem>
         {[1, 2, 3].map((n) => (
-          <li key={n}>
+          <PaginationItem key={n}>
             <PaginationPageButton
-              magnitude="md"
               current={n === 2}
               aria-current={n === 2 ? "page" : undefined}
               aria-label={`Go to page ${n}`}
@@ -82,23 +94,25 @@ export const WithEllipsis: Story = {
             >
               {n}
             </PaginationPageButton>
-          </li>
+          </PaginationItem>
         ))}
-        <PaginationEllipsis magnitude="md">
-          <MoreHorizontal aria-hidden />
-        </PaginationEllipsis>
-        <li>
-          <PaginationPageButton magnitude="md" current={false} aria-label="Go to page 100">
+        <PaginationItem>
+          <PaginationEllipsis>
+            <MoreHorizontal />
+          </PaginationEllipsis>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationPageButton current={false} aria-label="Go to page 100">
             100
           </PaginationPageButton>
-        </li>
-        <li>
-          <PaginationArrowButton magnitude="md" aria-label="Go to next page">
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationArrowButton aria-label="Go to next page">
             <ChevronRight />
           </PaginationArrowButton>
-        </li>
-      </ul>
-    </nav>
+        </PaginationItem>
+      </PaginationList>
+    </Pagination>
   ),
 };
 
