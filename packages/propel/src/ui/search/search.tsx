@@ -1,15 +1,24 @@
 import { Input as BaseInput } from "@base-ui/react/input";
-import { cx } from "class-variance-authority";
 import { Search as SearchIcon, X } from "lucide-react";
 import * as React from "react";
 
 import { useControllableState } from "../../hooks/use-controllable-state/index";
-import { searchBoxClass, searchClearButtonClass, searchInputClass } from "./variants";
+import {
+  searchBoxVariants,
+  searchClearButtonVariants,
+  searchIconClass,
+  searchInputVariants,
+  type SearchMagnitude,
+} from "./variants";
+
+export type { SearchMagnitude };
 
 export type SearchProps = Omit<
   BaseInput.Props,
   "className" | "style" | "type" | "value" | "defaultValue" | "onValueChange"
 > & {
+  /** Height + text + icon scale. */
+  magnitude: SearchMagnitude;
   /** Current text. Controlled; pair with `onValueChange`. */
   value?: string;
   /** Initial text. Uncontrolled. */
@@ -24,6 +33,7 @@ export type SearchProps = Omit<
 
 /** A search field with leading magnifier and trailing clear button. */
 export function Search({
+  magnitude,
   value,
   defaultValue,
   onValueChange,
@@ -44,11 +54,10 @@ export function Search({
   const resolvedAriaLabel = ariaLabel ?? (ariaLabelledBy ? undefined : "Search");
 
   return (
-    <label className={searchBoxClass}>
-      <SearchIcon
-        aria-hidden
-        className="size-4 shrink-0 text-icon-placeholder transition-colors group-focus-within/search:text-icon-secondary"
-      />
+    <label className={searchBoxVariants({ magnitude })}>
+      <span aria-hidden className={searchIconClass}>
+        <SearchIcon />
+      </span>
       <BaseInput
         ref={inputRef}
         type="search"
@@ -58,7 +67,7 @@ export function Search({
         disabled={disabled}
         aria-label={resolvedAriaLabel}
         aria-labelledby={ariaLabelledBy}
-        className={cx(searchInputClass)}
+        className={searchInputVariants({ magnitude })}
         {...props}
       />
       {hasValue && !disabled ? (
@@ -69,9 +78,9 @@ export function Search({
             commit("");
             inputRef.current?.focus();
           }}
-          className={searchClearButtonClass}
+          className={searchClearButtonVariants({ magnitude })}
         >
-          <X aria-hidden className="size-3.5" />
+          <X aria-hidden />
         </button>
       ) : null}
     </label>

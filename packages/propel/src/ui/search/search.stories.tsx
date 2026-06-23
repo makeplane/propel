@@ -8,7 +8,7 @@ const meta = {
   title: "UI/Search",
   component: Search,
   subcomponents: { ExpandableSearch },
-  args: { placeholder: "Search" },
+  args: { placeholder: "Search", magnitude: "md" },
   // The field fills its container; give it a width to render in.
   decorators: [
     (Story) => (
@@ -48,11 +48,21 @@ export const Controlled: Story = {
     const [value, setValue] = React.useState("");
     return (
       <div className="flex flex-col gap-2">
-        <Search value={value} onValueChange={setValue} />
+        <Search magnitude="md" value={value} onValueChange={setValue} />
         <p className="text-12 text-tertiary">Query: {value || "(empty)"}</p>
       </div>
     );
   },
+};
+
+/** `sm` (28 px) — the compact size, used in dense toolbars. */
+export const Small: Story = {
+  args: { magnitude: "sm" },
+};
+
+/** `lg` (36 px) — the spacious size. */
+export const Large: Story = {
+  args: { magnitude: "lg" },
 };
 
 /**
@@ -62,13 +72,13 @@ export const Controlled: Story = {
  */
 export const Expandable: Story = {
   parameters: { controls: { disable: true } },
-  render: () => <ExpandableSearch />,
+  render: () => <ExpandableSearch magnitude="md" />,
 };
 
 /** `ExpandableSearch` with an initial value renders expanded (with the clear button). */
 export const ExpandableFilled: Story = {
   parameters: { controls: { disable: true } },
-  render: () => <ExpandableSearch defaultValue="Roadmap" />,
+  render: () => <ExpandableSearch magnitude="md" defaultValue="Roadmap" />,
 };
 
 /**
@@ -81,7 +91,7 @@ export const ExpandAndCollapse: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <div className="flex flex-col gap-2">
-      <ExpandableSearch />
+      <ExpandableSearch magnitude="md" />
       {/* A focusable sibling to blur onto, so the collapse-on-blur path is testable. */}
       <button type="button">elsewhere</button>
     </div>
@@ -147,7 +157,7 @@ export const LabelledBySemantics: Story = {
   render: () => (
     <div className="flex flex-col gap-2">
       <span id="project-search-label">Find projects</span>
-      <Search aria-labelledby="project-search-label" />
+      <Search magnitude="md" aria-labelledby="project-search-label" />
     </div>
   ),
   play: async ({ canvas }) => {
@@ -175,7 +185,7 @@ export const DisabledHidesClear: Story = {
  */
 export const ExpandableTypeAndClear: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => <ExpandableSearch />,
+  render: () => <ExpandableSearch magnitude="md" />,
   play: async ({ canvas }) => {
     const input = canvas.getByRole("searchbox", { name: "Search" });
     await userEvent.click(input);

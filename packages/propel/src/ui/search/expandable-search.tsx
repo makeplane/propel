@@ -5,16 +5,18 @@ import * as React from "react";
 import { useControllableState } from "../../hooks/use-controllable-state/index";
 import type { SearchProps } from "./search";
 import {
-  expandableBoxClass,
-  expandableWrapperClass,
-  searchClearButtonClass,
-  searchInputClass,
+  expandableBoxVariants,
+  expandableWrapperVariants,
+  searchClearButtonVariants,
+  searchIconClass,
+  searchInputVariants,
 } from "./variants";
 
 export type ExpandableSearchProps = SearchProps;
 
 /** A search field that collapses to a magnifier icon and expands while focused or filled. */
 export function ExpandableSearch({
+  magnitude,
   value,
   defaultValue,
   onValueChange,
@@ -36,9 +38,14 @@ export function ExpandableSearch({
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   return (
-    <div className={expandableWrapperClass}>
-      <label className={expandableBoxClass} data-expanded={showExpanded ? "" : undefined}>
-        <SearchIcon aria-hidden className="size-4 shrink-0 text-icon-secondary" />
+    <div className={expandableWrapperVariants({ magnitude })}>
+      <label
+        className={expandableBoxVariants({ magnitude })}
+        data-expanded={showExpanded ? "" : undefined}
+      >
+        <span aria-hidden className={searchIconClass}>
+          <SearchIcon />
+        </span>
         <BaseInput
           ref={inputRef}
           type="search"
@@ -57,7 +64,7 @@ export function ExpandableSearch({
           disabled={disabled}
           aria-label={resolvedAriaLabel}
           aria-labelledby={ariaLabelledBy}
-          className={searchInputClass}
+          className={searchInputVariants({ magnitude })}
           {...props}
         />
         {hasValue && !disabled ? (
@@ -68,9 +75,9 @@ export function ExpandableSearch({
               commit("");
               inputRef.current?.focus();
             }}
-            className={searchClearButtonClass}
+            className={searchClearButtonVariants({ magnitude })}
           >
-            <X aria-hidden className="size-3.5" />
+            <X aria-hidden />
           </button>
         ) : null}
       </label>
