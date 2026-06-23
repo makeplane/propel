@@ -13,6 +13,8 @@ export {
   type DialogDescriptionProps,
   DialogHeader,
   type DialogHeaderProps,
+  DialogHeading,
+  type DialogHeadingProps,
   DialogTitle,
   type DialogTitleProps,
   DialogTrigger,

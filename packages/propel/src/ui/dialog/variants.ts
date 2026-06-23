@@ -48,10 +48,17 @@ export const dialogTitleVariants = cva("text-16 font-semibold text-primary");
 
 export const dialogDescriptionVariants = cva("text-14 text-secondary");
 
-// DialogHeader: the row that holds the title (and optional description below it)
-// alongside the inline-end close button. Padding matches the popup's top/side
-// gutter; there is no bottom padding — the gap on the popup provides spacing.
+// DialogHeader: the row that holds the heading block (title + optional
+// description) at the inline-start alongside the inline-end close button. Padding
+// matches the popup's top/side gutter; there is no bottom padding — the gap on the
+// popup provides spacing. `items-start` keeps the close aligned to the first line
+// of a multi-line title.
 export const dialogHeaderVariants = cva("flex items-start justify-between gap-4 px-4 pt-4");
+
+// DialogHeading: the title-over-description block at the header's inline-start.
+// Stacks the two with a tight gap so they read as one heading group opposite the
+// close button.
+export const dialogHeadingVariants = cva("flex min-w-0 flex-col gap-2");
 
 // DialogBody: the scrollable main content region. `min-h-0 flex-1 overflow-y-auto`
 // lets it shrink inside the flex popup so the actions stay pinned at the bottom;

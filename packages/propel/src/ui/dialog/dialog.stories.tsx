@@ -12,6 +12,7 @@ import {
   DialogClose,
   DialogDescription,
   DialogHeader,
+  DialogHeading,
   DialogPopup,
   DialogPortal,
   DialogTitle,
@@ -37,6 +38,7 @@ const meta = {
     DialogViewport,
     DialogPopup,
     DialogHeader,
+    DialogHeading,
     DialogBody,
     DialogActions,
     DialogTitle,
@@ -60,12 +62,9 @@ export const Anatomy: Story = {
         <DialogViewport>
           <DialogPopup magnitude="sm">
             <DialogHeader>
-              <div className="flex flex-col gap-2">
+              <DialogHeading>
                 <DialogTitle>Delete project</DialogTitle>
-                <DialogDescription>
-                  This permanently removes the project and all of its work items.
-                </DialogDescription>
-              </div>
+              </DialogHeading>
               <IconButton
                 variant="ghost"
                 tone="neutral"
@@ -76,6 +75,11 @@ export const Anatomy: Story = {
                 <X />
               </IconButton>
             </DialogHeader>
+            <DialogBody>
+              <DialogDescription>
+                This permanently removes the project and all of its work items.
+              </DialogDescription>
+            </DialogBody>
             <DialogActions>
               <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
                 Cancel
@@ -112,13 +116,15 @@ export const NonDismissable: Story = {
         <DialogViewport>
           <DialogPopup magnitude="sm">
             <DialogHeader>
-              <div className="flex flex-col gap-2">
+              <DialogHeading>
                 <DialogTitle>Unsaved changes</DialogTitle>
-                <DialogDescription>
-                  Choose an action — clicking outside won&apos;t dismiss.
-                </DialogDescription>
-              </div>
+              </DialogHeading>
             </DialogHeader>
+            <DialogBody>
+              <DialogDescription>
+                Choose an action — clicking outside won&apos;t dismiss.
+              </DialogDescription>
+            </DialogBody>
             <DialogActions>
               <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
                 Discard

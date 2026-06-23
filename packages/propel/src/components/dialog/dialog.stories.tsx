@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogHeading,
   DialogTitle,
   DialogTrigger,
 } from "./index";
@@ -29,6 +30,7 @@ const meta = {
     DialogTrigger,
     DialogContent,
     DialogHeader,
+    DialogHeading,
     DialogBody,
     DialogActions,
     DialogTitle,
@@ -49,13 +51,9 @@ export const Default: Story = {
       </Button>
       <DialogContent magnitude="sm">
         <DialogHeader>
-          <div className="flex flex-col gap-2">
+          <DialogHeading>
             <DialogTitle>Delete project</DialogTitle>
-            <DialogDescription>
-              This permanently removes the project and all of its work items. This action can&apos;t
-              be undone.
-            </DialogDescription>
-          </div>
+          </DialogHeading>
           <IconButton
             variant="ghost"
             tone="neutral"
@@ -66,6 +64,12 @@ export const Default: Story = {
             <X />
           </IconButton>
         </DialogHeader>
+        <DialogBody>
+          <DialogDescription>
+            This permanently removes the project and all of its work items. This action can&apos;t
+            be undone.
+          </DialogDescription>
+        </DialogBody>
         <DialogActions>
           <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
             Cancel
@@ -106,11 +110,13 @@ export const EscapeCloses: Story = {
       </Button>
       <DialogContent magnitude="sm">
         <DialogHeader>
-          <div className="flex flex-col gap-2">
+          <DialogHeading>
             <DialogTitle>Settings</DialogTitle>
-            <DialogDescription>Press Escape to dismiss.</DialogDescription>
-          </div>
+          </DialogHeading>
         </DialogHeader>
+        <DialogBody>
+          <DialogDescription>Press Escape to dismiss.</DialogDescription>
+        </DialogBody>
       </DialogContent>
     </Dialog>
   ),

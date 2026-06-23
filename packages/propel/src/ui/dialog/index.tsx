@@ -5,6 +5,7 @@ export { DialogBody, type DialogBodyProps } from "./dialog-body";
 export { DialogClose, type DialogCloseProps } from "./dialog-close";
 export { DialogDescription, type DialogDescriptionProps } from "./dialog-description";
 export { DialogHeader, type DialogHeaderProps } from "./dialog-header";
+export { DialogHeading, type DialogHeadingProps } from "./dialog-heading";
 export { DialogPopup, type DialogPopupProps } from "./dialog-popup";
 export { DialogPortal } from "./dialog-portal";
 export { DialogTitle, type DialogTitleProps } from "./dialog-title";

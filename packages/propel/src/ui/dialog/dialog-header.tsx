@@ -2,13 +2,13 @@ import * as React from "react";
 
 import { dialogHeaderVariants } from "./variants";
 
-export type DialogHeaderProps = React.HTMLAttributes<HTMLDivElement>;
+export type DialogHeaderProps = Omit<React.HTMLAttributes<HTMLDivElement>, "className" | "style">;
 
 /**
- * The top region of the dialog popup. Lays out its children (typically a `DialogTitle` group and an
- * optional close `IconButton`) in a row with space between. Padding is baked in; margin and
- * positioning are provided by the parent `DialogPopup` via its `gap`.
+ * The top region of the dialog popup. Lays out a `DialogHeading` (title + optional description) at
+ * the inline-start and an optional close `IconButton` at the inline-end. Padding is baked in; the
+ * spacing to the body/actions is provided by the parent `DialogPopup` via its `gap`.
  */
-export function DialogHeader({ ...props }: DialogHeaderProps) {
+export function DialogHeader(props: DialogHeaderProps) {
   return <div className={dialogHeaderVariants()} {...props} />;
 }
