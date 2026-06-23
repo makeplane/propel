@@ -47,7 +47,10 @@ export const accordionTriggerTitleVariants = cva("min-w-0 flex-1 text-start");
 // toward the inline-end, mirrored under RTL.
 export const accordionTriggerIndicatorVariants = cva(
   cx(
-    "inline-flex shrink-0 items-center justify-center text-icon-secondary",
+    // Reuse the node-slot sizing so the indicator renders ANY svg passed to it (sized to
+    // `--node-size`), instead of baking a size onto a specific glyph. 14px per Figma.
+    nodeSlotClass,
+    "text-icon-secondary [--node-size:0.875rem]",
     "transition-transform duration-200",
     "-rotate-90 group-data-panel-open:rotate-0",
     "rtl:rotate-90 rtl:group-data-panel-open:rotate-0",
