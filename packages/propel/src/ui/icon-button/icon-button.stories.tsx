@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Plus } from "lucide-react";
+import { LoaderCircle, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
@@ -123,13 +123,19 @@ export const Spinner: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       <IconButtonRoot {...args} variant="primary" aria-label="Saving" aria-busy>
-        <IconButtonSpinner />
+        <IconButtonSpinner>
+          <LoaderCircle className="animate-spin" />
+        </IconButtonSpinner>
       </IconButtonRoot>
       <IconButtonRoot {...args} variant="secondary" aria-label="Loading" aria-busy>
-        <IconButtonSpinner />
+        <IconButtonSpinner>
+          <LoaderCircle className="animate-spin" />
+        </IconButtonSpinner>
       </IconButtonRoot>
       <IconButtonRoot {...args} variant="tertiary" aria-label="Refreshing" aria-busy>
-        <IconButtonSpinner />
+        <IconButtonSpinner>
+          <LoaderCircle className="animate-spin" />
+        </IconButtonSpinner>
       </IconButtonRoot>
     </div>
   ),

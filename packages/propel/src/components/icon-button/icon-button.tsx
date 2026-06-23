@@ -1,3 +1,4 @@
+import { LoaderCircle } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -35,7 +36,13 @@ export function IconButton({ children, loading = false, disabled, ...props }: Ic
       focusableWhenDisabled={loading ? true : undefined}
       aria-busy={loading ? true : undefined}
     >
-      {loading ? <IconButtonSpinner /> : <IconButtonIcon>{children}</IconButtonIcon>}
+      {loading ? (
+        <IconButtonSpinner>
+          <LoaderCircle className="animate-spin" />
+        </IconButtonSpinner>
+      ) : (
+        <IconButtonIcon>{children}</IconButtonIcon>
+      )}
     </IconButtonRoot>
   );
 }
