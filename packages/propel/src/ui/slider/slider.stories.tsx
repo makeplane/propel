@@ -4,6 +4,7 @@ import { expect } from "storybook/test";
 import {
   Slider,
   SliderControl,
+  SliderHeader,
   SliderIndicator,
   SliderLabel,
   SliderThumb,
@@ -18,6 +19,7 @@ const meta = {
   title: "UI/Slider",
   component: Slider,
   subcomponents: {
+    SliderHeader,
     SliderLabel,
     SliderValue,
     SliderControl,
@@ -42,8 +44,10 @@ export const Default: Story = {
   args: { defaultValue: 40, min: 0, max: 100, step: 1 },
   render: (args) => (
     <Slider {...args}>
-      <SliderLabel>Volume</SliderLabel>
-      <SliderValue />
+      <SliderHeader>
+        <SliderLabel>Volume</SliderLabel>
+        <SliderValue />
+      </SliderHeader>
       <SliderControl magnitude="md">
         <SliderTrack>
           <SliderIndicator />
@@ -68,8 +72,10 @@ export const Range: Story = {
   },
   render: (args) => (
     <Slider {...args}>
-      <SliderLabel>Scaling threshold</SliderLabel>
-      <SliderValue />
+      <SliderHeader>
+        <SliderLabel>Scaling threshold</SliderLabel>
+        <SliderValue />
+      </SliderHeader>
       <SliderControl magnitude="md">
         <SliderTrack>
           <SliderIndicator />

@@ -1,11 +1,17 @@
 import { cva } from "class-variance-authority";
 
-export const sliderVariants = cva("grid w-full grid-cols-[1fr_auto] items-center gap-x-3 gap-y-2");
+// The root only stacks the (optional) header row over the control; the label/value layout
+// lives on `SliderHeader`, not here.
+export const sliderVariants = cva("flex w-full flex-col gap-2");
+
+// The header row above the control: label at the inline-start, value readout at the inline-end.
+export const sliderHeaderVariants = cva("flex items-center justify-between gap-3");
+
 export const sliderValueVariants = cva("text-13 text-secondary");
 
 // Control height must accommodate the thumb. The track bar height is always the same (h-1),
 // but the thumb and its surrounding hit-area grow with `magnitude`.
-export const sliderControlVariants = cva("col-span-2 flex items-center", {
+export const sliderControlVariants = cva("flex items-center", {
   variants: {
     magnitude: {
       sm: "h-4",

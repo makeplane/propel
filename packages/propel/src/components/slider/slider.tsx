@@ -3,6 +3,7 @@ import type * as React from "react";
 import {
   Slider as SliderRoot,
   SliderControl,
+  SliderHeader,
   SliderIndicator,
   SliderLabel,
   type SliderMagnitude,
@@ -40,8 +41,10 @@ export type SliderProps = SliderRootProps<number> & {
 export function Slider({ label, "aria-label": ariaLabel, magnitude, ...props }: SliderProps) {
   return (
     <SliderRoot {...props}>
-      {label == null ? null : <SliderLabel>{label}</SliderLabel>}
-      <SliderValue />
+      <SliderHeader>
+        {label == null ? <span /> : <SliderLabel>{label}</SliderLabel>}
+        <SliderValue />
+      </SliderHeader>
       <SliderControl magnitude={magnitude}>
         <SliderTrack>
           <SliderIndicator />
