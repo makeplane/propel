@@ -16,8 +16,9 @@ import {
 // interaction. The thumb uses propel's `--scrollbar-thumb*` tokens: shown while the
 // area is hovered or scrolling, darker on thumb hover, darkest while dragging, over a
 // transparent track. It fills its parent, so constrain the parent's height (or width)
-// to make the content scroll. The scrollbar + thumb styling is shared with components
-// that compose Base UI ScrollArea directly (e.g. Tabs) via `internal/scrollbar`.
+// to make the content scroll. The scrollbar gutter and thumb styling are owned by the
+// `ui/scroll-area` parts (their cva), reveal/width driven by the `visibility` and `magnitude`
+// props threaded to each `ScrollAreaScrollbar`.
 
 /** Which axes scroll. Drives which scrollbars (and the corner) are rendered. */
 export type ScrollAreaOrientation = "vertical" | "horizontal" | "both";
