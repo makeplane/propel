@@ -4,4 +4,10 @@ export { BreadcrumbLink, type BreadcrumbLinkProps } from "./breadcrumb-link";
 export { BreadcrumbPage, type BreadcrumbPageProps } from "./breadcrumb-page";
 export { BreadcrumbSeparator, type BreadcrumbSeparatorProps } from "./breadcrumb-separator";
 export { BreadcrumbTrigger, type BreadcrumbTriggerProps } from "./breadcrumb-trigger";
-export { crumbTriggerVariants, crumbVariants } from "./variants";
+export {
+  crumbItemVariants,
+  crumbListVariants,
+  crumbSeparatorVariants,
+  crumbTriggerVariants,
+  crumbVariants,
+} from "./variants";

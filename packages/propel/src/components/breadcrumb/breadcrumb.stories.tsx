@@ -177,9 +177,7 @@ export const WithMenuCrumb: Story = {
       <BreadcrumbSeparator />
       <BreadcrumbItem>
         <BreadcrumbMenu>
-          <BreadcrumbMenuTrigger icon={<Layers className="size-4" />}>
-            Plane Design
-          </BreadcrumbMenuTrigger>
+          <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
           <BreadcrumbMenuContent>
             <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Web" />
             <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Mobile" />
@@ -249,9 +247,7 @@ export const KeyboardNavigation: Story = {
       <BreadcrumbSeparator />
       <BreadcrumbItem>
         <BreadcrumbMenu>
-          <BreadcrumbMenuTrigger icon={<Layers className="size-4" />}>
-            Plane Design
-          </BreadcrumbMenuTrigger>
+          <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
           <BreadcrumbMenuContent>
             <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Web" />
             <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Mobile" />

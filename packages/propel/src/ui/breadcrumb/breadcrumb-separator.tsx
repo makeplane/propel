@@ -1,18 +1,18 @@
 import { ChevronRight } from "lucide-react";
 import type * as React from "react";
 
+import { crumbSeparatorVariants } from "./variants";
+
 export type BreadcrumbSeparatorProps = Omit<React.ComponentProps<"li">, "className" | "style">;
 
-/** The visual divider between crumbs. */
+/**
+ * The visual divider between crumbs. Pass a custom icon or character as `children`; defaults to a
+ * chevron.
+ */
 export function BreadcrumbSeparator({ children, ...props }: BreadcrumbSeparatorProps) {
   return (
-    <li
-      aria-hidden
-      role="presentation"
-      className="flex items-center px-1 text-icon-tertiary"
-      {...props}
-    >
-      {children ?? <ChevronRight className="size-3.5 rtl:-scale-x-100" />}
+    <li aria-hidden role="presentation" className={crumbSeparatorVariants()} {...props}>
+      {children ?? <ChevronRight aria-hidden />}
     </li>
   );
 }

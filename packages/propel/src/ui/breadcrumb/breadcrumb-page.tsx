@@ -1,4 +1,3 @@
-import { cx } from "class-variance-authority";
 import type * as React from "react";
 
 import { crumbVariants } from "./variants";
@@ -7,11 +6,5 @@ export type BreadcrumbPageProps = Omit<React.ComponentProps<"span">, "className"
 
 /** The current page — the last, non-navigable crumb. */
 export function BreadcrumbPage(props: BreadcrumbPageProps) {
-  return (
-    <span
-      aria-current="page"
-      className={cx(crumbVariants({ interactive: false }), "text-primary")}
-      {...props}
-    />
-  );
+  return <span aria-current="page" className={crumbVariants({ interactive: false })} {...props} />;
 }
