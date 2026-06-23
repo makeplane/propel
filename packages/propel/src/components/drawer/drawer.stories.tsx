@@ -36,7 +36,7 @@ export const Default: Story = {
       <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
         Open details
       </Button>
-      <DrawerPanel>
+      <DrawerPanel side="end">
         {/*
          * Two layout groups, separated by the panel's own gap: a header (title +
          * corner close) grouped with the description, then the body region.
@@ -77,6 +77,48 @@ export const Default: Story = {
   },
 };
 
+/** A left-edge panel: same structure, anchored to the inline-start edge and slides in from the left. */
+export const StartSide: Story = {
+  render: () => (
+    <Drawer>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
+        Open navigation
+      </Button>
+      <DrawerPanel side="start">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-start justify-between gap-4">
+            <DrawerTitle>Navigation</DrawerTitle>
+            <IconButton
+              variant="ghost"
+              tone="neutral"
+              magnitude="lg"
+              aria-label="Close"
+              render={<DrawerClose />}
+            >
+              <X />
+            </IconButton>
+          </div>
+        </div>
+        <div className="text-14 text-secondary">Navigation links go here.</div>
+      </DrawerPanel>
+    </Drawer>
+  ),
+  play: async ({ canvas, step }) => {
+    await step("open the drawer", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Open navigation" }));
+      const dialog = await within(document.body).findByRole("dialog");
+      await expect(within(dialog).getByText("Navigation")).toBeInTheDocument();
+    });
+    await step("close it with the dismiss button", async () => {
+      const dialog = within(document.body).getByRole("dialog");
+      await userEvent.click(within(dialog).getByRole("button", { name: "Close" }));
+      await waitFor(() =>
+        expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument(),
+      );
+    });
+  },
+};
+
 /**
  * Keyboard ARIA pattern: `Escape` closes the drawer and restores focus to the trigger. Tagged out
  * of the sidebar/docs/manifest while still running under the default `test` tag.
@@ -88,7 +130,7 @@ export const EscapeCloses: Story = {
       <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
         Open filters
       </Button>
-      <DrawerPanel>
+      <DrawerPanel side="end">
         <DrawerTitle>Filters</DrawerTitle>
         <DrawerDescription>Press Escape to dismiss.</DrawerDescription>
       </DrawerPanel>

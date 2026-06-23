@@ -54,7 +54,7 @@ export const Anatomy: Story = {
       <DrawerPortal>
         <DrawerBackdrop />
         <DrawerViewport>
-          <DrawerPopup>
+          <DrawerPopup side="end">
             <DrawerContent>
               {/*
                * Two layout groups, separated by DrawerContent's own gap: a header
@@ -101,7 +101,7 @@ export const DefaultOpen: Story = {
       <DrawerPortal>
         <DrawerBackdrop />
         <DrawerViewport>
-          <DrawerPopup>
+          <DrawerPopup side="end">
             <DrawerContent>
               <div className="flex flex-col gap-2">
                 <DrawerTitle>Filters</DrawerTitle>

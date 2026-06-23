@@ -10,7 +10,7 @@ export { DrawerSwipeArea, type DrawerSwipeAreaProps } from "./drawer-swipe-area"
 export { DrawerPortal, type DrawerPortalProps } from "./drawer-portal";
 export { DrawerBackdrop, type DrawerBackdropProps } from "./drawer-backdrop";
 export { DrawerViewport, type DrawerViewportProps } from "./drawer-viewport";
-export { DrawerPopup, type DrawerPopupProps } from "./drawer-popup";
+export { DrawerPopup, type DrawerPopupProps, type DrawerPopupSide } from "./drawer-popup";
 export { DrawerContent, type DrawerContentProps } from "./drawer-content";
 export { DrawerTitle, type DrawerTitleProps } from "./drawer-title";
 export { DrawerDescription, type DrawerDescriptionProps } from "./drawer-description";
