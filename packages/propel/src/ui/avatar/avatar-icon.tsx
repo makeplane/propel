@@ -1,5 +1,5 @@
-import { User } from "lucide-react";
 import { type VariantProps } from "class-variance-authority";
+import { User } from "lucide-react";
 import type * as React from "react";
 
 import { avatarIconVariants } from "./variants";
