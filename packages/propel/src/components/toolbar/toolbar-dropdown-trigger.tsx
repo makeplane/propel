@@ -3,6 +3,7 @@ import { Menu } from "@base-ui/react/menu";
 import {
   ToolbarDropdownTriggerButton,
   ToolbarDropdownTriggerIndicator,
+  ToolbarDropdownTriggerLabel,
 } from "../../ui/toolbar/index";
 
 export type ToolbarDropdownTriggerProps = Omit<Menu.Trigger.Props, "className" | "style">;
@@ -17,7 +18,7 @@ export function ToolbarDropdownTrigger({
   // inner element (not the wrapping button), so it is nested onto the trigger.
   return (
     <ToolbarDropdownTriggerButton render={<Menu.Trigger render={render} />} {...props}>
-      {children}
+      <ToolbarDropdownTriggerLabel>{children}</ToolbarDropdownTriggerLabel>
       <ToolbarDropdownTriggerIndicator />
     </ToolbarDropdownTriggerButton>
   );

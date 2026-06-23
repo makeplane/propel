@@ -33,6 +33,7 @@ import {
   ToolbarDropdownSeparator,
   ToolbarDropdownTrigger,
   ToolbarGroup,
+  ToolbarItemIcon,
   ToolbarSeparator,
   ToolbarToggle,
   ToolbarToggleGroup,
@@ -63,65 +64,97 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
         </ToolbarDropdownContent>
       </ToolbarDropdown>
       <ToolbarButton aria-label="Comment">
-        <MessageSquare aria-hidden />
+        <ToolbarItemIcon>
+          <MessageSquare />
+        </ToolbarItemIcon>
       </ToolbarButton>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
         <ToolbarToggle aria-label="Bold">
-          <Bold aria-hidden />
+          <ToolbarItemIcon>
+            <Bold />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle aria-label="Italic">
-          <Italic aria-hidden />
+          <ToolbarItemIcon>
+            <Italic />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle aria-label="Underline">
-          <Underline aria-hidden />
+          <ToolbarItemIcon>
+            <Underline />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle aria-label="Strikethrough">
-          <Strikethrough aria-hidden />
+          <ToolbarItemIcon>
+            <Strikethrough />
+          </ToolbarItemIcon>
         </ToolbarToggle>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarToggleGroup aria-label="Text alignment" defaultValue={["left"]}>
         <ToolbarToggle value="left" aria-label="Align left">
-          <AlignLeft aria-hidden />
+          <ToolbarItemIcon>
+            <AlignLeft />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle value="center" aria-label="Align center">
-          <AlignCenter aria-hidden />
+          <ToolbarItemIcon>
+            <AlignCenter />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle value="right" aria-label="Align right">
-          <AlignRight aria-hidden />
+          <ToolbarItemIcon>
+            <AlignRight />
+          </ToolbarItemIcon>
         </ToolbarToggle>
       </ToolbarToggleGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Lists">
         <ToolbarToggle aria-label="Bullet list">
-          <List aria-hidden />
+          <ToolbarItemIcon>
+            <List />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle aria-label="Numbered list">
-          <ListOrdered aria-hidden />
+          <ToolbarItemIcon>
+            <ListOrdered />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle aria-label="Checklist">
-          <ListChecks aria-hidden />
+          <ToolbarItemIcon>
+            <ListChecks />
+          </ToolbarItemIcon>
         </ToolbarToggle>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Blocks">
         <ToolbarToggle aria-label="Quote">
-          <Quote aria-hidden />
+          <ToolbarItemIcon>
+            <Quote />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle aria-label="Code block">
-          <Code aria-hidden />
+          <ToolbarItemIcon>
+            <Code />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarButton aria-label="Insert table">
-          <Table aria-hidden />
+          <ToolbarItemIcon>
+            <Table />
+          </ToolbarItemIcon>
         </ToolbarButton>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarButton aria-label="Insert link">
-        <Link aria-hidden />
+        <ToolbarItemIcon>
+          <Link />
+        </ToolbarItemIcon>
       </ToolbarButton>
       <ToolbarButton aria-label="Insert image">
-        <Image aria-hidden />
+        <ToolbarItemIcon>
+          <Image />
+        </ToolbarItemIcon>
       </ToolbarButton>
     </Toolbar>
   );
@@ -135,6 +168,7 @@ const meta = {
   subcomponents: {
     ToolbarGroup,
     ToolbarButton,
+    ToolbarItemIcon,
     ToolbarToggle,
     ToolbarToggleGroup,
     ToolbarSeparator,
@@ -215,7 +249,9 @@ export const DensityDrivesControlSize: Story = {
   render: () => (
     <Toolbar elevation="flat" density="compact">
       <ToolbarToggle aria-label="Bold">
-        <Bold aria-hidden />
+        <ToolbarItemIcon>
+          <Bold />
+        </ToolbarItemIcon>
       </ToolbarToggle>
     </Toolbar>
   ),
@@ -297,13 +333,19 @@ export const KeyboardRovingFocus: Story = {
   render: () => (
     <Toolbar elevation="raised" density="compact">
       <ToolbarToggle aria-label="Bold">
-        <Bold aria-hidden />
+        <ToolbarItemIcon>
+          <Bold />
+        </ToolbarItemIcon>
       </ToolbarToggle>
       <ToolbarToggle aria-label="Italic">
-        <Italic aria-hidden />
+        <ToolbarItemIcon>
+          <Italic />
+        </ToolbarItemIcon>
       </ToolbarToggle>
       <ToolbarToggle aria-label="Underline">
-        <Underline aria-hidden />
+        <ToolbarItemIcon>
+          <Underline />
+        </ToolbarItemIcon>
       </ToolbarToggle>
     </Toolbar>
   ),
