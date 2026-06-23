@@ -1,7 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { Field, FieldDescription, FieldError, FieldLabel, InputFieldControl } from "./index";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  FieldLabelRequiredMarker,
+  InputFieldControl,
+} from "./index";
 
 // UI-tier story: composes the ATOMIC field parts. `Field` (Base UI `Field.Root`) is the
 // labeling/validation shell; `FieldLabel` names the control, `InputFieldControl` is the
@@ -11,7 +18,13 @@ import { Field, FieldDescription, FieldError, FieldLabel, InputFieldControl } fr
 const meta = {
   title: "UI/Field",
   component: Field,
-  subcomponents: { FieldLabel, InputFieldControl, FieldDescription, FieldError },
+  subcomponents: {
+    FieldLabel,
+    FieldLabelRequiredMarker,
+    InputFieldControl,
+    FieldDescription,
+    FieldError,
+  },
   decorators: [
     (Story) => (
       <div className="w-80">

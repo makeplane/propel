@@ -1,5 +1,7 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { nodeSlotClass } from "../../internal/node-slot";
+
 export type { InputMagnitude } from "../input/variants";
 
 export const fieldRootVariants = cva("flex flex-col gap-1.5");
@@ -29,6 +31,13 @@ export const fieldLabelVariants = cva(
 type FieldLabelVariantProps = VariantProps<typeof fieldLabelVariants>;
 
 export type FieldMagnitude = NonNullable<FieldLabelVariantProps["magnitude"]>;
+
+// The required `*` marker rendered after the label text. Decorative (the control's
+// `required` carries the semantics), tinted danger per the Figma spec.
+export const fieldLabelRequiredMarkerVariants = cva("text-danger-primary");
+
+// The label + description column for a single choice option (checkbox/radio/switch row).
+export const fieldItemContentVariants = cva("flex min-w-0 flex-col gap-1");
 
 export const fieldDescriptionVariants = cva("text-tertiary", {
   variants: {
@@ -119,9 +128,9 @@ export const textAreaFieldBoxVariants = cva(
   },
 );
 
-export const iconSlotVariants = cva(
-  cx("flex shrink-0 items-center justify-center text-icon-secondary", "[&_svg]:size-4"),
-);
+// The decorative 16px node at the control's inline start/end. Sizes its single child
+// to `--node-size` (via the shared node-slot class) and tints it.
+export const iconSlotVariants = cva(cx(nodeSlotClass, "text-icon-secondary [--node-size:1rem]"));
 
 export const fieldItemVariants = cva(
   cx(
