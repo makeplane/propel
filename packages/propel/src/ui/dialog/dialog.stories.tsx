@@ -6,9 +6,12 @@ import { Button } from "../button";
 import { IconButton } from "../icon-button";
 import {
   Dialog,
+  DialogActions,
   DialogBackdrop,
+  DialogBody,
   DialogClose,
   DialogDescription,
+  DialogHeader,
   DialogPopup,
   DialogPortal,
   DialogTitle,
@@ -17,12 +20,12 @@ import {
 } from "./index";
 
 // UI-tier story: assembles the ATOMIC dialog parts (Root › Trigger › Portal ›
-// Backdrop › Viewport › Popup, plus Title/Description/Close). The components-tier
-// `DialogContent` ready-made composes the portal/backdrop/viewport/popup for you;
-// here you wire that boilerplate by hand. Trigger/Close compose the `Button` (or
-// `IconButton` for the corner close) primitive via Base UI's `render` prop — the
-// styled primitive is the outer element so its look wins, the dialog part supplies
-// the behavior.
+// Backdrop › Viewport › Popup, plus Header/Body/Actions/Title/Description/Close).
+// The components-tier `DialogContent` ready-made composes the portal/backdrop/
+// viewport/popup for you; here you wire that boilerplate by hand.
+// Trigger/Close compose the `Button` (or `IconButton` for the corner close)
+// primitive via Base UI's `render` prop — the styled primitive is the outer
+// element so its look wins, the dialog part supplies the behavior.
 
 const meta = {
   title: "UI/Dialog",
@@ -33,6 +36,9 @@ const meta = {
     DialogBackdrop,
     DialogViewport,
     DialogPopup,
+    DialogHeader,
+    DialogBody,
+    DialogActions,
     DialogTitle,
     DialogDescription,
     DialogClose,
@@ -52,36 +58,29 @@ export const Anatomy: Story = {
       <DialogPortal>
         <DialogBackdrop />
         <DialogViewport>
-          <DialogPopup>
-            {/*
-             * Layout groups separated by the parent's gap (never a margin on a child):
-             * a header (title + corner close) grouped with the description, then the
-             * actions row. Future anatomy surfaces — e.g. DialogHeader and DialogActions.
-             */}
-            <div className="flex w-80 flex-col gap-4">
+          <DialogPopup magnitude="sm">
+            <DialogHeader>
               <div className="flex flex-col gap-2">
-                <div className="flex items-start justify-between gap-4">
-                  <DialogTitle>Delete project</DialogTitle>
-                  <IconButton
-                    variant="ghost"
-                    tone="neutral"
-                    magnitude="lg"
-                    aria-label="Close"
-                    render={<DialogClose />}
-                  >
-                    <X />
-                  </IconButton>
-                </div>
+                <DialogTitle>Delete project</DialogTitle>
                 <DialogDescription>
                   This permanently removes the project and all of its work items.
                 </DialogDescription>
               </div>
-              <div className="flex justify-end gap-2">
-                <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
-                  Cancel
-                </Button>
-              </div>
-            </div>
+              <IconButton
+                variant="ghost"
+                tone="neutral"
+                magnitude="lg"
+                aria-label="Close"
+                render={<DialogClose />}
+              >
+                <X />
+              </IconButton>
+            </DialogHeader>
+            <DialogActions>
+              <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
+                Cancel
+              </Button>
+            </DialogActions>
           </DialogPopup>
         </DialogViewport>
       </DialogPortal>
@@ -111,20 +110,20 @@ export const NonDismissable: Story = {
       <DialogPortal>
         <DialogBackdrop />
         <DialogViewport>
-          <DialogPopup>
-            <div className="flex w-80 flex-col gap-4">
+          <DialogPopup magnitude="sm">
+            <DialogHeader>
               <div className="flex flex-col gap-2">
                 <DialogTitle>Unsaved changes</DialogTitle>
                 <DialogDescription>
                   Choose an action — clicking outside won&apos;t dismiss.
                 </DialogDescription>
               </div>
-              <div className="flex justify-end">
-                <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
-                  Discard
-                </Button>
-              </div>
-            </div>
+            </DialogHeader>
+            <DialogActions>
+              <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
+                Discard
+              </Button>
+            </DialogActions>
           </DialogPopup>
         </DialogViewport>
       </DialogPortal>

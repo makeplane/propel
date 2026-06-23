@@ -1,7 +1,10 @@
 export { Dialog, type DialogProps } from "./dialog";
+export { DialogActions, type DialogActionsProps } from "./dialog-actions";
 export { DialogBackdrop, type DialogBackdropProps } from "./dialog-backdrop";
+export { DialogBody, type DialogBodyProps } from "./dialog-body";
 export { DialogClose, type DialogCloseProps } from "./dialog-close";
 export { DialogDescription, type DialogDescriptionProps } from "./dialog-description";
+export { DialogHeader, type DialogHeaderProps } from "./dialog-header";
 export { DialogPopup, type DialogPopupProps } from "./dialog-popup";
 export { DialogPortal } from "./dialog-portal";
 export { DialogTitle, type DialogTitleProps } from "./dialog-title";
