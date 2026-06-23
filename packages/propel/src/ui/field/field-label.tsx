@@ -16,7 +16,7 @@ export function FieldLabel({ children, magnitude, required, inset }: FieldLabelP
   return (
     <BaseField.Label className={fieldLabelVariants({ magnitude, inset })}>
       {children}
-      {required ? <FieldLabelRequiredMarker /> : null}
+      {required ? <FieldLabelRequiredMarker>*</FieldLabelRequiredMarker> : null}
     </BaseField.Label>
   );
 }
