@@ -126,7 +126,7 @@ export const Default: Story = {
               {PRODUCT_LINKS.map((item) => (
                 <ContentLink key={item.href} {...item} />
               ))}
-            </NavigationMenuContentList>
+            </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
