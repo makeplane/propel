@@ -170,6 +170,7 @@ export const buttonLabelVariants = cva("group-aria-busy:opacity-50");
 // single child is sized to the button's inherited `--node-size`.
 export const buttonIconVariants = cva(nodeSlotClass);
 
-// The loading indicator that replaces the inline-start node while busy. Sized to
-// the button's `--node-size` and spun; `shrink-0` keeps it from collapsing.
-export const buttonSpinnerVariants = cva("size-(--node-size) shrink-0 animate-spin");
+// The loading indicator that replaces the inline-start node while busy. A pure slot:
+// reuses the shared node-slot chrome to size its single child to the button's
+// `--node-size`, and spins the wrapper (and thus the child) via `animate-spin`.
+export const buttonSpinnerVariants = cva(cx(nodeSlotClass, "animate-spin"));

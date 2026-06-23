@@ -1,3 +1,4 @@
+import { LoaderCircle } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -47,7 +48,9 @@ export function Button({
       aria-busy={loading ? true : undefined}
     >
       {loading ? (
-        <ButtonSpinner />
+        <ButtonSpinner>
+          <LoaderCircle />
+        </ButtonSpinner>
       ) : inlineStartNode ? (
         <ButtonIcon>{inlineStartNode}</ButtonIcon>
       ) : null}

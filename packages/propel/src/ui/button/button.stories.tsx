@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Plus } from "lucide-react";
+import { LoaderCircle, Plus } from "lucide-react";
 import { expect, fn, userEvent as baseUserEvent } from "storybook/test";
 
 import {
@@ -142,7 +142,9 @@ export const Anatomy: Story = {
       {/* The busy state mirrors the ready-made Button: it is `aria-busy` AND soft-disabled
           (Base UI `disabled` + `focusableWhenDisabled`), so the disabled palette applies. */}
       <Button {...args} aria-busy disabled focusableWhenDisabled>
-        <ButtonSpinner />
+        <ButtonSpinner>
+          <LoaderCircle />
+        </ButtonSpinner>
         <ButtonLabel>Loading</ButtonLabel>
       </Button>
     </div>
