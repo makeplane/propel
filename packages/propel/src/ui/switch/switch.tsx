@@ -13,7 +13,7 @@ export type SwitchProps = Omit<BaseSwitch.Root.Props, "className" | "style"> & {
 /**
  * The switch track (Base UI `Switch.Root`). A switch toggles a single setting on or off; the Root
  * carries `role="switch"` and full keyboard/form support. Maps to Figma's "Toggle" component.
- * Render a `SwitchThumb` (with the same `magnitude`) as its child.
+ * Render a `SwitchThumb` as its child; the thumb sizes itself from this track's `magnitude`.
  *
  * On/off, `disabled`, and `readOnly` are control state from the primitive, not variants — pass them
  * as props (`checked`/`defaultChecked`, `disabled`, `readOnly`). Only the size axis (`magnitude`)
