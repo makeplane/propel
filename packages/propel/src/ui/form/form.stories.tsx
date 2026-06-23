@@ -12,6 +12,13 @@ const meta = {
   title: "UI/Form",
   component: Form,
   parameters: { layout: "centered" },
+  decorators: [
+    (Story) => (
+      <div className="w-80">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Form>;
 
 export default meta;
@@ -19,37 +26,34 @@ type Story = StoryObj<typeof meta>;
 
 /** A form assembled from `Form` + `Field`/`FieldLabel`/`InputFieldControl`/`FieldError`. */
 export const Default: Story = {
+  args: { layout: "single" },
   render: (args) => (
     <Form {...args}>
-      <div className="flex w-80 flex-col gap-4">
-        <Field name="email">
-          <FieldLabel magnitude="md">Email</FieldLabel>
-          <InputFieldControl magnitude="md" type="email" required placeholder="you@example.com" />
-          <FieldError magnitude="md" />
-        </Field>
-        <Button type="submit" variant="primary" tone="neutral" magnitude="md">
-          Submit
-        </Button>
-      </div>
+      <Field name="email">
+        <FieldLabel magnitude="md">Email</FieldLabel>
+        <InputFieldControl magnitude="md" type="email" required placeholder="you@example.com" />
+        <FieldError magnitude="md" />
+      </Field>
+      <Button type="submit" variant="primary" tone="neutral" magnitude="md">
+        Submit
+      </Button>
     </Form>
   ),
 };
 
 /** Native constraint validation: submitting an empty required field shows the error. */
 export const Validation: Story = {
-  args: { onSubmit: fn((e) => e.preventDefault()) },
+  args: { layout: "single", onSubmit: fn((e) => e.preventDefault()) },
   render: (args) => (
     <Form {...args}>
-      <div className="flex w-80 flex-col gap-4">
-        <Field name="email">
-          <FieldLabel magnitude="md">Email</FieldLabel>
-          <InputFieldControl magnitude="md" type="email" required placeholder="you@example.com" />
-          <FieldError magnitude="md" />
-        </Field>
-        <Button type="submit" variant="primary" tone="neutral" magnitude="md">
-          Submit
-        </Button>
-      </div>
+      <Field name="email">
+        <FieldLabel magnitude="md">Email</FieldLabel>
+        <InputFieldControl magnitude="md" type="email" required placeholder="you@example.com" />
+        <FieldError magnitude="md" />
+      </Field>
+      <Button type="submit" variant="primary" tone="neutral" magnitude="md">
+        Submit
+      </Button>
     </Form>
   ),
   play: async ({ canvas }) => {

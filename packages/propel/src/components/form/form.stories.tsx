@@ -48,6 +48,7 @@ function ExampleForm({ onFormSubmit }: ExampleFormProps) {
 
   return (
     <Form<LaunchServerValues>
+      layout="single"
       errors={errors}
       onFormSubmit={(values) => {
         if (values.homepage.includes("example.com")) {
@@ -123,12 +124,14 @@ function ExampleForm({ onFormSubmit }: ExampleFormProps) {
 
 /** Form coordinates field values and server-style field errors. */
 export const Default: Story = {
+  args: { layout: "single" },
   render: () => <ExampleForm />,
 };
 
 /** Submitting with the disallowed domain surfaces the server error on the homepage field. */
 export const SubmitWithErrors: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
+  args: { layout: "single" },
   render: () => <ExampleForm onFormSubmit={fn()} />,
   play: async ({ canvas }) => {
     const input = canvas.getByRole<HTMLInputElement>("textbox", { name: "Homepage" });
