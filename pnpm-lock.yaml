@@ -17,7 +17,6 @@ overrides:
   miniflare>ws: 8.21.0
   storybook>ws: 8.21.0
   '@vitest/browser>ws': 8.21.0
-  '@voidzero-dev/vite-plus-test>ws': 8.21.0
   '@changesets/parse>js-yaml': 4.2.0
   read-yaml-file>js-yaml: 4.2.0
   storybook>esbuild: 0.28.1
