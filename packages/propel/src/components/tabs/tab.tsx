@@ -24,11 +24,7 @@ export type TabProps = TabRootProps & {
  */
 export function Tab({ inlineStartNode, children, ...props }: TabProps) {
   const variant = React.useContext(TabsVariantContext);
-  const iconNode = inlineStartNode ? (
-    <NodeSlot aria-hidden className="[--node-size:1rem]">
-      {inlineStartNode}
-    </NodeSlot>
-  ) : null;
+  const iconNode = inlineStartNode ? <NodeSlot aria-hidden>{inlineStartNode}</NodeSlot> : null;
 
   if (variant === "underline") {
     return (

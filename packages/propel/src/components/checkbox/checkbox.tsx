@@ -1,7 +1,7 @@
 import { cx } from "class-variance-authority";
 import * as React from "react";
 
-import { NodeSlot } from "../../internal/node-slot";
+import { nodeSlotClass } from "../../internal/node-slot";
 import {
   Checkbox as CheckboxRoot,
   CheckboxGlyph,
@@ -59,9 +59,12 @@ export function Checkbox({ tone, label, inlineStartNode, id, ...props }: Checkbo
     >
       {box}
       {inlineStartNode ? (
-        <NodeSlot aria-hidden className="text-icon-secondary [--node-size:0.875rem]">
+        <span
+          aria-hidden
+          className={cx(nodeSlotClass, "text-icon-secondary [--node-size:0.875rem]")}
+        >
           {inlineStartNode}
-        </NodeSlot>
+        </span>
       ) : null}
       {label}
     </label>

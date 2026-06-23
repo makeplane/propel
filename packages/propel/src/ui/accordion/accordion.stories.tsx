@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ChevronDown } from "lucide-react";
+import { CircleHelp } from "lucide-react";
 import { expect } from "storybook/test";
 
 import {
@@ -7,16 +7,30 @@ import {
   AccordionHeader,
   AccordionItem,
   AccordionPanel,
+  AccordionPanelContent,
   AccordionTrigger,
+  AccordionTriggerIcon,
+  AccordionTriggerIndicator,
+  AccordionTriggerTitle,
 } from "./index";
 
-// UI-tier story: composes the ATOMIC accordion parts (each renders a single element).
-// The components-tier `Accordion` story shows the ready-made trigger (auto chevron) and
-// padded panel. Here you assemble the raw parts and supply your own chevron / panel padding.
+// UI-tier story: composes the ATOMIC accordion parts (each renders a single element) —
+// the title, the disclosure indicator, and the panel's padded content are their own
+// parts, so the trigger and panel hold no raw layout. The components-tier `Accordion`
+// story shows the ready-made trigger (auto title + chevron) and padded panel.
 const meta = {
   title: "UI/Accordion",
   component: Accordion,
-  subcomponents: { AccordionItem, AccordionHeader, AccordionTrigger, AccordionPanel },
+  subcomponents: {
+    AccordionItem,
+    AccordionHeader,
+    AccordionTrigger,
+    AccordionTriggerIcon,
+    AccordionTriggerTitle,
+    AccordionTriggerIndicator,
+    AccordionPanel,
+    AccordionPanelContent,
+  },
   decorators: [
     (Story) => (
       <div className="w-[474px]">
@@ -43,15 +57,15 @@ export const Default: Story = {
         <AccordionItem key={item.value} value={item.value}>
           <AccordionHeader>
             <AccordionTrigger>
-              <span className="flex-1">{item.label}</span>
-              <ChevronDown
-                aria-hidden
-                className="size-3.5 shrink-0 text-icon-secondary transition-transform group-data-panel-open:rotate-180"
-              />
+              <AccordionTriggerIcon>
+                <CircleHelp />
+              </AccordionTriggerIcon>
+              <AccordionTriggerTitle>{item.label}</AccordionTriggerTitle>
+              <AccordionTriggerIndicator />
             </AccordionTrigger>
           </AccordionHeader>
           <AccordionPanel>
-            <div className="px-3 pb-3 text-14 text-secondary">{item.body}</div>
+            <AccordionPanelContent>{item.body}</AccordionPanelContent>
           </AccordionPanel>
         </AccordionItem>
       ))}
@@ -73,11 +87,11 @@ export const Multiple: Story = {
         <AccordionItem key={item.value} value={item.value}>
           <AccordionHeader>
             <AccordionTrigger>
-              <span className="flex-1">{item.label}</span>
+              <AccordionTriggerTitle>{item.label}</AccordionTriggerTitle>
             </AccordionTrigger>
           </AccordionHeader>
           <AccordionPanel>
-            <div className="px-3 pb-3 text-14 text-secondary">{item.body}</div>
+            <AccordionPanelContent>{item.body}</AccordionPanelContent>
           </AccordionPanel>
         </AccordionItem>
       ))}

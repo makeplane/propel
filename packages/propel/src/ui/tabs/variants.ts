@@ -19,7 +19,9 @@ export const tabsListVariants = cva("relative inline-flex max-w-full", {
 });
 
 export const tabVariants = cva(
-  "cursor-pointer font-medium whitespace-nowrap transition-colors outline-none select-none focus-visible:ring-2 focus-visible:ring-accent-strong disabled:cursor-not-allowed disabled:text-disabled",
+  // `--node-size` sizes any leading icon slot (the tab owns its node sizing in one place,
+  // like Button does); the slot inherits it.
+  "cursor-pointer font-medium whitespace-nowrap transition-colors outline-none select-none [--node-size:1rem] focus-visible:ring-2 focus-visible:ring-accent-strong disabled:cursor-not-allowed disabled:text-disabled",
   {
     variants: {
       variant: {
