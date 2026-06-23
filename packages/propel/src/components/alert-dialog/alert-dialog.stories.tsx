@@ -4,9 +4,11 @@ import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Button } from "../../ui/button";
 import {
   AlertDialog,
+  AlertDialogActions,
   AlertDialogClose,
   AlertDialogContent,
   AlertDialogDescription,
+  AlertDialogIntro,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./index";
@@ -23,8 +25,10 @@ const meta = {
   subcomponents: {
     AlertDialogTrigger,
     AlertDialogContent,
+    AlertDialogIntro,
     AlertDialogTitle,
     AlertDialogDescription,
+    AlertDialogActions,
     AlertDialogClose,
   },
 } satisfies Meta<typeof AlertDialog>;
@@ -40,29 +44,21 @@ export const Default: Story = {
         Delete project
       </Button>
       <AlertDialogContent>
-        {/*
-         * Two layout groups, separated by the parent's gap (never a margin on a
-         * child): an "intro" (title + description) and the "actions" row. These
-         * boundaries are the future anatomy surfaces — e.g. AlertDialogIntro and
-         * AlertDialogActions — so define them correctly here before hardening.
-         */}
-        <div className="flex w-80 flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <AlertDialogTitle>Delete project?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This permanently removes the project and all of its work items. This action can&apos;t
-              be undone.
-            </AlertDialogDescription>
-          </div>
-          <div className="flex justify-end gap-2">
-            <Button variant="secondary" tone="neutral" magnitude="xl" render={<AlertDialogClose />}>
-              Cancel
-            </Button>
-            <Button variant="primary" tone="danger" magnitude="xl" render={<AlertDialogClose />}>
-              Delete
-            </Button>
-          </div>
-        </div>
+        <AlertDialogIntro>
+          <AlertDialogTitle>Delete project?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This permanently removes the project and all of its work items. This action can&apos;t
+            be undone.
+          </AlertDialogDescription>
+        </AlertDialogIntro>
+        <AlertDialogActions>
+          <Button variant="secondary" tone="neutral" magnitude="xl" render={<AlertDialogClose />}>
+            Cancel
+          </Button>
+          <Button variant="primary" tone="danger" magnitude="xl" render={<AlertDialogClose />}>
+            Delete
+          </Button>
+        </AlertDialogActions>
       </AlertDialogContent>
     </AlertDialog>
   ),

@@ -20,6 +20,9 @@ export const alertDialogViewportVariants = cva(
 
 export const alertDialogPopupVariants = cva(
   cx(
+    // Fixed width and layout: the max-width constraint and internal spacing are
+    // always the same per spec — baked here, not left to the consumer.
+    "flex w-80 flex-col gap-4",
     "rounded-lg border-sm border-subtle bg-layer-1 p-4 shadow-overlay-100 outline-none",
     "origin-(--transform-origin) transition-[opacity,transform] duration-200",
     "data-starting-style:scale-95 data-starting-style:opacity-0",
@@ -30,6 +33,14 @@ export const alertDialogPopupVariants = cva(
 export const alertDialogTitleVariants = cva("text-16 font-semibold text-primary");
 
 export const alertDialogDescriptionVariants = cva("text-14 text-secondary");
+
+// Intro: groups the title and description with consistent vertical spacing.
+// Always the same per spec (spacing between title and description).
+export const alertDialogIntroVariants = cva("flex flex-col gap-2");
+
+// Actions: right-aligns action buttons with consistent horizontal spacing.
+// Always the same per spec (action button placement, right-aligned in footer).
+export const alertDialogActionsVariants = cva("flex justify-end gap-2");
 
 export const alertDialogCloseVariants = cva(
   cx(
