@@ -1,17 +1,36 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Copy, FilePlus, FolderOpen, Redo2, Save, Scissors, Undo2 } from "lucide-react";
+import {
+  Copy,
+  FilePlus,
+  FilePen,
+  FolderOpen,
+  Pencil,
+  Redo2,
+  Save,
+  Scissors,
+  Undo2,
+} from "lucide-react";
 import { expect, userEvent, waitFor } from "storybook/test";
 
 import { Menu, MenuContent, MenuItem, MenuSeparator } from "../menu/index";
-import { Menubar, MenubarTrigger } from "./index";
+import { Menubar, MenubarTrigger, MenubarTriggerIcon, MenubarTriggerLabel } from "./index";
 
 // Components-tier story: the `Menubar` container hosts a row of `Menu` roots, each
 // using the ready-made `MenuContent` surface plus the rich `MenuItem` rows
-// (icon + label). The UI-tier story assembles the popup parts by hand.
+// (icon + label). Each trigger composes its anatomy — a leading `MenubarTriggerIcon`
+// (the designer's "whether items have icons" axis) and a `MenubarTriggerLabel`. The
+// UI-tier story assembles the popup parts by hand.
 const meta = {
   title: "Components/Menubar",
   component: Menubar,
-  subcomponents: { MenubarTrigger, Menu, MenuContent, MenuItem },
+  subcomponents: {
+    MenubarTrigger,
+    MenubarTriggerIcon,
+    MenubarTriggerLabel,
+    Menu,
+    MenuContent,
+    MenuItem,
+  },
 } satisfies Meta<typeof Menubar>;
 
 export default meta;
@@ -33,7 +52,12 @@ export const Default: Story = {
   render: () => (
     <Menubar>
       <Menu>
-        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarTrigger>
+          <MenubarTriggerIcon>
+            <FilePen />
+          </MenubarTriggerIcon>
+          <MenubarTriggerLabel>File</MenubarTriggerLabel>
+        </MenubarTrigger>
         <MenuContent width="sm">
           <MenuItem variant="default" inlineStartNode={<FilePlus />} label="New file" />
           <MenuItem variant="default" inlineStartNode={<FolderOpen />} label="Open…" />
@@ -42,7 +66,12 @@ export const Default: Story = {
         </MenuContent>
       </Menu>
       <Menu>
-        <MenubarTrigger>Edit</MenubarTrigger>
+        <MenubarTrigger>
+          <MenubarTriggerIcon>
+            <Pencil />
+          </MenubarTriggerIcon>
+          <MenubarTriggerLabel>Edit</MenubarTriggerLabel>
+        </MenubarTrigger>
         <MenuContent width="sm">
           <MenuItem variant="default" inlineStartNode={<Undo2 />} label="Undo" />
           <MenuItem variant="default" inlineStartNode={<Redo2 />} label="Redo" />
