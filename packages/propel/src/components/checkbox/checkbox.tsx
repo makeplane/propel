@@ -1,13 +1,12 @@
-import { cx } from "class-variance-authority";
 import * as React from "react";
 
-import { nodeSlotClass } from "../../internal/node-slot";
 import {
   Checkbox as CheckboxRoot,
   CheckboxGlyph,
   CheckboxIndicator,
   type CheckboxProps as CheckboxRootProps,
 } from "../../ui/checkbox";
+import { checkboxInlineStartNodeVariants, checkboxLabelVariants } from "../../ui/checkbox/variants";
 
 export type { CheckboxTone } from "../../ui/checkbox";
 
@@ -51,18 +50,12 @@ export function Checkbox({ tone, label, inlineStartNode, id, ...props }: Checkbo
       // chip: `px-2 py-1` (8px/4px) padding and a `rounded-sm` corner, with a
       // transparent-layer hover background (hover state 1276:15 →
       // `bg-layer-transparent-hover`). The standalone box owns its own styling.
-      className={cx(
-        "inline-flex items-center gap-2 rounded-sm px-2 py-1 text-13 text-secondary transition-colors",
-        props.disabled ? "cursor-not-allowed" : "cursor-pointer hover:bg-layer-transparent-hover",
-      )}
+      className={checkboxLabelVariants({ disabled: props.disabled ?? false })}
       htmlFor={checkboxId}
     >
       {box}
       {inlineStartNode ? (
-        <span
-          aria-hidden
-          className={cx(nodeSlotClass, "text-icon-secondary [--node-size:0.875rem]")}
-        >
+        <span aria-hidden className={checkboxInlineStartNodeVariants()}>
           {inlineStartNode}
         </span>
       ) : null}
