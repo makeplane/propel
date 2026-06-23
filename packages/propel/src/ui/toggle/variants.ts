@@ -1,8 +1,11 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { nodeSlotClass } from "../../internal/node-slot";
+
 // A Toggle is a two-state icon button. The only visual axis is size (`magnitude`);
 // pressed/disabled are control state Base UI reflects as `[data-pressed]`/
-// `[data-disabled]`. Each magnitude sets `--node-size` so an inner icon sizes itself.
+// `[data-disabled]`. Each magnitude sets `--node-size` so the `ToggleIcon` slot sizes
+// its child to match.
 export const toggleVariants = cva(
   cx(
     "inline-flex shrink-0 items-center justify-center rounded-md transition-colors outline-none",
@@ -24,3 +27,9 @@ export const toggleVariants = cva(
 );
 
 export type ToggleMagnitude = NonNullable<VariantProps<typeof toggleVariants>["magnitude"]>;
+
+// The toggle's single glyph slot. Renders whatever svg/img you pass (sized to the
+// toggle's `--node-size` via the shared node-slot class), so callers pass a bare icon
+// instead of sizing it themselves. Decorative — the toggle carries the accessible name
+// (via `aria-label`) — so the glyph stays out of the name.
+export const toggleIconVariants = cva(nodeSlotClass);

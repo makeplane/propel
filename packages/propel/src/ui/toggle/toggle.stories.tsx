@@ -2,16 +2,18 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Bold } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { Toggle, type ToggleMagnitude } from "./index";
+import { Toggle, ToggleIcon, type ToggleMagnitude } from "./index";
 
 const MAGNITUDES: ToggleMagnitude[] = ["sm", "md", "lg"];
 
 // UI-tier story: the atomic `Toggle` — a two-state icon button (Base UI `Toggle`),
-// reflecting `[data-pressed]`/`[data-disabled]`. The components-tier story re-exports
-// the same primitive (no extra composition). `magnitude` is the only visual axis.
+// reflecting `[data-pressed]`/`[data-disabled]` — with its `ToggleIcon` glyph slot
+// (sizes a bare icon to the toggle's `--node-size`). The components-tier story re-exports
+// the same parts (no extra composition). `magnitude` is the only visual axis.
 const meta = {
   title: "UI/Toggle",
   component: Toggle,
+  subcomponents: { ToggleIcon },
   args: { magnitude: "md", "aria-label": "Bold" },
 } satisfies Meta<typeof Toggle>;
 
@@ -23,7 +25,9 @@ export const Default: Story = {
   args: { magnitude: "md" },
   render: (args) => (
     <Toggle {...args}>
-      <Bold aria-hidden className="size-(--node-size)" />
+      <ToggleIcon>
+        <Bold />
+      </ToggleIcon>
     </Toggle>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -43,7 +47,9 @@ export const Magnitudes: Story = {
     <div className="flex items-center gap-2">
       {MAGNITUDES.map((magnitude) => (
         <Toggle key={magnitude} magnitude={magnitude} aria-label={`Bold ${magnitude}`}>
-          <Bold aria-hidden className="size-(--node-size)" />
+          <ToggleIcon>
+            <Bold />
+          </ToggleIcon>
         </Toggle>
       ))}
     </div>
