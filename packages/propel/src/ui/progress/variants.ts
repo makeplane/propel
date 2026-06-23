@@ -37,7 +37,7 @@ export const progressLabelVariants = cva("text-13 font-medium text-secondary");
  */
 export const progressValueVariants = cva("text-12 font-medium text-secondary tabular-nums");
 
-export const rootVariants = cva("", {
+export const progressVariants = cva("", {
   variants: {
     layout: {
       linear: "flex w-full items-center gap-2",
@@ -45,7 +45,7 @@ export const rootVariants = cva("", {
   },
 });
 
-export const trackVariants = cva(
+export const progressTrackVariants = cva(
   "relative min-w-0 flex-1 overflow-hidden rounded-full bg-layer-3-selected",
   {
     variants: {
@@ -61,7 +61,7 @@ export const trackVariants = cva(
  * Circular ring root variants. `magnitude` sets the diameter of the ring box. The arc and track
  * circles fill the box; geometry (radius, dash) is passed to those parts as SVG attributes.
  */
-export const circleVariants = cva("shrink-0", {
+export const progressCircleVariants = cva("shrink-0", {
   variants: {
     magnitude: {
       sm: "size-4",
@@ -71,14 +71,14 @@ export const circleVariants = cva("shrink-0", {
 });
 
 /** The circular ring's SVG viewport. Fills its `ProgressCircle` box. */
-export const circleSvgVariants = cva("block size-full");
+export const progressCircleSvgVariants = cva("block size-full");
 
 /**
  * The full subtle ring behind the arc. Strokes with the same `layer-3-selected` surface token the
  * linear track fills with, so both variants read as the same low-emphasis track and re-tint
  * together in every theme.
  */
-export const circleTrackVariants = cva("[stroke:var(--bg-layer-3-selected)]");
+export const progressCircleTrackVariants = cva("[stroke:var(--bg-layer-3-selected)]");
 
 /**
  * The toned arc proportional to the value, with rounded caps. `tone` drives the stroke color. The
@@ -86,7 +86,7 @@ export const circleTrackVariants = cva("[stroke:var(--bg-layer-3-selected)]");
  * the circle's center so the visual sweep stays clockwise in RTL too. The dash offset (the value
  * model) is passed as an SVG attribute.
  */
-export const circleIndicatorVariants = cva(
+export const progressCircleIndicatorVariants = cva(
   "origin-center -rotate-90 transition-[stroke-dashoffset] duration-300 ease-out",
   {
     variants: {

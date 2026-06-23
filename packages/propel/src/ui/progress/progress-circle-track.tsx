@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { circleTrackVariants } from "./variants";
+import { progressCircleTrackVariants } from "./variants";
 
 /** Props for {@link ProgressCircleTrack}. */
 export type ProgressCircleTrackProps = Omit<
@@ -14,5 +14,5 @@ export type ProgressCircleTrackProps = Omit<
  * in.
  */
 export function ProgressCircleTrack(props: ProgressCircleTrackProps) {
-  return <circle className={circleTrackVariants()} {...props} />;
+  return <circle className={progressCircleTrackVariants()} {...props} />;
 }

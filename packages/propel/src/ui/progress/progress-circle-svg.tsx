@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { circleSvgVariants } from "./variants";
+import { progressCircleSvgVariants } from "./variants";
 
 /** Props for {@link ProgressCircleSvg}. */
 export type ProgressCircleSvgProps = Omit<
@@ -15,5 +15,5 @@ export type ProgressCircleSvgProps = Omit<
  * so one SVG user unit equals one pixel.
  */
 export function ProgressCircleSvg(props: ProgressCircleSvgProps) {
-  return <svg aria-hidden="true" fill="none" className={circleSvgVariants()} {...props} />;
+  return <svg aria-hidden="true" fill="none" className={progressCircleSvgVariants()} {...props} />;
 }
