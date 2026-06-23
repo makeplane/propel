@@ -1,9 +1,9 @@
 import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
-import { cx, type VariantProps } from "class-variance-authority";
+import { type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-import { type AvatarTone, getAvatarTone, initialsToneClass } from "../../ui/avatar";
-import { workspaceAvatarVariants } from "./variants";
+import { type AvatarTone, getAvatarTone } from "../../ui/avatar";
+import { workspaceAvatarFallbackVariants, workspaceAvatarVariants } from "./variants";
 
 export type WorkspaceAvatarMagnitude = NonNullable<
   VariantProps<typeof workspaceAvatarVariants>["magnitude"]
@@ -41,17 +41,12 @@ export function WorkspaceAvatar({
       // decorative. Consumers can override via spread props.
       role="img"
       aria-label={alt}
-      className={cx(workspaceAvatarVariants({ magnitude }), "bg-layer-1")}
+      className={workspaceAvatarVariants({ magnitude })}
       {...props}
     >
       {src ? <BaseAvatar.Image src={src} alt="" className="size-full object-cover" /> : null}
       <BaseAvatar.Fallback
-        className={cx(
-          "flex size-full items-center justify-center leading-none",
-          hasInitials
-            ? `${initialsToneClass[resolvedTone]} text-on-color`
-            : "bg-layer-1 text-primary",
-        )}
+        className={workspaceAvatarFallbackVariants({ tone: hasInitials ? resolvedTone : "none" })}
       >
         {fallback}
       </BaseAvatar.Fallback>
