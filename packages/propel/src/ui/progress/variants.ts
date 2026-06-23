@@ -1,8 +1,8 @@
 import { cva } from "class-variance-authority";
 
 /**
- * Indicator fill variants. `tone` drives the fill color of the bar (and the arc in the circular
- * ring). All other indicator styles — pill radius, transition, inset — are always the same.
+ * Indicator fill variants. `tone` drives the fill color of the bar. All other indicator styles —
+ * pill radius, transition, inset — are always the same.
  *
  * Indeterminate state: Base UI sets `data-indeterminate` on its Root and propagates it to the
  * Indicator; we target it here with a slide-pulse animation so the bar communicates an
@@ -30,19 +30,12 @@ export const progressIndicatorVariants = cva(
 export const progressLabelVariants = cva("text-13 font-medium text-secondary");
 
 /**
- * Value text variants. `tone` keeps the percentage in the same hue family as the fill, so the
- * number reads as part of the same semantic signal.
+ * Value text variants. The percentage is a neutral readout (matching `ProgressLabel`'s
+ * `text-secondary`), not a toned signal: the semantic color lives on the fill bar/arc. Keeping the
+ * number neutral also avoids the low-contrast amber/green readouts against a neutral surface (toned
+ * text only meets WCAG AA on its own soft tone background, which the percentage does not have).
  */
-export const progressValueVariants = cva("text-12 font-medium tabular-nums", {
-  variants: {
-    tone: {
-      brand: "text-accent-primary",
-      success: "text-success-primary",
-      warning: "text-warning-primary",
-      danger: "text-danger-primary",
-    },
-  },
-});
+export const progressValueVariants = cva("text-12 font-medium text-secondary tabular-nums");
 
 export const rootVariants = cva("", {
   variants: {
@@ -65,21 +58,44 @@ export const trackVariants = cva(
 );
 
 /**
- * Circular ring container variants. `tone` sets the `--progress-fill` CSS custom property which the
- * indicator arc circle reads via `[stroke:var(--progress-fill)]`, keeping all className composition
- * inside cva.
+ * Circular ring root variants. `magnitude` sets the diameter of the ring box. The arc and track
+ * circles fill the box; geometry (radius, dash) is passed to those parts as SVG attributes.
  */
-export const ringVariants = cva("shrink-0", {
+export const circleVariants = cva("shrink-0", {
   variants: {
     magnitude: {
       sm: "size-4",
       md: "size-5",
     },
-    tone: {
-      brand: "[--progress-fill:var(--bg-accent-primary)]",
-      success: "[--progress-fill:var(--bg-success-primary)]",
-      warning: "[--progress-fill:var(--bg-warning-primary)]",
-      danger: "[--progress-fill:var(--bg-danger-primary)]",
-    },
   },
 });
+
+/** The circular ring's SVG viewport. Fills its `ProgressCircle` box. */
+export const circleSvgVariants = cva("block size-full");
+
+/**
+ * The full subtle ring behind the arc. Strokes with the same `layer-3-selected` surface token the
+ * linear track fills with, so both variants read as the same low-emphasis track and re-tint
+ * together in every theme.
+ */
+export const circleTrackVariants = cva("[stroke:var(--bg-layer-3-selected)]");
+
+/**
+ * The toned arc proportional to the value, with rounded caps. `tone` drives the stroke color. The
+ * arc is rotated so it starts at 12 o'clock; `transform-origin: center` keeps the rotation about
+ * the circle's center so the visual sweep stays clockwise in RTL too. The dash offset (the value
+ * model) is passed as an SVG attribute.
+ */
+export const circleIndicatorVariants = cva(
+  "origin-center -rotate-90 transition-[stroke-dashoffset] duration-300 ease-out",
+  {
+    variants: {
+      tone: {
+        brand: "[stroke:var(--bg-accent-primary)]",
+        success: "[stroke:var(--bg-success-primary)]",
+        warning: "[stroke:var(--bg-warning-primary)]",
+        danger: "[stroke:var(--bg-danger-primary)]",
+      },
+    },
+  },
+);

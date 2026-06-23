@@ -3,6 +3,9 @@ import { Progress as BaseProgress } from "@base-ui/react/progress";
 import {
   Progress as ProgressRoot,
   ProgressCircle,
+  ProgressCircleIndicator,
+  ProgressCircleSvg,
+  ProgressCircleTrack,
   ProgressIndicator,
   ProgressTrack,
   ProgressValue,
@@ -22,6 +25,17 @@ import {
 export type ProgressMagnitude = NonNullable<ProgressTrackProps["magnitude"]>;
 export type ProgressTone = NonNullable<ProgressIndicatorProps["tone"]>;
 export type ProgressVariant = "linear" | "circular";
+
+// Circle geometry per magnitude (value model, not styling). The Figma circular variant
+// (nodes 5736-3457 / 5736-3460) is a 16px (sm) / 20px (md) box holding a 2px-stroke ring:
+// a 14px circle (sm) or 18px circle (md). The centerline radius is therefore
+// (diameter - stroke) / 2 -> 6 (sm) / 8 (md). The viewBox matches the box so 1 SVG user
+// unit == 1px.
+const RING_GEOMETRY: Record<ProgressMagnitude, { box: number; radius: number }> = {
+  sm: { box: 16, radius: 6 },
+  md: { box: 20, radius: 8 },
+};
+const RING_STROKE = 2;
 
 export type ProgressProps = Omit<BaseProgress.Root.Props, "className" | "style" | "value"> & {
   /** `linear` = a horizontal bar. `circular` = a determinate ring. */
@@ -66,8 +80,9 @@ export type ProgressProps = Omit<BaseProgress.Root.Props, "className" | "style" 
  * outcome semantics (green/amber/red).
  *
  * Composed from the `ui/progress` primitives (`Progress` root, `ProgressTrack`,
- * `ProgressIndicator`, `ProgressValue`, `ProgressCircle`), which are built on Base UI `Progress`
- * (it owns the `progressbar` role + `aria-valuenow`).
+ * `ProgressIndicator`, `ProgressValue` for the bar; `ProgressCircle` › `ProgressCircleSvg` ›
+ * `ProgressCircleTrack` + `ProgressCircleIndicator` for the ring), which are built on Base UI
+ * `Progress` (it owns the `progressbar` role + `aria-valuenow`).
  */
 export function Progress({
   variant,
@@ -78,10 +93,33 @@ export function Progress({
   ...props
 }: ProgressProps) {
   if (variant === "circular") {
-    // The circular ring always needs a concrete value to compute its arc geometry; indeterminate
-    // mode is a linear-only feature. Fall back to 0 for null so the ring renders empty rather
-    // than throwing.
-    return <ProgressCircle value={value ?? 0} magnitude={magnitude} tone={tone} {...props} />;
+    const { box, radius } = RING_GEOMETRY[magnitude];
+    const circumference = 2 * Math.PI * radius;
+    const max = props.max ?? 100;
+    // Clamp once and feed the same value to the SVG arc and the Root, so the arc and
+    // `aria-valuenow` never disagree for out-of-range input. Indeterminate mode is a
+    // linear-only feature; fall back to 0 for null so the ring renders empty.
+    const clampedValue = Math.min(Math.max(value ?? 0, 0), max);
+    const fraction = max > 0 ? clampedValue / max : 0;
+    const dashOffset = circumference * (1 - fraction);
+    const center = box / 2;
+    return (
+      <ProgressCircle value={clampedValue} magnitude={magnitude} {...props}>
+        <ProgressCircleSvg viewBox={`0 0 ${box} ${box}`}>
+          <ProgressCircleTrack cx={center} cy={center} r={radius} strokeWidth={RING_STROKE} />
+          <ProgressCircleIndicator
+            tone={tone}
+            cx={center}
+            cy={center}
+            r={radius}
+            strokeWidth={RING_STROKE}
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={dashOffset}
+          />
+        </ProgressCircleSvg>
+      </ProgressCircle>
+    );
   }
 
   return (
@@ -92,7 +130,7 @@ export function Progress({
         <ProgressIndicator tone={tone} />
       </ProgressTrack>
       {showValue ? (
-        <ProgressValue tone={tone}>
+        <ProgressValue>
           {(_, currentValue) => (currentValue == null ? "" : `${Math.round(currentValue)}%`)}
         </ProgressValue>
       ) : null}
