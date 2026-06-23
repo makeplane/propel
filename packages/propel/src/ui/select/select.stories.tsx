@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { expect, within } from "storybook/test";
 
 import { Field, FieldError } from "../field/index";
@@ -56,9 +57,11 @@ export const Default: Story = {
       <Select {...args}>
         <div className="flex w-fit flex-col gap-1.5">
           <SelectLabel>Server type</SelectLabel>
-          <SelectTrigger>
+          <SelectTrigger magnitude="md">
             <SelectValue />
-            <SelectIcon />
+            <SelectIcon>
+              <ChevronsUpDown />
+            </SelectIcon>
           </SelectTrigger>
         </div>
         <SelectPortal>
@@ -66,8 +69,10 @@ export const Default: Story = {
             <SelectPopup>
               <SelectList>
                 {SERVER_TYPES.map(({ label, value }) => (
-                  <SelectItem key={value} value={value}>
-                    <SelectItemIndicator />
+                  <SelectItem key={value} value={value} magnitude="md">
+                    <SelectItemIndicator>
+                      <Check />
+                    </SelectItemIndicator>
                     <SelectItemText>{label}</SelectItemText>
                   </SelectItem>
                 ))}
