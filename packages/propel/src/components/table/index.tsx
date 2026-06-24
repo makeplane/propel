@@ -1,7 +1,7 @@
 export * from "./table";
 export {
   type TablePinned,
-  type TableVariant,
+  type TableMode,
   TableBody,
   type TableBodyProps,
   TableHeader,

@@ -5,24 +5,24 @@ import {
   Table as TableElement,
   type TableProps as TableElementProps,
   TableScrollArea,
-  type TableVariant,
+  type TableMode,
   TableScrollAreaViewport,
 } from "../../ui/table";
-import { TableVariantContext } from "./table-context";
+import { TableModeContext } from "./table-context";
 
 export type TableProps = TableElementProps & {
   /** Layout (required). `table` draws row dividers only; `spreadsheet` draws a full grid. */
-  variant: TableVariant;
+  mode: TableMode;
   children?: React.ReactNode;
 };
 
 /**
  * The ready-made table: the styled `<table>` wrapped in a rounded, hairline-bordered scroll frame,
- * sharing its layout `variant` with the cells/heads via context.
+ * sharing its layout `mode` with the cells/heads via context.
  */
-export function Table({ variant, children, ...props }: TableProps) {
+export function Table({ mode, children, ...props }: TableProps) {
   return (
-    <TableVariantContext.Provider value={variant}>
+    <TableModeContext.Provider value={mode}>
       <TableScrollArea>
         <TableScrollAreaViewport>
           <TableElement {...props}>{children}</TableElement>
@@ -35,6 +35,6 @@ export function Table({ variant, children, ...props }: TableProps) {
         </ScrollAreaScrollbar>
         <ScrollAreaCorner />
       </TableScrollArea>
-    </TableVariantContext.Provider>
+    </TableModeContext.Provider>
   );
 }

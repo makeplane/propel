@@ -8,7 +8,7 @@ import {
   TableHeadSortTrigger,
   TableHeadTitle,
 } from "../../ui/table/index";
-import { useTableVariant } from "./table-context";
+import { useTableMode } from "./table-context";
 
 /** Sort direction of a sortable `TableHead`. `none` shows the neutral affordance. */
 export type TableHeadSort = "asc" | "desc" | "none";
@@ -25,7 +25,7 @@ const ariaSort: Record<TableHeadSort, React.AriaAttributes["aria-sort"]> = {
   none: "none",
 };
 
-export type TableHeadProps = Omit<TableHeadElementProps, "aria-sort" | "variant"> & {
+export type TableHeadProps = Omit<TableHeadElementProps, "aria-sort" | "mode"> & {
   /** Visual treatment. `sortable` renders the title as a sort-cycling button. */
   /** Whether this header is interactive sortable (renders a sort trigger + reflects `aria-sort`). */
   sortable?: boolean;
@@ -43,14 +43,14 @@ export function TableHead({
   children,
   ...props
 }: TableHeadProps) {
-  const tableVariant = useTableVariant();
+  const tableMode = useTableMode();
   const isSortable = sortable;
   const hasSortControl = isSortable && onSort != null;
   const SortGlyph = sortGlyph[sort];
 
   return (
     <TableHeadElement
-      variant={tableVariant}
+      mode={tableMode}
       aria-sort={isSortable ? ariaSort[sort] : undefined}
       {...props}
     >

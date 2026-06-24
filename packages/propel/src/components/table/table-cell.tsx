@@ -7,9 +7,9 @@ import {
   TableCellLayout,
   TableCellSlot,
 } from "../../ui/table/index";
-import { useTableVariant } from "./table-context";
+import { useTableMode } from "./table-context";
 
-export type TableCellProps = Omit<TableCellElementProps, "padding" | "variant"> & {
+export type TableCellProps = Omit<TableCellElementProps, "padding" | "mode"> & {
   /** Leading content beside the cell text — an icon or an `Avatar`. */
   inlineStartNode?: React.ReactNode;
   /** Trailing content beside the cell text — an icon or an `Avatar`. */
@@ -18,9 +18,9 @@ export type TableCellProps = Omit<TableCellElementProps, "padding" | "variant"> 
 
 /** A ready-made data cell: optional leading/trailing slots around a truncating content region. */
 export function TableCell({ inlineStartNode, inlineEndNode, children, ...props }: TableCellProps) {
-  const variant = useTableVariant();
+  const mode = useTableMode();
   return (
-    <TableCellElement variant={variant} {...props}>
+    <TableCellElement mode={mode} {...props}>
       <TableCellLayout>
         {inlineStartNode != null ? <TableCellSlot>{inlineStartNode}</TableCellSlot> : null}
         <TableCellContent>{children}</TableCellContent>

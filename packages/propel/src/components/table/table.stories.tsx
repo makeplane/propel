@@ -79,11 +79,11 @@ const PEOPLE: Person[] = [
 const COLUMNS = ["Name", "Display name", "Email", "Account type", "Billing status"];
 
 /**
- * The standard **Table** (`variant="table"`): a rounded outer border with row dividers only (no
+ * The standard **Table** (`mode="table"`): a rounded outer border with row dividers only (no
  * vertical rules). Header on `layer-1`, body on `surface-1`.
  */
 export const Default: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: (args) => (
     <Table {...args}>
       <TableHeader>
@@ -121,11 +121,11 @@ export const Default: Story = {
 };
 
 /**
- * The denser **Spreadsheet** (`variant="spreadsheet"`): the same metrics, but every cell is fully
+ * The denser **Spreadsheet** (`mode="spreadsheet"`): the same metrics, but every cell is fully
  * bordered to form a grid (Figma "Spreadsheet").
  */
 export const Spreadsheet: Story = {
-  args: { variant: "spreadsheet" },
+  args: { mode: "spreadsheet" },
   render: (args) => (
     <Table {...args}>
       <TableHeader>
@@ -161,11 +161,11 @@ export const Spreadsheet: Story = {
 };
 
 /**
- * A sortable header: `variant="sortable"` renders the label as a button with a sort chevron and
+ * A sortable header: `mode="sortable"` renders the label as a button with a sort chevron and
  * reflects the order through `aria-sort`. Clicking cycles none → asc → desc.
  */
 export const Sortable: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: (args) => {
     const [sort, setSort] = React.useState<TableHeadSort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
@@ -218,7 +218,7 @@ const ROLES = ["Admin", "Member", "Guest"];
  * `selected` tint to mark the active cell. Works in both table variants.
  */
 export const EditableCells: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: function EditableCellsStory(args) {
     const [people, setPeople] = React.useState(PEOPLE);
     const [selectedEmail, setSelectedEmail] = React.useState<string | null>(null);
@@ -301,7 +301,7 @@ const DIRECTORY: Person[] = Array.from({ length: 23 }, (_, i) => {
  * composing the two.
  */
 export const WithPagination: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: (args) => {
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
@@ -375,7 +375,7 @@ export const WithPagination: Story = {
  * from the row's own hover.
  */
 export const RichRows: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   parameters: { controls: { disable: true } },
   render: function RichRowsStory(args) {
     const [people, setPeople] = React.useState(PEOPLE);
@@ -452,7 +452,7 @@ export const RichRows: Story = {
  * cells) stays put on horizontal scroll.
  */
 export const StickyHeaderAndColumns: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="h-64 w-115">
@@ -505,7 +505,7 @@ export const StickyHeaderAndColumns: Story = {
  */
 export const SortableKeyboard: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: function SortableKeyboardStory(args) {
     const [sort, setSort] = React.useState<TableHeadSort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
@@ -572,7 +572,7 @@ export const SortableKeyboard: Story = {
  */
 export const EditableCellKeyboard: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: function EditableCellKeyboardStory(args) {
     const [role, setRole] = React.useState("Admin");
     return (

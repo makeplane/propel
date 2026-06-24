@@ -1,13 +1,13 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { type TablePinned, type TableVariant, tableCellVariants } from "./variants";
+import { type TablePinned, type TableMode, tableCellVariants } from "./variants";
 
 export type TableCellPadding = "cell" | "trigger";
 
 export type TableCellProps = Omit<useRender.ComponentProps<"td">, "className" | "style"> & {
   /** The surrounding table's look, matching the `Table` root. */
-  variant: TableVariant;
+  mode: TableMode;
   /** Pin this cell to the inline-start/end edge when the table scrolls sideways. */
   pinned?: TablePinned;
   /**
@@ -17,10 +17,10 @@ export type TableCellProps = Omit<useRender.ComponentProps<"td">, "className" | 
   padding?: TableCellPadding;
 };
 
-/** A data cell (`<td>`). Borders follow the `variant`. */
-export function TableCell({ variant, pinned, padding = "cell", render, ...props }: TableCellProps) {
+/** A data cell (`<td>`). Borders follow the `mode`. */
+export function TableCell({ mode, pinned, padding = "cell", render, ...props }: TableCellProps) {
   const defaultProps: useRender.ElementProps<"td"> = {
-    className: tableCellVariants({ surface: variant, pinned: pinned ?? "none", padding }),
+    className: tableCellVariants({ surface: mode, pinned: pinned ?? "none", padding }),
   };
   return useRender({ defaultTagName: "td", render, props: mergeProps(defaultProps, props) });
 }

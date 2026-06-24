@@ -1,5 +1,5 @@
 /** The two table looks: `table` (row dividers only) and `spreadsheet` (full grid). */
-export type TableVariant = "table" | "spreadsheet";
+export type TableMode = "table" | "spreadsheet";
 
 /** Which inline edge a header/cell pins to while the table scrolls sideways. */
 export type TablePinned = "start" | "end";
@@ -9,7 +9,7 @@ import { cva, cx } from "class-variance-authority";
 import { nodeSlotClass } from "../../internal/node-slot";
 
 // Table is a structural data primitive. The designer locked two layout looks (Figma
-// "Table" vs "Spreadsheet") as the only `variant` axis, and baked everything else
+// "Table" vs "Spreadsheet") as the only `mode` axis, and baked everything else
 // (header chrome, cell padding, row hover, sort-indicator position, focus ring) into
 // the component so every table stays consistent. Every part's className lives here as
 // a cva pairing, so no part takes a `className` at its boundary.
@@ -28,7 +28,7 @@ export const tableScrollAreaViewportVariants = cva(
 );
 
 // The `<table>` element itself.
-export const tableVariants = cva("w-full caption-bottom border-collapse text-13 text-primary");
+export const tableModes = cva("w-full caption-bottom border-collapse text-13 text-primary");
 
 // `<thead>` / `<tbody>` carry no chrome of their own; the cva keeps every part styled
 // in one place even when the pairing is empty.
@@ -40,8 +40,8 @@ export const tableBodyVariants = cva("");
 // pinned cells can react to the row's hover.
 export const tableRowVariants = cva("group/body-row bg-layer-2 hover:bg-layer-2-hover");
 
-// A header cell (`<th>`). `variant` is the table look; the row/edge borders come from
-// the surrounding `Table`'s variant via `pinned`/`edge`. Sticky to the top so the
+// A header cell (`<th>`). `mode` is the table look; the row/edge borders come from
+// the surrounding `Table`'s mode via `pinned`/`edge`. Sticky to the top so the
 // header stays visible while the body scrolls (an "always").
 export const tableHeadVariants = cva(
   cx(
