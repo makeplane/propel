@@ -1,5 +1,7 @@
 import { cva } from "class-variance-authority";
 
+import { type StrictVariantProps } from "../../internal/variant-props";
+
 /**
  * Indicator fill variants. `tone` drives the fill color of the bar. All other indicator styles —
  * pill radius, transition, inset — are always the same.
@@ -99,3 +101,15 @@ export const progressCircleIndicatorVariants = cva(
     },
   },
 );
+
+export type ProgressVariantProps = StrictVariantProps<typeof progressVariants>;
+
+export type ProgressTrackVariantProps = StrictVariantProps<typeof progressTrackVariants>;
+
+export type ProgressIndicatorVariantProps = StrictVariantProps<typeof progressIndicatorVariants>;
+
+export type ProgressCircleVariantProps = StrictVariantProps<typeof progressCircleVariants>;
+
+export type ProgressCircleIndicatorVariantProps = StrictVariantProps<
+  typeof progressCircleIndicatorVariants
+>;

@@ -1,14 +1,18 @@
-import { type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-import { progressCircleIndicatorVariants } from "./variants";
+import {
+  type ProgressCircleIndicatorVariantProps,
+  progressCircleIndicatorVariants,
+} from "./variants";
+
+export type { ProgressCircleIndicatorVariantProps } from "./variants";
 
 /** Props for {@link ProgressCircleIndicator}. */
 export type ProgressCircleIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"circle">,
   "className" | "style"
 > &
-  Required<Pick<VariantProps<typeof progressCircleIndicatorVariants>, "tone">>;
+  ProgressCircleIndicatorVariantProps;
 
 /**
  * The toned arc proportional to the value (the circular analogue of `ProgressIndicator`). `tone`

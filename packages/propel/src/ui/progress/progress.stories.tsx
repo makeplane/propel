@@ -33,7 +33,9 @@ const meta = {
     ProgressCircleIndicator,
   },
   // The render fns assemble their own atoms; these satisfy the Root's value-model props.
-  args: { value: 32, "aria-label": "Progress" },
+  // `layout` is required on the ui Progress; the renders pass it explicitly, this satisfies the
+  // story arg type.
+  args: { value: 32, "aria-label": "Progress", layout: "linear" },
   decorators: [
     (Story) => (
       <div className="w-80">

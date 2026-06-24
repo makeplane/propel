@@ -1,11 +1,12 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
-import { type VariantProps } from "class-variance-authority";
 
-import { progressCircleVariants } from "./variants";
+import { type ProgressCircleVariantProps, progressCircleVariants } from "./variants";
+
+export type { ProgressCircleVariantProps } from "./variants";
 
 /** Props for {@link ProgressCircle}. */
 export type ProgressCircleProps = Omit<BaseProgress.Root.Props, "className" | "style"> &
-  Required<Pick<VariantProps<typeof progressCircleVariants>, "magnitude">>;
+  ProgressCircleVariantProps;
 
 /**
  * The circular ring root — a styled Base UI `Progress.Root` that sizes the ring box (`magnitude`
