@@ -1,17 +1,13 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { type VariantProps } from "class-variance-authority";
 
-import { avatarIconVariants } from "./variants";
+import { type AvatarIconVariantProps, avatarIconVariants } from "./variants";
+
+export type { AvatarIconVariantProps } from "./variants";
 
 /** Props for {@link AvatarIcon}, plus the `magnitude` that sizes its glyph. */
-export type AvatarIconProps = Omit<useRender.ComponentProps<"span">, "className" | "style"> & {
-  /**
-   * Icon size step. Required — the anonymous glyph follows Figma's explicit per-magnitude icon px
-   * values, not a fraction of the avatar, so the size has to be passed in.
-   */
-  magnitude: NonNullable<VariantProps<typeof avatarIconVariants>["magnitude"]>;
-};
+export type AvatarIconProps = Omit<useRender.ComponentProps<"span">, "className" | "style"> &
+  AvatarIconVariantProps;
 
 /**
  * The anonymous person-icon content state, shown when an avatar has neither an image nor initials.

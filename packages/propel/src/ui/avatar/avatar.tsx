@@ -1,9 +1,8 @@
 import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
-import { type VariantProps } from "class-variance-authority";
 
-import { avatarToneBgClass, avatarVariants } from "./variants";
+import { avatarToneBgClass, avatarVariants, type AvatarVariantProps } from "./variants";
 
-export type AvatarMagnitude = NonNullable<VariantProps<typeof avatarVariants>["magnitude"]>;
+export type { AvatarMagnitude, AvatarVariantProps } from "./variants";
 
 // The initials tone palette the designer defined for avatars (Figma label colors).
 export const AVATAR_TONES = ["orange", "indigo", "emerald", "crimson", "pink", "purple"] as const;
@@ -26,13 +25,7 @@ export function getAvatarTone(seed: string): AvatarTone {
 }
 
 /** Props for {@link Avatar} (the Base UI `Avatar.Root`), plus a `magnitude`. */
-export type AvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> & {
-  /**
-   * Avatar size (required — no silent default). The ready-made `components/avatar` resolves it from
-   * the `AvatarGroup` context or its own default.
-   */
-  magnitude: AvatarMagnitude;
-};
+export type AvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> & AvatarVariantProps;
 
 /**
  * The styled `Avatar.Root` — a single element that holds an `AvatarImage` and/or `AvatarFallback`.
