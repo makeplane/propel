@@ -1,6 +1,7 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // The field region that stacks the label over the trigger as a column. Holds the
 // gap between `SelectLabel` and `SelectTrigger`; sizes to its widest child (the
@@ -67,3 +68,13 @@ export const selectItemVariants = cva(
 export const selectItemIndicatorVariants = cva(
   cx(nodeSlotClass, "text-icon-accent-primary [--node-size:1rem]"),
 );
+
+export type SelectItemMagnitude = NonNullable<VariantProps<typeof selectItemVariants>["magnitude"]>;
+
+export type SelectItemVariantProps = StrictVariantProps<typeof selectItemVariants>;
+
+export type SelectTriggerMagnitude = NonNullable<
+  VariantProps<typeof selectTriggerVariants>["magnitude"]
+>;
+
+export type SelectTriggerVariantProps = StrictVariantProps<typeof selectTriggerVariants>;

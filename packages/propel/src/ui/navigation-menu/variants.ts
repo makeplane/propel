@@ -1,5 +1,7 @@
 import { cva, cx } from "class-variance-authority";
 
+import { type StrictVariantProps } from "../../internal/variant-props";
+
 // Navigation Menu wraps Base UI's parts and extends the anatomy with the styled regions
 // inside a menu item (TriggerLabel, ContentList, LinkTitle, LinkDescription). Base UI drives
 // open/active state through `data-*` attributes, so the only authored styling axis is the
@@ -88,3 +90,5 @@ export const navigationMenuBackdropVariants = cva(
     "data-ending-style:opacity-0 data-starting-style:opacity-0",
   ),
 );
+
+export type NavigationMenuLinkVariantProps = StrictVariantProps<typeof navigationMenuLinkVariants>;

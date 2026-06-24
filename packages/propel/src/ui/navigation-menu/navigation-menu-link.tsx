@@ -1,10 +1,11 @@
 import { NavigationMenu as BaseNavigationMenu } from "@base-ui/react/navigation-menu";
-import type { VariantProps } from "class-variance-authority";
 
-import { navigationMenuLinkVariants } from "./variants";
+import { type NavigationMenuLinkVariantProps, navigationMenuLinkVariants } from "./variants";
+
+export type { NavigationMenuLinkVariantProps } from "./variants";
 
 export type NavigationMenuLinkProps = Omit<BaseNavigationMenu.Link.Props, "className" | "style"> &
-  Required<VariantProps<typeof navigationMenuLinkVariants>>;
+  NavigationMenuLinkVariantProps;
 
 /**
  * A navigable link. `variant="item"` is a top-level pill that shares the nav-item chrome with
