@@ -1,5 +1,7 @@
 import { cva, cx } from "class-variance-authority";
 
+import { type StrictVariantProps } from "../../internal/variant-props";
+
 // Dialog is a structural overlay primitive. Base UI drives every interactive
 // state (open/closed, starting/ending transition styles) as data attributes.
 // Width (magnitude) is an adjustable axis per the design spec; every other
@@ -68,3 +70,5 @@ export const dialogBodyVariants = cva("min-h-0 flex-1 overflow-y-auto overscroll
 // DialogActions: the right-aligned footer row for action buttons. Padding mirrors
 // the header gutter. Sticks to the bottom via the flex popup layout.
 export const dialogActionsVariants = cva("flex justify-end gap-2 px-4 pb-4");
+
+export type DialogPopupVariantProps = StrictVariantProps<typeof dialogPopupVariants>;

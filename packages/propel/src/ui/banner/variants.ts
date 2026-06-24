@@ -1,6 +1,7 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Banner = the Figma "Banners" component. Two scopes (`variant`) and five intents
 // (`tone`). `page` is a full-width strip with a bottom border that sits at the top
@@ -100,3 +101,9 @@ export const bannerDismissVariants = cva(
     "outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
   ),
 );
+
+export type BannerVariant = NonNullable<VariantProps<typeof bannerVariants>["variant"]>;
+export type BannerTone = NonNullable<VariantProps<typeof bannerVariants>["tone"]>;
+export type BannerVariantProps = StrictVariantProps<typeof bannerVariants>;
+export type BannerBodyVariantProps = StrictVariantProps<typeof bannerBodyVariants>;
+export type BannerIconVariantProps = StrictVariantProps<typeof bannerIconVariants>;

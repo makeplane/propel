@@ -1,11 +1,12 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { type VariantProps } from "class-variance-authority";
 
-import { bannerBodyVariants } from "./variants";
+import { type BannerBodyVariantProps, bannerBodyVariants } from "./variants";
+
+export type { BannerBodyVariantProps } from "./variants";
 
 export type BannerBodyProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
-  VariantProps<typeof bannerBodyVariants>;
+  BannerBodyVariantProps;
 
 /**
  * The message column between the icon and the trailing controls. Grows to fill the row and stacks a

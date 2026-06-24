@@ -1,11 +1,9 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { type VariantProps } from "class-variance-authority";
 
-import { bannerVariants } from "./variants";
+import { type BannerTone, type BannerVariantProps, bannerVariants } from "./variants";
 
-export type BannerVariant = NonNullable<VariantProps<typeof bannerVariants>["variant"]>;
-export type BannerTone = NonNullable<VariantProps<typeof bannerVariants>["tone"]>;
+export type { BannerTone, BannerVariant, BannerVariantProps } from "./variants";
 
 // warning/danger are time-sensitive problems → `alert` (assertive). The calmer
 // tones are advisory → `status` (polite). Picks the right live-region semantics.
@@ -17,12 +15,8 @@ const toneRole: Record<BannerTone, "status" | "alert"> = {
   danger: "alert",
 };
 
-export type BannerProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> & {
-  /** Figma Scope: a full-width page strip (`page`) or a self-contained card (`inline`). */
-  variant: BannerVariant;
-  /** Figma Intent: the banner's meaning/color. */
-  tone: BannerTone;
-};
+export type BannerProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
+  BannerVariantProps;
 
 /**
  * The banner strip/card. Lays out its parts (`BannerIcon`, `BannerBody`, `BannerActions`,

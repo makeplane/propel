@@ -1,20 +1,14 @@
-import { type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-import { alertDialogIconVariants } from "./variants";
+import { type AlertDialogIconVariantProps, alertDialogIconVariants } from "./variants";
 
-export type AlertDialogIconTone = NonNullable<VariantProps<typeof alertDialogIconVariants>["tone"]>;
+export type { AlertDialogIconTone, AlertDialogIconVariantProps } from "./variants";
 
 export type AlertDialogIconProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
-> & {
-  /**
-   * Intent of the alert, the destructive-vs-informational axis the spec marks adjustable. Drives
-   * the icon's color; required so the caller always states the intent.
-   */
-  tone: AlertDialogIconTone;
-};
+> &
+  AlertDialogIconVariantProps;
 
 /**
  * The decorative leading glyph shown at the inline-start of the title. Sizes its single child to

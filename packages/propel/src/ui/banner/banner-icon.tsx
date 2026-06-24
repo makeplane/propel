@@ -1,11 +1,12 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { type VariantProps } from "class-variance-authority";
 
-import { bannerIconVariants } from "./variants";
+import { type BannerIconVariantProps, bannerIconVariants } from "./variants";
+
+export type { BannerIconVariantProps } from "./variants";
 
 export type BannerIconProps = Omit<useRender.ComponentProps<"span">, "className" | "style"> &
-  VariantProps<typeof bannerIconVariants>;
+  BannerIconVariantProps;
 
 /**
  * The leading icon slot at the banner's inline-start (the Figma intent icon). Sizes its single
