@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { tableVariants } from "./variants";
 
-export type { TablePinned, TableVariant } from "./table-context";
+export type { TablePinned, TableVariant } from "./variants";
 
 export type TableProps = Omit<useRender.ComponentProps<"table">, "className" | "style">;
 

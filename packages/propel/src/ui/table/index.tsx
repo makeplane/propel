@@ -28,4 +28,3 @@ export { TableHeadSortTrigger, type TableHeadSortTriggerProps } from "./table-he
 export { TableHeadTitle, type TableHeadTitleProps } from "./table-head-title";
 export { TableHeader, type TableHeaderProps } from "./table-header";
 export { TableRow, type TableRowProps } from "./table-row";
-export { useTableVariant } from "./table-context";

@@ -8,7 +8,7 @@ import {
   type TableVariant,
   TableScrollAreaViewport,
 } from "../../ui/table";
-import { TableVariantContext } from "../../ui/table/table-context";
+import { TableVariantContext } from "./table-context";
 
 export type TableProps = TableRootProps & {
   /** Layout (required). `table` draws row dividers only; `spreadsheet` draws a full grid. */

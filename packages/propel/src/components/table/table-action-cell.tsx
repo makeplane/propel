@@ -8,8 +8,9 @@ import {
   TableCellTrigger,
   TableCellTriggerIndicator,
 } from "../../ui/table/index";
+import { useTableVariant } from "./table-context";
 
-export type TableActionCellProps = Omit<TableCellProps, "padding" | "children"> & {
+export type TableActionCellProps = Omit<TableCellProps, "padding" | "children" | "variant"> & {
   /** The menu of row actions. */
   children: React.ReactNode;
   /** Accessible name for the trigger (e.g. "Row options"). Required (icon-only). */
@@ -37,8 +38,9 @@ export function TableActionCell({
   disabled,
   ...props
 }: TableActionCellProps) {
+  const variant = useTableVariant();
   return (
-    <TableCell padding="trigger" {...props}>
+    <TableCell variant={variant} padding="trigger" {...props}>
       <Menu open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
         <MenuTrigger
           disabled={disabled}

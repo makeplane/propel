@@ -1,3 +1,9 @@
+/** The two table looks: `table` (row dividers only) and `spreadsheet` (full grid). */
+export type TableVariant = "table" | "spreadsheet";
+
+/** Which inline edge a header/cell pins to while the table scrolls sideways. */
+export type TablePinned = "start" | "end";
+
 import { cva, cx } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";

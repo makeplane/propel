@@ -9,8 +9,9 @@ import {
   TableCellTriggerIndicator,
   TableCellTriggerLabel,
 } from "../../ui/table/index";
+import { useTableVariant } from "./table-context";
 
-export type TableEditableCellProps = Omit<TableCellProps, "padding" | "children"> & {
+export type TableEditableCellProps = Omit<TableCellProps, "padding" | "children" | "variant"> & {
   /** The current value shown in the cell. */
   value: React.ReactNode;
   /** The menu shown when the cell is clicked. */
@@ -41,8 +42,9 @@ export function TableEditableCell({
   "aria-label": ariaLabel,
   ...props
 }: TableEditableCellProps) {
+  const variant = useTableVariant();
   return (
-    <TableCell padding="trigger" {...props}>
+    <TableCell variant={variant} padding="trigger" {...props}>
       <Menu open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
         <MenuTrigger
           disabled={disabled}

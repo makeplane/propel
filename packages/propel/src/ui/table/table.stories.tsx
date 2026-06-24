@@ -18,7 +18,6 @@ import {
   TableHeadTitle,
   TableRow,
 } from "./index";
-import { TableVariantContext } from "./table-context";
 
 // UI-tier story: composes the ATOMIC table parts (each renders a single table element).
 // The components-tier `Table` story shows the ready-made `TableHead`/`TableCell` (which compose
@@ -59,50 +58,48 @@ const COLUMNS = ["Name", "Display name", "Email", "Account type"];
 /** The standard `table` variant: rounded outer border with row dividers only. */
 export const Default: Story = {
   render: () => (
-    <TableVariantContext.Provider value="table">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            {COLUMNS.map((c) => (
-              <TableHead key={c}>
-                <TableHeadTitle>{c}</TableHeadTitle>
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {PEOPLE.map((person) => (
-            <TableRow key={person.email}>
-              <TableCell>
-                <TableCellLayout>
-                  <TableCellSlot>
-                    <Avatar magnitude="xs" role="img" aria-label={person.name}>
-                      <AvatarFallback tone="indigo">{person.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                  </TableCellSlot>
-                  <TableCellContent>{person.name}</TableCellContent>
-                </TableCellLayout>
-              </TableCell>
-              <TableCell>
-                <TableCellLayout>
-                  <TableCellContent>{person.display}</TableCellContent>
-                </TableCellLayout>
-              </TableCell>
-              <TableCell>
-                <TableCellLayout>
-                  <TableCellContent>{person.email}</TableCellContent>
-                </TableCellLayout>
-              </TableCell>
-              <TableCell>
-                <TableCellLayout>
-                  <TableCellContent>{person.role}</TableCellContent>
-                </TableCellLayout>
-              </TableCell>
-            </TableRow>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          {COLUMNS.map((c) => (
+            <TableHead variant="table" key={c}>
+              <TableHeadTitle>{c}</TableHeadTitle>
+            </TableHead>
           ))}
-        </TableBody>
-      </Table>
-    </TableVariantContext.Provider>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {PEOPLE.map((person) => (
+          <TableRow key={person.email}>
+            <TableCell variant="table">
+              <TableCellLayout>
+                <TableCellSlot>
+                  <Avatar magnitude="xs" role="img" aria-label={person.name}>
+                    <AvatarFallback tone="indigo">{person.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                </TableCellSlot>
+                <TableCellContent>{person.name}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+            <TableCell variant="table">
+              <TableCellLayout>
+                <TableCellContent>{person.display}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+            <TableCell variant="table">
+              <TableCellLayout>
+                <TableCellContent>{person.email}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+            <TableCell variant="table">
+              <TableCellLayout>
+                <TableCellContent>{person.role}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   ),
   play: async ({ canvas }) => {
     await expect(canvas.getAllByRole("columnheader")).toHaveLength(4);
@@ -114,45 +111,43 @@ export const Default: Story = {
 /** The denser `spreadsheet` variant: every cell is fully bordered to form a grid. */
 export const Spreadsheet: Story = {
   render: () => (
-    <TableVariantContext.Provider value="spreadsheet">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            {COLUMNS.map((c) => (
-              <TableHead key={c}>
-                <TableHeadTitle>{c}</TableHeadTitle>
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {PEOPLE.map((person) => (
-            <TableRow key={person.email}>
-              <TableCell>
-                <TableCellLayout>
-                  <TableCellContent>{person.name}</TableCellContent>
-                </TableCellLayout>
-              </TableCell>
-              <TableCell>
-                <TableCellLayout>
-                  <TableCellContent>{person.display}</TableCellContent>
-                </TableCellLayout>
-              </TableCell>
-              <TableCell>
-                <TableCellLayout>
-                  <TableCellContent>{person.email}</TableCellContent>
-                </TableCellLayout>
-              </TableCell>
-              <TableCell>
-                <TableCellLayout>
-                  <TableCellContent>{person.role}</TableCellContent>
-                </TableCellLayout>
-              </TableCell>
-            </TableRow>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          {COLUMNS.map((c) => (
+            <TableHead variant="spreadsheet" key={c}>
+              <TableHeadTitle>{c}</TableHeadTitle>
+            </TableHead>
           ))}
-        </TableBody>
-      </Table>
-    </TableVariantContext.Provider>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {PEOPLE.map((person) => (
+          <TableRow key={person.email}>
+            <TableCell variant="spreadsheet">
+              <TableCellLayout>
+                <TableCellContent>{person.name}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+            <TableCell variant="spreadsheet">
+              <TableCellLayout>
+                <TableCellContent>{person.display}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+            <TableCell variant="spreadsheet">
+              <TableCellLayout>
+                <TableCellContent>{person.email}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+            <TableCell variant="spreadsheet">
+              <TableCellLayout>
+                <TableCellContent>{person.role}</TableCellContent>
+              </TableCellLayout>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   ),
 };
 
@@ -171,41 +166,39 @@ export const Sortable: Story = {
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
     const SortGlyph = sortGlyph[sort];
     return (
-      <TableVariantContext.Provider value="table">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead aria-sort={ariaSort[sort]}>
-                <TableHeadSortTrigger onClick={cycle}>
-                  <TableHeadTitle>Name</TableHeadTitle>
-                  <TableHeadSortIndicator>
-                    <SortGlyph />
-                  </TableHeadSortIndicator>
-                </TableHeadSortTrigger>
-              </TableHead>
-              <TableHead>
-                <TableHeadTitle>Email</TableHeadTitle>
-              </TableHead>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead variant="table" aria-sort={ariaSort[sort]}>
+              <TableHeadSortTrigger onClick={cycle}>
+                <TableHeadTitle>Name</TableHeadTitle>
+                <TableHeadSortIndicator>
+                  <SortGlyph />
+                </TableHeadSortIndicator>
+              </TableHeadSortTrigger>
+            </TableHead>
+            <TableHead variant="table">
+              <TableHeadTitle>Email</TableHeadTitle>
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {PEOPLE.map((person) => (
+            <TableRow key={person.email}>
+              <TableCell variant="table">
+                <TableCellLayout>
+                  <TableCellContent>{person.name}</TableCellContent>
+                </TableCellLayout>
+              </TableCell>
+              <TableCell variant="table">
+                <TableCellLayout>
+                  <TableCellContent>{person.email}</TableCellContent>
+                </TableCellLayout>
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody>
-            {PEOPLE.map((person) => (
-              <TableRow key={person.email}>
-                <TableCell>
-                  <TableCellLayout>
-                    <TableCellContent>{person.name}</TableCellContent>
-                  </TableCellLayout>
-                </TableCell>
-                <TableCell>
-                  <TableCellLayout>
-                    <TableCellContent>{person.email}</TableCellContent>
-                  </TableCellLayout>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableVariantContext.Provider>
+          ))}
+        </TableBody>
+      </Table>
     );
   },
   play: async ({ canvas }) => {
@@ -227,57 +220,55 @@ export const PinnedColumn: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="w-100">
-      <TableVariantContext.Provider value="table">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead pinned="start">
-                <TableHeadTitle>Name</TableHeadTitle>
-              </TableHead>
-              <TableHead>
-                <TableHeadTitle>Display name</TableHeadTitle>
-              </TableHead>
-              <TableHead>
-                <TableHeadTitle>Email</TableHeadTitle>
-              </TableHead>
-              <TableHead>
-                <TableHeadTitle>Account type</TableHeadTitle>
-              </TableHead>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead variant="table" pinned="start">
+              <TableHeadTitle>Name</TableHeadTitle>
+            </TableHead>
+            <TableHead variant="table">
+              <TableHeadTitle>Display name</TableHeadTitle>
+            </TableHead>
+            <TableHead variant="table">
+              <TableHeadTitle>Email</TableHeadTitle>
+            </TableHead>
+            <TableHead variant="table">
+              <TableHeadTitle>Account type</TableHeadTitle>
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {PEOPLE.map((person) => (
+            <TableRow key={person.email}>
+              <TableCell variant="table" pinned="start">
+                <TableCellLayout>
+                  <TableCellSlot>
+                    <Avatar magnitude="xs" role="img" aria-label={person.name}>
+                      <AvatarFallback tone="indigo">{person.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </TableCellSlot>
+                  <TableCellContent>{person.name}</TableCellContent>
+                </TableCellLayout>
+              </TableCell>
+              <TableCell variant="table">
+                <TableCellLayout>
+                  <TableCellContent>{person.display}</TableCellContent>
+                </TableCellLayout>
+              </TableCell>
+              <TableCell variant="table">
+                <TableCellLayout>
+                  <TableCellContent>{person.email}</TableCellContent>
+                </TableCellLayout>
+              </TableCell>
+              <TableCell variant="table">
+                <TableCellLayout>
+                  <TableCellContent>{person.role}</TableCellContent>
+                </TableCellLayout>
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody>
-            {PEOPLE.map((person) => (
-              <TableRow key={person.email}>
-                <TableCell pinned="start">
-                  <TableCellLayout>
-                    <TableCellSlot>
-                      <Avatar magnitude="xs" role="img" aria-label={person.name}>
-                        <AvatarFallback tone="indigo">{person.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                    </TableCellSlot>
-                    <TableCellContent>{person.name}</TableCellContent>
-                  </TableCellLayout>
-                </TableCell>
-                <TableCell>
-                  <TableCellLayout>
-                    <TableCellContent>{person.display}</TableCellContent>
-                  </TableCellLayout>
-                </TableCell>
-                <TableCell>
-                  <TableCellLayout>
-                    <TableCellContent>{person.email}</TableCellContent>
-                  </TableCellLayout>
-                </TableCell>
-                <TableCell>
-                  <TableCellLayout>
-                    <TableCellContent>{person.role}</TableCellContent>
-                  </TableCellLayout>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableVariantContext.Provider>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   ),
 };
