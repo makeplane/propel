@@ -1,7 +1,6 @@
+export { Table, type TableProps } from "./table";
 export {
-  Table,
   type TablePinned,
-  type TableProps,
   type TableVariant,
   TableBody,
   type TableBodyProps,

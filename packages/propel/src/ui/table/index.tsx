@@ -1,4 +1,9 @@
 export { Table, type TablePinned, type TableProps, type TableVariant } from "./table";
+export { TableScrollArea, type TableScrollAreaProps } from "./table-scroll-area";
+export {
+  TableScrollAreaViewport,
+  type TableScrollAreaViewportProps,
+} from "./table-scroll-area-viewport";
 export { TableBody, type TableBodyProps } from "./table-body";
 export { TableCell, type TableCellPadding, type TableCellProps } from "./table-cell";
 export { TableCellContent, type TableCellContentProps } from "./table-cell-content";

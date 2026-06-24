@@ -9,12 +9,12 @@ import { nodeSlotClass } from "../../internal/node-slot";
 // a cva pairing, so no part takes a `className` at its boundary.
 
 // The rounded, hairline scroll frame around the `<table>` (Base UI ScrollArea root).
-export const tableRootVariants = cva(
+export const tableScrollAreaVariants = cva(
   "relative flex max-h-full w-full flex-col overflow-hidden rounded-lg border border-subtle bg-surface-1",
 );
 
 // The scroll viewport that the `<table>` lives in.
-export const tableViewportVariants = cva(
+export const tableScrollAreaViewportVariants = cva(
   cx(
     "min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-inset",
