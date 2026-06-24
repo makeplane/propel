@@ -6,9 +6,9 @@ import { Switch, type SwitchMagnitude, SwitchThumb } from "./index";
 const MAGNITUDES: SwitchMagnitude[] = ["lg", "md", "sm"];
 
 // UI-tier story: composes the atomic track + thumb. `Switch` is the track (Base UI
-// `Switch.Root`, `role="switch"`); the sliding knob is a `SwitchThumb` child that must
-// carry the SAME `magnitude` so its travel lines up. The components-tier story shows the
-// ready-made `Switch` that threads `magnitude` through both for you.
+// `Switch.Root`, `role="switch"`); the sliding knob is a `SwitchThumb` child that sizes
+// itself from the track's `magnitude`. The components-tier story shows the ready-made
+// `Switch` that composes both for you.
 const meta = {
   title: "UI/Switch",
   component: Switch,
@@ -19,12 +19,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Track + thumb composed with a matching magnitude. */
+/** Track + thumb composed; the thumb sizes itself from the track's magnitude. */
 export const Default: Story = {
   args: { magnitude: "md", defaultChecked: true },
   render: (args) => (
     <Switch {...args}>
-      <SwitchThumb magnitude={args.magnitude} />
+      <SwitchThumb />
     </Switch>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -35,7 +35,7 @@ export const Default: Story = {
   },
 };
 
-/** The three track sizes, thumb matched to each. */
+/** The three track sizes; each thumb sizes itself from its track. */
 export const Magnitudes: Story = {
   argTypes: { magnitude: { control: false } },
   render: () => (
@@ -47,7 +47,7 @@ export const Magnitudes: Story = {
           defaultChecked
           aria-label={`Size ${magnitude}`}
         >
-          <SwitchThumb magnitude={magnitude} />
+          <SwitchThumb />
         </Switch>
       ))}
     </div>

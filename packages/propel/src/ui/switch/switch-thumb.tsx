@@ -1,17 +1,15 @@
 import { Switch as BaseSwitch } from "@base-ui/react/switch";
 
-import type { SwitchMagnitude } from "./switch";
-import { thumbVariants } from "./variants";
+import { switchThumbVariants } from "./variants";
 
-export type SwitchThumbProps = Omit<BaseSwitch.Thumb.Props, "className" | "style"> & {
-  /** Must match the parent `Switch`'s `magnitude` so the thumb travel lines up with the track. */
-  magnitude: SwitchMagnitude;
-};
+export type SwitchThumbProps = Omit<BaseSwitch.Thumb.Props, "className" | "style">;
 
 /**
  * The switch knob (Base UI `Switch.Thumb`). Rendered inside a `Switch`; it slides between the
- * off/on gutters when the track is checked. Pass the same `magnitude` as the parent `Switch`.
+ * off/on gutters when the track is checked. Its diameter and travel come from the parent `Switch`'s
+ * `magnitude` (published as CSS variables on the track), so the thumb takes no size prop of its
+ * own.
  */
-export function SwitchThumb({ magnitude, ...props }: SwitchThumbProps) {
-  return <BaseSwitch.Thumb className={thumbVariants({ magnitude })} {...props} />;
+export function SwitchThumb(props: SwitchThumbProps) {
+  return <BaseSwitch.Thumb className={switchThumbVariants()} {...props} />;
 }
