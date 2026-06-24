@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>;
 
 /** A labelled single-thumb slider. */
 export const Default: Story = {
-  args: { label: "Volume", defaultValue: 40, min: 0, max: 100, step: 1 },
+  args: { label: "Volume", magnitude: "md", defaultValue: 40, min: 0, max: 100, step: 1 },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("slider", { name: "Volume" })).toBeInTheDocument();
   },
@@ -34,6 +34,7 @@ export const Default: Story = {
 export const Percentage: Story = {
   args: {
     label: "Opacity",
+    magnitude: "md",
     defaultValue: 0.6,
     min: 0,
     max: 1,
@@ -48,7 +49,14 @@ export const Percentage: Story = {
 /** Without a visible `label`, name the thumb with `aria-label`. */
 export const WithoutLabel: Story = {
   parameters: { controls: { disable: true } },
-  args: { "aria-label": "Brightness", defaultValue: 50, min: 0, max: 100, step: 1 },
+  args: {
+    "aria-label": "Brightness",
+    magnitude: "md",
+    defaultValue: 50,
+    min: 0,
+    max: 100,
+    step: 1,
+  },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("slider", { name: "Brightness" })).toBeInTheDocument();
   },
