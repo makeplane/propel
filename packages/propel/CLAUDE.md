@@ -81,7 +81,7 @@ not `width`.) Genuine native attributes (`type`, `disabled`, `href`, `aria-*`) p
 
 6c. **`variant` is a smell — name the real axis, and split when values are different elements.**
 A prop named `variant` is almost always too vague: the values express a specific concept
-(`prominence`, `appearance`, `mode`, `layout`, `placement`) — name *that*. If the values would
+(`prominence`, `appearance`, `mode`, `layout`, `placement`) — name _that_. If the values would
 render a **different element or semantics** (e.g. `<button>` vs `<a>`), or carry an axis that only
 applies to one value, that's not a variant — it's a **separate component**. Separate **element**
 (semantics) from **appearance** (look): the button/link family is `Button` (`<button>` + chrome),
