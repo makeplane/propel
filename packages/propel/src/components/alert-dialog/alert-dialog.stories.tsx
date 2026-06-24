@@ -47,7 +47,7 @@ export const Default: Story = {
     <AlertDialog>
       <Button
         emphasis="solid"
-        stretch="auto"
+        sizing="hug"
         variant="primary"
         tone="danger"
         magnitude="xl"
@@ -71,7 +71,7 @@ export const Default: Story = {
         <AlertDialogActions>
           <Button
             emphasis="solid"
-            stretch="auto"
+            sizing="hug"
             variant="secondary"
             tone="neutral"
             magnitude="xl"
@@ -81,7 +81,7 @@ export const Default: Story = {
           </Button>
           <Button
             emphasis="solid"
-            stretch="auto"
+            sizing="hug"
             variant="primary"
             tone="danger"
             magnitude="xl"

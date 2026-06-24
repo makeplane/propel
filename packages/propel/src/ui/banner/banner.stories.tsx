@@ -117,13 +117,13 @@ export const WithActions: Story = {
         <BannerTitle>There is something that needs your attention</BannerTitle>
       </BannerBody>
       <BannerActions>
-        <Button emphasis="solid" stretch="auto" variant="ghost" tone="neutral" magnitude="sm">
+        <Button emphasis="solid" sizing="hug" variant="ghost" tone="neutral" magnitude="sm">
           Remind me later
         </Button>
-        <Button emphasis="solid" stretch="auto" variant="secondary" tone="neutral" magnitude="sm">
+        <Button emphasis="solid" sizing="hug" variant="secondary" tone="neutral" magnitude="sm">
           Learn more
         </Button>
-        <Button emphasis="solid" stretch="auto" variant="primary" tone="neutral" magnitude="sm">
+        <Button emphasis="solid" sizing="hug" variant="primary" tone="neutral" magnitude="sm">
           Update now
         </Button>
       </BannerActions>

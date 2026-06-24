@@ -10,7 +10,7 @@ export {
   type ButtonSpinnerProps,
   type ButtonEmphasis,
   type ButtonMagnitude,
-  type ButtonStretch,
+  type ButtonSizing,
   type ButtonTone,
   type ButtonVariant,
   buttonVariants,

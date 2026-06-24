@@ -29,7 +29,7 @@ const meta = {
     tone: "neutral",
     magnitude: "md",
     emphasis: "solid",
-    stretch: "auto",
+    sizing: "hug",
   },
 } satisfies Meta<typeof Button>;
 
@@ -109,15 +109,15 @@ export const Magnitudes: Story = {
   ),
 };
 
-/** `stretch="full"` fills the container (e.g. a form row or mobile CTA). */
+/** `sizing="fill"` fills the container (e.g. a form row or mobile CTA). */
 export const Stretch: Story = {
-  argTypes: { stretch: { control: false }, children: { control: false } },
+  argTypes: { sizing: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex w-64 flex-col gap-2">
-      <Button {...args} stretch="auto">
+      <Button {...args} sizing="hug">
         Auto width
       </Button>
-      <Button {...args} stretch="full">
+      <Button {...args} sizing="fill">
         Full width
       </Button>
     </div>

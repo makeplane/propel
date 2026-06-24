@@ -72,6 +72,13 @@ that needs its own styled element (e.g. `AccordionTriggerIndicator`), named for 
 those extra parts are composed in `components`. (Base UI ships no primitive? Add the missing
 anatomy in `base` first, following Base UI conventions, then style it in `ui`.)
 
+6b. **Custom prop names never reuse a native HTML/CSS attribute name.** `width`, `height`, `size`,
+`type`, `color` are off-limits as style/layout props — a `ui` part is render-capable, so the name
+would collide with the element's own attribute (and confuse readers). Use the controlled axis
+vocabulary instead: `variant`, `tone`, `magnitude`, `emphasis`, `surface`, `density`, `elevation`,
+`orientation`, `sizing`. (Full-width-vs-hug is `sizing: "hug" | "fill"` — mirroring Figma's resize —
+not `width`.) Genuine native attributes (`type`, `disabled`, `href`, `aria-*`) pass through untouched.
+
 7. **React context is a `components` concern — definition, provider, AND consumption.** A `ui`
    part never calls `useContext`; it takes the shared value (`variant`/`magnitude`/`density`/…) as
    a **prop**. The context's `createContext` + `Provider` + the `useContext` read all live in

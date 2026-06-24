@@ -56,7 +56,7 @@ export const Anatomy: Story = {
     <Dialog>
       <Button
         emphasis="solid"
-        stretch="auto"
+        sizing="hug"
         variant="secondary"
         tone="neutral"
         magnitude="xl"
@@ -90,7 +90,7 @@ export const Anatomy: Story = {
             <DialogActions>
               <Button
                 emphasis="solid"
-                stretch="auto"
+                sizing="hug"
                 variant="secondary"
                 tone="neutral"
                 magnitude="xl"
@@ -124,7 +124,7 @@ export const NonDismissable: Story = {
     <Dialog disablePointerDismissal>
       <Button
         emphasis="solid"
-        stretch="auto"
+        sizing="hug"
         variant="secondary"
         tone="neutral"
         magnitude="xl"
@@ -149,7 +149,7 @@ export const NonDismissable: Story = {
             <DialogActions>
               <Button
                 emphasis="solid"
-                stretch="auto"
+                sizing="hug"
                 variant="secondary"
                 tone="neutral"
                 magnitude="xl"

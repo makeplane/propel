@@ -50,7 +50,7 @@ export const Default: Story = {
     <Drawer>
       <Button
         emphasis="solid"
-        stretch="auto"
+        sizing="hug"
         variant="secondary"
         tone="neutral"
         magnitude="xl"
@@ -78,7 +78,7 @@ export const Default: Story = {
         <DrawerFooter>
           <Button
             emphasis="solid"
-            stretch="auto"
+            sizing="hug"
             variant="ghost"
             tone="neutral"
             magnitude="lg"
@@ -86,7 +86,7 @@ export const Default: Story = {
           >
             Cancel
           </Button>
-          <Button emphasis="solid" stretch="auto" variant="primary" tone="neutral" magnitude="lg">
+          <Button emphasis="solid" sizing="hug" variant="primary" tone="neutral" magnitude="lg">
             Save
           </Button>
         </DrawerFooter>
@@ -115,7 +115,7 @@ export const StartSide: Story = {
     <Drawer>
       <Button
         emphasis="solid"
-        stretch="auto"
+        sizing="hug"
         variant="secondary"
         tone="neutral"
         magnitude="xl"
@@ -168,7 +168,7 @@ export const EscapeCloses: Story = {
     <Drawer>
       <Button
         emphasis="solid"
-        stretch="auto"
+        sizing="hug"
         variant="secondary"
         tone="neutral"
         magnitude="xl"

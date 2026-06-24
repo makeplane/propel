@@ -8,21 +8,20 @@ export { buttonVariants } from "./variants";
 export type {
   ButtonEmphasis,
   ButtonMagnitude,
-  ButtonStretch,
+  ButtonSizing,
   ButtonTone,
   ButtonVariant,
   ButtonVariantProps,
 } from "./variants";
 
-// The variant axes come straight from `ButtonVariantProps` (required where there is no default,
-// optional where there is — `emphasis`/`stretch`).
+// The variant axes come straight from `ButtonVariantProps` — all required (no `defaultVariants`).
 export type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & ButtonVariantProps;
 
 /**
  * A plain accessible button built on propel's design tokens. Pick a look with `variant` (Figma
  * Type), select the error palette with `tone`, and size it with `magnitude` — all required, so
  * consumers choose explicitly. For `variant="link"` only, optionally choose `solid` (blue) or
- * `subtle` (gray) with `emphasis`. Use `stretch="full"` for full-width placements. `children` is
+ * `subtle` (gray) with `emphasis`. Use `sizing="fill"` for full-width placements. `children` is
  * passed through; it is not a variant.
  */
 export function Button({
@@ -30,14 +29,14 @@ export function Button({
   tone,
   magnitude,
   emphasis,
-  stretch,
+  sizing,
   type = "button",
   ...props
 }: ButtonProps) {
   return (
     <BaseButton
       type={type}
-      className={buttonVariants({ variant, tone, magnitude, emphasis, stretch })}
+      className={buttonVariants({ variant, tone, magnitude, emphasis, sizing })}
       {...props}
     />
   );

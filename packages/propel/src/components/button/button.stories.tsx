@@ -34,7 +34,7 @@ const meta = {
     tone: "neutral",
     magnitude: "md",
     emphasis: "solid",
-    stretch: "auto",
+    sizing: "hug",
   },
 } satisfies Meta<typeof Button>;
 
@@ -157,15 +157,15 @@ export const Loading: Story = {
   ),
 };
 
-/** `stretch="full"` fills the container (e.g. a form row or mobile CTA). */
+/** `sizing="fill"` fills the container (e.g. a form row or mobile CTA). */
 export const Stretch: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex w-64 flex-col gap-2">
-      <Button {...args} stretch="full">
+      <Button {...args} sizing="fill">
         Full-width
       </Button>
-      <Button {...args} variant="secondary" stretch="full">
+      <Button {...args} variant="secondary" sizing="fill">
         Full-width outline
       </Button>
     </div>

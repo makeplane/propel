@@ -121,7 +121,7 @@ function ExampleForm({ onFormSubmit }: ExampleFormProps) {
       <FormActions variant="inline">
         <Button
           emphasis="solid"
-          stretch="auto"
+          sizing="hug"
           type="submit"
           variant="secondary"
           tone="neutral"

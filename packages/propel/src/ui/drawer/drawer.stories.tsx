@@ -58,7 +58,7 @@ export const Anatomy: Story = {
     <Drawer>
       <Button
         emphasis="solid"
-        stretch="auto"
+        sizing="hug"
         variant="secondary"
         tone="neutral"
         magnitude="xl"
@@ -90,7 +90,7 @@ export const Anatomy: Story = {
               <DrawerFooter>
                 <Button
                   emphasis="solid"
-                  stretch="auto"
+                  sizing="hug"
                   variant="ghost"
                   tone="neutral"
                   magnitude="lg"
@@ -100,7 +100,7 @@ export const Anatomy: Story = {
                 </Button>
                 <Button
                   emphasis="solid"
-                  stretch="auto"
+                  sizing="hug"
                   variant="primary"
                   tone="neutral"
                   magnitude="lg"

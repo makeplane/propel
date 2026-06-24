@@ -15,10 +15,10 @@ type NonNullableVariants<Variants> = {
  * <name>DefaultVariants`); omit it when the cva has no defaults (all axes required).
  *
  * @example
- *   const buttonDefaultVariants = { emphasis: "solid", stretch: "auto" } as const;
+ *   const buttonDefaultVariants = { emphasis: "solid", sizing: "hug" } as const;
  *   export const buttonVariants = cva(base, { variants, compoundVariants, defaultVariants: buttonDefaultVariants });
  *   export type ButtonVariantProps = StrictVariantProps<typeof buttonVariants, keyof typeof buttonDefaultVariants>;
- *   // -> { variant: …; tone: …; magnitude: …; emphasis?: …; stretch?: … }
+ *   // -> { variant: …; tone: …; magnitude: …; emphasis?: …; sizing?: … }
  */
 export type StrictVariantProps<
   Component extends (...args: never[]) => unknown,

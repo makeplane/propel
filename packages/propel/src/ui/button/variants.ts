@@ -8,7 +8,7 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 // Button-specific styling, layered on the shared control chrome (`controlChromeVariants` owns the
 // behavior base + the neutral/danger fill/border/text palette). This local cva adds the label-row
 // extras, the `link` look + its `emphasis` colors, label geometry (height/min-width/padding/text per
-// Figma "Buttons" Size), and the full-width `stretch`. `leading-none` collapses each label's line
+// Figma "Buttons" Size), and `sizing` (hug vs full-width fill). `leading-none` collapses each label's line
 // box to the glyph height so flex centering is exact; link opts back into a taller line-height.
 // Each magnitude sets `--node-size` (the inline-node/spinner size): 14px up to Base, 16px from L.
 const buttonLocalVariants = cva(cx("gap-1 font-medium whitespace-nowrap"), {
@@ -31,7 +31,7 @@ const buttonLocalVariants = cva(cx("gap-1 font-medium whitespace-nowrap"), {
       lg: "h-7 min-w-12 px-2 text-13 leading-none [--node-size:1rem]",
       xl: "h-8 min-w-13 px-2 text-14 leading-none [--node-size:1rem]",
     },
-    stretch: { auto: "", full: "w-full" },
+    sizing: { hug: "", fill: "w-full" },
   },
   compoundVariants: [
     // ----- Neutral link, solid (Figma Type=Link, Emphasis=solid) — the blue link/primary look -----
@@ -74,7 +74,7 @@ export type ButtonVariant = NonNullable<ButtonVariantConfig["variant"]>;
 export type ButtonTone = NonNullable<ButtonVariantConfig["tone"]>;
 export type ButtonMagnitude = NonNullable<ButtonVariantConfig["magnitude"]>;
 export type ButtonEmphasis = NonNullable<ButtonVariantConfig["emphasis"]>;
-export type ButtonStretch = NonNullable<ButtonVariantConfig["stretch"]>;
+export type ButtonSizing = NonNullable<ButtonVariantConfig["sizing"]>;
 
 // No `defaultVariants` today, so every axis is required. If a default is ever added, pass the
 // defaulted keys as the second arg to make those axes optional.

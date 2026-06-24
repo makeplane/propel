@@ -84,7 +84,7 @@ export const Default: Story = {
     <Popover>
       <Button
         emphasis="solid"
-        stretch="auto"
+        sizing="hug"
         variant="secondary"
         tone="neutral"
         magnitude="xl"
@@ -147,7 +147,7 @@ export const DisplayProperties: Story = {
       <Popover>
         <Button
           emphasis="solid"
-          stretch="auto"
+          sizing="hug"
           variant="secondary"
           tone="neutral"
           magnitude="xl"
@@ -223,7 +223,7 @@ export const DisplayAccordion: Story = {
       <Popover>
         <Button
           emphasis="solid"
-          stretch="auto"
+          sizing="hug"
           variant="secondary"
           tone="neutral"
           magnitude="xl"
@@ -327,7 +327,7 @@ export const RTL: Story = {
         <Popover>
           <Button
             emphasis="solid"
-            stretch="auto"
+            sizing="hug"
             variant="secondary"
             tone="neutral"
             magnitude="xl"
