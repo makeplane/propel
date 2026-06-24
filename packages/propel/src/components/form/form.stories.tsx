@@ -12,12 +12,14 @@ import {
   SelectField,
   SwitchField,
 } from "../field/index";
-import { Form } from "./index";
+import { Form, FormActions, FormBody } from "./index";
 
-// Components-tier story: the ready-made `Form` composed with same-tier field controls.
+// Components-tier story: the ready-made `Form` composed with same-tier field controls,
+// using the `FormBody` (field stack) and `FormActions` (bottom actions bar) parts.
 const meta = {
   title: "Components/Form",
   component: Form,
+  subcomponents: { FormBody, FormActions },
 } satisfies Meta<typeof Form>;
 
 export default meta;
@@ -59,64 +61,68 @@ function ExampleForm({ onFormSubmit }: ExampleFormProps) {
         onFormSubmit?.(values);
       }}
     >
-      <InputField
-        magnitude="md"
-        tone={homepageError ? "danger" : "neutral"}
-        orientation="vertical"
-        name="homepage"
-        label="Homepage"
-        type="url"
-        required
-        placeholder="https://plane.so"
-        value={homepage}
-        onValueChange={(nextHomepage) => {
-          setHomepage(nextHomepage);
-          if (homepageError) {
-            setErrors({});
-          }
-        }}
-        error={Array.isArray(homepageError) ? homepageError.join(" ") : homepageError}
-      />
-      <SelectField
-        name="serverType"
-        label="Server type"
-        magnitude="md"
-        options={SERVER_TYPES}
-        defaultValue="general"
-        required
-        description="Select the resource profile for this server."
-      />
-      <RadioGroupField
-        name="storageType"
-        label="Storage type"
-        magnitude="md"
-        density="comfortable"
-        defaultValue="ssd"
-        required
-      >
-        <RadioGroupFieldOption value="ssd" label="SSD" />
-        <RadioGroupFieldOption value="hdd" label="HDD" />
-      </RadioGroupField>
-      <CheckboxGroupField
-        name="allowedProtocols"
-        label="Allowed protocols"
-        magnitude="md"
-        density="comfortable"
-        defaultValue={["https"]}
-      >
-        <CheckboxGroupFieldOption tone="neutral" value="http" label="HTTP" />
-        <CheckboxGroupFieldOption tone="neutral" value="https" label="HTTPS" />
-        <CheckboxGroupFieldOption tone="neutral" value="ssh" label="SSH" />
-      </CheckboxGroupField>
-      <SwitchField
-        name="restartOnFailure"
-        label="Restart on failure"
-        magnitude="md"
-        defaultChecked
-      />
-      <Button type="submit" variant="secondary" tone="neutral" magnitude="md">
-        Submit
-      </Button>
+      <FormBody layout="single">
+        <InputField
+          magnitude="md"
+          tone={homepageError ? "danger" : "neutral"}
+          orientation="vertical"
+          name="homepage"
+          label="Homepage"
+          type="url"
+          required
+          placeholder="https://plane.so"
+          value={homepage}
+          onValueChange={(nextHomepage) => {
+            setHomepage(nextHomepage);
+            if (homepageError) {
+              setErrors({});
+            }
+          }}
+          error={Array.isArray(homepageError) ? homepageError.join(" ") : homepageError}
+        />
+        <SelectField
+          name="serverType"
+          label="Server type"
+          magnitude="md"
+          options={SERVER_TYPES}
+          defaultValue="general"
+          required
+          description="Select the resource profile for this server."
+        />
+        <RadioGroupField
+          name="storageType"
+          label="Storage type"
+          magnitude="md"
+          density="comfortable"
+          defaultValue="ssd"
+          required
+        >
+          <RadioGroupFieldOption value="ssd" label="SSD" />
+          <RadioGroupFieldOption value="hdd" label="HDD" />
+        </RadioGroupField>
+        <CheckboxGroupField
+          name="allowedProtocols"
+          label="Allowed protocols"
+          magnitude="md"
+          density="comfortable"
+          defaultValue={["https"]}
+        >
+          <CheckboxGroupFieldOption tone="neutral" value="http" label="HTTP" />
+          <CheckboxGroupFieldOption tone="neutral" value="https" label="HTTPS" />
+          <CheckboxGroupFieldOption tone="neutral" value="ssh" label="SSH" />
+        </CheckboxGroupField>
+        <SwitchField
+          name="restartOnFailure"
+          label="Restart on failure"
+          magnitude="md"
+          defaultChecked
+        />
+      </FormBody>
+      <FormActions variant="inline">
+        <Button type="submit" variant="secondary" tone="neutral" magnitude="md">
+          Submit
+        </Button>
+      </FormActions>
     </Form>
   );
 }
