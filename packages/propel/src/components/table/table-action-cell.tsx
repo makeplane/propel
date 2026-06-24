@@ -10,7 +10,7 @@ import {
 } from "../../ui/table/index";
 
 export type TableActionCellProps = Omit<TableCellProps, "padding" | "children"> & {
-  /** The dropdown menu of row actions. */
+  /** The menu of row actions. */
   children: React.ReactNode;
   /** Accessible name for the trigger (e.g. "Row options"). Required (icon-only). */
   "aria-label": string;
@@ -26,7 +26,7 @@ export type TableActionCellProps = Omit<TableCellProps, "padding" | "children"> 
   disabled?: boolean;
 };
 
-/** An icon-only action cell (`<td>`) that opens a row-actions dropdown. */
+/** An icon-only action cell (`<td>`) that opens a row-actions menu. */
 export function TableActionCell({
   children,
   "aria-label": ariaLabel,

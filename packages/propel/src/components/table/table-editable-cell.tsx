@@ -13,7 +13,7 @@ import {
 export type TableEditableCellProps = Omit<TableCellProps, "padding" | "children"> & {
   /** The current value shown in the cell. */
   value: React.ReactNode;
-  /** The dropdown menu shown when the cell is clicked. */
+  /** The menu shown when the cell is clicked. */
   children: React.ReactNode;
   /** Whether the menu is open (controlled). */
   open?: boolean;
@@ -29,7 +29,7 @@ export type TableEditableCellProps = Omit<TableCellProps, "padding" | "children"
   "aria-label"?: string;
 };
 
-/** An editable data cell (`<td>`) with a full-cell dropdown trigger. */
+/** An editable data cell (`<td>`) with a full-cell menu trigger. */
 export function TableEditableCell({
   value,
   children,
