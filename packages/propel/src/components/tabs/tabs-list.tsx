@@ -8,23 +8,23 @@ import {
   type TabsListProps as TabsListElementProps,
   TabsListScrollArea,
 } from "../../ui/tabs";
-import { TabsVariantContext } from "./tabs-context";
+import { TabsAppearanceContext } from "./tabs-context";
 
-export type TabsListProps = Omit<TabsListElementProps, "variant">;
+export type TabsListProps = Omit<TabsListElementProps, "appearance">;
 
 /**
- * The ready-made tab strip: composes the atomic `TabsList` (taking the set's `variant` from
+ * The ready-made tab strip: composes the atomic `TabsList` (taking the set's `appearance` from
  * context) rendered as the scroll viewport inside a horizontal `TabsListScrollArea` so a long row
  * of tabs scrolls, and renders the active-tab underline `TabsIndicator` for the `underline`
- * variant.
+ * appearance.
  */
 export function TabsList({ children, ...props }: TabsListProps) {
-  const variant = React.useContext(TabsVariantContext);
+  const appearance = React.useContext(TabsAppearanceContext);
   return (
     <TabsListScrollArea>
-      <TabsListElement variant={variant} render={<BaseScrollArea.Viewport />} {...props}>
+      <TabsListElement appearance={appearance} render={<BaseScrollArea.Viewport />} {...props}>
         {children}
-        {variant === "underline" ? <TabsIndicator /> : null}
+        {appearance === "underline" ? <TabsIndicator /> : null}
       </TabsListElement>
       <ScrollAreaScrollbar orientation="horizontal" visibility="auto" magnitude="thin">
         <ScrollAreaThumb />

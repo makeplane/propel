@@ -9,5 +9,5 @@ export {
   type TabsListScrollAreaProps,
   TabsPanel,
   type TabsPanelProps,
-  type TabsVariant,
+  type TabsAppearance,
 } from "../../ui/tabs";

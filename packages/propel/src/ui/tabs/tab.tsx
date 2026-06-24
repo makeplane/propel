@@ -1,13 +1,13 @@
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 
-import { type TabsVariant, tabVariants } from "./variants";
+import { type TabsAppearance, tabVariants } from "./variants";
 
 export type TabProps = Omit<BaseTabs.Tab.Props, "className" | "style"> & {
   /** The set's visual treatment, matching the `Tabs` root. */
-  variant: TabsVariant;
+  appearance: TabsAppearance;
 };
 
 /** A single tab button. `value` ties it to the `TabsPanel` of the same `value`. */
-export function Tab({ variant, ...props }: TabProps) {
-  return <BaseTabs.Tab className={tabVariants({ variant })} {...props} />;
+export function Tab({ appearance, ...props }: TabProps) {
+  return <BaseTabs.Tab className={tabVariants({ appearance })} {...props} />;
 }

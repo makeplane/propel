@@ -2,11 +2,11 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 
 // `contained` wraps the tabs in a pill and lifts the active tab onto a raised card; `underline`
 // keeps them flat and slides a dark bar under the active one.
-export type TabsVariant = NonNullable<VariantProps<typeof rootVariants>["variant"]>;
+export type TabsAppearance = NonNullable<VariantProps<typeof rootVariants>["appearance"]>;
 
 export const rootVariants = cva("inline-flex max-w-full flex-col items-start gap-3", {
   variants: {
-    variant: {
+    appearance: {
       contained: "",
       underline: "",
     },
@@ -17,7 +17,7 @@ export const tabsListVariants = cva(
   "relative inline-flex max-w-full overscroll-x-contain outline-none",
   {
     variants: {
-      variant: {
+      appearance: {
         contained: "items-center gap-px rounded-lg bg-layer-3 p-0.5",
         underline: "items-start gap-px px-0.5",
       },
@@ -34,7 +34,7 @@ export const tabVariants = cva(
   "cursor-pointer font-medium whitespace-nowrap transition-colors outline-none select-none [--node-size:1rem] focus-visible:ring-2 focus-visible:ring-accent-strong disabled:cursor-not-allowed disabled:text-disabled",
   {
     variants: {
-      variant: {
+      appearance: {
         contained:
           "inline-flex h-6 items-center justify-center gap-1 rounded-md border-sm border-transparent px-1.5 text-13 text-secondary hover:text-primary data-active:border-subtle-1 data-active:bg-layer-2 data-active:text-primary data-active:shadow-raised-200",
         underline: "group/tab inline-flex flex-col items-stretch gap-2 text-14",

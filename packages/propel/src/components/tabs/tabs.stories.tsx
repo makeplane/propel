@@ -6,7 +6,7 @@ import { expect, waitFor } from "storybook/test";
 import { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./index";
 
 // The standard three-tab set the basic stories share (the only difference between
-// them is the `variant` and whether each tab shows its leading icon).
+// them is the `appearance` and whether each tab shows its leading icon).
 const TAB_ITEMS = [
   {
     value: "overview",
@@ -56,7 +56,7 @@ const meta = {
     },
   },
   args: {
-    variant: "contained",
+    appearance: "contained",
     defaultValue: "overview",
   },
 } satisfies Meta<typeof Tabs>;
@@ -66,25 +66,25 @@ type Story = StoryObj<typeof meta>;
 
 /** A working contained tab set: a raised card lifts the active tab inside the pill. */
 export const Contained: Story = {
-  args: { variant: "contained" },
+  args: { appearance: "contained" },
   render: (args) => <TabsFixture {...args} />,
 };
 
 /** A working underline tab set: a dark bar slides under the active tab. */
 export const Underline: Story = {
-  args: { variant: "underline" },
+  args: { appearance: "underline" },
   render: (args) => <TabsFixture {...args} />,
 };
 
 /** Both variants accept an optional `inlineStartNode` (a 16px slot tinted to the tab's text color). */
 export const WithIcons: Story = {
-  args: { variant: "contained" },
+  args: { appearance: "contained" },
   render: (args) => <TabsFixture {...args} withIcons />,
 };
 
-/** The `inlineStartNode` slot on the underline variant. */
+/** The `inlineStartNode` slot on the underline appearance. */
 export const UnderlineWithIcons: Story = {
-  args: { variant: "underline" },
+  args: { appearance: "underline" },
   render: (args) => <TabsFixture {...args} withIcons />,
 };
 
@@ -95,7 +95,7 @@ export const UnderlineWithIcons: Story = {
  * trail is capped to a narrow column so the later tabs scroll into view.
  */
 export const Overflowing: Story = {
-  args: { variant: "underline" },
+  args: { appearance: "underline" },
   render: (args) => (
     <div className="w-80">
       <Tabs {...args}>
@@ -128,7 +128,7 @@ export const Overflowing: Story = {
  */
 export const OverflowScrolls: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { variant: "underline" },
+  args: { appearance: "underline" },
   render: (args) => (
     <div className="w-80">
       <Tabs {...args}>
@@ -161,7 +161,7 @@ export const OverflowScrolls: Story = {
  */
 export const ClickActivates: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { variant: "underline" },
+  args: { appearance: "underline" },
   render: (args) => (
     <Tabs {...args}>
       <TabsList>
@@ -207,7 +207,7 @@ export const ClickActivates: Story = {
  */
 export const KeyboardNavigates: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { variant: "underline" },
+  args: { appearance: "underline" },
   render: (args) => (
     <Tabs {...args}>
       <TabsList>

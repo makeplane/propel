@@ -12,13 +12,13 @@ import {
 } from "./index";
 
 // UI-tier story: composes the ATOMIC tab parts (each a single, prop-driven element). `Tabs`,
-// `TabsList`, and each `Tab` take the `variant` explicitly — the ready-made `components/tabs` sets
+// `TabsList`, and each `Tab` take the `appearance` explicitly — the ready-made `components/tabs` sets
 // it once and shares it via context (and adds the scroll frame + indicator) so you don't repeat it.
 const meta = {
   title: "UI/Tabs",
   component: Tabs,
   subcomponents: { TabsList, Tab, TabsIndicator, TabsPanel },
-  args: { variant: "contained" },
+  args: { appearance: "contained" },
 } satisfies Meta<typeof Tabs>;
 
 export default meta;
@@ -30,13 +30,13 @@ const TAB_ITEMS = [
   { value: "settings", label: "Settings", panel: "Configuration and preferences." },
 ];
 
-/** Assemble the atomic parts: Root › List › Tab, plus a Panel per value (contained variant). */
+/** Assemble the atomic parts: Root › List › Tab, plus a Panel per value (contained appearance). */
 export const Default: Story = {
   render: () => (
-    <Tabs variant="contained" defaultValue="overview">
-      <TabsList variant="contained">
+    <Tabs appearance="contained" defaultValue="overview">
+      <TabsList appearance="contained">
         {TAB_ITEMS.map((item) => (
-          <Tab key={item.value} variant="contained" value={item.value}>
+          <Tab key={item.value} appearance="contained" value={item.value}>
             {item.label}
           </Tab>
         ))}
@@ -59,16 +59,16 @@ export const Default: Story = {
 };
 
 /**
- * The underline variant: compose the shared `TabsIndicator` inside the `TabsList` (the ready-made
- * `components/tabs` adds it for you). Each `Tab` decorates its body with the atomic
+ * The underline appearance: compose the shared `TabsIndicator` inside the `TabsList` (the
+ * ready-made `components/tabs` adds it for you). Each `Tab` decorates its body with the atomic
  * `TabUnderlineLabel` (the rounded label box) and `TabUnderlineBar` (the per-tab hover bar).
  */
 export const Underline: Story = {
   render: () => (
-    <Tabs variant="underline" defaultValue="overview">
-      <TabsList variant="underline">
+    <Tabs appearance="underline" defaultValue="overview">
+      <TabsList appearance="underline">
         {TAB_ITEMS.map((item) => (
-          <Tab key={item.value} variant="underline" value={item.value}>
+          <Tab key={item.value} appearance="underline" value={item.value}>
             <TabUnderlineLabel>{item.label}</TabUnderlineLabel>
             <TabUnderlineBar />
           </Tab>

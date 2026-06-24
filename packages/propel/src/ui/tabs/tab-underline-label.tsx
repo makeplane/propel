@@ -7,7 +7,7 @@ export type TabUnderlineLabelProps = {
 };
 
 /**
- * The label row of an `underline`-variant tab: a rounded, padded box that tints and fills on
+ * The label row of an `underline`-appearance tab: a rounded, padded box that tints and fills on
  * hover/active via the tab's `group/tab` state. Owns the styled `<span>` so consumers never touch
  * the underline cva directly.
  */
