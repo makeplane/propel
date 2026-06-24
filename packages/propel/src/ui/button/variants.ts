@@ -1,17 +1,22 @@
 import { cva, cx } from "class-variance-authority";
 
+import { nodeSlotClass } from "../../internal/node-slot";
+
 // Magnitudes follow the Figma "Buttons" Size scale. Figma ships S/Base/L/XL; those
 // map to sm/md/lg/xl by their px heights (20/24/28/32). Per Figma:
 // S -> text-12/px-1.5; Base & L -> text-13; XL -> text-14. All chrome'd magnitudes
 // use leading-none so the flex-centered label sits dead-center in the fixed height.
 export const buttonVariants = cva(
-  // Shared chrome: inline flex row, centered, focus-visible ring on the brand
-  // accent token, real disabled affordance, and a snug medium label.
+  // Shared chrome: inline flex row, centered, focus-visible ring (with 1px offset)
+  // on the brand accent token, real disabled affordance, and a snug medium label.
+  // `group` enables `group-aria-busy:` on child elements (e.g. the label span).
   cx(
-    "relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-1 rounded-md font-medium",
+    "group relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-1 rounded-md font-medium",
     "whitespace-nowrap transition-colors outline-none",
-    "focus-visible:ring-2 focus-visible:ring-accent-strong",
-    "disabled:cursor-not-allowed aria-busy:cursor-default",
+    "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1",
+    // Disabled: cursor, no pointer events (covers both native disabled and aria-disabled).
+    "disabled:pointer-events-none disabled:cursor-not-allowed",
+    "aria-busy:cursor-default",
   ),
   {
     variants: {
@@ -53,6 +58,12 @@ export const buttonVariants = cva(
         md: "h-6 min-w-10 px-2 text-13 leading-none [--node-size:0.875rem]",
         lg: "h-7 min-w-12 px-2 text-13 leading-none [--node-size:1rem]",
         xl: "h-8 min-w-13 px-2 text-14 leading-none [--node-size:1rem]",
+      },
+      // Layout axis (Figma "Full width" spec item). `auto` is the default inline
+      // size; `full` stretches to fill the container (`w-full`).
+      stretch: {
+        auto: "",
+        full: "w-full",
       },
     },
     compoundVariants: [
@@ -149,3 +160,17 @@ export const buttonVariants = cva(
     ],
   },
 );
+
+// The text label inside a Button. When the parent button is `aria-busy` (loading)
+// it dims via the `group-aria-busy:` sibling of the `group` class on the root: the
+// spinner replaces the inline-start node, and this fades the text alongside it.
+export const buttonLabelVariants = cva("group-aria-busy:opacity-50");
+
+// A decorative node beside the label. Reuses the shared node-slot chrome so its
+// single child is sized to the button's inherited `--node-size`.
+export const buttonIconVariants = cva(nodeSlotClass);
+
+// The loading indicator that replaces the inline-start node while busy. A pure slot:
+// reuses the shared node-slot chrome to size its single child to the button's
+// `--node-size`, and spins the wrapper (and thus the child) via `animate-spin`.
+export const buttonSpinnerVariants = cva(cx(nodeSlotClass, "animate-spin"));
