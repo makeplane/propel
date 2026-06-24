@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Layers } from "lucide-react";
+import { ChevronRight, Layers } from "lucide-react";
 import { expect } from "storybook/test";
 
 import {
@@ -15,7 +15,7 @@ import {
 } from "./index";
 
 // UI-tier story: composes the ATOMIC breadcrumb parts (each renders a single element).
-// The components-tier `Breadcrumb` story shows the ready-made dropdown/menu crumbs (which
+// The components-tier `Breadcrumb` story shows the ready-made menu crumbs (which
 // compose propel's Menu). Here you assemble the raw crumb chrome: the landmark + list, links,
 // the current page, separators, and the bare menu-trigger surface (without an attached menu)
 // with its own leading icon and trailing indicator parts.
@@ -47,19 +47,25 @@ export const Default: Story = {
             Plane
           </BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator />
+        <BreadcrumbSeparator>
+          <ChevronRight />
+        </BreadcrumbSeparator>
         <BreadcrumbItem>
           <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
             Projects
           </BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator />
+        <BreadcrumbSeparator>
+          <ChevronRight />
+        </BreadcrumbSeparator>
         <BreadcrumbItem>
           <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
             Design
           </BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator />
+        <BreadcrumbSeparator>
+          <ChevronRight />
+        </BreadcrumbSeparator>
         <BreadcrumbItem>
           <BreadcrumbPage>Work items</BreadcrumbPage>
         </BreadcrumbItem>
@@ -88,14 +94,18 @@ export const MenuTrigger: Story = {
             Plane
           </BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator />
+        <BreadcrumbSeparator>
+          <ChevronRight />
+        </BreadcrumbSeparator>
         <BreadcrumbItem>
           <BreadcrumbTrigger group>
             <BreadcrumbTriggerIcon>
               <Layers />
             </BreadcrumbTriggerIcon>
             <span>Plane Design</span>
-            <BreadcrumbTriggerIndicator />
+            <BreadcrumbTriggerIndicator>
+              <ChevronRight />
+            </BreadcrumbTriggerIndicator>
           </BreadcrumbTrigger>
         </BreadcrumbItem>
         <BreadcrumbItem>

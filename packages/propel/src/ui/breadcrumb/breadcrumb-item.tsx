@@ -4,7 +4,7 @@ import { breadcrumbItemVariants } from "./variants";
 
 export type BreadcrumbItemProps = Omit<React.ComponentProps<"li">, "className" | "style">;
 
-/** One step in the trail: a list item holding a link, page, or dropdown crumb. */
+/** One step in the trail: a list item holding a link, page, or menu crumb. */
 export function BreadcrumbItem(props: BreadcrumbItemProps) {
   return <li className={breadcrumbItemVariants()} {...props} />;
 }

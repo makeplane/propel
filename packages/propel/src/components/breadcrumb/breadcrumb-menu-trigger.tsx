@@ -1,4 +1,5 @@
 import { Menu } from "@base-ui/react/menu";
+import { ChevronRight } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -20,7 +21,9 @@ export function BreadcrumbMenuTrigger({ icon, children, ...props }: BreadcrumbMe
     <Menu.Trigger render={<BreadcrumbTrigger group />} {...props}>
       {icon != null ? <BreadcrumbTriggerIcon>{icon}</BreadcrumbTriggerIcon> : null}
       {children}
-      <BreadcrumbTriggerIndicator />
+      <BreadcrumbTriggerIndicator>
+        <ChevronRight />
+      </BreadcrumbTriggerIndicator>
     </Menu.Trigger>
   );
 }
