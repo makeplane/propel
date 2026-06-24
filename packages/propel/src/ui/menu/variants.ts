@@ -1,6 +1,7 @@
 import { cva, cx } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 /** Positioner: anchors the popup at the pointer with overlay stacking. */
 export const menuPositionerVariants = cva("z-50 outline-none");
@@ -176,3 +177,5 @@ export const menuFooterVariants = cva(
 
 /** Arrow: a small caret matching the popup surface color. */
 export const menuArrowVariants = cva("text-layer-1");
+
+export type MenuPopupVariantProps = StrictVariantProps<typeof menuPopupVariants>;
