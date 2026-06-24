@@ -62,5 +62,8 @@ export const iconButtonIconVariants = cva(nodeSlotClass);
 // `aria-hidden`. Like the accordion indicator it is a pure slot that bakes no glyph —
 // the caller passes the spinner as `children`.
 export const iconButtonSpinnerVariants = cva(
-  cx("inline-flex shrink-0 items-center justify-center", "[&>svg]:size-(--node-size)"),
+  cx(
+    "inline-flex shrink-0 items-center justify-center",
+    "[&>svg]:size-(--node-size) [&>svg]:animate-spin",
+  ),
 );

@@ -38,7 +38,7 @@ export function IconButton({ children, loading = false, disabled, ...props }: Ic
     >
       {loading ? (
         <IconButtonSpinner>
-          <LoaderCircle className="animate-spin" />
+          <LoaderCircle />
         </IconButtonSpinner>
       ) : (
         <IconButtonIcon>{children}</IconButtonIcon>
