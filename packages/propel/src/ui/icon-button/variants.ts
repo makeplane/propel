@@ -1,4 +1,12 @@
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
+
+import { nodeSlotClass } from "../../internal/node-slot";
+import {
+  buttonVariants,
+  type ButtonMagnitude,
+  type ButtonTone,
+  type ButtonVariant,
+} from "../button/index";
 
 // IconButton's own geometry, separate from Button's label-driven chrome (which comes
 // from composing `buttonVariants({ variant, tone })`). Icon buttons are square — a
@@ -11,7 +19,7 @@ import { cva } from "class-variance-authority";
 // adds a height, min-width, and horizontal padding meant for labelled buttons, which
 // would beat this square `size-N` (cx does not dedupe conflicting utilities) and leave
 // the button rectangular.
-export const iconButtonVariants = cva("", {
+const iconButtonGeometryVariants = cva("", {
   variants: {
     magnitude: {
       sm: "size-5 [--node-size:0.875rem]", // 20px box, 14px glyph
@@ -21,3 +29,41 @@ export const iconButtonVariants = cva("", {
     },
   },
 });
+
+// Re-alias ButtonMagnitude under the IconButton name so callers can type props
+// without importing from the button entry. The values are identical.
+export type IconButtonMagnitude = ButtonMagnitude;
+
+/**
+ * Produces the full className for the icon button root element. Merges Button's visual chrome
+ * (`buttonVariants({ variant, tone })`) with icon button's square geometry and `--node-size` glyph
+ * scale (`iconButtonGeometryVariants({ magnitude })`). All className composition lives here so the
+ * component file only calls this function.
+ */
+export function iconButtonRootVariants({
+  variant,
+  tone,
+  magnitude,
+}: {
+  variant: Exclude<ButtonVariant, "link">;
+  tone: ButtonTone;
+  magnitude: ButtonMagnitude;
+}): string {
+  return [buttonVariants({ variant, tone }), iconButtonGeometryVariants({ magnitude })].join(" ");
+}
+
+// The icon slot: the button's single glyph. Sizes its one child to the root's
+// inherited `--node-size` (via the shared node-slot class). Decorative — the accessible
+// name lives on the root's `aria-label` — so the slot is `aria-hidden`.
+export const iconButtonIconVariants = cva(nodeSlotClass);
+
+// The loading indicator shown in place of the icon. A single spinning glyph sized to
+// the root's `--node-size`. Decorative (the root carries `aria-busy`), so it is
+// `aria-hidden`. Like the accordion indicator it is a pure slot that bakes no glyph —
+// the caller passes the spinner as `children`.
+export const iconButtonSpinnerVariants = cva(
+  cx(
+    "inline-flex shrink-0 items-center justify-center",
+    "[&>svg]:size-(--node-size) [&>svg]:animate-spin",
+  ),
+);

@@ -4,7 +4,7 @@ import { ChevronDown, Plus } from "lucide-react";
 import * as React from "react";
 import { expect, fn, userEvent } from "storybook/test";
 
-import { IconButton } from "../icon-button/index";
+import { IconButton } from "../../components/icon-button/index";
 import {
   NavItem,
   NavItemGroup,

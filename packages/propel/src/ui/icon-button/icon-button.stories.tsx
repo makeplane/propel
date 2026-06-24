@@ -1,17 +1,28 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Plus } from "lucide-react";
-import { expect, fn } from "storybook/test";
+import { LoaderCircle, Plus } from "lucide-react";
+import { expect } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
-import { IconButton, type IconButtonMagnitude, type IconButtonVariant } from "./index";
+import {
+  IconButtonIcon,
+  IconButtonRoot,
+  type IconButtonMagnitude,
+  IconButtonSpinner,
+  type IconButtonVariant,
+} from "./index";
 
+// UI-tier story: composes the ATOMIC icon-button parts (each renders a single element) —
+// the square `IconButtonRoot` box, the `IconButtonIcon` glyph slot, and the
+// `IconButtonSpinner` loading indicator. The components-tier `IconButton` story shows the
+// ready-made button that swaps the slot for the spinner while `loading`.
 const VARIANTS: IconButtonVariant[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
 const meta = {
   title: "UI/IconButton",
-  component: IconButton,
-  // Icon picker control for the single glyph (the button's `children`).
+  component: IconButtonRoot,
+  subcomponents: { IconButtonIcon, IconButtonSpinner },
+  // Icon picker control for the single glyph rendered inside the slot.
   argTypes: { children: iconControl },
   parameters: {
     design: {
@@ -23,14 +34,19 @@ const meta = {
     variant: "primary",
     tone: "neutral",
     magnitude: "md",
-    children: <Plus />,
     "aria-label": "Add item",
+    children: (
+      <IconButtonIcon>
+        <Plus />
+      </IconButtonIcon>
+    ),
   },
-} satisfies Meta<typeof IconButton>;
+} satisfies Meta<typeof IconButtonRoot>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** Assemble the atomic parts: `IconButtonRoot` wrapping an `IconButtonIcon` glyph slot. */
 export const Default: Story = {};
 
 /**
@@ -43,7 +59,11 @@ export const Variants: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       {VARIANTS.map((variant) => (
-        <IconButton key={variant} {...args} variant={variant} aria-label={`${variant} action`} />
+        <IconButtonRoot key={variant} {...args} variant={variant} aria-label={`${variant} action`}>
+          <IconButtonIcon>
+            <Plus />
+          </IconButtonIcon>
+        </IconButtonRoot>
       ))}
     </div>
   ),
@@ -57,9 +77,21 @@ export const Tones: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <IconButton {...args} tone="neutral" variant="primary" aria-label="Neutral" />
-      <IconButton {...args} tone="danger" variant="primary" aria-label="Danger fill" />
-      <IconButton {...args} tone="danger" variant="secondary" aria-label="Danger outline" />
+      <IconButtonRoot {...args} tone="neutral" variant="primary" aria-label="Neutral">
+        <IconButtonIcon>
+          <Plus />
+        </IconButtonIcon>
+      </IconButtonRoot>
+      <IconButtonRoot {...args} tone="danger" variant="primary" aria-label="Danger fill">
+        <IconButtonIcon>
+          <Plus />
+        </IconButtonIcon>
+      </IconButtonRoot>
+      <IconButtonRoot {...args} tone="danger" variant="secondary" aria-label="Danger outline">
+        <IconButtonIcon>
+          <Plus />
+        </IconButtonIcon>
+      </IconButtonRoot>
     </div>
   ),
 };
@@ -70,126 +102,60 @@ export const Magnitudes: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <IconButton
+        <IconButtonRoot
           key={magnitude}
           {...args}
           magnitude={magnitude}
           aria-label={`${magnitude} add`}
-        />
+        >
+          <IconButtonIcon>
+            <Plus />
+          </IconButtonIcon>
+        </IconButtonRoot>
       ))}
     </div>
   ),
 };
 
-/** The loading state shows a spinner, sets `aria-busy`, and blocks interaction. */
-export const Loading: Story = {
+/** Swap the `IconButtonIcon` slot for an `IconButtonSpinner` to show the busy indicator. */
+export const Spinner: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <IconButton {...args} variant="primary" aria-label="Saving" loading />
-      <IconButton {...args} variant="secondary" aria-label="Loading" loading />
-      <IconButton {...args} variant="tertiary" aria-label="Refreshing" loading />
-    </div>
-  ),
-};
-
-/** A disabled icon button does not fire `onClick`. */
-export const Disabled: Story = {
-  parameters: { controls: { disable: true } },
-  render: (args) => (
-    <div className="flex items-center gap-3">
-      {VARIANTS.map((variant) => (
-        <IconButton
-          key={variant}
-          {...args}
-          variant={variant}
-          aria-label={`${variant} disabled`}
-          disabled
-        />
-      ))}
+      <IconButtonRoot {...args} variant="primary" aria-label="Saving" aria-busy>
+        <IconButtonSpinner>
+          <LoaderCircle className="animate-spin" />
+        </IconButtonSpinner>
+      </IconButtonRoot>
+      <IconButtonRoot {...args} variant="secondary" aria-label="Loading" aria-busy>
+        <IconButtonSpinner>
+          <LoaderCircle className="animate-spin" />
+        </IconButtonSpinner>
+      </IconButtonRoot>
+      <IconButtonRoot {...args} variant="tertiary" aria-label="Refreshing" aria-busy>
+        <IconButtonSpinner>
+          <LoaderCircle className="animate-spin" />
+        </IconButtonSpinner>
+      </IconButtonRoot>
     </div>
   ),
 };
 
 /**
- * An IconButton exposes its `aria-label` as the accessible name. Tagged
+ * The `IconButtonRoot` exposes its `aria-label` as the accessible name. Tagged
  * `!dev`/`!autodocs`/`!manifest` so it's hidden from the sidebar, docs, and AI manifest — it's a
  * behavior test, not an example — but still runs under `test`.
  */
 export const HasAccessibleName: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <IconButton variant="primary" tone="neutral" magnitude="md" aria-label="Add item">
-      <Plus />
-    </IconButton>
+    <IconButtonRoot variant="primary" tone="neutral" magnitude="md" aria-label="Add item">
+      <IconButtonIcon>
+        <Plus />
+      </IconButtonIcon>
+    </IconButtonRoot>
   ),
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("button", { name: "Add item" })).toBeInTheDocument();
-  },
-};
-
-/**
- * Tab moves focus onto the icon button (queryable by its `aria-label`), then **Enter** activates it
- * (fires `onClick`).
- */
-export const EnterActivates: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
-  args: { onClick: fn() },
-  play: async ({ args, canvas, userEvent }) => {
-    const button = canvas.getByRole("button", { name: "Add item" });
-    await userEvent.tab();
-    await expect(button).toHaveFocus();
-    await userEvent.keyboard("{Enter}");
-    await expect(args.onClick).toHaveBeenCalledOnce();
-  },
-};
-
-/** With the icon button focused, **Space** activates it (fires `onClick`). */
-export const SpaceActivates: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
-  args: { onClick: fn() },
-  play: async ({ args, canvas, userEvent }) => {
-    const button = canvas.getByRole("button", { name: "Add item" });
-    await userEvent.tab();
-    await expect(button).toHaveFocus();
-    await userEvent.keyboard("[Space]");
-    await expect(args.onClick).toHaveBeenCalledOnce();
-  },
-};
-
-/**
- * A `disabled` icon button is removed from the tab order: Tab does not land on it and keyboard
- * activation (Enter/Space) never fires `onClick`.
- */
-export const DisabledNotKeyboardActivatable: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
-  args: { onClick: fn(), disabled: true },
-  play: async ({ args, canvas, userEvent }) => {
-    const button = canvas.getByRole("button", { name: "Add item" });
-    await expect(button).toBeDisabled();
-    await userEvent.tab();
-    await expect(button).not.toHaveFocus();
-    button.focus();
-    await userEvent.keyboard("{Enter}");
-    await userEvent.keyboard("[Space]");
-    await expect(args.onClick).not.toHaveBeenCalled();
-  },
-};
-
-/** A `loading` icon button remains focusable with `aria-busy`, but Base UI suppresses activation. */
-export const LoadingBlocksInteraction: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
-  args: { onClick: fn(), loading: true },
-  play: async ({ args, canvas, userEvent }) => {
-    const button = canvas.getByRole("button", { name: "Add item" });
-    await expect(button).toHaveAttribute("aria-busy", "true");
-    await expect(button).not.toBeDisabled();
-
-    await userEvent.tab();
-    await expect(button).toHaveFocus();
-    await userEvent.keyboard("{Enter}");
-    await userEvent.keyboard("[Space]");
-    await userEvent.click(button);
-    await expect(args.onClick).not.toHaveBeenCalled();
   },
 };
