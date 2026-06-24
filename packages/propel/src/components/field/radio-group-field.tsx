@@ -47,6 +47,7 @@ export function RadioGroupField<Value = string>({
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Fieldset
+        bordered={false}
         render={
           <RadioGroup<Value>
             density={density}
