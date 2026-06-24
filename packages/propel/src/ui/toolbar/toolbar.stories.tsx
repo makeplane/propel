@@ -4,6 +4,7 @@ import {
   AlignLeft,
   AlignRight,
   Bold,
+  ChevronDown,
   Image,
   Italic,
   Link,
@@ -15,27 +16,34 @@ import { expect } from "storybook/test";
 import {
   Toolbar,
   ToolbarButton,
-  ToolbarDropdownTriggerSurface,
+  ToolbarMenuTriggerButton,
+  ToolbarMenuTriggerIndicator,
+  ToolbarMenuTriggerLabel,
   ToolbarGroup,
+  ToolbarItemIcon,
   ToolbarSeparator,
   ToolbarToggle,
   ToolbarToggleGroup,
 } from "./index";
 
-// UI-tier story: composes the ATOMIC toolbar parts (each renders a single control).
-// The components-tier `Toolbar` story shows the ready-made `ToolbarDropdown` (which composes
-// propel's Dropdown/Menu). Here you assemble the raw controls — buttons, toggles, toggle groups,
-// separators — plus the bare `ToolbarDropdownTriggerSurface` chrome (without an attached menu).
+// UI-tier story: composes the ATOMIC toolbar parts (each renders a single element). The icon inside
+// every control is its own `ToolbarItemIcon` slot, and the menu trigger pairs a
+// `ToolbarMenuTriggerLabel` with a `ToolbarMenuTriggerIndicator` — the controls hold no raw
+// glyph sizing or label typography. The components-tier `Toolbar` story shows the ready-made
+// `ToolbarMenu` and `ToolbarMenuTrigger` that compose these parts for you.
 const meta = {
   title: "UI/Toolbar",
   component: Toolbar,
   subcomponents: {
     ToolbarGroup,
     ToolbarButton,
+    ToolbarItemIcon,
     ToolbarToggle,
     ToolbarToggleGroup,
     ToolbarSeparator,
-    ToolbarDropdownTriggerSurface,
+    ToolbarMenuTriggerButton,
+    ToolbarMenuTriggerLabel,
+    ToolbarMenuTriggerIndicator,
   },
   args: { elevation: "raised", density: "compact" },
 } satisfies Meta<typeof Toolbar>;
@@ -44,46 +52,70 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * A formatting bar assembled from raw parts: a dropdown-trigger surface, an inline B/I/U/S toggle
- * group cluster, an exclusive alignment toggle-group, and link/image action buttons.
+ * A formatting bar assembled from raw parts: a menu-trigger surface (label + caret), an inline
+ * B/I/U/S toggle group cluster, an exclusive alignment toggle-group, and link/image action
+ * buttons.
  */
 export const Default: Story = {
   render: (args) => (
     <Toolbar {...args}>
-      <ToolbarDropdownTriggerSurface aria-label="Text style">Text</ToolbarDropdownTriggerSurface>
+      <ToolbarMenuTriggerButton aria-label="Text style">
+        <ToolbarMenuTriggerLabel>Text</ToolbarMenuTriggerLabel>
+        <ToolbarMenuTriggerIndicator>
+          <ChevronDown />
+        </ToolbarMenuTriggerIndicator>
+      </ToolbarMenuTriggerButton>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
         <ToolbarToggle aria-label="Bold">
-          <Bold aria-hidden />
+          <ToolbarItemIcon>
+            <Bold />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle aria-label="Italic">
-          <Italic aria-hidden />
+          <ToolbarItemIcon>
+            <Italic />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle aria-label="Underline">
-          <Underline aria-hidden />
+          <ToolbarItemIcon>
+            <Underline />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle aria-label="Strikethrough">
-          <Strikethrough aria-hidden />
+          <ToolbarItemIcon>
+            <Strikethrough />
+          </ToolbarItemIcon>
         </ToolbarToggle>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarToggleGroup aria-label="Text alignment" defaultValue={["left"]}>
         <ToolbarToggle value="left" aria-label="Align left">
-          <AlignLeft aria-hidden />
+          <ToolbarItemIcon>
+            <AlignLeft />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle value="center" aria-label="Align center">
-          <AlignCenter aria-hidden />
+          <ToolbarItemIcon>
+            <AlignCenter />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle value="right" aria-label="Align right">
-          <AlignRight aria-hidden />
+          <ToolbarItemIcon>
+            <AlignRight />
+          </ToolbarItemIcon>
         </ToolbarToggle>
       </ToolbarToggleGroup>
       <ToolbarSeparator />
       <ToolbarButton aria-label="Insert link">
-        <Link aria-hidden />
+        <ToolbarItemIcon>
+          <Link />
+        </ToolbarItemIcon>
       </ToolbarButton>
       <ToolbarButton aria-label="Insert image">
-        <Image aria-hidden />
+        <ToolbarItemIcon>
+          <Image />
+        </ToolbarItemIcon>
       </ToolbarButton>
     </Toolbar>
   ),
@@ -108,14 +140,20 @@ export const Elevations: Story = {
       {(["raised", "flat"] as const).map((elevation) => (
         <Toolbar {...args} key={elevation} elevation={elevation}>
           <ToolbarToggle aria-label="Bold">
-            <Bold aria-hidden />
+            <ToolbarItemIcon>
+              <Bold />
+            </ToolbarItemIcon>
           </ToolbarToggle>
           <ToolbarToggle aria-label="Italic">
-            <Italic aria-hidden />
+            <ToolbarItemIcon>
+              <Italic />
+            </ToolbarItemIcon>
           </ToolbarToggle>
           <ToolbarSeparator />
           <ToolbarButton aria-label="Insert link">
-            <Link aria-hidden />
+            <ToolbarItemIcon>
+              <Link />
+            </ToolbarItemIcon>
           </ToolbarButton>
         </Toolbar>
       ))}
@@ -134,14 +172,20 @@ export const Densities: Story = {
       {(["compact", "comfortable"] as const).map((density) => (
         <Toolbar {...args} key={density} density={density}>
           <ToolbarToggle aria-label="Bold">
-            <Bold aria-hidden />
+            <ToolbarItemIcon>
+              <Bold />
+            </ToolbarItemIcon>
           </ToolbarToggle>
           <ToolbarToggle aria-label="Italic">
-            <Italic aria-hidden />
+            <ToolbarItemIcon>
+              <Italic />
+            </ToolbarItemIcon>
           </ToolbarToggle>
           <ToolbarSeparator />
           <ToolbarButton aria-label="Insert link">
-            <Link aria-hidden />
+            <ToolbarItemIcon>
+              <Link />
+            </ToolbarItemIcon>
           </ToolbarButton>
         </Toolbar>
       ))}
