@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Check, Tag, X } from "lucide-react";
+import { Check, LoaderCircle, Tag, X } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
 
 import { IconPill, PillButton, PillIcon, PillLabel, PillSpinner, PillSwitch } from "./index";
@@ -61,7 +61,9 @@ export const Spinner: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <PillButton magnitude="md" disabled aria-busy>
-      <PillSpinner />
+      <PillSpinner>
+        <LoaderCircle />
+      </PillSpinner>
       <PillLabel>Loading</PillLabel>
     </PillButton>
   ),

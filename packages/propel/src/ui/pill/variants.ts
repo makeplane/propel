@@ -90,8 +90,11 @@ export const pillLabelVariants = cva("min-w-0 truncate");
 // comes from the container's text color, so no color is baked here.
 export const pillIconVariants = cva(nodeSlotClass);
 
-// The busy spinner that replaces a node while a pill is loading. It is itself the svg,
-// so it sizes directly to the pill's `--node-size`; tinted by the container text color.
-export const pillSpinnerVariants = cva("size-(--node-size) shrink-0 animate-spin");
+// The busy spinner slot that replaces a node while a pill is loading. A node-slot: it
+// sizes and spins its single svg child to the pill's `--node-size`; tinted by the
+// container text color. Bakes no glyph — the ready-made pills pass a `LoaderCircle`.
+export const pillSpinnerVariants = cva(
+  "inline-flex shrink-0 items-center justify-center [&>svg]:size-(--node-size) [&>svg]:animate-spin",
+);
 
 export type PillMagnitude = NonNullable<Parameters<typeof pillButtonVariants>[0]>["magnitude"];

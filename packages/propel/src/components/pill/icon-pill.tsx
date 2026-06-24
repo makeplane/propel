@@ -1,3 +1,4 @@
+import { LoaderCircle } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -26,7 +27,13 @@ export function IconPill({ loading = false, disabled, children, ...props }: Icon
       focusableWhenDisabled={loading ? true : undefined}
       aria-busy={loading ? true : undefined}
     >
-      {loading ? <PillSpinner /> : <PillIcon>{children}</PillIcon>}
+      {loading ? (
+        <PillSpinner>
+          <LoaderCircle />
+        </PillSpinner>
+      ) : (
+        <PillIcon>{children}</PillIcon>
+      )}
     </IconPillRoot>
   );
 }

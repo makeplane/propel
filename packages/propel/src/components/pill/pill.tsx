@@ -1,3 +1,4 @@
+import { LoaderCircle } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -37,7 +38,13 @@ export function PillButton({
       focusableWhenDisabled={loading ? true : undefined}
       aria-busy={loading ? true : undefined}
     >
-      {loading ? <PillSpinner /> : inlineStartNode ? <PillIcon>{inlineStartNode}</PillIcon> : null}
+      {loading ? (
+        <PillSpinner>
+          <LoaderCircle />
+        </PillSpinner>
+      ) : inlineStartNode ? (
+        <PillIcon>{inlineStartNode}</PillIcon>
+      ) : null}
       <PillLabel>{children}</PillLabel>
       {!loading && inlineEndNode ? <PillIcon>{inlineEndNode}</PillIcon> : null}
     </PillButtonRoot>
