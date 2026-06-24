@@ -4,7 +4,8 @@ import { nodeSlotClass } from "../../internal/node-slot";
 
 // A Toggle is a two-state icon button. The only visual axis is size (`magnitude`);
 // pressed/disabled are control state Base UI reflects as `[data-pressed]`/
-// `[data-disabled]`. Each magnitude sets `--node-size` so an inner icon sizes itself.
+// `[data-disabled]`. Each magnitude sets `--node-size` so the `ToggleIcon` slot sizes
+// its child to match.
 export const toggleVariants = cva(
   cx(
     "inline-flex shrink-0 items-center justify-center rounded-md transition-colors outline-none",
