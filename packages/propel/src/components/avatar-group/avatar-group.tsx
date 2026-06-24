@@ -1,6 +1,7 @@
 import type * as React from "react";
 
-import { AvatarGroupContext, type AvatarMagnitude } from "../../ui/avatar";
+import { type AvatarMagnitude } from "../../ui/avatar";
+import { AvatarGroupContext } from "../avatar/avatar-group-context";
 import {
   AvatarGroup as AvatarGroupRoot,
   type AvatarGroupProps as AvatarGroupRootProps,

@@ -4,13 +4,13 @@ import * as React from "react";
 import {
   Avatar as AvatarRoot,
   AvatarFallback,
-  AvatarGroupContext,
   AvatarIcon,
   AvatarImage,
   type AvatarProps as AvatarRootProps,
   type AvatarTone,
   getAvatarTone,
 } from "../../ui/avatar";
+import { AvatarGroupContext } from "./avatar-group-context";
 
 export type AvatarProps = AvatarRootProps & {
   /** Image URL. When omitted, or while it is loading/failing, the fallback shows. */
@@ -42,7 +42,7 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
   return (
     // `role="img"` + `aria-label` give the avatar one accessible name in every state
     // (image / initials / icon); the inner image is decorative.
-    <AvatarRoot role="img" aria-label={alt} magnitude={magnitude} {...props}>
+    <AvatarRoot role="img" aria-label={alt} magnitude={effectiveMagnitude} {...props}>
       {src ? <AvatarImage src={src} alt="" /> : null}
       <AvatarFallback tone={hasInitials ? resolvedTone : "none"}>
         {fallback ?? (
