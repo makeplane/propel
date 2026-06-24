@@ -1,11 +1,11 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
 import { type VariantProps } from "class-variance-authority";
 
-import { rootVariants } from "./variants";
+import { progressVariants } from "./variants";
 
 /** Props for {@link Progress} (the Base UI `Progress.Root`). */
 export type ProgressProps = Omit<BaseProgress.Root.Props, "className" | "style"> &
-  VariantProps<typeof rootVariants>;
+  VariantProps<typeof progressVariants>;
 
 /**
  * The atomic `Progress.Root` — maps 1:1 to Base UI's `Progress.Root`. It owns the `progressbar`
@@ -19,5 +19,5 @@ export type ProgressProps = Omit<BaseProgress.Root.Props, "className" | "style">
  * `Progress` from `@plane/propel/components/progress`.
  */
 export function Progress({ layout, ...props }: ProgressProps) {
-  return <BaseProgress.Root className={rootVariants({ layout })} {...props} />;
+  return <BaseProgress.Root className={progressVariants({ layout })} {...props} />;
 }

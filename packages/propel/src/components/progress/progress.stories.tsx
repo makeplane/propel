@@ -6,7 +6,13 @@ import { Progress } from "./index";
 const meta = {
   title: "Components/Progress",
   component: Progress,
-  args: { variant: "linear", value: 32, magnitude: "md", "aria-label": "Upload progress" },
+  args: {
+    variant: "linear",
+    value: 32,
+    magnitude: "md",
+    tone: "brand",
+    "aria-label": "Upload progress",
+  },
   // Give the bar a width to fill (it grows to its container).
   decorators: [
     (Story) => (
@@ -34,8 +40,20 @@ export const Magnitudes: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex flex-col gap-4">
-      <Progress variant="linear" value={32} magnitude="sm" aria-label="Small progress" />
-      <Progress variant="linear" value={32} magnitude="md" aria-label="Medium progress" />
+      <Progress
+        variant="linear"
+        value={32}
+        magnitude="sm"
+        tone="brand"
+        aria-label="Small progress"
+      />
+      <Progress
+        variant="linear"
+        value={32}
+        magnitude="md"
+        tone="brand"
+        aria-label="Medium progress"
+      />
     </div>
   ),
 };
@@ -45,24 +63,83 @@ export const Values: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex flex-col gap-4">
-      <Progress variant="linear" value={0} magnitude="md" aria-label="0 percent" />
-      <Progress variant="linear" value={50} magnitude="md" aria-label="50 percent" />
-      <Progress variant="linear" value={100} magnitude="md" aria-label="100 percent" />
+      <Progress variant="linear" value={0} magnitude="md" tone="brand" aria-label="0 percent" />
+      <Progress variant="linear" value={50} magnitude="md" tone="brand" aria-label="50 percent" />
+      <Progress variant="linear" value={100} magnitude="md" tone="brand" aria-label="100 percent" />
     </div>
   ),
 };
 
-/** Hide the trailing label with `showValue={false}` (e.g. a slim inline track). */
-export const WithoutLabel: Story = {
-  args: { variant: "linear", value: 64, magnitude: "md", showValue: false },
+/** All four sentiment tones (`brand` / `success` / `warning` / `danger`). */
+export const Tones: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <Progress
+        variant="linear"
+        value={60}
+        magnitude="md"
+        tone="brand"
+        aria-label="Brand progress"
+      />
+      <Progress
+        variant="linear"
+        value={60}
+        magnitude="md"
+        tone="success"
+        aria-label="Success progress"
+      />
+      <Progress
+        variant="linear"
+        value={60}
+        magnitude="md"
+        tone="warning"
+        aria-label="Warning progress"
+      />
+      <Progress
+        variant="linear"
+        value={60}
+        magnitude="md"
+        tone="danger"
+        aria-label="Danger progress"
+      />
+    </div>
+  ),
 };
 
 /**
- * `variant="circular"` is a small determinate ring — a gray track plus an accent arc proportional
- * to the value, with no label. The arc starts at 12 o'clock and sweeps clockwise.
+ * Indeterminate mode — pass `value={null}` when the end time is unknown (e.g. an in-flight network
+ * request). The bar slides a shorter fill back and forth. `showValue` is automatically hidden since
+ * there is no percentage to display.
+ */
+export const Indeterminate: Story = {
+  args: {
+    variant: "linear",
+    value: null,
+    magnitude: "md",
+    tone: "brand",
+    showValue: false,
+    "aria-label": "Loading",
+  },
+};
+
+/** Hide the trailing label with `showValue={false}` (e.g. a slim inline track). */
+export const WithoutLabel: Story = {
+  args: { variant: "linear", value: 64, magnitude: "md", tone: "brand", showValue: false },
+};
+
+/**
+ * `variant="circular"` is a small determinate ring — a gray track plus a toned arc proportional to
+ * the value, with no label. The arc starts at 12 o'clock and sweeps clockwise.
  */
 export const Circular: Story = {
-  args: { variant: "circular", value: 32, magnitude: "md", "aria-label": "Sync progress" },
+  args: {
+    variant: "circular",
+    value: 32,
+    magnitude: "md",
+    tone: "brand",
+    "aria-label": "Sync progress",
+  },
   // The ring sizes itself; the meta's 80-wide wrapper isn't needed.
 };
 
@@ -71,12 +148,48 @@ export const CircularMagnitudes: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-4">
-      <Progress variant="circular" value={0} magnitude="sm" aria-label="Small 0 percent" />
-      <Progress variant="circular" value={32} magnitude="sm" aria-label="Small 32 percent" />
-      <Progress variant="circular" value={100} magnitude="sm" aria-label="Small 100 percent" />
-      <Progress variant="circular" value={0} magnitude="md" aria-label="Medium 0 percent" />
-      <Progress variant="circular" value={32} magnitude="md" aria-label="Medium 32 percent" />
-      <Progress variant="circular" value={100} magnitude="md" aria-label="Medium 100 percent" />
+      <Progress
+        variant="circular"
+        value={0}
+        magnitude="sm"
+        tone="brand"
+        aria-label="Small 0 percent"
+      />
+      <Progress
+        variant="circular"
+        value={32}
+        magnitude="sm"
+        tone="brand"
+        aria-label="Small 32 percent"
+      />
+      <Progress
+        variant="circular"
+        value={100}
+        magnitude="sm"
+        tone="brand"
+        aria-label="Small 100 percent"
+      />
+      <Progress
+        variant="circular"
+        value={0}
+        magnitude="md"
+        tone="brand"
+        aria-label="Medium 0 percent"
+      />
+      <Progress
+        variant="circular"
+        value={32}
+        magnitude="md"
+        tone="brand"
+        aria-label="Medium 32 percent"
+      />
+      <Progress
+        variant="circular"
+        value={100}
+        magnitude="md"
+        tone="brand"
+        aria-label="Medium 100 percent"
+      />
     </div>
   ),
 };
