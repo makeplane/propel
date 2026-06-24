@@ -31,7 +31,7 @@ export function NavItem({ magnitude, level = 1, active = false, render, ...props
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps(props, defaultProps),
+    props: mergeProps(defaultProps, props),
     state: { active },
     stateAttributesMapping: {
       active: (value) => (value ? { "data-active": "" } : null),

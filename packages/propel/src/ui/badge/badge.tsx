@@ -1,5 +1,6 @@
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { type VariantProps } from "class-variance-authority";
-import type * as React from "react";
 
 import { badgeVariants } from "./variants";
 
@@ -7,7 +8,7 @@ export type BadgeMagnitude = NonNullable<VariantProps<typeof badgeVariants>["mag
 export type BadgeTone = NonNullable<VariantProps<typeof badgeVariants>["tone"]>;
 export type BadgeVariant = NonNullable<VariantProps<typeof badgeVariants>["variant"]>;
 
-export type BadgeProps = Omit<React.ComponentProps<"span">, "className" | "style"> & {
+export type BadgeProps = Omit<useRender.ComponentProps<"span">, "className" | "style"> & {
   /** Color/intent of the badge. */
   tone: BadgeTone;
   /** Size of the badge. */
@@ -21,6 +22,9 @@ export type BadgeProps = Omit<React.ComponentProps<"span">, "className" | "style
  * `BadgeDismiss` inside it (or use the ready-made `components/badge` composition). Sets the tone's
  * text color and the magnitude's `--node-size`, which its slot children inherit.
  */
-export function Badge({ tone, magnitude, variant, ...props }: BadgeProps) {
-  return <span className={badgeVariants({ tone, magnitude, variant })} {...props} />;
+export function Badge({ tone, magnitude, variant, render, ...props }: BadgeProps) {
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: badgeVariants({ tone, magnitude, variant }),
+  };
+  return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }

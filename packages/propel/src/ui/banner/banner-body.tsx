@@ -1,9 +1,10 @@
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { type VariantProps } from "class-variance-authority";
-import type * as React from "react";
 
 import { bannerBodyVariants } from "./variants";
 
-export type BannerBodyProps = Omit<React.ComponentPropsWithoutRef<"div">, "className" | "style"> &
+export type BannerBodyProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
   VariantProps<typeof bannerBodyVariants>;
 
 /**
@@ -11,6 +12,9 @@ export type BannerBodyProps = Omit<React.ComponentPropsWithoutRef<"div">, "class
  * `BannerTitle` above a `BannerDescription`. Carries the tone foreground color (inherited by both)
  * and the per-variant text weight.
  */
-export function BannerBody({ variant, tone, ...props }: BannerBodyProps) {
-  return <div className={bannerBodyVariants({ variant, tone })} {...props} />;
+export function BannerBody({ variant, tone, render, ...props }: BannerBodyProps) {
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: bannerBodyVariants({ variant, tone }),
+  };
+  return useRender({ defaultTagName: "div", render, props: mergeProps(defaultProps, props) });
 }

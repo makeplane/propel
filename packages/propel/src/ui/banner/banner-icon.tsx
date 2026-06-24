@@ -1,9 +1,10 @@
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { type VariantProps } from "class-variance-authority";
-import type * as React from "react";
 
 import { bannerIconVariants } from "./variants";
 
-export type BannerIconProps = Omit<React.ComponentPropsWithoutRef<"span">, "className" | "style"> &
+export type BannerIconProps = Omit<useRender.ComponentProps<"span">, "className" | "style"> &
   VariantProps<typeof bannerIconVariants>;
 
 /**
@@ -11,6 +12,10 @@ export type BannerIconProps = Omit<React.ComponentPropsWithoutRef<"span">, "clas
  * child to the banner's node size and tints it per `tone`, so callers pass a bare icon. Decorative
  * (the message carries the meaning), so it is `aria-hidden`.
  */
-export function BannerIcon({ variant, tone, ...props }: BannerIconProps) {
-  return <span aria-hidden className={bannerIconVariants({ variant, tone })} {...props} />;
+export function BannerIcon({ variant, tone, render, ...props }: BannerIconProps) {
+  const defaultProps: useRender.ElementProps<"span"> = {
+    "aria-hidden": true,
+    className: bannerIconVariants({ variant, tone }),
+  };
+  return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }
