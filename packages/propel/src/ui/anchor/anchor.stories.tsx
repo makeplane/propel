@@ -1,18 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { Anchor, type AnchorEmphasis, type AnchorMagnitude } from "./index";
+import { Anchor, type AnchorMagnitude, type AnchorProminence } from "./index";
 
-const EMPHASES: AnchorEmphasis[] = ["solid", "subtle"];
+const PROMINENCES: AnchorProminence[] = ["primary", "secondary"];
 const MAGNITUDES: AnchorMagnitude[] = ["sm", "md", "lg", "xl"];
 
-// UI-tier story: the inline text link — a single styled `<a>` with `emphasis` (solid blue / subtle
-// gray) and `magnitude` (text size). It is the correct element for what used to be the button
+// UI-tier story: the inline text link — a single styled `<a>` with `prominence` (primary blue /
+// secondary gray) and `magnitude` (text size). It is the correct element for what used to be the button
 // `link` look. For a link that looks like a button, see `ButtonAnchor`.
 const meta = {
   title: "UI/Anchor",
   component: Anchor,
-  args: { children: "Anchor", href: "#", emphasis: "solid", magnitude: "md" },
+  args: { children: "Anchor", href: "#", prominence: "primary", magnitude: "md" },
 } satisfies Meta<typeof Anchor>;
 
 export default meta;
@@ -20,14 +20,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** `emphasis`: `solid` is the blue primary link; `subtle` is the muted gray inline link. */
-export const Emphases: Story = {
-  argTypes: { emphasis: { control: false }, children: { control: false } },
+/** `prominence`: `primary` is the blue link; `secondary` is the muted gray inline link. */
+export const Prominences: Story = {
+  argTypes: { prominence: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-4">
-      {EMPHASES.map((emphasis) => (
-        <Anchor key={emphasis} {...args} emphasis={emphasis}>
-          {emphasis} link
+      {PROMINENCES.map((prominence) => (
+        <Anchor key={prominence} {...args} prominence={prominence}>
+          {prominence} link
         </Anchor>
       ))}
     </div>
