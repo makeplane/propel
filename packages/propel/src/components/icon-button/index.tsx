@@ -1,4 +1,4 @@
-export { IconButton, type IconButtonProps } from "./icon-button";
+export * from "./icon-button";
 // Re-export the atomic ui parts so the full anatomy is importable from this convenience entry.
 export {
   IconButtonIcon,

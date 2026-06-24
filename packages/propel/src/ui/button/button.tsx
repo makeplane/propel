@@ -13,9 +13,6 @@ export type {
   ButtonVariant,
   ButtonVariantProps,
 } from "./variants";
-export { ButtonIcon, type ButtonIconProps } from "./button-icon";
-export { ButtonLabel, type ButtonLabelProps } from "./button-label";
-export { ButtonSpinner, type ButtonSpinnerProps } from "./button-spinner";
 
 // The variant axes come straight from `ButtonVariantProps` (required where there is no default,
 // optional where there is — `emphasis`/`stretch`).

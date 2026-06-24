@@ -1,4 +1,4 @@
-export { AlertDialogContent, type AlertDialogContentProps } from "./alert-dialog-content";
+export * from "./alert-dialog-content";
 // Re-export the atomic parts so a full alert dialog can be assembled from one entry.
 export {
   AlertDialog,

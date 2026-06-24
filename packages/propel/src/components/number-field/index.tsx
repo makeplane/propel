@@ -1,4 +1,4 @@
-export { NumberField, type NumberFieldProps } from "./number-field";
+export * from "./number-field";
 export {
   NumberFieldButtonIcon,
   type NumberFieldButtonIconProps,

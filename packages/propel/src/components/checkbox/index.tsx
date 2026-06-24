@@ -1,4 +1,4 @@
-export { Checkbox, type CheckboxProps, type CheckboxTone } from "./checkbox";
+export * from "./checkbox";
 // Re-export the presentational visual + atomic parts so the full checkbox surface is importable
 // from this convenience.
 export {

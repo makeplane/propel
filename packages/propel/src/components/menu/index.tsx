@@ -1,12 +1,12 @@
-export { MenuCheckboxItem, type MenuCheckboxItemProps } from "./menu-checkbox-item";
-export { MenuContent, type MenuContentProps } from "./menu-content";
-export { MenuFooter, type MenuFooterProps } from "./menu-footer";
-export { MenuItem, type MenuItemProps } from "./menu-item";
-export { MenuLabel, type MenuLabelProps } from "./menu-label";
-export { MenuLinkItem, type MenuLinkItemProps } from "./menu-link-item";
-export { MenuSearch, type MenuSearchProps } from "./menu-search";
-export { MenuSubContent, type MenuSubContentProps } from "./menu-sub-content";
-export { MenuSubTrigger, type MenuSubTriggerProps } from "./menu-sub-trigger";
+export * from "./menu-checkbox-item";
+export * from "./menu-content";
+export * from "./menu-footer";
+export * from "./menu-item";
+export * from "./menu-label";
+export * from "./menu-link-item";
+export * from "./menu-search";
+export * from "./menu-sub-content";
+export * from "./menu-sub-trigger";
 // Re-export the atomic menu parts so a full menu can be assembled from one entry.
 export {
   Menu,

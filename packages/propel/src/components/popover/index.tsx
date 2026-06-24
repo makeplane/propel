@@ -1,4 +1,4 @@
-export { PopoverContent, type PopoverContentProps } from "./popover-content";
+export * from "./popover-content";
 // Re-export the atomic root + trigger so a popover can be assembled from one entry.
 export {
   Popover,

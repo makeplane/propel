@@ -1,12 +1,9 @@
-export { Accordion, type AccordionProps } from "./accordion";
-export { AccordionHeader, type AccordionHeaderProps } from "./accordion-header";
-export { AccordionItem, type AccordionItemProps } from "./accordion-item";
-export { AccordionPanel, type AccordionPanelProps } from "./accordion-panel";
-export { AccordionPanelContent, type AccordionPanelContentProps } from "./accordion-panel-content";
-export { AccordionTrigger, type AccordionTriggerProps } from "./accordion-trigger";
-export { AccordionTriggerIcon, type AccordionTriggerIconProps } from "./accordion-trigger-icon";
-export {
-  AccordionTriggerIndicator,
-  type AccordionTriggerIndicatorProps,
-} from "./accordion-trigger-indicator";
-export { AccordionTriggerTitle, type AccordionTriggerTitleProps } from "./accordion-trigger-title";
+export * from "./accordion";
+export * from "./accordion-header";
+export * from "./accordion-item";
+export * from "./accordion-panel";
+export * from "./accordion-panel-content";
+export * from "./accordion-trigger";
+export * from "./accordion-trigger-icon";
+export * from "./accordion-trigger-indicator";
+export * from "./accordion-trigger-title";

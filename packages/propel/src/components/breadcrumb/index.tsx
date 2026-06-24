@@ -10,8 +10,8 @@ export {
   BreadcrumbPage,
   type BreadcrumbPageProps,
 } from "../../ui/breadcrumb";
-export { BreadcrumbSeparator, type BreadcrumbSeparatorProps } from "./breadcrumb-separator";
-export { BreadcrumbMenu, type BreadcrumbMenuProps } from "./breadcrumb-menu";
-export { BreadcrumbMenuContent, type BreadcrumbMenuContentProps } from "./breadcrumb-menu-content";
-export { BreadcrumbMenuItem, type BreadcrumbMenuItemProps } from "./breadcrumb-menu-item";
-export { BreadcrumbMenuTrigger, type BreadcrumbMenuTriggerProps } from "./breadcrumb-menu-trigger";
+export * from "./breadcrumb-separator";
+export * from "./breadcrumb-menu";
+export * from "./breadcrumb-menu-content";
+export * from "./breadcrumb-menu-item";
+export * from "./breadcrumb-menu-trigger";

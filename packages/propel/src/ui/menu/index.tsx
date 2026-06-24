@@ -1,50 +1,38 @@
-export { Menu, type MenuProps } from "./menu";
-export { MenuArrow, type MenuArrowProps } from "./menu-arrow";
-export { MenuBackdrop, type MenuBackdropProps } from "./menu-backdrop";
-export { MenuCheckboxItem, type MenuCheckboxItemProps } from "./menu-checkbox-item";
-export {
-  MenuCheckboxItemIndicator,
-  type MenuCheckboxItemIndicatorProps,
-} from "./menu-checkbox-item-indicator";
-export { MenuFooter, type MenuFooterProps } from "./menu-footer";
-export { MenuGroup, type MenuGroupProps } from "./menu-group";
-export { MenuGroupLabel, type MenuGroupLabelProps } from "./menu-group-label";
-export { MenuItem, type MenuItemProps } from "./menu-item";
-export { MenuItemContent, type MenuItemContentProps } from "./menu-item-content";
-export { MenuItemControl, type MenuItemControlProps } from "./menu-item-control";
-export { MenuItemDescription, type MenuItemDescriptionProps } from "./menu-item-description";
-export { MenuItemIcon, type MenuItemIconProps } from "./menu-item-icon";
-export { MenuItemMeta, type MenuItemMetaProps } from "./menu-item-meta";
-export { MenuItemSecondaryText, type MenuItemSecondaryTextProps } from "./menu-item-secondary-text";
-export {
-  MenuItemSelectedIndicator,
-  type MenuItemSelectedIndicatorProps,
-} from "./menu-item-selected-indicator";
-export {
-  MenuItemSubmenuIndicator,
-  type MenuItemSubmenuIndicatorProps,
-} from "./menu-item-submenu-indicator";
-export { MenuItemTitle, type MenuItemTitleProps } from "./menu-item-title";
-export { MenuItemTrailing, type MenuItemTrailingProps } from "./menu-item-trailing";
-export { MenuItemTitleRow, type MenuItemTitleRowProps } from "./menu-item-title-row";
-export { MenuLabel, type MenuLabelProps } from "./menu-label";
-export { MenuLabelMeta, type MenuLabelMetaProps } from "./menu-label-meta";
-export { MenuLabelTitle, type MenuLabelTitleProps } from "./menu-label-title";
-export { MenuLinkItem, type MenuLinkItemProps } from "./menu-link-item";
-export { MenuPopup, type MenuPopupProps } from "./menu-popup";
-export { MenuPortal } from "./menu-portal";
-export { MenuPositioner, type MenuPositionerProps } from "./menu-positioner";
-export { MenuRadioGroup, type MenuRadioGroupProps } from "./menu-radio-group";
-export { MenuRadioItem, type MenuRadioItemProps } from "./menu-radio-item";
-export {
-  MenuRadioItemIndicator,
-  type MenuRadioItemIndicatorProps,
-} from "./menu-radio-item-indicator";
-export { MenuSearch, type MenuSearchProps } from "./menu-search";
-export { MenuSearchIcon, type MenuSearchIconProps } from "./menu-search-icon";
-export { MenuSearchInput, type MenuSearchInputProps } from "./menu-search-input";
-export { MenuSeparator, type MenuSeparatorProps } from "./menu-separator";
-export { MenuSub, type MenuSubProps } from "./menu-sub";
-export { MenuSubTrigger, type MenuSubTriggerProps } from "./menu-sub-trigger";
-export { MenuTrigger, type MenuTriggerProps } from "./menu-trigger";
-export { MenuViewport, type MenuViewportProps } from "./menu-viewport";
+export * from "./menu";
+export * from "./menu-arrow";
+export * from "./menu-backdrop";
+export * from "./menu-checkbox-item";
+export * from "./menu-checkbox-item-indicator";
+export * from "./menu-footer";
+export * from "./menu-group";
+export * from "./menu-group-label";
+export * from "./menu-item";
+export * from "./menu-item-content";
+export * from "./menu-item-control";
+export * from "./menu-item-description";
+export * from "./menu-item-icon";
+export * from "./menu-item-meta";
+export * from "./menu-item-secondary-text";
+export * from "./menu-item-selected-indicator";
+export * from "./menu-item-submenu-indicator";
+export * from "./menu-item-title";
+export * from "./menu-item-trailing";
+export * from "./menu-item-title-row";
+export * from "./menu-label";
+export * from "./menu-label-meta";
+export * from "./menu-label-title";
+export * from "./menu-link-item";
+export * from "./menu-popup";
+export * from "./menu-portal";
+export * from "./menu-positioner";
+export * from "./menu-radio-group";
+export * from "./menu-radio-item";
+export * from "./menu-radio-item-indicator";
+export * from "./menu-search";
+export * from "./menu-search-icon";
+export * from "./menu-search-input";
+export * from "./menu-separator";
+export * from "./menu-sub";
+export * from "./menu-sub-trigger";
+export * from "./menu-trigger";
+export * from "./menu-viewport";

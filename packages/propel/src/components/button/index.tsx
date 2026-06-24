@@ -1,4 +1,4 @@
-export { Button, type ButtonProps } from "./button";
+export * from "./button";
 // Re-export the atomic button's parts, variant types, and `buttonVariants` so the full button
 // surface is importable from this convenience.
 export {
