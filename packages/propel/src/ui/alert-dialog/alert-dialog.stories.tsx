@@ -52,7 +52,14 @@ type Story = StoryObj<typeof meta>;
 export const Anatomy: Story = {
   render: () => (
     <AlertDialog>
-      <Button variant="primary" tone="danger" magnitude="xl" render={<AlertDialogTrigger />}>
+      <Button
+        emphasis="solid"
+        stretch="auto"
+        variant="primary"
+        tone="danger"
+        magnitude="xl"
+        render={<AlertDialogTrigger />}
+      >
         Delete account
       </Button>
       <AlertDialogPortal>
@@ -72,6 +79,8 @@ export const Anatomy: Story = {
             </AlertDialogHeader>
             <AlertDialogActions>
               <Button
+                emphasis="solid"
+                stretch="auto"
                 variant="secondary"
                 tone="neutral"
                 magnitude="xl"
@@ -79,7 +88,14 @@ export const Anatomy: Story = {
               >
                 Cancel
               </Button>
-              <Button variant="primary" tone="danger" magnitude="xl" render={<AlertDialogClose />}>
+              <Button
+                emphasis="solid"
+                stretch="auto"
+                variant="primary"
+                tone="danger"
+                magnitude="xl"
+                render={<AlertDialogClose />}
+              >
                 Delete
               </Button>
             </AlertDialogActions>

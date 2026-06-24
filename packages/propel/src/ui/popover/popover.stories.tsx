@@ -53,7 +53,14 @@ type Story = StoryObj<typeof meta>;
 export const Anatomy: Story = {
   render: () => (
     <Popover>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
+      <Button
+        emphasis="solid"
+        stretch="auto"
+        variant="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<PopoverTrigger />}
+      >
         About
       </Button>
       <PopoverPortal>
@@ -90,7 +97,14 @@ export const Anatomy: Story = {
 export const Modal: Story = {
   render: () => (
     <Popover modal>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
+      <Button
+        emphasis="solid"
+        stretch="auto"
+        variant="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<PopoverTrigger />}
+      >
         Open menu
       </Button>
       <PopoverPortal>
@@ -108,7 +122,14 @@ export const Modal: Story = {
                 <PopoverDescription>Focus is trapped while this is open.</PopoverDescription>
               </PopoverIntro>
               <PopoverActions>
-                <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverClose />}>
+                <Button
+                  emphasis="solid"
+                  stretch="auto"
+                  variant="secondary"
+                  tone="neutral"
+                  magnitude="xl"
+                  render={<PopoverClose />}
+                >
                   Close
                 </Button>
               </PopoverActions>

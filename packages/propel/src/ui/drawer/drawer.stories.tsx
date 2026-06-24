@@ -56,7 +56,14 @@ type Story = StoryObj<typeof meta>;
 export const Anatomy: Story = {
   render: () => (
     <Drawer>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
+      <Button
+        emphasis="solid"
+        stretch="auto"
+        variant="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DrawerTrigger />}
+      >
         Open drawer
       </Button>
       <DrawerPortal>
@@ -81,10 +88,23 @@ export const Anatomy: Story = {
               </DrawerHeader>
               <DrawerBody>Panel body content goes here.</DrawerBody>
               <DrawerFooter>
-                <Button variant="ghost" tone="neutral" magnitude="lg" render={<DrawerClose />}>
+                <Button
+                  emphasis="solid"
+                  stretch="auto"
+                  variant="ghost"
+                  tone="neutral"
+                  magnitude="lg"
+                  render={<DrawerClose />}
+                >
                   Cancel
                 </Button>
-                <Button variant="primary" tone="neutral" magnitude="lg">
+                <Button
+                  emphasis="solid"
+                  stretch="auto"
+                  variant="primary"
+                  tone="neutral"
+                  magnitude="lg"
+                >
                   Save
                 </Button>
               </DrawerFooter>

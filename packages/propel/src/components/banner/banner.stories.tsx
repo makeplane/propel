@@ -65,13 +65,13 @@ export const WithActions: Story = {
     onDismiss: fn(),
     actions: (
       <>
-        <Button variant="ghost" tone="neutral" magnitude="sm">
+        <Button emphasis="solid" stretch="auto" variant="ghost" tone="neutral" magnitude="sm">
           Remind me later
         </Button>
-        <Button variant="secondary" tone="neutral" magnitude="sm">
+        <Button emphasis="solid" stretch="auto" variant="secondary" tone="neutral" magnitude="sm">
           Learn more
         </Button>
-        <Button variant="primary" tone="neutral" magnitude="sm">
+        <Button emphasis="solid" stretch="auto" variant="primary" tone="neutral" magnitude="sm">
           Update now
         </Button>
       </>

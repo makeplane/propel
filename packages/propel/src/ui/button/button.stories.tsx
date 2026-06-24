@@ -28,6 +28,8 @@ const meta = {
     variant: "primary",
     tone: "neutral",
     magnitude: "md",
+    emphasis: "solid",
+    stretch: "auto",
   },
 } satisfies Meta<typeof Button>;
 

@@ -48,7 +48,14 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Drawer>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
+      <Button
+        emphasis="solid"
+        stretch="auto"
+        variant="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DrawerTrigger />}
+      >
         Open details
       </Button>
       <DrawerPanel side="end">
@@ -69,10 +76,17 @@ export const Default: Story = {
         </DrawerHeader>
         <DrawerBody>Panel body content goes here.</DrawerBody>
         <DrawerFooter>
-          <Button variant="ghost" tone="neutral" magnitude="lg" render={<DrawerClose />}>
+          <Button
+            emphasis="solid"
+            stretch="auto"
+            variant="ghost"
+            tone="neutral"
+            magnitude="lg"
+            render={<DrawerClose />}
+          >
             Cancel
           </Button>
-          <Button variant="primary" tone="neutral" magnitude="lg">
+          <Button emphasis="solid" stretch="auto" variant="primary" tone="neutral" magnitude="lg">
             Save
           </Button>
         </DrawerFooter>
@@ -99,7 +113,14 @@ export const Default: Story = {
 export const StartSide: Story = {
   render: () => (
     <Drawer>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
+      <Button
+        emphasis="solid"
+        stretch="auto"
+        variant="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DrawerTrigger />}
+      >
         Open navigation
       </Button>
       <DrawerPanel side="start">
@@ -145,7 +166,14 @@ export const EscapeCloses: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Drawer>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
+      <Button
+        emphasis="solid"
+        stretch="auto"
+        variant="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DrawerTrigger />}
+      >
         Open filters
       </Button>
       <DrawerPanel side="end">

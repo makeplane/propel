@@ -46,7 +46,14 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Dialog>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogTrigger />}>
+      <Button
+        emphasis="solid"
+        stretch="auto"
+        variant="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DialogTrigger />}
+      >
         Delete project
       </Button>
       <DialogContent magnitude="sm">
@@ -71,10 +78,24 @@ export const Default: Story = {
           </DialogDescription>
         </DialogBody>
         <DialogActions>
-          <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
+          <Button
+            emphasis="solid"
+            stretch="auto"
+            variant="secondary"
+            tone="neutral"
+            magnitude="xl"
+            render={<DialogClose />}
+          >
             Cancel
           </Button>
-          <Button variant="primary" tone="danger" magnitude="xl" render={<DialogClose />}>
+          <Button
+            emphasis="solid"
+            stretch="auto"
+            variant="primary"
+            tone="danger"
+            magnitude="xl"
+            render={<DialogClose />}
+          >
             Delete
           </Button>
         </DialogActions>
@@ -105,7 +126,14 @@ export const EscapeCloses: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Dialog>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogTrigger />}>
+      <Button
+        emphasis="solid"
+        stretch="auto"
+        variant="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DialogTrigger />}
+      >
         Open settings
       </Button>
       <DialogContent magnitude="sm">

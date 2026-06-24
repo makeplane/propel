@@ -194,6 +194,8 @@ function CommentComposer({
               </div>
               {magnitude === "base" ? (
                 <Button
+                  emphasis="solid"
+                  stretch="auto"
                   variant="secondary"
                   tone="neutral"
                   magnitude="md"
@@ -273,7 +275,7 @@ const RECIPE_SOURCE = `function CommentComposer() {
               </ToolbarToggle>
             </ToolbarGroup>
           </Toolbar>
-          <Button variant="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
+          <Button emphasis="solid" stretch="auto" variant="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
             Comment
           </Button>
         </div>

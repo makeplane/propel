@@ -39,7 +39,14 @@ export const Default: Story = {
         </Field>
       </FormBody>
       <FormActions variant="inline">
-        <Button type="submit" variant="primary" tone="neutral" magnitude="md">
+        <Button
+          emphasis="solid"
+          stretch="auto"
+          type="submit"
+          variant="primary"
+          tone="neutral"
+          magnitude="md"
+        >
           Submit
         </Button>
       </FormActions>
@@ -60,7 +67,14 @@ export const Validation: Story = {
         </Field>
       </FormBody>
       <FormActions variant="inline">
-        <Button type="submit" variant="primary" tone="neutral" magnitude="md">
+        <Button
+          emphasis="solid"
+          stretch="auto"
+          type="submit"
+          variant="primary"
+          tone="neutral"
+          magnitude="md"
+        >
           Submit
         </Button>
       </FormActions>
