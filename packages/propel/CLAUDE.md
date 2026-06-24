@@ -18,6 +18,19 @@ from tiers below it, never above. `internal/` is shared implementation usable by
 | **internal**   | `src/internal/`          | Private shared implementation: class-string helpers (`node-slot`, `scrollbar`, `surface`), type utils (`variant-props`), internal compositions (`overlay-panel`). Not public API.                                                                    | extracted ONLY on cross-primitive duplication                                                                           |
 | **hooks**      | `src/hooks/<name>/`      | Hooks.                                                                                                                                                                                                                                               | —                                                                                                                       |
 
+## `index.tsx` re-exports
+
+- A component-dir `index.tsx` does **`export * from "./<file>"`** for each local public file — never
+  a hand-enumerated `export { A, type B } from "./file"`. Every file in a component dir is public;
+  if something must NOT be public, it lives in `src/internal` (or stays unexported in `variants.ts`).
+- **A file exports only its own symbol(s)** — don't have one file re-export a sibling part (e.g.
+  `button.tsx` must not `export { ButtonIcon } from "./button-icon"`); the index stars each file.
+- **Never `export *` from `ui` inside a `components` index** — it would re-export the `ui` element
+  the components ready-made replaces (name collision). Cross-tier re-exports stay **explicit**.
+- **Don't `export *` from `./variants`** — it holds cvas (not public). A part's public variant
+  types are re-exported by its own component file (`export type { … } from "./variants"`), which the
+  index then stars. Renames (`export { X as Y }`) also stay explicit.
+
 ## Hard rules
 
 1. **One element per `ui` part.** A `ui` part renders a single element — a Base UI primitive, a
