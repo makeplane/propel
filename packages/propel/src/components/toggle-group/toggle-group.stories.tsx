@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { List, ListOrdered } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
-import { Toggle } from "../toggle/index";
+import { Toggle, ToggleIcon } from "../toggle/index";
 import { ToggleGroup } from "./index";
 
 // Components-tier story: the ready-made `ToggleGroup` (a 1:1 re-export of the ui
@@ -11,7 +11,7 @@ import { ToggleGroup } from "./index";
 const meta = {
   title: "Components/ToggleGroup",
   component: ToggleGroup,
-  subcomponents: { Toggle },
+  subcomponents: { Toggle, ToggleIcon },
   args: { magnitude: "md" },
   parameters: {
     a11y: {
@@ -34,10 +34,14 @@ export const Default: Story = {
   render: (args) => (
     <ToggleGroup {...args} aria-label="List style">
       <Toggle value="bulleted" aria-label="Bulleted list">
-        <List aria-hidden className="size-(--node-size)" />
+        <ToggleIcon>
+          <List />
+        </ToggleIcon>
       </Toggle>
       <Toggle value="numbered" aria-label="Numbered list">
-        <ListOrdered aria-hidden className="size-(--node-size)" />
+        <ToggleIcon>
+          <ListOrdered />
+        </ToggleIcon>
       </Toggle>
     </ToggleGroup>
   ),
