@@ -9,14 +9,20 @@ export const rootVariants = cva("inline-flex max-w-full flex-col items-start gap
   },
 });
 
-export const tabsListVariants = cva("relative inline-flex max-w-full", {
-  variants: {
-    variant: {
-      contained: "items-center gap-px rounded-lg bg-layer-3 p-0.5",
-      underline: "items-start gap-px px-0.5",
+export const tabsListVariants = cva(
+  "relative inline-flex max-w-full overscroll-x-contain outline-none",
+  {
+    variants: {
+      variant: {
+        contained: "items-center gap-px rounded-lg bg-layer-3 p-0.5",
+        underline: "items-start gap-px px-0.5",
+      },
     },
   },
-});
+);
+
+// The horizontal scroll frame around a `TabsList` so a long tab row scrolls.
+export const tabsListScrollAreaVariants = cva("relative max-w-full");
 
 export const tabVariants = cva(
   // `--node-size` sizes any leading icon slot (the tab owns its node sizing in one place,

@@ -10,18 +10,17 @@ import {
   TabsList,
   TabsPanel,
 } from "./index";
+import { TabsVariantContext } from "./tabs-context";
 
-// UI-tier story: composes the ATOMIC tab parts. `Tabs` (Base UI `Tabs.Root`) tracks the
-// active tab and shares its `variant` via context; `TabsList` rows up the `Tab`s and renders
-// the `TabsIndicator` underline bar for the underline variant; `TabsPanel` shows the content
-// for the active value. `TabUnderlineLabel`/`TabUnderlineBar` are the decorative inner parts
-// of an underline-variant tab. The ready-made tab set lives in `components/tabs`.
+// UI-tier story: composes the ATOMIC tab parts (each a single element). `Tabs` tracks the active
+// tab; `TabsList` rows up the `Tab`s; `TabsPanel` shows the active content; `TabsIndicator` is the
+// underline bar. The set's `variant` is wired to the parts via `TabsVariantContext` explicitly here
+// (the ready-made `components/tabs` does this via its provider, and adds the horizontal scroll
+// frame + the indicator for you).
 const meta = {
   title: "UI/Tabs",
   component: Tabs,
   subcomponents: { TabsList, Tab, TabsIndicator, TabsPanel },
-  // The render fns assemble their own Tabs root with an explicit variant; this satisfies the
-  // required `variant` axis on the meta component type.
   args: { variant: "contained" },
 } satisfies Meta<typeof Tabs>;
 
@@ -37,20 +36,22 @@ const TAB_ITEMS = [
 /** Assemble the atomic parts: Root › List › Tab, plus a Panel per value (contained variant). */
 export const Default: Story = {
   render: () => (
-    <Tabs variant="contained" defaultValue="overview">
-      <TabsList>
+    <TabsVariantContext.Provider value="contained">
+      <Tabs variant="contained" defaultValue="overview">
+        <TabsList>
+          {TAB_ITEMS.map((item) => (
+            <Tab key={item.value} value={item.value}>
+              {item.label}
+            </Tab>
+          ))}
+        </TabsList>
         {TAB_ITEMS.map((item) => (
-          <Tab key={item.value} value={item.value}>
-            {item.label}
-          </Tab>
+          <TabsPanel key={item.value} value={item.value}>
+            {item.panel}
+          </TabsPanel>
         ))}
-      </TabsList>
-      {TAB_ITEMS.map((item) => (
-        <TabsPanel key={item.value} value={item.value}>
-          {item.panel}
-        </TabsPanel>
-      ))}
-    </Tabs>
+      </Tabs>
+    </TabsVariantContext.Provider>
   ),
   play: async ({ canvas, userEvent }) => {
     const overview = canvas.getByRole("tab", { name: "Overview" });
@@ -63,26 +64,29 @@ export const Default: Story = {
 };
 
 /**
- * The underline variant: `TabsList` renders the shared `TabsIndicator` that slides under the active
- * tab. Each `Tab` decorates its body with the atomic `TabUnderlineLabel` (the rounded label box)
- * and `TabUnderlineBar` (the per-tab hover bar the indicator hands off to when active).
+ * The underline variant: compose the shared `TabsIndicator` inside the `TabsList` (the ready-made
+ * `components/tabs` adds it for you). Each `Tab` decorates its body with the atomic
+ * `TabUnderlineLabel` (the rounded label box) and `TabUnderlineBar` (the per-tab hover bar).
  */
 export const Underline: Story = {
   render: () => (
-    <Tabs variant="underline" defaultValue="overview">
-      <TabsList>
+    <TabsVariantContext.Provider value="underline">
+      <Tabs variant="underline" defaultValue="overview">
+        <TabsList>
+          {TAB_ITEMS.map((item) => (
+            <Tab key={item.value} value={item.value}>
+              <TabUnderlineLabel>{item.label}</TabUnderlineLabel>
+              <TabUnderlineBar />
+            </Tab>
+          ))}
+          <TabsIndicator />
+        </TabsList>
         {TAB_ITEMS.map((item) => (
-          <Tab key={item.value} value={item.value}>
-            <TabUnderlineLabel>{item.label}</TabUnderlineLabel>
-            <TabUnderlineBar />
-          </Tab>
+          <TabsPanel key={item.value} value={item.value}>
+            {item.panel}
+          </TabsPanel>
         ))}
-      </TabsList>
-      {TAB_ITEMS.map((item) => (
-        <TabsPanel key={item.value} value={item.value}>
-          {item.panel}
-        </TabsPanel>
-      ))}
-    </Tabs>
+      </Tabs>
+    </TabsVariantContext.Provider>
   ),
 };

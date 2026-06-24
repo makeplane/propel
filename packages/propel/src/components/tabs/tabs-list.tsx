@@ -1,22 +1,33 @@
 import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
+import * as React from "react";
 
-import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
-import { TabsList as TabsListRoot, type TabsListProps as TabsListRootProps } from "../../ui/tabs";
+import { ScrollAreaScrollbar, ScrollAreaThumb } from "../../ui/scroll-area";
+import {
+  TabsIndicator,
+  TabsList as TabsListRoot,
+  type TabsListProps as TabsListRootProps,
+  TabsListScrollArea,
+} from "../../ui/tabs";
+import { TabsVariantContext } from "../../ui/tabs/tabs-context";
 
 export type TabsListProps = TabsListRootProps;
 
 /**
- * The ready-made tab strip: composes the atomic `TabsList` inside a Base UI `ScrollArea` so a long
- * row of tabs scrolls horizontally with propel's overlay scrollbar. The atomic `TabsList` renders
- * as the scroll viewport.
+ * The ready-made tab strip: composes the atomic `TabsList` (rendered as the scroll viewport) inside
+ * a horizontal `TabsListScrollArea` so a long row of tabs scrolls, and renders the active-tab
+ * underline `TabsIndicator` for the `underline` variant.
  */
-export function TabsList(props: TabsListProps) {
+export function TabsList({ children, ...props }: TabsListProps) {
+  const variant = React.useContext(TabsVariantContext);
   return (
-    <BaseScrollArea.Root className="relative max-w-full">
-      <TabsListRoot render={<BaseScrollArea.Viewport />} {...props} />
-      <BaseScrollArea.Scrollbar orientation="horizontal" className={scrollbarClass}>
-        <BaseScrollArea.Thumb className={scrollbarThumbClass} />
-      </BaseScrollArea.Scrollbar>
-    </BaseScrollArea.Root>
+    <TabsListScrollArea>
+      <TabsListRoot render={<BaseScrollArea.Viewport />} {...props}>
+        {children}
+        {variant === "underline" ? <TabsIndicator /> : null}
+      </TabsListRoot>
+      <ScrollAreaScrollbar orientation="horizontal" visibility="auto" magnitude="thin">
+        <ScrollAreaThumb />
+      </ScrollAreaScrollbar>
+    </TabsListScrollArea>
   );
 }

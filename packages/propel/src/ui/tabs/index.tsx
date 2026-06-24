@@ -4,4 +4,5 @@ export { TabUnderlineLabel, type TabUnderlineLabelProps } from "./tab-underline-
 export { Tabs, type TabsProps, type TabsVariant } from "./tabs";
 export { TabsIndicator, type TabsIndicatorProps } from "./tabs-indicator";
 export { TabsList, type TabsListProps } from "./tabs-list";
+export { TabsListScrollArea, type TabsListScrollAreaProps } from "./tabs-list-scroll-area";
 export { TabsPanel, type TabsPanelProps } from "./tabs-panel";
