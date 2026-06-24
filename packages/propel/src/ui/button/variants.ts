@@ -3,11 +3,6 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
-// The ONLY optional Button axes, each with a real fallback: `stretch` defaults to inline `auto`;
-// `emphasis` (link-only) defaults to the `solid` blue link. Every other axis has no default and is
-// therefore required (see `StrictVariantProps`).
-const buttonDefaultVariants = { emphasis: "solid", stretch: "auto" } as const;
-
 // Magnitudes follow the Figma "Buttons" Size scale. Figma ships S/Base/L/XL; those
 // map to sm/md/lg/xl by their px heights (20/24/28/32). Per Figma:
 // S -> text-12/px-1.5; Base & L -> text-13; XL -> text-14. All chrome'd magnitudes
@@ -164,7 +159,6 @@ export const buttonVariants = cva(
         ),
       },
     ],
-    defaultVariants: buttonDefaultVariants,
   },
 );
 
@@ -175,12 +169,9 @@ export type ButtonMagnitude = NonNullable<ButtonVariantConfig["magnitude"]>;
 export type ButtonEmphasis = NonNullable<ButtonVariantConfig["emphasis"]>;
 export type ButtonStretch = NonNullable<ButtonVariantConfig["stretch"]>;
 
-// `variant`/`tone`/`magnitude` are required (no default); `emphasis`/`stretch` are optional
-// (they have defaults). The whole point of `StrictVariantProps`.
-export type ButtonVariantProps = StrictVariantProps<
-  typeof buttonVariants,
-  keyof typeof buttonDefaultVariants
->;
+// No `defaultVariants` today, so every axis is required. If a default is ever added, pass
+// `keyof typeof buttonDefaultVariants` as the second arg and that axis becomes optional.
+export type ButtonVariantProps = StrictVariantProps<typeof buttonVariants>;
 
 // The text label inside a Button. When the parent button is `aria-busy` (loading)
 // it dims via the `group-aria-busy:` sibling of the `group` class on the root: the

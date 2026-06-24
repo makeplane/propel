@@ -5,12 +5,13 @@ import { iconButtonRootVariants } from "./variants";
 
 // Figma "Icon button" Type axis: Primary/Secondary/Tertiary/Error/Error outline/
 // Ghost. There is no link icon button, so IconButton drops Button's `link`
-// variant (and the link-only `emphasis` axis) — its visual axes are
-// `variant` + `tone`, the same compound tokens Button uses for everything but link.
+// variant (and the link-only `emphasis` axis); it is a fixed square, so it drops
+// the `stretch` layout axis too. Its visual axes are `variant` + `tone`, the same
+// compound tokens Button uses for everything but link.
 export type IconButtonVariant = Exclude<ButtonVariant, "link">;
 export type IconButtonTone = ButtonTone;
 
-export type IconButtonRootProps = Omit<ButtonProps, "variant" | "emphasis"> & {
+export type IconButtonRootProps = Omit<ButtonProps, "variant" | "emphasis" | "stretch"> & {
   variant: IconButtonVariant;
 };
 

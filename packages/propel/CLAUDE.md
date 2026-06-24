@@ -50,6 +50,15 @@ from tiers below it, never above. `internal/` is shared implementation usable by
 6. **Name after the Base UI primitive; no synonyms.** `Menu` not `Dropdown`; `ScrollArea` not
    `Scroller`. One Base-UI-named API per concept.
 
+6a. **`ui` mirrors Base UI's anatomy.** Expose the same parts and roles Base UI defines, flattened
+    from its dot-namespace to standalone exports: `Accordion.Root` → `Accordion`, `Accordion.Item`
+    → `AccordionItem`, `Accordion.Trigger` → `AccordionTrigger`, `Accordion.Panel` →
+    `AccordionPanel`. Don't invent a decomposition Base UI doesn't have, and don't collapse parts
+    it separates. You MAY add extra named parts for a region Base UI bundles into one element but
+    that needs its own styled element (e.g. `AccordionTriggerIndicator`), named for the region;
+    those extra parts are composed in `components`. (Base UI ships no primitive? Add the missing
+    anatomy in `base` first, following Base UI conventions, then style it in `ui`.)
+
 7. **React context is a `components` concern — definition, provider, AND consumption.** A `ui`
    part never calls `useContext`; it takes the shared value (`variant`/`magnitude`/`density`/…) as
    a **prop**. The context's `createContext` + `Provider` + the `useContext` read all live in
