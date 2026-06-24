@@ -1,11 +1,11 @@
 import type * as React from "react";
 
-import { ToggleGroupContext } from "../../ui/toggle/toggle-group-context";
-import type { ToggleMagnitude } from "../../ui/toggle/variants";
 import {
   ToggleGroup as ToggleGroupRoot,
   type ToggleGroupProps as ToggleGroupRootProps,
 } from "../../ui/toggle-group";
+import { ToggleGroupContext } from "../../ui/toggle/toggle-group-context";
+import type { ToggleMagnitude } from "../../ui/toggle/variants";
 
 export type ToggleGroupProps<Value extends string = string> = ToggleGroupRootProps<Value> & {
   /** Size applied to every `Toggle` in the group (each `Toggle` can still override it). */
