@@ -1,12 +1,21 @@
-import { ArrowLeft, ArrowRight, ChevronDown, LoaderCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, LoaderCircle, MoreHorizontal } from "lucide-react";
 import * as React from "react";
 
 import { Menu, MenuTrigger } from "../../ui/menu/index";
 import {
+  Pagination as PaginationRoot,
   PaginationArrowButton,
   PaginationEllipsis,
+  PaginationItem,
+  PaginationList,
   PaginationPageButton,
+  PaginationPerPage,
+  PaginationPerPageIndicator,
+  PaginationPerPageLabel,
   PaginationPerPageTrigger,
+  PaginationRange,
+  PaginationRangeCurrent,
+  PaginationSpinner,
 } from "../../ui/pagination/index";
 import { MenuContent, MenuItem } from "../menu/index";
 
@@ -16,17 +25,8 @@ import { MenuContent, MenuItem } from "../menu/index";
 // at render time from `page`/`pageCount` — never a prop. What designers can toggle is
 // genuinely additive: an optional per-page selector and an optional range label.
 //
-// Tokens (Figma node 4762-503):
-// - page-number button: 24px square, radius/sm (4px), text/13, transparent bg that
-//   fills to `layer-transparent-hover` on hover and `layer-transparent-active` when
-//   it is the current page; disabled/loading dim to the placeholder/disabled colors.
-// - prev/next: 24px square icon buttons, radius/md (6px), 16px arrows. The arrows are
-//   directional, so they mirror in RTL via `rtl:-scale-x-100`.
-// - ellipsis: a non-interactive 24px slot holding a 14px more-horizontal glyph.
-// - per-page selector: a `layer-3` pill, 24px tall, radius/md, "50" + chevron-down,
-//   followed by "per page" tertiary text. The pill is the trigger for a propel
-//   Menu (single-select) whose menu lists the page-size options; picking one
-//   reports it through `pageSize.onValueChange`.
+// This components tier only COMPOSES the `ui/pagination` parts (each a single styled
+// element); all chrome lives in their cva — there is no className/cva/cx here.
 
 // Builds the sequence of visible page tokens. Always shows the first and last page;
 // shows up to one neighbour either side of the current page; inserts an ellipsis
@@ -89,7 +89,7 @@ export type PaginationLabels = {
   /** Visible text on the per-page selector trigger, given the size. Defaults to `"50"`. */
   perPageValue: (pageSize: number) => React.ReactNode;
   /** Trailing text after the per-page selector. Defaults to `"per page"`. */
-  perPage: React.ReactNode;
+  perPage: string;
 };
 
 const DEFAULT_LABELS: PaginationLabels = {
@@ -165,22 +165,25 @@ export function Pagination({
   const atEnd = page >= pageCount;
 
   return (
-    <nav aria-label={l.root} className="flex items-center gap-4" {...props}>
+    <PaginationRoot aria-label={l.root} {...props}>
       {pageSize ? (
-        <div className="flex min-w-0 flex-1 items-center gap-2">
+        <PaginationPerPage>
           {/*
             The selector is the propel Menu (single-select): the `layer-3` pill is
             its trigger and the menu lists the page sizes, the current one marked with a
-            trailing check. The trigger carries the accessible name (the visible size +
-            the visually-hidden "per page"), and picking a size reports it through
-            `pageSize.onValueChange`. Keyboard works via the Menu (Enter/ArrowDown opens,
-            arrows move, Enter selects).
+            trailing check. The trigger carries the accessible name "<size> per page",
+            and picking a size reports it through `pageSize.onValueChange`. Keyboard
+            works via the Menu (Enter/ArrowDown opens, arrows move, Enter selects).
           */}
           <Menu>
-            <MenuTrigger render={<PaginationPerPageTrigger />}>
-              <span>{l.perPageValue(pageSize.value)}</span>
-              <span className="sr-only">{l.perPage}</span>
-              <ChevronDown aria-hidden className="transition-transform" />
+            <MenuTrigger
+              render={<PaginationPerPageTrigger />}
+              aria-label={`${pageSize.value} ${l.perPage}`}
+            >
+              {l.perPageValue(pageSize.value)}
+              <PaginationPerPageIndicator>
+                <ChevronDown />
+              </PaginationPerPageIndicator>
             </MenuTrigger>
             <MenuContent width="anchor" align="center">
               {pageSize.options.map((option) => (
@@ -194,22 +197,20 @@ export function Pagination({
               ))}
             </MenuContent>
           </Menu>
-          <span aria-hidden className="text-13 whitespace-nowrap text-tertiary">
-            {l.perPage}
-          </span>
-        </div>
+          <PaginationPerPageLabel>{l.perPage}</PaginationPerPageLabel>
+        </PaginationPerPage>
       ) : null}
 
       {range ? (
-        <p className="text-12 whitespace-nowrap text-tertiary">
-          <span className="text-primary">{range.current}</span>
-          <span>{" of "}</span>
-          <span>{range.total}</span>
-        </p>
+        <PaginationRange>
+          <PaginationRangeCurrent>{range.current}</PaginationRangeCurrent>
+          {" of "}
+          {range.total}
+        </PaginationRange>
       ) : null}
 
-      <ul className="flex items-center gap-1.5">
-        <li>
+      <PaginationList>
+        <PaginationItem>
           <PaginationArrowButton
             aria-label={l.previous}
             disabled={atStart}
@@ -217,15 +218,21 @@ export function Pagination({
           >
             <ArrowLeft aria-hidden />
           </PaginationArrowButton>
-        </li>
+        </PaginationItem>
 
         {tokens.map((token) => {
           if (token === "ellipsis-start" || token === "ellipsis-end") {
-            return <PaginationEllipsis key={token} />;
+            return (
+              <PaginationItem key={token}>
+                <PaginationEllipsis>
+                  <MoreHorizontal />
+                </PaginationEllipsis>
+              </PaginationItem>
+            );
           }
           const isCurrent = token === page;
           return (
-            <li key={token}>
+            <PaginationItem key={token}>
               <PaginationPageButton
                 aria-label={l.page(token)}
                 aria-current={isCurrent ? "page" : undefined}
@@ -234,19 +241,18 @@ export function Pagination({
                 onClick={() => onPageChange(token)}
               >
                 {isCurrent && loading ? (
-                  <LoaderCircle
-                    aria-hidden
-                    className="size-3.5 shrink-0 animate-spin text-icon-placeholder"
-                  />
+                  <PaginationSpinner>
+                    <LoaderCircle />
+                  </PaginationSpinner>
                 ) : (
                   token
                 )}
               </PaginationPageButton>
-            </li>
+            </PaginationItem>
           );
         })}
 
-        <li>
+        <PaginationItem>
           <PaginationArrowButton
             aria-label={l.next}
             disabled={atEnd}
@@ -254,8 +260,8 @@ export function Pagination({
           >
             <ArrowRight aria-hidden />
           </PaginationArrowButton>
-        </li>
-      </ul>
-    </nav>
+        </PaginationItem>
+      </PaginationList>
+    </PaginationRoot>
   );
 }
