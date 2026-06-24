@@ -11,11 +11,11 @@ export type BannerBodyProps = Omit<useRender.ComponentProps<"div">, "className" 
 /**
  * The message column between the icon and the trailing controls. Grows to fill the row and stacks a
  * `BannerTitle` above a `BannerDescription`. Carries the tone foreground color (inherited by both)
- * and the per-variant text weight.
+ * and the per-placement text weight.
  */
-export function BannerBody({ variant, tone, render, ...props }: BannerBodyProps) {
+export function BannerBody({ placement, tone, render, ...props }: BannerBodyProps) {
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: bannerBodyVariants({ variant, tone }),
+    className: bannerBodyVariants({ placement, tone }),
   };
   return useRender({ defaultTagName: "div", render, props: mergeProps(defaultProps, props) });
 }

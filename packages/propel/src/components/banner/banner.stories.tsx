@@ -14,7 +14,7 @@ const meta = {
   argTypes: { inlineStartNode: iconControl },
   args: {
     title: "There is something that needs your attention",
-    variant: "page",
+    placement: "page",
     tone: "neutral",
   },
   parameters: {
@@ -32,23 +32,23 @@ export const Default: Story = {};
 
 /** Every intent (`tone`) side by side — the soft surface + foreground color per meaning. */
 export const Tones: Story = {
-  argTypes: { tone: { control: false }, variant: { control: false } },
+  argTypes: { tone: { control: false }, placement: { control: false } },
   render: (args) => (
     <div className="flex w-160 flex-col gap-3">
       {TONES.map((tone) => (
-        <Banner key={tone} {...args} variant="inline" tone={tone} />
+        <Banner key={tone} {...args} placement="inline" tone={tone} />
       ))}
     </div>
   ),
 };
 
-/** The two scopes (`variant`): the full-width page strip vs the rounded inline card. */
-export const Variants: Story = {
-  argTypes: { variant: { control: false }, tone: { control: false } },
+/** The two scopes (`placement`): the full-width page strip vs the rounded inline card. */
+export const Placements: Story = {
+  argTypes: { placement: { control: false }, tone: { control: false } },
   render: (args) => (
     <div className="flex w-160 flex-col gap-4">
-      <Banner {...args} variant="page" tone="info" />
-      <Banner {...args} variant="inline" tone="info" />
+      <Banner {...args} placement="page" tone="info" />
+      <Banner {...args} placement="inline" tone="info" />
     </div>
   ),
 };
@@ -60,7 +60,7 @@ export const Variants: Story = {
 export const WithActions: Story = {
   parameters: { controls: { disable: true } },
   args: {
-    variant: "page",
+    placement: "page",
     tone: "neutral",
     onDismiss: fn(),
     actions: (
@@ -82,7 +82,7 @@ export const WithActions: Story = {
 /** A dismissible inline banner. Clicking the dismiss button calls `onDismiss`. */
 export const Dismissible: Story = {
   args: {
-    variant: "inline",
+    placement: "inline",
     tone: "info",
     onDismiss: fn(),
   },
@@ -95,7 +95,7 @@ export const Dismissible: Story = {
 export const DismissCallsHandler: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: {
-    variant: "inline",
+    placement: "inline",
     tone: "info",
     onDismiss: fn(),
   },
@@ -114,11 +114,11 @@ export const OptionalContentSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <div className="flex w-160 flex-col gap-3">
-      <Banner variant="inline" tone="warning" inlineStartNode={null}>
+      <Banner placement="inline" tone="warning" inlineStartNode={null}>
         Maintenance starts at 6 PM.
       </Banner>
       <Banner
-        variant="inline"
+        placement="inline"
         tone="info"
         title="Custom icon"
         inlineStartNode={<Info data-testid="custom-banner-icon" />}

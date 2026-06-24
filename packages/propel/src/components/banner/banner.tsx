@@ -13,10 +13,10 @@ import {
   BannerTitle,
 } from "../../ui/banner";
 
-export type { BannerTone, BannerVariant } from "../../ui/banner";
+export type { BannerTone, BannerPlacement } from "../../ui/banner";
 
 // The leading icon the system picks per tone when none is supplied. Treated as
-// content (overridable via `inlineStartNode`), not a style variant.
+// content (overridable via `inlineStartNode`), not a style placement.
 const toneIcon: Record<BannerTone, LucideIcon> = {
   neutral: Info,
   info: Info,
@@ -45,7 +45,7 @@ export type BannerProps = BannerElementProps & {
  * content, not layout. Drop down to `@plane/propel/ui/banner` to assemble the parts directly.
  */
 export function Banner({
-  variant,
+  placement,
   tone,
   inlineStartNode,
   title,
@@ -56,17 +56,17 @@ export function Banner({
 }: BannerProps) {
   const DefaultIcon = toneIcon[tone];
   return (
-    <BannerElement variant={variant} tone={tone} {...props}>
+    <BannerElement placement={placement} tone={tone} {...props}>
       {inlineStartNode === undefined ? (
-        <BannerIcon variant={variant} tone={tone}>
+        <BannerIcon placement={placement} tone={tone}>
           <DefaultIcon />
         </BannerIcon>
       ) : inlineStartNode ? (
-        <BannerIcon variant={variant} tone={tone}>
+        <BannerIcon placement={placement} tone={tone}>
           {inlineStartNode}
         </BannerIcon>
       ) : null}
-      <BannerBody variant={variant} tone={tone}>
+      <BannerBody placement={placement} tone={tone}>
         {title ? <BannerTitle>{title}</BannerTitle> : null}
         {children ? <BannerDescription>{children}</BannerDescription> : null}
       </BannerBody>

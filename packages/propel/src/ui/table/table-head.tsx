@@ -11,8 +11,8 @@ export type TableHeadProps = Omit<useRender.ComponentProps<"th">, "className" | 
 };
 
 /**
- * A header cell (`<th scope="col">`). Borders follow the `mode`. Holds a `TableHeadTitle` (or,
- * when sortable, a `TableHeadSortTrigger`).
+ * A header cell (`<th scope="col">`). Borders follow the `mode`. Holds a `TableHeadTitle` (or, when
+ * sortable, a `TableHeadSortTrigger`).
  */
 export function TableHead({ mode, pinned, render, ...props }: TableHeadProps) {
   const defaultProps: useRender.ElementProps<"th"> = {

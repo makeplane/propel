@@ -46,13 +46,13 @@ type Story = StoryObj<typeof meta>;
 
 /** Assemble the atomic parts: Root › Icon › Body (Title + Description). */
 export const Default: Story = {
-  args: { variant: "page", tone: "neutral" },
+  args: { placement: "page", tone: "neutral" },
   render: (args) => (
     <Banner {...args}>
-      <BannerIcon variant={args.variant} tone={args.tone}>
+      <BannerIcon placement={args.placement} tone={args.tone}>
         <Info />
       </BannerIcon>
-      <BannerBody variant={args.variant} tone={args.tone}>
+      <BannerBody placement={args.placement} tone={args.tone}>
         <BannerTitle>There is something that needs your attention</BannerTitle>
       </BannerBody>
     </Banner>
@@ -61,16 +61,16 @@ export const Default: Story = {
 
 /** Every intent (`tone`) side by side — the soft surface + foreground color per meaning. */
 export const Tones: Story = {
-  args: { variant: "inline", tone: "neutral" },
-  argTypes: { tone: { control: false }, variant: { control: false } },
+  args: { placement: "inline", tone: "neutral" },
+  argTypes: { tone: { control: false }, placement: { control: false } },
   render: () => (
     <div className="flex w-160 flex-col gap-3">
       {TONES.map((tone) => (
-        <Banner key={tone} variant="inline" tone={tone}>
-          <BannerIcon variant="inline" tone={tone}>
+        <Banner key={tone} placement="inline" tone={tone}>
+          <BannerIcon placement="inline" tone={tone}>
             <Info />
           </BannerIcon>
-          <BannerBody variant="inline" tone={tone}>
+          <BannerBody placement="inline" tone={tone}>
             <BannerTitle>There is something that needs your attention</BannerTitle>
           </BannerBody>
         </Banner>
@@ -79,18 +79,18 @@ export const Tones: Story = {
   ),
 };
 
-/** The two scopes (`variant`): the full-width page strip vs the rounded inline card. */
-export const Variants: Story = {
-  args: { variant: "page", tone: "info" },
-  argTypes: { variant: { control: false }, tone: { control: false } },
+/** The two scopes (`placement`): the full-width page strip vs the rounded inline card. */
+export const Placements: Story = {
+  args: { placement: "page", tone: "info" },
+  argTypes: { placement: { control: false }, tone: { control: false } },
   render: () => (
     <div className="flex w-160 flex-col gap-4">
-      {(["page", "inline"] as const).map((variant) => (
-        <Banner key={variant} variant={variant} tone="info">
-          <BannerIcon variant={variant} tone="info">
+      {(["page", "inline"] as const).map((placement) => (
+        <Banner key={placement} placement={placement} tone="info">
+          <BannerIcon placement={placement} tone="info">
             <Info />
           </BannerIcon>
-          <BannerBody variant={variant} tone="info">
+          <BannerBody placement={placement} tone="info">
             <BannerTitle>There is something that needs your attention</BannerTitle>
           </BannerBody>
         </Banner>
@@ -106,14 +106,14 @@ export const Variants: Story = {
  * close.
  */
 export const WithActions: Story = {
-  args: { variant: "page", tone: "neutral" },
+  args: { placement: "page", tone: "neutral" },
   parameters: { controls: { disable: true } },
   render: (args) => (
     <Banner {...args}>
-      <BannerIcon variant={args.variant} tone={args.tone}>
+      <BannerIcon placement={args.placement} tone={args.tone}>
         <Info />
       </BannerIcon>
-      <BannerBody variant={args.variant} tone={args.tone}>
+      <BannerBody placement={args.placement} tone={args.tone}>
         <BannerTitle>There is something that needs your attention</BannerTitle>
       </BannerBody>
       <BannerActions>
@@ -141,13 +141,13 @@ export const WithActions: Story = {
  */
 export const DismissCallsHandler: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { variant: "inline", tone: "info" },
+  args: { placement: "inline", tone: "info" },
   render: (args) => (
     <Banner {...args}>
-      <BannerIcon variant={args.variant} tone={args.tone}>
+      <BannerIcon placement={args.placement} tone={args.tone}>
         <Info />
       </BannerIcon>
-      <BannerBody variant={args.variant} tone={args.tone}>
+      <BannerBody placement={args.placement} tone={args.tone}>
         <BannerTitle>There is something that needs your attention</BannerTitle>
       </BannerBody>
       <BannerDismiss onClick={dismissSpy}>

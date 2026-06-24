@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type BannerTone, type BannerVariantProps, bannerVariants } from "./variants";
 
-export type { BannerTone, BannerVariant, BannerVariantProps } from "./variants";
+export type { BannerTone, BannerPlacement, BannerVariantProps } from "./variants";
 
 // warning/danger are time-sensitive problems → `alert` (assertive). The calmer
 // tones are advisory → `status` (polite). Picks the right live-region semantics.
@@ -23,10 +23,10 @@ export type BannerProps = Omit<useRender.ComponentProps<"div">, "className" | "s
  * `BannerDismiss`) in a row. The `role`/`aria-live` come from the tone so assistive tech announces
  * problems assertively and advisories politely; consumers can override via spread.
  */
-export function Banner({ variant, tone, render, ...props }: BannerProps) {
+export function Banner({ placement, tone, render, ...props }: BannerProps) {
   const defaultProps: useRender.ElementProps<"div"> = {
     role: toneRole[tone],
-    className: bannerVariants({ variant, tone }),
+    className: bannerVariants({ placement, tone }),
   };
   return useRender({ defaultTagName: "div", render, props: mergeProps(defaultProps, props) });
 }

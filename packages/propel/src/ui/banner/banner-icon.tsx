@@ -13,10 +13,10 @@ export type BannerIconProps = Omit<useRender.ComponentProps<"span">, "className"
  * child to the banner's node size and tints it per `tone`, so callers pass a bare icon. Decorative
  * (the message carries the meaning), so it is `aria-hidden`.
  */
-export function BannerIcon({ variant, tone, render, ...props }: BannerIconProps) {
+export function BannerIcon({ placement, tone, render, ...props }: BannerIconProps) {
   const defaultProps: useRender.ElementProps<"span"> = {
     "aria-hidden": true,
-    className: bannerIconVariants({ variant, tone }),
+    className: bannerIconVariants({ placement, tone }),
   };
   return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }
