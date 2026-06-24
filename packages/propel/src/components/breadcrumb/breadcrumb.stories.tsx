@@ -1,17 +1,16 @@
-import { Menu } from "@base-ui/react/menu";
+import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Ellipsis, Layers } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { BreadcrumbTrigger, BreadcrumbTriggerIcon } from "../../ui/breadcrumb";
+import { Menu } from "../../ui/menu";
+import { MenuContent, MenuItem } from "../menu";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbMenu,
-  BreadcrumbMenuContent,
-  BreadcrumbMenuItem,
   BreadcrumbMenuTrigger,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -28,10 +27,10 @@ const meta = {
     BreadcrumbLink,
     BreadcrumbSeparator,
     BreadcrumbPage,
-    BreadcrumbMenu,
+    Menu,
     BreadcrumbMenuTrigger,
-    BreadcrumbMenuContent,
-    BreadcrumbMenuItem,
+    MenuContent,
+    MenuItem,
   },
   parameters: {
     design: {
@@ -89,8 +88,8 @@ export const Default: Story = {
 
 /**
  * When the trail is too long, collapse the middle crumbs behind a menu. The ellipsis crumb opens a
- * `BreadcrumbMenu` of the hidden crumbs — there is no separate "dropdown": it is the same Menu
- * composition, with an ellipsis `BreadcrumbTriggerIcon` standing in for a label.
+ * `Menu` of the hidden crumbs — there is no separate "dropdown": it is the same Menu composition,
+ * with an ellipsis `BreadcrumbTriggerIcon` standing in for a label.
  */
 export const WithCollapsedCrumbs: Story = {
   render: () => (
@@ -103,27 +102,27 @@ export const WithCollapsedCrumbs: Story = {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbMenu>
-            <Menu.Trigger aria-label="Show more breadcrumbs" render={<BreadcrumbTrigger />}>
+          <Menu>
+            <BaseMenu.Trigger aria-label="Show more breadcrumbs" render={<BreadcrumbTrigger />}>
               <BreadcrumbTriggerIcon>
                 <Ellipsis />
               </BreadcrumbTriggerIcon>
-            </Menu.Trigger>
-            <BreadcrumbMenuContent width="auto">
-              <BreadcrumbMenuItem
+            </BaseMenu.Trigger>
+            <MenuContent width="auto">
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 render={inertAnchor()}
                 label="Projects"
               />
-              <BreadcrumbMenuItem
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 render={inertAnchor()}
                 label="Design"
               />
-            </BreadcrumbMenuContent>
-          </BreadcrumbMenu>
+            </MenuContent>
+          </Menu>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -157,27 +156,27 @@ export const CollapsedCrumbsInteraction: Story = {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbMenu>
-            <Menu.Trigger aria-label="Show more breadcrumbs" render={<BreadcrumbTrigger />}>
+          <Menu>
+            <BaseMenu.Trigger aria-label="Show more breadcrumbs" render={<BreadcrumbTrigger />}>
               <BreadcrumbTriggerIcon>
                 <Ellipsis />
               </BreadcrumbTriggerIcon>
-            </Menu.Trigger>
-            <BreadcrumbMenuContent width="auto">
-              <BreadcrumbMenuItem
+            </BaseMenu.Trigger>
+            <MenuContent width="auto">
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 render={inertAnchor()}
                 label="Projects"
               />
-              <BreadcrumbMenuItem
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 render={inertAnchor()}
                 label="Design"
               />
-            </BreadcrumbMenuContent>
-          </BreadcrumbMenu>
+            </MenuContent>
+          </Menu>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -218,29 +217,29 @@ export const WithMenuCrumb: Story = {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbMenu>
+          <Menu>
             <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
-            <BreadcrumbMenuContent>
-              <BreadcrumbMenuItem
+            <MenuContent>
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 render={inertAnchor()}
                 label="Plane Web"
               />
-              <BreadcrumbMenuItem
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 render={inertAnchor()}
                 label="Plane Mobile"
               />
-              <BreadcrumbMenuItem
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 render={inertAnchor()}
                 label="Plane Server"
               />
-            </BreadcrumbMenuContent>
-          </BreadcrumbMenu>
+            </MenuContent>
+          </Menu>
         </BreadcrumbItem>
         {/* No `BreadcrumbSeparator` after a menu crumb: its own chevron IS the
             breadcrumb chevron (and rotates down while the menu is open), so a
@@ -273,36 +272,31 @@ export const MenuCrumbSelected: Story = {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbMenu>
+          <Menu>
             <BreadcrumbMenuTrigger>List</BreadcrumbMenuTrigger>
-            <BreadcrumbMenuContent>
-              <BreadcrumbMenuItem
+            <MenuContent>
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 selected
                 render={inertAnchor()}
                 label="List"
               />
-              <BreadcrumbMenuItem
-                emphasis="default"
-                variant="default"
-                render={inertAnchor()}
-                label="Board"
-              />
-              <BreadcrumbMenuItem
+              <MenuItem emphasis="default" variant="default" render={inertAnchor()} label="Board" />
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 render={inertAnchor()}
                 label="Calendar"
               />
-              <BreadcrumbMenuItem
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 render={inertAnchor()}
                 label="Spreadsheet"
               />
-            </BreadcrumbMenuContent>
-          </BreadcrumbMenu>
+            </MenuContent>
+          </Menu>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
@@ -328,23 +322,23 @@ export const KeyboardNavigation: Story = {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbMenu>
+          <Menu>
             <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
-            <BreadcrumbMenuContent>
-              <BreadcrumbMenuItem
+            <MenuContent>
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 render={inertAnchor()}
                 label="Plane Web"
               />
-              <BreadcrumbMenuItem
+              <MenuItem
                 emphasis="default"
                 variant="default"
                 render={inertAnchor()}
                 label="Plane Mobile"
               />
-            </BreadcrumbMenuContent>
-          </BreadcrumbMenu>
+            </MenuContent>
+          </Menu>
         </BreadcrumbItem>
         {/* Menu crumb's own chevron is the breadcrumb chevron; no separator after it. */}
         <BreadcrumbItem>

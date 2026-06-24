@@ -24,13 +24,11 @@ import {
 import type * as React from "react";
 import { expect } from "storybook/test";
 
+import { Menu, MenuSeparator } from "../../ui/menu";
+import { MenuContent, MenuItem } from "../menu";
 import {
   Toolbar,
   ToolbarButton,
-  ToolbarMenu,
-  ToolbarMenuContent,
-  ToolbarMenuItem,
-  ToolbarMenuSeparator,
   ToolbarMenuTrigger,
   ToolbarGroup,
   ToolbarItemIcon,
@@ -47,22 +45,22 @@ const FONTS = ["Sans", "Serif", "Mono"];
 function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
   return (
     <Toolbar {...args}>
-      <ToolbarMenu>
+      <Menu>
         <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
-        <ToolbarMenuContent>
+        <MenuContent>
           {TEXT_STYLES.map((style) => (
-            <ToolbarMenuItem emphasis="default" key={style} variant="default" label={style} />
+            <MenuItem emphasis="default" key={style} variant="default" label={style} />
           ))}
-        </ToolbarMenuContent>
-      </ToolbarMenu>
-      <ToolbarMenu>
+        </MenuContent>
+      </Menu>
+      <Menu>
         <ToolbarMenuTrigger aria-label="Font">Aa</ToolbarMenuTrigger>
-        <ToolbarMenuContent>
+        <MenuContent>
           {FONTS.map((font) => (
-            <ToolbarMenuItem emphasis="default" key={font} variant="default" label={font} />
+            <MenuItem emphasis="default" key={font} variant="default" label={font} />
           ))}
-        </ToolbarMenuContent>
-      </ToolbarMenu>
+        </MenuContent>
+      </Menu>
       <ToolbarButton aria-label="Comment">
         <ToolbarItemIcon>
           <MessageSquare />
@@ -172,11 +170,11 @@ const meta = {
     ToolbarToggle,
     ToolbarToggleGroup,
     ToolbarSeparator,
-    ToolbarMenu,
+    Menu,
     ToolbarMenuTrigger,
-    ToolbarMenuContent,
-    ToolbarMenuItem,
-    ToolbarMenuSeparator,
+    MenuContent,
+    MenuItem,
+    MenuSeparator,
   },
   args: { elevation: "raised", density: "compact" },
   render: (args) => <FormattingToolbar {...args} />,
@@ -264,7 +262,7 @@ export const DensityDrivesControlSize: Story = {
 };
 
 /**
- * Because `ToolbarMenu` composes propel's `Menu`, a toolbar menu can hold richer rows than the old
+ * Because `Menu` composes propel's `Menu`, a toolbar menu can hold richer rows than the old
  * `items[]` config allowed: per-row leading icons, a separator between groups, a selected marker,
  * and disabled rows.
  */
@@ -275,44 +273,44 @@ export const ComposableMenu: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <Toolbar {...args}>
-      <ToolbarMenu defaultOpen>
+      <Menu defaultOpen>
         <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
-        <ToolbarMenuContent>
-          <ToolbarMenuItem
+        <MenuContent>
+          <MenuItem
             emphasis="default"
             variant="default"
             inlineStartNode={<Pilcrow />}
             label="Paragraph"
             selected
           />
-          <ToolbarMenuItem
+          <MenuItem
             emphasis="default"
             variant="default"
             inlineStartNode={<Heading1 />}
             label="Heading 1"
           />
-          <ToolbarMenuItem
+          <MenuItem
             emphasis="default"
             variant="default"
             inlineStartNode={<Heading2 />}
             label="Heading 2"
           />
-          <ToolbarMenuItem
+          <MenuItem
             emphasis="default"
             variant="default"
             inlineStartNode={<Heading3 />}
             label="Heading 3"
           />
-          <ToolbarMenuSeparator />
-          <ToolbarMenuItem
+          <MenuSeparator />
+          <MenuItem
             emphasis="default"
             variant="default"
             inlineStartNode={<Code />}
             label="Code block"
             disabled
           />
-        </ToolbarMenuContent>
-      </ToolbarMenu>
+        </MenuContent>
+      </Menu>
     </Toolbar>
   ),
 };

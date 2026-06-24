@@ -18,8 +18,4 @@ export {
   type ToolbarElevation,
 } from "../../ui/toolbar/index";
 export * from "./toolbar";
-export * from "./toolbar-menu";
-export * from "./toolbar-menu-content";
-export * from "./toolbar-menu-item";
-export * from "./toolbar-menu-separator";
 export * from "./toolbar-menu-trigger";
