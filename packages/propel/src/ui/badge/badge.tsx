@@ -1,21 +1,12 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { type VariantProps } from "class-variance-authority";
 
-import { badgeVariants } from "./variants";
+import { type BadgeVariantProps, badgeVariants } from "./variants";
 
-export type BadgeMagnitude = NonNullable<VariantProps<typeof badgeVariants>["magnitude"]>;
-export type BadgeTone = NonNullable<VariantProps<typeof badgeVariants>["tone"]>;
-export type BadgeVariant = NonNullable<VariantProps<typeof badgeVariants>["variant"]>;
+export type { BadgeMagnitude, BadgeTone, BadgeVariant, BadgeVariantProps } from "./variants";
 
-export type BadgeProps = Omit<useRender.ComponentProps<"span">, "className" | "style"> & {
-  /** Color/intent of the badge. */
-  tone: BadgeTone;
-  /** Size of the badge. */
-  magnitude: BadgeMagnitude;
-  /** Visual treatment. Currently "solid" (filled); "outline" is a planned future value. */
-  variant: BadgeVariant;
-};
+export type BadgeProps = Omit<useRender.ComponentProps<"span">, "className" | "style"> &
+  BadgeVariantProps;
 
 /**
  * The badge pill: the styled inline-flex container. Compose a `BadgeIcon`, `BadgeLabel`, and/or

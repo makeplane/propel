@@ -1,6 +1,7 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Badge is the small rounded pill of inline text (a status tag, a "Paid"/"Free"
 // label). Per the designer spec on the Badge issue, every part's static chrome lives
@@ -61,6 +62,12 @@ export const badgeVariants = cva(
 // its single child to the badge's `--node-size` (shared node-slot class) and inherits
 // the tone's text color so the icon tints to match — per the spec, "icon follows the
 // badge's size and color".
+type BadgeVariantConfig = VariantProps<typeof badgeVariants>;
+export type BadgeMagnitude = NonNullable<BadgeVariantConfig["magnitude"]>;
+export type BadgeTone = NonNullable<BadgeVariantConfig["tone"]>;
+export type BadgeVariant = NonNullable<BadgeVariantConfig["variant"]>;
+export type BadgeVariantProps = StrictVariantProps<typeof badgeVariants>;
+
 export const badgeIconVariants = cva(nodeSlotClass);
 
 // The badge's text label. Single-line (the base already sets `whitespace-nowrap`); kept
