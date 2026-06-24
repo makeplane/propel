@@ -1,13 +1,6 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 
-import {
-  type ButtonEmphasis,
-  type ButtonMagnitude,
-  type ButtonStretch,
-  type ButtonTone,
-  type ButtonVariant,
-  buttonVariants,
-} from "./variants";
+import { type ButtonVariantProps, buttonVariants } from "./variants";
 
 // Re-exported so `buttonVariants` + its variant-prop types stay part of the button entry's public
 // surface (e.g. `icon-button` composes it).
@@ -24,25 +17,9 @@ export { ButtonIcon, type ButtonIconProps } from "./button-icon";
 export { ButtonLabel, type ButtonLabelProps } from "./button-label";
 export { ButtonSpinner, type ButtonSpinnerProps } from "./button-spinner";
 
-type ButtonOwnProps = {
-  variant: ButtonVariant;
-  tone: ButtonTone;
-  magnitude: ButtonMagnitude;
-  /**
-   * Link-only: picks the `link` look. `solid` is the blue `link/primary` style; `subtle` is the
-   * muted gray inline link. Optional and additive — it only affects `variant="link"`, so it has no
-   * default and every other `variant` ignores it.
-   */
-  emphasis?: ButtonEmphasis;
-  /**
-   * Layout axis (Figma "Full width"). `auto` keeps the button inline-sized (default); `full`
-   * stretches it to fill its container (`w-full`). Pass `stretch="full"` for forms or full-width
-   * call-to-action placements.
-   */
-  stretch?: ButtonStretch;
-};
-
-export type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & ButtonOwnProps;
+// The variant axes come straight from `ButtonVariantProps` (required where there is no default,
+// optional where there is — `emphasis`/`stretch`).
+export type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & ButtonVariantProps;
 
 /**
  * A plain accessible button built on propel's design tokens. Pick a look with `variant` (Figma
