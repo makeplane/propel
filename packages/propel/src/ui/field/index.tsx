@@ -4,6 +4,10 @@ export { FieldDescription, type FieldDescriptionProps } from "./field-descriptio
 export { FieldError, type FieldErrorProps } from "./field-error";
 export { FieldItem, type FieldItemProps } from "./field-item";
 export { FieldLabel, type FieldLabelProps } from "./field-label";
+export {
+  FieldLabelRequiredMarker,
+  type FieldLabelRequiredMarkerProps,
+} from "./field-label-required-marker";
 export { InputFieldBox, type InputFieldBoxProps } from "./input-field-box";
 export { InputFieldContent, type InputFieldContentProps } from "./input-field-content";
 export { InputFieldControl, type InputFieldControlProps } from "./input-field-control";

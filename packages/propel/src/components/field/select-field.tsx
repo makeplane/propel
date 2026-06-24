@@ -3,7 +3,6 @@ import type * as React from "react";
 
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
-import { FieldHelperText } from "../../ui/field/field-helper-text";
 import type { FieldMagnitude } from "../../ui/field/variants";
 import {
   Select,
@@ -21,6 +20,7 @@ import {
   type SelectTriggerMagnitude,
   SelectValue,
 } from "../../ui/select/index";
+import { FieldHelperText } from "./field-helper-text";
 
 // The field magnitude axis (md/lg/xl) drives label and helper-text size; the select
 // trigger/item axis is sm/md/lg, so xl maps onto the largest trigger (lg).

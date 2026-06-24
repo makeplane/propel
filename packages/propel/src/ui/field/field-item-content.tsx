@@ -2,7 +2,7 @@ import type * as React from "react";
 
 import { FieldDescription } from "./field-description";
 import { FieldLabel } from "./field-label";
-import type { InputMagnitude } from "./variants";
+import { fieldItemContentVariants, type InputMagnitude } from "./variants";
 
 export function FieldItemContent({
   children,
@@ -14,7 +14,7 @@ export function FieldItemContent({
   magnitude: InputMagnitude;
 }) {
   return (
-    <div className="flex min-w-0 flex-col gap-1">
+    <div className={fieldItemContentVariants()}>
       <FieldLabel magnitude={magnitude}>{children}</FieldLabel>
       {description != null ? (
         <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
