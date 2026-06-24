@@ -1,20 +1,28 @@
 import { Button as BaseButton } from "@base-ui/react/button";
-import { type VariantProps } from "class-variance-authority";
 
-import { buttonVariants } from "./variants";
+import {
+  type ButtonEmphasis,
+  type ButtonMagnitude,
+  type ButtonStretch,
+  type ButtonTone,
+  type ButtonVariant,
+  buttonVariants,
+} from "./variants";
 
-// Re-exported so `buttonVariants` stays part of the button entry's public surface
-// (e.g. `icon-button` composes it).
+// Re-exported so `buttonVariants` + its variant-prop types stay part of the button entry's public
+// surface (e.g. `icon-button` composes it).
 export { buttonVariants } from "./variants";
+export type {
+  ButtonEmphasis,
+  ButtonMagnitude,
+  ButtonStretch,
+  ButtonTone,
+  ButtonVariant,
+  ButtonVariantProps,
+} from "./variants";
 export { ButtonIcon, type ButtonIconProps } from "./button-icon";
 export { ButtonLabel, type ButtonLabelProps } from "./button-label";
 export { ButtonSpinner, type ButtonSpinnerProps } from "./button-spinner";
-
-export type ButtonVariant = NonNullable<VariantProps<typeof buttonVariants>["variant"]>;
-export type ButtonTone = NonNullable<VariantProps<typeof buttonVariants>["tone"]>;
-export type ButtonMagnitude = NonNullable<VariantProps<typeof buttonVariants>["magnitude"]>;
-export type ButtonEmphasis = NonNullable<VariantProps<typeof buttonVariants>["emphasis"]>;
-export type ButtonStretch = NonNullable<VariantProps<typeof buttonVariants>["stretch"]>;
 
 type ButtonOwnProps = {
   variant: ButtonVariant;

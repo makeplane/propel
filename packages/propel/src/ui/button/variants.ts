@@ -1,4 +1,4 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
 
@@ -160,6 +160,13 @@ export const buttonVariants = cva(
     ],
   },
 );
+
+export type ButtonVariantProps = VariantProps<typeof buttonVariants>;
+export type ButtonVariant = NonNullable<ButtonVariantProps["variant"]>;
+export type ButtonTone = NonNullable<ButtonVariantProps["tone"]>;
+export type ButtonMagnitude = NonNullable<ButtonVariantProps["magnitude"]>;
+export type ButtonEmphasis = NonNullable<ButtonVariantProps["emphasis"]>;
+export type ButtonStretch = NonNullable<ButtonVariantProps["stretch"]>;
 
 // The text label inside a Button. When the parent button is `aria-busy` (loading)
 // it dims via the `group-aria-busy:` sibling of the `group` class on the root: the
