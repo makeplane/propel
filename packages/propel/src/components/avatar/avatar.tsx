@@ -6,13 +6,16 @@ import {
   AvatarFallback,
   AvatarIcon,
   AvatarImage,
+  type AvatarMagnitude,
   type AvatarProps as AvatarRootProps,
   type AvatarTone,
   getAvatarTone,
 } from "../../ui/avatar";
 import { AvatarGroupContext } from "./avatar-group-context";
 
-export type AvatarProps = AvatarRootProps & {
+export type AvatarProps = Omit<AvatarRootProps, "magnitude"> & {
+  /** Avatar size. Optional here — resolved from the `AvatarGroup` context, else `md`. */
+  magnitude?: AvatarMagnitude;
   /** Image URL. When omitted, or while it is loading/failing, the fallback shows. */
   src?: string;
   /** Accessible name for the avatar (the person it represents). */

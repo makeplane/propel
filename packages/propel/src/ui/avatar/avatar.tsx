@@ -28,10 +28,10 @@ export function getAvatarTone(seed: string): AvatarTone {
 /** Props for {@link Avatar} (the Base UI `Avatar.Root`), plus a `magnitude`. */
 export type AvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> & {
   /**
-   * Avatar size. Optional — defaults to `md` standalone. Inside the components `AvatarGroup` the
-   * group's magnitude is applied for you (shared via context from the ready-made).
+   * Avatar size (required — no silent default). The ready-made `components/avatar` resolves it from
+   * the `AvatarGroup` context or its own default.
    */
-  magnitude?: AvatarMagnitude;
+  magnitude: AvatarMagnitude;
 };
 
 /**
@@ -39,6 +39,6 @@ export type AvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> & {
  * Maps 1:1 to Base UI's `Avatar.Root`. For the ready-made image+initials+icon avatar, use the
  * `Avatar` from `@plane/propel/components/avatar`.
  */
-export function Avatar({ magnitude = "md", ...props }: AvatarProps) {
+export function Avatar({ magnitude, ...props }: AvatarProps) {
   return <BaseAvatar.Root className={avatarVariants({ magnitude })} {...props} />;
 }
