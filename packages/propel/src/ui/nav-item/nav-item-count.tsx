@@ -1,15 +1,10 @@
-import { cx } from "class-variance-authority";
 import type * as React from "react";
 
+import { navItemCountVariants } from "./variants";
+
+export type NavItemCountProps = Omit<React.ComponentProps<"span">, "className" | "style">;
+
 /** A small count chip for a nav row's inline-end slot. */
-export function NavItemCount(props: Omit<React.ComponentProps<"span">, "className" | "style">) {
-  return (
-    <span
-      className={cx(
-        "inline-flex min-w-4 items-center justify-center rounded-sm px-0.5",
-        "bg-layer-3 text-11 leading-tight text-secondary",
-      )}
-      {...props}
-    />
-  );
+export function NavItemCount(props: NavItemCountProps) {
+  return <span className={navItemCountVariants()} {...props} />;
 }

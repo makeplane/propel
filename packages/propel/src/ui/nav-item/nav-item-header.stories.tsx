@@ -1,50 +1,54 @@
 import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Plus } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
 import * as React from "react";
 import { expect, fn, userEvent } from "storybook/test";
 
 import { IconButton } from "../icon-button/index";
-import { NavItem, NavItemGroup, NavItemHeader, NavItemPanel } from "./index";
-
-// The Figma header uses a filled caret-down (a solid triangle), not a stroked chevron.
-// lucide ships outline glyphs only, so the consumer supplies this small filled caret to
-// match the design. It sizes to the slot via 100% width/height and rotates with the
-// header's expanded state.
-function CaretDown() {
-  return (
-    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden focusable="false">
-      <path d="M4.5 6.5h7L8 10.5z" />
-    </svg>
-  );
-}
+import {
+  NavItem,
+  NavItemGroup,
+  NavItemHeader,
+  NavItemHeaderAction,
+  NavItemHeaderIndicator,
+  NavItemHeaderLabel,
+  NavItemHeaderToggle,
+  NavItemLabel,
+  NavItemPanel,
+} from "./index";
 
 function DemoPanel() {
   return (
     <NavItemPanel>
       <NavItem magnitude="lg" level={2}>
-        Unread
+        <NavItemLabel>Unread</NavItemLabel>
       </NavItem>
       <NavItem magnitude="lg" level={2}>
-        Snoozed
+        <NavItemLabel>Snoozed</NavItemLabel>
       </NavItem>
     </NavItemPanel>
   );
 }
 
+// UI-tier story: composes the ATOMIC header parts (each renders a single element) — the toggle, its
+// label and disclosure indicator, and the inline-end action are their own parts, so the header
+// holds no raw layout.
 const meta = {
   title: "UI/NavItemHeader",
   component: NavItemHeader,
-  subcomponents: { NavItemGroup, NavItemPanel },
+  subcomponents: {
+    NavItemGroup,
+    NavItemHeaderToggle,
+    NavItemHeaderLabel,
+    NavItemHeaderIndicator,
+    NavItemHeaderAction,
+    NavItemPanel,
+  },
   parameters: {
     design: {
       type: "figma",
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=2487-3139",
     },
-  },
-  args: {
-    children: "Inbox",
-    chevron: <CaretDown />,
   },
   // The header stretches to its container; constrain it to a sidebar-like width.
   decorators: [
@@ -54,9 +58,16 @@ const meta = {
       </div>
     ),
   ],
-  render: (args) => (
+  render: () => (
     <NavItemGroup>
-      <NavItemHeader {...args} />
+      <NavItemHeader>
+        <NavItemHeaderToggle>
+          <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
+          <NavItemHeaderIndicator>
+            <ChevronDown />
+          </NavItemHeaderIndicator>
+        </NavItemHeaderToggle>
+      </NavItemHeader>
       <DemoPanel />
     </NavItemGroup>
   ),
@@ -68,23 +79,28 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 /**
- * With an inline-end action: an "add" `IconButton` sits at the inline-end via `inlineEndNode`. The
- * action is a sibling of the toggle button, so clicking it does not toggle the section (and there
- * is no nested-interactive a11y violation).
+ * With an inline-end action: an "add" `IconButton` sits at the inline-end via
+ * `NavItemHeaderAction`. The action is a sibling of the toggle button, so clicking it does not
+ * toggle the section (and there is no nested-interactive a11y violation).
  */
 export const WithAction: Story = {
-  render: (args) => {
+  render: () => {
     const onOpenChange = fn();
     return (
       <NavItemGroup onOpenChange={onOpenChange}>
-        <NavItemHeader
-          {...args}
-          inlineEndNode={
+        <NavItemHeader>
+          <NavItemHeaderToggle>
+            <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
+            <NavItemHeaderIndicator>
+              <ChevronDown />
+            </NavItemHeaderIndicator>
+          </NavItemHeaderToggle>
+          <NavItemHeaderAction>
             <IconButton variant="tertiary" tone="neutral" magnitude="sm" aria-label="Add to Inbox">
               <Plus />
             </IconButton>
-          }
-        />
+          </NavItemHeaderAction>
+        </NavItemHeader>
         <DemoPanel />
       </NavItemGroup>
     );
@@ -108,7 +124,19 @@ export const WithAction: Story = {
 
 /** Uncontrolled: clicking toggles `aria-expanded` and rotates the chevron. */
 export const Uncontrolled: Story = {
-  args: { onClick: fn() },
+  render: () => (
+    <NavItemGroup>
+      <NavItemHeader>
+        <NavItemHeaderToggle onClick={fn()}>
+          <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
+          <NavItemHeaderIndicator>
+            <ChevronDown />
+          </NavItemHeaderIndicator>
+        </NavItemHeaderToggle>
+      </NavItemHeader>
+      <DemoPanel />
+    </NavItemGroup>
+  ),
   play: async ({ canvas }) => {
     const header = canvas.getByRole("button", { name: "Inbox" });
 
@@ -128,11 +156,18 @@ export const Uncontrolled: Story = {
 /** A header that actually collapses the group of nav items beneath it. */
 export const Collapsible: Story = {
   parameters: { controls: { disable: true } },
-  render: (args) => {
+  render: () => {
     const [open, setOpen] = React.useState(true);
     return (
       <NavItemGroup open={open} onOpenChange={(nextOpen) => setOpen(nextOpen)}>
-        <NavItemHeader {...args}>Inbox</NavItemHeader>
+        <NavItemHeader>
+          <NavItemHeaderToggle>
+            <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
+            <NavItemHeaderIndicator>
+              <ChevronDown />
+            </NavItemHeaderIndicator>
+          </NavItemHeaderToggle>
+        </NavItemHeader>
         <DemoPanel />
       </NavItemGroup>
     );
@@ -146,12 +181,19 @@ export const Collapsible: Story = {
  */
 export const CollapsiblePanelVisibility: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: (args) => (
+  render: () => (
     <NavItemGroup>
-      <NavItemHeader {...args}>Inbox</NavItemHeader>
+      <NavItemHeader>
+        <NavItemHeaderToggle>
+          <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
+          <NavItemHeaderIndicator>
+            <ChevronDown />
+          </NavItemHeaderIndicator>
+        </NavItemHeaderToggle>
+      </NavItemHeader>
       <NavItemPanel>
         <NavItem magnitude="lg" level={2}>
-          Unread
+          <NavItemLabel>Unread</NavItemLabel>
         </NavItem>
       </NavItemPanel>
     </NavItemGroup>
@@ -175,11 +217,18 @@ export const CollapsiblePanelVisibility: Story = {
  */
 export const Controlled: Story = {
   parameters: { controls: { disable: true } },
-  render: (args) => {
+  render: () => {
     const [open, setOpen] = React.useState(true);
     return (
       <NavItemGroup open={open} onOpenChange={(nextOpen) => setOpen(nextOpen)}>
-        <NavItemHeader {...args}>{open ? "Collapse inbox" : "Expand inbox"}</NavItemHeader>
+        <NavItemHeader>
+          <NavItemHeaderToggle>
+            <NavItemHeaderLabel>{open ? "Collapse inbox" : "Expand inbox"}</NavItemHeaderLabel>
+            <NavItemHeaderIndicator>
+              <ChevronDown />
+            </NavItemHeaderIndicator>
+          </NavItemHeaderToggle>
+        </NavItemHeader>
         <DemoPanel />
       </NavItemGroup>
     );
@@ -187,15 +236,22 @@ export const Controlled: Story = {
 };
 
 /**
- * Keyboard ARIA pattern: the header is a native `<button>`, so Tab focuses it and both Enter and
- * Space toggle `aria-expanded`. Tagged out of sidebar/docs/manifest while still running under the
- * default `test` tag.
+ * Keyboard ARIA pattern: the header toggle is a native `<button>`, so Tab focuses it and both Enter
+ * and Space toggle `aria-expanded`. Tagged out of sidebar/docs/manifest while still running under
+ * the default `test` tag.
  */
 export const KeyboardActivation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: (args) => (
+  render: () => (
     <NavItemGroup onOpenChange={fn()}>
-      <NavItemHeader {...args} />
+      <NavItemHeader>
+        <NavItemHeaderToggle>
+          <NavItemHeaderLabel>Inbox</NavItemHeaderLabel>
+          <NavItemHeaderIndicator>
+            <ChevronDown />
+          </NavItemHeaderIndicator>
+        </NavItemHeaderToggle>
+      </NavItemHeader>
       <DemoPanel />
     </NavItemGroup>
   ),
@@ -216,19 +272,22 @@ export const KeyboardActivation: Story = {
 /** RTL: the chevron moves to the inline-start edge and mirrors. */
 export const RightToLeft: Story = {
   parameters: { controls: { disable: true } },
-  render: (args) => (
+  render: () => (
     <DirectionProvider direction="rtl">
       <div dir="rtl">
         <NavItemGroup>
-          <NavItemHeader
-            {...args}
-            inlineEndNode={
+          <NavItemHeader>
+            <NavItemHeaderToggle>
+              <NavItemHeaderLabel>الوارد</NavItemHeaderLabel>
+              <NavItemHeaderIndicator>
+                <ChevronDown />
+              </NavItemHeaderIndicator>
+            </NavItemHeaderToggle>
+            <NavItemHeaderAction>
               <IconButton variant="tertiary" tone="neutral" magnitude="sm" aria-label="إضافة">
                 <Plus />
               </IconButton>
-            }
-          >
-            الوارد
+            </NavItemHeaderAction>
           </NavItemHeader>
           <DemoPanel />
         </NavItemGroup>
