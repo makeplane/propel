@@ -102,6 +102,48 @@ element; pull a prop out of the signature only to transform, redirect, or omit i
 primitives and intrinsic elements render their own `children`. Only destructure `children` when
 you actually wrap or transform it.
 
+## Prop vocabulary
+
+Every styling/layout prop names the **concept** it controls — one name system-wide, with consistent
+value spellings. Pick only the axes that apply to a component. Two naming bans from the Hard rules
+govern this: `variant` is too vague (6c), and native HTML/CSS attribute names are off-limits (6b).
+
+| Axis           | Controls                                    | Example values                       |
+| -------------- | ------------------------------------------- | ------------------------------------ |
+| `tone`         | semantic **and** decorative color           | `neutral·danger·success·info` + hues |
+| `prominence`   | visual **weight / hierarchy**               | `primary·secondary·tertiary·ghost`   |
+| `magnitude`    | **size**                                    | `sm·md·lg` / `2xs…3xl`               |
+| `sizing`       | **hug vs fill** the container               | `hug·fill`                           |
+| `emphasis`     | **fill treatment** (reserved; unused today) | `soft·outline·solid`                 |
+| `appearance`   | distinct visual **style** of one component  | Tabs `contained·underline`           |
+| `layout`       | **arrangement** of contents                 | FormActions `inline·stretch`         |
+| `placement`    | **where** it sits / its context             | Banner `page·inline`                 |
+| `presentation` | **shape** of a repeated entry               | NavigationMenuLink `item·card`       |
+| `mode`         | **behavior mode** of one component          | Table `table·spreadsheet`            |
+| `surface`      | host background it adapts to                | `background·fill`                    |
+| `density`      | compactness                                 | `short·default·auto`                 |
+| `elevation`    | draws its own raised surface vs flat        | `raised·flat`                        |
+| `orientation`  | layout axis                                 | `horizontal·vertical`                |
+
+**Why these names — decided on merit, not on what already shipped:**
+
+1. **Name the concept, never `variant`.** The values always express a specific axis; name _that_ (6c).
+2. **Orthogonal dimensions are separate props.** A button carries both `prominence` (weight) and
+   `tone` (color) because they vary independently — a `secondary` × `danger` button is valid. Never
+   fuse two independent dimensions into one prop (that was Button's old `variant`).
+3. **Match the name to the value's _shape_.** `prominence` beats `priority` for
+   `primary/secondary/tertiary/ghost` because `ghost` is the _floor of a weight scale_, not a priority
+   rank. `tone` beats `intent`/`status` for color because it must also cover purely _decorative_ hues
+   (an `orange` avatar has no "intent"). `emphasis` is a _degree_ (soft↔solid), so it is wrong for
+   _ranks_ — and weight is `prominence`, not `emphasis`.
+4. **No native attribute names** (6b): `magnitude` not `size`, `sizing` not `width`, `tone` not `color`/`type`.
+5. **A content condition is _derived_, not a prop.** A menu row's layout follows from whether a
+   `description` was passed — the `components` ready-made derives it and omits it from its API.
+6. **A capability is a _boolean_**, not a two-value enum (`TableHead` `sortable`, not `variant: default·sortable`).
+7. **Different element/semantics → a different component**, not a variant value: `<button>` vs `<a>`
+   (`Button`/`ButtonAnchor`/`Anchor`), a bar vs a ring (`LinearProgress`/`CircularProgress`). Same
+   anatomy differing only in chrome stays one component with an axis (`placement`, `presentation`, `mode`).
+
 ## Variants & variant-prop types
 
 8. **One cva per `ui` part, in `ui/<name>/variants.ts`, named `<camelCasePartName>Variants`.**
@@ -117,12 +159,13 @@ you actually wrap or transform it.
 
    export const iconButtonVariants = cva(/* … */);
 
-   // per-axis types (for consumers), derived from the cva:
+   // per-axis types (for consumers) are named for the AXIS, never `<Name>Variant`:
    type IconButtonVariantConfig = VariantProps<typeof iconButtonVariants>;
-   export type IconButtonVariant = NonNullable<IconButtonVariantConfig["variant"]>;
+   export type IconButtonProminence = NonNullable<IconButtonVariantConfig["prominence"]>;
    export type IconButtonTone = NonNullable<IconButtonVariantConfig["tone"]>;
 
-   // the props type used by the component:
+   // the cva-props type keeps the `VariantProps` suffix — it is named after cva's `VariantProps`
+   // utility, NOT after any axis, so it stays `<Name>VariantProps` even when no axis is `variant`:
    export type IconButtonVariantProps = StrictVariantProps<typeof iconButtonVariants>;
    ```
 
@@ -160,6 +203,7 @@ you actually wrap or transform it.
 
 - [ ] Every touched `ui` part renders one element; no `className` prop anywhere.
 - [ ] cva only in `ui/.../variants.ts`, named after the part, no `Root`, no generic names.
+- [ ] Props use the axis vocabulary — no `variant`, no native attribute names (`size`/`width`/`type`/`color`); per-axis types named for the axis, cva-props type stays `<Name>VariantProps`.
 - [ ] Variant types via `StrictVariantProps` in `variants.ts`; `Props = Omit<Base.Props, "className" | "style"> & <Name>VariantProps`.
 - [ ] No borrowing of another component's `Props`/cva/variant types; shared styling lives in `internal/`.
 - [ ] No `defaultVariants` (every axis required) unless a real default is intentionally introduced.
