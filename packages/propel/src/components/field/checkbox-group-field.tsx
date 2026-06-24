@@ -3,10 +3,10 @@ import type * as React from "react";
 import { CheckboxGroup, type CheckboxGroupProps } from "../../ui/checkbox-group/index";
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
-import { FieldHelperText } from "../../ui/field/field-helper-text";
 import { FieldOptionMagnitudeProvider } from "../../ui/field/field-option-magnitude-provider";
 import type { FieldMagnitude } from "../../ui/field/variants";
 import { Fieldset, FieldsetLegend } from "../../ui/fieldset/index";
+import { FieldHelperText } from "./field-helper-text";
 
 export type CheckboxGroupFieldProps = Omit<CheckboxGroupProps, "children" | "density" | "name"> & {
   /** Checkbox option rows, usually `CheckboxGroupFieldOption`. */

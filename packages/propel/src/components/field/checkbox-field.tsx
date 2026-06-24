@@ -6,10 +6,10 @@ import {
   type CheckboxFieldControlProps,
 } from "../../ui/field/checkbox-field-control";
 import { Field } from "../../ui/field/field";
-import { FieldHelperText } from "../../ui/field/field-helper-text";
 import { FieldItem } from "../../ui/field/field-item";
 import { FieldItemContent } from "../../ui/field/field-item-content";
 import type { FieldMagnitude } from "../../ui/field/variants";
+import { FieldHelperText } from "./field-helper-text";
 
 export type CheckboxFieldProps = Omit<
   CheckboxFieldControlProps,

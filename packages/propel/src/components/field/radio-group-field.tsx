@@ -2,11 +2,11 @@ import type * as React from "react";
 
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
-import { FieldHelperText } from "../../ui/field/field-helper-text";
 import { FieldOptionMagnitudeProvider } from "../../ui/field/field-option-magnitude-provider";
 import type { FieldMagnitude } from "../../ui/field/variants";
 import { Fieldset, FieldsetLegend } from "../../ui/fieldset/index";
 import { RadioGroup, type RadioGroupProps } from "../../ui/radio/index";
+import { FieldHelperText } from "./field-helper-text";
 
 export type RadioGroupFieldProps<Value = string> = Omit<
   RadioGroupProps<Value>,

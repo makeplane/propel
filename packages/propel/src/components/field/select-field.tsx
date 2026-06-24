@@ -2,7 +2,6 @@ import type * as React from "react";
 
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
-import { FieldHelperText } from "../../ui/field/field-helper-text";
 import type { FieldMagnitude } from "../../ui/field/variants";
 import {
   Select,
@@ -19,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select/index";
+import { FieldHelperText } from "./field-helper-text";
 
 export type SelectFieldOption = {
   label: React.ReactNode;
