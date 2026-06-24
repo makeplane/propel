@@ -1,16 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Mail, Search } from "lucide-react";
 import type * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
-import { Field, FieldError, FieldLabel } from "../field/index";
-import { inputFieldBoxVariants, type InputMagnitude } from "../field/variants";
+import { Field, FieldError, FieldLabel, InputFieldBox, InputFieldIconSlot } from "../field/index";
+import type { InputMagnitude, InputTone } from "../field/variants";
 import { Input } from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
 
+// UI-tier story: the bare `Input` is a single native element. To frame it with a border
+// and inline icon addons we compose the single-element `InputFieldBox` / `InputFieldIconSlot`
+// parts from `ui/field` — the story holds no raw box styling of its own.
 const meta = {
   title: "UI/Input",
   component: Input,
+  subcomponents: { InputFieldBox, InputFieldIconSlot },
 } satisfies Meta<typeof Input>;
 
 export default meta;
@@ -19,13 +24,17 @@ type Story = StoryObj<typeof meta>;
 function InputSurface({
   children,
   magnitude = "md",
+  tone = "neutral",
 }: {
   children: React.ReactNode;
   magnitude?: InputMagnitude;
+  tone?: InputTone;
 }) {
   return (
     <div className="w-72">
-      <div className={inputFieldBoxVariants({ magnitude, tone: "neutral" })}>{children}</div>
+      <InputFieldBox magnitude={magnitude} tone={tone}>
+        {children}
+      </InputFieldBox>
     </div>
   );
 }
@@ -63,6 +72,27 @@ export const Magnitudes: Story = {
   ),
 };
 
+/** Leading and trailing icon addons frame the control via `InputFieldIconSlot`. */
+export const WithIconSlots: Story = {
+  args: {
+    magnitude: "md",
+    "aria-label": "Search",
+    placeholder: "Search people",
+  },
+  parameters: { controls: { disable: true } },
+  render: (args) => (
+    <InputSurface>
+      <InputFieldIconSlot>
+        <Search />
+      </InputFieldIconSlot>
+      <Input {...args} />
+      <InputFieldIconSlot>
+        <Mail />
+      </InputFieldIconSlot>
+    </InputSurface>
+  ),
+};
+
 export const FieldComposition: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { magnitude: "md" },
@@ -88,7 +118,7 @@ export const FieldErrorAssociation: Story = {
   render: (args) => (
     <Field name="email" invalid>
       <FieldLabel magnitude="md">Email</FieldLabel>
-      <InputSurface>
+      <InputSurface tone="danger">
         <Input {...args} defaultValue="not-an-email" />
       </InputSurface>
       <FieldError magnitude="md" match={true}>
