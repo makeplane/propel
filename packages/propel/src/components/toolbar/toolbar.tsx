@@ -1,7 +1,7 @@
 import type * as React from "react";
 
 import { Toolbar as ToolbarRoot, type ToolbarProps as ToolbarRootProps } from "../../ui/toolbar";
-import { ToolbarDensityContext } from "../../ui/toolbar/toolbar-context";
+import { ToolbarDensityContext } from "./toolbar-context";
 
 export type ToolbarProps = ToolbarRootProps & {
   children?: React.ReactNode;

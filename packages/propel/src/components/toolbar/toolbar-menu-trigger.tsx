@@ -1,11 +1,8 @@
 import { Menu } from "@base-ui/react/menu";
 import { ChevronDown } from "lucide-react";
 
-import {
-  ToolbarMenuTriggerButton,
-  ToolbarMenuTriggerIndicator,
-  ToolbarMenuTriggerLabel,
-} from "../../ui/toolbar/index";
+import { ToolbarMenuTriggerIndicator, ToolbarMenuTriggerLabel } from "../../ui/toolbar/index";
+import { ToolbarMenuTriggerButton } from "./toolbar-menu-trigger-button";
 
 export type ToolbarMenuTriggerProps = Omit<Menu.Trigger.Props, "className" | "style">;
 
