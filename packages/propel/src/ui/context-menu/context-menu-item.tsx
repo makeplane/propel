@@ -1,14 +1,11 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
-import { type VariantProps } from "class-variance-authority";
 
-import { contextMenuItemVariants } from "./variants";
+import { type ContextMenuItemVariantProps, contextMenuItemVariants } from "./variants";
 
-type ContextMenuItemTone = NonNullable<VariantProps<typeof contextMenuItemVariants>["tone"]>;
+export type { ContextMenuItemVariantProps } from "./variants";
 
-export type ContextMenuItemProps = Omit<BaseContextMenu.Item.Props, "className" | "style"> & {
-  /** Color palette for the row. `neutral` for standard actions; `danger` for destructive ones. */
-  tone: ContextMenuItemTone;
-};
+export type ContextMenuItemProps = Omit<BaseContextMenu.Item.Props, "className" | "style"> &
+  ContextMenuItemVariantProps;
 
 /** An interactive menu row. Wraps `ContextMenu.Item` 1:1. */
 export function ContextMenuItem({ tone, ...props }: ContextMenuItemProps) {
