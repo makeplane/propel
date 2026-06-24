@@ -3,11 +3,18 @@ import { Repeat } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
-import { Checkbox } from "./index";
+import {
+  Checkbox,
+  CheckboxGlyph,
+  CheckboxIndicator,
+  CheckboxInlineStartNode,
+  CheckboxLabel,
+} from "./index";
 
 const meta = {
   title: "Components/Checkbox",
   component: Checkbox,
+  subcomponents: { CheckboxLabel, CheckboxInlineStartNode, CheckboxIndicator, CheckboxGlyph },
   args: {
     tone: "neutral",
     "aria-label": "Example",
