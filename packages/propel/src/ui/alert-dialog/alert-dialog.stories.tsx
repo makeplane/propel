@@ -53,9 +53,8 @@ export const Anatomy: Story = {
   render: () => (
     <AlertDialog>
       <Button
-        emphasis="solid"
         sizing="hug"
-        variant="primary"
+        prominence="primary"
         tone="danger"
         magnitude="xl"
         render={<AlertDialogTrigger />}
@@ -79,9 +78,8 @@ export const Anatomy: Story = {
             </AlertDialogHeader>
             <AlertDialogActions>
               <Button
-                emphasis="solid"
                 sizing="hug"
-                variant="secondary"
+                prominence="secondary"
                 tone="neutral"
                 magnitude="xl"
                 render={<AlertDialogClose />}
@@ -89,9 +87,8 @@ export const Anatomy: Story = {
                 Cancel
               </Button>
               <Button
-                emphasis="solid"
                 sizing="hug"
-                variant="primary"
+                prominence="primary"
                 tone="danger"
                 magnitude="xl"
                 render={<AlertDialogClose />}

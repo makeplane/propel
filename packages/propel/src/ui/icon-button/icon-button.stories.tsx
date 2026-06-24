@@ -8,14 +8,14 @@ import {
   IconButton,
   type IconButtonMagnitude,
   IconButtonSpinner,
-  type IconButtonVariant,
+  type IconButtonProminence,
 } from "./index";
 
 // UI-tier story: composes the ATOMIC icon-button parts (each renders a single element) —
 // the square `IconButton` box, the `IconButtonIcon` glyph slot, and the
 // `IconButtonSpinner` loading indicator. The components-tier `IconButton` story shows the
 // ready-made button that swaps the slot for the spinner while `loading`.
-const VARIANTS: IconButtonVariant[] = ["primary", "secondary", "tertiary", "ghost"];
+const PROMINENCES: IconButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
 const meta = {
@@ -31,7 +31,7 @@ const meta = {
     },
   },
   args: {
-    variant: "primary",
+    prominence: "primary",
     tone: "neutral",
     magnitude: "md",
     "aria-label": "Add item",
@@ -54,12 +54,17 @@ export const Default: Story = {};
  * the two Error types are the `danger` tone of `primary` (Error fill) and `secondary` (Error
  * outline) — see {@link Tones}.
  */
-export const Variants: Story = {
-  argTypes: { variant: { control: false }, "aria-label": { control: false } },
+export const Prominences: Story = {
+  argTypes: { prominence: { control: false }, "aria-label": { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      {VARIANTS.map((variant) => (
-        <IconButton key={variant} {...args} variant={variant} aria-label={`${variant} action`}>
+      {PROMINENCES.map((prominence) => (
+        <IconButton
+          key={prominence}
+          {...args}
+          prominence={prominence}
+          aria-label={`${prominence} action`}
+        >
           <IconButtonIcon>
             <Plus />
           </IconButtonIcon>
@@ -77,17 +82,17 @@ export const Tones: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <IconButton {...args} tone="neutral" variant="primary" aria-label="Neutral">
+      <IconButton {...args} tone="neutral" prominence="primary" aria-label="Neutral">
         <IconButtonIcon>
           <Plus />
         </IconButtonIcon>
       </IconButton>
-      <IconButton {...args} tone="danger" variant="primary" aria-label="Danger fill">
+      <IconButton {...args} tone="danger" prominence="primary" aria-label="Danger fill">
         <IconButtonIcon>
           <Plus />
         </IconButtonIcon>
       </IconButton>
-      <IconButton {...args} tone="danger" variant="secondary" aria-label="Danger outline">
+      <IconButton {...args} tone="danger" prominence="secondary" aria-label="Danger outline">
         <IconButtonIcon>
           <Plus />
         </IconButtonIcon>
@@ -117,17 +122,17 @@ export const Spinner: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <IconButton {...args} variant="primary" aria-label="Saving" aria-busy>
+      <IconButton {...args} prominence="primary" aria-label="Saving" aria-busy>
         <IconButtonSpinner>
           <LoaderCircle className="animate-spin" />
         </IconButtonSpinner>
       </IconButton>
-      <IconButton {...args} variant="secondary" aria-label="Loading" aria-busy>
+      <IconButton {...args} prominence="secondary" aria-label="Loading" aria-busy>
         <IconButtonSpinner>
           <LoaderCircle className="animate-spin" />
         </IconButtonSpinner>
       </IconButton>
-      <IconButton {...args} variant="tertiary" aria-label="Refreshing" aria-busy>
+      <IconButton {...args} prominence="tertiary" aria-label="Refreshing" aria-busy>
         <IconButtonSpinner>
           <LoaderCircle className="animate-spin" />
         </IconButtonSpinner>
@@ -144,7 +149,7 @@ export const Spinner: Story = {
 export const HasAccessibleName: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <IconButton variant="primary" tone="neutral" magnitude="md" aria-label="Add item">
+    <IconButton prominence="primary" tone="neutral" magnitude="md" aria-label="Add item">
       <IconButtonIcon>
         <Plus />
       </IconButtonIcon>

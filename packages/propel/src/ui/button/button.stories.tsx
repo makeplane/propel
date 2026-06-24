@@ -8,14 +8,14 @@ import {
   ButtonLabel,
   type ButtonMagnitude,
   ButtonSpinner,
-  type ButtonVariant,
+  type ButtonProminence,
 } from "./index";
 
-const VARIANTS: ButtonVariant[] = ["primary", "secondary", "tertiary", "ghost", "link"];
+const PROMINENCES: ButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: ButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
-// UI-tier story: the ATOMIC button — a single accessible `<button>` with `variant` /
-// `tone` / `magnitude` (and link-only `emphasis`). It has no inline-node slots or
+// UI-tier story: the ATOMIC button — a single accessible `<button>` with `prominence` /
+// `tone` / `magnitude` / `sizing`. It has no inline-node slots or
 // `loading` spinner; for those, see the ready-made `Button` (Components/Button), which
 // composes this primitive.
 const meta = {
@@ -25,10 +25,9 @@ const meta = {
   subcomponents: { ButtonIcon, ButtonLabel, ButtonSpinner },
   args: {
     children: "Button",
-    variant: "primary",
+    prominence: "primary",
     tone: "neutral",
     magnitude: "md",
-    emphasis: "solid",
     sizing: "hug",
   },
 } satisfies Meta<typeof Button>;
@@ -38,14 +37,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** Every Figma "Type" side by side at the default magnitude. */
-export const Variants: Story = {
-  argTypes: { variant: { control: false }, children: { control: false } },
+/** Every prominence (Figma "Type") side by side at the default magnitude. */
+export const Prominences: Story = {
+  argTypes: { prominence: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      {VARIANTS.map((variant) => (
-        <Button key={variant} {...args} variant={variant}>
-          {variant}
+      {PROMINENCES.map((prominence) => (
+        <Button key={prominence} {...args} prominence={prominence}>
+          {prominence}
         </Button>
       ))}
     </div>
@@ -60,36 +59,14 @@ export const Tones: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <Button {...args} tone="neutral" variant="primary">
+      <Button {...args} tone="neutral" prominence="primary">
         Neutral
       </Button>
-      <Button {...args} tone="danger" variant="primary">
+      <Button {...args} tone="danger" prominence="primary">
         Danger fill
       </Button>
-      <Button {...args} tone="danger" variant="secondary">
+      <Button {...args} tone="danger" prominence="secondary">
         Danger outline
-      </Button>
-    </div>
-  ),
-};
-
-/**
- * `emphasis` is link-only (Figma "Emphasis"): `solid` is the blue `link/primary` affordance,
- * `subtle` is the muted gray inline link. Every non-link variant ignores it.
- */
-export const LinkEmphasis: Story = {
-  argTypes: {
-    emphasis: { control: false },
-    variant: { control: false },
-    children: { control: false },
-  },
-  render: (args) => (
-    <div className="flex items-center gap-3">
-      <Button {...args} variant="link" emphasis="solid">
-        Solid link
-      </Button>
-      <Button {...args} variant="link" emphasis="subtle">
-        Subtle link
       </Button>
     </div>
   ),

@@ -7,7 +7,7 @@ export type DialogCloseProps = Omit<BaseDialog.Close.Props, "className" | "style
  * `Button` or `IconButton` so the styled primitive's look wins via render-composition:
  *
  * ```tsx
- * <IconButton variant="ghost" tone="neutral" magnitude="lg" render={<DialogClose />}>
+ * <IconButton prominence="ghost" tone="neutral" magnitude="lg" render={<DialogClose />}>
  *   <X />
  * </IconButton>;
  * ```

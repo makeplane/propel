@@ -7,5 +7,5 @@ export {
   IconButtonSpinner,
   type IconButtonSpinnerProps,
   type IconButtonTone,
-  type IconButtonVariant,
+  type IconButtonProminence,
 } from "../../ui/icon-button";

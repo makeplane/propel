@@ -47,9 +47,8 @@ export const Default: Story = {
   render: () => (
     <Dialog>
       <Button
-        emphasis="solid"
         sizing="hug"
-        variant="secondary"
+        prominence="secondary"
         tone="neutral"
         magnitude="xl"
         render={<DialogTrigger />}
@@ -62,7 +61,7 @@ export const Default: Story = {
             <DialogTitle>Delete project</DialogTitle>
           </DialogHeading>
           <IconButton
-            variant="ghost"
+            prominence="ghost"
             tone="neutral"
             magnitude="lg"
             aria-label="Close"
@@ -79,9 +78,8 @@ export const Default: Story = {
         </DialogBody>
         <DialogActions>
           <Button
-            emphasis="solid"
             sizing="hug"
-            variant="secondary"
+            prominence="secondary"
             tone="neutral"
             magnitude="xl"
             render={<DialogClose />}
@@ -89,9 +87,8 @@ export const Default: Story = {
             Cancel
           </Button>
           <Button
-            emphasis="solid"
             sizing="hug"
-            variant="primary"
+            prominence="primary"
             tone="danger"
             magnitude="xl"
             render={<DialogClose />}
@@ -127,9 +124,8 @@ export const EscapeCloses: Story = {
   render: () => (
     <Dialog>
       <Button
-        emphasis="solid"
         sizing="hug"
-        variant="secondary"
+        prominence="secondary"
         tone="neutral"
         magnitude="xl"
         render={<DialogTrigger />}

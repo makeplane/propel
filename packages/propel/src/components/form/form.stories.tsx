@@ -119,14 +119,7 @@ function ExampleForm({ onFormSubmit }: ExampleFormProps) {
         />
       </FormBody>
       <FormActions variant="inline">
-        <Button
-          emphasis="solid"
-          sizing="hug"
-          type="submit"
-          variant="secondary"
-          tone="neutral"
-          magnitude="md"
-        >
+        <Button sizing="hug" type="submit" prominence="secondary" tone="neutral" magnitude="md">
           Submit
         </Button>
       </FormActions>

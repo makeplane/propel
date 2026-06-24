@@ -83,9 +83,8 @@ export const Default: Story = {
   render: () => (
     <Popover>
       <Button
-        emphasis="solid"
         sizing="hug"
-        variant="secondary"
+        prominence="secondary"
         tone="neutral"
         magnitude="xl"
         render={<PopoverTrigger />}
@@ -146,9 +145,8 @@ export const DisplayProperties: Story = {
     return (
       <Popover>
         <Button
-          emphasis="solid"
           sizing="hug"
-          variant="secondary"
+          prominence="secondary"
           tone="neutral"
           magnitude="xl"
           render={<PopoverTrigger />}
@@ -222,9 +220,8 @@ export const DisplayAccordion: Story = {
     return (
       <Popover>
         <Button
-          emphasis="solid"
           sizing="hug"
-          variant="secondary"
+          prominence="secondary"
           tone="neutral"
           magnitude="xl"
           render={<PopoverTrigger />}
@@ -326,9 +323,8 @@ export const RTL: Story = {
       <DirectionProvider direction="rtl">
         <Popover>
           <Button
-            emphasis="solid"
             sizing="hug"
-            variant="secondary"
+            prominence="secondary"
             tone="neutral"
             magnitude="xl"
             render={<PopoverTrigger />}

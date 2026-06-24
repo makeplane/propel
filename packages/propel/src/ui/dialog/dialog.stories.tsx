@@ -55,9 +55,8 @@ export const Anatomy: Story = {
   render: () => (
     <Dialog>
       <Button
-        emphasis="solid"
         sizing="hug"
-        variant="secondary"
+        prominence="secondary"
         tone="neutral"
         magnitude="xl"
         render={<DialogTrigger />}
@@ -73,7 +72,7 @@ export const Anatomy: Story = {
                 <DialogTitle>Delete project</DialogTitle>
               </DialogHeading>
               <IconButton
-                variant="ghost"
+                prominence="ghost"
                 tone="neutral"
                 magnitude="lg"
                 aria-label="Close"
@@ -89,9 +88,8 @@ export const Anatomy: Story = {
             </DialogBody>
             <DialogActions>
               <Button
-                emphasis="solid"
                 sizing="hug"
-                variant="secondary"
+                prominence="secondary"
                 tone="neutral"
                 magnitude="xl"
                 render={<DialogClose />}
@@ -123,9 +121,8 @@ export const NonDismissable: Story = {
   render: () => (
     <Dialog disablePointerDismissal>
       <Button
-        emphasis="solid"
         sizing="hug"
-        variant="secondary"
+        prominence="secondary"
         tone="neutral"
         magnitude="xl"
         render={<DialogTrigger />}
@@ -148,9 +145,8 @@ export const NonDismissable: Story = {
             </DialogBody>
             <DialogActions>
               <Button
-                emphasis="solid"
                 sizing="hug"
-                variant="secondary"
+                prominence="secondary"
                 tone="neutral"
                 magnitude="xl"
                 render={<DialogClose />}

@@ -54,9 +54,8 @@ export const Anatomy: Story = {
   render: () => (
     <Popover>
       <Button
-        emphasis="solid"
         sizing="hug"
-        variant="secondary"
+        prominence="secondary"
         tone="neutral"
         magnitude="xl"
         render={<PopoverTrigger />}
@@ -98,9 +97,8 @@ export const Modal: Story = {
   render: () => (
     <Popover modal>
       <Button
-        emphasis="solid"
         sizing="hug"
-        variant="secondary"
+        prominence="secondary"
         tone="neutral"
         magnitude="xl"
         render={<PopoverTrigger />}
@@ -123,9 +121,8 @@ export const Modal: Story = {
               </PopoverIntro>
               <PopoverActions>
                 <Button
-                  emphasis="solid"
                   sizing="hug"
-                  variant="secondary"
+                  prominence="secondary"
                   tone="neutral"
                   magnitude="xl"
                   render={<PopoverClose />}

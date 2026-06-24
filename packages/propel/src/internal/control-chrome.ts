@@ -1,12 +1,11 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
 /**
- * The control chrome shared by surfaces built on Figma's button tokens — `Button` (its non-link
- * variants) and `IconButton`. It owns the shared behavior base (focus ring, disabled affordance,
- * shape, transition) and the neutral/danger fill + border + text palette per Type. `link` is an
- * accepted variant that draws no chrome (Button styles the link look in its own local cva); each
- * surface's geometry (label padding vs square box) is likewise its own local concern. Compose this
- * with a surface's local cva via `composeVariants`.
+ * The control chrome shared by the button-look surfaces built on Figma's button tokens — `Button`
+ * (`<button>`), `ButtonAnchor` (`<a>`), and `IconButton`. It owns the shared behavior base (focus
+ * ring, disabled affordance, shape, transition) and the neutral/danger fill + border + text palette
+ * per `prominence`. Each surface's geometry (label padding vs square box) is its own local concern.
+ * Compose this with a surface's local cva via `composeVariants`.
  */
 export const controlChromeVariants = cva(
   cx(
@@ -18,12 +17,12 @@ export const controlChromeVariants = cva(
   ),
   {
     variants: {
-      variant: { primary: "", secondary: "shadow-raised-100", tertiary: "", ghost: "", link: "" },
+      prominence: { primary: "", secondary: "shadow-raised-100", tertiary: "", ghost: "" },
       tone: { neutral: "", danger: "" },
     },
     compoundVariants: [
       {
-        variant: "primary",
+        prominence: "primary",
         tone: "neutral",
         className: cx(
           "bg-accent-primary text-inverse",
@@ -32,7 +31,7 @@ export const controlChromeVariants = cva(
         ),
       },
       {
-        variant: "secondary",
+        prominence: "secondary",
         tone: "neutral",
         className: cx(
           "border border-strong bg-layer-2 text-secondary",
@@ -41,7 +40,7 @@ export const controlChromeVariants = cva(
         ),
       },
       {
-        variant: "tertiary",
+        prominence: "tertiary",
         tone: "neutral",
         className: cx(
           "bg-layer-3 text-secondary",
@@ -50,7 +49,7 @@ export const controlChromeVariants = cva(
         ),
       },
       {
-        variant: "ghost",
+        prominence: "ghost",
         tone: "neutral",
         className: cx(
           "bg-layer-transparent text-secondary",
@@ -59,7 +58,7 @@ export const controlChromeVariants = cva(
         ),
       },
       {
-        variant: "primary",
+        prominence: "primary",
         tone: "danger",
         className: cx(
           "bg-danger-primary text-on-color",
@@ -68,7 +67,7 @@ export const controlChromeVariants = cva(
         ),
       },
       {
-        variant: "secondary",
+        prominence: "secondary",
         tone: "danger",
         className: cx(
           "border border-danger-strong bg-layer-2 text-danger-secondary",

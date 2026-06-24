@@ -9,10 +9,10 @@ import {
   ButtonLabel,
   type ButtonMagnitude,
   ButtonSpinner,
-  type ButtonVariant,
+  type ButtonProminence,
 } from "./index";
 
-const VARIANTS: ButtonVariant[] = ["primary", "secondary", "tertiary", "ghost", "link"];
+const PROMINENCES: ButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: ButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
 const meta = {
@@ -30,10 +30,9 @@ const meta = {
   },
   args: {
     children: "Button",
-    variant: "primary",
+    prominence: "primary",
     tone: "neutral",
     magnitude: "md",
-    emphasis: "solid",
     sizing: "hug",
   },
 } satisfies Meta<typeof Button>;
@@ -43,16 +42,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** Every Figma "Type" side by side at the default magnitude. */
-export const Variants: Story = {
-  // Iterates `variant` and labels each button with the variant name, so disable just
-  // those two controls; the rest stay live and update every button at once.
-  argTypes: { variant: { control: false }, children: { control: false } },
+/** Every prominence (Figma "Type") side by side at the default magnitude. */
+export const Prominences: Story = {
+  // Iterates `prominence` and labels each button, so disable just those two controls;
+  // the rest stay live and update every button at once.
+  argTypes: { prominence: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      {VARIANTS.map((variant) => (
-        <Button key={variant} {...args} variant={variant}>
-          {variant}
+      {PROMINENCES.map((prominence) => (
+        <Button key={prominence} {...args} prominence={prominence}>
+          {prominence}
         </Button>
       ))}
     </div>
@@ -67,39 +66,14 @@ export const Tones: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <Button {...args} tone="neutral" variant="primary">
+      <Button {...args} tone="neutral" prominence="primary">
         Neutral
       </Button>
-      <Button {...args} tone="danger" variant="primary">
+      <Button {...args} tone="danger" prominence="primary">
         Danger fill
       </Button>
-      <Button {...args} tone="danger" variant="secondary">
+      <Button {...args} tone="danger" prominence="secondary">
         Danger outline
-      </Button>
-    </div>
-  ),
-};
-
-/**
- * `emphasis` is link-only (Figma "Emphasis"): `solid` is the blue `link/primary` affordance,
- * `subtle` is the muted gray inline link (uses `text-secondary`). Every non-link variant ignores
- * it.
- */
-export const LinkEmphasis: Story = {
-  // Iterates `emphasis` (link-only, so `variant` is pinned to link) and labels each
-  // button, so disable those controls; the rest stay live and update both at once.
-  argTypes: {
-    emphasis: { control: false },
-    variant: { control: false },
-    children: { control: false },
-  },
-  render: (args) => (
-    <div className="flex items-center gap-3">
-      <Button {...args} variant="link" emphasis="solid">
-        Solid link
-      </Button>
-      <Button {...args} variant="link" emphasis="subtle">
-        Subtle link
       </Button>
     </div>
   ),
@@ -129,10 +103,10 @@ export const WithIcons: Story = {
       <Button {...args} inlineStartNode={<Plus />}>
         New
       </Button>
-      <Button {...args} variant="secondary" inlineEndNode={<Settings />}>
+      <Button {...args} prominence="secondary" inlineEndNode={<Settings />}>
         Settings
       </Button>
-      <Button {...args} variant="tertiary" inlineStartNode={<Search />} inlineEndNode={<Plus />}>
+      <Button {...args} prominence="tertiary" inlineStartNode={<Search />} inlineEndNode={<Plus />}>
         Search
       </Button>
     </div>
@@ -147,10 +121,10 @@ export const Loading: Story = {
       <Button {...args} loading>
         Saving
       </Button>
-      <Button {...args} variant="secondary" loading>
+      <Button {...args} prominence="secondary" loading>
         Loading
       </Button>
-      <Button {...args} variant="tertiary" loading>
+      <Button {...args} prominence="tertiary" loading>
         Please wait
       </Button>
     </div>
@@ -165,7 +139,7 @@ export const Stretch: Story = {
       <Button {...args} sizing="fill">
         Full-width
       </Button>
-      <Button {...args} variant="secondary" sizing="fill">
+      <Button {...args} prominence="secondary" sizing="fill">
         Full-width outline
       </Button>
     </div>

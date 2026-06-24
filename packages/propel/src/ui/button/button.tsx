@@ -2,33 +2,29 @@ import { Button as BaseButton } from "@base-ui/react/button";
 
 import { type ButtonVariantProps, buttonVariants } from "./variants";
 
-// Re-exported so `buttonVariants` + its variant-prop types stay part of the button entry's public
-// surface (e.g. `icon-button` composes it).
+// Re-exported so `buttonVariants` + its variant-prop types stay part of the button entry's surface.
 export { buttonVariants } from "./variants";
 export type {
-  ButtonEmphasis,
   ButtonMagnitude,
+  ButtonProminence,
   ButtonSizing,
   ButtonTone,
-  ButtonVariant,
   ButtonVariantProps,
 } from "./variants";
 
-// The variant axes come straight from `ButtonVariantProps` — all required (no `defaultVariants`).
 export type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & ButtonVariantProps;
 
 /**
- * A plain accessible button built on propel's design tokens. Pick a look with `variant` (Figma
- * Type), select the error palette with `tone`, and size it with `magnitude` — all required, so
- * consumers choose explicitly. For `variant="link"` only, optionally choose `solid` (blue) or
- * `subtle` (gray) with `emphasis`. Use `sizing="fill"` for full-width placements. `children` is
- * passed through; it is not a variant.
+ * A plain accessible action button (`<button>`) built on propel's design tokens. Pick its weight
+ * with `prominence` (Figma Type: primary·secondary·tertiary·ghost), the error palette with `tone`,
+ * the size with `magnitude`, and full-width with `sizing` — all required, so consumers choose
+ * explicitly. For navigation use `ButtonAnchor` (button look) or `Anchor` (inline link), not a
+ * button. `children` is passed through; it is not a variant.
  */
 export function Button({
-  variant,
+  prominence,
   tone,
   magnitude,
-  emphasis,
   sizing,
   type = "button",
   ...props
@@ -36,7 +32,7 @@ export function Button({
   return (
     <BaseButton
       type={type}
-      className={buttonVariants({ variant, tone, magnitude, emphasis, sizing })}
+      className={buttonVariants({ prominence, tone, magnitude, sizing })}
       {...props}
     />
   );

@@ -7,12 +7,12 @@ export type IconButtonProps = Omit<BaseButton.Props, "className" | "style"> &
 
 /**
  * The square button box of the icon-only button: the styled Base UI `Button` with no baked content.
- * It owns its chrome (`variant`/`tone`) and geometry (`magnitude`'s square `size-N` box and
+ * It owns its chrome (`prominence`/`tone`) and geometry (`magnitude`'s square `size-N` box and
  * `--node-size` glyph scale) through `iconButtonVariants` — independent of `Button`. There is no
  * `link` icon button. Compose an `IconButtonIcon` (or `IconButtonSpinner`) inside it.
  */
 export function IconButton({
-  variant,
+  prominence,
   tone,
   magnitude,
   type = "button",
@@ -21,7 +21,7 @@ export function IconButton({
   return (
     <BaseButton
       type={type}
-      className={iconButtonVariants({ variant, tone, magnitude })}
+      className={iconButtonVariants({ prominence, tone, magnitude })}
       {...props}
     />
   );

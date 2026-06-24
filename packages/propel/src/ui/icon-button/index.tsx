@@ -4,6 +4,6 @@ export * from "./icon-button-spinner";
 export {
   type IconButtonMagnitude,
   type IconButtonTone,
-  type IconButtonVariant,
+  type IconButtonProminence,
   type IconButtonVariantProps,
 } from "./variants";

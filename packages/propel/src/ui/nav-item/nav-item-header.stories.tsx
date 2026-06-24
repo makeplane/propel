@@ -96,7 +96,12 @@ export const WithAction: Story = {
             </NavItemHeaderIndicator>
           </NavItemHeaderToggle>
           <NavItemHeaderAction>
-            <IconButton variant="tertiary" tone="neutral" magnitude="sm" aria-label="Add to Inbox">
+            <IconButton
+              prominence="tertiary"
+              tone="neutral"
+              magnitude="sm"
+              aria-label="Add to Inbox"
+            >
               <Plus />
             </IconButton>
           </NavItemHeaderAction>
@@ -284,7 +289,7 @@ export const RightToLeft: Story = {
               </NavItemHeaderIndicator>
             </NavItemHeaderToggle>
             <NavItemHeaderAction>
-              <IconButton variant="tertiary" tone="neutral" magnitude="sm" aria-label="إضافة">
+              <IconButton prominence="tertiary" tone="neutral" magnitude="sm" aria-label="إضافة">
                 <Plus />
               </IconButton>
             </NavItemHeaderAction>

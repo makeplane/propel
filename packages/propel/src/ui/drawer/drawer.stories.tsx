@@ -57,9 +57,8 @@ export const Anatomy: Story = {
   render: () => (
     <Drawer>
       <Button
-        emphasis="solid"
         sizing="hug"
-        variant="secondary"
+        prominence="secondary"
         tone="neutral"
         magnitude="xl"
         render={<DrawerTrigger />}
@@ -77,7 +76,7 @@ export const Anatomy: Story = {
                   <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
                 </DrawerHeaderContent>
                 <IconButton
-                  variant="ghost"
+                  prominence="ghost"
                   tone="neutral"
                   magnitude="lg"
                   aria-label="Close"
@@ -89,22 +88,15 @@ export const Anatomy: Story = {
               <DrawerBody>Panel body content goes here.</DrawerBody>
               <DrawerFooter>
                 <Button
-                  emphasis="solid"
                   sizing="hug"
-                  variant="ghost"
+                  prominence="ghost"
                   tone="neutral"
                   magnitude="lg"
                   render={<DrawerClose />}
                 >
                   Cancel
                 </Button>
-                <Button
-                  emphasis="solid"
-                  sizing="hug"
-                  variant="primary"
-                  tone="neutral"
-                  magnitude="lg"
-                >
+                <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg">
                   Save
                 </Button>
               </DrawerFooter>

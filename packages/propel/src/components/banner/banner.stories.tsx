@@ -65,13 +65,13 @@ export const WithActions: Story = {
     onDismiss: fn(),
     actions: (
       <>
-        <Button emphasis="solid" sizing="hug" variant="ghost" tone="neutral" magnitude="sm">
+        <Button sizing="hug" prominence="ghost" tone="neutral" magnitude="sm">
           Remind me later
         </Button>
-        <Button emphasis="solid" sizing="hug" variant="secondary" tone="neutral" magnitude="sm">
+        <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="sm">
           Learn more
         </Button>
-        <Button emphasis="solid" sizing="hug" variant="primary" tone="neutral" magnitude="sm">
+        <Button sizing="hug" prominence="primary" tone="neutral" magnitude="sm">
           Update now
         </Button>
       </>

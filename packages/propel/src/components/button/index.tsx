@@ -8,10 +8,9 @@ export {
   type ButtonLabelProps,
   ButtonSpinner,
   type ButtonSpinnerProps,
-  type ButtonEmphasis,
   type ButtonMagnitude,
   type ButtonSizing,
   type ButtonTone,
-  type ButtonVariant,
+  type ButtonProminence,
   buttonVariants,
 } from "../../ui/button";

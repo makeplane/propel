@@ -170,11 +170,16 @@ function CommentComposer({
             {body}
             <div className="flex shrink-0 items-center gap-1.5">
               <span aria-hidden className="h-4 w-0 shrink-0 border-s-sm border-subtle-1" />
-              <IconButton variant="ghost" tone="neutral" magnitude="md" aria-label="Attach a file">
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label="Attach a file"
+              >
                 <Paperclip aria-hidden />
               </IconButton>
               <IconButton
-                variant="secondary"
+                prominence="secondary"
                 tone="neutral"
                 magnitude="md"
                 aria-label={sendLabel}
@@ -194,9 +199,8 @@ function CommentComposer({
               </div>
               {magnitude === "base" ? (
                 <Button
-                  emphasis="solid"
                   sizing="hug"
-                  variant="secondary"
+                  prominence="secondary"
                   tone="neutral"
                   magnitude="md"
                   disabled={isEmpty}
@@ -206,7 +210,7 @@ function CommentComposer({
                 </Button>
               ) : (
                 <IconButton
-                  variant="secondary"
+                  prominence="secondary"
                   tone="neutral"
                   magnitude="md"
                   aria-label={sendLabel}
@@ -275,7 +279,7 @@ const RECIPE_SOURCE = `function CommentComposer() {
               </ToolbarToggle>
             </ToolbarGroup>
           </Toolbar>
-          <Button emphasis="solid" sizing="hug" variant="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
+          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
             Comment
           </Button>
         </div>
