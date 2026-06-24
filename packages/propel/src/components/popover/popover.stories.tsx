@@ -33,14 +33,14 @@ function PanelLabel({ children }: { children: React.ReactNode }) {
   return <div className="px-2 py-1.5 text-12 text-tertiary">{children}</div>;
 }
 
-// A thin divider between panel sections (matches the dropdown's separator).
+// A thin divider between panel sections (matches the menu's separator).
 function PanelSeparator() {
   return <div className="-mx-1 my-1 border-t border-subtle" />;
 }
 
 // A row whose leading control is a propel Radio, for single-select sort lists.
-// Sized to match a DropdownItem (34px tall, `rounded-md`) so the panel reads like
-// the dropdown menu.
+// Sized to match a MenuItem (34px tall, `rounded-md`) so the panel reads like
+// the menu.
 function PanelRadioRow({ value, label }: { value: string; label: string }) {
   return (
     <label className="flex h-[34px] cursor-pointer items-center gap-2 rounded-md px-2 text-13 text-secondary hover:bg-layer-transparent-hover">
@@ -157,7 +157,7 @@ export const DisplayProperties: Story = {
           </div>
           <PanelSeparator />
           <PanelLabel>Group by</PanelLabel>
-          {/* Rows sit flush like the dropdown's menu items. */}
+          {/* Rows sit flush like the menu's items. */}
           <RadioGroup
             density="compact"
             value={groupBy}
