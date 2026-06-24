@@ -16,8 +16,6 @@ import {
 export type MenuCheckboxItemProps = MenuCheckboxItemElementProps & {
   /** Leading content shown after the checkbox. */
   inlineStartNode?: React.ReactNode;
-  /** The primary text of the row. */
-  label?: React.ReactNode;
   /** Trailing content. */
   inlineEndNode?: React.ReactNode;
 };
@@ -28,7 +26,6 @@ export type MenuCheckboxItemProps = MenuCheckboxItemElementProps & {
  */
 export function MenuCheckboxItem({
   inlineStartNode,
-  label,
   inlineEndNode,
   checked,
   defaultChecked,
@@ -57,7 +54,7 @@ export function MenuCheckboxItem({
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
-          <MenuItemTitle>{label ?? children}</MenuItemTitle>
+          <MenuItemTitle>{children}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
       {inlineEndNode != null ? <MenuItemMeta>{inlineEndNode}</MenuItemMeta> : null}

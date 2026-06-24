@@ -52,26 +52,19 @@ export const Default: Story = {
       <ContextMenuPortal>
         <ContextMenuPositioner>
           <ContextMenuPopup>
-            <ContextMenuItem
-              tone="neutral"
-              inlineStartNode={<Scissors />}
-              label="Cut"
-              inlineEndNode="⌘X"
-            />
-            <ContextMenuItem
-              tone="neutral"
-              inlineStartNode={<Copy />}
-              label="Copy"
-              inlineEndNode="⌘C"
-            />
-            <ContextMenuItem
-              tone="neutral"
-              inlineStartNode={<ClipboardPaste />}
-              label="Paste"
-              inlineEndNode="⌘V"
-            />
+            <ContextMenuItem tone="neutral" inlineStartNode={<Scissors />} inlineEndNode="⌘X">
+              Cut
+            </ContextMenuItem>
+            <ContextMenuItem tone="neutral" inlineStartNode={<Copy />} inlineEndNode="⌘C">
+              Copy
+            </ContextMenuItem>
+            <ContextMenuItem tone="neutral" inlineStartNode={<ClipboardPaste />} inlineEndNode="⌘V">
+              Paste
+            </ContextMenuItem>
             <ContextMenuSeparator />
-            <ContextMenuItem tone="danger" inlineStartNode={<Trash2 />} label="Delete" />
+            <ContextMenuItem tone="danger" inlineStartNode={<Trash2 />}>
+              Delete
+            </ContextMenuItem>
           </ContextMenuPopup>
         </ContextMenuPositioner>
       </ContextMenuPortal>

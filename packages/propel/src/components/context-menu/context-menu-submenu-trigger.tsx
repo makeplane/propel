@@ -16,8 +16,6 @@ export type ContextMenuSubmenuTriggerProps = Omit<
 > & {
   /** Leading icon before the label. */
   inlineStartNode?: React.ReactNode;
-  /** The primary text of the row. */
-  label?: React.ReactNode;
   /** Trailing hint before the submenu caret. */
   inlineEndNode?: React.ReactNode;
 };
@@ -29,7 +27,6 @@ export type ContextMenuSubmenuTriggerProps = Omit<
  */
 export function ContextMenuSubmenuTrigger({
   inlineStartNode,
-  label,
   inlineEndNode,
   children,
   ...props
@@ -39,7 +36,7 @@ export function ContextMenuSubmenuTrigger({
       {inlineStartNode != null ? (
         <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
       ) : null}
-      <ContextMenuItemLabel>{label ?? children}</ContextMenuItemLabel>
+      <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
       {inlineEndNode != null ? (
         <ContextMenuItemShortcut>{inlineEndNode}</ContextMenuItemShortcut>
       ) : null}

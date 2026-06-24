@@ -15,8 +15,6 @@ import {
 export type MenuSubmenuTriggerProps = MenuSubmenuTriggerElementProps & {
   /** Leading content before the label. */
   inlineStartNode?: React.ReactNode;
-  /** The primary text of the row. */
-  label?: React.ReactNode;
   /** Trailing content before the chevron. */
   inlineEndNode?: React.ReactNode;
 };
@@ -27,7 +25,6 @@ export type MenuSubmenuTriggerProps = MenuSubmenuTriggerElementProps & {
  */
 export function MenuSubmenuTrigger({
   inlineStartNode,
-  label,
   inlineEndNode,
   children,
   ...props
@@ -37,7 +34,7 @@ export function MenuSubmenuTrigger({
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
-          <MenuItemTitle>{label ?? children}</MenuItemTitle>
+          <MenuItemTitle>{children}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
       {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}

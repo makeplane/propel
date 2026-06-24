@@ -13,8 +13,6 @@ import {
 export type MenuLinkItemProps = MenuLinkItemElementProps & {
   /** Leading content before the label. */
   inlineStartNode?: React.ReactNode;
-  /** The primary text of the row. */
-  label?: React.ReactNode;
   /** Trailing content after the label. */
   inlineEndNode?: React.ReactNode;
 };
@@ -25,7 +23,6 @@ export type MenuLinkItemProps = MenuLinkItemElementProps & {
  */
 export function MenuLinkItem({
   inlineStartNode,
-  label,
   inlineEndNode,
   children,
   ...props
@@ -35,7 +32,7 @@ export function MenuLinkItem({
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
-          <MenuItemTitle>{label ?? children}</MenuItemTitle>
+          <MenuItemTitle>{children}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
       {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}

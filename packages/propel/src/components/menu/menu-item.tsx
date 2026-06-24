@@ -17,8 +17,6 @@ import {
 export type MenuItemProps = MenuItemElementProps & {
   /** Leading content before the label. */
   inlineStartNode?: React.ReactNode;
-  /** The primary text of the row. */
-  label?: React.ReactNode;
   /** Muted secondary line under the label. */
   description?: React.ReactNode;
   /** Muted text shown inline after the label. */
@@ -35,7 +33,6 @@ export type MenuItemProps = MenuItemElementProps & {
  */
 export function MenuItem({
   inlineStartNode,
-  label,
   description,
   secondaryText,
   inlineEndNode,
@@ -48,7 +45,7 @@ export function MenuItem({
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
-          <MenuItemTitle>{label ?? children}</MenuItemTitle>
+          <MenuItemTitle>{children}</MenuItemTitle>
           {secondaryText != null ? (
             <MenuItemSecondaryText>{secondaryText}</MenuItemSecondaryText>
           ) : null}

@@ -10,11 +10,9 @@ import {
   ContextMenuItemShortcut,
 } from "../../ui/context-menu";
 
-export type ContextMenuItemProps = Omit<ContextMenuItemElementProps, "label"> & {
+export type ContextMenuItemProps = ContextMenuItemElementProps & {
   /** Leading icon before the label. */
   inlineStartNode?: React.ReactNode;
-  /** The primary text of the row. */
-  label?: React.ReactNode;
   /** Trailing keyboard-shortcut hint after the label. */
   inlineEndNode?: React.ReactNode;
   /** Single-select selected state. */
@@ -28,7 +26,6 @@ export type ContextMenuItemProps = Omit<ContextMenuItemElementProps, "label"> & 
  */
 export function ContextMenuItem({
   inlineStartNode,
-  label,
   inlineEndNode,
   selected,
   children,
@@ -39,7 +36,7 @@ export function ContextMenuItem({
       {inlineStartNode != null ? (
         <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
       ) : null}
-      <ContextMenuItemLabel>{label ?? children}</ContextMenuItemLabel>
+      <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
       {inlineEndNode != null ? (
         <ContextMenuItemShortcut>{inlineEndNode}</ContextMenuItemShortcut>
       ) : null}

@@ -59,20 +59,16 @@ export const Default: Story = {
           <MenubarTriggerLabel>File</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent width="sm">
-          <MenuItem
-            emphasis="default"
-            variant="default"
-            inlineStartNode={<FilePlus />}
-            label="New file"
-          />
-          <MenuItem
-            emphasis="default"
-            variant="default"
-            inlineStartNode={<FolderOpen />}
-            label="Open…"
-          />
+          <MenuItem emphasis="default" variant="default" inlineStartNode={<FilePlus />}>
+            New file
+          </MenuItem>
+          <MenuItem emphasis="default" variant="default" inlineStartNode={<FolderOpen />}>
+            Open…
+          </MenuItem>
           <MenuSeparator />
-          <MenuItem emphasis="default" variant="default" inlineStartNode={<Save />} label="Save" />
+          <MenuItem emphasis="default" variant="default" inlineStartNode={<Save />}>
+            Save
+          </MenuItem>
         </MenuContent>
       </Menu>
       <Menu>
@@ -83,16 +79,19 @@ export const Default: Story = {
           <MenubarTriggerLabel>Edit</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent width="sm">
-          <MenuItem emphasis="default" variant="default" inlineStartNode={<Undo2 />} label="Undo" />
-          <MenuItem emphasis="default" variant="default" inlineStartNode={<Redo2 />} label="Redo" />
+          <MenuItem emphasis="default" variant="default" inlineStartNode={<Undo2 />}>
+            Undo
+          </MenuItem>
+          <MenuItem emphasis="default" variant="default" inlineStartNode={<Redo2 />}>
+            Redo
+          </MenuItem>
           <MenuSeparator />
-          <MenuItem
-            emphasis="default"
-            variant="default"
-            inlineStartNode={<Scissors />}
-            label="Cut"
-          />
-          <MenuItem emphasis="default" variant="default" inlineStartNode={<Copy />} label="Copy" />
+          <MenuItem emphasis="default" variant="default" inlineStartNode={<Scissors />}>
+            Cut
+          </MenuItem>
+          <MenuItem emphasis="default" variant="default" inlineStartNode={<Copy />}>
+            Copy
+          </MenuItem>
         </MenuContent>
       </Menu>
     </Menubar>

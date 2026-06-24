@@ -191,10 +191,11 @@ export function Pagination({
                   emphasis="default"
                   key={option}
                   variant="default"
-                  label={l.perPageValue(option)}
                   selected={option === pageSize.value}
                   onClick={() => pageSize.onValueChange(option)}
-                />
+                >
+                  {l.perPageValue(option)}
+                </MenuItem>
               ))}
             </MenuContent>
           </Menu>

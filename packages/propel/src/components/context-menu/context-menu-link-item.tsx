@@ -8,11 +8,9 @@ import {
   ContextMenuItemShortcut,
 } from "../../ui/context-menu";
 
-export type ContextMenuLinkItemProps = Omit<ContextMenuLinkItemElementProps, "label"> & {
+export type ContextMenuLinkItemProps = ContextMenuLinkItemElementProps & {
   /** Leading icon before the label. */
   inlineStartNode?: React.ReactNode;
-  /** The primary text of the row. */
-  label?: React.ReactNode;
   /** Trailing hint after the label. */
   inlineEndNode?: React.ReactNode;
 };
@@ -23,7 +21,6 @@ export type ContextMenuLinkItemProps = Omit<ContextMenuLinkItemElementProps, "la
  */
 export function ContextMenuLinkItem({
   inlineStartNode,
-  label,
   inlineEndNode,
   children,
   ...props
@@ -33,7 +30,7 @@ export function ContextMenuLinkItem({
       {inlineStartNode != null ? (
         <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
       ) : null}
-      <ContextMenuItemLabel>{label ?? children}</ContextMenuItemLabel>
+      <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
       {inlineEndNode != null ? (
         <ContextMenuItemShortcut>{inlineEndNode}</ContextMenuItemShortcut>
       ) : null}

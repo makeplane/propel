@@ -214,11 +214,12 @@ export const Status: Story = {
               key={s.key}
               variant="default"
               inlineStartNode={s.icon}
-              label={s.label}
               selected={selected === s.key}
               closeOnClick={false}
               onClick={() => setSelected(s.key)}
-            />
+            >
+              {s.label}
+            </MenuItem>
           ))}
         </MenuContent>
       </Menu>
@@ -263,18 +264,18 @@ export const Labels: Story = {
               emphasis="default"
               variant="default"
               inlineStartNode={<Plus className="text-icon-secondary" />}
-              label={`Add label "${trimmed}"`}
               closeOnClick={false}
-            />
+            >{`Add label "${trimmed}"`}</MenuItem>
           ) : null}
           {visible.map((l) => (
             <MenuCheckboxItem
               key={l.key}
               inlineStartNode={<ColorSwatch className={l.color} />}
-              label={l.label}
               checked={Boolean(checked[l.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [l.key]: next }))}
-            />
+            >
+              {l.label}
+            </MenuCheckboxItem>
           ))}
         </MenuContent>
       </Menu>
@@ -309,42 +310,41 @@ export const ActionMenu: Story = {
     <Menu>
       <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
       <MenuContent width="sm">
-        <MenuItem emphasis="default" variant="default" inlineStartNode={<Pencil />} label="Edit" />
-        <MenuItem
-          emphasis="default"
-          variant="default"
-          inlineStartNode={<Copy />}
-          label="Make a copy"
-        />
-        <MenuItem
-          emphasis="default"
-          variant="default"
-          inlineStartNode={<ExternalLink />}
-          label="Open in new tab"
-        />
+        <MenuItem emphasis="default" variant="default" inlineStartNode={<Pencil />}>
+          Edit
+        </MenuItem>
+        <MenuItem emphasis="default" variant="default" inlineStartNode={<Copy />}>
+          Make a copy
+        </MenuItem>
+        <MenuItem emphasis="default" variant="default" inlineStartNode={<ExternalLink />}>
+          Open in new tab
+        </MenuItem>
         <MenuItem
           emphasis="default"
           variant="default"
           inlineStartNode={<Link2 />}
-          label="Copy link"
           inlineEndNode={<span className="text-12 text-tertiary">⌘L</span>}
-        />
+        >
+          Copy link
+        </MenuItem>
         <MenuSeparator />
         <MenuItem
           emphasis="default"
           inlineStartNode={<Trash2 />}
-          label="Archive"
           variant="with-description"
           description="Only completed or cancelled work items can be archived"
           disabled
-        />
+        >
+          Archive
+        </MenuItem>
         <MenuSeparator />
         <MenuItem
           emphasis="default"
           variant="default"
           inlineStartNode={<Trash2 className="text-danger-primary" />}
-          label={<span className="text-danger-primary">Delete</span>}
-        />
+        >
+          {<span className="text-danger-primary">Delete</span>}
+        </MenuItem>
       </MenuContent>
     </Menu>
   ),
@@ -411,23 +411,25 @@ export const Description: Story = {
           <MenuItem
             emphasis="default"
             inlineStartNode={<Lock />}
-            label="Private"
             variant="with-description"
             description="Accessible only by invite"
             selected={selected === "private"}
             closeOnClick={false}
             onClick={() => setSelected("private")}
-          />
+          >
+            Private
+          </MenuItem>
           <MenuItem
             emphasis="default"
             inlineStartNode={<Globe />}
-            label="Public"
             variant="with-description"
             description="Anyone in the workspace except Guests can join"
             selected={selected === "public"}
             closeOnClick={false}
             onClick={() => setSelected("public")}
-          />
+          >
+            Public
+          </MenuItem>
         </MenuContent>
       </Menu>
     );
@@ -458,7 +460,9 @@ export const LabelAndFooterSemantics: Story = {
       <MenuContent width="sm" footer={<MenuFooter>Type to add another item.</MenuFooter>}>
         <MenuGroup>
           <MenuLabel inlineEndNode={<span>3</span>}>Section</MenuLabel>
-          <MenuItem emphasis="default" variant="default" label="First item" />
+          <MenuItem emphasis="default" variant="default">
+            First item
+          </MenuItem>
         </MenuGroup>
       </MenuContent>
     </Menu>
@@ -494,11 +498,12 @@ export const Assignees: Story = {
             <MenuCheckboxItem
               key={a.key}
               inlineStartNode={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
-              label={a.name}
               checked={Boolean(checked[a.key])}
               disabled={a.disabled}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [a.key]: next }))}
-            />
+            >
+              {a.name}
+            </MenuCheckboxItem>
           ))}
         </MenuContent>
       </Menu>
@@ -542,12 +547,13 @@ export const LanguagePicker: Story = {
               emphasis="default"
               key={l.key}
               variant="default"
-              label={l.label}
               secondaryText={l.secondary}
               selected={selected === l.key}
               closeOnClick={false}
               onClick={() => setSelected(l.key)}
-            />
+            >
+              {l.label}
+            </MenuItem>
           ))}
         </MenuContent>
       </Menu>
@@ -588,10 +594,11 @@ export const Priority: Story = {
             <MenuCheckboxItem
               key={p.key}
               inlineStartNode={p.icon}
-              label={p.label}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
-            />
+            >
+              {p.label}
+            </MenuCheckboxItem>
           ))}
         </MenuContent>
       </Menu>
@@ -632,10 +639,11 @@ export const CheckedFillVisible: Story = {
             <MenuCheckboxItem
               key={p.key}
               inlineStartNode={p.icon}
-              label={p.label}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
-            />
+            >
+              {p.label}
+            </MenuCheckboxItem>
           ))}
         </MenuContent>
       </Menu>
@@ -742,7 +750,6 @@ export const Filters: Story = {
                   <MenuItem
                     emphasis="default"
                     variant="default"
-                    label={section.title}
                     aria-expanded={!isCollapsed}
                     inlineEndNode={
                       isCollapsed ? (
@@ -753,16 +760,19 @@ export const Filters: Story = {
                     }
                     closeOnClick={false}
                     onClick={() => setCollapsed((c) => ({ ...c, [section.title]: !isCollapsed }))}
-                  />
+                  >
+                    {section.title}
+                  </MenuItem>
                   {!isCollapsed
                     ? visibleItems.map((i) => (
                         <MenuCheckboxItem
                           key={i.key}
                           inlineStartNode={i.icon}
-                          label={i.label}
                           checked={Boolean(checked[i.key])}
                           onCheckedChange={toggle(i.key)}
-                        />
+                        >
+                          {i.label}
+                        </MenuCheckboxItem>
                       ))
                     : null}
                   {/* "View all" is its own menuitem (keyboard-focusable like any row)
@@ -774,16 +784,17 @@ export const Filters: Story = {
                       variant="default"
                       emphasis="link"
                       aria-expanded={isExpandedAll}
-                      label={
-                        <span className="text-accent-primary">
-                          {isExpandedAll ? "Show less" : `View all (${items.length})`}
-                        </span>
-                      }
                       closeOnClick={false}
                       onClick={() =>
                         setExpandedAll((s) => ({ ...s, [section.title]: !isExpandedAll }))
                       }
-                    />
+                    >
+                      {
+                        <span className="text-accent-primary">
+                          {isExpandedAll ? "Show less" : `View all (${items.length})`}
+                        </span>
+                      }
+                    </MenuItem>
                   ) : null}
                 </MenuGroup>
               </React.Fragment>
@@ -843,13 +854,9 @@ export const EmptyState: Story = {
         <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
           {visible.length > 0 ? (
             visible.map((s) => (
-              <MenuItem
-                emphasis="default"
-                key={s.key}
-                variant="default"
-                inlineStartNode={s.icon}
-                label={s.label}
-              />
+              <MenuItem emphasis="default" key={s.key} variant="default" inlineStartNode={s.icon}>
+                {s.label}
+              </MenuItem>
             ))
           ) : (
             <div className="px-2 py-2 text-13 text-tertiary">No matching results</div>
@@ -901,13 +908,14 @@ export const Submenu: Story = {
       <MenuContent width="sm">
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            label="Priority"
             inlineEndNode={
               <Badge magnitude="sm" tone="neutral" variant="solid">
                 5
               </Badge>
             }
-          />
+          >
+            Priority
+          </MenuSubmenuTrigger>
           <MenuSubmenuContent width="sm">
             {PRIORITIES.map((p) => (
               <MenuItem
@@ -915,21 +923,23 @@ export const Submenu: Story = {
                 key={p.key}
                 variant="default"
                 inlineStartNode={p.icon}
-                label={p.label}
                 closeOnClick={false}
-              />
+              >
+                {p.label}
+              </MenuItem>
             ))}
           </MenuSubmenuContent>
         </MenuSubmenu>
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            label="State"
             inlineEndNode={
               <Badge magnitude="sm" tone="neutral" variant="solid">
                 5
               </Badge>
             }
-          />
+          >
+            State
+          </MenuSubmenuTrigger>
           <MenuSubmenuContent width="sm">
             {STATUSES.map((s) => (
               <MenuItem
@@ -937,21 +947,23 @@ export const Submenu: Story = {
                 key={s.key}
                 variant="default"
                 inlineStartNode={s.icon}
-                label={s.label}
                 closeOnClick={false}
-              />
+              >
+                {s.label}
+              </MenuItem>
             ))}
           </MenuSubmenuContent>
         </MenuSubmenu>
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            label="Assignee"
             inlineEndNode={
               <Badge magnitude="sm" tone="neutral" variant="solid">
                 5
               </Badge>
             }
-          />
+          >
+            Assignee
+          </MenuSubmenuTrigger>
           <MenuSubmenuContent width="sm">
             {ASSIGNEES.map((a) => (
               <MenuItem
@@ -961,9 +973,10 @@ export const Submenu: Story = {
                 inlineStartNode={
                   <Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />
                 }
-                label={a.name}
                 closeOnClick={false}
-              />
+              >
+                {a.name}
+              </MenuItem>
             ))}
           </MenuSubmenuContent>
         </MenuSubmenu>

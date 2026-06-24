@@ -262,10 +262,11 @@ export const EditableCells: Story = {
                       emphasis="default"
                       key={role}
                       variant="default"
-                      label={role}
                       selected={role === person.role}
                       onClick={() => setRole(person.email, role)}
-                    />
+                    >
+                      {role}
+                    </MenuItem>
                   ))}
                 </MenuContent>
               </TableEditableCell>
@@ -415,27 +416,22 @@ export const RichRows: Story = {
                       emphasis="default"
                       key={role}
                       variant="default"
-                      label={role}
                       selected={role === person.role}
                       onClick={() => setRole(person.email, role)}
-                    />
+                    >
+                      {role}
+                    </MenuItem>
                   ))}
                 </MenuContent>
               </TableEditableCell>
               <TableActionCell aria-label={`Options for ${person.name}`}>
                 <MenuContent>
-                  <MenuItem
-                    emphasis="default"
-                    variant="default"
-                    inlineStartNode={<Pencil />}
-                    label="Edit"
-                  />
-                  <MenuItem
-                    emphasis="default"
-                    variant="default"
-                    inlineStartNode={<Trash2 />}
-                    label="Delete"
-                  />
+                  <MenuItem emphasis="default" variant="default" inlineStartNode={<Pencil />}>
+                    Edit
+                  </MenuItem>
+                  <MenuItem emphasis="default" variant="default" inlineStartNode={<Trash2 />}>
+                    Delete
+                  </MenuItem>
                 </MenuContent>
               </TableActionCell>
             </TableRow>
@@ -605,10 +601,11 @@ export const EditableCellKeyboard: Story = {
                     emphasis="default"
                     key={r}
                     variant="default"
-                    label={r}
                     selected={r === role}
                     onClick={() => setRole(r)}
-                  />
+                  >
+                    {r}
+                  </MenuItem>
                 ))}
               </MenuContent>
             </TableEditableCell>
