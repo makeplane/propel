@@ -1,10 +1,9 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import type { VariantProps } from "class-variance-authority";
 
-import { formBodyVariants } from "./variants";
+import { type FormBodyVariantProps, formBodyVariants } from "./variants";
 
-type FormBodyVariantProps = Required<VariantProps<typeof formBodyVariants>>;
+export type { FormBodyVariantProps } from "./variants";
 
 export type FormBodyProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
   FormBodyVariantProps;

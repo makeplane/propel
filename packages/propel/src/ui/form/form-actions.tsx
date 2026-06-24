@@ -1,10 +1,9 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import type { VariantProps } from "class-variance-authority";
 
-import { formActionsVariants } from "./variants";
+import { type FormActionsVariantProps, formActionsVariants } from "./variants";
 
-type FormActionsVariantProps = Required<VariantProps<typeof formActionsVariants>>;
+export type { FormActionsVariantProps } from "./variants";
 
 export type FormActionsProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
   FormActionsVariantProps;

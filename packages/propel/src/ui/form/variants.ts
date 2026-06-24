@@ -1,4 +1,6 @@
-import { cva } from "class-variance-authority";
+import { cva} from "class-variance-authority";
+
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Form is a layout primitive. Per the Figma spec (issue #130) the things that are
 // "always the same" are baked here — vertical rhythm between regions, the field
@@ -36,3 +38,7 @@ export const formActionsVariants = cva("flex gap-3", {
     },
   },
 });
+
+export type FormActionsVariantProps = StrictVariantProps<typeof formActionsVariants>;
+
+export type FormBodyVariantProps = StrictVariantProps<typeof formBodyVariants>;
