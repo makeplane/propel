@@ -24,6 +24,7 @@ export const Default: Story = {
   args: {
     magnitude: "md",
     tone: "neutral",
+    resize: "vertical",
     label: "Comment",
     placeholder: "Leave a comment...",
     description: "Share your thoughts on the proposal.",
@@ -41,7 +42,13 @@ export const Default: Story = {
  * and the field min-height; padding and radius stay fixed.
  */
 export const Magnitudes: Story = {
-  args: { magnitude: "md", tone: "neutral", label: "Comment", placeholder: "Leave a comment..." },
+  args: {
+    magnitude: "md",
+    tone: "neutral",
+    resize: "vertical",
+    label: "Comment",
+    placeholder: "Leave a comment...",
+  },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex w-80 flex-col gap-4">
@@ -50,6 +57,7 @@ export const Magnitudes: Story = {
           key={magnitude}
           magnitude={magnitude}
           tone="neutral"
+          resize="vertical"
           label={magnitude}
           placeholder="Leave a comment..."
         />
@@ -63,13 +71,14 @@ export const Magnitudes: Story = {
  * the field box, rather than reserving a permanent gutter.
  */
 export const Scroll: Story = {
-  args: { magnitude: "md", tone: "neutral", label: "Comment" },
+  args: { magnitude: "md", tone: "neutral", resize: "vertical", label: "Comment" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="w-80">
       <TextAreaField
         magnitude="md"
         tone="neutral"
+        resize="vertical"
         label="Comment"
         defaultValue={Array.from({ length: 12 }, (_, i) => `Line ${i + 1} of a long comment.`).join(
           "\n",
@@ -84,6 +93,7 @@ export const Error: Story = {
   args: {
     magnitude: "md",
     tone: "danger",
+    resize: "vertical",
     label: "Comment",
     defaultValue: "No",
     error: "Add a little more detail.",
@@ -102,6 +112,7 @@ export const TypingUpdatesValue: Story = {
   args: {
     magnitude: "md",
     tone: "neutral",
+    resize: "vertical",
     label: "Comment",
     placeholder: "Leave a comment...",
     onChange: fn(),
@@ -125,6 +136,7 @@ export const ErrorAnnouncesInvalid: Story = {
   args: {
     magnitude: "md",
     tone: "danger",
+    resize: "vertical",
     label: "Comment",
     defaultValue: "No",
     error: "Add a little more detail.",
