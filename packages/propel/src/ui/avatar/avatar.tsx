@@ -2,7 +2,7 @@ import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import { type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
-import { avatarVariants } from "./variants";
+import { avatarToneBgClass, avatarVariants } from "./variants";
 
 export type AvatarMagnitude = NonNullable<VariantProps<typeof avatarVariants>["magnitude"]>;
 
@@ -16,16 +16,9 @@ export const AvatarGroupContext = React.createContext<AvatarMagnitude | undefine
 export const AVATAR_TONES = ["orange", "indigo", "emerald", "crimson", "pink", "purple"] as const;
 export type AvatarTone = (typeof AVATAR_TONES)[number];
 
-// Initials background per tone, kept for callers that style their own fallback surface
-// (e.g. `WorkspaceAvatar`). `AvatarFallback`'s `tone` variant carries the same palette.
-export const initialsToneClass: Record<AvatarTone, string> = {
-  orange: "bg-label-orange-bg-strong",
-  indigo: "bg-label-indigo-bg-strong",
-  emerald: "bg-label-emerald-bg-strong",
-  crimson: "bg-label-crimson-bg-strong",
-  pink: "bg-label-pink-bg-strong",
-  purple: "bg-label-purple-bg-strong",
-};
+// Re-exported for callers (e.g. `WorkspaceAvatar`) that style their own fallback surface.
+// The source of truth lives in `variants.ts`.
+export const initialsToneClass: Record<AvatarTone, string> = avatarToneBgClass;
 
 /**
  * Deterministically pick a tone from a seed (e.g. a name or user id) so the same person always gets
