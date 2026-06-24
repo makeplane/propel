@@ -27,7 +27,8 @@ const ariaSort: Record<TableHeadSort, React.AriaAttributes["aria-sort"]> = {
 
 export type TableHeadProps = Omit<TableHeadElementProps, "aria-sort" | "variant"> & {
   /** Visual treatment. `sortable` renders the title as a sort-cycling button. */
-  variant: "default" | "sortable";
+  /** Whether this header is interactive sortable (renders a sort trigger + reflects `aria-sort`). */
+  sortable?: boolean;
   /** Current sort state for a sortable header. @default "none" */
   sort?: TableHeadSort;
   /** Click handler for the sort control; only used when the header is sortable. */
@@ -35,9 +36,15 @@ export type TableHeadProps = Omit<TableHeadElementProps, "aria-sort" | "variant"
 };
 
 /** A ready-made header cell: a plain title, or (when sortable) a sort-cycling button with a chevron. */
-export function TableHead({ variant, sort = "none", onSort, children, ...props }: TableHeadProps) {
+export function TableHead({
+  sortable = false,
+  sort = "none",
+  onSort,
+  children,
+  ...props
+}: TableHeadProps) {
   const tableVariant = useTableVariant();
-  const isSortable = variant === "sortable";
+  const isSortable = sortable;
   const hasSortControl = isSortable && onSort != null;
   const SortGlyph = sortGlyph[sort];
 

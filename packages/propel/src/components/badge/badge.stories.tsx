@@ -42,7 +42,6 @@ const meta = {
     children: "Badge",
     tone: "neutral",
     magnitude: "md",
-    variant: "solid",
   },
   parameters: {
     design: {

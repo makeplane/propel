@@ -16,7 +16,6 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 // "Depends (adjustable)" — exposed as required cva variants:
 //   - magnitude: S / Base / Large (height, horizontal padding, text size, node size)
 //   - tone: color/sentiment (neutral, grey, brand, info, …)
-//   - variant: Solid (outline listed as a potential future value — axis introduced now)
 export const badgeVariants = cva(
   "inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-full leading-none font-medium whitespace-nowrap",
   {
@@ -48,12 +47,6 @@ export const badgeVariants = cva(
         crimson: "bg-label-crimson-bg text-label-crimson-text",
         orange: "bg-label-orange-bg text-label-orange-text",
       },
-      // Figma Variant axis. Currently only "solid" (filled background) exists; "outline"
-      // is listed as a potential future value. The axis is introduced now so call sites
-      // are forward-compatible.
-      variant: {
-        solid: "",
-      },
     },
   },
 );
@@ -65,7 +58,6 @@ export const badgeVariants = cva(
 type BadgeVariantConfig = VariantProps<typeof badgeVariants>;
 export type BadgeMagnitude = NonNullable<BadgeVariantConfig["magnitude"]>;
 export type BadgeTone = NonNullable<BadgeVariantConfig["tone"]>;
-export type BadgeVariant = NonNullable<BadgeVariantConfig["variant"]>;
 export type BadgeVariantProps = StrictVariantProps<typeof badgeVariants>;
 
 export const badgeIconVariants = cva(nodeSlotClass);

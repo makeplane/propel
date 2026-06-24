@@ -9,5 +9,4 @@ export {
   type BadgeLabelProps,
   type BadgeMagnitude,
   type BadgeTone,
-  type BadgeVariant,
 } from "../../ui/badge";

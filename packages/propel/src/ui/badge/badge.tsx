@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type BadgeVariantProps, badgeVariants } from "./variants";
 
-export type { BadgeMagnitude, BadgeTone, BadgeVariant, BadgeVariantProps } from "./variants";
+export type { BadgeMagnitude, BadgeTone, BadgeVariantProps } from "./variants";
 
 export type BadgeProps = Omit<useRender.ComponentProps<"span">, "className" | "style"> &
   BadgeVariantProps;
@@ -13,9 +13,9 @@ export type BadgeProps = Omit<useRender.ComponentProps<"span">, "className" | "s
  * `BadgeDismiss` inside it (or use the ready-made `components/badge` composition). Sets the tone's
  * text color and the magnitude's `--node-size`, which its slot children inherit.
  */
-export function Badge({ tone, magnitude, variant, render, ...props }: BadgeProps) {
+export function Badge({ tone, magnitude, render, ...props }: BadgeProps) {
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: badgeVariants({ tone, magnitude, variant }),
+    className: badgeVariants({ tone, magnitude }),
   };
   return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }

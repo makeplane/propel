@@ -7,7 +7,7 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 // stack's uniform gap, the bottom-aligned actions bar — while the one adjustable
 // axis (single- vs multi-column field arrangement) is a required `layout` variant
 // on `FormBody`, and the actions bar's right-aligned-vs-full-width treatment is a
-// required `variant` on `FormActions`. No part takes a `className`.
+// required `layout` on `FormActions`. No part takes a `className`.
 
 // The form root only governs the vertical rhythm BETWEEN regions (the field body and
 // the actions bar). Field spacing and action layout belong to those regions, not here.
@@ -32,7 +32,7 @@ export const formBodyVariants = cva("flex gap-4", {
 // - `"stretch"` — buttons stretch to fill the row (full-width actions).
 export const formActionsVariants = cva("flex gap-3", {
   variants: {
-    variant: {
+    layout: {
       inline: "flex-row justify-end",
       stretch: "flex-col [&>*]:w-full",
     },

@@ -89,9 +89,7 @@ export const Default: Story = {
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead key={c} variant="default">
-              {c}
-            </TableHead>
+            <TableHead key={c}>{c}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
@@ -133,9 +131,7 @@ export const Spreadsheet: Story = {
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead key={c} variant="default">
-              {c}
-            </TableHead>
+            <TableHead key={c}>{c}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
@@ -177,11 +173,11 @@ export const Sortable: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="sortable" sort={sort} onSort={cycle}>
+            <TableHead sortable sort={sort} onSort={cycle}>
               Name
             </TableHead>
-            <TableHead variant="default">Account type</TableHead>
-            <TableHead variant="default">Email</TableHead>
+            <TableHead>Account type</TableHead>
+            <TableHead>Email</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -232,9 +228,9 @@ export const EditableCells: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="default">Name</TableHead>
-            <TableHead variant="default">Email</TableHead>
-            <TableHead variant="default">Account type</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Account type</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -321,10 +317,10 @@ export const WithPagination: Story = {
         <Table {...args}>
           <TableHeader>
             <TableRow>
-              <TableHead variant="default">Name</TableHead>
-              <TableHead variant="default">Email</TableHead>
-              <TableHead variant="default">Account type</TableHead>
-              <TableHead variant="default">Billing status</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Account type</TableHead>
+              <TableHead>Billing status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -390,10 +386,10 @@ export const RichRows: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="default">Name</TableHead>
-            <TableHead variant="default">Email</TableHead>
-            <TableHead variant="default">Account type</TableHead>
-            <TableHead variant="default">
+            <TableHead>Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Account type</TableHead>
+            <TableHead>
               <span className="sr-only">Actions</span>
             </TableHead>
           </TableRow>
@@ -465,13 +461,11 @@ export const StickyHeaderAndColumns: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="default" pinned="start">
-              Name
-            </TableHead>
-            <TableHead variant="default">Display name</TableHead>
-            <TableHead variant="default">Email</TableHead>
-            <TableHead variant="default">Account type</TableHead>
-            <TableHead variant="default">Billing status</TableHead>
+            <TableHead pinned="start">Name</TableHead>
+            <TableHead>Display name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Account type</TableHead>
+            <TableHead>Billing status</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -521,10 +515,10 @@ export const SortableKeyboard: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="sortable" sort={sort} onSort={cycle}>
+            <TableHead sortable sort={sort} onSort={cycle}>
               Name
             </TableHead>
-            <TableHead variant="default">Email</TableHead>
+            <TableHead>Email</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -587,8 +581,8 @@ export const EditableCellKeyboard: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="default">Name</TableHead>
-            <TableHead variant="default">Account type</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Account type</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

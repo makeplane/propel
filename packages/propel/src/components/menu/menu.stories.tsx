@@ -909,7 +909,7 @@ export const Submenu: Story = {
         <MenuSubmenu>
           <MenuSubmenuTrigger
             inlineEndNode={
-              <Badge magnitude="sm" tone="neutral" variant="solid">
+              <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
             }
@@ -933,7 +933,7 @@ export const Submenu: Story = {
         <MenuSubmenu>
           <MenuSubmenuTrigger
             inlineEndNode={
-              <Badge magnitude="sm" tone="neutral" variant="solid">
+              <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
             }
@@ -957,7 +957,7 @@ export const Submenu: Story = {
         <MenuSubmenu>
           <MenuSubmenuTrigger
             inlineEndNode={
-              <Badge magnitude="sm" tone="neutral" variant="solid">
+              <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
             }
