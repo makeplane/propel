@@ -3,11 +3,11 @@ import { Plus } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
+import { IconButton as IconButtonElement } from "../../ui/icon-button";
 import {
   IconButton,
   IconButtonIcon,
   type IconButtonMagnitude,
-  IconButtonRoot,
   IconButtonSpinner,
   type IconButtonVariant,
 } from "./index";
@@ -18,7 +18,7 @@ const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/IconButton",
   component: IconButton,
-  subcomponents: { IconButtonRoot, IconButtonIcon, IconButtonSpinner },
+  subcomponents: { IconButtonElement, IconButtonIcon, IconButtonSpinner },
   argTypes: { children: iconControl },
   parameters: {
     design: {
