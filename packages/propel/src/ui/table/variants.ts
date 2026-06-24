@@ -119,7 +119,7 @@ export const tableHeadSortTriggerVariants = cva(
 export const tableHeadSortIndicatorVariants = cva(cx(nodeSlotClass, "text-icon-secondary"));
 
 // The full-cell trigger inside an editable/action cell (rendered as the styled outer of
-// a Base UI Menu trigger). `variant` picks the editable (text + trailing chevron) or
+// a Base UI Menu trigger). `layout` picks the editable (text + trailing chevron) or
 // action (centered icon) layout; `selected` keeps the active editable cell tinted.
 export const tableCellTriggerVariants = cva(
   cx(
@@ -130,7 +130,7 @@ export const tableCellTriggerVariants = cva(
   ),
   {
     variants: {
-      variant: {
+      layout: {
         editable: "justify-between gap-1 px-4 text-start",
         action: "justify-center px-4",
       },

@@ -49,7 +49,7 @@ export function TableEditableCell({
         <MenuTrigger
           disabled={disabled}
           aria-label={ariaLabel}
-          render={<TableCellTrigger variant="editable" selected={selected} />}
+          render={<TableCellTrigger layout="editable" selected={selected} />}
         >
           <TableCellTriggerLabel>{value}</TableCellTriggerLabel>
           <TableCellTriggerIndicator>

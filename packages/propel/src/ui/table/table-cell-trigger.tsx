@@ -2,14 +2,14 @@ import type * as React from "react";
 
 import { tableCellTriggerVariants } from "./variants";
 
-export type TableCellTriggerVariant = "editable" | "action";
+export type TableCellTriggerLayout = "editable" | "action";
 
 export type TableCellTriggerProps = Omit<
   React.ComponentPropsWithoutRef<"button">,
   "className" | "style" | "type"
 > & {
   /** `editable` lays out a value + trailing chevron; `action` centers an icon. */
-  variant: TableCellTriggerVariant;
+  layout: TableCellTriggerLayout;
   /** Keeps the active editable cell tinted. @default false */
   selected?: boolean;
 };
@@ -19,8 +19,8 @@ export type TableCellTriggerProps = Omit<
  * Menu trigger via its `render` prop, so the trigger's behavior projects onto this look. Carries a
  * `cell-trigger` group so its indicator can dim while disabled.
  */
-export function TableCellTrigger({ variant, selected = false, ...props }: TableCellTriggerProps) {
+export function TableCellTrigger({ layout, selected = false, ...props }: TableCellTriggerProps) {
   return (
-    <button type="button" className={tableCellTriggerVariants({ variant, selected })} {...props} />
+    <button type="button" className={tableCellTriggerVariants({ layout, selected })} {...props} />
   );
 }

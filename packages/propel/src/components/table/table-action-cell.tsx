@@ -45,7 +45,7 @@ export function TableActionCell({
         <MenuTrigger
           disabled={disabled}
           aria-label={ariaLabel}
-          render={<TableCellTrigger variant="action" />}
+          render={<TableCellTrigger layout="action" />}
         >
           <TableCellTriggerIndicator>{icon ?? <Ellipsis />}</TableCellTriggerIndicator>
         </MenuTrigger>
