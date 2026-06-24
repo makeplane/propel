@@ -5,8 +5,8 @@ export * from "./menu-item";
 export * from "./menu-label";
 export * from "./menu-link-item";
 export * from "./menu-search";
-export * from "./menu-sub-content";
-export * from "./menu-sub-trigger";
+export * from "./menu-submenu-content";
+export * from "./menu-submenu-trigger";
 // Re-export the atomic menu parts so a full menu can be assembled from one entry.
 export {
   Menu,
@@ -34,8 +34,8 @@ export {
   type MenuRadioItemIndicatorProps,
   MenuSeparator,
   type MenuSeparatorProps,
-  MenuSub,
-  type MenuSubProps,
+  MenuSubmenu,
+  type MenuSubmenuProps,
   MenuTrigger,
   type MenuTriggerProps,
   MenuViewport,

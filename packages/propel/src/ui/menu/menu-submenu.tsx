@@ -3,7 +3,7 @@ import type * as React from "react";
 
 type BaseSubmenuRootProps = BaseMenu.SubmenuRoot.Props;
 
-export type MenuSubProps = Omit<
+export type MenuSubmenuProps = Omit<
   BaseSubmenuRootProps,
   "open" | "defaultOpen" | "onOpenChange" | "children"
 > & {
@@ -17,6 +17,6 @@ export type MenuSubProps = Omit<
   children?: React.ReactNode;
 };
 
-export function MenuSub(props: MenuSubProps) {
+export function MenuSubmenu(props: MenuSubmenuProps) {
   return <BaseMenu.SubmenuRoot {...props} />;
 }

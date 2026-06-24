@@ -34,9 +34,9 @@ import {
   MenuLabel,
   MenuSearch,
   MenuSeparator,
-  MenuSub,
-  MenuSubContent,
-  MenuSubTrigger,
+  MenuSubmenu,
+  MenuSubmenuContent,
+  MenuSubmenuTrigger,
   MenuTrigger,
 } from "./index";
 
@@ -62,9 +62,9 @@ const meta = {
     MenuLabel,
     MenuSearch,
     MenuFooter,
-    MenuSub,
-    MenuSubTrigger,
-    MenuSubContent,
+    MenuSubmenu,
+    MenuSubmenuTrigger,
+    MenuSubmenuContent,
   },
 } satisfies Meta<typeof Menu>;
 
@@ -875,7 +875,7 @@ export const EmptyState: Story = {
 
 /**
  * Demo 10 — **Submenu**. Rows carry a trailing count `Badge` and a chevron; hovering one opens a
- * nested submenu of options (built on `MenuSub`).
+ * nested submenu of options (built on `MenuSubmenu`).
  */
 export const Submenu: Story = {
   parameters: {
@@ -899,8 +899,8 @@ export const Submenu: Story = {
         Filter by
       </MenuTrigger>
       <MenuContent width="sm">
-        <MenuSub>
-          <MenuSubTrigger
+        <MenuSubmenu>
+          <MenuSubmenuTrigger
             label="Priority"
             inlineEndNode={
               <Badge magnitude="sm" tone="neutral" variant="solid">
@@ -908,7 +908,7 @@ export const Submenu: Story = {
               </Badge>
             }
           />
-          <MenuSubContent width="sm">
+          <MenuSubmenuContent width="sm">
             {PRIORITIES.map((p) => (
               <MenuItem
                 emphasis="default"
@@ -919,10 +919,10 @@ export const Submenu: Story = {
                 closeOnClick={false}
               />
             ))}
-          </MenuSubContent>
-        </MenuSub>
-        <MenuSub>
-          <MenuSubTrigger
+          </MenuSubmenuContent>
+        </MenuSubmenu>
+        <MenuSubmenu>
+          <MenuSubmenuTrigger
             label="State"
             inlineEndNode={
               <Badge magnitude="sm" tone="neutral" variant="solid">
@@ -930,7 +930,7 @@ export const Submenu: Story = {
               </Badge>
             }
           />
-          <MenuSubContent width="sm">
+          <MenuSubmenuContent width="sm">
             {STATUSES.map((s) => (
               <MenuItem
                 emphasis="default"
@@ -941,10 +941,10 @@ export const Submenu: Story = {
                 closeOnClick={false}
               />
             ))}
-          </MenuSubContent>
-        </MenuSub>
-        <MenuSub>
-          <MenuSubTrigger
+          </MenuSubmenuContent>
+        </MenuSubmenu>
+        <MenuSubmenu>
+          <MenuSubmenuTrigger
             label="Assignee"
             inlineEndNode={
               <Badge magnitude="sm" tone="neutral" variant="solid">
@@ -952,7 +952,7 @@ export const Submenu: Story = {
               </Badge>
             }
           />
-          <MenuSubContent width="sm">
+          <MenuSubmenuContent width="sm">
             {ASSIGNEES.map((a) => (
               <MenuItem
                 emphasis="default"
@@ -965,8 +965,8 @@ export const Submenu: Story = {
                 closeOnClick={false}
               />
             ))}
-          </MenuSubContent>
-        </MenuSub>
+          </MenuSubmenuContent>
+        </MenuSubmenu>
       </MenuContent>
     </Menu>
   ),

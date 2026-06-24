@@ -70,7 +70,7 @@ export const menuCheckboxItemVariants = cva(
  * SubmenuTrigger row: the shared row base; also highlights while its submenu popup is open
  * (`data-popup-open`).
  */
-export const menuSubTriggerVariants = cva(
+export const menuSubmenuTriggerVariants = cva(
   cx(
     menuRowBase,
     "h-[34px] cursor-default items-center",

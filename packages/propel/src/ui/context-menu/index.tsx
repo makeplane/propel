@@ -18,7 +18,7 @@ export * from "./context-menu-radio-group";
 export * from "./context-menu-radio-item";
 export * from "./context-menu-radio-item-indicator";
 export * from "./context-menu-separator";
-export * from "./context-menu-submenu-root";
+export * from "./context-menu-submenu";
 export * from "./context-menu-submenu-trigger";
 export * from "./context-menu-submenu-trigger-indicator";
 export * from "./context-menu-trigger";
