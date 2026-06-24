@@ -1,3 +1,7 @@
 import { Autocomplete as BaseAutocomplete } from "@base-ui/react/autocomplete";
 
-export const AutocompleteList = BaseAutocomplete.List;
+export type AutocompleteListProps = Omit<BaseAutocomplete.List.Props, "className" | "style">;
+
+export function AutocompleteList(props: AutocompleteListProps) {
+  return <BaseAutocomplete.List {...props} />;
+}
