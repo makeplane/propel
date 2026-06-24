@@ -17,7 +17,7 @@ import {
   createToastManager as createBaseToastManager,
   useToastManager,
 } from "../../ui/toast/index";
-import { Progress } from "../progress/index";
+import { LinearProgress } from "../linear-progress/index";
 
 // The semantic intent of a toast (Figma "Property 1": Default / Variant2 / Variant3
 // = success / danger / info). `warning` and `neutral` round out the standard set.
@@ -111,8 +111,7 @@ export function Toast({ toast, ...props }: ToastProps) {
           <ToastDescription />
         </ToastTextGroup>
         {data.progress != null ? (
-          <Progress
-            variant="linear"
+          <LinearProgress
             value={data.progress}
             magnitude="sm"
             tone="brand"
