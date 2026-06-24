@@ -3,7 +3,6 @@ import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { Toggle, ToggleIcon } from "../toggle/index";
-import { ToggleGroupContext } from "../toggle/toggle-group-context";
 import { ToggleGroup } from "./index";
 
 // UI-tier story: the atomic `ToggleGroup` (single/multi-select state + roving focus) composed with
@@ -30,25 +29,23 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: { defaultValue: ["left"], onValueChange: fn() },
   render: (args) => (
-    <ToggleGroupContext.Provider value="md">
-      <ToggleGroup {...args} aria-label="Text alignment">
-        <Toggle value="left" aria-label="Align left">
-          <ToggleIcon>
-            <AlignLeft />
-          </ToggleIcon>
-        </Toggle>
-        <Toggle value="center" aria-label="Align center">
-          <ToggleIcon>
-            <AlignCenter />
-          </ToggleIcon>
-        </Toggle>
-        <Toggle value="right" aria-label="Align right">
-          <ToggleIcon>
-            <AlignRight />
-          </ToggleIcon>
-        </Toggle>
-      </ToggleGroup>
-    </ToggleGroupContext.Provider>
+    <ToggleGroup {...args} aria-label="Text alignment">
+      <Toggle magnitude="md" value="left" aria-label="Align left">
+        <ToggleIcon>
+          <AlignLeft />
+        </ToggleIcon>
+      </Toggle>
+      <Toggle magnitude="md" value="center" aria-label="Align center">
+        <ToggleIcon>
+          <AlignCenter />
+        </ToggleIcon>
+      </Toggle>
+      <Toggle magnitude="md" value="right" aria-label="Align right">
+        <ToggleIcon>
+          <AlignRight />
+        </ToggleIcon>
+      </Toggle>
+    </ToggleGroup>
   ),
   play: async ({ canvas, userEvent, args }) => {
     const left = canvas.getByRole("button", { name: "Align left" });
@@ -67,20 +64,18 @@ export const Multiple: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { multiple: true, defaultValue: [] },
   render: (args) => (
-    <ToggleGroupContext.Provider value="md">
-      <ToggleGroup {...args} aria-label="Text formatting">
-        <Toggle value="bold" aria-label="Bold">
-          <ToggleIcon>
-            <AlignLeft />
-          </ToggleIcon>
-        </Toggle>
-        <Toggle value="italic" aria-label="Italic">
-          <ToggleIcon>
-            <AlignCenter />
-          </ToggleIcon>
-        </Toggle>
-      </ToggleGroup>
-    </ToggleGroupContext.Provider>
+    <ToggleGroup {...args} aria-label="Text formatting">
+      <Toggle magnitude="md" value="bold" aria-label="Bold">
+        <ToggleIcon>
+          <AlignLeft />
+        </ToggleIcon>
+      </Toggle>
+      <Toggle magnitude="md" value="italic" aria-label="Italic">
+        <ToggleIcon>
+          <AlignCenter />
+        </ToggleIcon>
+      </Toggle>
+    </ToggleGroup>
   ),
   play: async ({ canvas, userEvent }) => {
     const bold = canvas.getByRole("button", { name: "Bold" });

@@ -1,3 +1,2 @@
-// Ready-made 1:1 re-export of the ui primitive. Drop down to `@plane/propel/ui/toggle` only
-// when you need the lower-level parts.
-export * from "../../ui/toggle";
+export { Toggle, type ToggleProps } from "./toggle";
+export { ToggleIcon, type ToggleIconProps, type ToggleMagnitude } from "../../ui/toggle";
