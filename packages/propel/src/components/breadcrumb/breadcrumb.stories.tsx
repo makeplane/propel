@@ -110,8 +110,18 @@ export const WithCollapsedCrumbs: Story = {
               </BreadcrumbTriggerIcon>
             </Menu.Trigger>
             <BreadcrumbMenuContent width="auto">
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Projects" />
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Design" />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Projects"
+              />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Design"
+              />
             </BreadcrumbMenuContent>
           </BreadcrumbMenu>
         </BreadcrumbItem>
@@ -154,8 +164,18 @@ export const CollapsedCrumbsInteraction: Story = {
               </BreadcrumbTriggerIcon>
             </Menu.Trigger>
             <BreadcrumbMenuContent width="auto">
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Projects" />
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Design" />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Projects"
+              />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Design"
+              />
             </BreadcrumbMenuContent>
           </BreadcrumbMenu>
         </BreadcrumbItem>
@@ -201,9 +221,24 @@ export const WithMenuCrumb: Story = {
           <BreadcrumbMenu>
             <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
             <BreadcrumbMenuContent>
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Web" />
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Mobile" />
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Server" />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Plane Web"
+              />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Plane Mobile"
+              />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Plane Server"
+              />
             </BreadcrumbMenuContent>
           </BreadcrumbMenu>
         </BreadcrumbItem>
@@ -241,10 +276,31 @@ export const MenuCrumbSelected: Story = {
           <BreadcrumbMenu>
             <BreadcrumbMenuTrigger>List</BreadcrumbMenuTrigger>
             <BreadcrumbMenuContent>
-              <BreadcrumbMenuItem variant="default" selected render={inertAnchor()} label="List" />
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Board" />
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Calendar" />
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Spreadsheet" />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                selected
+                render={inertAnchor()}
+                label="List"
+              />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Board"
+              />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Calendar"
+              />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Spreadsheet"
+              />
             </BreadcrumbMenuContent>
           </BreadcrumbMenu>
         </BreadcrumbItem>
@@ -275,8 +331,18 @@ export const KeyboardNavigation: Story = {
           <BreadcrumbMenu>
             <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
             <BreadcrumbMenuContent>
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Web" />
-              <BreadcrumbMenuItem variant="default" render={inertAnchor()} label="Plane Mobile" />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Plane Web"
+              />
+              <BreadcrumbMenuItem
+                emphasis="default"
+                variant="default"
+                render={inertAnchor()}
+                label="Plane Mobile"
+              />
             </BreadcrumbMenuContent>
           </BreadcrumbMenu>
         </BreadcrumbItem>

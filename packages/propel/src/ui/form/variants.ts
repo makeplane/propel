@@ -1,4 +1,4 @@
-import { cva} from "class-variance-authority";
+import { cva } from "class-variance-authority";
 
 import { type StrictVariantProps } from "../../internal/variant-props";
 

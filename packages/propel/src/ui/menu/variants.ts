@@ -179,3 +179,5 @@ export const menuFooterVariants = cva(
 export const menuArrowVariants = cva("text-layer-1");
 
 export type MenuPopupVariantProps = StrictVariantProps<typeof menuPopupVariants>;
+
+export type MenuRowVariantProps = StrictVariantProps<typeof menuRowVariants>;

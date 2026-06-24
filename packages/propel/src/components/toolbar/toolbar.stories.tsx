@@ -51,7 +51,7 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
         <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
         <ToolbarMenuContent>
           {TEXT_STYLES.map((style) => (
-            <ToolbarMenuItem key={style} variant="default" label={style} />
+            <ToolbarMenuItem emphasis="default" key={style} variant="default" label={style} />
           ))}
         </ToolbarMenuContent>
       </ToolbarMenu>
@@ -59,7 +59,7 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
         <ToolbarMenuTrigger aria-label="Font">Aa</ToolbarMenuTrigger>
         <ToolbarMenuContent>
           {FONTS.map((font) => (
-            <ToolbarMenuItem key={font} variant="default" label={font} />
+            <ToolbarMenuItem emphasis="default" key={font} variant="default" label={font} />
           ))}
         </ToolbarMenuContent>
       </ToolbarMenu>
@@ -278,17 +278,17 @@ export const ComposableMenu: Story = {
       <ToolbarMenu defaultOpen>
         <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
         <ToolbarMenuContent>
-          <ToolbarMenuItem
+          <ToolbarMenuItem emphasis="default"
             variant="default"
             inlineStartNode={<Pilcrow />}
             label="Paragraph"
             selected
           />
-          <ToolbarMenuItem variant="default" inlineStartNode={<Heading1 />} label="Heading 1" />
-          <ToolbarMenuItem variant="default" inlineStartNode={<Heading2 />} label="Heading 2" />
-          <ToolbarMenuItem variant="default" inlineStartNode={<Heading3 />} label="Heading 3" />
+          <ToolbarMenuItem emphasis="default" variant="default" inlineStartNode={<Heading1 />} label="Heading 1" />
+          <ToolbarMenuItem emphasis="default" variant="default" inlineStartNode={<Heading2 />} label="Heading 2" />
+          <ToolbarMenuItem emphasis="default" variant="default" inlineStartNode={<Heading3 />} label="Heading 3" />
           <ToolbarMenuSeparator />
-          <ToolbarMenuItem
+          <ToolbarMenuItem emphasis="default"
             variant="default"
             inlineStartNode={<Code />}
             label="Code block"

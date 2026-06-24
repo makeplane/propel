@@ -70,7 +70,7 @@ export const Default: Story = {
       <MenuPortal>
         <MenuPositioner sideOffset={4}>
           <MenuPopup surface="raised">
-            <MenuItem variant="default">
+            <MenuItem emphasis="default" variant="default">
               <MenuItemIcon>
                 <Pencil />
               </MenuItemIcon>
@@ -81,7 +81,7 @@ export const Default: Story = {
               </MenuItemContent>
               <MenuItemMeta>⌘E</MenuItemMeta>
             </MenuItem>
-            <MenuItem variant="default">
+            <MenuItem emphasis="default" variant="default">
               <MenuItemIcon>
                 <Copy />
               </MenuItemIcon>
@@ -95,7 +95,7 @@ export const Default: Story = {
               </MenuItemSelectedIndicator>
             </MenuItem>
             <MenuSeparator />
-            <MenuItem variant="default">
+            <MenuItem emphasis="default" variant="default">
               <MenuItemIcon>
                 <Trash2 />
               </MenuItemIcon>
@@ -128,14 +128,14 @@ export const Grouped: Story = {
           <MenuPopup surface="raised">
             <MenuGroup>
               <MenuGroupLabel>Layout</MenuGroupLabel>
-              <MenuItem variant="default">
+              <MenuItem emphasis="default" variant="default">
                 <MenuItemContent>
                   <MenuItemTitleRow>
                     <MenuItemTitle>List</MenuItemTitle>
                   </MenuItemTitleRow>
                 </MenuItemContent>
               </MenuItem>
-              <MenuItem variant="default">
+              <MenuItem emphasis="default" variant="default">
                 <MenuItemContent>
                   <MenuItemTitleRow>
                     <MenuItemTitle>Board</MenuItemTitle>
@@ -146,14 +146,14 @@ export const Grouped: Story = {
             <MenuSeparator />
             <MenuGroup>
               <MenuGroupLabel>Density</MenuGroupLabel>
-              <MenuItem variant="default">
+              <MenuItem emphasis="default" variant="default">
                 <MenuItemContent>
                   <MenuItemTitleRow>
                     <MenuItemTitle>Comfortable</MenuItemTitle>
                   </MenuItemTitleRow>
                 </MenuItemContent>
               </MenuItem>
-              <MenuItem variant="default">
+              <MenuItem emphasis="default" variant="default">
                 <MenuItemContent>
                   <MenuItemTitleRow>
                     <MenuItemTitle>Compact</MenuItemTitle>

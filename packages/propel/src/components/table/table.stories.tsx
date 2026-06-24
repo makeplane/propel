@@ -259,6 +259,7 @@ export const EditableCells: Story = {
                 <MenuContent>
                   {ROLES.map((role) => (
                     <MenuItem
+                      emphasis="default"
                       key={role}
                       variant="default"
                       label={role}
@@ -411,6 +412,7 @@ export const RichRows: Story = {
                 <MenuContent>
                   {ROLES.map((role) => (
                     <MenuItem
+                      emphasis="default"
                       key={role}
                       variant="default"
                       label={role}
@@ -422,8 +424,18 @@ export const RichRows: Story = {
               </TableEditableCell>
               <TableActionCell aria-label={`Options for ${person.name}`}>
                 <MenuContent>
-                  <MenuItem variant="default" inlineStartNode={<Pencil />} label="Edit" />
-                  <MenuItem variant="default" inlineStartNode={<Trash2 />} label="Delete" />
+                  <MenuItem
+                    emphasis="default"
+                    variant="default"
+                    inlineStartNode={<Pencil />}
+                    label="Edit"
+                  />
+                  <MenuItem
+                    emphasis="default"
+                    variant="default"
+                    inlineStartNode={<Trash2 />}
+                    label="Delete"
+                  />
                 </MenuContent>
               </TableActionCell>
             </TableRow>
@@ -590,6 +602,7 @@ export const EditableCellKeyboard: Story = {
               <MenuContent>
                 {ROLES.map((r) => (
                   <MenuItem
+                    emphasis="default"
                     key={r}
                     variant="default"
                     label={r}

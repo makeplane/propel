@@ -210,6 +210,7 @@ export const Status: Story = {
         <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
           {visible.map((s) => (
             <MenuItem
+              emphasis="default"
               key={s.key}
               variant="default"
               inlineStartNode={s.icon}
@@ -259,6 +260,7 @@ export const Labels: Story = {
             // (Figma 64-626): the sticky MenuSearch already draws its own bottom
             // rule, so the "Add label" row mounts directly beneath it with no extra line.
             <MenuItem
+              emphasis="default"
               variant="default"
               inlineStartNode={<Plus className="text-icon-secondary" />}
               label={`Add label "${trimmed}"`}
@@ -307,10 +309,21 @@ export const ActionMenu: Story = {
     <Menu>
       <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
       <MenuContent width="sm">
-        <MenuItem variant="default" inlineStartNode={<Pencil />} label="Edit" />
-        <MenuItem variant="default" inlineStartNode={<Copy />} label="Make a copy" />
-        <MenuItem variant="default" inlineStartNode={<ExternalLink />} label="Open in new tab" />
+        <MenuItem emphasis="default" variant="default" inlineStartNode={<Pencil />} label="Edit" />
         <MenuItem
+          emphasis="default"
+          variant="default"
+          inlineStartNode={<Copy />}
+          label="Make a copy"
+        />
+        <MenuItem
+          emphasis="default"
+          variant="default"
+          inlineStartNode={<ExternalLink />}
+          label="Open in new tab"
+        />
+        <MenuItem
+          emphasis="default"
           variant="default"
           inlineStartNode={<Link2 />}
           label="Copy link"
@@ -318,6 +331,7 @@ export const ActionMenu: Story = {
         />
         <MenuSeparator />
         <MenuItem
+          emphasis="default"
           inlineStartNode={<Trash2 />}
           label="Archive"
           variant="with-description"
@@ -326,6 +340,7 @@ export const ActionMenu: Story = {
         />
         <MenuSeparator />
         <MenuItem
+          emphasis="default"
           variant="default"
           inlineStartNode={<Trash2 className="text-danger-primary" />}
           label={<span className="text-danger-primary">Delete</span>}
@@ -394,6 +409,7 @@ export const Description: Story = {
         </MenuTrigger>
         <MenuContent width="lg">
           <MenuItem
+            emphasis="default"
             inlineStartNode={<Lock />}
             label="Private"
             variant="with-description"
@@ -403,6 +419,7 @@ export const Description: Story = {
             onClick={() => setSelected("private")}
           />
           <MenuItem
+            emphasis="default"
             inlineStartNode={<Globe />}
             label="Public"
             variant="with-description"
@@ -441,7 +458,7 @@ export const LabelAndFooterSemantics: Story = {
       <MenuContent width="sm" footer={<MenuFooter>Type to add another item.</MenuFooter>}>
         <MenuGroup>
           <MenuLabel inlineEndNode={<span>3</span>}>Section</MenuLabel>
-          <MenuItem variant="default" label="First item" />
+          <MenuItem emphasis="default" variant="default" label="First item" />
         </MenuGroup>
       </MenuContent>
     </Menu>
@@ -522,6 +539,7 @@ export const LanguagePicker: Story = {
         <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
           {visible.map((l) => (
             <MenuItem
+              emphasis="default"
               key={l.key}
               variant="default"
               label={l.label}
@@ -722,6 +740,7 @@ export const Filters: Story = {
                       ARIA. The label is the section title; the chevron is the
                       inlineEndNode. */}
                   <MenuItem
+                    emphasis="default"
                     variant="default"
                     label={section.title}
                     aria-expanded={!isCollapsed}
@@ -824,7 +843,13 @@ export const EmptyState: Story = {
         <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
           {visible.length > 0 ? (
             visible.map((s) => (
-              <MenuItem key={s.key} variant="default" inlineStartNode={s.icon} label={s.label} />
+              <MenuItem
+                emphasis="default"
+                key={s.key}
+                variant="default"
+                inlineStartNode={s.icon}
+                label={s.label}
+              />
             ))
           ) : (
             <div className="px-2 py-2 text-13 text-tertiary">No matching results</div>
@@ -886,6 +911,7 @@ export const Submenu: Story = {
           <MenuSubContent width="sm">
             {PRIORITIES.map((p) => (
               <MenuItem
+                emphasis="default"
                 key={p.key}
                 variant="default"
                 inlineStartNode={p.icon}
@@ -907,6 +933,7 @@ export const Submenu: Story = {
           <MenuSubContent width="sm">
             {STATUSES.map((s) => (
               <MenuItem
+                emphasis="default"
                 key={s.key}
                 variant="default"
                 inlineStartNode={s.icon}
@@ -928,6 +955,7 @@ export const Submenu: Story = {
           <MenuSubContent width="sm">
             {ASSIGNEES.map((a) => (
               <MenuItem
+                emphasis="default"
                 key={a.key}
                 variant="default"
                 inlineStartNode={

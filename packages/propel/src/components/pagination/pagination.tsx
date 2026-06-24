@@ -188,6 +188,7 @@ export function Pagination({
             <MenuContent width="anchor" align="center">
               {pageSize.options.map((option) => (
                 <MenuItem
+                  emphasis="default"
                   key={option}
                   variant="default"
                   label={l.perPageValue(option)}
