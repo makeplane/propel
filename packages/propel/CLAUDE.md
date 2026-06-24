@@ -9,14 +9,14 @@ conflicts with an older habit, this wins.
 Code flows in one direction only: **`base` → `ui` → `components` → `patterns`**. A tier may import
 from tiers below it, never above. `internal/` is shared implementation usable by any tier.
 
-| Tier | Path | What it is | May contain |
-| --- | --- | --- | --- |
-| **base** | `src/base/<name>/` | Extensions of Base UI — primitives we add where Base UI has a gap (e.g. `BaseTextArea` = `Field.Control` rendering `<textarea>`). Follow Base UI's conventions **exactly**: expose `className`, `style`, `render`, `forwardRef`. Named `Base<Name>`. | unstyled (no cva/Tailwind), but **passes `className`/`style` through** like any Base UI primitive |
-| **ui** | `src/ui/<name>/` | A `base`/Base UI primitive with cva style **baked in**, reduced to a **single** element. Same shape as `base` *minus* `className`/`style` (the cva owns the styling). All styling lives here. | one element per part; cva in `variants.ts`; **does not expose `className`/`style`**; `useRender` for intrinsic elements |
-| **components** | `src/components/<name>/` | The composition layer: ready-made components that assemble `ui` parts so consumers don't hand-wire them. | composition only — **no cva, no `cx`, no class strings**; **does not expose `className`/`style`** |
-| **patterns** | `src/patterns/` | App-level example compositions (demonstrations), not shipped primitives. | composition of `components`/`ui` |
-| **internal** | `src/internal/` | Private shared implementation: class-string helpers (`node-slot`, `scrollbar`, `surface`), type utils (`variant-props`), internal compositions (`overlay-panel`). Not public API. | extracted ONLY on cross-primitive duplication |
-| **hooks** | `src/hooks/<name>/` | Hooks. | — |
+| Tier           | Path                     | What it is                                                                                                                                                                                                                                           | May contain                                                                                                             |
+| -------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **base**       | `src/base/<name>/`       | Extensions of Base UI — primitives we add where Base UI has a gap (e.g. `BaseTextArea` = `Field.Control` rendering `<textarea>`). Follow Base UI's conventions **exactly**: expose `className`, `style`, `render`, `forwardRef`. Named `Base<Name>`. | unstyled (no cva/Tailwind), but **passes `className`/`style` through** like any Base UI primitive                       |
+| **ui**         | `src/ui/<name>/`         | A `base`/Base UI primitive with cva style **baked in**, reduced to a **single** element. Same shape as `base` _minus_ `className`/`style` (the cva owns the styling). All styling lives here.                                                        | one element per part; cva in `variants.ts`; **does not expose `className`/`style`**; `useRender` for intrinsic elements |
+| **components** | `src/components/<name>/` | The composition layer: ready-made components that assemble `ui` parts so consumers don't hand-wire them.                                                                                                                                             | composition only — **no cva, no `cx`, no class strings**; **does not expose `className`/`style`**                       |
+| **patterns**   | `src/patterns/`          | App-level example compositions (demonstrations), not shipped primitives.                                                                                                                                                                             | composition of `components`/`ui`                                                                                        |
+| **internal**   | `src/internal/`          | Private shared implementation: class-string helpers (`node-slot`, `scrollbar`, `surface`), type utils (`variant-props`), internal compositions (`overlay-panel`). Not public API.                                                                    | extracted ONLY on cross-primitive duplication                                                                           |
+| **hooks**      | `src/hooks/<name>/`      | Hooks.                                                                                                                                                                                                                                               | —                                                                                                                       |
 
 ## Hard rules
 
@@ -38,8 +38,8 @@ from tiers below it, never above. `internal/` is shared implementation usable by
 
 4. **No cross-component coupling.** A component derives its props and styling from its **own** cva
    — never from another component's `Props`, variant types, or cva. (Wrong: `IconButtonProps =
-   Omit<ButtonProps, …>`, or `iconButtonVariants` calling `buttonVariants()`.) If two primitives
-   share chrome, extract the shared cva/helper to `internal/` and have both depend on *that*.
+Omit<ButtonProps, …>`, or `iconButtonVariants` calling `buttonVariants()`.) If two primitives
+   share chrome, extract the shared cva/helper to `internal/` and have both depend on _that_.
 
 5. **No `Root` suffix.** `Root` is a Base UI idiom propel does not use. The styled root element of
    an anatomy is named after the part itself (`ui` `IconButton`, not `IconButtonRoot`); sibling
@@ -51,19 +51,26 @@ from tiers below it, never above. `internal/` is shared implementation usable by
    `Scroller`. One Base-UI-named API per concept.
 
 6a. **`ui` mirrors Base UI's anatomy.** Expose the same parts and roles Base UI defines, flattened
-    from its dot-namespace to standalone exports: `Accordion.Root` → `Accordion`, `Accordion.Item`
-    → `AccordionItem`, `Accordion.Trigger` → `AccordionTrigger`, `Accordion.Panel` →
-    `AccordionPanel`. Don't invent a decomposition Base UI doesn't have, and don't collapse parts
-    it separates. You MAY add extra named parts for a region Base UI bundles into one element but
-    that needs its own styled element (e.g. `AccordionTriggerIndicator`), named for the region;
-    those extra parts are composed in `components`. (Base UI ships no primitive? Add the missing
-    anatomy in `base` first, following Base UI conventions, then style it in `ui`.)
+from its dot-namespace to standalone exports: `Accordion.Root` → `Accordion`, `Accordion.Item`
+→ `AccordionItem`, `Accordion.Trigger` → `AccordionTrigger`, `Accordion.Panel` →
+`AccordionPanel`. Don't invent a decomposition Base UI doesn't have, and don't collapse parts
+it separates. You MAY add extra named parts for a region Base UI bundles into one element but
+that needs its own styled element (e.g. `AccordionTriggerIndicator`), named for the region;
+those extra parts are composed in `components`. (Base UI ships no primitive? Add the missing
+anatomy in `base` first, following Base UI conventions, then style it in `ui`.)
 
 7. **React context is a `components` concern — definition, provider, AND consumption.** A `ui`
    part never calls `useContext`; it takes the shared value (`variant`/`magnitude`/`density`/…) as
    a **prop**. The context's `createContext` + `Provider` + the `useContext` read all live in
    `components`; the consuming `components` part reads the context and passes the value down,
-   omitting it from its own public API. (The value *type* may stay in `ui`, derived from the cva.)
+   omitting it from its own public API. (The value _type_ may stay in `ui`, derived from the cva.)
+
+7a. **Don't destructure props you don't use.** Spread `{...props}` straight through to the
+element; pull a prop out of the signature only to transform, redirect, or omit it. Never peel
+`children` out just to render it back (`function X({ children, ...props }) { return <E {...props}>{children}</E> }`)
+— let it flow through the spread (`function X(props) { return <E {...props} /> }`); Base UI
+primitives and intrinsic elements render their own `children`. Only destructure `children` when
+you actually wrap or transform it.
 
 ## Variants & variant-prop types
 
@@ -92,7 +99,8 @@ from tiers below it, never above. `internal/` is shared implementation usable by
 10. **The component's `Props` use `<Name>VariantProps` directly — no hand-built "own props".**
 
     ```ts
-    export type IconButtonProps = Omit<BaseButton.Props, "className" | "style"> & IconButtonVariantProps;
+    export type IconButtonProps = Omit<BaseButton.Props, "className" | "style"> &
+      IconButtonVariantProps;
     ```
 
 11. **A variant axis is optional iff it has a default.** `StrictVariantProps` (`internal/variant-props.ts`)
