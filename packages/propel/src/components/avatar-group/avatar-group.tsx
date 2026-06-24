@@ -1,11 +1,11 @@
 import type * as React from "react";
 
 import { type AvatarMagnitude } from "../../ui/avatar";
-import { AvatarGroupContext } from "../avatar/avatar-group-context";
 import {
   AvatarGroup as AvatarGroupRoot,
   type AvatarGroupProps as AvatarGroupRootProps,
 } from "../../ui/avatar-group";
+import { AvatarGroupContext } from "../avatar/avatar-group-context";
 
 // Figma's "Avatar Groups" component only defines three sizes (Small/Base/Large = 16/20/24px), so
 // groups are limited to the matching magnitudes — narrower than a standalone Avatar's full scale.
