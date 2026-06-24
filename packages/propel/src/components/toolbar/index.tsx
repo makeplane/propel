@@ -1,5 +1,4 @@
 export {
-  Toolbar,
   ToolbarButton,
   ToolbarMenuTriggerButton,
   ToolbarMenuTriggerIndicator,
@@ -17,11 +16,11 @@ export {
   type ToolbarElevation,
   type ToolbarGroupProps,
   type ToolbarItemIconProps,
-  type ToolbarProps,
   type ToolbarSeparatorProps,
   type ToolbarToggleGroupProps,
   type ToolbarToggleProps,
 } from "../../ui/toolbar/index";
+export { Toolbar, type ToolbarProps } from "./toolbar";
 export { ToolbarMenu, type ToolbarMenuProps } from "./toolbar-menu";
 export { ToolbarMenuContent, type ToolbarMenuContentProps } from "./toolbar-menu-content";
 export { ToolbarMenuItem, type ToolbarMenuItemProps } from "./toolbar-menu-item";

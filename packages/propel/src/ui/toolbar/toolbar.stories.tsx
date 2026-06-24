@@ -25,12 +25,12 @@ import {
   ToolbarToggle,
   ToolbarToggleGroup,
 } from "./index";
+import { ToolbarDensityContext } from "./toolbar-context";
 
-// UI-tier story: composes the ATOMIC toolbar parts (each renders a single element). The icon inside
-// every control is its own `ToolbarItemIcon` slot, and the menu trigger pairs a
-// `ToolbarMenuTriggerLabel` with a `ToolbarMenuTriggerIndicator` — the controls hold no raw
-// glyph sizing or label typography. The components-tier `Toolbar` story shows the ready-made
-// `ToolbarMenu` and `ToolbarMenuTrigger` that compose these parts for you.
+// UI-tier story: composes the ATOMIC toolbar parts (each renders a single element). `Toolbar` is a
+// single element; its `density` styles the row, and is wired to the controls inside via the
+// `ToolbarDensityContext` provider explicitly here (the components-tier `Toolbar` does this for you
+// via its ready-made). Every control's icon is its own `ToolbarItemIcon` slot.
 const meta = {
   title: "UI/Toolbar",
   component: Toolbar,
@@ -58,66 +58,68 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {
   render: (args) => (
-    <Toolbar {...args}>
-      <ToolbarMenuTriggerButton aria-label="Text style">
-        <ToolbarMenuTriggerLabel>Text</ToolbarMenuTriggerLabel>
-        <ToolbarMenuTriggerIndicator>
-          <ChevronDown />
-        </ToolbarMenuTriggerIndicator>
-      </ToolbarMenuTriggerButton>
-      <ToolbarSeparator />
-      <ToolbarGroup aria-label="Text formatting">
-        <ToolbarToggle aria-label="Bold">
+    <ToolbarDensityContext.Provider value={args.density}>
+      <Toolbar {...args}>
+        <ToolbarMenuTriggerButton aria-label="Text style">
+          <ToolbarMenuTriggerLabel>Text</ToolbarMenuTriggerLabel>
+          <ToolbarMenuTriggerIndicator>
+            <ChevronDown />
+          </ToolbarMenuTriggerIndicator>
+        </ToolbarMenuTriggerButton>
+        <ToolbarSeparator />
+        <ToolbarGroup aria-label="Text formatting">
+          <ToolbarToggle aria-label="Bold">
+            <ToolbarItemIcon>
+              <Bold />
+            </ToolbarItemIcon>
+          </ToolbarToggle>
+          <ToolbarToggle aria-label="Italic">
+            <ToolbarItemIcon>
+              <Italic />
+            </ToolbarItemIcon>
+          </ToolbarToggle>
+          <ToolbarToggle aria-label="Underline">
+            <ToolbarItemIcon>
+              <Underline />
+            </ToolbarItemIcon>
+          </ToolbarToggle>
+          <ToolbarToggle aria-label="Strikethrough">
+            <ToolbarItemIcon>
+              <Strikethrough />
+            </ToolbarItemIcon>
+          </ToolbarToggle>
+        </ToolbarGroup>
+        <ToolbarSeparator />
+        <ToolbarToggleGroup aria-label="Text alignment" defaultValue={["left"]}>
+          <ToolbarToggle value="left" aria-label="Align left">
+            <ToolbarItemIcon>
+              <AlignLeft />
+            </ToolbarItemIcon>
+          </ToolbarToggle>
+          <ToolbarToggle value="center" aria-label="Align center">
+            <ToolbarItemIcon>
+              <AlignCenter />
+            </ToolbarItemIcon>
+          </ToolbarToggle>
+          <ToolbarToggle value="right" aria-label="Align right">
+            <ToolbarItemIcon>
+              <AlignRight />
+            </ToolbarItemIcon>
+          </ToolbarToggle>
+        </ToolbarToggleGroup>
+        <ToolbarSeparator />
+        <ToolbarButton aria-label="Insert link">
           <ToolbarItemIcon>
-            <Bold />
+            <Link />
           </ToolbarItemIcon>
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Italic">
+        </ToolbarButton>
+        <ToolbarButton aria-label="Insert image">
           <ToolbarItemIcon>
-            <Italic />
+            <Image />
           </ToolbarItemIcon>
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Underline">
-          <ToolbarItemIcon>
-            <Underline />
-          </ToolbarItemIcon>
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Strikethrough">
-          <ToolbarItemIcon>
-            <Strikethrough />
-          </ToolbarItemIcon>
-        </ToolbarToggle>
-      </ToolbarGroup>
-      <ToolbarSeparator />
-      <ToolbarToggleGroup aria-label="Text alignment" defaultValue={["left"]}>
-        <ToolbarToggle value="left" aria-label="Align left">
-          <ToolbarItemIcon>
-            <AlignLeft />
-          </ToolbarItemIcon>
-        </ToolbarToggle>
-        <ToolbarToggle value="center" aria-label="Align center">
-          <ToolbarItemIcon>
-            <AlignCenter />
-          </ToolbarItemIcon>
-        </ToolbarToggle>
-        <ToolbarToggle value="right" aria-label="Align right">
-          <ToolbarItemIcon>
-            <AlignRight />
-          </ToolbarItemIcon>
-        </ToolbarToggle>
-      </ToolbarToggleGroup>
-      <ToolbarSeparator />
-      <ToolbarButton aria-label="Insert link">
-        <ToolbarItemIcon>
-          <Link />
-        </ToolbarItemIcon>
-      </ToolbarButton>
-      <ToolbarButton aria-label="Insert image">
-        <ToolbarItemIcon>
-          <Image />
-        </ToolbarItemIcon>
-      </ToolbarButton>
-    </Toolbar>
+        </ToolbarButton>
+      </Toolbar>
+    </ToolbarDensityContext.Provider>
   ),
   play: async ({ canvas, userEvent }) => {
     // The root carries the toolbar role, and a toggle flips its pressed state on click.
@@ -138,24 +140,26 @@ export const Elevations: Story = {
   render: (args) => (
     <div className="flex flex-col gap-6">
       {(["raised", "flat"] as const).map((elevation) => (
-        <Toolbar {...args} key={elevation} elevation={elevation}>
-          <ToolbarToggle aria-label="Bold">
-            <ToolbarItemIcon>
-              <Bold />
-            </ToolbarItemIcon>
-          </ToolbarToggle>
-          <ToolbarToggle aria-label="Italic">
-            <ToolbarItemIcon>
-              <Italic />
-            </ToolbarItemIcon>
-          </ToolbarToggle>
-          <ToolbarSeparator />
-          <ToolbarButton aria-label="Insert link">
-            <ToolbarItemIcon>
-              <Link />
-            </ToolbarItemIcon>
-          </ToolbarButton>
-        </Toolbar>
+        <ToolbarDensityContext.Provider key={elevation} value={args.density}>
+          <Toolbar {...args} elevation={elevation}>
+            <ToolbarToggle aria-label="Bold">
+              <ToolbarItemIcon>
+                <Bold />
+              </ToolbarItemIcon>
+            </ToolbarToggle>
+            <ToolbarToggle aria-label="Italic">
+              <ToolbarItemIcon>
+                <Italic />
+              </ToolbarItemIcon>
+            </ToolbarToggle>
+            <ToolbarSeparator />
+            <ToolbarButton aria-label="Insert link">
+              <ToolbarItemIcon>
+                <Link />
+              </ToolbarItemIcon>
+            </ToolbarButton>
+          </Toolbar>
+        </ToolbarDensityContext.Provider>
       ))}
     </div>
   ),
@@ -170,24 +174,26 @@ export const Densities: Story = {
   render: (args) => (
     <div className="flex flex-col gap-6">
       {(["compact", "comfortable"] as const).map((density) => (
-        <Toolbar {...args} key={density} density={density}>
-          <ToolbarToggle aria-label="Bold">
-            <ToolbarItemIcon>
-              <Bold />
-            </ToolbarItemIcon>
-          </ToolbarToggle>
-          <ToolbarToggle aria-label="Italic">
-            <ToolbarItemIcon>
-              <Italic />
-            </ToolbarItemIcon>
-          </ToolbarToggle>
-          <ToolbarSeparator />
-          <ToolbarButton aria-label="Insert link">
-            <ToolbarItemIcon>
-              <Link />
-            </ToolbarItemIcon>
-          </ToolbarButton>
-        </Toolbar>
+        <ToolbarDensityContext.Provider key={density} value={density}>
+          <Toolbar {...args} density={density}>
+            <ToolbarToggle aria-label="Bold">
+              <ToolbarItemIcon>
+                <Bold />
+              </ToolbarItemIcon>
+            </ToolbarToggle>
+            <ToolbarToggle aria-label="Italic">
+              <ToolbarItemIcon>
+                <Italic />
+              </ToolbarItemIcon>
+            </ToolbarToggle>
+            <ToolbarSeparator />
+            <ToolbarButton aria-label="Insert link">
+              <ToolbarItemIcon>
+                <Link />
+              </ToolbarItemIcon>
+            </ToolbarButton>
+          </Toolbar>
+        </ToolbarDensityContext.Provider>
       ))}
     </div>
   ),
