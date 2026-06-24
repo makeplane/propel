@@ -1,20 +1,21 @@
-import { Input as BaseInput } from "@base-ui/react/input";
-import { Search as SearchIcon, X } from "lucide-react";
+import { Search as SearchIconGlyph, X } from "lucide-react";
 import * as React from "react";
 
 import { useControllableState } from "../../hooks/use-controllable-state/index";
-import type { SearchProps } from "./search";
 import {
-  expandableBoxClass,
-  expandableWrapperClass,
-  searchClearButtonClass,
-  searchInputClass,
-} from "./variants";
+  SearchClear,
+  SearchExpandable,
+  SearchExpandableViewport,
+  SearchIcon,
+  SearchInput,
+} from "../../ui/search";
+import type { SearchProps } from "./search";
 
 export type ExpandableSearchProps = SearchProps;
 
 /** A search field that collapses to a magnifier icon and expands while focused or filled. */
 export function ExpandableSearch({
+  magnitude,
   value,
   defaultValue,
   onValueChange,
@@ -36,12 +37,14 @@ export function ExpandableSearch({
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   return (
-    <div className={expandableWrapperClass}>
-      <label className={expandableBoxClass} data-expanded={showExpanded ? "" : undefined}>
-        <SearchIcon aria-hidden className="size-4 shrink-0 text-icon-secondary" />
-        <BaseInput
+    <SearchExpandableViewport magnitude={magnitude}>
+      <SearchExpandable magnitude={magnitude} data-expanded={showExpanded ? "" : undefined}>
+        <SearchIcon>
+          <SearchIconGlyph />
+        </SearchIcon>
+        <SearchInput
           ref={inputRef}
-          type="search"
+          magnitude={magnitude}
           value={currentValue}
           onValueChange={(next) => commit(next)}
           onFocus={() => setFocused(true)}
@@ -57,23 +60,21 @@ export function ExpandableSearch({
           disabled={disabled}
           aria-label={resolvedAriaLabel}
           aria-labelledby={ariaLabelledBy}
-          className={searchInputClass}
           {...props}
         />
         {hasValue && !disabled ? (
-          <button
-            type="button"
+          <SearchClear
+            magnitude={magnitude}
             aria-label="Clear search"
             onClick={() => {
               commit("");
               inputRef.current?.focus();
             }}
-            className={searchClearButtonClass}
           >
-            <X aria-hidden className="size-3.5" />
-          </button>
+            <X aria-hidden />
+          </SearchClear>
         ) : null}
-      </label>
-    </div>
+      </SearchExpandable>
+    </SearchExpandableViewport>
   );
 }
