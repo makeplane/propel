@@ -31,6 +31,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     orientation: "vertical",
+    visibility: "auto",
+    magnitude: "thin",
     children: (
       <div className="flex flex-col gap-2 p-3">
         {Array.from({ length: 30 }, (_, i) => (
@@ -47,6 +49,8 @@ export const Default: Story = {
 export const Horizontal: Story = {
   args: {
     orientation: "horizontal",
+    visibility: "auto",
+    magnitude: "thin",
     children: (
       <div className="flex w-max gap-3 p-3">
         {Array.from({ length: 20 }, (_, i) => (
@@ -66,11 +70,34 @@ export const Horizontal: Story = {
 export const BothAxes: Story = {
   args: {
     orientation: "both",
+    visibility: "auto",
+    magnitude: "thin",
     children: (
       <div className="flex w-160 flex-col gap-2 p-3">
         {Array.from({ length: 30 }, (_, i) => (
           <p key={i} className="text-13 whitespace-nowrap text-secondary">
             Line {i + 1} of wide content that overflows horizontally as well as down.
+          </p>
+        ))}
+      </div>
+    ),
+  },
+};
+
+/**
+ * Always-visible scrollbars, standard magnitude. Useful when the context needs a persistent scroll
+ * indicator (e.g. embedded code editors, data tables where users expect a visible rail).
+ */
+export const AlwaysVisible: Story = {
+  args: {
+    orientation: "vertical",
+    visibility: "always",
+    magnitude: "standard",
+    children: (
+      <div className="flex flex-col gap-2 p-3">
+        {Array.from({ length: 30 }, (_, i) => (
+          <p key={i} className="text-13 text-secondary">
+            Line {i + 1} of the scrollable content.
           </p>
         ))}
       </div>
