@@ -4,6 +4,9 @@ import { expect } from "storybook/test";
 import {
   Progress,
   ProgressCircle,
+  ProgressCircleIndicator,
+  ProgressCircleSvg,
+  ProgressCircleTrack,
   ProgressIndicator,
   ProgressLabel,
   ProgressTrack,
@@ -12,13 +15,23 @@ import {
 
 // UI-tier story: composes the ATOMIC progress parts. `Progress` (Base UI `Progress.Root`)
 // owns the `progressbar` value model; `ProgressTrack` › `ProgressIndicator` paint the bar,
-// `ProgressLabel`/`ProgressValue` the accessible name + trailing text. `ProgressCircle` is
-// the atomic determinate ring. The ready-made linear+circular `Progress` (magnitude, the
-// trailing `%`) lives in `components/progress`.
+// `ProgressLabel`/`ProgressValue` the accessible name + trailing text. The circular ring is
+// `ProgressCircle` › `ProgressCircleSvg` › `ProgressCircleTrack` + `ProgressCircleIndicator`.
+// The ready-made linear+circular `Progress` (magnitude, the trailing `%`) lives in
+// `components/progress`.
 const meta = {
   title: "UI/Progress",
   component: Progress,
-  subcomponents: { ProgressTrack, ProgressIndicator, ProgressLabel, ProgressValue, ProgressCircle },
+  subcomponents: {
+    ProgressTrack,
+    ProgressIndicator,
+    ProgressLabel,
+    ProgressValue,
+    ProgressCircle,
+    ProgressCircleSvg,
+    ProgressCircleTrack,
+    ProgressCircleIndicator,
+  },
   // The render fns assemble their own atoms; these satisfy the Root's value-model props.
   args: { value: 32, "aria-label": "Progress" },
   decorators: [
@@ -43,7 +56,7 @@ export const Default: Story = {
     <Progress layout="linear" value={32}>
       <ProgressLabel>Upload progress</ProgressLabel>
       <ProgressTrack magnitude="md">
-        <ProgressIndicator />
+        <ProgressIndicator tone="brand" />
       </ProgressTrack>
       <ProgressValue>{(_, value) => (value == null ? "" : `${Math.round(value)}%`)}</ProgressValue>
     </Progress>
@@ -56,15 +69,32 @@ export const Default: Story = {
 };
 
 /**
- * The atomic determinate ring — a styled `Progress.Root` wrapping an SVG. It owns its own
- * `progressbar` role; pass `aria-label` for the accessible name and `magnitude` for the diameter
- * (`sm` 16px / `md` 20px).
+ * Assemble the determinate ring from atoms: `ProgressCircle` (the styled `Progress.Root`) ›
+ * `ProgressCircleSvg` › `ProgressCircleTrack` (the subtle full ring) + `ProgressCircleIndicator`
+ * (the toned arc). The root owns the `progressbar` role; pass `aria-label` for the accessible name,
+ * `magnitude` for the diameter, and `tone` for the arc fill color. Geometry (radius, dash offset)
+ * is passed to the circles as SVG attributes.
  */
 export const Circle: Story = {
-  render: () => (
-    <div className="flex items-center gap-4">
-      <ProgressCircle value={32} magnitude="sm" aria-label="Small sync progress" />
-      <ProgressCircle value={64} magnitude="md" aria-label="Medium sync progress" />
-    </div>
-  ),
+  render: () => {
+    const radius = 8;
+    const circumference = 2 * Math.PI * radius;
+    return (
+      <ProgressCircle value={64} magnitude="md" aria-label="Sync progress">
+        <ProgressCircleSvg viewBox="0 0 20 20">
+          <ProgressCircleTrack cx={10} cy={10} r={radius} strokeWidth={2} />
+          <ProgressCircleIndicator
+            tone="brand"
+            cx={10}
+            cy={10}
+            r={radius}
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={circumference * (1 - 64 / 100)}
+          />
+        </ProgressCircleSvg>
+      </ProgressCircle>
+    );
+  },
 };

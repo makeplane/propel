@@ -1,14 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
 import {
   Toast,
+  ToastAction,
+  ToastActionButton,
+  ToastActionGroup,
+  ToastActions,
   ToastClose,
   ToastContent,
   ToastDescription,
   ToastPortal,
   ToastProvider,
   ToastStatusIcon,
+  ToastTextGroup,
   ToastTitle,
   type ToastTone,
   ToastViewport,
@@ -31,10 +37,20 @@ function ToastList() {
       <Toast key={toast.id} toast={toast}>
         <ToastStatusIcon tone={tone} />
         <ToastContent>
-          <ToastTitle />
-          <ToastDescription />
+          <ToastTextGroup>
+            <ToastTitle />
+            <ToastDescription />
+          </ToastTextGroup>
+          <ToastActions>
+            <ToastActionGroup>
+              <ToastActionButton>Undo</ToastActionButton>
+            </ToastActionGroup>
+            <ToastAction>View</ToastAction>
+          </ToastActions>
         </ToastContent>
-        <ToastClose aria-label="Dismiss">×</ToastClose>
+        <ToastClose aria-label="Dismiss">
+          <X />
+        </ToastClose>
       </Toast>
     );
   });
@@ -47,8 +63,13 @@ const meta = {
     Toast,
     ToastViewport,
     ToastContent,
+    ToastTextGroup,
     ToastTitle,
     ToastDescription,
+    ToastActions,
+    ToastActionGroup,
+    ToastActionButton,
+    ToastAction,
     ToastClose,
     ToastStatusIcon,
   },

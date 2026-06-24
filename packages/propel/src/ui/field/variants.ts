@@ -1,6 +1,10 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { nodeSlotClass } from "../../internal/node-slot";
+
 export type { InputMagnitude } from "../input/variants";
+
+export const fieldVariants = cva("flex flex-col gap-1.5");
 
 export const fieldLabelVariants = cva(
   cx("inline-flex items-center gap-0.5", "font-medium text-primary"),
@@ -28,7 +32,14 @@ type FieldLabelVariantProps = VariantProps<typeof fieldLabelVariants>;
 
 export type FieldMagnitude = NonNullable<FieldLabelVariantProps["magnitude"]>;
 
-const fieldHelperTextVariants = cva("", {
+// The required `*` marker rendered after the label text. Decorative (the control's
+// `required` carries the semantics), tinted danger per the Figma spec.
+export const fieldLabelRequiredMarkerVariants = cva("text-danger-primary");
+
+// The label + description column for a single choice option (checkbox/radio/switch row).
+export const fieldItemContentVariants = cva("flex min-w-0 flex-col gap-1");
+
+export const fieldDescriptionVariants = cva("text-tertiary", {
   variants: {
     magnitude: {
       md: "text-12",
@@ -38,41 +49,15 @@ const fieldHelperTextVariants = cva("", {
   },
 });
 
-type FieldHelperTextVariantProps = VariantProps<typeof fieldHelperTextVariants>;
-
-type FieldHelperTextVariantsProps = {
-  magnitude: NonNullable<FieldHelperTextVariantProps["magnitude"]>;
-};
-
-export const fieldDescriptionVariants = ({ magnitude }: FieldHelperTextVariantsProps) =>
-  cx("text-tertiary", fieldHelperTextVariants({ magnitude }));
-
-export const fieldErrorVariants = ({ magnitude }: FieldHelperTextVariantsProps) =>
-  cx("text-danger-primary", fieldHelperTextVariants({ magnitude }));
-
-export const fieldBoxVariants = cva(
-  cx(
-    "flex w-full items-center gap-1.5 bg-layer-2 transition-[color,background-color,border-color,box-shadow]",
-    "border-sm",
-    "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
-  ),
-  {
-    variants: {
-      tone: {
-        neutral: cx(
-          "border-subtle hover:border-subtle-1 hover:bg-layer-2-hover",
-          "focus-within:border-accent-strong focus-within:bg-layer-2 focus-within:ring-2 focus-within:ring-accent-strong/20",
-          "focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
-        ),
-        danger: "border-danger-strong",
-      },
+export const fieldErrorVariants = cva("text-danger-primary", {
+  variants: {
+    magnitude: {
+      md: "text-12",
+      lg: "text-13",
+      xl: "text-13",
     },
   },
-);
-
-type FieldBoxVariantProps = VariantProps<typeof fieldBoxVariants>;
-
-export type InputTone = NonNullable<FieldBoxVariantProps["tone"]>;
+});
 
 export const inputFieldRootVariants = cva("flex gap-2", {
   variants: {
@@ -92,38 +77,61 @@ export const inputFieldContentVariants = cva("flex flex-col", {
   },
 });
 
-const inputFieldBoxFrameVariants = cva("rounded-md px-3", {
-  variants: {
-    magnitude: {
-      md: "py-1.5",
-      lg: "py-2",
-      xl: "py-3",
+export const inputFieldBoxVariants = cva(
+  cx(
+    "flex w-full items-center gap-1.5 bg-layer-2 transition-[color,background-color,border-color,box-shadow]",
+    "border-sm",
+    "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
+    "rounded-md px-3",
+  ),
+  {
+    variants: {
+      tone: {
+        neutral: cx(
+          "border-subtle hover:border-subtle-1 hover:bg-layer-2-hover",
+          "focus-within:border-accent-strong focus-within:bg-layer-2 focus-within:ring-2 focus-within:ring-accent-strong/20",
+          "focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
+        ),
+        danger: "border-danger-strong",
+      },
+      magnitude: {
+        md: "py-1.5",
+        lg: "py-2",
+        xl: "py-3",
+      },
     },
   },
-});
+);
 
-type InputFieldBoxFrameVariantProps = VariantProps<typeof inputFieldBoxFrameVariants>;
+type InputFieldBoxVariantProps = VariantProps<typeof inputFieldBoxVariants>;
 
-type InputFieldBoxVariantsProps = {
-  magnitude: NonNullable<InputFieldBoxFrameVariantProps["magnitude"]>;
-  tone: InputTone;
-};
+export type InputTone = NonNullable<InputFieldBoxVariantProps["tone"]>;
 
-export const inputFieldBoxVariants = ({ magnitude, tone }: InputFieldBoxVariantsProps) =>
-  cx(fieldBoxVariants({ tone }), inputFieldBoxFrameVariants({ magnitude }));
+export const textAreaFieldBoxVariants = cva(
+  cx(
+    "flex w-full items-center gap-1.5 bg-layer-2 transition-[color,background-color,border-color,box-shadow]",
+    "border-sm",
+    "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
+    "items-stretch rounded-lg py-2",
+  ),
+  {
+    variants: {
+      tone: {
+        neutral: cx(
+          "border-subtle hover:border-subtle-1 hover:bg-layer-2-hover",
+          "focus-within:border-accent-strong focus-within:bg-layer-2 focus-within:ring-2 focus-within:ring-accent-strong/20",
+          "focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
+        ),
+        danger: "border-danger-strong",
+      },
+    },
+  },
+);
 
-const textAreaFieldBoxFrameVariants = cva("items-stretch rounded-lg py-2");
-
-type TextAreaFieldBoxVariantsProps = {
-  tone: InputTone;
-};
-
-export const textAreaFieldBoxVariants = ({ tone }: TextAreaFieldBoxVariantsProps) =>
-  cx(fieldBoxVariants({ tone }), textAreaFieldBoxFrameVariants());
-
-export const iconSlotClass = cx(
-  "flex shrink-0 items-center justify-center text-icon-secondary",
-  "[&_svg]:size-4",
+// The decorative 16px node at the control's inline start/end. Sizes its single child
+// to `--node-size` (via the shared node-slot class) and tints it.
+export const inputFieldIconSlotVariants = cva(
+  cx(nodeSlotClass, "text-icon-secondary [--node-size:1rem]"),
 );
 
 export const fieldItemVariants = cva(
@@ -134,7 +142,7 @@ export const fieldItemVariants = cva(
   ),
 );
 
-export const labelGroupVariants = cva("flex flex-col gap-1", {
+export const fieldLabelGroupVariants = cva("flex flex-col gap-1", {
   variants: {
     orientation: {
       vertical: "w-full",

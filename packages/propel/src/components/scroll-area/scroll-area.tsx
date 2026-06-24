@@ -4,6 +4,8 @@ import {
   ScrollArea as ScrollAreaRoot,
   ScrollAreaCorner,
   ScrollAreaScrollbar,
+  type ScrollAreaScrollbarMagnitude,
+  type ScrollAreaScrollbarVisibility,
   ScrollAreaThumb,
   ScrollAreaViewport,
 } from "../../ui/scroll-area";
@@ -14,20 +16,31 @@ import {
 // interaction. The thumb uses propel's `--scrollbar-thumb*` tokens: shown while the
 // area is hovered or scrolling, darker on thumb hover, darkest while dragging, over a
 // transparent track. It fills its parent, so constrain the parent's height (or width)
-// to make the content scroll. The scrollbar + thumb styling is shared with components
-// that compose Base UI ScrollArea directly (e.g. Tabs) via `internal/scrollbar`.
+// to make the content scroll. The scrollbar gutter and thumb styling are owned by the
+// `ui/scroll-area` parts (their cva), reveal/width driven by the `visibility` and `magnitude`
+// props threaded to each `ScrollAreaScrollbar`.
 
 /** Which axes scroll. Drives which scrollbars (and the corner) are rendered. */
 export type ScrollAreaOrientation = "vertical" | "horizontal" | "both";
 
 export type ScrollAreaProps = {
   /**
-   * Which axes scroll (required, no silent default like the other essential axes).
-   * `vertical`/`horizontal` render a single scrollbar; `both` renders both plus the corner. Render
-   * only the axes the content can actually overflow so an unused scrollbar never reserves space or
-   * reveals.
+   * Which axes scroll (required, no silent default). `vertical`/`horizontal` render a single
+   * scrollbar; `both` renders both plus the corner. Render only the axes the content can actually
+   * overflow so an unused scrollbar never reserves space or reveals.
    */
   orientation: ScrollAreaOrientation;
+  /**
+   * When the scrollbar is shown. `auto` hides it at rest and reveals it on hover/scroll (fades when
+   * idle). `always` keeps it permanently visible. Required — pick the behavior that matches the
+   * context (e.g. `auto` for panels, `always` for persistent scroll indicators).
+   */
+  visibility: ScrollAreaScrollbarVisibility;
+  /**
+   * Scrollbar gutter size. `thin` — 12 px (3 px padding, 6 px thumb). `standard` — 16 px (5 px
+   * padding, 6 px thumb). Required — choose based on the density of the surrounding UI.
+   */
+  magnitude: ScrollAreaScrollbarMagnitude;
   /** The scrollable content. */
   children: React.ReactNode;
 };
@@ -35,10 +48,9 @@ export type ScrollAreaProps = {
 /**
  * A scroll container with propel's overlay scrollbar, built on Base UI `ScrollArea`. Use it to wrap
  * any overflowing content (menus, panels, long lists). Place it as a child of a height-constrained
- * flex column: it grows to fill the column and its viewport scrolls when the content overflows. The
- * scrollbar shows only on hover/scroll and uses the propel scrollbar tokens.
+ * flex column: it grows to fill the column and its viewport scrolls when the content overflows.
  */
-export function ScrollArea({ orientation, children }: ScrollAreaProps) {
+export function ScrollArea({ orientation, visibility, magnitude, children }: ScrollAreaProps) {
   const showVertical = orientation !== "horizontal";
   const showHorizontal = orientation !== "vertical";
   return (
@@ -50,12 +62,12 @@ export function ScrollArea({ orientation, children }: ScrollAreaProps) {
     <ScrollAreaRoot>
       <ScrollAreaViewport>{children}</ScrollAreaViewport>
       {showVertical ? (
-        <ScrollAreaScrollbar orientation="vertical">
+        <ScrollAreaScrollbar orientation="vertical" visibility={visibility} magnitude={magnitude}>
           <ScrollAreaThumb />
         </ScrollAreaScrollbar>
       ) : null}
       {showHorizontal ? (
-        <ScrollAreaScrollbar orientation="horizontal">
+        <ScrollAreaScrollbar orientation="horizontal" visibility={visibility} magnitude={magnitude}>
           <ScrollAreaThumb />
         </ScrollAreaScrollbar>
       ) : null}

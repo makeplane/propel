@@ -1,30 +1,29 @@
 export {
   Toolbar,
   ToolbarButton,
+  ToolbarMenuTriggerButton,
+  ToolbarMenuTriggerIndicator,
+  ToolbarMenuTriggerLabel,
   ToolbarGroup,
+  ToolbarItemIcon,
   ToolbarSeparator,
   ToolbarToggle,
   ToolbarToggleGroup,
   type ToolbarButtonProps,
   type ToolbarDensity,
+  type ToolbarMenuTriggerButtonProps,
+  type ToolbarMenuTriggerIndicatorProps,
+  type ToolbarMenuTriggerLabelProps,
   type ToolbarElevation,
   type ToolbarGroupProps,
+  type ToolbarItemIconProps,
   type ToolbarProps,
   type ToolbarSeparatorProps,
   type ToolbarToggleGroupProps,
   type ToolbarToggleProps,
 } from "../../ui/toolbar/index";
-export { ToolbarDropdown, type ToolbarDropdownProps } from "./toolbar-dropdown";
-export {
-  ToolbarDropdownContent,
-  type ToolbarDropdownContentProps,
-} from "./toolbar-dropdown-content";
-export { ToolbarDropdownItem, type ToolbarDropdownItemProps } from "./toolbar-dropdown-item";
-export {
-  ToolbarDropdownSeparator,
-  type ToolbarDropdownSeparatorProps,
-} from "./toolbar-dropdown-separator";
-export {
-  ToolbarDropdownTrigger,
-  type ToolbarDropdownTriggerProps,
-} from "./toolbar-dropdown-trigger";
+export { ToolbarMenu, type ToolbarMenuProps } from "./toolbar-menu";
+export { ToolbarMenuContent, type ToolbarMenuContentProps } from "./toolbar-menu-content";
+export { ToolbarMenuItem, type ToolbarMenuItemProps } from "./toolbar-menu-item";
+export { ToolbarMenuSeparator, type ToolbarMenuSeparatorProps } from "./toolbar-menu-separator";
+export { ToolbarMenuTrigger, type ToolbarMenuTriggerProps } from "./toolbar-menu-trigger";

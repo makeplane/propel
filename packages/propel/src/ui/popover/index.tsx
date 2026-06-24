@@ -1,8 +1,12 @@
 export { Popover, type PopoverProps } from "./popover";
+export { PopoverActions, type PopoverActionsProps } from "./popover-actions";
 export { PopoverArrow, type PopoverArrowProps } from "./popover-arrow";
 export { PopoverBackdrop, type PopoverBackdropProps } from "./popover-backdrop";
+export { PopoverBody, type PopoverBodyProps } from "./popover-body";
 export { PopoverClose, type PopoverCloseProps } from "./popover-close";
 export { PopoverDescription, type PopoverDescriptionProps } from "./popover-description";
+export { PopoverIntro, type PopoverIntroProps } from "./popover-intro";
+export { PopoverPanelPopup, type PopoverPanelPopupProps } from "./popover-panel-popup";
 export { PopoverPopup, type PopoverPopupProps } from "./popover-popup";
 export { PopoverPortal } from "./popover-portal";
 export { PopoverPositioner, type PopoverPositionerProps } from "./popover-positioner";

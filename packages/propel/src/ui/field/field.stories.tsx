@@ -1,7 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { Field, FieldDescription, FieldError, FieldLabel, InputFieldControl } from "./index";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  FieldLabelRequiredMarker,
+  InputFieldControl,
+} from "./index";
 
 // UI-tier story: composes the ATOMIC field parts. `Field` (Base UI `Field.Root`) is the
 // labeling/validation shell; `FieldLabel` names the control, `InputFieldControl` is the
@@ -11,7 +18,13 @@ import { Field, FieldDescription, FieldError, FieldLabel, InputFieldControl } fr
 const meta = {
   title: "UI/Field",
   component: Field,
-  subcomponents: { FieldLabel, InputFieldControl, FieldDescription, FieldError },
+  subcomponents: {
+    FieldLabel,
+    FieldLabelRequiredMarker,
+    InputFieldControl,
+    FieldDescription,
+    FieldError,
+  },
   decorators: [
     (Story) => (
       <div className="w-80">
@@ -24,7 +37,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** A labeled input with helper text, assembled from the atomic parts. */
+/**
+ * A labeled input with helper text, assembled from the atomic parts. `FieldLabel required` appends
+ * the `FieldLabelRequiredMarker` slot, passing the asterisk glyph in as its child.
+ */
 export const Default: Story = {
   render: () => (
     <Field name="displayName">
@@ -40,6 +56,22 @@ export const Default: Story = {
     await expect(input).toBeRequired();
     await expect(input).toHaveAccessibleDescription("Shown anywhere your profile is visible.");
   },
+};
+
+/**
+ * The required marker is a bare slot that bakes no glyph: the consumer passes the marker (here, the
+ * conventional asterisk) as `children`.
+ */
+export const RequiredMarker: Story = {
+  render: () => (
+    <Field name="displayName">
+      <FieldLabel magnitude="md">
+        Display name
+        <FieldLabelRequiredMarker>*</FieldLabelRequiredMarker>
+      </FieldLabel>
+      <InputFieldControl magnitude="md" required placeholder="Ada Lovelace" />
+    </Field>
+  ),
 };
 
 /** An invalid field: the control exposes `aria-invalid` and announces the `FieldError` text. */

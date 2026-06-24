@@ -8,7 +8,14 @@ import { Fieldset } from "./index";
 const meta = {
   title: "Components/Fieldset",
   component: Fieldset,
-  args: { legendMagnitude: "md" },
+  args: { legendMagnitude: "md", bordered: false },
+  decorators: [
+    (Story) => (
+      <div className="w-80">
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
     design: {
       type: "figma",
@@ -25,7 +32,7 @@ export const Default: Story = {
   args: {
     legend: "Billing details",
     children: (
-      <div className="flex w-80 flex-col gap-4">
+      <>
         <InputField
           magnitude="md"
           tone="neutral"
@@ -42,7 +49,39 @@ export const Default: Story = {
           label="Tax ID"
           placeholder="US-123"
         />
-      </div>
+      </>
+    ),
+  },
+};
+
+/**
+ * A bordered fieldset draws a visible boundary around the group, useful when the group sits among
+ * other content.
+ */
+export const Bordered: Story = {
+  args: {
+    bordered: true,
+    legend: "Billing details",
+    description: "Enter your billing information below.",
+    children: (
+      <>
+        <InputField
+          magnitude="md"
+          tone="neutral"
+          orientation="vertical"
+          name="company"
+          label="Company"
+          placeholder="Acme Inc."
+        />
+        <InputField
+          magnitude="md"
+          tone="neutral"
+          orientation="vertical"
+          name="taxId"
+          label="Tax ID"
+          placeholder="US-123"
+        />
+      </>
     ),
   },
 };
@@ -53,9 +92,7 @@ export const GroupSemantics: Story = {
   args: {
     legend: "Shipping address",
     children: (
-      <div className="w-80">
-        <InputField magnitude="md" tone="neutral" orientation="vertical" name="city" label="City" />
-      </div>
+      <InputField magnitude="md" tone="neutral" orientation="vertical" name="city" label="City" />
     ),
   },
   play: async ({ canvas }) => {

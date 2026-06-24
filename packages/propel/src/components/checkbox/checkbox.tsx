@@ -1,11 +1,11 @@
-import { cx } from "class-variance-authority";
 import * as React from "react";
 
-import { nodeSlotClass } from "../../internal/node-slot";
 import {
   Checkbox as CheckboxRoot,
   CheckboxGlyph,
   CheckboxIndicator,
+  CheckboxInlineStartNode,
+  CheckboxLabel,
   type CheckboxProps as CheckboxRootProps,
 } from "../../ui/checkbox";
 
@@ -28,7 +28,7 @@ export type CheckboxProps = CheckboxRootProps & {
 
 /**
  * The ready-made checkbox: composes the atomic `Checkbox` box with its `CheckboxIndicator`/glyph,
- * and optionally wraps the row in a clickable `label` with an icon slot.
+ * and optionally wraps the row in a clickable `CheckboxLabel` with an icon slot.
  */
 export function Checkbox({ tone, label, inlineStartNode, id, ...props }: CheckboxProps) {
   // Generate a stable id so an explicit `label` can be associated with the box.
@@ -46,27 +46,12 @@ export function Checkbox({ tone, label, inlineStartNode, id, ...props }: Checkbo
   if (label == null) return box;
 
   return (
-    <label
-      // Figma "Checkbox with label" (node 1274:109) wraps the row in a clickable
-      // chip: `px-2 py-1` (8px/4px) padding and a `rounded-sm` corner, with a
-      // transparent-layer hover background (hover state 1276:15 →
-      // `bg-layer-transparent-hover`). The standalone box owns its own styling.
-      className={cx(
-        "inline-flex items-center gap-2 rounded-sm px-2 py-1 text-13 text-secondary transition-colors",
-        props.disabled ? "cursor-not-allowed" : "cursor-pointer hover:bg-layer-transparent-hover",
-      )}
-      htmlFor={checkboxId}
-    >
+    <CheckboxLabel disabled={props.disabled ?? false} htmlFor={checkboxId}>
       {box}
       {inlineStartNode ? (
-        <span
-          aria-hidden
-          className={cx(nodeSlotClass, "text-icon-secondary [--node-size:0.875rem]")}
-        >
-          {inlineStartNode}
-        </span>
+        <CheckboxInlineStartNode>{inlineStartNode}</CheckboxInlineStartNode>
       ) : null}
       {label}
-    </label>
+    </CheckboxLabel>
   );
 }

@@ -2,7 +2,14 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { User } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { Avatar, AVATAR_TONES, AvatarFallback, AvatarImage, type AvatarMagnitude } from "./index";
+import {
+  Avatar,
+  AVATAR_TONES,
+  AvatarFallback,
+  AvatarIcon,
+  AvatarImage,
+  type AvatarMagnitude,
+} from "./index";
 
 const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
@@ -12,7 +19,7 @@ const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl
 const meta = {
   title: "UI/Avatar",
   component: Avatar,
-  subcomponents: { AvatarImage, AvatarFallback },
+  subcomponents: { AvatarImage, AvatarFallback, AvatarIcon },
 } satisfies Meta<typeof Avatar>;
 
 export default meta;
@@ -71,7 +78,9 @@ export const States: Story = {
       </Avatar>
       <Avatar magnitude="lg" role="img" aria-label="Anonymous">
         <AvatarFallback tone="none">
-          <User aria-hidden className="size-6" />
+          <AvatarIcon magnitude="lg">
+            <User />
+          </AvatarIcon>
         </AvatarFallback>
       </Avatar>
     </div>

@@ -5,6 +5,10 @@ export {
   type CheckboxIndicatorProps,
   CheckboxIndicator,
   CheckboxGlyph,
+  CheckboxInlineStartNode,
+  type CheckboxInlineStartNodeProps,
+  CheckboxLabel,
+  type CheckboxLabelProps,
   CheckboxVisual,
   type CheckboxVisualProps,
 } from "../../ui/checkbox";

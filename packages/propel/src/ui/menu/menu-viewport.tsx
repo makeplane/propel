@@ -1,5 +1,7 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 
+import { menuViewportVariants } from "./variants";
+
 export type MenuViewportProps = Omit<BaseMenu.Viewport.Props, "className" | "style">;
 
 /**
@@ -7,5 +9,5 @@ export type MenuViewportProps = Omit<BaseMenu.Viewport.Props, "className" | "sty
  * `Menu.Viewport` 1:1.
  */
 export function MenuViewport(props: MenuViewportProps) {
-  return <BaseMenu.Viewport className="relative" {...props} />;
+  return <BaseMenu.Viewport className={menuViewportVariants()} {...props} />;
 }

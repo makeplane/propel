@@ -1,8 +1,20 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { type InputTone, textAreaFieldBoxVariants } from "../field/variants";
+
+export type TextAreaTone = InputTone;
+
+// The bordered frame around the textarea leaf. Per the Figma "Text area" spec the border
+// style/width, radius, padding, and the focus/error border treatments are "always the same",
+// so they live here as static chrome; only the resting treatment (neutral vs the error/danger
+// border) is adjustable, exposed as `tone`. Composes the shared field-box chrome so the input
+// and textarea frames stay in lockstep.
+export const textAreaBoxVariants = ({ tone }: { tone: TextAreaTone }) =>
+  textAreaFieldBoxVariants({ tone });
+
 export const textAreaVariants = cva(
   cx(
-    "scrollbar-sm min-w-0 flex-1 resize-none overflow-y-auto bg-transparent text-primary outline-none",
+    "scrollbar-sm min-w-0 flex-1 overflow-y-auto bg-transparent text-primary outline-none",
     "placeholder:text-placeholder",
     "disabled:cursor-not-allowed disabled:text-disabled",
   ),
@@ -16,8 +28,14 @@ export const textAreaVariants = cva(
       },
       surface: {
         field: "px-3",
-        embedded: "w-full p-3 leading-snug",
+        embedded: "p-3 leading-snug",
         inline: "leading-tight",
+      },
+      /** Controls whether the user can resize the textarea. */
+      resize: {
+        none: "resize-none",
+        vertical: "resize-y",
+        both: "resize",
       },
     },
     compoundVariants: [
@@ -33,3 +51,4 @@ type TextAreaVariantProps = VariantProps<typeof textAreaVariants>;
 
 export type TextAreaMagnitude = NonNullable<TextAreaVariantProps["magnitude"]>;
 export type TextAreaSurface = NonNullable<TextAreaVariantProps["surface"]>;
+export type TextAreaResize = NonNullable<TextAreaVariantProps["resize"]>;

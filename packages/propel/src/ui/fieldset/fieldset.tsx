@@ -1,10 +1,16 @@
 import { Fieldset as BaseFieldset } from "@base-ui/react/fieldset";
+import type { VariantProps } from "class-variance-authority";
 
 import { fieldsetVariants } from "./variants";
 
-export type FieldsetProps = Omit<BaseFieldset.Root.Props, "className" | "style">;
+type FieldsetVariantProps = VariantProps<typeof fieldsetVariants>;
+
+export type FieldsetProps = Omit<BaseFieldset.Root.Props, "className" | "style"> & {
+  /** Whether a visible border wraps the group. */
+  bordered: NonNullable<FieldsetVariantProps["bordered"]>;
+};
 
 /** Groups a legend with related controls. */
-export function Fieldset(props: FieldsetProps) {
-  return <BaseFieldset.Root className={fieldsetVariants()} {...props} />;
+export function Fieldset({ bordered, ...props }: FieldsetProps) {
+  return <BaseFieldset.Root className={fieldsetVariants({ bordered })} {...props} />;
 }

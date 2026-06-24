@@ -1,13 +1,17 @@
-import { cx } from "class-variance-authority";
-import { MoreHorizontal } from "lucide-react";
+import type * as React from "react";
 
-import { slotBase } from "./variants";
+import { paginationEllipsisVariants } from "./variants";
 
-/** A non-interactive gap marker between distant page numbers. */
-export function PaginationEllipsis() {
-  return (
-    <li aria-hidden className={cx(slotBase, "text-icon-placeholder")}>
-      <MoreHorizontal className="size-3.5 shrink-0" />
-    </li>
-  );
+export type PaginationEllipsisProps = Omit<
+  React.ComponentPropsWithoutRef<"span">,
+  "className" | "style"
+>;
+
+/**
+ * A non-interactive gap marker between distant page numbers. Renders whatever icon you pass (sized
+ * to the slot's `--node-size`, 14px) — never baking a specific glyph in. Decorative, so
+ * `aria-hidden`.
+ */
+export function PaginationEllipsis(props: PaginationEllipsisProps) {
+  return <span aria-hidden className={paginationEllipsisVariants()} {...props} />;
 }

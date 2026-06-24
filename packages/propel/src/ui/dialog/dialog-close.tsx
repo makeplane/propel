@@ -1,13 +1,19 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 
-import { dialogCloseVariants } from "./variants";
-
 export type DialogCloseProps = Omit<BaseDialog.Close.Props, "className" | "style">;
 
 /**
- * A button that closes the dialog when activated. Renders a ghost button by default; children are
- * optional. Maps 1:1 to `Dialog.Close`.
+ * A behavior wrapper that closes the dialog when activated. Use as the `render` target of a
+ * `Button` or `IconButton` so the styled primitive's look wins via render-composition:
+ *
+ * ```tsx
+ * <IconButton variant="ghost" tone="neutral" magnitude="lg" render={<DialogClose />}>
+ *   <X />
+ * </IconButton>;
+ * ```
+ *
+ * Maps 1:1 to `Dialog.Close`.
  */
 export function DialogClose(props: DialogCloseProps) {
-  return <BaseDialog.Close className={dialogCloseVariants()} {...props} />;
+  return <BaseDialog.Close {...props} />;
 }

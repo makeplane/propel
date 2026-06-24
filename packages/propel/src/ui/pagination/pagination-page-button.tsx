@@ -1,6 +1,6 @@
 import type * as React from "react";
 
-import { pageButtonVariants } from "./variants";
+import { paginationPageButtonVariants } from "./variants";
 
 export type PaginationPageButtonProps = Omit<
   React.ComponentProps<"button">,
@@ -11,9 +11,9 @@ export type PaginationPageButtonProps = Omit<
 };
 
 /**
- * A styled page-number button. Applies `pageButtonVariants({ current })`; pass the page number (or
- * a loading spinner) as `children` and wire `aria-current`/`onClick` through props.
+ * A styled page-number button. Applies `paginationPageButtonVariants({ current })`; pass the page
+ * number (or a loading spinner) as `children` and wire `aria-current`/`onClick` through props.
  */
 export function PaginationPageButton({ current, ...props }: PaginationPageButtonProps) {
-  return <button type="button" className={pageButtonVariants({ current })} {...props} />;
+  return <button type="button" className={paginationPageButtonVariants({ current })} {...props} />;
 }

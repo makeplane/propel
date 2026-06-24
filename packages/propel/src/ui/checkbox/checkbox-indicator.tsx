@@ -1,5 +1,7 @@
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 
+import { checkboxIndicatorVariants } from "./variants";
+
 export type CheckboxIndicatorProps = Omit<BaseCheckbox.Indicator.Props, "className" | "style">;
 
 /**
@@ -8,5 +10,5 @@ export type CheckboxIndicatorProps = Omit<BaseCheckbox.Indicator.Props, "classNa
  * carries the a11y state. Children — typically a `CheckboxGlyph` — are passed through.
  */
 export function CheckboxIndicator(props: CheckboxIndicatorProps) {
-  return <BaseCheckbox.Indicator className="flex items-center justify-center" {...props} />;
+  return <BaseCheckbox.Indicator className={checkboxIndicatorVariants()} {...props} />;
 }

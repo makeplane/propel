@@ -8,6 +8,7 @@ import {
   TooltipPortal,
   TooltipPositioner,
   TooltipProvider,
+  TooltipShortcut,
   TooltipTrigger,
 } from "./index";
 
@@ -26,13 +27,17 @@ const meta = {
     TooltipPositioner,
     TooltipPopup,
     TooltipArrow,
+    TooltipShortcut,
   },
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** The full anatomy wired by hand: a focusable trigger opens a positioned popup with an arrow. */
+/**
+ * The full anatomy wired by hand: a focusable trigger opens a positioned popup that holds the
+ * label, an optional `TooltipShortcut` hint, and the arrow.
+ */
 export const Anatomy: Story = {
   render: () => (
     <Tooltip>
@@ -51,6 +56,7 @@ export const Anatomy: Story = {
         <TooltipPositioner side="top" sideOffset={8}>
           <TooltipPopup role="tooltip">
             Saves automatically
+            <TooltipShortcut>⌘ S</TooltipShortcut>
             <TooltipArrow />
           </TooltipPopup>
         </TooltipPositioner>
@@ -60,9 +66,9 @@ export const Anatomy: Story = {
   play: async ({ canvas }) => {
     await userEvent.tab();
     await expect(canvas.getByRole("button", { name: "Hover or focus me" })).toHaveFocus();
-    await expect(await within(document.body).findByRole("tooltip")).toHaveTextContent(
-      "Saves automatically",
-    );
+    const tooltip = await within(document.body).findByRole("tooltip");
+    await expect(tooltip).toHaveTextContent("Saves automatically");
+    await expect(tooltip).toHaveTextContent("⌘ S");
   },
 };
 

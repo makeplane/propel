@@ -5,25 +5,12 @@ import {
   Avatar as AvatarRoot,
   AvatarFallback,
   AvatarGroupContext,
+  AvatarIcon,
   AvatarImage,
-  type AvatarMagnitude,
   type AvatarProps as AvatarRootProps,
   type AvatarTone,
   getAvatarTone,
 } from "../../ui/avatar";
-
-// Person-icon (anonymous) sizes per magnitude, straight from Figma's "icon" values —
-// an explicit px size at each step, not a fixed fraction of the avatar.
-const iconSizeByMagnitude: Record<AvatarMagnitude, string> = {
-  "2xs": "size-3.5", // 14px
-  xs: "size-3.5", // 14px
-  sm: "size-4", // 16px
-  md: "size-5", // 20px
-  lg: "size-6", // 24px
-  xl: "size-6", // 24px
-  "2xl": "size-8", // 32px
-  "3xl": "size-8", // 32px
-};
 
 export type AvatarProps = AvatarRootProps & {
   /** Image URL. When omitted, or while it is loading/failing, the fallback shows. */
@@ -58,7 +45,11 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
     <AvatarRoot role="img" aria-label={alt} magnitude={magnitude} {...props}>
       {src ? <AvatarImage src={src} alt="" /> : null}
       <AvatarFallback tone={hasInitials ? resolvedTone : "none"}>
-        {fallback ?? <User aria-hidden className={iconSizeByMagnitude[effectiveMagnitude]} />}
+        {fallback ?? (
+          <AvatarIcon magnitude={effectiveMagnitude}>
+            <User />
+          </AvatarIcon>
+        )}
       </AvatarFallback>
     </AvatarRoot>
   );

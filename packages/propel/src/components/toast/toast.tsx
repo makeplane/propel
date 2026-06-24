@@ -4,11 +4,15 @@ import { X } from "lucide-react";
 import {
   Toast as ToastRoot,
   ToastAction,
+  ToastActionButton,
+  ToastActionGroup,
+  ToastActions,
   ToastClose,
   ToastContent,
   ToastDescription,
   ToastStatusIcon,
   type ToastTone,
+  ToastTextGroup,
   ToastTitle,
   createToastManager as createBaseToastManager,
   useToastManager,
@@ -99,54 +103,49 @@ export function Toast({ toast, ...props }: ToastProps) {
   const hasActionRow = leftActions.length > 0 || primaryAction != null;
   return (
     <ToastRoot toast={toast} {...props}>
-      {/* Status icon sits in a 2px-padded column so it baselines with the title. */}
-      <span className="flex items-center py-0.5">
-        <ToastStatusIcon tone={data.tone} />
-      </span>
+      {/* `mt-0.5` on the icon (via toastStatusIconVariants) baselines it with the title. */}
+      <ToastStatusIcon tone={data.tone} />
       <ToastContent>
-        <div className="flex flex-col gap-1">
+        <ToastTextGroup>
           <ToastTitle />
           <ToastDescription />
-        </div>
+        </ToastTextGroup>
         {data.progress != null ? (
           <Progress
             variant="linear"
             value={data.progress}
             magnitude="sm"
+            tone="brand"
             aria-label={typeof toast.title === "string" && toast.title ? toast.title : "Progress"}
           />
         ) : null}
         {hasActionRow ? (
-          // The row already sits in the content column (past the icon), so the left
-          // cluster just needs `-ms-2` to pull each button's transparent px-2 pill back
-          // by its own padding — that lines the button label up with the title text
-          // while the hover fill bleeds left. The left cluster grows to fill so the
-          // primary action pins to the inline-end edge. RTL-safe via logical utilities.
-          <div className="flex w-full gap-1.5">
-            <div className="-ms-2 flex min-w-0 flex-1 items-center gap-1.5">
+          // The left cluster grows to fill so the primary action pins to the inline-end
+          // edge; `ToastActionGroup` carries the offset that lines the buttons up with
+          // the title text. RTL-safe via logical utilities (owned by the ui parts).
+          <ToastActions>
+            <ToastActionGroup>
               {leftActions.map((action, index) => (
-                <button
+                <ToastActionButton
                   // Actions are positional and have no stable id; index keys are fine
                   // for this short, static-per-render list.
                   key={index}
-                  type="button"
-                  className="inline-flex h-6 min-w-10 shrink-0 items-center justify-center gap-1 rounded-md bg-layer-transparent px-2 text-13 font-medium text-secondary transition-colors outline-none hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong active:bg-layer-transparent-active"
                   onClick={action.onClick}
                 >
                   {action.label}
-                </button>
+                </ToastActionButton>
               ))}
-            </div>
+            </ToastActionGroup>
             {primaryAction ? (
               // The right-aligned action is wired through Base UI's `Toast.Action` so it
               // takes part in the toast's focus management.
               <ToastAction onClick={primaryAction.onClick}>{primaryAction.label}</ToastAction>
             ) : null}
-          </div>
+          </ToastActions>
         ) : null}
       </ToastContent>
       <ToastClose aria-label="Dismiss">
-        <X aria-hidden className="size-3.5" />
+        <X />
       </ToastClose>
     </ToastRoot>
   );

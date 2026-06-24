@@ -1,8 +1,13 @@
 import { LoaderCircle } from "lucide-react";
 import type * as React from "react";
 
-import { NodeSlot } from "../../internal/node-slot";
-import { Button as ButtonRoot, type ButtonProps as ButtonRootProps } from "../../ui/button";
+import {
+  Button as ButtonRoot,
+  ButtonIcon,
+  ButtonLabel,
+  type ButtonProps as ButtonRootProps,
+  ButtonSpinner,
+} from "../../ui/button";
 
 export type ButtonProps = ButtonRootProps & {
   /**
@@ -43,12 +48,14 @@ export function Button({
       aria-busy={loading ? true : undefined}
     >
       {loading ? (
-        <LoaderCircle aria-hidden className="size-(--node-size) animate-spin" />
+        <ButtonSpinner>
+          <LoaderCircle />
+        </ButtonSpinner>
       ) : inlineStartNode ? (
-        <NodeSlot aria-hidden>{inlineStartNode}</NodeSlot>
+        <ButtonIcon>{inlineStartNode}</ButtonIcon>
       ) : null}
-      {children}
-      {!loading && inlineEndNode ? <NodeSlot aria-hidden>{inlineEndNode}</NodeSlot> : null}
+      <ButtonLabel>{children}</ButtonLabel>
+      {!loading && inlineEndNode ? <ButtonIcon>{inlineEndNode}</ButtonIcon> : null}
     </ButtonRoot>
   );
 }

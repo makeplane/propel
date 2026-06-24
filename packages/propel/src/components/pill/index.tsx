@@ -1,3 +1,12 @@
-// Ready-made 1:1 re-export of the ui primitive. Drop down to `@plane/propel/ui/pill` only
-// when you need the lower-level parts.
-export * from "../../ui/pill";
+export { IconPill, type IconPillProps } from "./icon-pill";
+export { PillButton, type PillButtonProps } from "./pill";
+export { PillSwitch, type PillSwitchProps } from "./pill-switch";
+// Re-export the atomic ui parts so a fully custom pill is importable from this convenience.
+export {
+  PillIcon,
+  type PillIconProps,
+  PillLabel,
+  type PillLabelProps,
+  type PillMagnitude,
+  PillSpinner,
+} from "../../ui/pill";

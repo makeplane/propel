@@ -4,6 +4,7 @@ import { expect } from "storybook/test";
 import {
   Slider,
   SliderControl,
+  SliderHeader,
   SliderIndicator,
   SliderLabel,
   SliderThumb,
@@ -18,6 +19,7 @@ const meta = {
   title: "UI/Slider",
   component: Slider,
   subcomponents: {
+    SliderHeader,
     SliderLabel,
     SliderValue,
     SliderControl,
@@ -42,12 +44,14 @@ export const Default: Story = {
   args: { defaultValue: 40, min: 0, max: 100, step: 1 },
   render: (args) => (
     <Slider {...args}>
-      <SliderLabel>Volume</SliderLabel>
-      <SliderValue />
-      <SliderControl>
+      <SliderHeader>
+        <SliderLabel>Volume</SliderLabel>
+        <SliderValue />
+      </SliderHeader>
+      <SliderControl magnitude="md">
         <SliderTrack>
           <SliderIndicator />
-          <SliderThumb aria-label="Volume" />
+          <SliderThumb magnitude="md" aria-label="Volume" />
         </SliderTrack>
       </SliderControl>
     </Slider>
@@ -68,13 +72,15 @@ export const Range: Story = {
   },
   render: (args) => (
     <Slider {...args}>
-      <SliderLabel>Scaling threshold</SliderLabel>
-      <SliderValue />
-      <SliderControl>
+      <SliderHeader>
+        <SliderLabel>Scaling threshold</SliderLabel>
+        <SliderValue />
+      </SliderHeader>
+      <SliderControl magnitude="md">
         <SliderTrack>
           <SliderIndicator />
-          <SliderThumb index={0} aria-label="Minimum threshold" />
-          <SliderThumb index={1} aria-label="Maximum threshold" />
+          <SliderThumb magnitude="md" index={0} aria-label="Minimum threshold" />
+          <SliderThumb magnitude="md" index={1} aria-label="Maximum threshold" />
         </SliderTrack>
       </SliderControl>
     </Slider>

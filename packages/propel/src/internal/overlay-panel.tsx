@@ -81,7 +81,9 @@ export function OverlayPanel({
   return (
     <div className={cx(surfaceVariants({ elevation, radius }), overlayPanelVariants({ width }))}>
       {header}
-      <ScrollArea orientation="vertical">{children}</ScrollArea>
+      <ScrollArea orientation="vertical" visibility="auto" magnitude="thin">
+        {children}
+      </ScrollArea>
       {footer}
     </div>
   );

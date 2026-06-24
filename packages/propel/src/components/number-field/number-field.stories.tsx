@@ -18,13 +18,13 @@ type Story = StoryObj<typeof meta>;
 
 /** A bounded numeric input with stepper buttons. */
 export const Default: Story = {
-  args: { defaultValue: 2, min: 1, max: 64 },
+  args: { defaultValue: 2, min: 1, max: 64, magnitude: "xl" },
 };
 
 /** Clicking the +/- buttons steps the value within `min`/`max`. */
 export const IncrementAndDecrement: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { defaultValue: 2, min: 1, max: 64 },
+  args: { defaultValue: 2, min: 1, max: 64, magnitude: "xl" },
   play: async ({ canvas, userEvent }) => {
     const input = canvas.getByRole("textbox", { name: "Number of instances" });
     await expect(input).toHaveDisplayValue("2");

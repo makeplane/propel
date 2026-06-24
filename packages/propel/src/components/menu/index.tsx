@@ -2,6 +2,7 @@ export { MenuCheckboxItem, type MenuCheckboxItemProps } from "./menu-checkbox-it
 export { MenuContent, type MenuContentProps } from "./menu-content";
 export { MenuFooter, type MenuFooterProps } from "./menu-footer";
 export { MenuItem, type MenuItemProps } from "./menu-item";
+export { MenuLabel, type MenuLabelProps } from "./menu-label";
 export { MenuLinkItem, type MenuLinkItemProps } from "./menu-link-item";
 export { MenuSearch, type MenuSearchProps } from "./menu-search";
 export { MenuSubContent, type MenuSubContentProps } from "./menu-sub-content";
@@ -20,8 +21,6 @@ export {
   type MenuGroupProps,
   MenuGroupLabel,
   type MenuGroupLabelProps,
-  MenuLabel,
-  type MenuLabelProps,
   MenuPopup,
   type MenuPopupProps,
   MenuPortal,

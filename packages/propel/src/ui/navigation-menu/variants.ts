@@ -1,9 +1,11 @@
 import { cva, cx } from "class-variance-authority";
 
-// Navigation Menu is a verbatim wrapping of Base UI's parts. Base UI drives all
-// open/active state through `data-*` attributes, so there are no styling axes
-// (variant/tone/magnitude) to expose. The cva pairings below hold the static
-// chrome for every styled part in one place, with no `className` at the boundary.
+// Navigation Menu wraps Base UI's parts and extends the anatomy with the styled regions
+// inside a menu item (TriggerLabel, ContentList, LinkTitle, LinkDescription). Base UI drives
+// open/active state through `data-*` attributes, so the only authored styling axis is the
+// `Link`'s `variant` (an inline `item` pill vs a stacked content `card`). The cva pairings
+// below hold the static chrome for every styled part in one place, with no `className` at the
+// boundary.
 
 export const navigationMenuListVariants = cva("flex items-center gap-1");
 
@@ -17,18 +19,51 @@ export const navigationMenuTriggerVariants = cva(
   ),
 );
 
+// The trigger's text label, sitting beside the disclosure `Icon`. Mirrors the
+// `Title`/`Icon` split used by other triggers so the trigger renders parts, not raw text.
+export const navigationMenuTriggerLabelVariants = cva("min-w-0 truncate");
+
+// A `Link` is used two ways, so its arrangement is a required `variant`: an `item`
+// pill (a top-level nav entry beside the triggers) or a stacked `card` (a rich entry
+// inside a `Content` panel, pairing a `Title` with an optional `Description`). The
+// shared chrome — radius, highlight, focus ring — is baked in for both.
 export const navigationMenuLinkVariants = cva(
   cx(
-    "inline-flex h-8 items-center gap-1 rounded-md px-3 text-13 font-medium text-secondary outline-none",
+    "rounded-md text-13 font-medium text-secondary outline-none",
     "hover:bg-layer-transparent-hover data-popup-open:bg-layer-transparent-selected",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
   ),
+  {
+    variants: {
+      variant: {
+        item: "inline-flex h-8 items-center gap-1 px-3",
+        card: "flex flex-col gap-0.5 px-3 py-2 text-start",
+      },
+    },
+  },
 );
 
-// Rotates the caret while the popup is open; reads the parent Trigger's
-// `group-data-popup-open` state.
+// The link's primary line: the navigable label. Bold, primary-tinted, single line.
+export const navigationMenuLinkTitleVariants = cva(
+  "block truncate text-14 font-medium text-primary",
+);
+
+// The link's optional secondary line: a muted one- or two-line description below the title.
+export const navigationMenuLinkDescriptionVariants = cva("font-normal block text-12 text-tertiary");
+
+// The vertical stack of links inside a `Content` panel. Per the spec, nav items stack
+// vertically with a consistent gap; the surrounding `Popup` owns the padding.
+export const navigationMenuContentListVariants = cva("flex w-72 flex-col gap-1");
+
+// The disclosure caret slot inside a Trigger. Sizes its child SVG to `--node-size`
+// (default 1rem, matching the trigger's line-height) and rotates while the popup is
+// open; reads the parent Trigger's `group-data-popup-open` state.
 export const navigationMenuIconVariants = cva(
-  "flex size-4 items-center justify-center text-icon-secondary transition-transform group-data-popup-open:rotate-180",
+  cx(
+    "inline-flex shrink-0 items-center justify-center [--node-size:1rem]",
+    "[&>svg]:size-(--node-size)",
+    "text-icon-secondary transition-transform group-data-popup-open:rotate-180",
+  ),
 );
 
 export const navigationMenuPositionerVariants = cva("z-50 outline-none");

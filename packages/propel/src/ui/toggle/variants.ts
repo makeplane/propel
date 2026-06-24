@@ -28,8 +28,7 @@ export const toggleVariants = cva(
 
 export type ToggleMagnitude = NonNullable<VariantProps<typeof toggleVariants>["magnitude"]>;
 
-// The toggle's single glyph slot. Renders whatever svg/img you pass (sized to the
-// toggle's `--node-size` via the shared node-slot class), so callers pass a bare icon
-// instead of sizing it themselves. Decorative — the toggle carries the accessible name
-// (via `aria-label`) — so the glyph stays out of the name.
+// The icon slot inside a `Toggle`. Sizes its single child to the toggle's `--node-size`
+// (via the shared node-slot class) so callers pass a bare icon — no sizing class at the
+// call site. The toggle's `magnitude` sets `--node-size`, which this inherits.
 export const toggleIconVariants = cva(nodeSlotClass);
