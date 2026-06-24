@@ -8,7 +8,7 @@ export type MenuRadioItemProps = Omit<BaseMenu.RadioItem.Props, "className" | "s
 export function MenuRadioItem(props: MenuRadioItemProps) {
   return (
     <BaseMenu.RadioItem
-      className={menuRowVariants({ variant: "default", emphasis: "default" })}
+      className={menuRowVariants({ layout: "default", emphasis: "default" })}
       {...props}
     />
   );

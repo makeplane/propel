@@ -55,14 +55,14 @@ export const Default: Story = {
         <MenuPortal>
           <MenuPositioner sideOffset={4}>
             <MenuPopup surface="raised">
-              <MenuItem emphasis="default" variant="default">
+              <MenuItem emphasis="default" layout="default">
                 New file
               </MenuItem>
-              <MenuItem emphasis="default" variant="default">
+              <MenuItem emphasis="default" layout="default">
                 Open…
               </MenuItem>
               <MenuSeparator />
-              <MenuItem emphasis="default" variant="default">
+              <MenuItem emphasis="default" layout="default">
                 Save
               </MenuItem>
             </MenuPopup>
@@ -76,10 +76,10 @@ export const Default: Story = {
         <MenuPortal>
           <MenuPositioner sideOffset={4}>
             <MenuPopup surface="raised">
-              <MenuItem emphasis="default" variant="default">
+              <MenuItem emphasis="default" layout="default">
                 Undo
               </MenuItem>
-              <MenuItem emphasis="default" variant="default">
+              <MenuItem emphasis="default" layout="default">
                 Redo
               </MenuItem>
             </MenuPopup>

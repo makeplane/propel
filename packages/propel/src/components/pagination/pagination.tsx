@@ -190,7 +190,6 @@ export function Pagination({
                 <MenuItem
                   emphasis="default"
                   key={option}
-                  variant="default"
                   selected={option === pageSize.value}
                   onClick={() => pageSize.onValueChange(option)}
                 >

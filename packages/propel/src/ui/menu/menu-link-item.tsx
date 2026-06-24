@@ -8,7 +8,7 @@ export type MenuLinkItemProps = Omit<BaseMenu.LinkItem.Props, "className" | "sty
 export function MenuLinkItem(props: MenuLinkItemProps) {
   return (
     <BaseMenu.LinkItem
-      className={menuRowVariants({ variant: "default", emphasis: "link" })}
+      className={menuRowVariants({ layout: "default", emphasis: "link" })}
       {...props}
     />
   );

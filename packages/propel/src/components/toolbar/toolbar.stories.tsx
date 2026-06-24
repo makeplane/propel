@@ -49,7 +49,7 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
         <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
         <MenuContent>
           {TEXT_STYLES.map((style) => (
-            <MenuItem emphasis="default" key={style} variant="default">
+            <MenuItem emphasis="default" key={style}>
               {style}
             </MenuItem>
           ))}
@@ -59,7 +59,7 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
         <ToolbarMenuTrigger aria-label="Font">Aa</ToolbarMenuTrigger>
         <MenuContent>
           {FONTS.map((font) => (
-            <MenuItem emphasis="default" key={font} variant="default">
+            <MenuItem emphasis="default" key={font}>
               {font}
             </MenuItem>
           ))}
@@ -280,20 +280,20 @@ export const ComposableMenu: Story = {
       <Menu defaultOpen>
         <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
         <MenuContent>
-          <MenuItem emphasis="default" variant="default" inlineStartNode={<Pilcrow />} selected>
+          <MenuItem emphasis="default" inlineStartNode={<Pilcrow />} selected>
             Paragraph
           </MenuItem>
-          <MenuItem emphasis="default" variant="default" inlineStartNode={<Heading1 />}>
+          <MenuItem emphasis="default" inlineStartNode={<Heading1 />}>
             Heading 1
           </MenuItem>
-          <MenuItem emphasis="default" variant="default" inlineStartNode={<Heading2 />}>
+          <MenuItem emphasis="default" inlineStartNode={<Heading2 />}>
             Heading 2
           </MenuItem>
-          <MenuItem emphasis="default" variant="default" inlineStartNode={<Heading3 />}>
+          <MenuItem emphasis="default" inlineStartNode={<Heading3 />}>
             Heading 3
           </MenuItem>
           <MenuSeparator />
-          <MenuItem emphasis="default" variant="default" inlineStartNode={<Code />} disabled>
+          <MenuItem emphasis="default" inlineStartNode={<Code />} disabled>
             Code block
           </MenuItem>
         </MenuContent>

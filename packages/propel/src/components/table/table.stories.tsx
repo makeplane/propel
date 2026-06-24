@@ -257,7 +257,6 @@ export const EditableCells: Story = {
                     <MenuItem
                       emphasis="default"
                       key={role}
-                      variant="default"
                       selected={role === person.role}
                       onClick={() => setRole(person.email, role)}
                     >
@@ -411,7 +410,6 @@ export const RichRows: Story = {
                     <MenuItem
                       emphasis="default"
                       key={role}
-                      variant="default"
                       selected={role === person.role}
                       onClick={() => setRole(person.email, role)}
                     >
@@ -422,10 +420,10 @@ export const RichRows: Story = {
               </TableEditableCell>
               <TableActionCell aria-label={`Options for ${person.name}`}>
                 <MenuContent>
-                  <MenuItem emphasis="default" variant="default" inlineStartNode={<Pencil />}>
+                  <MenuItem emphasis="default" inlineStartNode={<Pencil />}>
                     Edit
                   </MenuItem>
-                  <MenuItem emphasis="default" variant="default" inlineStartNode={<Trash2 />}>
+                  <MenuItem emphasis="default" inlineStartNode={<Trash2 />}>
                     Delete
                   </MenuItem>
                 </MenuContent>
@@ -594,7 +592,6 @@ export const EditableCellKeyboard: Story = {
                   <MenuItem
                     emphasis="default"
                     key={r}
-                    variant="default"
                     selected={r === role}
                     onClick={() => setRole(r)}
                   >

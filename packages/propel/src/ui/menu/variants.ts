@@ -41,10 +41,10 @@ const menuRowBase = cx(
   "data-disabled:pointer-events-none data-disabled:text-disabled",
 );
 
-/** Standalone `MenuItem` row: variant-driven layout + emphasis. */
+/** Standalone `MenuItem` row: `layout` (single vs with-description) + `emphasis`. */
 export const menuRowVariants = cva(menuRowBase, {
   variants: {
-    variant: {
+    layout: {
       default: "h-[34px] items-center",
       "with-description": "min-h-[34px] items-start py-1.5",
     },

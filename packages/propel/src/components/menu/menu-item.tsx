@@ -14,7 +14,7 @@ import {
   type MenuItemProps as MenuItemElementProps,
 } from "../../ui/menu";
 
-export type MenuItemProps = MenuItemElementProps & {
+export type MenuItemProps = Omit<MenuItemElementProps, "layout"> & {
   /** Leading content before the label. */
   inlineStartNode?: React.ReactNode;
   /** Muted secondary line under the label. */
@@ -40,8 +40,10 @@ export function MenuItem({
   children,
   ...props
 }: MenuItemProps) {
+  // The taller, top-aligned row layout is implied by having a description — derived, not a prop.
+  const layout = description != null ? "with-description" : "default";
   return (
-    <MenuItemElement {...props}>
+    <MenuItemElement layout={layout} {...props}>
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
