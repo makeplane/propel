@@ -1,15 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { Meter, MeterIndicator, MeterLabel, MeterTrack, MeterValue } from "./index";
+import { Meter, MeterHeader, MeterIndicator, MeterLabel, MeterTrack, MeterValue } from "./index";
 
-// UI-tier story: assembles the ATOMIC meter parts (`Meter` root + `MeterLabel` +
-// `MeterTrack` › `MeterIndicator` + `MeterValue`). The components-tier `Meter` story
-// uses the ready-made `<Meter value label />`, which composes these parts for you.
+// UI-tier story: assembles the ATOMIC meter parts (`Meter` root + `MeterHeader` ›
+// `MeterLabel` + `MeterValue`, then `MeterTrack` › `MeterIndicator`). Each part renders a
+// single element; the header owns the label/value row layout. The components-tier `Meter`
+// story uses the ready-made `<Meter value label />`, which composes these parts for you.
 const meta = {
   title: "UI/Meter",
   component: Meter,
-  subcomponents: { MeterLabel, MeterTrack, MeterIndicator, MeterValue },
+  subcomponents: { MeterHeader, MeterLabel, MeterTrack, MeterIndicator, MeterValue },
   args: { value: 64 },
   decorators: [
     (Story) => (
@@ -23,16 +24,18 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Assemble the parts: Root › Label + (Track › Indicator) + Value. */
+/** Assemble the parts: Root › (Header › Label + Value) + (Track › Indicator). */
 export const Default: Story = {
   args: { value: 64 },
   render: (args) => (
     <Meter {...args}>
-      <MeterLabel>Disk usage</MeterLabel>
+      <MeterHeader>
+        <MeterLabel>Disk usage</MeterLabel>
+        <MeterValue />
+      </MeterHeader>
       <MeterTrack>
-        <MeterIndicator />
+        <MeterIndicator tone="medium" />
       </MeterTrack>
-      <MeterValue />
     </Meter>
   ),
 };
@@ -44,11 +47,13 @@ export const Levels: Story = {
     <div className="flex flex-col gap-4">
       {[15, 50, 90].map((value) => (
         <Meter key={value} value={value}>
-          <MeterLabel>Storage</MeterLabel>
+          <MeterHeader>
+            <MeterLabel>Storage</MeterLabel>
+            <MeterValue />
+          </MeterHeader>
           <MeterTrack>
-            <MeterIndicator />
+            <MeterIndicator tone="medium" />
           </MeterTrack>
-          <MeterValue />
         </Meter>
       ))}
     </div>
@@ -63,10 +68,12 @@ export const HasMeterRole: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Meter value={42} aria-label="Quota">
+      <MeterHeader>
+        <MeterValue />
+      </MeterHeader>
       <MeterTrack>
-        <MeterIndicator />
+        <MeterIndicator tone="medium" />
       </MeterTrack>
-      <MeterValue />
     </Meter>
   ),
   play: async ({ canvas }) => {

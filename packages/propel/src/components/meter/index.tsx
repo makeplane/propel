@@ -1,7 +1,10 @@
 export { Meter, type MeterProps } from "./meter";
 export {
+  MeterHeader,
+  type MeterHeaderProps,
   MeterIndicator,
   type MeterIndicatorProps,
+  type MeterIndicatorTone,
   MeterLabel,
   type MeterLabelProps,
   MeterTrack,
