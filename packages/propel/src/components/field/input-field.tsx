@@ -1,6 +1,5 @@
 import type * as React from "react";
 
-import { FieldLabelGroup } from "../../ui/field/field-label-group";
 import { InputFieldBox } from "../../ui/field/input-field-box";
 import { InputFieldContent } from "../../ui/field/input-field-content";
 import { InputFieldControl } from "../../ui/field/input-field-control";
@@ -9,6 +8,7 @@ import { InputFieldRoot } from "../../ui/field/input-field-root";
 import type { InputMagnitude, InputTone } from "../../ui/field/variants";
 import type { InputProps } from "../../ui/input/index";
 import { FieldHelperText } from "./field-helper-text";
+import { FieldLabelGroup } from "./field-label-group";
 
 export type { InputMagnitude, InputTone } from "../../ui/field/variants";
 

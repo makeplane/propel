@@ -1,38 +1,21 @@
-import { type VariantProps } from "class-variance-authority";
-import type * as React from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 
-import { FieldDescription } from "./field-description";
-import { FieldLabel } from "./field-label";
-import { type InputMagnitude, fieldLabelGroupVariants } from "./variants";
+import { type FieldLabelGroupVariantProps, fieldLabelGroupVariants } from "./variants";
 
-export function FieldLabelGroup({
-  magnitude,
-  required,
-  label,
-  description,
-  orientation,
-}: {
-  magnitude: InputMagnitude;
-  required?: boolean;
-  label?: React.ReactNode;
-  description?: React.ReactNode;
-  orientation: NonNullable<VariantProps<typeof fieldLabelGroupVariants>["orientation"]>;
-}) {
-  if (label == null && description == null) {
-    return null;
-  }
+export type { FieldLabelGroupVariantProps } from "./variants";
 
-  const inset = orientation === "horizontal" && description == null;
-  return (
-    <div className={fieldLabelGroupVariants({ orientation })}>
-      {label != null ? (
-        <FieldLabel magnitude={magnitude} required={required} inset={inset}>
-          {label}
-        </FieldLabel>
-      ) : null}
-      {description != null ? (
-        <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
-      ) : null}
-    </div>
-  );
+export type FieldLabelGroupProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
+  FieldLabelGroupVariantProps;
+
+/**
+ * The label/description column of a field: a single styled `<div>` (stacked, gapped). `orientation`
+ * matches the field's layout. The ready-made `components/field` `FieldLabelGroup` fills it with a
+ * `FieldLabel` and/or `FieldDescription`.
+ */
+export function FieldLabelGroup({ orientation, render, ...props }: FieldLabelGroupProps) {
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: fieldLabelGroupVariants({ orientation }),
+  };
+  return useRender({ defaultTagName: "div", render, props: mergeProps(defaultProps, props) });
 }

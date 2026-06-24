@@ -1,6 +1,7 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 export type { InputMagnitude } from "../input/variants";
 
@@ -150,3 +151,5 @@ export const fieldLabelGroupVariants = cva("flex flex-col gap-1", {
     },
   },
 });
+
+export type FieldLabelGroupVariantProps = StrictVariantProps<typeof fieldLabelGroupVariants>;

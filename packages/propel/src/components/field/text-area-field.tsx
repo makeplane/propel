@@ -1,7 +1,6 @@
 import type * as React from "react";
 
 import { Field } from "../../ui/field/field";
-import { FieldLabelGroup } from "../../ui/field/field-label-group";
 import { InputFieldContent } from "../../ui/field/input-field-content";
 import { TextAreaFieldBox } from "../../ui/field/text-area-field-box";
 import {
@@ -10,6 +9,7 @@ import {
 } from "../../ui/field/text-area-field-control";
 import type { InputMagnitude, InputTone } from "../../ui/field/variants";
 import { FieldHelperText } from "./field-helper-text";
+import { FieldLabelGroup } from "./field-label-group";
 
 export type TextAreaFieldProps = Omit<TextAreaFieldControlProps, "magnitude" | "surface"> & {
   /** Magnitude scale. `md` | `lg` | `xl`. */
