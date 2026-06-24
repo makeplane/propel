@@ -7,9 +7,9 @@ import {
   TabUnderlineBar,
   TabUnderlineLabel,
 } from "../../ui/tabs";
-import { TabsVariantContext } from "../../ui/tabs/tabs-context";
+import { TabsVariantContext } from "./tabs-context";
 
-export type TabProps = TabRootProps & {
+export type TabProps = Omit<TabRootProps, "variant"> & {
   /**
    * Node rendered before the label (inline-start). Sized to the tab's `--node-size` (16px) and
    * tinted to the tab's text color. Decorative, kept out of the name.
@@ -18,9 +18,9 @@ export type TabProps = TabRootProps & {
 };
 
 /**
- * The ready-made tab button: composes the atomic `Tab` and lays out an optional `inlineStartNode`
- * with the label. The `underline` variant additionally renders the sliding bar track beneath the
- * label.
+ * The ready-made tab button: composes the atomic `Tab` (taking the set's `variant` from context, so
+ * you don't pass it) and lays out an optional `inlineStartNode` with the label. The `underline`
+ * variant additionally renders the sliding bar track beneath the label.
  */
 export function Tab({ inlineStartNode, children, ...props }: TabProps) {
   const variant = React.useContext(TabsVariantContext);
@@ -28,7 +28,7 @@ export function Tab({ inlineStartNode, children, ...props }: TabProps) {
 
   if (variant === "underline") {
     return (
-      <TabRoot {...props}>
+      <TabRoot variant={variant} {...props}>
         <TabUnderlineLabel>
           {iconNode}
           {children}
@@ -39,7 +39,7 @@ export function Tab({ inlineStartNode, children, ...props }: TabProps) {
   }
 
   return (
-    <TabRoot {...props}>
+    <TabRoot variant={variant} {...props}>
       {iconNode}
       {children}
     </TabRoot>

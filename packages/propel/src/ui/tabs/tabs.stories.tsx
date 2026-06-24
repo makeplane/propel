@@ -10,13 +10,10 @@ import {
   TabsList,
   TabsPanel,
 } from "./index";
-import { TabsVariantContext } from "./tabs-context";
 
-// UI-tier story: composes the ATOMIC tab parts (each a single element). `Tabs` tracks the active
-// tab; `TabsList` rows up the `Tab`s; `TabsPanel` shows the active content; `TabsIndicator` is the
-// underline bar. The set's `variant` is wired to the parts via `TabsVariantContext` explicitly here
-// (the ready-made `components/tabs` does this via its provider, and adds the horizontal scroll
-// frame + the indicator for you).
+// UI-tier story: composes the ATOMIC tab parts (each a single, prop-driven element). `Tabs`,
+// `TabsList`, and each `Tab` take the `variant` explicitly — the ready-made `components/tabs` sets
+// it once and shares it via context (and adds the scroll frame + indicator) so you don't repeat it.
 const meta = {
   title: "UI/Tabs",
   component: Tabs,
@@ -36,22 +33,20 @@ const TAB_ITEMS = [
 /** Assemble the atomic parts: Root › List › Tab, plus a Panel per value (contained variant). */
 export const Default: Story = {
   render: () => (
-    <TabsVariantContext.Provider value="contained">
-      <Tabs variant="contained" defaultValue="overview">
-        <TabsList>
-          {TAB_ITEMS.map((item) => (
-            <Tab key={item.value} value={item.value}>
-              {item.label}
-            </Tab>
-          ))}
-        </TabsList>
+    <Tabs variant="contained" defaultValue="overview">
+      <TabsList variant="contained">
         {TAB_ITEMS.map((item) => (
-          <TabsPanel key={item.value} value={item.value}>
-            {item.panel}
-          </TabsPanel>
+          <Tab key={item.value} variant="contained" value={item.value}>
+            {item.label}
+          </Tab>
         ))}
-      </Tabs>
-    </TabsVariantContext.Provider>
+      </TabsList>
+      {TAB_ITEMS.map((item) => (
+        <TabsPanel key={item.value} value={item.value}>
+          {item.panel}
+        </TabsPanel>
+      ))}
+    </Tabs>
   ),
   play: async ({ canvas, userEvent }) => {
     const overview = canvas.getByRole("tab", { name: "Overview" });
@@ -70,23 +65,21 @@ export const Default: Story = {
  */
 export const Underline: Story = {
   render: () => (
-    <TabsVariantContext.Provider value="underline">
-      <Tabs variant="underline" defaultValue="overview">
-        <TabsList>
-          {TAB_ITEMS.map((item) => (
-            <Tab key={item.value} value={item.value}>
-              <TabUnderlineLabel>{item.label}</TabUnderlineLabel>
-              <TabUnderlineBar />
-            </Tab>
-          ))}
-          <TabsIndicator />
-        </TabsList>
+    <Tabs variant="underline" defaultValue="overview">
+      <TabsList variant="underline">
         {TAB_ITEMS.map((item) => (
-          <TabsPanel key={item.value} value={item.value}>
-            {item.panel}
-          </TabsPanel>
+          <Tab key={item.value} variant="underline" value={item.value}>
+            <TabUnderlineLabel>{item.label}</TabUnderlineLabel>
+            <TabUnderlineBar />
+          </Tab>
         ))}
-      </Tabs>
-    </TabsVariantContext.Provider>
+        <TabsIndicator />
+      </TabsList>
+      {TAB_ITEMS.map((item) => (
+        <TabsPanel key={item.value} value={item.value}>
+          {item.panel}
+        </TabsPanel>
+      ))}
+    </Tabs>
   ),
 };

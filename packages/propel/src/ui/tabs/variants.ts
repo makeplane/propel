@@ -1,4 +1,8 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
+
+// `contained` wraps the tabs in a pill and lifts the active tab onto a raised card; `underline`
+// keeps them flat and slides a dark bar under the active one.
+export type TabsVariant = NonNullable<VariantProps<typeof rootVariants>["variant"]>;
 
 export const rootVariants = cva("inline-flex max-w-full flex-col items-start gap-3", {
   variants: {

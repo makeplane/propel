@@ -1,9 +1,8 @@
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 
-import { type TabsVariant } from "./tabs-context";
-import { rootVariants } from "./variants";
+import { type TabsVariant, rootVariants } from "./variants";
 
-export type { TabsVariant } from "./tabs-context";
+export type { TabsVariant } from "./variants";
 
 export type TabsProps = Omit<BaseTabs.Root.Props, "className" | "style"> & {
   /**

@@ -1,7 +1,7 @@
 import type * as React from "react";
 
 import { Tabs as TabsRoot, type TabsProps as TabsRootProps } from "../../ui/tabs";
-import { TabsVariantContext } from "../../ui/tabs/tabs-context";
+import { TabsVariantContext } from "./tabs-context";
 
 export type TabsProps = TabsRootProps & {
   children?: React.ReactNode;
