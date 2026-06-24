@@ -5,16 +5,12 @@ export {
   type BreadcrumbItemProps,
   BreadcrumbLink,
   type BreadcrumbLinkProps,
+  BreadcrumbList,
+  type BreadcrumbListProps,
   BreadcrumbPage,
   type BreadcrumbPageProps,
-  BreadcrumbSeparator,
-  type BreadcrumbSeparatorProps,
 } from "../../ui/breadcrumb";
-export { BreadcrumbDropdown, type BreadcrumbDropdownProps } from "./breadcrumb-dropdown";
-export {
-  BreadcrumbDropdownItem,
-  type BreadcrumbDropdownItemProps,
-} from "./breadcrumb-dropdown-item";
+export { BreadcrumbSeparator, type BreadcrumbSeparatorProps } from "./breadcrumb-separator";
 export { BreadcrumbMenu, type BreadcrumbMenuProps } from "./breadcrumb-menu";
 export { BreadcrumbMenuContent, type BreadcrumbMenuContentProps } from "./breadcrumb-menu-content";
 export { BreadcrumbMenuItem, type BreadcrumbMenuItemProps } from "./breadcrumb-menu-item";
