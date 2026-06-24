@@ -1,7 +1,8 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
 import { surfaceVariants } from "../../internal/surface";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Toast is a structural overlay primitive. Base UI drives every interactive state
 // (expanded/limited/swipe/starting/ending transition styles) as data attributes, so
@@ -84,3 +85,6 @@ export const toastStatusIconVariants = cva("mt-0.5 size-4 shrink-0", {
     },
   },
 });
+
+export type ToastTone = NonNullable<VariantProps<typeof toastStatusIconVariants>["tone"]>;
+export type ToastStatusIconVariantProps = StrictVariantProps<typeof toastStatusIconVariants>;

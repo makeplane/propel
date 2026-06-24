@@ -1,4 +1,3 @@
-import { type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
 import { SolidCircleAlert } from "./solid-circle-alert";
@@ -7,9 +6,13 @@ import { SolidCircleX } from "./solid-circle-x";
 import type { StatusIconProps } from "./solid-icon";
 import { SolidInfo } from "./solid-info";
 import { SolidTriangleAlert } from "./solid-triangle-alert";
-import { toastStatusIconVariants } from "./variants";
+import {
+  type ToastTone,
+  type ToastStatusIconVariantProps,
+  toastStatusIconVariants,
+} from "./variants";
 
-export type ToastTone = NonNullable<VariantProps<typeof toastStatusIconVariants>["tone"]>;
+export type { ToastStatusIconVariantProps, ToastTone } from "./variants";
 
 type StatusIcon = (props: StatusIconProps) => React.JSX.Element;
 
@@ -24,10 +27,7 @@ const STATUS_ICON: Record<ToastTone, StatusIcon> = {
   neutral: SolidCircleAlert,
 };
 
-export type ToastStatusIconProps = Omit<StatusIconProps, "className"> & {
-  /** Semantic intent — selects the filled glyph and its `icon/*` color token. */
-  tone: ToastTone;
-};
+export type ToastStatusIconProps = Omit<StatusIconProps, "className"> & ToastStatusIconVariantProps;
 
 /**
  * The tone-colored status glyph at a toast's inline-start. Owns both the tone→icon mapping and the
