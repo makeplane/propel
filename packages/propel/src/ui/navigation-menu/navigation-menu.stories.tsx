@@ -110,7 +110,7 @@ function NavigationMenuTriggerRow({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** A menu with two dropdown items and a bare top-level link. */
+/** A menu with two menu items and a bare top-level link. */
 export const Default: Story = {
   render: () => (
     <NavigationMenu>

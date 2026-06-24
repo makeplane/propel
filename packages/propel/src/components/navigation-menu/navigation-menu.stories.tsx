@@ -114,7 +114,7 @@ function TriggerRow({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Two dropdown items plus a bare top-level link, opening into the shared `NavigationMenuPanel`. */
+/** Two menu items plus a bare top-level link, opening into the shared `NavigationMenuPanel`. */
 export const Default: Story = {
   render: () => (
     <NavigationMenu>
