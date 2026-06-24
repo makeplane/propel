@@ -79,6 +79,16 @@ vocabulary instead: `variant`, `tone`, `magnitude`, `emphasis`, `surface`, `dens
 `orientation`, `sizing`. (Full-width-vs-hug is `sizing: "hug" | "fill"` — mirroring Figma's resize —
 not `width`.) Genuine native attributes (`type`, `disabled`, `href`, `aria-*`) pass through untouched.
 
+6c. **`variant` is a smell — name the real axis, and split when values are different elements.**
+A prop named `variant` is almost always too vague: the values express a specific concept
+(`prominence`, `appearance`, `mode`, `layout`, `placement`) — name *that*. If the values would
+render a **different element or semantics** (e.g. `<button>` vs `<a>`), or carry an axis that only
+applies to one value, that's not a variant — it's a **separate component**. Separate **element**
+(semantics) from **appearance** (look): the button/link family is `Button` (`<button>` + chrome),
+`ButtonAnchor` (`<a>` + chrome), `Anchor` (`<a>` + link text) — never a `link` value on a button.
+A value that's a content condition should be **derived**, not a prop; a capability should be a
+**boolean**. (Shared appearance across the split lives in `internal/`, e.g. `control-chrome`.)
+
 7. **React context is a `components` concern — definition, provider, AND consumption.** A `ui`
    part never calls `useContext`; it takes the shared value (`variant`/`magnitude`/`density`/…) as
    a **prop**. The context's `createContext` + `Provider` + the `useContext` read all live in
