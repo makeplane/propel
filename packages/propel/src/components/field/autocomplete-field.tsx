@@ -16,9 +16,9 @@ import {
 } from "../../ui/autocomplete/index";
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
-import { FieldHelperText } from "../../ui/field/field-helper-text";
 import { FieldLabel } from "../../ui/field/field-label";
 import type { FieldMagnitude } from "../../ui/field/variants";
+import { FieldHelperText } from "./field-helper-text";
 
 export type AutocompleteFieldProps = Omit<AutocompleteProps<string>, "children" | "items"> & {
   /** Supporting text shown below the input. */

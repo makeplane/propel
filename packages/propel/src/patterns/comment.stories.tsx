@@ -150,6 +150,7 @@ function CommentComposer({
       rows={magnitude === "xs" ? 1 : 2}
       magnitude={controlMagnitude}
       surface={controlSurface}
+      resize="none"
       placeholder={placeholder}
       value={isControlled ? value : undefined}
       defaultValue={isControlled ? undefined : defaultValue}

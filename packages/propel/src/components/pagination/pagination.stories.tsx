@@ -2,11 +2,39 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 
+import {
+  PaginationArrowButton,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationList,
+  PaginationPageButton,
+  PaginationPerPage,
+  PaginationPerPageIndicator,
+  PaginationPerPageLabel,
+  PaginationPerPageTrigger,
+  PaginationRange,
+  PaginationRangeCurrent,
+  PaginationSpinner,
+} from "../../ui/pagination/index";
 import { Pagination } from "./index";
 
 const meta = {
   title: "Components/Pagination",
   component: Pagination,
+  subcomponents: {
+    PaginationList,
+    PaginationItem,
+    PaginationPageButton,
+    PaginationArrowButton,
+    PaginationEllipsis,
+    PaginationSpinner,
+    PaginationPerPage,
+    PaginationPerPageTrigger,
+    PaginationPerPageIndicator,
+    PaginationPerPageLabel,
+    PaginationRange,
+    PaginationRangeCurrent,
+  },
   parameters: {
     design: {
       type: "figma",

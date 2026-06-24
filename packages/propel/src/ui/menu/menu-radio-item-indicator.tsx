@@ -1,5 +1,4 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import { Check } from "lucide-react";
 
 import { menuItemIndicatorVariants } from "./variants";
 
@@ -10,9 +9,5 @@ export type MenuRadioItemIndicatorProps = Omit<
 
 /** Shows whether the radio item is selected. Wraps `Menu.RadioItemIndicator` 1:1. */
 export function MenuRadioItemIndicator(props: MenuRadioItemIndicatorProps) {
-  return (
-    <BaseMenu.RadioItemIndicator className={menuItemIndicatorVariants()} {...props}>
-      {props.children ?? <Check className="size-4" aria-hidden="true" />}
-    </BaseMenu.RadioItemIndicator>
-  );
+  return <BaseMenu.RadioItemIndicator className={menuItemIndicatorVariants()} {...props} />;
 }

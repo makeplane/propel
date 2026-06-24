@@ -3,7 +3,7 @@ import type * as React from "react";
 
 import { FieldDescription } from "./field-description";
 import { FieldLabel } from "./field-label";
-import { type InputMagnitude, labelGroupVariants } from "./variants";
+import { type InputMagnitude, fieldLabelGroupVariants } from "./variants";
 
 export function FieldLabelGroup({
   magnitude,
@@ -16,7 +16,7 @@ export function FieldLabelGroup({
   required?: boolean;
   label?: React.ReactNode;
   description?: React.ReactNode;
-  orientation: NonNullable<VariantProps<typeof labelGroupVariants>["orientation"]>;
+  orientation: NonNullable<VariantProps<typeof fieldLabelGroupVariants>["orientation"]>;
 }) {
   if (label == null && description == null) {
     return null;
@@ -24,7 +24,7 @@ export function FieldLabelGroup({
 
   const inset = orientation === "horizontal" && description == null;
   return (
-    <div className={labelGroupVariants({ orientation })}>
+    <div className={fieldLabelGroupVariants({ orientation })}>
       {label != null ? (
         <FieldLabel magnitude={magnitude} required={required} inset={inset}>
           {label}

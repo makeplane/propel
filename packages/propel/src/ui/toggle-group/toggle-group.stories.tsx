@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
-import { Toggle } from "../toggle/index";
+import { Toggle, ToggleIcon } from "../toggle/index";
 import { ToggleGroup } from "./index";
 
 // UI-tier story: composes the atomic `ToggleGroup` with atomic `Toggle` items. The group
@@ -12,7 +12,7 @@ import { ToggleGroup } from "./index";
 const meta = {
   title: "UI/ToggleGroup",
   component: ToggleGroup,
-  subcomponents: { Toggle },
+  subcomponents: { Toggle, ToggleIcon },
   args: { magnitude: "md" },
   parameters: {
     a11y: {
@@ -35,13 +35,19 @@ export const Default: Story = {
   render: (args) => (
     <ToggleGroup {...args} aria-label="Text alignment">
       <Toggle value="left" aria-label="Align left">
-        <AlignLeft aria-hidden className="size-(--node-size)" />
+        <ToggleIcon>
+          <AlignLeft />
+        </ToggleIcon>
       </Toggle>
       <Toggle value="center" aria-label="Align center">
-        <AlignCenter aria-hidden className="size-(--node-size)" />
+        <ToggleIcon>
+          <AlignCenter />
+        </ToggleIcon>
       </Toggle>
       <Toggle value="right" aria-label="Align right">
-        <AlignRight aria-hidden className="size-(--node-size)" />
+        <ToggleIcon>
+          <AlignRight />
+        </ToggleIcon>
       </Toggle>
     </ToggleGroup>
   ),
@@ -64,10 +70,14 @@ export const Multiple: Story = {
   render: (args) => (
     <ToggleGroup {...args} aria-label="Text formatting">
       <Toggle value="bold" aria-label="Bold">
-        <AlignLeft aria-hidden className="size-(--node-size)" />
+        <ToggleIcon>
+          <AlignLeft />
+        </ToggleIcon>
       </Toggle>
       <Toggle value="italic" aria-label="Italic">
-        <AlignCenter aria-hidden className="size-(--node-size)" />
+        <ToggleIcon>
+          <AlignCenter />
+        </ToggleIcon>
       </Toggle>
     </ToggleGroup>
   ),

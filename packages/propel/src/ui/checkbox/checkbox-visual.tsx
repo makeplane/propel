@@ -1,5 +1,5 @@
 import { CheckboxGlyph } from "./checkbox-glyph";
-import { checkboxVariants, type CheckboxTone } from "./variants";
+import { checkboxIndicatorVariants, checkboxVariants, type CheckboxTone } from "./variants";
 
 export type CheckboxVisualProps = {
   /** Resting color of the box. `danger` is the Figma "Error" state. */
@@ -22,7 +22,11 @@ export function CheckboxVisual({ tone, checked, indeterminate, disabled }: Check
       data-disabled={disabled ? "" : undefined}
       className={checkboxVariants({ tone })}
     >
-      {checked || indeterminate ? <CheckboxGlyph indeterminate={indeterminate} /> : null}
+      {checked || indeterminate ? (
+        <span className={checkboxIndicatorVariants()}>
+          <CheckboxGlyph indeterminate={indeterminate} />
+        </span>
+      ) : null}
     </span>
   );
 }

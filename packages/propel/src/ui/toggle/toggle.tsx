@@ -10,8 +10,9 @@ export type ToggleProps<Value extends string = string> = Omit<
   "className" | "style"
 > & {
   /**
-   * Button size. Optional because a `Toggle` inside a `ToggleGroup` inherits the group's magnitude;
-   * standalone it falls back to `md`.
+   * Button size. Required for standalone usage. When inside a `ToggleGroup`, omit it and let the
+   * group provide a consistent magnitude via context; pass it explicitly to override the group's
+   * choice.
    */
   magnitude?: ToggleMagnitude;
 };
@@ -23,9 +24,9 @@ export type ToggleProps<Value extends string = string> = Omit<
  * `Toggle`.
  */
 export function Toggle<Value extends string = string>({ magnitude, ...props }: ToggleProps<Value>) {
-  // An explicit `magnitude` wins; otherwise inherit the group's (if inside one); a standalone
-  // toggle with neither falls back to `md` so it always has a size.
+  // An explicit `magnitude` wins; otherwise inherit the group's (if inside one). Standalone
+  // Toggles must always pass `magnitude` — there is no silent fallback.
   const groupMagnitude = React.useContext(ToggleGroupContext);
-  const effectiveMagnitude = magnitude ?? groupMagnitude ?? "md";
+  const effectiveMagnitude = magnitude ?? groupMagnitude;
   return <BaseToggle className={toggleVariants({ magnitude: effectiveMagnitude })} {...props} />;
 }

@@ -1,5 +1,6 @@
 export { Slider, type SliderProps } from "./slider";
-export { SliderControl, type SliderControlProps } from "./slider-control";
+export { SliderControl, type SliderControlProps, type SliderMagnitude } from "./slider-control";
+export { SliderHeader, type SliderHeaderProps } from "./slider-header";
 export { SliderIndicator, type SliderIndicatorProps } from "./slider-indicator";
 export { SliderLabel, type SliderLabelProps } from "./slider-label";
 export { SliderThumb, type SliderThumbProps } from "./slider-thumb";

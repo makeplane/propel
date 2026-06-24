@@ -6,9 +6,13 @@ import { Button } from "../../ui/button";
 import { IconButton } from "../icon-button";
 import {
   Dialog,
+  DialogActions,
+  DialogBody,
   DialogClose,
   DialogContent,
   DialogDescription,
+  DialogHeader,
+  DialogHeading,
   DialogTitle,
   DialogTrigger,
 } from "./index";
@@ -22,7 +26,17 @@ import {
 const meta = {
   title: "Components/Dialog",
   component: Dialog,
-  subcomponents: { DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose },
+  subcomponents: {
+    DialogTrigger,
+    DialogContent,
+    DialogHeader,
+    DialogHeading,
+    DialogBody,
+    DialogActions,
+    DialogTitle,
+    DialogDescription,
+    DialogClose,
+  },
 } satisfies Meta<typeof Dialog>;
 
 export default meta;
@@ -35,40 +49,35 @@ export const Default: Story = {
       <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogTrigger />}>
         Delete project
       </Button>
-      <DialogContent>
-        {/*
-         * Layout groups separated by the parent's gap (never a margin on a child):
-         * a header (title + corner close) grouped with the description, then the
-         * actions row. Future anatomy surfaces — e.g. DialogHeader and DialogActions.
-         */}
-        <div className="flex w-80 flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-start justify-between gap-4">
-              <DialogTitle>Delete project</DialogTitle>
-              <IconButton
-                variant="ghost"
-                tone="neutral"
-                magnitude="lg"
-                aria-label="Close"
-                render={<DialogClose />}
-              >
-                <X />
-              </IconButton>
-            </div>
-            <DialogDescription>
-              This permanently removes the project and all of its work items. This action can&apos;t
-              be undone.
-            </DialogDescription>
-          </div>
-          <div className="flex justify-end gap-2">
-            <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
-              Cancel
-            </Button>
-            <Button variant="primary" tone="danger" magnitude="xl" render={<DialogClose />}>
-              Delete
-            </Button>
-          </div>
-        </div>
+      <DialogContent magnitude="sm">
+        <DialogHeader>
+          <DialogHeading>
+            <DialogTitle>Delete project</DialogTitle>
+          </DialogHeading>
+          <IconButton
+            variant="ghost"
+            tone="neutral"
+            magnitude="lg"
+            aria-label="Close"
+            render={<DialogClose />}
+          >
+            <X />
+          </IconButton>
+        </DialogHeader>
+        <DialogBody>
+          <DialogDescription>
+            This permanently removes the project and all of its work items. This action can&apos;t
+            be undone.
+          </DialogDescription>
+        </DialogBody>
+        <DialogActions>
+          <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
+            Cancel
+          </Button>
+          <Button variant="primary" tone="danger" magnitude="xl" render={<DialogClose />}>
+            Delete
+          </Button>
+        </DialogActions>
       </DialogContent>
     </Dialog>
   ),
@@ -99,11 +108,15 @@ export const EscapeCloses: Story = {
       <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogTrigger />}>
         Open settings
       </Button>
-      <DialogContent>
-        <div className="flex w-80 flex-col gap-2">
-          <DialogTitle>Settings</DialogTitle>
+      <DialogContent magnitude="sm">
+        <DialogHeader>
+          <DialogHeading>
+            <DialogTitle>Settings</DialogTitle>
+          </DialogHeading>
+        </DialogHeader>
+        <DialogBody>
           <DialogDescription>Press Escape to dismiss.</DialogDescription>
-        </div>
+        </DialogBody>
       </DialogContent>
     </Dialog>
   ),

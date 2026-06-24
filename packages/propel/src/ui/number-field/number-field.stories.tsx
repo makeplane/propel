@@ -4,6 +4,7 @@ import { expect } from "storybook/test";
 
 import {
   NumberField,
+  NumberFieldButtonIcon,
   NumberFieldDecrement,
   NumberFieldGroup,
   NumberFieldIncrement,
@@ -16,7 +17,13 @@ import {
 const meta = {
   title: "UI/NumberField",
   component: NumberField,
-  subcomponents: { NumberFieldGroup, NumberFieldInput, NumberFieldDecrement, NumberFieldIncrement },
+  subcomponents: {
+    NumberFieldGroup,
+    NumberFieldInput,
+    NumberFieldButtonIcon,
+    NumberFieldDecrement,
+    NumberFieldIncrement,
+  },
 } satisfies Meta<typeof NumberField>;
 
 export default meta;
@@ -28,12 +35,16 @@ export const Default: Story = {
   render: (args) => (
     <NumberField {...args} aria-label="Number of instances">
       <NumberFieldGroup>
-        <NumberFieldDecrement aria-label="Decrease instances">
-          <Minus aria-hidden className="size-4" />
+        <NumberFieldDecrement magnitude="xl" aria-label="Decrease instances">
+          <NumberFieldButtonIcon>
+            <Minus />
+          </NumberFieldButtonIcon>
         </NumberFieldDecrement>
-        <NumberFieldInput aria-label="Number of instances" />
-        <NumberFieldIncrement aria-label="Increase instances">
-          <Plus aria-hidden className="size-4" />
+        <NumberFieldInput magnitude="xl" aria-label="Number of instances" />
+        <NumberFieldIncrement magnitude="xl" aria-label="Increase instances">
+          <NumberFieldButtonIcon>
+            <Plus />
+          </NumberFieldButtonIcon>
         </NumberFieldIncrement>
       </NumberFieldGroup>
     </NumberField>
@@ -47,12 +58,16 @@ export const IncrementAndDecrement: Story = {
   render: (args) => (
     <NumberField {...args} aria-label="Number of instances">
       <NumberFieldGroup>
-        <NumberFieldDecrement aria-label="Decrease instances">
-          <Minus aria-hidden className="size-4" />
+        <NumberFieldDecrement magnitude="xl" aria-label="Decrease instances">
+          <NumberFieldButtonIcon>
+            <Minus />
+          </NumberFieldButtonIcon>
         </NumberFieldDecrement>
-        <NumberFieldInput aria-label="Number of instances" />
-        <NumberFieldIncrement aria-label="Increase instances">
-          <Plus aria-hidden className="size-4" />
+        <NumberFieldInput magnitude="xl" aria-label="Number of instances" />
+        <NumberFieldIncrement magnitude="xl" aria-label="Increase instances">
+          <NumberFieldButtonIcon>
+            <Plus />
+          </NumberFieldButtonIcon>
         </NumberFieldIncrement>
       </NumberFieldGroup>
     </NumberField>

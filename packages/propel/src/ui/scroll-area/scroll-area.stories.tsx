@@ -39,7 +39,7 @@ type Story = StoryObj<typeof meta>;
 /**
  * A vertically scrollable region built from atoms: Root › Viewport › Content, plus a vertical
  * Scrollbar › Thumb. The scrollbar is hidden until you hover the area or scroll, then the inset
- * thumb fades in.
+ * thumb fades in (`visibility="auto"`).
  */
 export const Default: Story = {
   render: () => (
@@ -55,7 +55,7 @@ export const Default: Story = {
           </div>
         </ScrollAreaContent>
       </ScrollAreaViewport>
-      <ScrollAreaScrollbar orientation="vertical">
+      <ScrollAreaScrollbar orientation="vertical" visibility="auto" magnitude="thin">
         <ScrollAreaThumb />
       </ScrollAreaScrollbar>
     </ScrollArea>
@@ -80,10 +80,10 @@ export const BothAxes: Story = {
           </div>
         </ScrollAreaContent>
       </ScrollAreaViewport>
-      <ScrollAreaScrollbar orientation="vertical">
+      <ScrollAreaScrollbar orientation="vertical" visibility="auto" magnitude="thin">
         <ScrollAreaThumb />
       </ScrollAreaScrollbar>
-      <ScrollAreaScrollbar orientation="horizontal">
+      <ScrollAreaScrollbar orientation="horizontal" visibility="auto" magnitude="thin">
         <ScrollAreaThumb />
       </ScrollAreaScrollbar>
       <ScrollAreaCorner />

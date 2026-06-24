@@ -103,6 +103,7 @@ export const ControlSubclasses: Story = {
         <TextAreaFieldControl
           magnitude="md"
           surface="embedded"
+          resize="none"
           placeholder="Add details"
           rows={3}
         />

@@ -3,14 +3,16 @@ import { expect } from "storybook/test";
 
 import { Collapsible } from "./index";
 
-// Components-tier story: the ready-made `<Collapsible trigger=…>body</Collapsible>` wrapper that
-// wires the trigger and panel for the 90% case. The UI-tier story assembles the atomic parts.
+// Components-tier story: the ready-made `<Collapsible trigger=… indicator>body</Collapsible>`
+// wrapper that wires the trigger and panel for the 90% case. The UI-tier story assembles the
+// atomic parts. `indicator` is a required prop — set to `true` for the chevron, `false` to omit.
 const meta = {
   title: "Components/Collapsible",
   component: Collapsible,
   args: {
     trigger: "Recent activity",
     children: "3 work items updated in the last hour.",
+    indicator: true,
   },
   decorators: [
     (Story) => (
@@ -30,6 +32,11 @@ export const Default: Story = {};
 /** `defaultOpen` renders the panel expanded on mount. */
 export const DefaultOpen: Story = {
   args: { defaultOpen: true },
+};
+
+/** Without the rotating chevron — `indicator={false}` omits it entirely. */
+export const WithoutIndicator: Story = {
+  args: { indicator: false },
 };
 
 /** Behavior test: the trigger toggles `aria-expanded` and shows/hides the body. */

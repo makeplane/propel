@@ -3,28 +3,32 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, Inbox } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
 
-import { iconControl } from "../../storybook/icon-control";
-import { NavItem, NavItemChevron, NavItemCount, type NavItemMagnitude } from "./index";
+import {
+  NavItem,
+  NavItemChevron,
+  NavItemCount,
+  NavItemIcon,
+  NavItemLabel,
+  type NavItemMagnitude,
+  NavItemTrailing,
+} from "./index";
 
+// UI-tier story: composes the ATOMIC nav-item parts (each renders a single element) — the leading
+// icon, the growing label, and the inline-end trailing region are their own parts, so the row
+// itself holds no raw layout.
 const MAGNITUDES: NavItemMagnitude[] = ["lg", "md"];
 
 const meta = {
   title: "UI/NavItem",
   component: NavItem,
-  subcomponents: { NavItemCount, NavItemChevron },
-  // Icon picker control for the inline-start icon.
-  argTypes: { inlineStartNode: iconControl },
+  subcomponents: { NavItemIcon, NavItemLabel, NavItemTrailing, NavItemCount, NavItemChevron },
   parameters: {
     design: {
       type: "figma",
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1329-396",
     },
   },
-  args: {
-    children: "Inbox",
-    magnitude: "lg",
-    inlineStartNode: <Inbox />,
-  },
+  args: { magnitude: "lg" },
   // The row stretches to its container; constrain it to a sidebar-like width.
   decorators: [
     (Story) => (
@@ -38,23 +42,47 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+/** A row with a leading icon and a label. */
+export const Default: Story = {
+  render: (args) => (
+    <NavItem {...args}>
+      <NavItemIcon>
+        <Inbox />
+      </NavItemIcon>
+      <NavItemLabel>Inbox</NavItemLabel>
+    </NavItem>
+  ),
+};
 
 /** A row with an inline-end count chip and a disclosure chevron, like a collapsible group. */
 export const WithTrailing: Story = {
-  args: {
-    inlineEndNode: (
-      <>
+  render: (args) => (
+    <NavItem {...args}>
+      <NavItemIcon>
+        <Inbox />
+      </NavItemIcon>
+      <NavItemLabel>Inbox</NavItemLabel>
+      <NavItemTrailing>
         <NavItemCount>6</NavItemCount>
-        <NavItemChevron icon={<ChevronDown />} />
-      </>
-    ),
-  },
+        <NavItemChevron>
+          <ChevronDown />
+        </NavItemChevron>
+      </NavItemTrailing>
+    </NavItem>
+  ),
 };
 
 /** The current page: filled surface, primary-tone label, and `aria-current="page"`. */
 export const Active: Story = {
   args: { active: true },
+  render: (args) => (
+    <NavItem {...args}>
+      <NavItemIcon>
+        <Inbox />
+      </NavItemIcon>
+      <NavItemLabel>Inbox</NavItemLabel>
+    </NavItem>
+  ),
   play: async ({ canvas }) => {
     const item = canvas.getByRole("button", { name: "Inbox" });
     await expect(item).toHaveAttribute("aria-current", "page");
@@ -69,6 +97,14 @@ export const AsLink: Story = {
     // shares one page across story files, so a real navigation tears down the iframe.
     render: <a href="#inbox" onClick={(event) => event.preventDefault()} />,
   },
+  render: (args) => (
+    <NavItem {...args}>
+      <NavItemIcon>
+        <Inbox />
+      </NavItemIcon>
+      <NavItemLabel>Inbox</NavItemLabel>
+    </NavItem>
+  ),
   play: async ({ canvas }) => {
     const link = canvas.getByRole("link", { name: "Inbox" });
     await expect(link).toHaveAttribute("href", "#inbox");
@@ -86,6 +122,14 @@ export const AsLink: Story = {
 export const KeyboardActivation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { active: true, onClick: fn() },
+  render: (args) => (
+    <NavItem {...args}>
+      <NavItemIcon>
+        <Inbox />
+      </NavItemIcon>
+      <NavItemLabel>Inbox</NavItemLabel>
+    </NavItem>
+  ),
   play: async ({ canvas, args }) => {
     const item = canvas.getByRole("button", { name: "Inbox" });
 
@@ -117,19 +161,29 @@ export const States: Story = {
       {MAGNITUDES.map((magnitude) => (
         <div key={magnitude} className="flex flex-col gap-1">
           <p className="text-11 text-tertiary uppercase">{magnitude}</p>
-          <NavItem {...args} magnitude={magnitude} inlineEndNode={<NavItemCount>6</NavItemCount>}>
-            Default
+          <NavItem {...args} magnitude={magnitude}>
+            <NavItemIcon>
+              <Inbox />
+            </NavItemIcon>
+            <NavItemLabel>Default</NavItemLabel>
+            <NavItemTrailing>
+              <NavItemCount>6</NavItemCount>
+            </NavItemTrailing>
           </NavItem>
-          <NavItem
-            {...args}
-            magnitude={magnitude}
-            active
-            inlineEndNode={<NavItemCount>6</NavItemCount>}
-          >
-            Selected
+          <NavItem {...args} magnitude={magnitude} active>
+            <NavItemIcon>
+              <Inbox />
+            </NavItemIcon>
+            <NavItemLabel>Selected</NavItemLabel>
+            <NavItemTrailing>
+              <NavItemCount>6</NavItemCount>
+            </NavItemTrailing>
           </NavItem>
           <NavItem {...args} magnitude={magnitude} disabled>
-            Disabled
+            <NavItemIcon>
+              <Inbox />
+            </NavItemIcon>
+            <NavItemLabel>Disabled</NavItemLabel>
           </NavItem>
         </div>
       ))}
@@ -139,12 +193,12 @@ export const States: Story = {
 
 /** The Figma `Level` axis: each step indents the row 8px further from the inline-start. */
 export const Levels: Story = {
-  argTypes: { level: { control: false }, children: { control: false } },
+  parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex flex-col gap-1">
       {([1, 2, 3, 4, 5] as const).map((level) => (
         <NavItem key={level} {...args} level={level}>
-          {`Level ${level}`}
+          <NavItemLabel>{`Level ${level}`}</NavItemLabel>
         </NavItem>
       ))}
     </div>
@@ -160,19 +214,20 @@ export const RightToLeft: Story = {
   render: (args) => (
     <DirectionProvider direction="rtl">
       <div dir="rtl" className="flex flex-col gap-1">
-        <NavItem
-          {...args}
-          inlineEndNode={
-            <>
-              <NavItemCount>6</NavItemCount>
-              <NavItemChevron icon={<ChevronDown />} />
-            </>
-          }
-        >
-          الوارد
+        <NavItem {...args}>
+          <NavItemIcon>
+            <Inbox />
+          </NavItemIcon>
+          <NavItemLabel>الوارد</NavItemLabel>
+          <NavItemTrailing>
+            <NavItemCount>6</NavItemCount>
+            <NavItemChevron>
+              <ChevronDown />
+            </NavItemChevron>
+          </NavItemTrailing>
         </NavItem>
         <NavItem {...args} level={2}>
-          مستوى ٢
+          <NavItemLabel>مستوى ٢</NavItemLabel>
         </NavItem>
       </div>
     </DirectionProvider>

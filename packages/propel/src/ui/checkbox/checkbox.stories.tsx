@@ -1,17 +1,25 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Repeat } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { Checkbox, CheckboxGlyph, CheckboxIndicator } from "./index";
+import {
+  Checkbox,
+  CheckboxGlyph,
+  CheckboxIndicator,
+  CheckboxInlineStartNode,
+  CheckboxLabel,
+} from "./index";
 
 // UI-tier story: composes the ATOMIC checkbox parts. `Checkbox` is the bare box
 // (Base UI `Checkbox.Root`); the tick/dash only shows when you nest a
-// `CheckboxIndicator` wrapping a `CheckboxGlyph`. The components-tier `Checkbox`
-// story shows the ready-made (label row + icon slot). Here you assemble the raw
-// parts and own the accessible name via `aria-label`.
+// `CheckboxIndicator` wrapping a `CheckboxGlyph`. A labeled row is the
+// `CheckboxLabel` chip wrapping the box, an optional `CheckboxInlineStartNode`
+// icon slot, and the text. The components-tier `Checkbox` story shows the
+// ready-made version. Here you assemble the raw parts and own the accessible name.
 const meta = {
   title: "UI/Checkbox",
   component: Checkbox,
-  subcomponents: { CheckboxIndicator, CheckboxGlyph },
+  subcomponents: { CheckboxIndicator, CheckboxGlyph, CheckboxLabel, CheckboxInlineStartNode },
   args: { tone: "neutral", "aria-label": "Example" },
 } satisfies Meta<typeof Checkbox>;
 
@@ -74,5 +82,34 @@ export const States: Story = {
     // The indicator is only mounted while checked/indeterminate, so the resting box is empty.
     await expect(unchecked).toBeEmptyDOMElement();
     await expect(checked).not.toBeEmptyDOMElement();
+  },
+};
+
+/**
+ * A labeled row assembled from the atomic parts: a `CheckboxLabel` chip wrapping the box, an
+ * optional `CheckboxInlineStartNode` icon slot, and the text. The label is associated with the box
+ * via `htmlFor`, so clicking anywhere in the row toggles the box.
+ */
+export const Labeled: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <CheckboxLabel disabled={false} htmlFor="ui-checkbox-labeled">
+      <Checkbox id="ui-checkbox-labeled" tone="neutral">
+        <CheckboxIndicator>
+          <CheckboxGlyph />
+        </CheckboxIndicator>
+      </Checkbox>
+      <CheckboxInlineStartNode>
+        <Repeat aria-hidden />
+      </CheckboxInlineStartNode>
+      Sync automatically
+    </CheckboxLabel>
+  ),
+  play: async ({ canvas, userEvent }) => {
+    const box = canvas.getByRole("checkbox");
+    await expect(box).toHaveAttribute("aria-checked", "false");
+    // Clicking the label text toggles the associated box.
+    await userEvent.click(canvas.getByText("Sync automatically"));
+    await expect(box).toHaveAttribute("aria-checked", "true");
   },
 };

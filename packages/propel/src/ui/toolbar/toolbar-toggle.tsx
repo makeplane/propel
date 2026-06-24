@@ -4,7 +4,7 @@ import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import * as React from "react";
 
 import { ToolbarDensityContext } from "./toolbar-context";
-import { itemVariants } from "./variants";
+import { toolbarItemVariants } from "./variants";
 
 export type ToolbarToggleProps<Value extends string = string> = Omit<
   BaseToggleTypes.Props<Value>,
@@ -25,7 +25,7 @@ export function ToolbarToggle<Value extends string = string>({
   return (
     <BaseToolbar.Button
       render={<Toggle render={render} />}
-      className={itemVariants({ density })}
+      className={toolbarItemVariants({ density })}
       {...props}
     />
   );

@@ -1,12 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { TriangleAlert } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Button } from "../button";
 import {
   AlertDialog,
+  AlertDialogActions,
   AlertDialogBackdrop,
   AlertDialogClose,
   AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogIcon,
+  AlertDialogIntro,
   AlertDialogPopup,
   AlertDialogPortal,
   AlertDialogTitle,
@@ -30,8 +35,12 @@ const meta = {
     AlertDialogBackdrop,
     AlertDialogViewport,
     AlertDialogPopup,
+    AlertDialogHeader,
+    AlertDialogIcon,
+    AlertDialogIntro,
     AlertDialogTitle,
     AlertDialogDescription,
+    AlertDialogActions,
     AlertDialogClose,
   },
 } satisfies Meta<typeof AlertDialog>;
@@ -50,38 +59,30 @@ export const Anatomy: Story = {
         <AlertDialogBackdrop />
         <AlertDialogViewport>
           <AlertDialogPopup>
-            {/*
-             * Two layout groups, separated by the parent's gap (never a margin on a
-             * child): an "intro" (title + description) and the "actions" row. These
-             * boundaries are the future anatomy surfaces — e.g. AlertDialogIntro and
-             * AlertDialogActions — so define them correctly here before hardening.
-             */}
-            <div className="flex w-80 flex-col gap-4">
-              <div className="flex flex-col gap-2">
+            <AlertDialogHeader>
+              <AlertDialogIcon tone="danger">
+                <TriangleAlert />
+              </AlertDialogIcon>
+              <AlertDialogIntro>
                 <AlertDialogTitle>Delete account?</AlertDialogTitle>
                 <AlertDialogDescription>
                   This permanently deletes your account and cannot be undone.
                 </AlertDialogDescription>
-              </div>
-              <div className="flex justify-end gap-2">
-                <Button
-                  variant="secondary"
-                  tone="neutral"
-                  magnitude="xl"
-                  render={<AlertDialogClose />}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant="primary"
-                  tone="danger"
-                  magnitude="xl"
-                  render={<AlertDialogClose />}
-                >
-                  Delete
-                </Button>
-              </div>
-            </div>
+              </AlertDialogIntro>
+            </AlertDialogHeader>
+            <AlertDialogActions>
+              <Button
+                variant="secondary"
+                tone="neutral"
+                magnitude="xl"
+                render={<AlertDialogClose />}
+              >
+                Cancel
+              </Button>
+              <Button variant="primary" tone="danger" magnitude="xl" render={<AlertDialogClose />}>
+                Delete
+              </Button>
+            </AlertDialogActions>
           </AlertDialogPopup>
         </AlertDialogViewport>
       </AlertDialogPortal>

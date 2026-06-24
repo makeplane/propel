@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { expect, within } from "storybook/test";
 
 import { Field, FieldError } from "../field/index";
 import {
   Select,
+  SelectField,
   SelectIcon,
   SelectItem,
   SelectItemIndicator,
@@ -29,6 +31,7 @@ const meta = {
   title: "UI/Select",
   component: Select,
   subcomponents: {
+    SelectField,
     SelectLabel,
     SelectTrigger,
     SelectValue,
@@ -54,20 +57,24 @@ export const Default: Story = {
   render: (args) => (
     <Field name="serverType">
       <Select {...args}>
-        <div className="flex w-fit flex-col gap-1.5">
+        <SelectField>
           <SelectLabel>Server type</SelectLabel>
-          <SelectTrigger>
+          <SelectTrigger magnitude="md">
             <SelectValue />
-            <SelectIcon />
+            <SelectIcon>
+              <ChevronsUpDown />
+            </SelectIcon>
           </SelectTrigger>
-        </div>
+        </SelectField>
         <SelectPortal>
           <SelectPositioner>
             <SelectPopup>
               <SelectList>
                 {SERVER_TYPES.map(({ label, value }) => (
-                  <SelectItem key={value} value={value}>
-                    <SelectItemIndicator />
+                  <SelectItem key={value} value={value} magnitude="md">
+                    <SelectItemIndicator>
+                      <Check />
+                    </SelectItemIndicator>
                     <SelectItemText>{label}</SelectItemText>
                   </SelectItem>
                 ))}

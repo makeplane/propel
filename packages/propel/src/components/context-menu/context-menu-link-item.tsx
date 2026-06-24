@@ -1,23 +1,25 @@
 import type * as React from "react";
 
-import { NodeSlot } from "../../internal/node-slot";
 import {
+  ContextMenuItemIcon,
+  ContextMenuItemLabel,
   ContextMenuLinkItem as ContextMenuLinkItemRoot,
   type ContextMenuLinkItemProps as ContextMenuLinkItemRootProps,
+  ContextMenuItemShortcut,
 } from "../../ui/context-menu";
 
 export type ContextMenuLinkItemProps = Omit<ContextMenuLinkItemRootProps, "label"> & {
-  /** Leading content before the label. */
+  /** Leading icon before the label. */
   inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
   label?: React.ReactNode;
-  /** Trailing content after the label. */
+  /** Trailing hint after the label. */
   inlineEndNode?: React.ReactNode;
 };
 
 /**
- * The ready-made navigational menu row: composes the atomic `ContextMenuLinkItem` and lays out
- * optional leading and trailing content slots around the label.
+ * The ready-made navigational menu row: composes the atomic `ContextMenuLinkItem` and its region
+ * parts — a leading icon, the label, and an optional trailing hint.
  */
 export function ContextMenuLinkItem({
   inlineStartNode,
@@ -28,9 +30,13 @@ export function ContextMenuLinkItem({
 }: ContextMenuLinkItemProps) {
   return (
     <ContextMenuLinkItemRoot {...props}>
-      {inlineStartNode != null ? <NodeSlot>{inlineStartNode}</NodeSlot> : null}
-      <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
-      {inlineEndNode != null ? <NodeSlot>{inlineEndNode}</NodeSlot> : null}
+      {inlineStartNode != null ? (
+        <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
+      ) : null}
+      <ContextMenuItemLabel>{label ?? children}</ContextMenuItemLabel>
+      {inlineEndNode != null ? (
+        <ContextMenuItemShortcut>{inlineEndNode}</ContextMenuItemShortcut>
+      ) : null}
     </ContextMenuLinkItemRoot>
   );
 }

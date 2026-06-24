@@ -1,22 +1,37 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Info } from "lucide-react";
+import { Info, X } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
-import { iconControl } from "../../storybook/icon-control";
-import { Button } from "../../ui/button/index";
-import { Banner, type BannerTone } from "./index";
+import { Button } from "../button/index";
+import {
+  Banner,
+  BannerActions,
+  BannerBody,
+  BannerDescription,
+  BannerDismiss,
+  BannerIcon,
+  type BannerTone,
+  BannerTitle,
+} from "./index";
 
+// UI-tier story: composes the ATOMIC banner parts (each renders a single element) — the
+// leading icon, the message body (title + description), the trailing actions, and the
+// dismiss control. The components-tier `Banner` story shows the ready-made banner that
+// takes content via convenience props instead of assembling the parts.
 const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
+
+const dismissSpy = fn();
 
 const meta = {
   title: "UI/Banner",
   component: Banner,
-  // Icon picker control for the leading icon (None keeps the default tone icon).
-  argTypes: { inlineStartNode: iconControl },
-  args: {
-    title: "There is something that needs your attention",
-    variant: "page",
-    tone: "neutral",
+  subcomponents: {
+    BannerIcon,
+    BannerBody,
+    BannerTitle,
+    BannerDescription,
+    BannerActions,
+    BannerDismiss,
   },
   parameters: {
     design: {
@@ -29,17 +44,36 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+/** Assemble the atomic parts: Root › Icon › Body (Title + Description). */
+export const Default: Story = {
+  args: { variant: "page", tone: "neutral" },
+  render: (args) => (
+    <Banner {...args}>
+      <BannerIcon variant={args.variant} tone={args.tone}>
+        <Info />
+      </BannerIcon>
+      <BannerBody variant={args.variant} tone={args.tone}>
+        <BannerTitle>There is something that needs your attention</BannerTitle>
+      </BannerBody>
+    </Banner>
+  ),
+};
 
 /** Every intent (`tone`) side by side — the soft surface + foreground color per meaning. */
 export const Tones: Story = {
-  // Iterates `tone` (and pins `variant` to inline for the showcase), so disable those
-  // controls; the rest stay live and update every banner at once.
+  args: { variant: "inline", tone: "neutral" },
   argTypes: { tone: { control: false }, variant: { control: false } },
-  render: (args) => (
+  render: () => (
     <div className="flex w-160 flex-col gap-3">
       {TONES.map((tone) => (
-        <Banner key={tone} {...args} variant="inline" tone={tone} />
+        <Banner key={tone} variant="inline" tone={tone}>
+          <BannerIcon variant="inline" tone={tone}>
+            <Info />
+          </BannerIcon>
+          <BannerBody variant="inline" tone={tone}>
+            <BannerTitle>There is something that needs your attention</BannerTitle>
+          </BannerBody>
+        </Banner>
       ))}
     </div>
   ),
@@ -47,30 +81,42 @@ export const Tones: Story = {
 
 /** The two scopes (`variant`): the full-width page strip vs the rounded inline card. */
 export const Variants: Story = {
-  // Iterates `variant` (and pins `tone` to info for the comparison), so disable those
-  // controls; the rest stay live and update both banners at once.
+  args: { variant: "page", tone: "info" },
   argTypes: { variant: { control: false }, tone: { control: false } },
-  render: (args) => (
+  render: () => (
     <div className="flex w-160 flex-col gap-4">
-      <Banner {...args} variant="page" tone="info" />
-      <Banner {...args} variant="inline" tone="info" />
+      {(["page", "inline"] as const).map((variant) => (
+        <Banner key={variant} variant={variant} tone="info">
+          <BannerIcon variant={variant} tone="info">
+            <Info />
+          </BannerIcon>
+          <BannerBody variant={variant} tone="info">
+            <BannerTitle>There is something that needs your attention</BannerTitle>
+          </BannerBody>
+        </Banner>
+      ))}
     </div>
   ),
 };
 
 /**
  * The full page banner from Figma (see the meta's design link): a message with trailing actions and
- * a dismiss control. `actions` takes any nodes, so the banner composes propel `Button`s, here a
- * ghost, a secondary, and a primary, matching the three buttons plus the close in the design.
+ * a dismiss control, assembled from the atomic parts. `BannerActions` takes any nodes, so the
+ * banner composes propel `Button`s — a ghost, a secondary, and a primary, plus the `BannerDismiss`
+ * close.
  */
 export const WithActions: Story = {
+  args: { variant: "page", tone: "neutral" },
   parameters: { controls: { disable: true } },
-  args: {
-    variant: "page",
-    tone: "neutral",
-    onDismiss: fn(),
-    actions: (
-      <>
+  render: (args) => (
+    <Banner {...args}>
+      <BannerIcon variant={args.variant} tone={args.tone}>
+        <Info />
+      </BannerIcon>
+      <BannerBody variant={args.variant} tone={args.tone}>
+        <BannerTitle>There is something that needs your attention</BannerTitle>
+      </BannerBody>
+      <BannerActions>
         <Button variant="ghost" tone="neutral" magnitude="sm">
           Remind me later
         </Button>
@@ -80,64 +126,39 @@ export const WithActions: Story = {
         <Button variant="primary" tone="neutral" magnitude="sm">
           Update now
         </Button>
-      </>
-    ),
-  },
-};
-
-/** A dismissible inline banner. Clicking the dismiss button calls `onDismiss`. */
-export const Dismissible: Story = {
-  args: {
-    variant: "inline",
-    tone: "info",
-    onDismiss: fn(),
-  },
+      </BannerActions>
+      <BannerDismiss onClick={fn()}>
+        <X aria-hidden />
+      </BannerDismiss>
+    </Banner>
+  ),
 };
 
 /**
- * Real interaction test: clicking the dismiss button invokes `onDismiss`. The spy comes from a
- * Storybook `fn()`; the button is queried by its `aria-label`. Tagged
- * `!dev`/`!autodocs`/`!manifest` so it stays out of the sidebar, docs, and AI manifest, but still
- * runs under the default `test` tag.
+ * Real interaction test: clicking the `BannerDismiss` button invokes its handler. The spy comes
+ * from a Storybook `fn()`; the button is queried by its `aria-label`. Tagged out of the
+ * sidebar/docs/manifest but still run under the default `test` tag.
  */
 export const DismissCallsHandler: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: {
-    variant: "inline",
-    tone: "info",
-    onDismiss: fn(),
-  },
-  play: async ({ args, canvas, userEvent }) => {
+  args: { variant: "inline", tone: "info" },
+  render: (args) => (
+    <Banner {...args}>
+      <BannerIcon variant={args.variant} tone={args.tone}>
+        <Info />
+      </BannerIcon>
+      <BannerBody variant={args.variant} tone={args.tone}>
+        <BannerTitle>There is something that needs your attention</BannerTitle>
+      </BannerBody>
+      <BannerDismiss onClick={dismissSpy}>
+        <X aria-hidden />
+      </BannerDismiss>
+    </Banner>
+  ),
+  play: async ({ canvas, userEvent }) => {
+    dismissSpy.mockClear();
     const button = canvas.getByRole("button", { name: "Dismiss" });
     await userEvent.click(button);
-    await expect(args.onDismiss).toHaveBeenCalledTimes(1);
-  },
-};
-
-/**
- * Optional content branches: consumers can hide the icon, pass a custom icon, render body-only
- * content, and warning/danger tones use assertive `alert` semantics.
- */
-export const OptionalContentSemantics: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => (
-    <div className="flex w-160 flex-col gap-3">
-      <Banner variant="inline" tone="warning" inlineStartNode={null}>
-        Maintenance starts at 6 PM.
-      </Banner>
-      <Banner
-        variant="inline"
-        tone="info"
-        title="Custom icon"
-        inlineStartNode={<Info data-testid="custom-banner-icon" />}
-      />
-    </div>
-  ),
-  play: async ({ canvas }) => {
-    const warning = canvas.getByRole("alert");
-    await expect(warning).toHaveTextContent("Maintenance starts at 6 PM.");
-    await expect(warning.querySelector("svg")).not.toBeInTheDocument();
-    await expect(canvas.getByTestId("custom-banner-icon")).toBeInTheDocument();
-    await expect(canvas.getByRole("status")).toHaveTextContent("Custom icon");
+    await expect(dismissSpy).toHaveBeenCalledTimes(1);
   },
 };

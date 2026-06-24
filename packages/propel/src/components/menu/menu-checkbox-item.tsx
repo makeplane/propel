@@ -1,11 +1,16 @@
 import type * as React from "react";
 
 import { useControllableState } from "../../hooks/use-controllable-state/index";
-import { NodeSlot } from "../../internal/node-slot";
 import { CheckboxVisual } from "../../ui/checkbox/index";
 import {
   MenuCheckboxItem as MenuCheckboxItemRoot,
   type MenuCheckboxItemProps as MenuCheckboxItemRootProps,
+  MenuItemContent,
+  MenuItemControl,
+  MenuItemIcon,
+  MenuItemMeta,
+  MenuItemTitle,
+  MenuItemTitleRow,
 } from "../../ui/menu";
 
 export type MenuCheckboxItemProps = MenuCheckboxItemRootProps & {
@@ -46,14 +51,16 @@ export function MenuCheckboxItem({
       }}
       {...props}
     >
-      <span className="flex shrink-0 items-center">
+      <MenuItemControl>
         <CheckboxVisual tone="neutral" checked={isChecked} disabled={props.disabled} />
-      </span>
-      {inlineStartNode != null ? <NodeSlot>{inlineStartNode}</NodeSlot> : null}
-      <span className="min-w-0 flex-1 truncate">{label ?? children}</span>
-      {inlineEndNode != null ? (
-        <span className="shrink-0 text-12 text-tertiary">{inlineEndNode}</span>
-      ) : null}
+      </MenuItemControl>
+      {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
+      <MenuItemContent>
+        <MenuItemTitleRow>
+          <MenuItemTitle>{label ?? children}</MenuItemTitle>
+        </MenuItemTitleRow>
+      </MenuItemContent>
+      {inlineEndNode != null ? <MenuItemMeta>{inlineEndNode}</MenuItemMeta> : null}
     </MenuCheckboxItemRoot>
   );
 }

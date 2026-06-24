@@ -3,13 +3,14 @@ import { expect } from "storybook/test";
 
 import { OTPField } from "./index";
 
-// Components-tier story: the ready-made `OTPField` — pass `length` and it renders that
-// many slots, owning focus movement, paste, and completion. The UI-tier story shows how
-// to compose the parts (e.g. a grouped `123-456` layout with a separator).
+// Components-tier story: the ready-made `OTPField` — pass `length`, `magnitude`, and
+// `tone`; it renders that many slots, owning focus movement, paste, and completion.
+// The UI-tier story shows how to compose the parts (e.g. a grouped `123-456` layout
+// with a separator).
 const meta = {
   title: "Components/OTPField",
   component: OTPField,
-  args: { length: 6, "aria-label": "Verification code" },
+  args: { length: 6, magnitude: "md", tone: "neutral", "aria-label": "Verification code" },
 } satisfies Meta<typeof OTPField>;
 
 export default meta;
@@ -40,4 +41,9 @@ export const TypingFillsSlots: Story = {
 export const Masked: Story = {
   parameters: { controls: { disable: true } },
   args: { length: 6, mask: true, defaultValue: "123456" },
+};
+
+/** `tone="danger"` shows error borders on all boxes. */
+export const Error: Story = {
+  args: { tone: "danger", defaultValue: "12" },
 };

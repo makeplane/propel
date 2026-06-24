@@ -1,8 +1,8 @@
+import { Check, ChevronsUpDown } from "lucide-react";
 import type * as React from "react";
 
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
-import { FieldHelperText } from "../../ui/field/field-helper-text";
 import type { FieldMagnitude } from "../../ui/field/variants";
 import {
   Select,
@@ -17,8 +17,18 @@ import {
   SelectPositioner,
   type SelectProps,
   SelectTrigger,
+  type SelectTriggerMagnitude,
   SelectValue,
 } from "../../ui/select/index";
+import { FieldHelperText } from "./field-helper-text";
+
+// The field magnitude axis (md/lg/xl) drives label and helper-text size; the select
+// trigger/item axis is sm/md/lg, so xl maps onto the largest trigger (lg).
+const SELECT_MAGNITUDE: Record<FieldMagnitude, SelectTriggerMagnitude> = {
+  md: "md",
+  lg: "lg",
+  xl: "lg",
+};
 
 export type SelectFieldOption = {
   label: React.ReactNode;
@@ -52,13 +62,16 @@ export function SelectField({
   options,
   ...selectProps
 }: SelectFieldProps) {
+  const selectMagnitude = SELECT_MAGNITUDE[magnitude];
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Select disabled={disabled} items={options} {...selectProps}>
         <SelectLabel>{label}</SelectLabel>
-        <SelectTrigger>
+        <SelectTrigger magnitude={selectMagnitude}>
           <SelectValue />
-          <SelectIcon />
+          <SelectIcon>
+            <ChevronsUpDown />
+          </SelectIcon>
         </SelectTrigger>
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
@@ -68,8 +81,10 @@ export function SelectField({
             <SelectPopup>
               <SelectList>
                 {options.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    <SelectItemIndicator />
+                  <SelectItem key={option.value} value={option.value} magnitude={selectMagnitude}>
+                    <SelectItemIndicator>
+                      <Check />
+                    </SelectItemIndicator>
                     <SelectItemText>{option.label}</SelectItemText>
                   </SelectItem>
                 ))}

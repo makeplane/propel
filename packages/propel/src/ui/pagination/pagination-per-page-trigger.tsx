@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { perPageTriggerVariants } from "./variants";
+import { paginationPerPageTriggerVariants } from "./variants";
 
 export type PaginationPerPageTriggerProps = Omit<
   useRender.ComponentProps<"button">,
@@ -10,12 +10,13 @@ export type PaginationPerPageTriggerProps = Omit<
 
 /**
  * The per-page selector pill, styled as a `layer-3` Menu trigger. Compose a `Menu.Trigger` through
- * the `render` prop; pass the visible size, the `sr-only` label, and the chevron as `children`.
+ * the `render` prop; pass the visible size and the `PaginationPerPageIndicator` chevron as
+ * children.
  */
 export function PaginationPerPageTrigger({ render, ...props }: PaginationPerPageTriggerProps) {
   const defaultProps: useRender.ElementProps<"button"> = {
     ...(render == null ? { type: "button" } : null),
-    className: perPageTriggerVariants(),
+    className: paginationPerPageTriggerVariants(),
   };
 
   return useRender({

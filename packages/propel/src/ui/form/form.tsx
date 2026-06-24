@@ -8,7 +8,11 @@ export type FormProps<FormValues extends Record<string, unknown> = Record<string
   "className" | "style"
 >;
 
-/** Native form element with Base UI consolidated error handling. */
+/**
+ * Native form element with Base UI consolidated error handling. Lays out its regions (`FormBody`,
+ * `FormActions`) with a consistent vertical rhythm; field spacing and the actions-bar treatment
+ * live on those parts.
+ */
 export function Form<FormValues extends Record<string, unknown> = Record<string, unknown>>(
   props: FormProps<FormValues>,
 ) {

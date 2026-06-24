@@ -3,8 +3,10 @@ import type * as React from "react";
 import {
   Slider as SliderRoot,
   SliderControl,
+  SliderHeader,
   SliderIndicator,
   SliderLabel,
+  type SliderMagnitude,
   type SliderProps as SliderRootProps,
   SliderThumb,
   SliderTrack,
@@ -19,6 +21,8 @@ export type SliderProps = SliderRootProps<number> & {
   label?: React.ReactNode;
   /** Accessible name for the thumb. Required when there is no visible `label`. */
   "aria-label"?: string;
+  /** Thumb and control size. `sm` = 12 px thumb, `md` = 16 px, `lg` = 20 px. */
+  magnitude: SliderMagnitude;
 };
 
 /**
@@ -27,19 +31,24 @@ export type SliderProps = SliderRootProps<number> & {
  * (visible) or `aria-label` to name the thumb, and `format` (an `Intl.NumberFormatOptions`) to
  * format the readout.
  *
+ * `magnitude` sets the thumb and hit-area size (`sm` / `md` / `lg`). The track bar height and shape
+ * are always the same per the design spec.
+ *
  * Composed from the `ui/slider` parts (`Slider` root + `SliderLabel` + `SliderValue` +
  * `SliderControl` + `SliderTrack` + `SliderIndicator` + `SliderThumb`), which are built on Base UI
  * `Slider`. For multiple thumbs or fully custom layout, compose the `ui/slider` parts directly.
  */
-export function Slider({ label, "aria-label": ariaLabel, ...props }: SliderProps) {
+export function Slider({ label, "aria-label": ariaLabel, magnitude, ...props }: SliderProps) {
   return (
     <SliderRoot {...props}>
-      {label == null ? null : <SliderLabel>{label}</SliderLabel>}
-      <SliderValue />
-      <SliderControl>
+      <SliderHeader>
+        {label == null ? <span /> : <SliderLabel>{label}</SliderLabel>}
+        <SliderValue />
+      </SliderHeader>
+      <SliderControl magnitude={magnitude}>
         <SliderTrack>
           <SliderIndicator />
-          <SliderThumb aria-label={ariaLabel} />
+          <SliderThumb magnitude={magnitude} aria-label={ariaLabel} />
         </SliderTrack>
       </SliderControl>
     </SliderRoot>

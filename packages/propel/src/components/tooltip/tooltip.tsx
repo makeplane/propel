@@ -8,6 +8,7 @@ import {
   TooltipPopup,
   TooltipPortal,
   TooltipPositioner,
+  TooltipShortcut,
   TooltipTrigger,
 } from "../../ui/tooltip";
 
@@ -82,11 +83,7 @@ export function Tooltip<Payload = unknown>({
               padding, and the gap to the shortcut) lives on the atomic `TooltipPopup`. */}
           <TooltipPopup role="tooltip">
             {content}
-            {shortcut != null ? (
-              // The keyboard-shortcut hint: dimmed `text/disabled` at the smaller
-              // `caption-sm/regular` scale (Figma "Cmd + K" treatment).
-              <span className="text-caption-sm-regular text-disabled">{shortcut}</span>
-            ) : null}
+            {shortcut != null ? <TooltipShortcut>{shortcut}</TooltipShortcut> : null}
             <TooltipArrow />
           </TooltipPopup>
         </TooltipPositioner>

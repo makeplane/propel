@@ -4,19 +4,35 @@ import { expect } from "storybook/test";
 
 import {
   NavItem,
-  NavItemChevron,
   NavItemCount,
   NavItemGroup,
   NavItemHeader,
+  NavItemHeaderIndicator,
+  NavItemHeaderLabel,
+  NavItemHeaderToggle,
+  NavItemIcon,
+  NavItemLabel,
   NavItemPanel,
+  NavItemTrailing,
 } from "./index";
 
-// Components-tier story: the ready-made NavItem part set assembled into a sidebar nav tree.
+// Components-tier story: the nav-item part set assembled into a sidebar nav tree.
 const meta = {
   title: "Components/NavItem",
   component: NavItem,
-  subcomponents: { NavItemGroup, NavItemHeader, NavItemPanel, NavItemCount, NavItemChevron },
-  args: { children: "Inbox", magnitude: "lg" },
+  subcomponents: {
+    NavItemIcon,
+    NavItemLabel,
+    NavItemTrailing,
+    NavItemCount,
+    NavItemGroup,
+    NavItemHeader,
+    NavItemHeaderToggle,
+    NavItemHeaderLabel,
+    NavItemHeaderIndicator,
+    NavItemPanel,
+  },
+  args: { magnitude: "lg" },
   parameters: {
     design: {
       type: "figma",
@@ -40,24 +56,36 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <nav className="flex flex-col gap-1">
-      <NavItem
-        magnitude="lg"
-        inlineStartNode={<Inbox />}
-        inlineEndNode={<NavItemCount>6</NavItemCount>}
-      >
-        Inbox
+      <NavItem magnitude="lg">
+        <NavItemIcon>
+          <Inbox />
+        </NavItemIcon>
+        <NavItemLabel>Inbox</NavItemLabel>
+        <NavItemTrailing>
+          <NavItemCount>6</NavItemCount>
+        </NavItemTrailing>
       </NavItem>
-      <NavItem magnitude="lg" active inlineStartNode={<LayoutGrid />}>
-        Projects
+      <NavItem magnitude="lg" active>
+        <NavItemIcon>
+          <LayoutGrid />
+        </NavItemIcon>
+        <NavItemLabel>Projects</NavItemLabel>
       </NavItem>
       <NavItemGroup>
-        <NavItemHeader chevron={<ChevronDown />}>Your teams</NavItemHeader>
+        <NavItemHeader>
+          <NavItemHeaderToggle>
+            <NavItemHeaderLabel>Your teams</NavItemHeaderLabel>
+            <NavItemHeaderIndicator>
+              <ChevronDown />
+            </NavItemHeaderIndicator>
+          </NavItemHeaderToggle>
+        </NavItemHeader>
         <NavItemPanel>
           <NavItem magnitude="lg" level={2}>
-            Design
+            <NavItemLabel>Design</NavItemLabel>
           </NavItem>
           <NavItem magnitude="lg" level={2}>
-            Engineering
+            <NavItemLabel>Engineering</NavItemLabel>
           </NavItem>
         </NavItemPanel>
       </NavItemGroup>
@@ -70,10 +98,17 @@ export const ToggleSection: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <NavItemGroup>
-      <NavItemHeader chevron={<ChevronDown />}>Your teams</NavItemHeader>
+      <NavItemHeader>
+        <NavItemHeaderToggle>
+          <NavItemHeaderLabel>Your teams</NavItemHeaderLabel>
+          <NavItemHeaderIndicator>
+            <ChevronDown />
+          </NavItemHeaderIndicator>
+        </NavItemHeaderToggle>
+      </NavItemHeader>
       <NavItemPanel>
         <NavItem magnitude="lg" level={2}>
-          Design
+          <NavItemLabel>Design</NavItemLabel>
         </NavItem>
       </NavItemPanel>
     </NavItemGroup>
@@ -96,8 +131,11 @@ export const ToggleSection: Story = {
 export const Active: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <NavItem magnitude="lg" active inlineStartNode={<Inbox />}>
-      Inbox
+    <NavItem magnitude="lg" active>
+      <NavItemIcon>
+        <Inbox />
+      </NavItemIcon>
+      <NavItemLabel>Inbox</NavItemLabel>
     </NavItem>
   ),
   play: async ({ canvas }) => {

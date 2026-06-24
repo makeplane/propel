@@ -1,58 +1,18 @@
-import { cx } from "class-variance-authority";
 import * as React from "react";
 
+/** The two table looks: `table` (row dividers only) and `spreadsheet` (full grid). */
 export type TableVariant = "table" | "spreadsheet";
+
+/** Which inline edge a header/cell pins to while the table scrolls sideways. */
 export type TablePinned = "start" | "end";
 
+/**
+ * Carries the root `Table`'s `variant` down to each `TableHead`/`TableCell` so they pick the
+ * matching borders without the caller repeating the look on every cell.
+ */
 export const TableVariantContext = React.createContext<TableVariant>("table");
 
-export const headBorder: Record<TableVariant, string> = {
-  table: "border-b border-subtle",
-  spreadsheet: "border-b-[0.5px] border-e-[0.5px] border-subtle last:border-e-0",
-};
-
-export const cellBorder: Record<TableVariant, string> = {
-  table: "border-b-[0.5px] border-subtle group-last/body-row:border-b-0",
-  spreadsheet:
-    "border-b-[0.5px] border-e-[0.5px] border-subtle last:border-e-0 group-last/body-row:border-b-0",
-};
-
-function pinnedEdgeBorder(pinned: TablePinned) {
-  return pinned === "start" ? "border-e-[0.5px] border-subtle" : "border-s-[0.5px] border-subtle";
+/** Reads the surrounding `Table`'s `variant`. */
+export function useTableVariant(): TableVariant {
+  return React.useContext(TableVariantContext);
 }
-
-export function pinnedHeadClass(pinned: TablePinned | undefined) {
-  if (!pinned) return "z-20";
-  return cx(
-    "sticky z-30",
-    pinned === "start" ? "inset-s-0" : "inset-e-0",
-    pinnedEdgeBorder(pinned),
-  );
-}
-
-export function pinnedCellClass(pinned: TablePinned | undefined) {
-  if (!pinned) return "";
-  return cx(
-    "sticky z-10 bg-layer-2 group-hover/body-row:bg-layer-2-hover",
-    pinned === "start" ? "inset-s-0" : "inset-e-0",
-    pinnedEdgeBorder(pinned),
-  );
-}
-
-export function useTableCellClass() {
-  const tableVariant = React.useContext(TableVariantContext);
-  return cx("h-11 align-middle", cellBorder[tableVariant]);
-}
-
-export function TableCellSlot({ children }: { children: React.ReactNode }) {
-  return <span className="flex shrink-0 items-center">{children}</span>;
-}
-
-export const actionableTriggerClass = cx(
-  "flex h-11 w-full items-center outline-none",
-  "bg-layer-transparent hover:bg-layer-transparent-hover focus-visible:bg-layer-transparent-hover",
-  "data-popup-open:bg-layer-transparent-active",
-  "disabled:pointer-events-none disabled:text-disabled",
-);
-
-export const selectedTriggerClass = "bg-layer-transparent-selected";

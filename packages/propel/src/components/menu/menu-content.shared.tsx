@@ -2,6 +2,7 @@ import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type * as React from "react";
 
 import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
+import { MenuPopup, MenuPortal, MenuPositioner } from "../../ui/menu";
 
 export type MenuContentWidth = OverlayPanelWidth;
 
@@ -34,17 +35,12 @@ export function MenuContentSurface({
   align: BaseMenu.Positioner.Props["align"];
 }) {
   return (
-    <BaseMenu.Portal>
-      <BaseMenu.Positioner
-        side={side}
-        sideOffset={sideOffset}
-        align={align}
-        className="outline-none"
-      >
+    <MenuPortal>
+      <MenuPositioner side={side} sideOffset={sideOffset} align={align}>
         <OverlayPanel elevation="overlay" radius="lg" width={width} header={search} footer={footer}>
-          <BaseMenu.Popup className="p-1 outline-none" {...props} />
+          <MenuPopup surface="inset" {...props} />
         </OverlayPanel>
-      </BaseMenu.Positioner>
-    </BaseMenu.Portal>
+      </MenuPositioner>
+    </MenuPortal>
   );
 }

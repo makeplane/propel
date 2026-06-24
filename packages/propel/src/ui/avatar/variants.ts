@@ -1,4 +1,6 @@
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
+
+import { nodeSlotClass } from "../../internal/node-slot";
 
 export const avatarImageVariants = cva("size-full object-cover");
 
@@ -44,3 +46,35 @@ export const avatarVariants = cva(
     },
   },
 );
+
+// Initials background utility per tone — the same palette as `avatarFallbackVariants`
+// but exposed as a plain map for consumers (e.g. WorkspaceAvatar) that style their own
+// fallback surface without using `AvatarFallback`. All className decisions live here in
+// variants.ts, not scattered across component files.
+export const avatarToneBgClass = {
+  orange: "bg-label-orange-bg-strong",
+  indigo: "bg-label-indigo-bg-strong",
+  emerald: "bg-label-emerald-bg-strong",
+  crimson: "bg-label-crimson-bg-strong",
+  pink: "bg-label-pink-bg-strong",
+  purple: "bg-label-purple-bg-strong",
+} as const;
+
+// The anonymous person-icon slot (the Figma "icon" content state). A node-slot: it
+// sizes whatever single child it's given to the inherited `--node-size`, never baking a
+// size onto the child. `--node-size` is set per magnitude from Figma's explicit "icon"
+// px values (not a fixed fraction of the avatar), and the glyph is tinted muted.
+export const avatarIconVariants = cva(cx(nodeSlotClass, "text-icon-placeholder"), {
+  variants: {
+    magnitude: {
+      "2xs": "[--node-size:0.875rem]", // 14px
+      xs: "[--node-size:0.875rem]", // 14px
+      sm: "[--node-size:1rem]", // 16px
+      md: "[--node-size:1.25rem]", // 20px
+      lg: "[--node-size:1.5rem]", // 24px
+      xl: "[--node-size:1.5rem]", // 24px
+      "2xl": "[--node-size:2rem]", // 32px
+      "3xl": "[--node-size:2rem]", // 32px
+    },
+  },
+});

@@ -5,6 +5,10 @@ import { expect, fireEvent, waitFor } from "storybook/test";
 import {
   ContextMenu,
   ContextMenuItem,
+  ContextMenuItemIcon,
+  ContextMenuItemIndicator,
+  ContextMenuItemLabel,
+  ContextMenuItemShortcut,
   ContextMenuPopup,
   ContextMenuPortal,
   ContextMenuPositioner,
@@ -24,6 +28,10 @@ const meta = {
     ContextMenuPositioner,
     ContextMenuPopup,
     ContextMenuItem,
+    ContextMenuItemIcon,
+    ContextMenuItemLabel,
+    ContextMenuItemShortcut,
+    ContextMenuItemIndicator,
     ContextMenuSeparator,
   },
 } satisfies Meta<typeof ContextMenu>;
@@ -45,25 +53,25 @@ export const Default: Story = {
         <ContextMenuPositioner>
           <ContextMenuPopup>
             <ContextMenuItem
+              tone="neutral"
               inlineStartNode={<Scissors />}
               label="Cut"
-              inlineEndNode={<span className="text-12 text-tertiary">⌘X</span>}
+              inlineEndNode="⌘X"
             />
             <ContextMenuItem
+              tone="neutral"
               inlineStartNode={<Copy />}
               label="Copy"
-              inlineEndNode={<span className="text-12 text-tertiary">⌘C</span>}
+              inlineEndNode="⌘C"
             />
             <ContextMenuItem
+              tone="neutral"
               inlineStartNode={<ClipboardPaste />}
               label="Paste"
-              inlineEndNode={<span className="text-12 text-tertiary">⌘V</span>}
+              inlineEndNode="⌘V"
             />
             <ContextMenuSeparator />
-            <ContextMenuItem
-              inlineStartNode={<Trash2 className="text-danger-primary" />}
-              label={<span className="text-danger-primary">Delete</span>}
-            />
+            <ContextMenuItem tone="danger" inlineStartNode={<Trash2 />} label="Delete" />
           </ContextMenuPopup>
         </ContextMenuPositioner>
       </ContextMenuPortal>

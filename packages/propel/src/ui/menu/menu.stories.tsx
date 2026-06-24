@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Check } from "lucide-react";
+import { Check, CircleDot, Copy, Pencil, Trash2 } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent, waitFor } from "storybook/test";
 
@@ -10,6 +10,13 @@ import {
   MenuGroup,
   MenuGroupLabel,
   MenuItem,
+  MenuItemContent,
+  MenuItemControl,
+  MenuItemIcon,
+  MenuItemMeta,
+  MenuItemSelectedIndicator,
+  MenuItemTitle,
+  MenuItemTitleRow,
   MenuPopup,
   MenuPortal,
   MenuPositioner,
@@ -18,10 +25,11 @@ import {
 } from "./index";
 
 // UI-tier story: assemble the ATOMIC menu parts by hand — Root › Trigger, then the
-// portal/positioner/popup surface wrapping items, separators and groups. The
+// portal/positioner/popup surface wrapping items, separators and groups. Each row is
+// composed from its own single-element parts (icon slot, the title column, the
+// trailing check/meta), so the trigger and rows hold no raw layout. The
 // components-tier `Menu` story uses the ready-made `MenuContent` plus the rich
-// `MenuItem`/`MenuCheckboxItem` rows; here each part renders a single element and
-// you wire the layout yourself.
+// `MenuItem`/`MenuCheckboxItem` rows that compose these same parts for you.
 const meta = {
   title: "UI/Menu",
   component: Menu,
@@ -31,6 +39,13 @@ const meta = {
     MenuPositioner,
     MenuPopup,
     MenuItem,
+    MenuItemIcon,
+    MenuItemContent,
+    MenuItemTitleRow,
+    MenuItemTitle,
+    MenuItemMeta,
+    MenuItemSelectedIndicator,
+    MenuItemControl,
     MenuCheckboxItem,
     MenuCheckboxItemIndicator,
     MenuSeparator,
@@ -54,11 +69,42 @@ export const Default: Story = {
       <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
       <MenuPortal>
         <MenuPositioner sideOffset={4}>
-          <MenuPopup>
-            <MenuItem variant="default">Edit</MenuItem>
-            <MenuItem variant="default">Duplicate</MenuItem>
+          <MenuPopup surface="raised">
+            <MenuItem variant="default">
+              <MenuItemIcon>
+                <Pencil />
+              </MenuItemIcon>
+              <MenuItemContent>
+                <MenuItemTitleRow>
+                  <MenuItemTitle>Edit</MenuItemTitle>
+                </MenuItemTitleRow>
+              </MenuItemContent>
+              <MenuItemMeta>⌘E</MenuItemMeta>
+            </MenuItem>
+            <MenuItem variant="default">
+              <MenuItemIcon>
+                <Copy />
+              </MenuItemIcon>
+              <MenuItemContent>
+                <MenuItemTitleRow>
+                  <MenuItemTitle>Duplicate</MenuItemTitle>
+                </MenuItemTitleRow>
+              </MenuItemContent>
+              <MenuItemSelectedIndicator>
+                <Check />
+              </MenuItemSelectedIndicator>
+            </MenuItem>
             <MenuSeparator />
-            <MenuItem variant="default">Delete</MenuItem>
+            <MenuItem variant="default">
+              <MenuItemIcon>
+                <Trash2 />
+              </MenuItemIcon>
+              <MenuItemContent>
+                <MenuItemTitleRow>
+                  <MenuItemTitle>Delete</MenuItemTitle>
+                </MenuItemTitleRow>
+              </MenuItemContent>
+            </MenuItem>
           </MenuPopup>
         </MenuPositioner>
       </MenuPortal>
@@ -79,17 +125,41 @@ export const Grouped: Story = {
       <MenuTrigger render={<button type="button" className={triggerClass} />}>View</MenuTrigger>
       <MenuPortal>
         <MenuPositioner sideOffset={4}>
-          <MenuPopup>
+          <MenuPopup surface="raised">
             <MenuGroup>
               <MenuGroupLabel>Layout</MenuGroupLabel>
-              <MenuItem variant="default">List</MenuItem>
-              <MenuItem variant="default">Board</MenuItem>
+              <MenuItem variant="default">
+                <MenuItemContent>
+                  <MenuItemTitleRow>
+                    <MenuItemTitle>List</MenuItemTitle>
+                  </MenuItemTitleRow>
+                </MenuItemContent>
+              </MenuItem>
+              <MenuItem variant="default">
+                <MenuItemContent>
+                  <MenuItemTitleRow>
+                    <MenuItemTitle>Board</MenuItemTitle>
+                  </MenuItemTitleRow>
+                </MenuItemContent>
+              </MenuItem>
             </MenuGroup>
             <MenuSeparator />
             <MenuGroup>
               <MenuGroupLabel>Density</MenuGroupLabel>
-              <MenuItem variant="default">Comfortable</MenuItem>
-              <MenuItem variant="default">Compact</MenuItem>
+              <MenuItem variant="default">
+                <MenuItemContent>
+                  <MenuItemTitleRow>
+                    <MenuItemTitle>Comfortable</MenuItemTitle>
+                  </MenuItemTitleRow>
+                </MenuItemContent>
+              </MenuItem>
+              <MenuItem variant="default">
+                <MenuItemContent>
+                  <MenuItemTitleRow>
+                    <MenuItemTitle>Compact</MenuItemTitle>
+                  </MenuItemTitleRow>
+                </MenuItemContent>
+              </MenuItem>
             </MenuGroup>
           </MenuPopup>
         </MenuPositioner>
@@ -118,7 +188,7 @@ export const Checkboxes: Story = {
         <MenuTrigger render={<button type="button" className={triggerClass} />}>Notify</MenuTrigger>
         <MenuPortal>
           <MenuPositioner sideOffset={4}>
-            <MenuPopup>
+            <MenuPopup surface="raised">
               {rows.map((row) => (
                 <MenuCheckboxItem
                   key={row.key}
@@ -126,9 +196,13 @@ export const Checkboxes: Story = {
                   onCheckedChange={(next) => setChecked((c) => ({ ...c, [row.key]: next }))}
                   closeOnClick={false}
                 >
-                  <span className="min-w-0 flex-1 truncate">{row.label}</span>
+                  <MenuItemContent>
+                    <MenuItemTitleRow>
+                      <MenuItemTitle>{row.label}</MenuItemTitle>
+                    </MenuItemTitleRow>
+                  </MenuItemContent>
                   <MenuCheckboxItemIndicator>
-                    <Check className="size-4" aria-hidden="true" />
+                    <CircleDot aria-hidden="true" />
                   </MenuCheckboxItemIndicator>
                 </MenuCheckboxItem>
               ))}

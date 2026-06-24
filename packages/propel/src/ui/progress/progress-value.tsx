@@ -5,7 +5,10 @@ import { progressValueVariants } from "./variants";
 /** Props for {@link ProgressValue}; 1:1 with Base UI `Progress.Value`. */
 export type ProgressValueProps = Omit<BaseProgress.Value.Props, "className" | "style">;
 
-/** 1:1 wrapper around Base UI `Progress.Value`. */
+/**
+ * 1:1 wrapper around Base UI `Progress.Value`. Renders the percentage as a neutral readout; the
+ * semantic tone lives on the fill, not the number.
+ */
 export function ProgressValue(props: ProgressValueProps) {
   return <BaseProgress.Value className={progressValueVariants()} {...props} />;
 }

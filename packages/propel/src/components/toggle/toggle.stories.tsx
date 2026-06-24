@@ -2,14 +2,15 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Star } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { Toggle } from "./index";
+import { Toggle, ToggleIcon } from "./index";
 
 // Components-tier story: the ready-made `Toggle` (a 1:1 re-export of the ui primitive) —
-// a two-state icon button. The UI-tier story documents the same primitive's parts and
-// magnitudes.
+// a two-state icon button with its `ToggleIcon` glyph slot. The UI-tier story documents
+// the same parts and magnitudes.
 const meta = {
   title: "Components/Toggle",
   component: Toggle,
+  subcomponents: { ToggleIcon },
   args: { magnitude: "md", "aria-label": "Favorite" },
 } satisfies Meta<typeof Toggle>;
 
@@ -21,7 +22,9 @@ export const Default: Story = {
   args: { magnitude: "md" },
   render: (args) => (
     <Toggle {...args}>
-      <Star aria-hidden className="size-(--node-size)" />
+      <ToggleIcon>
+        <Star />
+      </ToggleIcon>
     </Toggle>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -38,13 +41,19 @@ export const States: Story = {
   render: () => (
     <div className="flex items-center gap-2">
       <Toggle magnitude="md" aria-label="Off">
-        <Star aria-hidden className="size-(--node-size)" />
+        <ToggleIcon>
+          <Star />
+        </ToggleIcon>
       </Toggle>
       <Toggle magnitude="md" defaultPressed aria-label="On">
-        <Star aria-hidden className="size-(--node-size)" />
+        <ToggleIcon>
+          <Star />
+        </ToggleIcon>
       </Toggle>
       <Toggle magnitude="md" disabled aria-label="Disabled">
-        <Star aria-hidden className="size-(--node-size)" />
+        <ToggleIcon>
+          <Star />
+        </ToggleIcon>
       </Toggle>
     </div>
   ),

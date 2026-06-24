@@ -2,14 +2,19 @@ import { Minus, Plus } from "lucide-react";
 
 import {
   NumberField as NumberFieldRoot,
+  NumberFieldButtonIcon,
   NumberFieldDecrement,
   NumberFieldGroup,
   NumberFieldIncrement,
   NumberFieldInput,
+  type NumberFieldMagnitude,
   type NumberFieldProps as NumberFieldRootProps,
 } from "../../ui/number-field";
 
-export type NumberFieldProps = NumberFieldRootProps;
+export type NumberFieldProps = NumberFieldRootProps & {
+  /** Visual size of the field: controls button square and input height. Required. */
+  magnitude: NumberFieldMagnitude;
+};
 
 /**
  * The ready-made number field: a numeric input flanked by decrement / increment buttons. Drive it
@@ -23,18 +28,27 @@ export type NumberFieldProps = NumberFieldRootProps;
 export function NumberField({
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledby,
+  magnitude,
   ...props
 }: NumberFieldProps) {
   return (
     <NumberFieldRoot {...props}>
       <NumberFieldGroup>
-        <NumberFieldDecrement aria-label="Decrease">
-          <Minus aria-hidden className="size-4" />
+        <NumberFieldDecrement magnitude={magnitude} aria-label="Decrease">
+          <NumberFieldButtonIcon>
+            <Minus />
+          </NumberFieldButtonIcon>
         </NumberFieldDecrement>
         {/* The accessible name belongs on the input, not the root div. */}
-        <NumberFieldInput aria-label={ariaLabel} aria-labelledby={ariaLabelledby} />
-        <NumberFieldIncrement aria-label="Increase">
-          <Plus aria-hidden className="size-4" />
+        <NumberFieldInput
+          magnitude={magnitude}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledby}
+        />
+        <NumberFieldIncrement magnitude={magnitude} aria-label="Increase">
+          <NumberFieldButtonIcon>
+            <Plus />
+          </NumberFieldButtonIcon>
         </NumberFieldIncrement>
       </NumberFieldGroup>
     </NumberFieldRoot>

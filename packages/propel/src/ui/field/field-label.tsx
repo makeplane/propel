@@ -1,6 +1,7 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import type * as React from "react";
 
+import { FieldLabelRequiredMarker } from "./field-label-required-marker";
 import { fieldLabelVariants, type InputMagnitude } from "./variants";
 
 export type FieldLabelProps = {
@@ -10,16 +11,12 @@ export type FieldLabelProps = {
   inset?: boolean;
 };
 
-/** The label row: the label text and the required `*` asterisk in danger. */
+/** The label row: the label text, plus a `FieldLabelRequiredMarker` when `required`. */
 export function FieldLabel({ children, magnitude, required, inset }: FieldLabelProps) {
   return (
     <BaseField.Label className={fieldLabelVariants({ magnitude, inset })}>
       {children}
-      {required ? (
-        <span aria-hidden className="text-danger-primary">
-          *
-        </span>
-      ) : null}
+      {required ? <FieldLabelRequiredMarker>*</FieldLabelRequiredMarker> : null}
     </BaseField.Label>
   );
 }

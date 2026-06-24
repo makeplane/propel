@@ -6,8 +6,12 @@ import { Button } from "../../ui/button";
 import { IconButton } from "../icon-button";
 import {
   Drawer,
+  DrawerBody,
   DrawerClose,
   DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerHeaderContent,
   DrawerPanel,
   DrawerTitle,
   DrawerTrigger,
@@ -15,49 +19,63 @@ import {
 
 // Components-tier story: uses the ready-made `DrawerPanel`, which composes the
 // portal/backdrop/edge-viewport/sliding-popup/padded-content so a consumer only
-// writes the trigger and the panel body. Trigger/Close compose the `Button` (or
-// `IconButton` for the corner close) primitive via Base UI's `render` prop — the
-// styled primitive is the outer element so its look wins, the drawer part supplies
-// the behavior.
+// writes the trigger and the panel body. The header/body/footer layout is supplied
+// by the `DrawerHeader`/`DrawerBody`/`DrawerFooter` anatomy parts — no layout
+// `className` lives here. Trigger/Close compose the `Button` (or `IconButton` for
+// the corner close) primitive via Base UI's `render` prop — the styled primitive is
+// the outer element so its look wins, the drawer part supplies the behavior.
 
 const meta = {
   title: "Components/Drawer",
   component: Drawer,
-  subcomponents: { DrawerTrigger, DrawerPanel, DrawerTitle, DrawerDescription, DrawerClose },
+  subcomponents: {
+    DrawerTrigger,
+    DrawerPanel,
+    DrawerHeader,
+    DrawerHeaderContent,
+    DrawerBody,
+    DrawerFooter,
+    DrawerTitle,
+    DrawerDescription,
+    DrawerClose,
+  },
 } satisfies Meta<typeof Drawer>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** A right-edge panel: title, dismiss button, and body. Opens from the trigger and slides in. */
+/** A right-edge panel: header (title + dismiss), body, and footer actions. Slides in from the end. */
 export const Default: Story = {
   render: () => (
     <Drawer>
       <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
         Open details
       </Button>
-      <DrawerPanel>
-        {/*
-         * Two layout groups, separated by the panel's own gap: a header (title +
-         * corner close) grouped with the description, then the body region.
-         * Future anatomy surfaces — e.g. DrawerHeader and DrawerBody.
-         */}
-        <div className="flex flex-col gap-2">
-          <div className="flex items-start justify-between gap-4">
+      <DrawerPanel side="end">
+        <DrawerHeader>
+          <DrawerHeaderContent>
             <DrawerTitle>Work item details</DrawerTitle>
-            <IconButton
-              variant="ghost"
-              tone="neutral"
-              magnitude="lg"
-              aria-label="Close"
-              render={<DrawerClose />}
-            >
-              <X />
-            </IconButton>
-          </div>
-          <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
-        </div>
-        <div className="text-14 text-secondary">Panel body content goes here.</div>
+            <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
+          </DrawerHeaderContent>
+          <IconButton
+            variant="ghost"
+            tone="neutral"
+            magnitude="lg"
+            aria-label="Close"
+            render={<DrawerClose />}
+          >
+            <X />
+          </IconButton>
+        </DrawerHeader>
+        <DrawerBody>Panel body content goes here.</DrawerBody>
+        <DrawerFooter>
+          <Button variant="ghost" tone="neutral" magnitude="lg" render={<DrawerClose />}>
+            Cancel
+          </Button>
+          <Button variant="primary" tone="neutral" magnitude="lg">
+            Save
+          </Button>
+        </DrawerFooter>
       </DrawerPanel>
     </Drawer>
   ),
@@ -66,6 +84,48 @@ export const Default: Story = {
       await userEvent.click(canvas.getByRole("button", { name: "Open details" }));
       const dialog = await within(document.body).findByRole("dialog");
       await expect(within(dialog).getByText("Work item details")).toBeInTheDocument();
+    });
+    await step("close it with the dismiss button", async () => {
+      const dialog = within(document.body).getByRole("dialog");
+      await userEvent.click(within(dialog).getByRole("button", { name: "Close" }));
+      await waitFor(() =>
+        expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument(),
+      );
+    });
+  },
+};
+
+/** A left-edge panel: same anatomy, anchored to the inline-start edge and slides in from the left. */
+export const StartSide: Story = {
+  render: () => (
+    <Drawer>
+      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
+        Open navigation
+      </Button>
+      <DrawerPanel side="start">
+        <DrawerHeader>
+          <DrawerHeaderContent>
+            <DrawerTitle>Navigation</DrawerTitle>
+          </DrawerHeaderContent>
+          <IconButton
+            variant="ghost"
+            tone="neutral"
+            magnitude="lg"
+            aria-label="Close"
+            render={<DrawerClose />}
+          >
+            <X />
+          </IconButton>
+        </DrawerHeader>
+        <DrawerBody>Navigation links go here.</DrawerBody>
+      </DrawerPanel>
+    </Drawer>
+  ),
+  play: async ({ canvas, step }) => {
+    await step("open the drawer", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Open navigation" }));
+      const dialog = await within(document.body).findByRole("dialog");
+      await expect(within(dialog).getByText("Navigation")).toBeInTheDocument();
     });
     await step("close it with the dismiss button", async () => {
       const dialog = within(document.body).getByRole("dialog");
@@ -88,9 +148,13 @@ export const EscapeCloses: Story = {
       <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
         Open filters
       </Button>
-      <DrawerPanel>
-        <DrawerTitle>Filters</DrawerTitle>
-        <DrawerDescription>Press Escape to dismiss.</DrawerDescription>
+      <DrawerPanel side="end">
+        <DrawerHeader>
+          <DrawerHeaderContent>
+            <DrawerTitle>Filters</DrawerTitle>
+            <DrawerDescription>Press Escape to dismiss.</DrawerDescription>
+          </DrawerHeaderContent>
+        </DrawerHeader>
       </DrawerPanel>
     </Drawer>
   ),
