@@ -2,8 +2,8 @@ import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 import * as React from "react";
 
 import {
-  TableHead as TableHeadRoot,
-  type TableHeadProps as TableHeadRootProps,
+  TableHead as TableHeadElement,
+  type TableHeadProps as TableHeadElementProps,
   TableHeadSortIndicator,
   TableHeadSortTrigger,
   TableHeadTitle,
@@ -25,7 +25,7 @@ const ariaSort: Record<TableHeadSort, React.AriaAttributes["aria-sort"]> = {
   none: "none",
 };
 
-export type TableHeadProps = Omit<TableHeadRootProps, "aria-sort" | "variant"> & {
+export type TableHeadProps = Omit<TableHeadElementProps, "aria-sort" | "variant"> & {
   /** Visual treatment. `sortable` renders the title as a sort-cycling button. */
   variant: "default" | "sortable";
   /** Current sort state for a sortable header. @default "none" */
@@ -42,7 +42,7 @@ export function TableHead({ variant, sort = "none", onSort, children, ...props }
   const SortGlyph = sortGlyph[sort];
 
   return (
-    <TableHeadRoot
+    <TableHeadElement
       variant={tableVariant}
       aria-sort={isSortable ? ariaSort[sort] : undefined}
       {...props}
@@ -57,6 +57,6 @@ export function TableHead({ variant, sort = "none", onSort, children, ...props }
       ) : (
         <TableHeadTitle>{children}</TableHeadTitle>
       )}
-    </TableHeadRoot>
+    </TableHeadElement>
   );
 }

@@ -1,15 +1,15 @@
 import * as React from "react";
 
 import {
-  OTPField as OTPFieldRoot,
+  OTPField as OTPFieldElement,
   OTPFieldInput,
   type OTPFieldInputMagnitude,
   type OTPFieldInputTone,
   OTPFieldLabel,
-  type OTPFieldProps as OTPFieldRootProps,
+  type OTPFieldProps as OTPFieldElementProps,
 } from "../../ui/otp-field";
 
-export type OTPFieldProps = OTPFieldRootProps & {
+export type OTPFieldProps = OTPFieldElementProps & {
   /** Box size passed to every slot. */
   magnitude: OTPFieldInputMagnitude;
   /** Visual state passed to every slot: neutral for default, danger when the code is invalid. */
@@ -33,7 +33,7 @@ export function OTPField({ length, magnitude, tone, ...props }: OTPFieldProps) {
   // Without this the slot inputs fail axe's "Form elements must have labels".
   const firstSlotLabelId = React.useId();
   return (
-    <OTPFieldRoot length={length} {...props}>
+    <OTPFieldElement length={length} {...props}>
       <OTPFieldLabel id={firstSlotLabelId}>Character 1</OTPFieldLabel>
       {Array.from({ length }, (_, index) =>
         // Base UI ignores `aria-label` on the first slot, so name it via `aria-labelledby`
@@ -54,6 +54,6 @@ export function OTPField({ length, magnitude, tone, ...props }: OTPFieldProps) {
           />
         ),
       )}
-    </OTPFieldRoot>
+    </OTPFieldElement>
   );
 }

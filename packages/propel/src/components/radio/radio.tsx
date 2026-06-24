@@ -1,10 +1,10 @@
 import {
-  Radio as RadioRoot,
+  Radio as RadioElement,
   RadioIndicator,
-  type RadioProps as RadioRootProps,
+  type RadioProps as RadioElementProps,
 } from "../../ui/radio";
 
-export type RadioProps = RadioRootProps;
+export type RadioProps = RadioElementProps;
 
 /**
  * The ready-made radio option: composes the atomic `Radio` ring with its `RadioIndicator` dot. The
@@ -16,8 +16,8 @@ export type RadioProps = RadioRootProps;
  */
 export function Radio(props: RadioProps) {
   return (
-    <RadioRoot {...props}>
+    <RadioElement {...props}>
       <RadioIndicator />
-    </RadioRoot>
+    </RadioElement>
   );
 }

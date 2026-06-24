@@ -2,15 +2,15 @@ import type * as React from "react";
 
 import { ScrollAreaCorner, ScrollAreaScrollbar, ScrollAreaThumb } from "../../ui/scroll-area";
 import {
-  Table as TableRoot,
-  type TableProps as TableRootProps,
+  Table as TableElement,
+  type TableProps as TableElementProps,
   TableScrollArea,
   type TableVariant,
   TableScrollAreaViewport,
 } from "../../ui/table";
 import { TableVariantContext } from "./table-context";
 
-export type TableProps = TableRootProps & {
+export type TableProps = TableElementProps & {
   /** Layout (required). `table` draws row dividers only; `spreadsheet` draws a full grid. */
   variant: TableVariant;
   children?: React.ReactNode;
@@ -25,7 +25,7 @@ export function Table({ variant, children, ...props }: TableProps) {
     <TableVariantContext.Provider value={variant}>
       <TableScrollArea>
         <TableScrollAreaViewport>
-          <TableRoot {...props}>{children}</TableRoot>
+          <TableElement {...props}>{children}</TableElement>
         </TableScrollAreaViewport>
         <ScrollAreaScrollbar orientation="vertical" visibility="auto" magnitude="thin">
           <ScrollAreaThumb />

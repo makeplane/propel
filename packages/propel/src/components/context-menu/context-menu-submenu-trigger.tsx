@@ -5,12 +5,15 @@ import {
   ContextMenuItemIcon,
   ContextMenuItemLabel,
   ContextMenuItemShortcut,
-  ContextMenuSubmenuTrigger as ContextMenuSubmenuTriggerRoot,
-  type ContextMenuSubmenuTriggerProps as ContextMenuSubmenuTriggerRootProps,
+  ContextMenuSubmenuTrigger as ContextMenuSubmenuTriggerElement,
+  type ContextMenuSubmenuTriggerProps as ContextMenuSubmenuTriggerElementProps,
   ContextMenuSubmenuTriggerIndicator,
 } from "../../ui/context-menu";
 
-export type ContextMenuSubmenuTriggerProps = Omit<ContextMenuSubmenuTriggerRootProps, "label"> & {
+export type ContextMenuSubmenuTriggerProps = Omit<
+  ContextMenuSubmenuTriggerElementProps,
+  "label"
+> & {
   /** Leading icon before the label. */
   inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
@@ -32,7 +35,7 @@ export function ContextMenuSubmenuTrigger({
   ...props
 }: ContextMenuSubmenuTriggerProps) {
   return (
-    <ContextMenuSubmenuTriggerRoot {...props}>
+    <ContextMenuSubmenuTriggerElement {...props}>
       {inlineStartNode != null ? (
         <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
       ) : null}
@@ -43,6 +46,6 @@ export function ContextMenuSubmenuTrigger({
       <ContextMenuSubmenuTriggerIndicator>
         <ChevronRight />
       </ContextMenuSubmenuTriggerIndicator>
-    </ContextMenuSubmenuTriggerRoot>
+    </ContextMenuSubmenuTriggerElement>
   );
 }

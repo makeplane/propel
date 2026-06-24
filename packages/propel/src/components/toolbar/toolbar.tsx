@@ -1,9 +1,12 @@
 import type * as React from "react";
 
-import { Toolbar as ToolbarRoot, type ToolbarProps as ToolbarRootProps } from "../../ui/toolbar";
+import {
+  Toolbar as ToolbarElement,
+  type ToolbarProps as ToolbarElementProps,
+} from "../../ui/toolbar";
 import { ToolbarDensityContext } from "./toolbar-context";
 
-export type ToolbarProps = ToolbarRootProps & {
+export type ToolbarProps = ToolbarElementProps & {
   children?: React.ReactNode;
 };
 
@@ -14,9 +17,9 @@ export type ToolbarProps = ToolbarRootProps & {
 export function Toolbar({ density, children, ...props }: ToolbarProps) {
   return (
     <ToolbarDensityContext.Provider value={density}>
-      <ToolbarRoot density={density} {...props}>
+      <ToolbarElement density={density} {...props}>
         {children}
-      </ToolbarRoot>
+      </ToolbarElement>
     </ToolbarDensityContext.Provider>
   );
 }

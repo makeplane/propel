@@ -8,11 +8,11 @@ import {
   MenuItemTitle,
   MenuItemTitleRow,
   MenuItemTrailing,
-  MenuSubmenuTrigger as MenuSubmenuTriggerRoot,
-  type MenuSubmenuTriggerProps as MenuSubmenuTriggerRootProps,
+  MenuSubmenuTrigger as MenuSubmenuTriggerElement,
+  type MenuSubmenuTriggerProps as MenuSubmenuTriggerElementProps,
 } from "../../ui/menu";
 
-export type MenuSubmenuTriggerProps = MenuSubmenuTriggerRootProps & {
+export type MenuSubmenuTriggerProps = MenuSubmenuTriggerElementProps & {
   /** Leading content before the label. */
   inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
@@ -33,7 +33,7 @@ export function MenuSubmenuTrigger({
   ...props
 }: MenuSubmenuTriggerProps) {
   return (
-    <MenuSubmenuTriggerRoot {...props}>
+    <MenuSubmenuTriggerElement {...props}>
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
@@ -44,6 +44,6 @@ export function MenuSubmenuTrigger({
       <MenuItemSubmenuIndicator>
         <ChevronRight />
       </MenuItemSubmenuIndicator>
-    </MenuSubmenuTriggerRoot>
+    </MenuSubmenuTriggerElement>
   );
 }

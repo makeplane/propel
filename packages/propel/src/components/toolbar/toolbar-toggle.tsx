@@ -1,14 +1,14 @@
 import * as React from "react";
 
 import {
-  ToolbarToggle as ToolbarToggleRoot,
-  type ToolbarToggleProps as ToolbarToggleRootProps,
+  ToolbarToggle as ToolbarToggleElement,
+  type ToolbarToggleProps as ToolbarToggleElementProps,
   type ToolbarDensity,
 } from "../../ui/toolbar";
 import { ToolbarDensityContext } from "./toolbar-context";
 
 export type ToolbarToggleProps<Value extends string = string> = Omit<
-  ToolbarToggleRootProps<Value>,
+  ToolbarToggleElementProps<Value>,
   "density"
 > & {
   /** Density override; defaults to the surrounding `Toolbar`'s density. */
@@ -21,5 +21,5 @@ export function ToolbarToggle<Value extends string = string>({
   ...props
 }: ToolbarToggleProps<Value>) {
   const toolbarDensity = React.useContext(ToolbarDensityContext);
-  return <ToolbarToggleRoot density={density ?? toolbarDensity} {...props} />;
+  return <ToolbarToggleElement density={density ?? toolbarDensity} {...props} />;
 }

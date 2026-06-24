@@ -2,8 +2,8 @@ import type * as React from "react";
 
 import { type AvatarMagnitude } from "../../ui/avatar";
 import {
-  AvatarGroup as AvatarGroupRoot,
-  type AvatarGroupProps as AvatarGroupRootProps,
+  AvatarGroup as AvatarGroupElement,
+  type AvatarGroupProps as AvatarGroupElementProps,
 } from "../../ui/avatar-group";
 import { AvatarGroupContext } from "../avatar/avatar-group-context";
 
@@ -11,7 +11,7 @@ import { AvatarGroupContext } from "../avatar/avatar-group-context";
 // groups are limited to the matching magnitudes — narrower than a standalone Avatar's full scale.
 export type AvatarGroupMagnitude = Extract<AvatarMagnitude, "2xs" | "xs" | "sm">;
 
-export type AvatarGroupProps = AvatarGroupRootProps & {
+export type AvatarGroupProps = AvatarGroupElementProps & {
   /** Shared size for every avatar in the group; an avatar's own `magnitude` overrides it. */
   magnitude: AvatarGroupMagnitude;
   children?: React.ReactNode;
@@ -25,7 +25,7 @@ export type AvatarGroupProps = AvatarGroupRootProps & {
 export function AvatarGroup({ magnitude, children, ...props }: AvatarGroupProps) {
   return (
     <AvatarGroupContext.Provider value={magnitude}>
-      <AvatarGroupRoot {...props}>{children}</AvatarGroupRoot>
+      <AvatarGroupElement {...props}>{children}</AvatarGroupElement>
     </AvatarGroupContext.Provider>
   );
 }

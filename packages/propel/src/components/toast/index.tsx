@@ -5,8 +5,8 @@ export * from "./toast-provider";
 // Re-export the atomic parts + manager hooks so consumers can compose a custom
 // toast from one entry point if the ready-made `Toast` doesn't fit.
 export {
-  Toast as ToastRoot,
-  type ToastProps as ToastRootProps,
+  Toast as ToastElement,
+  type ToastProps as ToastElementProps,
   ToastAction as ToastActionPart,
   type ToastActionProps,
   ToastActionButton,
@@ -22,8 +22,8 @@ export {
   ToastDescription,
   type ToastDescriptionProps,
   ToastPortal,
-  ToastProvider as ToastProviderRoot,
-  type ToastProviderProps as ToastProviderRootProps,
+  ToastProvider as ToastProviderElement,
+  type ToastProviderProps as ToastProviderElementProps,
   ToastTextGroup,
   type ToastTextGroupProps,
   ToastTitle,

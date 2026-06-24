@@ -5,12 +5,12 @@ import {
   ContextMenuItemIcon,
   ContextMenuItemIndicator,
   ContextMenuItemLabel,
-  ContextMenuItem as ContextMenuItemRoot,
-  type ContextMenuItemProps as ContextMenuItemRootProps,
+  ContextMenuItem as ContextMenuItemElement,
+  type ContextMenuItemProps as ContextMenuItemElementProps,
   ContextMenuItemShortcut,
 } from "../../ui/context-menu";
 
-export type ContextMenuItemProps = Omit<ContextMenuItemRootProps, "label"> & {
+export type ContextMenuItemProps = Omit<ContextMenuItemElementProps, "label"> & {
   /** Leading icon before the label. */
   inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
@@ -35,7 +35,7 @@ export function ContextMenuItem({
   ...props
 }: ContextMenuItemProps) {
   return (
-    <ContextMenuItemRoot {...props}>
+    <ContextMenuItemElement {...props}>
       {inlineStartNode != null ? (
         <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
       ) : null}
@@ -48,6 +48,6 @@ export function ContextMenuItem({
           <Check />
         </ContextMenuItemIndicator>
       ) : null}
-    </ContextMenuItemRoot>
+    </ContextMenuItemElement>
   );
 }

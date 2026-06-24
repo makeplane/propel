@@ -1,14 +1,14 @@
 import * as React from "react";
 
 import {
-  Toggle as ToggleRoot,
-  type ToggleProps as ToggleRootProps,
+  Toggle as ToggleElement,
+  type ToggleProps as ToggleElementProps,
   type ToggleMagnitude,
 } from "../../ui/toggle";
 import { ToggleGroupContext } from "./toggle-group-context";
 
 export type ToggleProps<Value extends string = string> = Omit<
-  ToggleRootProps<Value>,
+  ToggleElementProps<Value>,
   "magnitude"
 > & {
   /**
@@ -21,5 +21,5 @@ export type ToggleProps<Value extends string = string> = Omit<
 /** The ready-made toggle: takes its `magnitude` from the surrounding `ToggleGroup` via context. */
 export function Toggle<Value extends string = string>({ magnitude, ...props }: ToggleProps<Value>) {
   const groupMagnitude = React.useContext(ToggleGroupContext);
-  return <ToggleRoot magnitude={magnitude ?? groupMagnitude ?? "md"} {...props} />;
+  return <ToggleElement magnitude={magnitude ?? groupMagnitude ?? "md"} {...props} />;
 }

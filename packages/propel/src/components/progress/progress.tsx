@@ -1,7 +1,7 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
 
 import {
-  Progress as ProgressRoot,
+  Progress as ProgressElement,
   ProgressCircle,
   ProgressCircleIndicator,
   ProgressCircleSvg,
@@ -123,7 +123,7 @@ export function Progress({
   }
 
   return (
-    <ProgressRoot layout="linear" value={value} {...props}>
+    <ProgressElement layout="linear" value={value} {...props}>
       <ProgressTrack magnitude={magnitude}>
         {/* Base UI sets the indicator's `width` (and `inset-inline-start: 0`) from the
             value; the ui primitive owns its fill, pill radius, and the fill transition. */}
@@ -134,6 +134,6 @@ export function Progress({
           {(_, currentValue) => (currentValue == null ? "" : `${Math.round(currentValue)}%`)}
         </ProgressValue>
       ) : null}
-    </ProgressRoot>
+    </ProgressElement>
   );
 }

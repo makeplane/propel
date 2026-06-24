@@ -2,7 +2,7 @@ import { Check } from "lucide-react";
 import type * as React from "react";
 
 import {
-  MenuItem as MenuItemRoot,
+  MenuItem as MenuItemElement,
   MenuItemContent,
   MenuItemDescription,
   MenuItemIcon,
@@ -11,10 +11,10 @@ import {
   MenuItemTitle,
   MenuItemTitleRow,
   MenuItemTrailing,
-  type MenuItemProps as MenuItemRootProps,
+  type MenuItemProps as MenuItemElementProps,
 } from "../../ui/menu";
 
-export type MenuItemProps = MenuItemRootProps & {
+export type MenuItemProps = MenuItemElementProps & {
   /** Leading content before the label. */
   inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
@@ -44,7 +44,7 @@ export function MenuItem({
   ...props
 }: MenuItemProps) {
   return (
-    <MenuItemRoot {...props}>
+    <MenuItemElement {...props}>
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
@@ -61,6 +61,6 @@ export function MenuItem({
           <Check />
         </MenuItemSelectedIndicator>
       ) : null}
-    </MenuItemRoot>
+    </MenuItemElement>
   );
 }

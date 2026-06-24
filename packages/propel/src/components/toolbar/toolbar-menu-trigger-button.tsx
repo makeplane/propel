@@ -1,13 +1,16 @@
 import * as React from "react";
 
 import {
-  ToolbarMenuTriggerButton as ToolbarMenuTriggerButtonRoot,
-  type ToolbarMenuTriggerButtonProps as ToolbarMenuTriggerButtonRootProps,
+  ToolbarMenuTriggerButton as ToolbarMenuTriggerButtonElement,
+  type ToolbarMenuTriggerButtonProps as ToolbarMenuTriggerButtonElementProps,
   type ToolbarDensity,
 } from "../../ui/toolbar";
 import { ToolbarDensityContext } from "./toolbar-context";
 
-export type ToolbarMenuTriggerButtonProps = Omit<ToolbarMenuTriggerButtonRootProps, "density"> & {
+export type ToolbarMenuTriggerButtonProps = Omit<
+  ToolbarMenuTriggerButtonElementProps,
+  "density"
+> & {
   /** Density override; defaults to the surrounding `Toolbar`'s density. */
   density?: ToolbarDensity;
 };
@@ -15,5 +18,5 @@ export type ToolbarMenuTriggerButtonProps = Omit<ToolbarMenuTriggerButtonRootPro
 /** A toolbar menu-trigger button that takes its `density` from the surrounding `Toolbar`. */
 export function ToolbarMenuTriggerButton({ density, ...props }: ToolbarMenuTriggerButtonProps) {
   const toolbarDensity = React.useContext(ToolbarDensityContext);
-  return <ToolbarMenuTriggerButtonRoot density={density ?? toolbarDensity} {...props} />;
+  return <ToolbarMenuTriggerButtonElement density={density ?? toolbarDensity} {...props} />;
 }

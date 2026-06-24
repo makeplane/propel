@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { NodeSlot } from "../../internal/node-slot";
 import {
-  Tab as TabRoot,
-  type TabProps as TabRootProps,
+  Tab as TabElement,
+  type TabProps as TabElementProps,
   TabUnderlineBar,
   TabUnderlineLabel,
 } from "../../ui/tabs";
 import { TabsVariantContext } from "./tabs-context";
 
-export type TabProps = Omit<TabRootProps, "variant"> & {
+export type TabProps = Omit<TabElementProps, "variant"> & {
   /**
    * Node rendered before the label (inline-start). Sized to the tab's `--node-size` (16px) and
    * tinted to the tab's text color. Decorative, kept out of the name.
@@ -28,20 +28,20 @@ export function Tab({ inlineStartNode, children, ...props }: TabProps) {
 
   if (variant === "underline") {
     return (
-      <TabRoot variant={variant} {...props}>
+      <TabElement variant={variant} {...props}>
         <TabUnderlineLabel>
           {iconNode}
           {children}
         </TabUnderlineLabel>
         <TabUnderlineBar />
-      </TabRoot>
+      </TabElement>
     );
   }
 
   return (
-    <TabRoot variant={variant} {...props}>
+    <TabElement variant={variant} {...props}>
       {iconNode}
       {children}
-    </TabRoot>
+    </TabElement>
   );
 }

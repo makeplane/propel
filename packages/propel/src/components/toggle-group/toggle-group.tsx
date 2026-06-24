@@ -1,13 +1,13 @@
 import type * as React from "react";
 
 import {
-  ToggleGroup as ToggleGroupRoot,
-  type ToggleGroupProps as ToggleGroupRootProps,
+  ToggleGroup as ToggleGroupElement,
+  type ToggleGroupProps as ToggleGroupElementProps,
 } from "../../ui/toggle-group";
 import type { ToggleMagnitude } from "../../ui/toggle/variants";
 import { ToggleGroupContext } from "../toggle/toggle-group-context";
 
-export type ToggleGroupProps<Value extends string = string> = ToggleGroupRootProps<Value> & {
+export type ToggleGroupProps<Value extends string = string> = ToggleGroupElementProps<Value> & {
   /** Size applied to every `Toggle` in the group (each `Toggle` can still override it). */
   magnitude: ToggleMagnitude;
   children?: React.ReactNode;
@@ -25,7 +25,7 @@ export function ToggleGroup<Value extends string = string>({
 }: ToggleGroupProps<Value>) {
   return (
     <ToggleGroupContext.Provider value={magnitude}>
-      <ToggleGroupRoot {...props}>{children}</ToggleGroupRoot>
+      <ToggleGroupElement {...props}>{children}</ToggleGroupElement>
     </ToggleGroupContext.Provider>
   );
 }

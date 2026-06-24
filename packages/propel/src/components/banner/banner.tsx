@@ -2,13 +2,13 @@ import { CircleAlert, Info, Megaphone, TriangleAlert, X, type LucideIcon } from 
 import type * as React from "react";
 
 import {
-  Banner as BannerRoot,
+  Banner as BannerElement,
   BannerActions,
   BannerBody,
   BannerDescription,
   BannerDismiss,
   BannerIcon,
-  type BannerProps as BannerRootProps,
+  type BannerProps as BannerElementProps,
   type BannerTone,
   BannerTitle,
 } from "../../ui/banner";
@@ -25,7 +25,7 @@ const toneIcon: Record<BannerTone, LucideIcon> = {
   danger: CircleAlert,
 };
 
-export type BannerProps = BannerRootProps & {
+export type BannerProps = BannerElementProps & {
   /**
    * Node rendered before the message (inline-start). Defaults to a tone-appropriate lucide icon;
    * pass `null` to hide it. Sized to the banner's node size. Decorative, kept out of the name.
@@ -56,7 +56,7 @@ export function Banner({
 }: BannerProps) {
   const DefaultIcon = toneIcon[tone];
   return (
-    <BannerRoot variant={variant} tone={tone} {...props}>
+    <BannerElement variant={variant} tone={tone} {...props}>
       {inlineStartNode === undefined ? (
         <BannerIcon variant={variant} tone={tone}>
           <DefaultIcon />
@@ -76,6 +76,6 @@ export function Banner({
           <X aria-hidden />
         </BannerDismiss>
       ) : null}
-    </BannerRoot>
+    </BannerElement>
   );
 }

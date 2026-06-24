@@ -1,9 +1,9 @@
 import type * as React from "react";
 
-import { Tabs as TabsRoot, type TabsProps as TabsRootProps } from "../../ui/tabs";
+import { Tabs as TabsElement, type TabsProps as TabsElementProps } from "../../ui/tabs";
 import { TabsVariantContext } from "./tabs-context";
 
-export type TabsProps = TabsRootProps & {
+export type TabsProps = TabsElementProps & {
   children?: React.ReactNode;
 };
 
@@ -14,9 +14,9 @@ export type TabsProps = TabsRootProps & {
 export function Tabs({ variant, children, ...props }: TabsProps) {
   return (
     <TabsVariantContext.Provider value={variant}>
-      <TabsRoot variant={variant} {...props}>
+      <TabsElement variant={variant} {...props}>
         {children}
-      </TabsRoot>
+      </TabsElement>
     </TabsVariantContext.Provider>
   );
 }

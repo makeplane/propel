@@ -6,11 +6,11 @@ import {
   MenuItemTitle,
   MenuItemTitleRow,
   MenuItemTrailing,
-  MenuLinkItem as MenuLinkItemRoot,
-  type MenuLinkItemProps as MenuLinkItemRootProps,
+  MenuLinkItem as MenuLinkItemElement,
+  type MenuLinkItemProps as MenuLinkItemElementProps,
 } from "../../ui/menu";
 
-export type MenuLinkItemProps = MenuLinkItemRootProps & {
+export type MenuLinkItemProps = MenuLinkItemElementProps & {
   /** Leading content before the label. */
   inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
@@ -31,7 +31,7 @@ export function MenuLinkItem({
   ...props
 }: MenuLinkItemProps) {
   return (
-    <MenuLinkItemRoot {...props}>
+    <MenuLinkItemElement {...props}>
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
@@ -39,6 +39,6 @@ export function MenuLinkItem({
         </MenuItemTitleRow>
       </MenuItemContent>
       {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}
-    </MenuLinkItemRoot>
+    </MenuLinkItemElement>
   );
 }

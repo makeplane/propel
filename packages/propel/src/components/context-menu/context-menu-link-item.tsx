@@ -3,12 +3,12 @@ import type * as React from "react";
 import {
   ContextMenuItemIcon,
   ContextMenuItemLabel,
-  ContextMenuLinkItem as ContextMenuLinkItemRoot,
-  type ContextMenuLinkItemProps as ContextMenuLinkItemRootProps,
+  ContextMenuLinkItem as ContextMenuLinkItemElement,
+  type ContextMenuLinkItemProps as ContextMenuLinkItemElementProps,
   ContextMenuItemShortcut,
 } from "../../ui/context-menu";
 
-export type ContextMenuLinkItemProps = Omit<ContextMenuLinkItemRootProps, "label"> & {
+export type ContextMenuLinkItemProps = Omit<ContextMenuLinkItemElementProps, "label"> & {
   /** Leading icon before the label. */
   inlineStartNode?: React.ReactNode;
   /** The primary text of the row. */
@@ -29,7 +29,7 @@ export function ContextMenuLinkItem({
   ...props
 }: ContextMenuLinkItemProps) {
   return (
-    <ContextMenuLinkItemRoot {...props}>
+    <ContextMenuLinkItemElement {...props}>
       {inlineStartNode != null ? (
         <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
       ) : null}
@@ -37,6 +37,6 @@ export function ContextMenuLinkItem({
       {inlineEndNode != null ? (
         <ContextMenuItemShortcut>{inlineEndNode}</ContextMenuItemShortcut>
       ) : null}
-    </ContextMenuLinkItemRoot>
+    </ContextMenuLinkItemElement>
   );
 }

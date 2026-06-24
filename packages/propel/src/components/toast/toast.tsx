@@ -2,7 +2,7 @@ import type { Toast as BaseToast } from "@base-ui/react/toast";
 import { X } from "lucide-react";
 
 import {
-  Toast as ToastRoot,
+  Toast as ToastElement,
   ToastAction,
   ToastActionButton,
   ToastActionGroup,
@@ -102,7 +102,7 @@ export function Toast({ toast, ...props }: ToastProps) {
   const primaryAction = data.primaryAction;
   const hasActionRow = leftActions.length > 0 || primaryAction != null;
   return (
-    <ToastRoot toast={toast} {...props}>
+    <ToastElement toast={toast} {...props}>
       {/* `mt-0.5` on the icon (via toastStatusIconVariants) baselines it with the title. */}
       <ToastStatusIcon tone={data.tone} />
       <ToastContent>
@@ -147,6 +147,6 @@ export function Toast({ toast, ...props }: ToastProps) {
       <ToastClose aria-label="Dismiss">
         <X />
       </ToastClose>
-    </ToastRoot>
+    </ToastElement>
   );
 }

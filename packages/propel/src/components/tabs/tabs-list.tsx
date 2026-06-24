@@ -4,13 +4,13 @@ import * as React from "react";
 import { ScrollAreaScrollbar, ScrollAreaThumb } from "../../ui/scroll-area";
 import {
   TabsIndicator,
-  TabsList as TabsListRoot,
-  type TabsListProps as TabsListRootProps,
+  TabsList as TabsListElement,
+  type TabsListProps as TabsListElementProps,
   TabsListScrollArea,
 } from "../../ui/tabs";
 import { TabsVariantContext } from "./tabs-context";
 
-export type TabsListProps = Omit<TabsListRootProps, "variant">;
+export type TabsListProps = Omit<TabsListElementProps, "variant">;
 
 /**
  * The ready-made tab strip: composes the atomic `TabsList` (taking the set's `variant` from
@@ -22,10 +22,10 @@ export function TabsList({ children, ...props }: TabsListProps) {
   const variant = React.useContext(TabsVariantContext);
   return (
     <TabsListScrollArea>
-      <TabsListRoot variant={variant} render={<BaseScrollArea.Viewport />} {...props}>
+      <TabsListElement variant={variant} render={<BaseScrollArea.Viewport />} {...props}>
         {children}
         {variant === "underline" ? <TabsIndicator /> : null}
-      </TabsListRoot>
+      </TabsListElement>
       <ScrollAreaScrollbar orientation="horizontal" visibility="auto" magnitude="thin">
         <ScrollAreaThumb />
       </ScrollAreaScrollbar>

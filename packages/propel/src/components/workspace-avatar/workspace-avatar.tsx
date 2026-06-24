@@ -2,13 +2,13 @@ import type * as React from "react";
 
 import { type AvatarTone, getAvatarTone } from "../../ui/avatar";
 import {
-  WorkspaceAvatar as WorkspaceAvatarRoot,
+  WorkspaceAvatar as WorkspaceAvatarElement,
   WorkspaceAvatarFallback,
   WorkspaceAvatarImage,
-  type WorkspaceAvatarProps as WorkspaceAvatarRootProps,
+  type WorkspaceAvatarProps as WorkspaceAvatarElementProps,
 } from "../../ui/workspace-avatar";
 
-export type WorkspaceAvatarProps = WorkspaceAvatarRootProps & {
+export type WorkspaceAvatarProps = WorkspaceAvatarElementProps & {
   /** Workspace logo URL. Falls back to the initial when absent/loading/failed. */
   src?: string;
   /** Accessible name for the workspace avatar. */
@@ -43,11 +43,11 @@ export function WorkspaceAvatar({
   return (
     // `role="img"` + `aria-label` give the avatar one accessible name in every state
     // (logo / initials); the inner image is decorative.
-    <WorkspaceAvatarRoot role="img" aria-label={alt} magnitude={magnitude} {...props}>
+    <WorkspaceAvatarElement role="img" aria-label={alt} magnitude={magnitude} {...props}>
       {src ? <WorkspaceAvatarImage src={src} alt="" /> : null}
       <WorkspaceAvatarFallback tone={hasInitials ? resolvedTone : "none"}>
         {fallback}
       </WorkspaceAvatarFallback>
-    </WorkspaceAvatarRoot>
+    </WorkspaceAvatarElement>
   );
 }

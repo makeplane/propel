@@ -1,10 +1,10 @@
 import {
-  AccordionPanel as AccordionPanelRoot,
+  AccordionPanel as AccordionPanelElement,
   AccordionPanelContent,
-  type AccordionPanelProps as AccordionPanelRootProps,
+  type AccordionPanelProps as AccordionPanelElementProps,
 } from "../../ui/accordion";
 
-export type AccordionPanelProps = AccordionPanelRootProps;
+export type AccordionPanelProps = AccordionPanelElementProps;
 
 /**
  * The ready-made accordion panel: composes the atomic `AccordionPanel` with the
@@ -12,8 +12,8 @@ export type AccordionPanelProps = AccordionPanelRootProps;
  */
 export function AccordionPanel({ children, ...props }: AccordionPanelProps) {
   return (
-    <AccordionPanelRoot {...props}>
+    <AccordionPanelElement {...props}>
       <AccordionPanelContent>{children}</AccordionPanelContent>
-    </AccordionPanelRoot>
+    </AccordionPanelElement>
   );
 }
