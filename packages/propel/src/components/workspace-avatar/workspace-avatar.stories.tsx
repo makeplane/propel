@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { AVATAR_TONES } from "../avatar/index";
-import { WorkspaceAvatar, type WorkspaceAvatarMagnitude } from "./index";
+import { AVATAR_TONES, WorkspaceAvatar, type WorkspaceAvatarMagnitude } from "./index";
 
 const MAGNITUDES: WorkspaceAvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
