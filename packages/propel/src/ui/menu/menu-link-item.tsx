@@ -6,10 +6,5 @@ export type MenuLinkItemProps = Omit<BaseMenu.LinkItem.Props, "className" | "sty
 
 /** A navigational `<a>` menu row. Wraps `Menu.LinkItem` 1:1. */
 export function MenuLinkItem(props: MenuLinkItemProps) {
-  return (
-    <BaseMenu.LinkItem
-      className={menuRowVariants({ layout: "default", emphasis: "link" })}
-      {...props}
-    />
-  );
+  return <BaseMenu.LinkItem className={menuRowVariants({ layout: "default" })} {...props} />;
 }

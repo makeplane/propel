@@ -188,7 +188,6 @@ export function Pagination({
             <MenuContent width="anchor" align="center">
               {pageSize.options.map((option) => (
                 <MenuItem
-                  emphasis="default"
                   key={option}
                   selected={option === pageSize.value}
                   onClick={() => pageSize.onValueChange(option)}

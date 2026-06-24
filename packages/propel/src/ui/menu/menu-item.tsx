@@ -7,6 +7,6 @@ export type { MenuRowVariantProps } from "./variants";
 export type MenuItemProps = Omit<BaseMenu.Item.Props, "className" | "style"> & MenuRowVariantProps;
 
 /** A selectable menu row. Wraps `Menu.Item` 1:1. */
-export function MenuItem({ layout, emphasis, ...props }: MenuItemProps) {
-  return <BaseMenu.Item className={menuRowVariants({ layout, emphasis })} {...props} />;
+export function MenuItem({ layout, ...props }: MenuItemProps) {
+  return <BaseMenu.Item className={menuRowVariants({ layout })} {...props} />;
 }

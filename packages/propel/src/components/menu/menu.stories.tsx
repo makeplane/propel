@@ -210,7 +210,6 @@ export const Status: Story = {
         <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
           {visible.map((s) => (
             <MenuItem
-              emphasis="default"
               key={s.key}
               inlineStartNode={s.icon}
               selected={selected === s.key}
@@ -260,7 +259,6 @@ export const Labels: Story = {
             // (Figma 64-626): the sticky MenuSearch already draws its own bottom
             // rule, so the "Add label" row mounts directly beneath it with no extra line.
             <MenuItem
-              emphasis="default"
               inlineStartNode={<Plus className="text-icon-secondary" />}
               closeOnClick={false}
             >{`Add label "${trimmed}"`}</MenuItem>
@@ -308,17 +306,10 @@ export const ActionMenu: Story = {
     <Menu>
       <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
       <MenuContent width="sm">
-        <MenuItem emphasis="default" inlineStartNode={<Pencil />}>
-          Edit
-        </MenuItem>
-        <MenuItem emphasis="default" inlineStartNode={<Copy />}>
-          Make a copy
-        </MenuItem>
-        <MenuItem emphasis="default" inlineStartNode={<ExternalLink />}>
-          Open in new tab
-        </MenuItem>
+        <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
+        <MenuItem inlineStartNode={<Copy />}>Make a copy</MenuItem>
+        <MenuItem inlineStartNode={<ExternalLink />}>Open in new tab</MenuItem>
         <MenuItem
-          emphasis="default"
           inlineStartNode={<Link2 />}
           inlineEndNode={<span className="text-12 text-tertiary">⌘L</span>}
         >
@@ -326,7 +317,6 @@ export const ActionMenu: Story = {
         </MenuItem>
         <MenuSeparator />
         <MenuItem
-          emphasis="default"
           inlineStartNode={<Trash2 />}
           description="Only completed or cancelled work items can be archived"
           disabled
@@ -334,7 +324,7 @@ export const ActionMenu: Story = {
           Archive
         </MenuItem>
         <MenuSeparator />
-        <MenuItem emphasis="default" inlineStartNode={<Trash2 className="text-danger-primary" />}>
+        <MenuItem inlineStartNode={<Trash2 className="text-danger-primary" />}>
           {<span className="text-danger-primary">Delete</span>}
         </MenuItem>
       </MenuContent>
@@ -401,7 +391,6 @@ export const Description: Story = {
         </MenuTrigger>
         <MenuContent width="lg">
           <MenuItem
-            emphasis="default"
             inlineStartNode={<Lock />}
             description="Accessible only by invite"
             selected={selected === "private"}
@@ -411,7 +400,6 @@ export const Description: Story = {
             Private
           </MenuItem>
           <MenuItem
-            emphasis="default"
             inlineStartNode={<Globe />}
             description="Anyone in the workspace except Guests can join"
             selected={selected === "public"}
@@ -450,7 +438,7 @@ export const LabelAndFooterSemantics: Story = {
       <MenuContent width="sm" footer={<MenuFooter>Type to add another item.</MenuFooter>}>
         <MenuGroup>
           <MenuLabel inlineEndNode={<span>3</span>}>Section</MenuLabel>
-          <MenuItem emphasis="default">First item</MenuItem>
+          <MenuItem>First item</MenuItem>
         </MenuGroup>
       </MenuContent>
     </Menu>
@@ -532,7 +520,6 @@ export const LanguagePicker: Story = {
         <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
           {visible.map((l) => (
             <MenuItem
-              emphasis="default"
               key={l.key}
               secondaryText={l.secondary}
               selected={selected === l.key}
@@ -735,7 +722,6 @@ export const Filters: Story = {
                       ARIA. The label is the section title; the chevron is the
                       inlineEndNode. */}
                   <MenuItem
-                    emphasis="default"
                     aria-expanded={!isCollapsed}
                     inlineEndNode={
                       isCollapsed ? (
@@ -767,7 +753,6 @@ export const Filters: Story = {
                       "Show less". `aria-expanded` reflects the inline-expansion state. */}
                   {!isCollapsed && hasOverflow ? (
                     <MenuItem
-                      emphasis="link"
                       aria-expanded={isExpandedAll}
                       closeOnClick={false}
                       onClick={() =>
@@ -839,7 +824,7 @@ export const EmptyState: Story = {
         <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
           {visible.length > 0 ? (
             visible.map((s) => (
-              <MenuItem emphasis="default" key={s.key} inlineStartNode={s.icon}>
+              <MenuItem key={s.key} inlineStartNode={s.icon}>
                 {s.label}
               </MenuItem>
             ))
@@ -903,12 +888,7 @@ export const Submenu: Story = {
           </MenuSubmenuTrigger>
           <MenuSubmenuContent width="sm">
             {PRIORITIES.map((p) => (
-              <MenuItem
-                emphasis="default"
-                key={p.key}
-                inlineStartNode={p.icon}
-                closeOnClick={false}
-              >
+              <MenuItem key={p.key} inlineStartNode={p.icon} closeOnClick={false}>
                 {p.label}
               </MenuItem>
             ))}
@@ -926,12 +906,7 @@ export const Submenu: Story = {
           </MenuSubmenuTrigger>
           <MenuSubmenuContent width="sm">
             {STATUSES.map((s) => (
-              <MenuItem
-                emphasis="default"
-                key={s.key}
-                inlineStartNode={s.icon}
-                closeOnClick={false}
-              >
+              <MenuItem key={s.key} inlineStartNode={s.icon} closeOnClick={false}>
                 {s.label}
               </MenuItem>
             ))}
@@ -950,7 +925,6 @@ export const Submenu: Story = {
           <MenuSubmenuContent width="sm">
             {ASSIGNEES.map((a) => (
               <MenuItem
-                emphasis="default"
                 key={a.key}
                 inlineStartNode={
                   <Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />

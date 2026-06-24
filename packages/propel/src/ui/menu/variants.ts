@@ -42,15 +42,11 @@ const menuRowBase = cx(
 );
 
 /** Standalone `MenuItem` row: `layout` (single vs with-description) + `emphasis`. */
-export const menuRowVariants = cva(menuRowBase, {
+export const menuRowVariants = cva(cx(menuRowBase, "data-highlighted:bg-layer-transparent-hover"), {
   variants: {
     layout: {
       default: "h-[34px] items-center",
       "with-description": "min-h-[34px] items-start py-1.5",
-    },
-    emphasis: {
-      default: "cursor-default data-highlighted:bg-layer-transparent-hover",
-      link: "cursor-pointer data-highlighted:bg-layer-transparent-hover",
     },
   },
 });

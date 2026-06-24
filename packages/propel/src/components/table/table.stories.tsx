@@ -255,7 +255,6 @@ export const EditableCells: Story = {
                 <MenuContent>
                   {ROLES.map((role) => (
                     <MenuItem
-                      emphasis="default"
                       key={role}
                       selected={role === person.role}
                       onClick={() => setRole(person.email, role)}
@@ -408,7 +407,6 @@ export const RichRows: Story = {
                 <MenuContent>
                   {ROLES.map((role) => (
                     <MenuItem
-                      emphasis="default"
                       key={role}
                       selected={role === person.role}
                       onClick={() => setRole(person.email, role)}
@@ -420,12 +418,8 @@ export const RichRows: Story = {
               </TableEditableCell>
               <TableActionCell aria-label={`Options for ${person.name}`}>
                 <MenuContent>
-                  <MenuItem emphasis="default" inlineStartNode={<Pencil />}>
-                    Edit
-                  </MenuItem>
-                  <MenuItem emphasis="default" inlineStartNode={<Trash2 />}>
-                    Delete
-                  </MenuItem>
+                  <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
+                  <MenuItem inlineStartNode={<Trash2 />}>Delete</MenuItem>
                 </MenuContent>
               </TableActionCell>
             </TableRow>
@@ -589,12 +583,7 @@ export const EditableCellKeyboard: Story = {
             <TableEditableCell value={role} aria-label="Account type for Chargers">
               <MenuContent>
                 {ROLES.map((r) => (
-                  <MenuItem
-                    emphasis="default"
-                    key={r}
-                    selected={r === role}
-                    onClick={() => setRole(r)}
-                  >
+                  <MenuItem key={r} selected={r === role} onClick={() => setRole(r)}>
                     {r}
                   </MenuItem>
                 ))}

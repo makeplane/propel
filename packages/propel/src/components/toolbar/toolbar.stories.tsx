@@ -49,9 +49,7 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
         <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
         <MenuContent>
           {TEXT_STYLES.map((style) => (
-            <MenuItem emphasis="default" key={style}>
-              {style}
-            </MenuItem>
+            <MenuItem key={style}>{style}</MenuItem>
           ))}
         </MenuContent>
       </Menu>
@@ -59,9 +57,7 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
         <ToolbarMenuTrigger aria-label="Font">Aa</ToolbarMenuTrigger>
         <MenuContent>
           {FONTS.map((font) => (
-            <MenuItem emphasis="default" key={font}>
-              {font}
-            </MenuItem>
+            <MenuItem key={font}>{font}</MenuItem>
           ))}
         </MenuContent>
       </Menu>
@@ -280,20 +276,14 @@ export const ComposableMenu: Story = {
       <Menu defaultOpen>
         <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
         <MenuContent>
-          <MenuItem emphasis="default" inlineStartNode={<Pilcrow />} selected>
+          <MenuItem inlineStartNode={<Pilcrow />} selected>
             Paragraph
           </MenuItem>
-          <MenuItem emphasis="default" inlineStartNode={<Heading1 />}>
-            Heading 1
-          </MenuItem>
-          <MenuItem emphasis="default" inlineStartNode={<Heading2 />}>
-            Heading 2
-          </MenuItem>
-          <MenuItem emphasis="default" inlineStartNode={<Heading3 />}>
-            Heading 3
-          </MenuItem>
+          <MenuItem inlineStartNode={<Heading1 />}>Heading 1</MenuItem>
+          <MenuItem inlineStartNode={<Heading2 />}>Heading 2</MenuItem>
+          <MenuItem inlineStartNode={<Heading3 />}>Heading 3</MenuItem>
           <MenuSeparator />
-          <MenuItem emphasis="default" inlineStartNode={<Code />} disabled>
+          <MenuItem inlineStartNode={<Code />} disabled>
             Code block
           </MenuItem>
         </MenuContent>
