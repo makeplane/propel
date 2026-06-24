@@ -5,9 +5,12 @@ import {
   PreviewCard,
   PreviewCardArrow,
   PreviewCardBackdrop,
+  PreviewCardBody,
+  PreviewCardDescription,
   PreviewCardPopup,
   PreviewCardPortal,
   PreviewCardPositioner,
+  PreviewCardTitle,
   PreviewCardTrigger,
   PreviewCardViewport,
 } from "./index";
@@ -29,6 +32,9 @@ const meta = {
     PreviewCardViewport,
     PreviewCardPopup,
     PreviewCardArrow,
+    PreviewCardBody,
+    PreviewCardTitle,
+    PreviewCardDescription,
   },
 } satisfies Meta<typeof PreviewCard>;
 
@@ -59,12 +65,12 @@ export const Anatomy: Story = {
           <PreviewCardBackdrop />
           <PreviewCardPositioner side="top" sideOffset={4}>
             <PreviewCardPopup>
-              <div className="flex w-56 flex-col gap-1">
-                <span className="text-14 font-semibold text-primary">Plane</span>
-                <span className="text-13 text-secondary">
+              <PreviewCardBody>
+                <PreviewCardTitle>Plane</PreviewCardTitle>
+                <PreviewCardDescription>
                   Open-source project management for issues, sprints, and roadmaps.
-                </span>
-              </div>
+                </PreviewCardDescription>
+              </PreviewCardBody>
               <PreviewCardArrow />
             </PreviewCardPopup>
           </PreviewCardPositioner>
