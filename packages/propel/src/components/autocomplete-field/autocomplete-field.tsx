@@ -1,27 +1,26 @@
 import type * as React from "react";
 
 import {
-  Combobox,
-  ComboboxClear,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxInputGroup,
-  ComboboxItem,
-  ComboboxItemIndicator,
-  ComboboxList,
-  ComboboxPopup,
-  ComboboxPortal,
-  ComboboxPositioner,
-  type ComboboxProps,
-  ComboboxTrigger,
-} from "../../ui/combobox/index";
+  Autocomplete,
+  AutocompleteClear,
+  AutocompleteEmpty,
+  AutocompleteInput,
+  AutocompleteInputGroup,
+  AutocompleteItem,
+  AutocompleteList,
+  AutocompletePopup,
+  AutocompletePortal,
+  AutocompletePositioner,
+  type AutocompleteProps,
+  AutocompleteTrigger,
+} from "../../ui/autocomplete/index";
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
 import { FieldLabel } from "../../ui/field/field-label";
 import type { FieldMagnitude } from "../../ui/field/variants";
-import { FieldHelperText } from "./field-helper-text";
+import { FieldHelperText } from "../field/field-helper-text";
 
-export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items"> & {
+export type AutocompleteFieldProps = Omit<AutocompleteProps<string>, "children" | "items"> & {
   /** Supporting text shown below the input. */
   description?: React.ReactNode;
   /** Accessible label used by the clear and popup trigger buttons. */
@@ -42,8 +41,8 @@ export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items
   placeholder?: string;
 };
 
-/** Ready-to-use combobox field with label, filter input, popup items, and helper/error text. */
-export function ComboboxField({
+/** Ready-to-use autocomplete field with label, input, popup items, and helper/error text. */
+export function AutocompleteField({
   description,
   controlLabel,
   disabled,
@@ -55,37 +54,36 @@ export function ComboboxField({
   magnitude,
   name,
   placeholder,
-  ...comboboxProps
-}: ComboboxFieldProps) {
+  ...autocompleteProps
+}: AutocompleteFieldProps) {
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
-      <Combobox disabled={disabled} items={items} {...comboboxProps}>
+      <Autocomplete disabled={disabled} items={items} {...autocompleteProps}>
         <FieldLabel magnitude={magnitude}>{label}</FieldLabel>
-        <ComboboxInputGroup>
-          <ComboboxInput placeholder={placeholder} />
-          <ComboboxClear aria-label={`Clear ${controlLabel}`} />
-          <ComboboxTrigger aria-label={`Open ${controlLabel}`} />
-        </ComboboxInputGroup>
+        <AutocompleteInputGroup>
+          <AutocompleteInput placeholder={placeholder} />
+          <AutocompleteClear aria-label={`Clear ${controlLabel}`} />
+          <AutocompleteTrigger aria-label={`Open ${controlLabel}`} />
+        </AutocompleteInputGroup>
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
         ) : null}
-        <ComboboxPortal>
-          <ComboboxPositioner>
-            <ComboboxPopup>
-              <ComboboxEmpty>{emptyLabel}</ComboboxEmpty>
-              <ComboboxList>
+        <AutocompletePortal>
+          <AutocompletePositioner>
+            <AutocompletePopup>
+              <AutocompleteEmpty>{emptyLabel}</AutocompleteEmpty>
+              <AutocompleteList>
                 {items.map((item) => (
-                  <ComboboxItem key={item} value={item}>
-                    <ComboboxItemIndicator />
+                  <AutocompleteItem key={item} value={item}>
                     {item}
-                  </ComboboxItem>
+                  </AutocompleteItem>
                 ))}
-              </ComboboxList>
-            </ComboboxPopup>
-          </ComboboxPositioner>
-        </ComboboxPortal>
+              </AutocompleteList>
+            </AutocompletePopup>
+          </AutocompletePositioner>
+        </AutocompletePortal>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
-      </Combobox>
+      </Autocomplete>
     </Field>
   );
 }

@@ -1,18 +1,21 @@
 import type * as React from "react";
 
-import { CheckboxGroup, type CheckboxGroupProps } from "../../ui/checkbox-group/index";
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
 import { FieldOptionMagnitudeProvider } from "../../ui/field/field-option-magnitude-provider";
 import type { FieldMagnitude } from "../../ui/field/variants";
 import { Fieldset, FieldsetLegend } from "../../ui/fieldset/index";
-import { FieldHelperText } from "./field-helper-text";
+import { RadioGroup, type RadioGroupProps } from "../../ui/radio/index";
+import { FieldHelperText } from "../field/field-helper-text";
 
-export type CheckboxGroupFieldProps = Omit<CheckboxGroupProps, "children" | "density" | "name"> & {
-  /** Checkbox option rows, usually `CheckboxGroupFieldOption`. */
+export type RadioGroupFieldProps<Value = string> = Omit<
+  RadioGroupProps<Value>,
+  "children" | "density" | "name"
+> & {
+  /** Radio option rows, usually `RadioGroupFieldOption`. */
   children: React.ReactNode;
-  /** Spacing between checkbox options. */
-  density: CheckboxGroupProps["density"];
+  /** Spacing between radio options. */
+  density: RadioGroupProps<Value>["density"];
   /** Supporting text shown below the legend. */
   description?: React.ReactNode;
   /** Error text shown below the group. */
@@ -27,8 +30,8 @@ export type CheckboxGroupFieldProps = Omit<CheckboxGroupProps, "children" | "den
   name: string;
 };
 
-/** Ready-to-use checkbox group field with legend, description, and helper/error text. */
-export function CheckboxGroupField({
+/** Ready-to-use radio group field with legend, description, and helper/error text. */
+export function RadioGroupField<Value = string>({
   children,
   density,
   description,
@@ -38,13 +41,21 @@ export function CheckboxGroupField({
   label,
   magnitude,
   name,
+  required,
   ...groupProps
-}: CheckboxGroupFieldProps) {
+}: RadioGroupFieldProps<Value>) {
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Fieldset
         bordered={false}
-        render={<CheckboxGroup density={density} disabled={disabled} {...groupProps} />}
+        render={
+          <RadioGroup<Value>
+            density={density}
+            disabled={disabled}
+            required={required}
+            {...groupProps}
+          />
+        }
       >
         <FieldsetLegend magnitude={magnitude}>{label}</FieldsetLegend>
         {description != null ? (

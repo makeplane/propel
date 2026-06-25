@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { InputField } from "../field/index";
+import { InputField } from "../input-field/index";
 import { Fieldset } from "./index";
 
 // Components-tier story: the ready-made `<Fieldset legend=…>` plus same-tier field controls.

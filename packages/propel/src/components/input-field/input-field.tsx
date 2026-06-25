@@ -7,8 +7,8 @@ import type { InputMagnitude, InputTone } from "../../ui/field/variants";
 import type { InputProps } from "../../ui/input/index";
 import { InputBox } from "../../ui/input/input-box";
 import { InputIconSlot } from "../../ui/input/input-icon-slot";
-import { FieldHelperText } from "./field-helper-text";
-import { FieldLabelGroup } from "./field-label-group";
+import { FieldHelperText } from "../field/field-helper-text";
+import { FieldLabelGroup } from "../field/field-label-group";
 
 export type { InputMagnitude, InputTone } from "../../ui/field/variants";
 

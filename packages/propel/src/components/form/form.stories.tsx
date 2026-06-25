@@ -3,15 +3,11 @@ import * as React from "react";
 import { expect, fn, userEvent, waitFor } from "storybook/test";
 
 import { Button } from "../button/index";
-import {
-  CheckboxGroupField,
-  CheckboxGroupFieldOption,
-  InputField,
-  RadioGroupField,
-  RadioGroupFieldOption,
-  SelectField,
-  SwitchField,
-} from "../field/index";
+import { CheckboxGroupField, CheckboxGroupFieldOption } from "../checkbox-group-field/index";
+import { InputField } from "../input-field/index";
+import { RadioGroupField, RadioGroupFieldOption } from "../radio-group-field/index";
+import { SelectField } from "../select-field/index";
+import { SwitchField } from "../switch-field/index";
 import { Form, FormActions, FormBody } from "./index";
 
 // Components-tier story: the ready-made `Form` composed with same-tier field controls,

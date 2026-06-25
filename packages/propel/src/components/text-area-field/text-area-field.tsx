@@ -7,9 +7,11 @@ import {
   type TextAreaFieldControlProps,
 } from "../../ui/field/text-area-field-control";
 import type { InputMagnitude, InputTone } from "../../ui/field/variants";
+
+export type { InputMagnitude, InputTone };
 import { TextAreaBox } from "../../ui/text-area/text-area-box";
-import { FieldHelperText } from "./field-helper-text";
-import { FieldLabelGroup } from "./field-label-group";
+import { FieldHelperText } from "../field/field-helper-text";
+import { FieldLabelGroup } from "../field/field-label-group";
 
 export type TextAreaFieldProps = Omit<TextAreaFieldControlProps, "magnitude" | "surface"> & {
   /** Magnitude scale. `md` | `lg` | `xl`. */

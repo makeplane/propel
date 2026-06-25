@@ -18,16 +18,5 @@ export {
   type TextAreaFieldControlProps,
   type TextAreaFieldControlSurface,
 } from "../../ui/field/index";
-export * from "./autocomplete-field";
-export * from "./checkbox-field";
-export * from "./checkbox-group-field";
-export * from "./checkbox-group-field-option";
-export * from "./combobox-field";
-export * from "./input-field";
-export * from "./radio-field-control";
-export * from "./radio-group-field";
-export * from "./radio-group-field-option";
-export * from "./select-field";
-export * from "./switch-field-control";
-export * from "./switch-field";
-export * from "./text-area-field";
+export * from "./field-helper-text";
+export * from "./field-label-group";

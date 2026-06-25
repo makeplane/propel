@@ -3,6 +3,8 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type InputMagnitude, type InputTone, inputBoxVariants } from "./variants";
 
+export type { InputTone };
+
 export type InputBoxProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> & {
   /** Magnitude scale. `md` | `lg` | `xl`. */
   magnitude: InputMagnitude;

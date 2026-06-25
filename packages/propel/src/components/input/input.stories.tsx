@@ -4,7 +4,8 @@ import type * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
 import { InputBox, InputIconSlot } from "../../ui/input/index";
-import { Field, FieldError, FieldLabel, type InputMagnitude, type InputTone } from "../field/index";
+import { Field, FieldError, FieldLabel } from "../field/index";
+import { type InputMagnitude, type InputTone } from "./index";
 import { Input } from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];

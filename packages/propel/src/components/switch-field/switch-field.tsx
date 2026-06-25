@@ -4,7 +4,7 @@ import { Field } from "../../ui/field/field";
 import { FieldItem } from "../../ui/field/field-item";
 import { FieldItemContent } from "../../ui/field/field-item-content";
 import type { FieldMagnitude } from "../../ui/field/variants";
-import { FieldHelperText } from "./field-helper-text";
+import { FieldHelperText } from "../field/field-helper-text";
 import {
   SwitchFieldControl,
   type SwitchFieldControlMagnitude,

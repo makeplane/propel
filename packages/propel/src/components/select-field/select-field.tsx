@@ -20,7 +20,7 @@ import {
   type SelectTriggerMagnitude,
   SelectValue,
 } from "../../ui/select/index";
-import { FieldHelperText } from "./field-helper-text";
+import { FieldHelperText } from "../field/field-helper-text";
 
 // The field magnitude axis (md/lg/xl) drives label and helper-text size; the select
 // trigger/item axis is sm/md/lg, so xl maps onto the largest trigger (lg).
