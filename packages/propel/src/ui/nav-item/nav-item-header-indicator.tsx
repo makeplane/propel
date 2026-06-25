@@ -5,7 +5,13 @@ import { navItemHeaderIndicatorVariants } from "./variants";
 export type NavItemHeaderIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /**
+   * The disclosure caret to render (e.g. a Lucide `ChevronRight`), sized to the header's
+   * `--node-size`.
+   */
+  children?: React.ReactNode;
+};
 
 /**
  * The disclosure caret slot inside a `NavItemHeaderToggle`. Points toward the inline-end when

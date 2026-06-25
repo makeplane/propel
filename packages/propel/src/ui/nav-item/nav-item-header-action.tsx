@@ -5,7 +5,10 @@ import { navItemHeaderActionVariants } from "./variants";
 export type NavItemHeaderActionProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The action content (e.g. an icon button), sized to the header's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * An inline-end action inside a `NavItemHeader`, a sibling of the toggle (so activating it does not
