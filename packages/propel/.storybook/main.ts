@@ -35,8 +35,15 @@ const config: StorybookConfig = {
     reactDocgenTypescriptOptions: {
       shouldExtractLiteralValuesFromEnum: true,
       shouldRemoveUndefinedFromOptional: true,
-      // Only document propel's own props, not the spread DOM / Base UI attributes.
-      propFilter: (prop) => !prop.parent || !prop.parent.fileName.includes("node_modules"),
+      // Only document propel's own props, not the spread DOM / Base UI attributes — plus
+      // `children`, the composition slot. react-docgen attributes `children` to React's
+      // node_modules types, so the base filter would always drop it; yet react-docgen only
+      // emits `children` at all when a part explicitly redeclares it in its own props type
+      // (e.g. the atomic slot parts that take a bare icon / svg / label). Keeping it here
+      // surfaces those opt-in, TSDoc'd `children` slots instead of an empty "couldn't be
+      // auto-generated" args table, without adding a `children` row to every component.
+      propFilter: (prop) =>
+        prop.name === "children" || !prop.parent || !prop.parent.fileName.includes("node_modules"),
     },
   },
   // Storybook runs its own Vite build; add the Tailwind v4 plugin so propel's
