@@ -1,33 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent } from "storybook/test";
 
-import {
-  CheckboxFieldControl,
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldItem,
-  FieldLabel,
-  InputFieldControl,
-  TextAreaFieldControl,
-} from "./index";
+import { Input } from "../input/index";
+import { Field, FieldDescription, FieldError, FieldItem, FieldLabel } from "./index";
 
-// Components-tier story: the GENERIC field shell — `Field` (Base UI labeling/validation) composed by
-// hand with the field control subclasses (`InputFieldControl`, `TextAreaFieldControl`,
-// `CheckboxFieldControl`). The ready-made per-control fields each live in their own folder
-// (Components/InputField, Components/TextAreaField, Components/SelectField, …).
+// Components-tier story: the GENERIC field shell — `Field` (Base UI labeling/validation) wrapping a
+// control. The ready-made per-control fields each live in their own folder (Components/InputField,
+// Components/SelectField, …) and are the primitives you reach for; this just exercises the shell.
 const meta = {
   title: "Components/Field",
   component: Field,
-  subcomponents: {
-    FieldLabel,
-    FieldDescription,
-    FieldError,
-    FieldItem,
-    InputFieldControl,
-    TextAreaFieldControl,
-    CheckboxFieldControl,
-  },
+  subcomponents: { FieldLabel, FieldDescription, FieldError, FieldItem },
 } satisfies Meta<typeof Field>;
 
 export default meta;
@@ -40,7 +23,7 @@ export const Default: Story = {
       <FieldLabel magnitude="md" required>
         Display name
       </FieldLabel>
-      <InputFieldControl magnitude="md" required placeholder="Ada Lovelace" />
+      <Input magnitude="md" required placeholder="Ada Lovelace" />
       <FieldDescription magnitude="md">Shown anywhere your profile is visible.</FieldDescription>
     </Field>
   ),
@@ -51,47 +34,10 @@ export const Invalid: Story = {
   render: () => (
     <Field name="workspaceSlug" invalid>
       <FieldLabel magnitude="md">Workspace slug</FieldLabel>
-      <InputFieldControl magnitude="md" defaultValue="Already taken" />
+      <Input magnitude="md" defaultValue="Already taken" />
       <FieldError magnitude="md" match={true}>
         Choose a different workspace slug.
       </FieldError>
-    </Field>
-  ),
-};
-
-/** The field-owned text control subclasses provide Propel's text-entry styling for custom layouts. */
-export const ControlSubclasses: Story = {
-  render: () => (
-    <div className="flex w-80 flex-col gap-4">
-      <Field name="title">
-        <FieldLabel magnitude="md">Title</FieldLabel>
-        <InputFieldControl magnitude="md" placeholder="Issue title" />
-      </Field>
-      <Field name="description">
-        <FieldLabel magnitude="md">Description</FieldLabel>
-        <TextAreaFieldControl
-          magnitude="md"
-          surface="embedded"
-          resize="none"
-          placeholder="Add details"
-          rows={3}
-        />
-      </Field>
-    </div>
-  ),
-};
-
-/**
- * The bare `CheckboxFieldControl` lets a custom field row keep Propel styling. The ready-made
- * `CheckboxField` (Components/CheckboxField) wires this up for you.
- */
-export const ChoiceControlSubclass: Story = {
-  render: () => (
-    <Field name="emailUpdates">
-      <FieldLabel magnitude="md">
-        <CheckboxFieldControl tone="neutral" value="email" />
-        Email updates
-      </FieldLabel>
     </Field>
   ),
 };
@@ -103,7 +49,7 @@ export const LabelAndDescription: Story = {
       <FieldLabel magnitude="md" required>
         Custom field
       </FieldLabel>
-      <InputFieldControl magnitude="md" placeholder="Custom value" required />
+      <Input magnitude="md" placeholder="Custom value" required />
       <FieldDescription magnitude="md">Use this for custom form controls.</FieldDescription>
     </Field>
   ),
@@ -120,7 +66,7 @@ export const ErrorAssociation: Story = {
   render: () => (
     <Field name="email" invalid>
       <FieldLabel magnitude="md">Email</FieldLabel>
-      <InputFieldControl magnitude="md" defaultValue="not-an-email" />
+      <Input magnitude="md" defaultValue="not-an-email" />
       <FieldError magnitude="md" match={true}>
         Enter a valid email address.
       </FieldError>
@@ -138,7 +84,7 @@ export const TypingUpdatesValue: Story = {
   render: () => (
     <Field name="nickname">
       <FieldLabel magnitude="md">Nickname</FieldLabel>
-      <InputFieldControl magnitude="md" />
+      <Input magnitude="md" />
     </Field>
   ),
   play: async ({ canvas }) => {

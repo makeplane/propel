@@ -1,19 +1,16 @@
 import type * as React from "react";
 
 import { Field } from "../../ui/field/field";
-import { InputFieldContent } from "../../ui/field/input-field-content";
-import {
-  TextAreaFieldControl,
-  type TextAreaFieldControlProps,
-} from "../../ui/field/text-area-field-control";
+import { FieldControlContent } from "../../ui/field/field-control-content";
 import type { InputMagnitude, InputTone } from "../../ui/field/variants";
+import { TextArea, type TextAreaProps } from "../../ui/text-area/text-area";
 
 export type { InputMagnitude, InputTone };
 import { TextAreaBox } from "../../ui/text-area/text-area-box";
 import { FieldHelperText } from "../field/field-helper-text";
 import { FieldLabelGroup } from "../field/field-label-group";
 
-export type TextAreaFieldProps = Omit<TextAreaFieldControlProps, "magnitude" | "surface"> & {
+export type TextAreaFieldProps = Omit<TextAreaProps, "magnitude" | "surface"> & {
   /** Magnitude scale. `md` | `lg` | `xl`. */
   magnitude: InputMagnitude;
   /** Resting treatment. `neutral` | `danger` (the Figma "error" state). */
@@ -55,17 +52,12 @@ export function TextAreaField({
         description={description}
         orientation="vertical"
       />
-      <InputFieldContent orientation="vertical">
+      <FieldControlContent orientation="vertical">
         <TextAreaBox tone={tone}>
-          <TextAreaFieldControl
-            required={required}
-            magnitude={magnitude}
-            surface="field"
-            {...controlProps}
-          />
+          <TextArea required={required} magnitude={magnitude} surface="field" {...controlProps} />
         </TextAreaBox>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
-      </InputFieldContent>
+      </FieldControlContent>
     </Field>
   );
 }

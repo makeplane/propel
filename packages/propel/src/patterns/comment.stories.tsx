@@ -24,7 +24,8 @@ import {
   ToolbarToggle,
 } from "../components/toolbar/index";
 import { Button } from "../ui/button/index";
-import { Field, TextAreaFieldControl } from "../ui/field/index";
+import { Field } from "../ui/field/index";
+import { TextArea } from "../ui/text-area/index";
 
 // A comment composer is a compositional (application-level) component, not a propel
 // primitive: it is assembled entirely from propel building blocks (Toolbar, Button,
@@ -145,7 +146,7 @@ function CommentComposer({
   const controlSurface = magnitude === "xs" ? "inline" : "embedded";
 
   const body = (
-    <TextAreaFieldControl
+    <TextArea
       id={controlId}
       rows={magnitude === "xs" ? 1 : 2}
       magnitude={controlMagnitude}
@@ -244,7 +245,7 @@ const RECIPE_SOURCE = `function CommentComposer() {
     <Field name="comment">
       <div className="flex w-full flex-col overflow-clip rounded-xl border border-subtle-1 bg-layer-2 text-primary">
         <label htmlFor={controlId} className="sr-only">Add a comment</label>
-        <TextAreaFieldControl
+        <TextArea
           id={controlId}
           rows={2}
           magnitude="lg"

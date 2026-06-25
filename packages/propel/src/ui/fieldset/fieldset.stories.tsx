@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { Field, FieldLabel, InputFieldControl } from "../field/index";
+import { Field, FieldLabel } from "../field/index";
+import { Input } from "../input/index";
 import { Fieldset, FieldsetBody, FieldsetDescription, FieldsetLegend } from "./index";
 
 // UI-tier story: composes the atomic `Fieldset` + `FieldsetLegend` + `FieldsetBody` with raw
@@ -27,7 +28,7 @@ function TextField({ name, label }: { name: string; label: string }) {
   return (
     <Field name={name}>
       <FieldLabel magnitude="md">{label}</FieldLabel>
-      <InputFieldControl magnitude="md" placeholder={label} />
+      <Input magnitude="md" placeholder={label} />
     </Field>
   );
 }

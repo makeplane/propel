@@ -1,4 +1,9 @@
-import { Checkbox, CheckboxGlyph, CheckboxIndicator, type CheckboxProps } from "../checkbox/index";
+import {
+  Checkbox,
+  CheckboxGlyph,
+  CheckboxIndicator,
+  type CheckboxProps,
+} from "../ui/checkbox/index";
 
 export type CheckboxFieldControlProps = Omit<CheckboxProps, "children">;
 

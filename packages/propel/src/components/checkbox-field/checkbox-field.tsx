@@ -1,10 +1,10 @@
 import type * as React from "react";
 
-import type { CheckboxTone } from "../../ui/checkbox/index";
 import {
   CheckboxFieldControl,
   type CheckboxFieldControlProps,
-} from "../../ui/field/checkbox-field-control";
+} from "../../internal/checkbox-field-control";
+import type { CheckboxTone } from "../../ui/checkbox/index";
 import { Field } from "../../ui/field/field";
 import { FieldItem } from "../../ui/field/field-item";
 import { FieldItemContent } from "../../ui/field/field-item-content";

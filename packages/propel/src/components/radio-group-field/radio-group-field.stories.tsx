@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { RadioFieldControl, RadioGroupField, RadioGroupFieldOption } from "./index";
+import { RadioGroupField, RadioGroupFieldOption } from "./index";
 
 // A fieldset of radio options (Field + Fieldset + RadioGroup + option rows).
 const meta = {
   title: "Components/RadioGroupField",
   component: RadioGroupField,
-  subcomponents: { RadioGroupFieldOption, RadioFieldControl },
+  subcomponents: { RadioGroupFieldOption },
   args: {
     name: "priority",
     label: "Priority",

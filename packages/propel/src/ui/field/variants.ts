@@ -63,16 +63,8 @@ export const fieldErrorVariants = cva("text-danger-primary", {
   },
 });
 
-export const inputFieldRootVariants = cva("flex gap-2", {
-  variants: {
-    orientation: {
-      vertical: "flex-col items-start",
-      horizontal: "flex-row items-start",
-    },
-  },
-});
-
-export const inputFieldContentVariants = cva("flex flex-col", {
+// The control + helper-text column shared by the input and textarea fields (orientation-aware).
+export const fieldControlContentVariants = cva("flex flex-col", {
   variants: {
     orientation: {
       vertical: "w-full gap-1.5",

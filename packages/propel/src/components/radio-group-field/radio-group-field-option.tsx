@@ -4,9 +4,9 @@ import { FieldItem } from "../../ui/field/field-item";
 import { FieldItemContent } from "../../ui/field/field-item-content";
 import { useFieldOptionMagnitude } from "../../ui/field/use-field-option-magnitude";
 import type { FieldMagnitude } from "../../ui/field/variants";
-import { RadioFieldControl, type RadioFieldControlProps } from "./radio-field-control";
+import { Radio, type RadioProps } from "../radio/radio";
 
-export type RadioGroupFieldOptionProps = RadioFieldControlProps & {
+export type RadioGroupFieldOptionProps = RadioProps & {
   /** Visible option label. */
   label: React.ReactNode;
   /** Optional supporting text announced as the radio description. */
@@ -26,7 +26,7 @@ export function RadioGroupFieldOption({
 
   return (
     <FieldItem disabled={props.disabled}>
-      <RadioFieldControl {...props} />
+      <Radio {...props} />
       <FieldItemContent magnitude={magnitude} description={description}>
         {label}
       </FieldItemContent>

@@ -1,14 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { SwitchFieldControl } from "./index";
 import { SwitchField } from "./index";
 
 // A switch laid out as a field row (Field + SwitchFieldControl + label/helper).
 const meta = {
   title: "Components/SwitchField",
   component: SwitchField,
-  subcomponents: { SwitchFieldControl },
   args: { name: "restartOnFailure", label: "Restart on failure", magnitude: "md" },
 } satisfies Meta<typeof SwitchField>;
 

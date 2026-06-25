@@ -5,19 +5,15 @@ import { FieldItem } from "../../ui/field/field-item";
 import { FieldItemContent } from "../../ui/field/field-item-content";
 import type { FieldMagnitude } from "../../ui/field/variants";
 import { FieldHelperText } from "../field/field-helper-text";
-import {
-  SwitchFieldControl,
-  type SwitchFieldControlMagnitude,
-  type SwitchFieldControlProps,
-} from "./switch-field-control";
+import { Switch, type SwitchMagnitude, type SwitchProps } from "../switch/index";
 
 const switchFieldTextMagnitude = {
   sm: "md",
   md: "md",
   lg: "lg",
-} satisfies Record<SwitchFieldControlMagnitude, FieldMagnitude>;
+} satisfies Record<SwitchMagnitude, FieldMagnitude>;
 
-export type SwitchFieldProps = Omit<SwitchFieldControlProps, "aria-label"> & {
+export type SwitchFieldProps = Omit<SwitchProps, "aria-label"> & {
   /** Helper text shown below the control. Replaced by `error` when an error is set. */
   hint?: React.ReactNode;
   /** Error text shown below the control. */
@@ -44,7 +40,7 @@ export function SwitchField({
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <FieldItem disabled={disabled}>
-        <SwitchFieldControl magnitude={magnitude} disabled={disabled} {...controlProps} />
+        <Switch magnitude={magnitude} disabled={disabled} {...controlProps} />
         <FieldItemContent magnitude={textMagnitude} description={description}>
           {label}
         </FieldItemContent>

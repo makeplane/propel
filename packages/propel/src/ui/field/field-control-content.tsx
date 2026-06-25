@@ -1,9 +1,9 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { inputFieldContentVariants } from "./variants";
+import { fieldControlContentVariants } from "./variants";
 
-export type InputFieldContentProps = Omit<
+export type FieldControlContentProps = Omit<
   useRender.ComponentProps<"div">,
   "className" | "style"
 > & {
@@ -12,9 +12,9 @@ export type InputFieldContentProps = Omit<
 };
 
 /** The control + helper-text column of `InputField`. */
-export function InputFieldContent({ orientation, render, ...props }: InputFieldContentProps) {
+export function FieldControlContent({ orientation, render, ...props }: FieldControlContentProps) {
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: inputFieldContentVariants({ orientation }),
+    className: fieldControlContentVariants({ orientation }),
   };
   return useRender({ defaultTagName: "div", render, props: mergeProps(defaultProps, props) });
 }
