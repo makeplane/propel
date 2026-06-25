@@ -1,6 +1,10 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
+import type * as React from "react";
 
-export type DrawerProviderProps = Omit<BaseDrawer.Provider.Props, "className" | "style">;
+export type DrawerProviderProps = Omit<BaseDrawer.Provider.Props, "className" | "style"> & {
+  /** The `Drawer`(s) and any `DrawerIndent`/`DrawerIndentBackground` to coordinate. */
+  children?: React.ReactNode;
+};
 
 /**
  * Optional context wrapper that coordinates indent effects across sibling drawers. Wrap `Drawer`

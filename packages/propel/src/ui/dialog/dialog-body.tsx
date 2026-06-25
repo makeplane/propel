@@ -2,7 +2,10 @@ import * as React from "react";
 
 import { dialogBodyVariants } from "./variants";
 
-export type DialogBodyProps = Omit<React.HTMLAttributes<HTMLDivElement>, "className" | "style">;
+export type DialogBodyProps = Omit<React.HTMLAttributes<HTMLDivElement>, "className" | "style"> & {
+  /** The dialog's main content — plain text, form fields, lists, etc. */
+  children?: React.ReactNode;
+};
 
 /**
  * The scrollable main content region of the dialog popup. Grows to fill available space and scrolls
