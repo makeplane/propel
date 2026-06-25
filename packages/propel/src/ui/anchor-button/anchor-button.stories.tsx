@@ -3,23 +3,24 @@ import { ArrowRight, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
 import {
-  ButtonAnchor,
-  ButtonAnchorIcon,
-  ButtonAnchorLabel,
-  type ButtonAnchorMagnitude,
-  type ButtonAnchorProminence,
+  AnchorButton,
+  AnchorButtonIcon,
+  AnchorButtonLabel,
+  AnchorButtonSpinner,
+  type AnchorButtonMagnitude,
+  type AnchorButtonProminence,
 } from "./index";
 
-const PROMINENCES: ButtonAnchorProminence[] = ["primary", "secondary", "tertiary", "ghost"];
-const MAGNITUDES: ButtonAnchorMagnitude[] = ["sm", "md", "lg", "xl"];
+const PROMINENCES: AnchorButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
+const MAGNITUDES: AnchorButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
-// UI-tier story: the ATOMIC button-anchor — a single `<a>` wearing the shared control chrome, with
+// UI-tier story: the ATOMIC anchor-button — a single `<a>` wearing the shared control chrome, with
 // `prominence` / `tone` / `magnitude` / `sizing`. Same look as `Button` but it navigates. The
-// ready-made `ButtonAnchor` (Components/ButtonAnchor) lays out its icon/label slots.
+// ready-made `AnchorButton` (Components/AnchorButton) lays out its icon/label slots.
 const meta = {
-  title: "UI/ButtonAnchor",
-  component: ButtonAnchor,
-  subcomponents: { ButtonAnchorIcon, ButtonAnchorLabel },
+  title: "UI/AnchorButton",
+  component: AnchorButton,
+  subcomponents: { AnchorButtonIcon, AnchorButtonLabel, AnchorButtonSpinner },
   args: {
     children: "Link",
     href: "#",
@@ -28,7 +29,7 @@ const meta = {
     magnitude: "md",
     sizing: "hug",
   },
-} satisfies Meta<typeof ButtonAnchor>;
+} satisfies Meta<typeof AnchorButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -41,9 +42,9 @@ export const Prominences: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       {PROMINENCES.map((prominence) => (
-        <ButtonAnchor key={prominence} {...args} prominence={prominence}>
+        <AnchorButton key={prominence} {...args} prominence={prominence}>
           {prominence}
-        </ButtonAnchor>
+        </AnchorButton>
       ))}
     </div>
   ),
@@ -54,15 +55,15 @@ export const Tones: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <ButtonAnchor {...args} tone="neutral" prominence="primary">
+      <AnchorButton {...args} tone="neutral" prominence="primary">
         Neutral
-      </ButtonAnchor>
-      <ButtonAnchor {...args} tone="danger" prominence="primary">
+      </AnchorButton>
+      <AnchorButton {...args} tone="danger" prominence="primary">
         Danger fill
-      </ButtonAnchor>
-      <ButtonAnchor {...args} tone="danger" prominence="secondary">
+      </AnchorButton>
+      <AnchorButton {...args} tone="danger" prominence="secondary">
         Danger outline
-      </ButtonAnchor>
+      </AnchorButton>
     </div>
   ),
 };
@@ -73,35 +74,35 @@ export const Magnitudes: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <ButtonAnchor key={magnitude} {...args} magnitude={magnitude}>
+        <AnchorButton key={magnitude} {...args} magnitude={magnitude}>
           {magnitude}
-        </ButtonAnchor>
+        </AnchorButton>
       ))}
     </div>
   ),
 };
 
 /**
- * Composed by hand from named parts: `ButtonAnchorIcon` sizes a decorative node to `--node-size`,
- * `ButtonAnchorLabel` holds the text. The ready-made `ButtonAnchor` lays these out for you.
+ * Composed by hand from named parts: `AnchorButtonIcon` sizes a decorative node to `--node-size`,
+ * `AnchorButtonLabel` holds the text. The ready-made `AnchorButton` lays these out for you.
  */
 export const Anatomy: Story = {
   args: { children: undefined },
   argTypes: { children: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <ButtonAnchor {...args}>
-        <ButtonAnchorIcon>
+      <AnchorButton {...args}>
+        <AnchorButtonIcon>
           <Plus />
-        </ButtonAnchorIcon>
-        <ButtonAnchorLabel>With icon</ButtonAnchorLabel>
-      </ButtonAnchor>
-      <ButtonAnchor {...args} prominence="secondary">
-        <ButtonAnchorLabel>Learn more</ButtonAnchorLabel>
-        <ButtonAnchorIcon>
+        </AnchorButtonIcon>
+        <AnchorButtonLabel>With icon</AnchorButtonLabel>
+      </AnchorButton>
+      <AnchorButton {...args} prominence="secondary">
+        <AnchorButtonLabel>Learn more</AnchorButtonLabel>
+        <AnchorButtonIcon>
           <ArrowRight />
-        </ButtonAnchorIcon>
-      </ButtonAnchor>
+        </AnchorButtonIcon>
+      </AnchorButton>
     </div>
   ),
 };

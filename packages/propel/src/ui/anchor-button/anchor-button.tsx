@@ -1,35 +1,35 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { type ButtonAnchorVariantProps, buttonAnchorVariants } from "./variants";
+import { type AnchorButtonVariantProps, anchorButtonVariants } from "./variants";
 
 export type {
-  ButtonAnchorMagnitude,
-  ButtonAnchorProminence,
-  ButtonAnchorSizing,
-  ButtonAnchorTone,
-  ButtonAnchorVariantProps,
+  AnchorButtonMagnitude,
+  AnchorButtonProminence,
+  AnchorButtonSizing,
+  AnchorButtonTone,
+  AnchorButtonVariantProps,
 } from "./variants";
 
-export type ButtonAnchorProps = Omit<useRender.ComponentProps<"a">, "className" | "style"> &
-  ButtonAnchorVariantProps;
+export type AnchorButtonProps = Omit<useRender.ComponentProps<"a">, "className" | "style"> &
+  AnchorButtonVariantProps;
 
 /**
  * A link that looks like a button (`<a>` wearing the shared control chrome) — for navigation that
  * should read as a button. Same surface as `Button` (`prominence`/`tone`/`magnitude`/`sizing`, all
  * required) but it renders an `<a>` and takes `href`. Compose a
- * `ButtonAnchorIcon`/`ButtonAnchorLabel` inside.
+ * `AnchorButtonIcon`/`AnchorButtonLabel` inside.
  */
-export function ButtonAnchor({
+export function AnchorButton({
   prominence,
   tone,
   magnitude,
   sizing,
   render,
   ...props
-}: ButtonAnchorProps) {
+}: AnchorButtonProps) {
   const defaultProps: useRender.ElementProps<"a"> = {
-    className: buttonAnchorVariants({ prominence, tone, magnitude, sizing }),
+    className: anchorButtonVariants({ prominence, tone, magnitude, sizing }),
   };
   return useRender({ defaultTagName: "a", render, props: mergeProps(defaultProps, props) });
 }

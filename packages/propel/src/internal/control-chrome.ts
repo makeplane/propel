@@ -2,7 +2,7 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 
 /**
  * The control chrome shared by the button-look surfaces built on Figma's button tokens — `Button`
- * (`<button>`), `ButtonAnchor` (`<a>`), and `IconButton`. It owns the shared behavior base (focus
+ * (`<button>`), `AnchorButton` (`<a>`), and `IconButton`. It owns the shared behavior base (focus
  * ring, disabled affordance, shape, transition) and the neutral/danger fill + border + text palette
  * per `prominence`. Each surface's geometry (label padding vs square box) is its own local concern.
  * Compose this with a surface's local cva via `composeVariants`.
