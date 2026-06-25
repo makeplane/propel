@@ -6,7 +6,13 @@ import { circularProgressTrackVariants } from "./variants";
 export type CircularProgressTrackProps = Omit<
   React.ComponentPropsWithoutRef<"circle">,
   "className" | "style"
->;
+> & {
+  /**
+   * Optional inline SVG (e.g. a `<title>`); the ring geometry is passed via the `cx` / `cy` / `r` /
+   * `strokeWidth` attributes.
+   */
+  children?: React.ReactNode;
+};
 
 /**
  * The full subtle ring behind the arc (the circular analogue of `ProgressTrack`). Pass the geometry
