@@ -5,7 +5,10 @@ import { contextMenuItemShortcutVariants } from "./variants";
 export type ContextMenuItemShortcutProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The keyboard-shortcut hint text (e.g. `⌘C`). */
+  children?: React.ReactNode;
+};
 
 /**
  * The keyboard-shortcut text region of a menu row, sitting at the row's inline-end. Decorative hint

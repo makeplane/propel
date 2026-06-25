@@ -5,7 +5,10 @@ import { contextMenuItemIndicatorVariants } from "./variants";
 export type ContextMenuItemIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The check glyph to render (e.g. a Lucide `Check`), sized to the row's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The trailing selection-check region of a single-select `ContextMenuItem`. Sizes its single child
