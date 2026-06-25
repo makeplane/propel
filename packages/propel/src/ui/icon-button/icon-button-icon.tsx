@@ -5,7 +5,10 @@ import { iconButtonIconVariants } from "./variants";
 export type IconButtonIconProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The bare icon to render, sized to the root's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The icon-button's single glyph. Sizes its one child to the root's inherited `--node-size`, so
