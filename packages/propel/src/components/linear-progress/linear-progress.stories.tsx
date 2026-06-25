@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { ProgressIndicator, ProgressTrack, ProgressValue } from "../../ui/progress";
+import {
+  LinearProgressIndicator,
+  LinearProgressTrack,
+  LinearProgressValue,
+} from "../../ui/linear-progress";
 import { LinearProgress, type LinearProgressMagnitude, type LinearProgressTone } from "./index";
 
 const MAGNITUDES: LinearProgressMagnitude[] = ["sm", "md"];
@@ -10,7 +14,7 @@ const TONES: LinearProgressTone[] = ["brand", "success", "warning", "danger"];
 const meta = {
   title: "Components/LinearProgress",
   component: LinearProgress,
-  subcomponents: { ProgressTrack, ProgressIndicator, ProgressValue },
+  subcomponents: { LinearProgressTrack, LinearProgressIndicator, LinearProgressValue },
   args: { value: 60, magnitude: "md", tone: "brand", "aria-label": "Upload progress" },
 } satisfies Meta<typeof LinearProgress>;
 

@@ -1,16 +1,16 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
 
 import {
-  ProgressCircle,
-  ProgressCircleIndicator,
-  ProgressCircleSvg,
-  ProgressCircleTrack,
-  type ProgressIndicatorProps,
-  type ProgressTrackProps,
-} from "../../ui/progress";
+  CircularProgress as CircularProgressElement,
+  CircularProgressIndicator,
+  type CircularProgressIndicatorProps,
+  type CircularProgressProps as CircularProgressElementProps,
+  CircularProgressSvg,
+  CircularProgressTrack,
+} from "../../ui/circular-progress";
 
-export type CircularProgressMagnitude = NonNullable<ProgressTrackProps["magnitude"]>;
-export type CircularProgressTone = NonNullable<ProgressIndicatorProps["tone"]>;
+export type CircularProgressMagnitude = NonNullable<CircularProgressElementProps["magnitude"]>;
+export type CircularProgressTone = NonNullable<CircularProgressIndicatorProps["tone"]>;
 
 // Circle geometry per magnitude (Figma 5736-3457/3460): a 16px (sm) / 20px (md) box holding a
 // 2px-stroke ring; centerline radius = (diameter - stroke) / 2 -> 6 (sm) / 8 (md).
@@ -37,7 +37,7 @@ export type CircularProgressProps = Omit<
 /**
  * A small determinate progress ring (no label — too small). Drive it with `value` (0–`max`); the
  * arc and `aria-valuenow` follow. For a bar with an optional label, use `LinearProgress`. Composes
- * the `ui/progress` circle primitives on Base UI `Progress`.
+ * the `ui/circular-progress` primitives on Base UI `Progress`.
  */
 export function CircularProgress({ value, magnitude, tone, ...props }: CircularProgressProps) {
   const { box, radius } = RING_GEOMETRY[magnitude];
@@ -49,10 +49,10 @@ export function CircularProgress({ value, magnitude, tone, ...props }: CircularP
   const dashOffset = circumference * (1 - fraction);
   const center = box / 2;
   return (
-    <ProgressCircle value={clampedValue} magnitude={magnitude} {...props}>
-      <ProgressCircleSvg viewBox={`0 0 ${box} ${box}`}>
-        <ProgressCircleTrack cx={center} cy={center} r={radius} strokeWidth={RING_STROKE} />
-        <ProgressCircleIndicator
+    <CircularProgressElement value={clampedValue} magnitude={magnitude} {...props}>
+      <CircularProgressSvg viewBox={`0 0 ${box} ${box}`}>
+        <CircularProgressTrack cx={center} cy={center} r={radius} strokeWidth={RING_STROKE} />
+        <CircularProgressIndicator
           tone={tone}
           cx={center}
           cy={center}
@@ -62,7 +62,7 @@ export function CircularProgress({ value, magnitude, tone, ...props }: CircularP
           strokeDasharray={circumference}
           strokeDashoffset={dashOffset}
         />
-      </ProgressCircleSvg>
-    </ProgressCircle>
+      </CircularProgressSvg>
+    </CircularProgressElement>
   );
 }

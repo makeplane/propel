@@ -1,9 +1,9 @@
 import type * as React from "react";
 
-import { progressCircleTrackVariants } from "./variants";
+import { circularProgressTrackVariants } from "./variants";
 
-/** Props for {@link ProgressCircleTrack}. */
-export type ProgressCircleTrackProps = Omit<
+/** Props for {@link CircularProgressTrack}. */
+export type CircularProgressTrackProps = Omit<
   React.ComponentPropsWithoutRef<"circle">,
   "className" | "style"
 >;
@@ -13,6 +13,6 @@ export type ProgressCircleTrackProps = Omit<
  * (`cx` / `cy` / `r` / `strokeWidth`) as SVG attributes; the low-emphasis stroke color is baked
  * in.
  */
-export function ProgressCircleTrack(props: ProgressCircleTrackProps) {
-  return <circle className={progressCircleTrackVariants()} {...props} />;
+export function CircularProgressTrack(props: CircularProgressTrackProps) {
+  return <circle className={circularProgressTrackVariants()} {...props} />;
 }

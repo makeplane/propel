@@ -2,11 +2,10 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
 import {
-  ProgressCircle,
-  ProgressCircleIndicator,
-  ProgressCircleSvg,
-  ProgressCircleTrack,
-} from "../../ui/progress";
+  CircularProgressIndicator,
+  CircularProgressSvg,
+  CircularProgressTrack,
+} from "../../ui/circular-progress";
 import {
   CircularProgress,
   type CircularProgressMagnitude,
@@ -19,12 +18,7 @@ const TONES: CircularProgressTone[] = ["brand", "success", "warning", "danger"];
 const meta = {
   title: "Components/CircularProgress",
   component: CircularProgress,
-  subcomponents: {
-    ProgressCircle,
-    ProgressCircleSvg,
-    ProgressCircleTrack,
-    ProgressCircleIndicator,
-  },
+  subcomponents: { CircularProgressSvg, CircularProgressTrack, CircularProgressIndicator },
   args: { value: 60, magnitude: "md", tone: "brand", "aria-label": "Sync progress" },
 } satisfies Meta<typeof CircularProgress>;
 

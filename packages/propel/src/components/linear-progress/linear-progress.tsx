@@ -1,20 +1,20 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
 
 import {
-  Progress as ProgressElement,
-  ProgressIndicator,
-  type ProgressIndicatorProps,
-  ProgressTrack,
-  type ProgressTrackProps,
-  ProgressValue,
-} from "../../ui/progress";
+  LinearProgress as LinearProgressElement,
+  LinearProgressIndicator,
+  type LinearProgressIndicatorProps,
+  LinearProgressTrack,
+  type LinearProgressTrackProps,
+  LinearProgressValue,
+} from "../../ui/linear-progress";
 
-export type LinearProgressMagnitude = NonNullable<ProgressTrackProps["magnitude"]>;
-export type LinearProgressTone = NonNullable<ProgressIndicatorProps["tone"]>;
+export type LinearProgressMagnitude = NonNullable<LinearProgressTrackProps["magnitude"]>;
+export type LinearProgressTone = NonNullable<LinearProgressIndicatorProps["tone"]>;
 
 export type LinearProgressProps = Omit<BaseProgress.Root.Props, "className" | "style" | "value"> & {
   /**
-   * Completion from 0 to `max` (default 100). Pass `null` for indeterminate (animated fill,
+   * Completion from 0 to `max` (default 100). `null` = indeterminate (animated fill,
    * `aria-valuenow` unset).
    */
   value: number | null;
@@ -31,8 +31,7 @@ export type LinearProgressProps = Omit<BaseProgress.Root.Props, "className" | "s
 /**
  * A horizontal determinate/indeterminate progress bar with an optional trailing `%` label. Drive it
  * with `value` (0–`max`); the fill and `aria-valuenow` follow. For a ring, use `CircularProgress`.
- * Composes the `ui/progress` linear primitives on Base UI `Progress` (which owns `progressbar` +
- * `aria-valuenow`).
+ * Composes the `ui/linear-progress` primitives on Base UI `Progress` (which owns `progressbar`).
  */
 export function LinearProgress({
   value,
@@ -42,15 +41,15 @@ export function LinearProgress({
   ...props
 }: LinearProgressProps) {
   return (
-    <ProgressElement layout="linear" value={value} {...props}>
-      <ProgressTrack magnitude={magnitude}>
-        <ProgressIndicator tone={tone} />
-      </ProgressTrack>
+    <LinearProgressElement layout="linear" value={value} {...props}>
+      <LinearProgressTrack magnitude={magnitude}>
+        <LinearProgressIndicator tone={tone} />
+      </LinearProgressTrack>
       {showValue ? (
-        <ProgressValue>
+        <LinearProgressValue>
           {(_, currentValue) => (currentValue == null ? "" : `${Math.round(currentValue)}%`)}
-        </ProgressValue>
+        </LinearProgressValue>
       ) : null}
-    </ProgressElement>
+    </LinearProgressElement>
   );
 }
