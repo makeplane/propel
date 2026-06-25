@@ -6,7 +6,13 @@ import { circularProgressSvgVariants } from "./variants";
 export type CircularProgressSvgProps = Omit<
   React.ComponentPropsWithoutRef<"svg">,
   "className" | "style"
->;
+> & {
+  /**
+   * The ring's circles — a `CircularProgressTrack` and a `CircularProgressIndicator`; size the
+   * coordinate system via the `viewBox` attribute.
+   */
+  children?: React.ReactNode;
+};
 
 /**
  * The SVG viewport of the circular ring. Fills its `CircularProgress` box and holds the
