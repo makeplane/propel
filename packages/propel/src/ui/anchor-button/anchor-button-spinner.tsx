@@ -1,8 +1,8 @@
 import type * as React from "react";
 
-import { buttonAnchorSpinnerVariants } from "./variants";
+import { anchorButtonSpinnerVariants } from "./variants";
 
-export type ButtonAnchorSpinnerProps = Omit<
+export type AnchorButtonSpinnerProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
 >;
@@ -13,6 +13,6 @@ export type ButtonAnchorSpinnerProps = Omit<
  * sized to `--node-size`; callers pass the spinner icon as `children`. Decorative (the root carries
  * `aria-busy`), so it is `aria-hidden`.
  */
-export function ButtonAnchorSpinner(props: ButtonAnchorSpinnerProps) {
-  return <span aria-hidden className={buttonAnchorSpinnerVariants()} {...props} />;
+export function AnchorButtonSpinner(props: AnchorButtonSpinnerProps) {
+  return <span aria-hidden className={anchorButtonSpinnerVariants()} {...props} />;
 }

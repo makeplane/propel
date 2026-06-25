@@ -8,7 +8,7 @@ const MAGNITUDES: AnchorMagnitude[] = ["sm", "md", "lg", "xl"];
 
 // UI-tier story: the inline text link — a single styled `<a>` with `prominence` (primary blue /
 // secondary gray) and `magnitude` (text size). It is the correct element for what used to be the button
-// `link` look. For a link that looks like a button, see `ButtonAnchor`.
+// `link` look. For a link that looks like a button, see `AnchorButton`.
 const meta = {
   title: "UI/Anchor",
   component: Anchor,
