@@ -5,7 +5,10 @@ import { bannerDismissVariants } from "./variants";
 export type BannerDismissProps = Omit<
   React.ComponentPropsWithoutRef<"button">,
   "className" | "style"
->;
+> & {
+  /** The dismiss glyph to render (e.g. a Lucide `X`), sized to a 16px node. */
+  children?: React.ReactNode;
+};
 
 /**
  * The dismiss control at the banner's inline-end. Sizes its single glyph child to a 16px node so
