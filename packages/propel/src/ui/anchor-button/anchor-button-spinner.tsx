@@ -5,7 +5,10 @@ import { anchorButtonSpinnerVariants } from "./variants";
 export type AnchorButtonSpinnerProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The spinner glyph to render (e.g. a Lucide `LoaderCircle`), sized to the root's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The pending-navigation indicator shown in place of the inline-start node while a navigation is in
