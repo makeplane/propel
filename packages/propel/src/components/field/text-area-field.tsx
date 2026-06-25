@@ -2,12 +2,12 @@ import type * as React from "react";
 
 import { Field } from "../../ui/field/field";
 import { InputFieldContent } from "../../ui/field/input-field-content";
-import { TextAreaFieldBox } from "../../ui/field/text-area-field-box";
 import {
   TextAreaFieldControl,
   type TextAreaFieldControlProps,
 } from "../../ui/field/text-area-field-control";
 import type { InputMagnitude, InputTone } from "../../ui/field/variants";
+import { TextAreaBox } from "../../ui/text-area/text-area-box";
 import { FieldHelperText } from "./field-helper-text";
 import { FieldLabelGroup } from "./field-label-group";
 
@@ -54,14 +54,14 @@ export function TextAreaField({
         orientation="vertical"
       />
       <InputFieldContent orientation="vertical">
-        <TextAreaFieldBox tone={tone}>
+        <TextAreaBox tone={tone}>
           <TextAreaFieldControl
             required={required}
             magnitude={magnitude}
             surface="field"
             {...controlProps}
           />
-        </TextAreaFieldBox>
+        </TextAreaBox>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </InputFieldContent>
     </Field>

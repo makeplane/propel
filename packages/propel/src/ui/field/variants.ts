@@ -112,28 +112,6 @@ type InputFieldBoxVariantProps = VariantProps<typeof inputFieldBoxVariants>;
 
 export type InputTone = NonNullable<InputFieldBoxVariantProps["tone"]>;
 
-// Same surface as the input box; the textarea differs only in shape (rounded-lg, fixed py-2,
-// items-stretch so the control fills the taller box) and has no magnitude axis.
-export const textAreaFieldBoxVariants = cva(
-  cx(
-    "flex w-full items-stretch gap-1.5 transition-[color,background-color,border-color,box-shadow]",
-    "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
-    "rounded-lg py-2",
-  ),
-  {
-    variants: {
-      tone: {
-        neutral: cx(
-          fieldControlSurfaceVariants({ tone: "neutral", focus: "within" }),
-          "hover:border-subtle-1 hover:bg-layer-2-hover",
-          "focus-within:bg-layer-2 focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
-        ),
-        danger: fieldControlSurfaceVariants({ tone: "danger", focus: "none" }),
-      },
-    },
-  },
-);
-
 // The decorative 16px node at the control's inline start/end. Sizes its single child
 // to `--node-size` (via the shared node-slot class) and tints it.
 export const inputFieldIconSlotVariants = cva(

@@ -10,5 +10,4 @@ export * from "./input-field-content";
 export * from "./input-field-control";
 export * from "./input-field-icon-slot";
 export * from "./input-field";
-export * from "./text-area-field-box";
 export * from "./text-area-field-control";

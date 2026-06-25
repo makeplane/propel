@@ -35,3 +35,6 @@ export const fieldControlSurfaceVariants = cva("border-sm bg-layer-2", {
 });
 
 export type FieldControlSurfaceVariantProps = VariantProps<typeof fieldControlSurfaceVariants>;
+
+/** The resting-border tone shared by every bordered field control. */
+export type FieldControlTone = NonNullable<FieldControlSurfaceVariantProps["tone"]>;
