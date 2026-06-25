@@ -2,7 +2,13 @@ import * as React from "react";
 
 import { dialogHeaderVariants } from "./variants";
 
-export type DialogHeaderProps = Omit<React.HTMLAttributes<HTMLDivElement>, "className" | "style">;
+export type DialogHeaderProps = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "className" | "style"
+> & {
+  /** The header's contents — typically a `DialogHeading` and an optional close `IconButton`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The top region of the dialog popup. Lays out a `DialogHeading` (title + optional description) at

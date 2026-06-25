@@ -2,7 +2,13 @@ import * as React from "react";
 
 import { dialogActionsVariants } from "./variants";
 
-export type DialogActionsProps = Omit<React.HTMLAttributes<HTMLDivElement>, "className" | "style">;
+export type DialogActionsProps = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "className" | "style"
+> & {
+  /** The action buttons to right-align — e.g. a cancel `DialogClose` and a confirming action. */
+  children?: React.ReactNode;
+};
 
 /**
  * The footer row of the dialog popup. Right-aligns action buttons (cancel, confirm, etc.) with a
