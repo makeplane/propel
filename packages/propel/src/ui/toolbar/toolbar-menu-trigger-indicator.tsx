@@ -5,7 +5,13 @@ import { toolbarMenuTriggerIndicatorVariants } from "./variants";
 export type ToolbarMenuTriggerIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /**
+   * The disclosure caret to render (e.g. a Lucide `ChevronDown`), sized to the trigger's
+   * `--node-size`.
+   */
+  children?: React.ReactNode;
+};
 
 /**
  * The disclosure caret slot at the inline-end of a toolbar menu trigger. Renders whatever svg you
