@@ -5,7 +5,10 @@ import { accordionPanelContentVariants } from "./variants";
 export type AccordionPanelContentProps = Omit<
   React.ComponentPropsWithoutRef<"div">,
   "className" | "style"
->;
+> & {
+  /** The panel's inner content shown while the item is expanded. */
+  children?: React.ReactNode;
+};
 
 /**
  * The padded inner content of an `AccordionPanel`. The padding lives here rather than on the panel
