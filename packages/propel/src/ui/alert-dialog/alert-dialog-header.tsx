@@ -5,7 +5,13 @@ import { alertDialogHeaderVariants } from "./variants";
 export type AlertDialogHeaderProps = Omit<
   React.ComponentPropsWithoutRef<"div">,
   "className" | "style"
->;
+> & {
+  /**
+   * The header's contents — typically a leading `AlertDialogIcon` followed by an
+   * `AlertDialogIntro`.
+   */
+  children?: React.ReactNode;
+};
 
 /**
  * The top region of the popup: lays out the leading `AlertDialogIcon` at the inline-start of the

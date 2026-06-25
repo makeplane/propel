@@ -49,7 +49,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /** The full anatomy wired by hand: a destructive confirmation requiring an explicit choice. */
-export const Anatomy: Story = {
+export const Default: Story = {
   render: () => (
     <AlertDialog>
       <Button
