@@ -5,7 +5,10 @@ import { contextMenuItemIconVariants } from "./variants";
 export type ContextMenuItemIconProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The bare icon to render, sized to the row's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The leading icon region of a menu row. Sizes its single child to the row's `--node-size`, so
