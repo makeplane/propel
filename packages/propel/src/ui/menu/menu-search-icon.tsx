@@ -5,7 +5,10 @@ import { menuSearchIconVariants } from "./variants";
 export type MenuSearchIconProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The search icon to render (e.g. a Lucide `Search`), sized to the slot. */
+  children?: React.ReactNode;
+};
 
 /**
  * The leading icon slot inside `MenuSearch`. Sizes its single child; decorative, so it is

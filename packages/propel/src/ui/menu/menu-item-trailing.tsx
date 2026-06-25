@@ -5,7 +5,10 @@ import { menuItemTrailingVariants } from "./variants";
 export type MenuItemTrailingProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** Trailing content — a shortcut, count, or chevron. */
+  children?: React.ReactNode;
+};
 
 /**
  * A trailing slot at the row's inline-end for arbitrary content (a shortcut, a count, a chevron).
