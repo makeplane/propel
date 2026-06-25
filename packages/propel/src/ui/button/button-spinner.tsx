@@ -5,7 +5,13 @@ import { buttonSpinnerVariants } from "./variants";
 export type ButtonSpinnerProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /**
+   * The spinner glyph to render (e.g. a Lucide `LoaderCircle`), sized to the button's
+   * `--node-size`.
+   */
+  children?: React.ReactNode;
+};
 
 /**
  * The loading indicator shown in place of the inline-start node while the button is busy. A pure
