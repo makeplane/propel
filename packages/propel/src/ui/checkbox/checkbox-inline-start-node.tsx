@@ -5,7 +5,10 @@ import { checkboxInlineStartNodeVariants } from "./variants";
 export type CheckboxInlineStartNodeProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The bare icon to render in the slot, sized to `--node-size` (14px). */
+  children?: React.ReactNode;
+};
 
 /**
  * The decorative icon slot between the box and the label text (Figma "checkbox with label" icon
