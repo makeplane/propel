@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronRight, Layers } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { BreadcrumbMenuTrigger } from "../../components/breadcrumb";
+import { MenuContent } from "../../components/menu";
+import { Menu, MenuItem } from "../menu";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -31,6 +34,8 @@ const meta = {
     BreadcrumbTrigger,
     BreadcrumbTriggerIcon,
     BreadcrumbTriggerIndicator,
+    Menu,
+    MenuItem,
   },
 } satisfies Meta<typeof Breadcrumb>;
 
@@ -79,6 +84,11 @@ export const Default: Story = {
   },
 };
 
+// A non-navigating anchor for the `render` prop of crumb menu items. Activating a
+// bare `href="#"` performs a full document navigation, which tears down the test page in the
+// browser runner — so swallow the default click. Real apps pass a router link here instead.
+const inertAnchor = () => <a href="#" onClick={(event) => event.preventDefault()} />;
+
 /**
  * A menu-style crumb built from the raw `BreadcrumbTrigger` (`group` adds the open-state marker so
  * the indicator can rotate), composing the atomic `BreadcrumbTriggerIcon` and
@@ -98,15 +108,20 @@ export const MenuTrigger: Story = {
           <ChevronRight />
         </BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbTrigger group>
-            <BreadcrumbTriggerIcon>
-              <Layers />
-            </BreadcrumbTriggerIcon>
-            <span>Plane Design</span>
-            <BreadcrumbTriggerIndicator>
-              <ChevronRight />
-            </BreadcrumbTriggerIndicator>
-          </BreadcrumbTrigger>
+          <Menu>
+            <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
+            <MenuContent>
+              <MenuItem render={inertAnchor()} layout={"default"}>
+                Plane Web
+              </MenuItem>
+              <MenuItem render={inertAnchor()} layout={"default"}>
+                Plane Mobile
+              </MenuItem>
+              <MenuItem render={inertAnchor()} layout={"default"}>
+                Plane Server
+              </MenuItem>
+            </MenuContent>
+          </Menu>
         </BreadcrumbItem>
         <BreadcrumbItem>
           <BreadcrumbPage>Components</BreadcrumbPage>
