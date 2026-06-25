@@ -5,7 +5,10 @@ import { previewCardDescriptionVariants } from "./variants";
 export type PreviewCardDescriptionProps = Omit<
   React.ComponentPropsWithoutRef<"p">,
   "className" | "style"
->;
+> & {
+  /** The supporting description text beneath the title. */
+  children?: React.ReactNode;
+};
 
 /**
  * Supporting description text beneath the title. Bakes in the secondary text style — 13px in
