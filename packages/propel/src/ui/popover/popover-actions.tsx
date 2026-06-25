@@ -6,7 +6,10 @@ import { popoverActionsVariants } from "./variants";
 export type PopoverActionsProps = Omit<
   React.ComponentPropsWithoutRef<"div">,
   "className" | "style"
->;
+> & {
+  /** The trailing controls (e.g. a `PopoverClose` styled as a `Button`). */
+  children?: React.ReactNode;
+};
 
 /**
  * The popup's trailing controls row (e.g. a `PopoverClose` styled as a `Button`). Pushes its
