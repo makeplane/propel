@@ -5,7 +5,10 @@ import { menubarTriggerIconVariants } from "./variants";
 export type MenubarTriggerIconProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The bare icon to render, sized to the trigger's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * A decorative leading icon at a menu bar trigger's inline-start. Sizes its single child to the

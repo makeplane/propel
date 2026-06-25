@@ -5,7 +5,10 @@ import { menubarTriggerLabelVariants } from "./variants";
 export type MenubarTriggerLabelProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The trigger's label text. */
+  children?: React.ReactNode;
+};
 
 /** The label of a menu bar trigger. Truncates instead of overflowing the bar. */
 export function MenubarTriggerLabel(props: MenubarTriggerLabelProps) {
