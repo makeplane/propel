@@ -3,19 +3,20 @@ import { Mail, Search } from "lucide-react";
 import type * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
-import { Field, FieldError, FieldLabel, InputFieldBox, InputFieldIconSlot } from "../field/index";
+import { Field, FieldError, FieldLabel } from "../field/index";
 import type { InputMagnitude, InputTone } from "../field/variants";
+import { InputBox, InputIconSlot } from "./index";
 import { Input } from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
 
 // UI-tier story: the bare `Input` is a single native element. To frame it with a border
-// and inline icon addons we compose the single-element `InputFieldBox` / `InputFieldIconSlot`
+// and inline icon addons we compose the single-element `InputBox` / `InputIconSlot`
 // parts from `ui/field` — the story holds no raw box styling of its own.
 const meta = {
   title: "UI/Input",
   component: Input,
-  subcomponents: { InputFieldBox, InputFieldIconSlot },
+  subcomponents: { InputBox, InputIconSlot },
 } satisfies Meta<typeof Input>;
 
 export default meta;
@@ -32,9 +33,9 @@ function InputSurface({
 }) {
   return (
     <div className="w-72">
-      <InputFieldBox magnitude={magnitude} tone={tone}>
+      <InputBox magnitude={magnitude} tone={tone}>
         {children}
-      </InputFieldBox>
+      </InputBox>
     </div>
   );
 }
@@ -72,7 +73,7 @@ export const Magnitudes: Story = {
   ),
 };
 
-/** Leading and trailing icon addons frame the control via `InputFieldIconSlot`. */
+/** Leading and trailing icon addons frame the control via `InputIconSlot`. */
 export const WithIconSlots: Story = {
   args: {
     magnitude: "md",
@@ -82,13 +83,13 @@ export const WithIconSlots: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <InputSurface>
-      <InputFieldIconSlot>
+      <InputIconSlot>
         <Search />
-      </InputFieldIconSlot>
+      </InputIconSlot>
       <Input {...args} />
-      <InputFieldIconSlot>
+      <InputIconSlot>
         <Mail />
-      </InputFieldIconSlot>
+      </InputIconSlot>
     </InputSurface>
   ),
 };

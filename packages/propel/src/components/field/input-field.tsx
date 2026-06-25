@@ -1,12 +1,12 @@
 import type * as React from "react";
 
 import { InputField as InputFieldElement } from "../../ui/field/input-field";
-import { InputFieldBox } from "../../ui/field/input-field-box";
 import { InputFieldContent } from "../../ui/field/input-field-content";
 import { InputFieldControl } from "../../ui/field/input-field-control";
-import { InputFieldIconSlot } from "../../ui/field/input-field-icon-slot";
 import type { InputMagnitude, InputTone } from "../../ui/field/variants";
 import type { InputProps } from "../../ui/input/index";
+import { InputBox } from "../../ui/input/input-box";
+import { InputIconSlot } from "../../ui/input/input-icon-slot";
 import { FieldHelperText } from "./field-helper-text";
 import { FieldLabelGroup } from "./field-label-group";
 
@@ -69,11 +69,11 @@ export function InputField({
         orientation={orientation}
       />
       <InputFieldContent orientation={orientation}>
-        <InputFieldBox magnitude={magnitude} tone={tone}>
-          {inlineStartNode ? <InputFieldIconSlot>{inlineStartNode}</InputFieldIconSlot> : null}
+        <InputBox magnitude={magnitude} tone={tone}>
+          {inlineStartNode ? <InputIconSlot>{inlineStartNode}</InputIconSlot> : null}
           <InputFieldControl required={required} magnitude={magnitude} {...controlProps} />
-          {inlineEndNode ? <InputFieldIconSlot>{inlineEndNode}</InputFieldIconSlot> : null}
-        </InputFieldBox>
+          {inlineEndNode ? <InputIconSlot>{inlineEndNode}</InputIconSlot> : null}
+        </InputBox>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </InputFieldContent>
     </InputFieldElement>
