@@ -18,7 +18,7 @@ export type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & Button
  * A plain accessible action button (`<button>`) built on propel's design tokens. Pick its weight
  * with `prominence` (Figma Type: primary·secondary·tertiary·ghost), the error palette with `tone`,
  * the size with `magnitude`, and full-width with `sizing` — all required, so consumers choose
- * explicitly. For navigation use `AnchorButton` (button look) or `Anchor` (inline link), not a
+ * explicitly. For navigation use `ButtonAnchor` (button look) or `Anchor` (inline link), not a
  * button. `children` is passed through; it is not a variant.
  */
 export function Button({

@@ -85,18 +85,20 @@ A prop named `variant` is almost always too vague: the values express a specific
 render a **different element or semantics** (e.g. `<button>` vs `<a>`), or carry an axis that only
 applies to one value, that's not a variant — it's a **separate component**. Separate **element**
 (semantics) from **appearance** (look): the button/link family is `Button` (`<button>` + chrome),
-`AnchorButton` (`<a>` + chrome), `Anchor` (`<a>` + link text) — never a `link` value on a button.
+`ButtonAnchor` (`<a>` + chrome), `Anchor` (`<a>` + link text) — never a `link` value on a button.
 A value that's a content condition should be **derived**, not a prop; a capability should be a
 **boolean**. (Shared appearance across the split lives in `internal/`, e.g. `control-chrome`.)
 
-6d. **Part-of vs kind-of: prefix vs suffix.** A part _of_ a component takes the component as a
-**prefix** — `ButtonIcon`, `ButtonLabel`, `AccordionTrigger`, `MenuItem` (these mirror Base UI's
-anatomy, 6a). A _specialization / kind of_ a component takes the base as a **suffix** — `Button` →
-`IconButton`, `AnchorButton` (the same shape as the platform's own `TypeError`, `ReadStream`). Ask
-which relationship it is: a **part of** X → `X<Part>`; a **kind of** X → `<Qualifier>X`. So a button
-rendered as an `<a>` is a _kind_ of button → `AnchorButton` (beside `IconButton`); `AnchorButton`
-is wrong — it reads as a _part_ of Button. (A `<kind of X>` can still have its own parts, which then
-take the full name as prefix: `AnchorButton` → `AnchorButtonIcon`, `AnchorButtonSpinner`.)
+6d. **Part-of vs kind-of (prefix vs suffix), and pick the base by what it _is_, not what it _looks
+like_.** A part _of_ a component takes the component as a **prefix** — `ButtonIcon`, `ButtonLabel`,
+`AccordionTrigger`, `MenuItem` (these mirror Base UI's anatomy, 6a). A _kind of_ a component takes
+the base as a **suffix** — `Button` → `IconButton`; `Anchor` → `ButtonAnchor` (the same shape as the
+platform's own `TypeError`, `ReadStream`). Ask which relationship it is: a **part of** X → `X<Part>`;
+a **kind of** X → `<Qualifier>X`. **The base is the thing's element/behavior, never its styling:** a
+navigation link styled like a button is a kind of **`Anchor`** (it is an `<a>`; it navigates) →
+`ButtonAnchor` (`button` is the look-qualifier, `Anchor` the base) — _not_ `AnchorButton`, which would
+be a kind of Button (an action that is not what this is). A kind-of has its own parts, prefixed with
+its full name: `ButtonAnchor` → `ButtonAnchorIcon`, `ButtonAnchorSpinner`.
 
 7. **React context is a `components` concern — definition, provider, AND consumption.** A `ui`
    part never calls `useContext`; it takes the shared value (`variant`/`magnitude`/`density`/…) as
@@ -150,7 +152,7 @@ govern this: `variant` is too vague (6c), and native HTML/CSS attribute names ar
    `description` was passed — the `components` ready-made derives it and omits it from its API.
 6. **A capability is a _boolean_**, not a two-value enum (`TableHead` `sortable`, not `variant: default·sortable`).
 7. **Different element/semantics → a different component**, not a variant value: `<button>` vs `<a>`
-   (`Button`/`AnchorButton`/`Anchor`), a bar vs a ring (`LinearProgress`/`CircularProgress`). Same
+   (`Button`/`ButtonAnchor`/`Anchor`), a bar vs a ring (`LinearProgress`/`CircularProgress`). Same
    anatomy differing only in chrome stays one component with an axis (`placement`, `presentation`, `mode`).
 
 ## Variants & variant-prop types

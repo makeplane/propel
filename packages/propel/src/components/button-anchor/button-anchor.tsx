@@ -2,14 +2,14 @@ import { LoaderCircle } from "lucide-react";
 import type * as React from "react";
 
 import {
-  AnchorButton as AnchorButtonElement,
-  AnchorButtonIcon,
-  AnchorButtonLabel,
-  type AnchorButtonProps as AnchorButtonElementProps,
-  AnchorButtonSpinner,
-} from "../../ui/anchor-button";
+  ButtonAnchor as ButtonAnchorElement,
+  ButtonAnchorIcon,
+  ButtonAnchorLabel,
+  type ButtonAnchorProps as ButtonAnchorElementProps,
+  ButtonAnchorSpinner,
+} from "../../ui/button-anchor";
 
-export type AnchorButtonProps = AnchorButtonElementProps & {
+export type ButtonAnchorProps = ButtonAnchorElementProps & {
   /** Node before the label (inline-start), sized to `--node-size`. Decorative. */
   inlineStartNode?: React.ReactNode;
   /** Node after the label (inline-end), sized to `--node-size`. Decorative. */
@@ -23,28 +23,28 @@ export type AnchorButtonProps = AnchorButtonElementProps & {
 };
 
 /**
- * The ready-made `AnchorButton`: a button-looking navigation link that composes the atomic
- * `AnchorButton` with an optional `inlineStartNode`/`inlineEndNode` and a `loading` spinner for
+ * The ready-made `ButtonAnchor`: a button-looking navigation link that composes the atomic
+ * `ButtonAnchor` with an optional `inlineStartNode`/`inlineEndNode` and a `loading` spinner for
  * pending navigations. Content — `children`, the inline nodes, `loading` — is not a variant.
  */
-export function AnchorButton({
+export function ButtonAnchor({
   inlineStartNode,
   inlineEndNode,
   loading = false,
   children,
   ...props
-}: AnchorButtonProps) {
+}: ButtonAnchorProps) {
   return (
-    <AnchorButtonElement aria-busy={loading ? true : undefined} {...props}>
+    <ButtonAnchorElement aria-busy={loading ? true : undefined} {...props}>
       {loading ? (
-        <AnchorButtonSpinner>
+        <ButtonAnchorSpinner>
           <LoaderCircle />
-        </AnchorButtonSpinner>
+        </ButtonAnchorSpinner>
       ) : inlineStartNode ? (
-        <AnchorButtonIcon>{inlineStartNode}</AnchorButtonIcon>
+        <ButtonAnchorIcon>{inlineStartNode}</ButtonAnchorIcon>
       ) : null}
-      <AnchorButtonLabel>{children}</AnchorButtonLabel>
-      {!loading && inlineEndNode ? <AnchorButtonIcon>{inlineEndNode}</AnchorButtonIcon> : null}
-    </AnchorButtonElement>
+      <ButtonAnchorLabel>{children}</ButtonAnchorLabel>
+      {!loading && inlineEndNode ? <ButtonAnchorIcon>{inlineEndNode}</ButtonAnchorIcon> : null}
+    </ButtonAnchorElement>
   );
 }

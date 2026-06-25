@@ -4,7 +4,7 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 
 // The inline text-link look (Figma "Link"): an underlined `<a>` in the link palette, no button
 // chrome. `prominence` picks the blue primary link (`primary`) or the muted gray inline link
-// (`secondary`); `magnitude` sets the text size. For a link that looks like a button use `AnchorButton`.
+// (`secondary`); `magnitude` sets the text size. For a link that looks like a button use `ButtonAnchor`.
 export const anchorVariants = cva(
   cx(
     "cursor-pointer rounded-xs underline underline-offset-2 transition-colors outline-none",

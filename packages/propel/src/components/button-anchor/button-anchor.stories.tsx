@@ -3,15 +3,15 @@ import { ArrowRight, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
-import { AnchorButton, AnchorButtonIcon, AnchorButtonLabel, AnchorButtonSpinner } from "./index";
+import { ButtonAnchor, ButtonAnchorIcon, ButtonAnchorLabel, ButtonAnchorSpinner } from "./index";
 
 // The ready-made button-looking link: a navigation `<a>` with the control chrome plus optional
 // inline-start/inline-end nodes beside the label. Same surface as the ready-made `Button`, but it
 // navigates (`href`) instead of acting.
 const meta = {
-  title: "Components/AnchorButton",
-  component: AnchorButton,
-  subcomponents: { AnchorButtonIcon, AnchorButtonLabel, AnchorButtonSpinner },
+  title: "Components/ButtonAnchor",
+  component: ButtonAnchor,
+  subcomponents: { ButtonAnchorIcon, ButtonAnchorLabel, ButtonAnchorSpinner },
   argTypes: { inlineStartNode: iconControl, inlineEndNode: iconControl },
   args: {
     children: "Link",
@@ -21,7 +21,7 @@ const meta = {
     magnitude: "md",
     sizing: "hug",
   },
-} satisfies Meta<typeof AnchorButton>;
+} satisfies Meta<typeof ButtonAnchor>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -33,12 +33,12 @@ export const WithIcons: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <AnchorButton {...args} inlineStartNode={<Plus />}>
+      <ButtonAnchor {...args} inlineStartNode={<Plus />}>
         New page
-      </AnchorButton>
-      <AnchorButton {...args} prominence="secondary" inlineEndNode={<ArrowRight />}>
+      </ButtonAnchor>
+      <ButtonAnchor {...args} prominence="secondary" inlineEndNode={<ArrowRight />}>
         Learn more
-      </AnchorButton>
+      </ButtonAnchor>
     </div>
   ),
 };
