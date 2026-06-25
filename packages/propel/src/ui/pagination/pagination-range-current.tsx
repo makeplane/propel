@@ -5,7 +5,10 @@ import { paginationRangeCurrentVariants } from "./variants";
 export type PaginationRangeCurrentProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The emphasized current-range text (e.g. `1-50`). */
+  children?: React.ReactNode;
+};
 
 /**
  * The emphasized current-range portion (e.g. `1-50`) inside `PaginationRange`, in the primary text
