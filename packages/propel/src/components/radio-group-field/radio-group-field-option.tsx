@@ -1,8 +1,8 @@
 import type * as React from "react";
 
+import { useFieldOptionMagnitude } from "../../internal/field-option-magnitude";
 import { FieldItem } from "../../ui/field/field-item";
 import { FieldItemContent } from "../../ui/field/field-item-content";
-import { useFieldOptionMagnitude } from "../../ui/field/use-field-option-magnitude";
 import type { FieldMagnitude } from "../../ui/field/variants";
 import { Radio, type RadioProps } from "../radio/radio";
 

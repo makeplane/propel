@@ -1,8 +1,8 @@
 import type * as React from "react";
 
+import { FieldOptionMagnitudeProvider } from "../../internal/field-option-magnitude";
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
-import { FieldOptionMagnitudeProvider } from "../../ui/field/field-option-magnitude-provider";
 import type { FieldMagnitude } from "../../ui/field/variants";
 import { Fieldset, FieldsetLegend } from "../../ui/fieldset/index";
 import { RadioGroup, type RadioGroupProps } from "../../ui/radio/index";
