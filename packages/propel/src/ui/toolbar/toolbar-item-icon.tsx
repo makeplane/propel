@@ -5,7 +5,10 @@ import { toolbarItemIconVariants } from "./variants";
 export type ToolbarItemIconProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The bare icon to render, sized to the control's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The glyph inside a `ToolbarButton` or `ToolbarToggle`. Sizes its single child to the control's
