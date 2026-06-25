@@ -20,6 +20,9 @@ const meta = {
   title: "UI/Avatar",
   component: Avatar,
   subcomponents: { AvatarImage, AvatarFallback, AvatarIcon },
+  // `magnitude` is required on the ui `Avatar`; the per-story renders pass it explicitly, this just
+  // satisfies the story arg type.
+  args: { magnitude: "md" },
 } satisfies Meta<typeof Avatar>;
 
 export default meta;

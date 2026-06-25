@@ -1,17 +1,17 @@
 import { Minus, Plus } from "lucide-react";
 
 import {
-  NumberField as NumberFieldRoot,
+  NumberField as NumberFieldElement,
   NumberFieldButtonIcon,
   NumberFieldDecrement,
   NumberFieldGroup,
   NumberFieldIncrement,
   NumberFieldInput,
   type NumberFieldMagnitude,
-  type NumberFieldProps as NumberFieldRootProps,
+  type NumberFieldProps as NumberFieldElementProps,
 } from "../../ui/number-field";
 
-export type NumberFieldProps = NumberFieldRootProps & {
+export type NumberFieldProps = NumberFieldElementProps & {
   /** Visual size of the field: controls button square and input height. Required. */
   magnitude: NumberFieldMagnitude;
 };
@@ -32,7 +32,7 @@ export function NumberField({
   ...props
 }: NumberFieldProps) {
   return (
-    <NumberFieldRoot {...props}>
+    <NumberFieldElement {...props}>
       <NumberFieldGroup>
         <NumberFieldDecrement magnitude={magnitude} aria-label="Decrease">
           <NumberFieldButtonIcon>
@@ -51,6 +51,6 @@ export function NumberField({
           </NumberFieldButtonIcon>
         </NumberFieldIncrement>
       </NumberFieldGroup>
-    </NumberFieldRoot>
+    </NumberFieldElement>
   );
 }

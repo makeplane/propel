@@ -1,4 +1,4 @@
-export { AutocompleteContent, type AutocompleteContentProps } from "./autocomplete-content";
+export * from "./autocomplete-content";
 // Re-export the atomic autocomplete parts so a full autocomplete can be assembled from one entry.
 export {
   Autocomplete,

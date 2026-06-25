@@ -82,7 +82,13 @@ function ToggleFooter({ defaultToggles = {} }: { defaultToggles?: Record<string,
 export const Default: Story = {
   render: () => (
     <Popover>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
+      <Button
+        sizing="hug"
+        prominence="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<PopoverTrigger />}
+      >
         Options
       </Button>
       <PopoverContent side="bottom" align="start" width="md" aria-label="Options">
@@ -138,7 +144,13 @@ export const DisplayProperties: Story = {
     const [groupBy, setGroupBy] = React.useState("state");
     return (
       <Popover>
-        <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
+        <Button
+          sizing="hug"
+          prominence="secondary"
+          tone="neutral"
+          magnitude="xl"
+          render={<PopoverTrigger />}
+        >
           Display
         </Button>
         <PopoverContent side="bottom" align="start" width="md" aria-label="Display options">
@@ -207,7 +219,13 @@ export const DisplayAccordion: Story = {
     const ORDER = ["Manual - Rank", "Last created", "Last updated", "Priority", "Due date"];
     return (
       <Popover>
-        <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
+        <Button
+          sizing="hug"
+          prominence="secondary"
+          tone="neutral"
+          magnitude="xl"
+          render={<PopoverTrigger />}
+        >
           Display options
         </Button>
         <PopoverContent side="bottom" align="start" width="md" aria-label="Display options">
@@ -304,7 +322,13 @@ export const RTL: Story = {
     return (
       <DirectionProvider direction="rtl">
         <Popover>
-          <Button variant="secondary" tone="neutral" magnitude="xl" render={<PopoverTrigger />}>
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="xl"
+            render={<PopoverTrigger />}
+          >
             خيارات
           </Button>
           <PopoverContent side="bottom" align="start" width="md" aria-label="Options">

@@ -1,5 +1,5 @@
-export { ExpandableSearch, type ExpandableSearchProps } from "./expandable-search";
-export { Search, type SearchMagnitude, type SearchProps } from "./search";
+export * from "./expandable-search";
+export * from "./search";
 // Re-export the atomic ui parts so a custom search is composable from this convenience.
 export {
   SearchClear,

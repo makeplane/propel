@@ -11,18 +11,14 @@ import {
   TabsPanel,
 } from "./index";
 
-// UI-tier story: composes the ATOMIC tab parts. `Tabs` (Base UI `Tabs.Root`) tracks the
-// active tab and shares its `variant` via context; `TabsList` rows up the `Tab`s and renders
-// the `TabsIndicator` underline bar for the underline variant; `TabsPanel` shows the content
-// for the active value. `TabUnderlineLabel`/`TabUnderlineBar` are the decorative inner parts
-// of an underline-variant tab. The ready-made tab set lives in `components/tabs`.
+// UI-tier story: composes the ATOMIC tab parts (each a single, prop-driven element). `Tabs`,
+// `TabsList`, and each `Tab` take the `appearance` explicitly — the ready-made `components/tabs` sets
+// it once and shares it via context (and adds the scroll frame + indicator) so you don't repeat it.
 const meta = {
   title: "UI/Tabs",
   component: Tabs,
   subcomponents: { TabsList, Tab, TabsIndicator, TabsPanel },
-  // The render fns assemble their own Tabs root with an explicit variant; this satisfies the
-  // required `variant` axis on the meta component type.
-  args: { variant: "contained" },
+  args: { appearance: "contained" },
 } satisfies Meta<typeof Tabs>;
 
 export default meta;
@@ -34,13 +30,13 @@ const TAB_ITEMS = [
   { value: "settings", label: "Settings", panel: "Configuration and preferences." },
 ];
 
-/** Assemble the atomic parts: Root › List › Tab, plus a Panel per value (contained variant). */
+/** Assemble the atomic parts: Root › List › Tab, plus a Panel per value (contained appearance). */
 export const Default: Story = {
   render: () => (
-    <Tabs variant="contained" defaultValue="overview">
-      <TabsList>
+    <Tabs appearance="contained" defaultValue="overview">
+      <TabsList appearance="contained">
         {TAB_ITEMS.map((item) => (
-          <Tab key={item.value} value={item.value}>
+          <Tab key={item.value} appearance="contained" value={item.value}>
             {item.label}
           </Tab>
         ))}
@@ -63,20 +59,21 @@ export const Default: Story = {
 };
 
 /**
- * The underline variant: `TabsList` renders the shared `TabsIndicator` that slides under the active
- * tab. Each `Tab` decorates its body with the atomic `TabUnderlineLabel` (the rounded label box)
- * and `TabUnderlineBar` (the per-tab hover bar the indicator hands off to when active).
+ * The underline appearance: compose the shared `TabsIndicator` inside the `TabsList` (the
+ * ready-made `components/tabs` adds it for you). Each `Tab` decorates its body with the atomic
+ * `TabUnderlineLabel` (the rounded label box) and `TabUnderlineBar` (the per-tab hover bar).
  */
 export const Underline: Story = {
   render: () => (
-    <Tabs variant="underline" defaultValue="overview">
-      <TabsList>
+    <Tabs appearance="underline" defaultValue="overview">
+      <TabsList appearance="underline">
         {TAB_ITEMS.map((item) => (
-          <Tab key={item.value} value={item.value}>
+          <Tab key={item.value} appearance="underline" value={item.value}>
             <TabUnderlineLabel>{item.label}</TabUnderlineLabel>
             <TabUnderlineBar />
           </Tab>
         ))}
+        <TabsIndicator />
       </TabsList>
       {TAB_ITEMS.map((item) => (
         <TabsPanel key={item.value} value={item.value}>

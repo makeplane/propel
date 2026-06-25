@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { Menu, MenuTrigger } from "../../ui/menu/index";
 import {
-  Pagination as PaginationRoot,
+  Pagination as PaginationElement,
   PaginationArrowButton,
   PaginationEllipsis,
   PaginationItem,
@@ -165,7 +165,7 @@ export function Pagination({
   const atEnd = page >= pageCount;
 
   return (
-    <PaginationRoot aria-label={l.root} {...props}>
+    <PaginationElement aria-label={l.root} {...props}>
       {pageSize ? (
         <PaginationPerPage>
           {/*
@@ -189,11 +189,11 @@ export function Pagination({
               {pageSize.options.map((option) => (
                 <MenuItem
                   key={option}
-                  variant="default"
-                  label={l.perPageValue(option)}
                   selected={option === pageSize.value}
                   onClick={() => pageSize.onValueChange(option)}
-                />
+                >
+                  {l.perPageValue(option)}
+                </MenuItem>
               ))}
             </MenuContent>
           </Menu>
@@ -262,6 +262,6 @@ export function Pagination({
           </PaginationArrowButton>
         </PaginationItem>
       </PaginationList>
-    </PaginationRoot>
+    </PaginationElement>
   );
 }

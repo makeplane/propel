@@ -1,8 +1,8 @@
-export { Slider, type SliderProps } from "./slider";
-export { SliderControl, type SliderControlProps, type SliderMagnitude } from "./slider-control";
-export { SliderHeader, type SliderHeaderProps } from "./slider-header";
-export { SliderIndicator, type SliderIndicatorProps } from "./slider-indicator";
-export { SliderLabel, type SliderLabelProps } from "./slider-label";
-export { SliderThumb, type SliderThumbProps } from "./slider-thumb";
-export { SliderTrack, type SliderTrackProps } from "./slider-track";
-export { SliderValue, type SliderValueProps } from "./slider-value";
+export * from "./slider";
+export * from "./slider-control";
+export * from "./slider-header";
+export * from "./slider-indicator";
+export * from "./slider-label";
+export * from "./slider-thumb";
+export * from "./slider-track";
+export * from "./slider-value";

@@ -1,17 +1,17 @@
 import * as React from "react";
 
 import {
-  Checkbox as CheckboxRoot,
+  Checkbox as CheckboxElement,
   CheckboxGlyph,
   CheckboxIndicator,
   CheckboxInlineStartNode,
   CheckboxLabel,
-  type CheckboxProps as CheckboxRootProps,
+  type CheckboxProps as CheckboxElementProps,
 } from "../../ui/checkbox";
 
 export type { CheckboxTone } from "../../ui/checkbox";
 
-export type CheckboxProps = CheckboxRootProps & {
+export type CheckboxProps = CheckboxElementProps & {
   /**
    * Optional text shown beside the box; the whole row becomes the clickable label. Omit it for a
    * bare checkbox (just the box) — in that case give the box an accessible name with `aria-label`
@@ -36,11 +36,11 @@ export function Checkbox({ tone, label, inlineStartNode, id, ...props }: Checkbo
   const checkboxId = id ?? generatedId;
 
   const box = (
-    <CheckboxRoot id={checkboxId} tone={tone} {...props}>
+    <CheckboxElement id={checkboxId} tone={tone} {...props}>
       <CheckboxIndicator>
         <CheckboxGlyph indeterminate={props.indeterminate} />
       </CheckboxIndicator>
-    </CheckboxRoot>
+    </CheckboxElement>
   );
 
   if (label == null) return box;

@@ -1,6 +1,7 @@
 import { cva, cx } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 /** Positioner: anchors the popup at the pointer with overlay stacking. */
 export const menuPositionerVariants = cva("z-50 outline-none");
@@ -40,16 +41,12 @@ const menuRowBase = cx(
   "data-disabled:pointer-events-none data-disabled:text-disabled",
 );
 
-/** Standalone `MenuItem` row: variant-driven layout + emphasis. */
-export const menuRowVariants = cva(menuRowBase, {
+/** Standalone `MenuItem` row: `layout` (single vs with-description) + `emphasis`. */
+export const menuRowVariants = cva(cx(menuRowBase, "data-highlighted:bg-layer-transparent-hover"), {
   variants: {
-    variant: {
+    layout: {
       default: "h-[34px] items-center",
       "with-description": "min-h-[34px] items-start py-1.5",
-    },
-    emphasis: {
-      default: "cursor-default data-highlighted:bg-layer-transparent-hover",
-      link: "cursor-pointer data-highlighted:bg-layer-transparent-hover",
     },
   },
 });
@@ -69,7 +66,7 @@ export const menuCheckboxItemVariants = cva(
  * SubmenuTrigger row: the shared row base; also highlights while its submenu popup is open
  * (`data-popup-open`).
  */
-export const menuSubTriggerVariants = cva(
+export const menuSubmenuTriggerVariants = cva(
   cx(
     menuRowBase,
     "h-[34px] cursor-default items-center",
@@ -176,3 +173,7 @@ export const menuFooterVariants = cva(
 
 /** Arrow: a small caret matching the popup surface color. */
 export const menuArrowVariants = cva("text-layer-1");
+
+export type MenuPopupVariantProps = StrictVariantProps<typeof menuPopupVariants>;
+
+export type MenuRowVariantProps = StrictVariantProps<typeof menuRowVariants>;

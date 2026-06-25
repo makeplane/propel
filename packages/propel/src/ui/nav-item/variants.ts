@@ -1,6 +1,7 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // A nav row's chrome: fixed height, horizontal padding, icon-to-label gap, hover/active/
 // selected surfaces and the focus ring are all "always the same" per the Figma spec. The
@@ -116,3 +117,9 @@ export const navItemHeaderIndicatorVariants = cva(
 
 // Inline-end action slot inside the header (a sibling of the toggle, not nested inside it).
 export const navItemHeaderActionVariants = cva(cx(nodeSlotClass, "text-icon-secondary"));
+
+export type NavItemMagnitude = NonNullable<VariantProps<typeof navItemVariants>["magnitude"]>;
+
+export type NavItemLevel = NonNullable<VariantProps<typeof navItemVariants>["level"]>;
+
+export type NavItemVariantProps = StrictVariantProps<typeof navItemVariants>;

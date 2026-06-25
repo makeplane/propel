@@ -94,7 +94,7 @@ const cancelNavigation = (event: React.MouseEvent) => event.preventDefault();
 function ContentLink({ href, title, description }: (typeof PRODUCT_LINKS)[number]) {
   return (
     <li>
-      <NavigationMenuLink variant="card" render={<a href={href} onClick={cancelNavigation} />}>
+      <NavigationMenuLink presentation="card" render={<a href={href} onClick={cancelNavigation} />}>
         <NavigationMenuLinkTitle>{title}</NavigationMenuLinkTitle>
         <NavigationMenuLinkDescription>{description}</NavigationMenuLinkDescription>
       </NavigationMenuLink>
@@ -143,7 +143,7 @@ export const Default: Story = {
 
         <NavigationMenuItem>
           <NavigationMenuLink
-            variant="item"
+            presentation="item"
             render={<a href="#pricing" onClick={cancelNavigation} />}
           >
             Pricing
@@ -191,7 +191,7 @@ export const OpenContent: Story = {
               {PRODUCT_LINKS.map((item) => (
                 <li key={item.href}>
                   <NavigationMenuLink
-                    variant="card"
+                    presentation="card"
                     render={<a href={item.href} onClick={cancelNavigation} />}
                   >
                     <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>

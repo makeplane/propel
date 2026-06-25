@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import {
-  ScrollArea as ScrollAreaRoot,
+  ScrollArea as ScrollAreaElement,
   ScrollAreaCorner,
   ScrollAreaScrollbar,
   type ScrollAreaScrollbarMagnitude,
@@ -59,7 +59,7 @@ export function ScrollArea({ orientation, visibility, magnitude, children }: Scr
     // column; the Viewport is a `flex-1` child whose `overflow: scroll` (set by Base UI)
     // gives it an automatic min-height of 0, so it bounds to the column and scrolls. The
     // scrollbars are positioned absolutely by Base UI, so they never take flex space.
-    <ScrollAreaRoot>
+    <ScrollAreaElement>
       <ScrollAreaViewport>{children}</ScrollAreaViewport>
       {showVertical ? (
         <ScrollAreaScrollbar orientation="vertical" visibility={visibility} magnitude={magnitude}>
@@ -72,6 +72,6 @@ export function ScrollArea({ orientation, visibility, magnitude, children }: Scr
         </ScrollAreaScrollbar>
       ) : null}
       {orientation === "both" ? <ScrollAreaCorner /> : null}
-    </ScrollAreaRoot>
+    </ScrollAreaElement>
   );
 }

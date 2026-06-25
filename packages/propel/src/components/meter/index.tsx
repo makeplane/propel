@@ -1,4 +1,4 @@
-export { Meter, type MeterProps } from "./meter";
+export * from "./meter";
 export {
   MeterHeader,
   type MeterHeaderProps,

@@ -1,14 +1,14 @@
 import type * as React from "react";
 
-import { FieldLabelGroup } from "../../ui/field/field-label-group";
+import { InputField as InputFieldElement } from "../../ui/field/input-field";
 import { InputFieldBox } from "../../ui/field/input-field-box";
 import { InputFieldContent } from "../../ui/field/input-field-content";
 import { InputFieldControl } from "../../ui/field/input-field-control";
 import { InputFieldIconSlot } from "../../ui/field/input-field-icon-slot";
-import { InputFieldRoot } from "../../ui/field/input-field-root";
 import type { InputMagnitude, InputTone } from "../../ui/field/variants";
 import type { InputProps } from "../../ui/input/index";
 import { FieldHelperText } from "./field-helper-text";
+import { FieldLabelGroup } from "./field-label-group";
 
 export type { InputMagnitude, InputTone } from "../../ui/field/variants";
 
@@ -55,7 +55,7 @@ export function InputField({
   ...controlProps
 }: InputFieldProps) {
   return (
-    <InputFieldRoot
+    <InputFieldElement
       name={name}
       disabled={disabled}
       invalid={tone === "danger" || undefined}
@@ -76,6 +76,6 @@ export function InputField({
         </InputFieldBox>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </InputFieldContent>
-    </InputFieldRoot>
+    </InputFieldElement>
   );
 }

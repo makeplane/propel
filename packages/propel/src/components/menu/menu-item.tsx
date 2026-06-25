@@ -2,7 +2,7 @@ import { Check } from "lucide-react";
 import type * as React from "react";
 
 import {
-  MenuItem as MenuItemRoot,
+  MenuItem as MenuItemElement,
   MenuItemContent,
   MenuItemDescription,
   MenuItemIcon,
@@ -11,14 +11,12 @@ import {
   MenuItemTitle,
   MenuItemTitleRow,
   MenuItemTrailing,
-  type MenuItemProps as MenuItemRootProps,
+  type MenuItemProps as MenuItemElementProps,
 } from "../../ui/menu";
 
-export type MenuItemProps = MenuItemRootProps & {
+export type MenuItemProps = Omit<MenuItemElementProps, "layout"> & {
   /** Leading content before the label. */
   inlineStartNode?: React.ReactNode;
-  /** The primary text of the row. */
-  label?: React.ReactNode;
   /** Muted secondary line under the label. */
   description?: React.ReactNode;
   /** Muted text shown inline after the label. */
@@ -35,7 +33,6 @@ export type MenuItemProps = MenuItemRootProps & {
  */
 export function MenuItem({
   inlineStartNode,
-  label,
   description,
   secondaryText,
   inlineEndNode,
@@ -43,12 +40,14 @@ export function MenuItem({
   children,
   ...props
 }: MenuItemProps) {
+  // The taller, top-aligned row layout is implied by having a description — derived, not a prop.
+  const layout = description != null ? "with-description" : "default";
   return (
-    <MenuItemRoot {...props}>
+    <MenuItemElement layout={layout} {...props}>
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
-          <MenuItemTitle>{label ?? children}</MenuItemTitle>
+          <MenuItemTitle>{children}</MenuItemTitle>
           {secondaryText != null ? (
             <MenuItemSecondaryText>{secondaryText}</MenuItemSecondaryText>
           ) : null}
@@ -61,6 +60,6 @@ export function MenuItem({
           <Check />
         </MenuItemSelectedIndicator>
       ) : null}
-    </MenuItemRoot>
+    </MenuItemElement>
   );
 }

@@ -24,6 +24,6 @@ export function BreadcrumbTrigger({ group = false, render, ...props }: Breadcrum
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps(props, defaultProps),
+    props: mergeProps(defaultProps, props),
   });
 }

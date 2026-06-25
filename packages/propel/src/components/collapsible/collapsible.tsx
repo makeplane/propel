@@ -2,8 +2,8 @@ import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import {
-  Collapsible as CollapsibleRoot,
-  type CollapsibleProps as CollapsibleRootProps,
+  Collapsible as CollapsibleElement,
+  type CollapsibleProps as CollapsibleElementProps,
   CollapsiblePanel,
   CollapsiblePanelContent,
   CollapsibleTrigger,
@@ -11,7 +11,7 @@ import {
   CollapsibleTriggerTitle,
 } from "../../ui/collapsible";
 
-export type CollapsibleProps = CollapsibleRootProps & {
+export type CollapsibleProps = CollapsibleElementProps & {
   /** The button content that opens and closes the panel. */
   trigger: React.ReactNode;
   /** The collapsible content region. */
@@ -28,7 +28,7 @@ export type CollapsibleProps = CollapsibleRootProps & {
  */
 export function Collapsible({ trigger, children, indicator, ...props }: CollapsibleProps) {
   return (
-    <CollapsibleRoot {...props}>
+    <CollapsibleElement {...props}>
       <CollapsibleTrigger>
         <CollapsibleTriggerTitle>{trigger}</CollapsibleTriggerTitle>
         {indicator ? (
@@ -40,6 +40,6 @@ export function Collapsible({ trigger, children, indicator, ...props }: Collapsi
       <CollapsiblePanel>
         <CollapsiblePanelContent>{children}</CollapsiblePanelContent>
       </CollapsiblePanel>
-    </CollapsibleRoot>
+    </CollapsibleElement>
   );
 }

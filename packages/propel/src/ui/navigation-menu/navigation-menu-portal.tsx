@@ -1,6 +1,9 @@
 import { NavigationMenu as BaseNavigationMenu } from "@base-ui/react/navigation-menu";
 
-export type NavigationMenuPortalProps = BaseNavigationMenu.Portal.Props;
+export type NavigationMenuPortalProps = Omit<
+  BaseNavigationMenu.Portal.Props,
+  "className" | "style"
+>;
 
 /**
  * Portals the positioned popup out to the end of `document.body`. Maps 1:1 to

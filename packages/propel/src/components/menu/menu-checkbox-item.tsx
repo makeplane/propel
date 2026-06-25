@@ -3,8 +3,8 @@ import type * as React from "react";
 import { useControllableState } from "../../hooks/use-controllable-state/index";
 import { CheckboxVisual } from "../../ui/checkbox/index";
 import {
-  MenuCheckboxItem as MenuCheckboxItemRoot,
-  type MenuCheckboxItemProps as MenuCheckboxItemRootProps,
+  MenuCheckboxItem as MenuCheckboxItemElement,
+  type MenuCheckboxItemProps as MenuCheckboxItemElementProps,
   MenuItemContent,
   MenuItemControl,
   MenuItemIcon,
@@ -13,11 +13,9 @@ import {
   MenuItemTitleRow,
 } from "../../ui/menu";
 
-export type MenuCheckboxItemProps = MenuCheckboxItemRootProps & {
+export type MenuCheckboxItemProps = MenuCheckboxItemElementProps & {
   /** Leading content shown after the checkbox. */
   inlineStartNode?: React.ReactNode;
-  /** The primary text of the row. */
-  label?: React.ReactNode;
   /** Trailing content. */
   inlineEndNode?: React.ReactNode;
 };
@@ -28,7 +26,6 @@ export type MenuCheckboxItemProps = MenuCheckboxItemRootProps & {
  */
 export function MenuCheckboxItem({
   inlineStartNode,
-  label,
   inlineEndNode,
   checked,
   defaultChecked,
@@ -42,7 +39,7 @@ export function MenuCheckboxItem({
   });
 
   return (
-    <MenuCheckboxItemRoot
+    <MenuCheckboxItemElement
       checked={checked}
       defaultChecked={defaultChecked}
       onCheckedChange={(next, details) => {
@@ -57,10 +54,10 @@ export function MenuCheckboxItem({
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
-          <MenuItemTitle>{label ?? children}</MenuItemTitle>
+          <MenuItemTitle>{children}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
       {inlineEndNode != null ? <MenuItemMeta>{inlineEndNode}</MenuItemMeta> : null}
-    </MenuCheckboxItemRoot>
+    </MenuCheckboxItemElement>
   );
 }

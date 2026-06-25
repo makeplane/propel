@@ -5,22 +5,18 @@ import { expect, fn } from "storybook/test";
 import { Toggle, ToggleIcon } from "../toggle/index";
 import { ToggleGroup } from "./index";
 
-// UI-tier story: composes the atomic `ToggleGroup` with atomic `Toggle` items. The group
-// manages single/multi-select state + roving focus and sizes every toggle via its
-// `magnitude` (each `Toggle` inherits it through context). The components-tier story uses
-// the ready-made re-exports.
+// UI-tier story: the atomic `ToggleGroup` (single/multi-select state + roving focus) composed with
+// atomic `Toggle` items. `ToggleGroup` is a single element; the shared-`magnitude` context is wired
+// here explicitly (the components-tier `ToggleGroup` does this via its provider) so every `Toggle`
+// inherits one size.
 const meta = {
   title: "UI/ToggleGroup",
   component: ToggleGroup,
   subcomponents: { Toggle, ToggleIcon },
-  args: { magnitude: "md" },
   parameters: {
     a11y: {
       // Base UI's ToggleGroup renders `role="group"` with `aria-orientation`, which axe's
-      // aria-allowed-attr flags because `aria-orientation` isn't in the allowed attribute
-      // set for `role="group"`. This is Base UI's intended roving-focus markup, not invalid
-      // intent, so suppress just this rule (mirrors the menu.stories aria-required-children
-      // precedent).
+      // aria-allowed-attr flags. This is Base UI's intended roving-focus markup, so suppress it.
       config: { rules: [{ id: "aria-allowed-attr", enabled: false }] },
     },
   },
@@ -31,20 +27,20 @@ type Story = StoryObj<typeof meta>;
 
 /** A single-select group of three alignment toggles. */
 export const Default: Story = {
-  args: { magnitude: "md", defaultValue: ["left"], onValueChange: fn() },
+  args: { defaultValue: ["left"], onValueChange: fn() },
   render: (args) => (
     <ToggleGroup {...args} aria-label="Text alignment">
-      <Toggle value="left" aria-label="Align left">
+      <Toggle magnitude="md" value="left" aria-label="Align left">
         <ToggleIcon>
           <AlignLeft />
         </ToggleIcon>
       </Toggle>
-      <Toggle value="center" aria-label="Align center">
+      <Toggle magnitude="md" value="center" aria-label="Align center">
         <ToggleIcon>
           <AlignCenter />
         </ToggleIcon>
       </Toggle>
-      <Toggle value="right" aria-label="Align right">
+      <Toggle magnitude="md" value="right" aria-label="Align right">
         <ToggleIcon>
           <AlignRight />
         </ToggleIcon>
@@ -66,15 +62,15 @@ export const Default: Story = {
 /** `multiple` lets more than one toggle stay pressed. */
 export const Multiple: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { magnitude: "md", multiple: true, defaultValue: [] },
+  args: { multiple: true, defaultValue: [] },
   render: (args) => (
     <ToggleGroup {...args} aria-label="Text formatting">
-      <Toggle value="bold" aria-label="Bold">
+      <Toggle magnitude="md" value="bold" aria-label="Bold">
         <ToggleIcon>
           <AlignLeft />
         </ToggleIcon>
       </Toggle>
-      <Toggle value="italic" aria-label="Italic">
+      <Toggle magnitude="md" value="italic" aria-label="Italic">
         <ToggleIcon>
           <AlignCenter />
         </ToggleIcon>

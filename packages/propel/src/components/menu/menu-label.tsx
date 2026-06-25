@@ -1,13 +1,13 @@
 import type * as React from "react";
 
 import {
-  MenuLabel as MenuLabelRoot,
+  MenuLabel as MenuLabelElement,
   MenuLabelMeta,
-  type MenuLabelProps as MenuLabelRootProps,
+  type MenuLabelProps as MenuLabelElementProps,
   MenuLabelTitle,
 } from "../../ui/menu";
 
-export type MenuLabelProps = MenuLabelRootProps & {
+export type MenuLabelProps = MenuLabelElementProps & {
   /** Optional inline-end content on the heading row. */
   inlineEndNode?: React.ReactNode;
   children?: React.ReactNode;
@@ -16,9 +16,9 @@ export type MenuLabelProps = MenuLabelRootProps & {
 /** A non-interactive section heading for a group of menu items. */
 export function MenuLabel({ inlineEndNode, children, ...props }: MenuLabelProps) {
   return (
-    <MenuLabelRoot {...props}>
+    <MenuLabelElement {...props}>
       <MenuLabelTitle>{children}</MenuLabelTitle>
       {inlineEndNode != null ? <MenuLabelMeta>{inlineEndNode}</MenuLabelMeta> : null}
-    </MenuLabelRoot>
+    </MenuLabelElement>
   );
 }

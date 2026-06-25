@@ -45,7 +45,13 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <AlertDialog>
-      <Button variant="primary" tone="danger" magnitude="xl" render={<AlertDialogTrigger />}>
+      <Button
+        sizing="hug"
+        prominence="primary"
+        tone="danger"
+        magnitude="xl"
+        render={<AlertDialogTrigger />}
+      >
         Delete project
       </Button>
       <AlertDialogContent>
@@ -62,10 +68,22 @@ export const Default: Story = {
           </AlertDialogIntro>
         </AlertDialogHeader>
         <AlertDialogActions>
-          <Button variant="secondary" tone="neutral" magnitude="xl" render={<AlertDialogClose />}>
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="xl"
+            render={<AlertDialogClose />}
+          >
             Cancel
           </Button>
-          <Button variant="primary" tone="danger" magnitude="xl" render={<AlertDialogClose />}>
+          <Button
+            sizing="hug"
+            prominence="primary"
+            tone="danger"
+            magnitude="xl"
+            render={<AlertDialogClose />}
+          >
             Delete
           </Button>
         </AlertDialogActions>

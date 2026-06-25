@@ -2,14 +2,14 @@ import { X } from "lucide-react";
 import type * as React from "react";
 
 import {
-  Badge as BadgeRoot,
-  type BadgeProps as BadgeRootProps,
+  Badge as BadgeElement,
+  type BadgeProps as BadgeElementProps,
   BadgeDismiss,
   BadgeIcon,
   BadgeLabel,
 } from "../../ui/badge";
 
-export type BadgeProps = BadgeRootProps & {
+export type BadgeProps = BadgeElementProps & {
   /** The badge label — text, a count, or any inline content. */
   children?: React.ReactNode;
   /**
@@ -38,7 +38,7 @@ export function Badge({
   ...props
 }: BadgeProps) {
   return (
-    <BadgeRoot {...props}>
+    <BadgeElement {...props}>
       {inlineStartNode ? <BadgeIcon>{inlineStartNode}</BadgeIcon> : null}
       <BadgeLabel>{children}</BadgeLabel>
       {onDismiss ? (
@@ -46,6 +46,6 @@ export function Badge({
           <X />
         </BadgeDismiss>
       ) : null}
-    </BadgeRoot>
+    </BadgeElement>
   );
 }

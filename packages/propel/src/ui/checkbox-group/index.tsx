@@ -1,5 +1,1 @@
-export {
-  CheckboxGroup,
-  type CheckboxGroupDensity,
-  type CheckboxGroupProps,
-} from "./checkbox-group";
+export * from "./checkbox-group";

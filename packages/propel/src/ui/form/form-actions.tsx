@@ -1,18 +1,21 @@
-import type { VariantProps } from "class-variance-authority";
-import type * as React from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 
-import { formActionsVariants } from "./variants";
+import { type FormActionsVariantProps, formActionsVariants } from "./variants";
 
-type FormActionsVariantProps = Required<VariantProps<typeof formActionsVariants>>;
+export type { FormActionsVariantProps } from "./variants";
 
-export type FormActionsProps = Omit<React.ComponentPropsWithoutRef<"div">, "className" | "style"> &
+export type FormActionsProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
   FormActionsVariantProps;
 
 /**
  * The actions bar at the bottom of a form (submit plus any secondary actions). Its position is
- * always the same; the `variant` axis selects right-aligned inline buttons (`"inline"`) or
+ * always the same; the `layout` axis selects right-aligned inline buttons (`"inline"`) or
  * full-width stretched buttons (`"stretch"`).
  */
-export function FormActions({ variant, ...props }: FormActionsProps) {
-  return <div className={formActionsVariants({ variant })} {...props} />;
+export function FormActions({ layout, render, ...props }: FormActionsProps) {
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: formActionsVariants({ layout }),
+  };
+  return useRender({ defaultTagName: "div", render, props: mergeProps(defaultProps, props) });
 }

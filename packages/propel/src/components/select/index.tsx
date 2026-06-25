@@ -1,4 +1,4 @@
-export { SelectContent, type SelectContentProps } from "./select-content";
+export * from "./select-content";
 // Re-export the atomic select parts so a full select can be assembled from one entry.
 export {
   Select,

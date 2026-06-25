@@ -1,4 +1,4 @@
-export { Badge, type BadgeProps } from "./badge";
+export * from "./badge";
 // Re-export the atomic parts so a full badge is composable from this convenience.
 export {
   BadgeDismiss,
@@ -9,5 +9,4 @@ export {
   type BadgeLabelProps,
   type BadgeMagnitude,
   type BadgeTone,
-  type BadgeVariant,
 } from "../../ui/badge";

@@ -1,4 +1,6 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
+
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const radioVariants = cva(
   cx(
@@ -22,3 +24,7 @@ export const radioGroupVariants = cva("flex flex-col", {
     },
   },
 });
+
+export type RadioGroupDensity = NonNullable<VariantProps<typeof radioGroupVariants>["density"]>;
+
+export type RadioGroupVariantProps = StrictVariantProps<typeof radioGroupVariants>;

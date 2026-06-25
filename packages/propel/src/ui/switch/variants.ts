@@ -1,4 +1,6 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
+
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Magnitudes follow the Figma "Toggle" Size scale (track w×h, px):
 //   L 30×18 → lg · M 27×16 → md · S 23×14 → sm.
@@ -44,3 +46,6 @@ export const switchThumbVariants = cva(
     "rtl:data-checked:-translate-x-(--switch-thumb-travel)",
   ),
 );
+
+export type SwitchMagnitude = NonNullable<VariantProps<typeof switchVariants>["magnitude"]>;
+export type SwitchVariantProps = StrictVariantProps<typeof switchVariants>;

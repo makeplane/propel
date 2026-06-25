@@ -118,8 +118,8 @@ function ExampleForm({ onFormSubmit }: ExampleFormProps) {
           defaultChecked
         />
       </FormBody>
-      <FormActions variant="inline">
-        <Button type="submit" variant="secondary" tone="neutral" magnitude="md">
+      <FormActions layout="inline">
+        <Button sizing="hug" type="submit" prominence="secondary" tone="neutral" magnitude="md">
           Submit
         </Button>
       </FormActions>

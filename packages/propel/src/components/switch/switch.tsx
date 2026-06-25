@@ -1,12 +1,12 @@
 import {
-  Switch as SwitchRoot,
-  type SwitchProps as SwitchRootProps,
+  Switch as SwitchElement,
+  type SwitchProps as SwitchElementProps,
   SwitchThumb,
 } from "../../ui/switch";
 
 export type { SwitchMagnitude } from "../../ui/switch";
 
-export type SwitchProps = SwitchRootProps;
+export type SwitchProps = SwitchElementProps;
 
 /**
  * The ready-made switch: composes the atomic `Switch` track with its `SwitchThumb`. The track owns
@@ -19,8 +19,8 @@ export type SwitchProps = SwitchRootProps;
  */
 export function Switch({ magnitude, ...props }: SwitchProps) {
   return (
-    <SwitchRoot magnitude={magnitude} {...props}>
+    <SwitchElement magnitude={magnitude} {...props}>
       <SwitchThumb />
-    </SwitchRoot>
+    </SwitchElement>
   );
 }

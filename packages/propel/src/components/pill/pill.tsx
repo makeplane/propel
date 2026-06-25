@@ -2,14 +2,14 @@ import { LoaderCircle } from "lucide-react";
 import type * as React from "react";
 
 import {
-  PillButton as PillButtonRoot,
-  type PillButtonProps as PillButtonRootProps,
+  PillButton as PillButtonElement,
+  type PillButtonProps as PillButtonElementProps,
   PillIcon,
   PillLabel,
   PillSpinner,
 } from "../../ui/pill";
 
-export type PillButtonProps = PillButtonRootProps & {
+export type PillButtonProps = PillButtonElementProps & {
   /** A node before the label (inline-start), sized to the pill's `--node-size`. */
   inlineStartNode?: React.ReactNode;
   /** A node after the label (inline-end), sized to the pill's `--node-size`. */
@@ -32,7 +32,7 @@ export function PillButton({
   ...props
 }: PillButtonProps) {
   return (
-    <PillButtonRoot
+    <PillButtonElement
       {...props}
       disabled={disabled || loading}
       focusableWhenDisabled={loading ? true : undefined}
@@ -47,6 +47,6 @@ export function PillButton({
       ) : null}
       <PillLabel>{children}</PillLabel>
       {!loading && inlineEndNode ? <PillIcon>{inlineEndNode}</PillIcon> : null}
-    </PillButtonRoot>
+    </PillButtonElement>
   );
 }

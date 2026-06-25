@@ -1,17 +1,11 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import { type VariantProps } from "class-variance-authority";
 
-import { menuPopupVariants } from "./variants";
+import { type MenuPopupVariantProps, menuPopupVariants } from "./variants";
 
-type MenuPopupSurface = NonNullable<VariantProps<typeof menuPopupVariants>["surface"]>;
+export type { MenuPopupVariantProps } from "./variants";
 
-export type MenuPopupProps = Omit<BaseMenu.Popup.Props, "className" | "style"> & {
-  /**
-   * Whether the popup paints its own chrome. `raised` is the standalone elevated surface; `inset`
-   * is the padded list inside an `OverlayPanel` shell.
-   */
-  surface: MenuPopupSurface;
-};
+export type MenuPopupProps = Omit<BaseMenu.Popup.Props, "className" | "style"> &
+  MenuPopupVariantProps;
 
 /** The menu surface that contains the items. Wraps `Menu.Popup` 1:1. */
 export function MenuPopup({ surface, ...props }: MenuPopupProps) {

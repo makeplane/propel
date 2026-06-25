@@ -59,10 +59,10 @@ export const Default: Story = {
           <MenubarTriggerLabel>File</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent width="sm">
-          <MenuItem variant="default" inlineStartNode={<FilePlus />} label="New file" />
-          <MenuItem variant="default" inlineStartNode={<FolderOpen />} label="Open…" />
+          <MenuItem inlineStartNode={<FilePlus />}>New file</MenuItem>
+          <MenuItem inlineStartNode={<FolderOpen />}>Open…</MenuItem>
           <MenuSeparator />
-          <MenuItem variant="default" inlineStartNode={<Save />} label="Save" />
+          <MenuItem inlineStartNode={<Save />}>Save</MenuItem>
         </MenuContent>
       </Menu>
       <Menu>
@@ -73,11 +73,11 @@ export const Default: Story = {
           <MenubarTriggerLabel>Edit</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent width="sm">
-          <MenuItem variant="default" inlineStartNode={<Undo2 />} label="Undo" />
-          <MenuItem variant="default" inlineStartNode={<Redo2 />} label="Redo" />
+          <MenuItem inlineStartNode={<Undo2 />}>Undo</MenuItem>
+          <MenuItem inlineStartNode={<Redo2 />}>Redo</MenuItem>
           <MenuSeparator />
-          <MenuItem variant="default" inlineStartNode={<Scissors />} label="Cut" />
-          <MenuItem variant="default" inlineStartNode={<Copy />} label="Copy" />
+          <MenuItem inlineStartNode={<Scissors />}>Cut</MenuItem>
+          <MenuItem inlineStartNode={<Copy />}>Copy</MenuItem>
         </MenuContent>
       </Menu>
     </Menubar>

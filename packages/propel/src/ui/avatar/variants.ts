@@ -1,6 +1,7 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const avatarImageVariants = cva("size-full object-cover");
 
@@ -78,3 +79,12 @@ export const avatarIconVariants = cva(cx(nodeSlotClass, "text-icon-placeholder")
     },
   },
 });
+
+type AvatarVariantConfig = VariantProps<typeof avatarVariants>;
+export type AvatarMagnitude = NonNullable<AvatarVariantConfig["magnitude"]>;
+export type AvatarVariantProps = StrictVariantProps<typeof avatarVariants>;
+
+export type AvatarFallbackTone = NonNullable<VariantProps<typeof avatarFallbackVariants>["tone"]>;
+export type AvatarFallbackVariantProps = StrictVariantProps<typeof avatarFallbackVariants>;
+
+export type AvatarIconVariantProps = StrictVariantProps<typeof avatarIconVariants>;

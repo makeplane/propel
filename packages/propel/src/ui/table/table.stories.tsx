@@ -40,7 +40,6 @@ const meta = {
     TableCellContent,
     TableCellSlot,
   },
-  args: { variant: "table" },
 } satisfies Meta<typeof Table>;
 
 export default meta;
@@ -56,14 +55,14 @@ const PEOPLE: Person[] = [
 
 const COLUMNS = ["Name", "Display name", "Email", "Account type"];
 
-/** The standard `table` variant: rounded outer border with row dividers only. */
+/** The standard `table` mode: rounded outer border with row dividers only. */
 export const Default: Story = {
-  render: (args) => (
-    <Table {...args}>
+  render: () => (
+    <Table>
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead key={c}>
+            <TableHead mode="table" key={c}>
               <TableHeadTitle>{c}</TableHeadTitle>
             </TableHead>
           ))}
@@ -72,7 +71,7 @@ export const Default: Story = {
       <TableBody>
         {PEOPLE.map((person) => (
           <TableRow key={person.email}>
-            <TableCell>
+            <TableCell mode="table">
               <TableCellLayout>
                 <TableCellSlot>
                   <Avatar magnitude="xs" role="img" aria-label={person.name}>
@@ -82,17 +81,17 @@ export const Default: Story = {
                 <TableCellContent>{person.name}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell>
+            <TableCell mode="table">
               <TableCellLayout>
                 <TableCellContent>{person.display}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell>
+            <TableCell mode="table">
               <TableCellLayout>
                 <TableCellContent>{person.email}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell>
+            <TableCell mode="table">
               <TableCellLayout>
                 <TableCellContent>{person.role}</TableCellContent>
               </TableCellLayout>
@@ -109,15 +108,14 @@ export const Default: Story = {
   },
 };
 
-/** The denser `spreadsheet` variant: every cell is fully bordered to form a grid. */
+/** The denser `spreadsheet` mode: every cell is fully bordered to form a grid. */
 export const Spreadsheet: Story = {
-  args: { variant: "spreadsheet" },
-  render: (args) => (
-    <Table {...args}>
+  render: () => (
+    <Table>
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead key={c}>
+            <TableHead mode="spreadsheet" key={c}>
               <TableHeadTitle>{c}</TableHeadTitle>
             </TableHead>
           ))}
@@ -126,22 +124,22 @@ export const Spreadsheet: Story = {
       <TableBody>
         {PEOPLE.map((person) => (
           <TableRow key={person.email}>
-            <TableCell>
+            <TableCell mode="spreadsheet">
               <TableCellLayout>
                 <TableCellContent>{person.name}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell>
+            <TableCell mode="spreadsheet">
               <TableCellLayout>
                 <TableCellContent>{person.display}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell>
+            <TableCell mode="spreadsheet">
               <TableCellLayout>
                 <TableCellContent>{person.email}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell>
+            <TableCell mode="spreadsheet">
               <TableCellLayout>
                 <TableCellContent>{person.role}</TableCellContent>
               </TableCellLayout>
@@ -163,15 +161,15 @@ type Sort = keyof typeof sortGlyph;
  * cycles none → asc → desc.
  */
 export const Sortable: Story = {
-  render: function SortableStory(args) {
+  render: function SortableStory() {
     const [sort, setSort] = React.useState<Sort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
     const SortGlyph = sortGlyph[sort];
     return (
-      <Table {...args}>
+      <Table>
         <TableHeader>
           <TableRow>
-            <TableHead aria-sort={ariaSort[sort]}>
+            <TableHead mode="table" aria-sort={ariaSort[sort]}>
               <TableHeadSortTrigger onClick={cycle}>
                 <TableHeadTitle>Name</TableHeadTitle>
                 <TableHeadSortIndicator>
@@ -179,7 +177,7 @@ export const Sortable: Story = {
                 </TableHeadSortIndicator>
               </TableHeadSortTrigger>
             </TableHead>
-            <TableHead>
+            <TableHead mode="table">
               <TableHeadTitle>Email</TableHeadTitle>
             </TableHead>
           </TableRow>
@@ -187,12 +185,12 @@ export const Sortable: Story = {
         <TableBody>
           {PEOPLE.map((person) => (
             <TableRow key={person.email}>
-              <TableCell>
+              <TableCell mode="table">
                 <TableCellLayout>
                   <TableCellContent>{person.name}</TableCellContent>
                 </TableCellLayout>
               </TableCell>
-              <TableCell>
+              <TableCell mode="table">
                 <TableCellLayout>
                   <TableCellContent>{person.email}</TableCellContent>
                 </TableCellLayout>
@@ -220,21 +218,21 @@ export const Sortable: Story = {
  */
 export const PinnedColumn: Story = {
   parameters: { controls: { disable: true } },
-  render: (args) => (
+  render: () => (
     <div className="w-100">
-      <Table {...args}>
+      <Table>
         <TableHeader>
           <TableRow>
-            <TableHead pinned="start">
+            <TableHead mode="table" pinned="start">
               <TableHeadTitle>Name</TableHeadTitle>
             </TableHead>
-            <TableHead>
+            <TableHead mode="table">
               <TableHeadTitle>Display name</TableHeadTitle>
             </TableHead>
-            <TableHead>
+            <TableHead mode="table">
               <TableHeadTitle>Email</TableHeadTitle>
             </TableHead>
-            <TableHead>
+            <TableHead mode="table">
               <TableHeadTitle>Account type</TableHeadTitle>
             </TableHead>
           </TableRow>
@@ -242,7 +240,7 @@ export const PinnedColumn: Story = {
         <TableBody>
           {PEOPLE.map((person) => (
             <TableRow key={person.email}>
-              <TableCell pinned="start">
+              <TableCell mode="table" pinned="start">
                 <TableCellLayout>
                   <TableCellSlot>
                     <Avatar magnitude="xs" role="img" aria-label={person.name}>
@@ -252,17 +250,17 @@ export const PinnedColumn: Story = {
                   <TableCellContent>{person.name}</TableCellContent>
                 </TableCellLayout>
               </TableCell>
-              <TableCell>
+              <TableCell mode="table">
                 <TableCellLayout>
                   <TableCellContent>{person.display}</TableCellContent>
                 </TableCellLayout>
               </TableCell>
-              <TableCell>
+              <TableCell mode="table">
                 <TableCellLayout>
                   <TableCellContent>{person.email}</TableCellContent>
                 </TableCellLayout>
               </TableCell>
-              <TableCell>
+              <TableCell mode="table">
                 <TableCellLayout>
                   <TableCellContent>{person.role}</TableCellContent>
                 </TableCellLayout>

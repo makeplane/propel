@@ -1,5 +1,7 @@
 import { cva } from "class-variance-authority";
 
+import { type StrictVariantProps } from "../../internal/variant-props";
+
 // The `<fieldset>` element is the group's vertical stack: legend, optional description, then the
 // body of contained fields, separated by a consistent gap. Per the design spec the legend sits at
 // the top and the internal spacing is always the same; only the border visibility is adjustable.
@@ -30,3 +32,7 @@ export const fieldsetDescriptionVariants = cva("text-13 text-tertiary");
 // between child fields is always the same, so it is baked in here — callers no longer stack fields
 // with an ad-hoc wrapper. `min-w-0` lets fields shrink instead of overflowing the group.
 export const fieldsetBodyVariants = cva("flex min-w-0 flex-col gap-4");
+
+export type FieldsetVariantProps = StrictVariantProps<typeof fieldsetVariants>;
+
+export type FieldsetLegendVariantProps = StrictVariantProps<typeof fieldsetLegendVariants>;

@@ -12,10 +12,6 @@ export type MenuItemSubmenuIndicatorProps = Omit<
  * RTL. Decorative (the trigger carries `aria-haspopup`), so it is `aria-hidden`. Renders and sizes
  * its single child; pass the glyph as `children`.
  */
-export function MenuItemSubmenuIndicator({ children, ...props }: MenuItemSubmenuIndicatorProps) {
-  return (
-    <span aria-hidden className={menuItemSubmenuIndicatorVariants()} {...props}>
-      {children}
-    </span>
-  );
+export function MenuItemSubmenuIndicator(props: MenuItemSubmenuIndicatorProps) {
+  return <span aria-hidden className={menuItemSubmenuIndicatorVariants()} {...props} />;
 }

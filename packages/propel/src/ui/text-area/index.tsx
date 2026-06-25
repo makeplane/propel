@@ -1,9 +1,2 @@
-export { TextAreaBox, type TextAreaBoxProps } from "./text-area-box";
-export {
-  TextArea,
-  type TextAreaMagnitude,
-  type TextAreaProps,
-  type TextAreaResize,
-  type TextAreaSurface,
-  type TextAreaTone,
-} from "./text-area";
+export * from "./text-area-box";
+export * from "./text-area";

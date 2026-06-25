@@ -1,4 +1,6 @@
-import { cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
+
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const checkboxGroupVariants = cva("flex flex-col", {
   variants: {
@@ -8,3 +10,8 @@ export const checkboxGroupVariants = cva("flex flex-col", {
     },
   },
 });
+
+export type CheckboxGroupDensity = NonNullable<
+  VariantProps<typeof checkboxGroupVariants>["density"]
+>;
+export type CheckboxGroupVariantProps = StrictVariantProps<typeof checkboxGroupVariants>;

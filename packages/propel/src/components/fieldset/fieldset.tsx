@@ -1,15 +1,15 @@
 import type * as React from "react";
 
 import {
-  Fieldset as FieldsetRoot,
-  type FieldsetProps as FieldsetRootProps,
+  Fieldset as FieldsetElement,
+  type FieldsetProps as FieldsetElementProps,
   FieldsetBody,
   FieldsetDescription,
   FieldsetLegend,
   type FieldsetLegendProps,
 } from "../../ui/fieldset";
 
-export type FieldsetProps = FieldsetRootProps & {
+export type FieldsetProps = FieldsetElementProps & {
   /** Supporting text shown below the legend. */
   description?: React.ReactNode;
   /** The legend text labelling the group. */
@@ -33,10 +33,10 @@ export function Fieldset({
   ...props
 }: FieldsetProps) {
   return (
-    <FieldsetRoot {...props}>
+    <FieldsetElement {...props}>
       <FieldsetLegend magnitude={legendMagnitude}>{legend}</FieldsetLegend>
       {description != null ? <FieldsetDescription>{description}</FieldsetDescription> : null}
       <FieldsetBody>{children}</FieldsetBody>
-    </FieldsetRoot>
+    </FieldsetElement>
   );
 }

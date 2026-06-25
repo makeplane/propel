@@ -46,7 +46,6 @@ const meta = {
   args: {
     tone: "neutral",
     magnitude: "md",
-    variant: "solid",
   },
   parameters: {
     design: {

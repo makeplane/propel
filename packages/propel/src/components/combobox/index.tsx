@@ -1,4 +1,4 @@
-export { ComboboxContent, type ComboboxContentProps } from "./combobox-content";
+export * from "./combobox-content";
 // Re-export the atomic combobox parts so a full combobox can be assembled from one entry.
 export {
   Combobox,

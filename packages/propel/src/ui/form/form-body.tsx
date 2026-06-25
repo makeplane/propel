@@ -1,11 +1,11 @@
-import type { VariantProps } from "class-variance-authority";
-import type * as React from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 
-import { formBodyVariants } from "./variants";
+import { type FormBodyVariantProps, formBodyVariants } from "./variants";
 
-type FormBodyVariantProps = Required<VariantProps<typeof formBodyVariants>>;
+export type { FormBodyVariantProps } from "./variants";
 
-export type FormBodyProps = Omit<React.ComponentPropsWithoutRef<"div">, "className" | "style"> &
+export type FormBodyProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
   FormBodyVariantProps;
 
 /**
@@ -13,6 +13,7 @@ export type FormBodyProps = Omit<React.ComponentPropsWithoutRef<"div">, "classNa
  * `layout` axis selects single-column (`"single"`) or a wrapping multi-column (`"multi"`)
  * arrangement.
  */
-export function FormBody({ layout, ...props }: FormBodyProps) {
-  return <div className={formBodyVariants({ layout })} {...props} />;
+export function FormBody({ layout, render, ...props }: FormBodyProps) {
+  const defaultProps: useRender.ElementProps<"div"> = { className: formBodyVariants({ layout }) };
+  return useRender({ defaultTagName: "div", render, props: mergeProps(defaultProps, props) });
 }

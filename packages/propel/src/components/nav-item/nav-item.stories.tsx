@@ -32,7 +32,10 @@ const meta = {
     NavItemHeaderIndicator,
     NavItemPanel,
   },
-  args: { magnitude: "lg" },
+  args: {
+    level: 1,
+    magnitude: "lg",
+  },
   parameters: {
     design: {
       type: "figma",
@@ -56,7 +59,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <nav className="flex flex-col gap-1">
-      <NavItem magnitude="lg">
+      <NavItem level={1} magnitude="lg">
         <NavItemIcon>
           <Inbox />
         </NavItemIcon>
@@ -65,7 +68,7 @@ export const Default: Story = {
           <NavItemCount>6</NavItemCount>
         </NavItemTrailing>
       </NavItem>
-      <NavItem magnitude="lg" active>
+      <NavItem level={1} magnitude="lg" active>
         <NavItemIcon>
           <LayoutGrid />
         </NavItemIcon>
@@ -131,7 +134,7 @@ export const ToggleSection: Story = {
 export const Active: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <NavItem magnitude="lg" active>
+    <NavItem level={1} magnitude="lg" active>
       <NavItemIcon>
         <Inbox />
       </NavItemIcon>

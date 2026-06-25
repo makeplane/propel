@@ -1,5 +1,5 @@
-export { AccordionPanel, type AccordionPanelProps } from "./accordion-panel";
-export { AccordionTrigger, type AccordionTriggerProps } from "./accordion-trigger";
+export * from "./accordion-panel";
+export * from "./accordion-trigger";
 // Re-export the atomic structural parts so a full accordion is importable from this convenience.
 export {
   Accordion,
