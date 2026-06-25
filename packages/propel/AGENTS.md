@@ -91,16 +91,34 @@ like a button) and `ButtonAnchor` (`<button>`+link text — an action that looks
 A value that's a content condition should be **derived**, not a prop; a capability should be a
 **boolean**. (Shared appearance across the split lives in `internal/`, e.g. `control-chrome`.)
 
-6d. **Suffix = what it presents as; prefix = its distinguishing trait (the real element, when that
-differs from the look).** A part _of_ a component takes the component as a **prefix** — `ButtonIcon`,
-`ButtonLabel`, `AccordionTrigger`, `MenuItem` (these mirror Base UI's anatomy, 6a). A component that
-**presents as / looks like X** takes **X as the suffix** (its visual family), with the qualifier as
-the **prefix**: `IconButton` (looks like a Button; the trait is icon-only), `AnchorButton` (looks like
-a Button — button chrome — but is really an `<a>`, so it navigates), `ButtonAnchor` (looks like a
-link/`Anchor`, but is really a `<button>`, so it acts). So a navigation `<a>` dressed as a button =
-**`AnchorButton`**; a `<button>` dressed as an inline link = **`ButtonAnchor`**. The suffix names the
-look; the prefix names what makes it differ. A kind-of has its own parts, prefixed with its full name:
-`AnchorButton` → `AnchorButtonIcon`, `AnchorButtonSpinner`.
+6d. **Part-of → prefix; specialization → `<qualifier><visual-family>` (the family it presents as is
+the SUFFIX).** This one is error-prone — apply it literally:
+
+- A part _of_ a component takes the component as a **prefix**: `ButtonIcon`, `ButtonLabel`,
+  `AccordionTrigger`, `MenuItem` (mirrors Base UI anatomy, 6a).
+- A standalone component is named **`<qualifier><family>`** where the **suffix = the visual family it
+  presents as** (what it _looks like_) and the **prefix = what distinguishes it** — a content trait
+  (`IconButton` = icon-only Button) or, when the element differs from the look, **the real element**.
+
+Two-step decision (do them in this order):
+
+1. **What does it look like?** → that is the **suffix** (the family). _Never_ put the element in the suffix.
+2. **What distinguishes it** (a content trait, or its real element when that differs)? → the **prefix**.
+
+For element×look families it reduces to **`<element><look>`** — prefix = the element it IS, suffix =
+the look it wears; when they coincide it collapses to one word:
+
+| it IS a…                | looks like a **Button** | looks like a **link** |
+| ----------------------- | ----------------------- | --------------------- |
+| **`<button>`** (action) | `Button`                | `ButtonAnchor`        |
+| **`<a>`** (navigation)  | `AnchorButton`          | `Anchor`              |
+
+**The trap I kept falling into:** a navigation `<a>` dressed as a button is **`AnchorButton`** —
+`Anchor` (its real `<a>` element) + `Button` (the look) — **not** `ButtonAnchor`. Conversely a
+`<button>` dressed as an inline link is **`ButtonAnchor`** — `Button` (real `<button>`) + `Anchor`
+(the look). Picking the suffix from the _look_, not the element, is what makes it consistent with
+`IconButton`. A specialization has its own parts, prefixed with its full name: `AnchorButton` →
+`AnchorButtonIcon`, `AnchorButtonSpinner`.
 
 7. **React context is a `components` concern — definition, provider, AND consumption.** A `ui`
    part never calls `useContext`; it takes the shared value (`variant`/`magnitude`/`density`/…) as
