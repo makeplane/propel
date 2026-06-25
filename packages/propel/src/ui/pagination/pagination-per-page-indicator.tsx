@@ -5,7 +5,10 @@ import { paginationPerPageIndicatorVariants } from "./variants";
 export type PaginationPerPageIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The chevron icon to render (e.g. a Lucide `ChevronDown`), sized to `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The chevron inside the per-page trigger. Renders whatever icon you pass (sized to `--node-size`,
