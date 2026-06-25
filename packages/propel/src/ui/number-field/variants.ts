@@ -1,12 +1,14 @@
 import { type VariantProps, cva, cx } from "class-variance-authority";
 
+import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 import { nodeSlotClass } from "../../internal/node-slot";
 
 export const numberFieldRootVariants = cva("flex min-w-0 flex-col gap-1.5");
 export const numberFieldGroupVariants = cva(
   cx(
-    "flex w-fit items-center overflow-hidden rounded-md border-sm border-subtle bg-layer-2",
-    "focus-within:border-accent-strong focus-within:ring-2 focus-within:ring-accent-strong/20",
+    // Wraps a separate focusable input → `focus: within`.
+    fieldControlSurfaceVariants({ tone: "neutral", focus: "within" }),
+    "flex w-fit items-center overflow-hidden rounded-md",
     "data-disabled:cursor-not-allowed data-disabled:border-subtle data-disabled:bg-layer-2",
   ),
 );

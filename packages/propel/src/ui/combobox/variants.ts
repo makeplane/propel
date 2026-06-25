@@ -1,10 +1,13 @@
 import { cva, cx } from "class-variance-authority";
 
+import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
+
 export const comboboxLabelVariants = cva("text-14 font-medium text-primary");
 export const comboboxInputGroupVariants = cva(
   cx(
-    "flex min-h-9 min-w-64 items-center gap-2 rounded-md border-sm border-subtle bg-layer-2 px-3",
-    "focus-within:border-accent-strong focus-within:ring-2 focus-within:ring-accent-strong/20",
+    // Wraps a separate focusable input → `focus: within`.
+    fieldControlSurfaceVariants({ tone: "neutral", focus: "within" }),
+    "flex min-h-9 min-w-64 items-center gap-2 rounded-md px-3",
     "data-disabled:cursor-not-allowed data-disabled:text-disabled",
   ),
 );

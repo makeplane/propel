@@ -1,5 +1,6 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
@@ -78,10 +79,13 @@ export const inputFieldContentVariants = cva("flex flex-col", {
   },
 });
 
+// The input "box" composes the shared field-control surface; it adds only its own geometry
+// (rounded-md, px, magnitude py), hover, transition, and the descendant-`:disabled` muting (the
+// disabled state lives on the inner `<input>`, so it's keyed via `has-[:disabled]`). The `neutral`
+// tone keeps the accent focus ring (`focus: within`); `danger` opts the ring out (`focus: none`).
 export const inputFieldBoxVariants = cva(
   cx(
-    "flex w-full items-center gap-1.5 bg-layer-2 transition-[color,background-color,border-color,box-shadow]",
-    "border-sm",
+    "flex w-full items-center gap-1.5 transition-[color,background-color,border-color,box-shadow]",
     "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
     "rounded-md px-3",
   ),
@@ -89,11 +93,11 @@ export const inputFieldBoxVariants = cva(
     variants: {
       tone: {
         neutral: cx(
-          "border-subtle hover:border-subtle-1 hover:bg-layer-2-hover",
-          "focus-within:border-accent-strong focus-within:bg-layer-2 focus-within:ring-2 focus-within:ring-accent-strong/20",
-          "focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
+          fieldControlSurfaceVariants({ tone: "neutral", focus: "within" }),
+          "hover:border-subtle-1 hover:bg-layer-2-hover",
+          "focus-within:bg-layer-2 focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
         ),
-        danger: "border-danger-strong",
+        danger: fieldControlSurfaceVariants({ tone: "danger", focus: "none" }),
       },
       magnitude: {
         md: "py-1.5",
@@ -108,22 +112,23 @@ type InputFieldBoxVariantProps = VariantProps<typeof inputFieldBoxVariants>;
 
 export type InputTone = NonNullable<InputFieldBoxVariantProps["tone"]>;
 
+// Same surface as the input box; the textarea differs only in shape (rounded-lg, fixed py-2,
+// items-stretch so the control fills the taller box) and has no magnitude axis.
 export const textAreaFieldBoxVariants = cva(
   cx(
-    "flex w-full items-center gap-1.5 bg-layer-2 transition-[color,background-color,border-color,box-shadow]",
-    "border-sm",
+    "flex w-full items-stretch gap-1.5 transition-[color,background-color,border-color,box-shadow]",
     "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
-    "items-stretch rounded-lg py-2",
+    "rounded-lg py-2",
   ),
   {
     variants: {
       tone: {
         neutral: cx(
-          "border-subtle hover:border-subtle-1 hover:bg-layer-2-hover",
-          "focus-within:border-accent-strong focus-within:bg-layer-2 focus-within:ring-2 focus-within:ring-accent-strong/20",
-          "focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
+          fieldControlSurfaceVariants({ tone: "neutral", focus: "within" }),
+          "hover:border-subtle-1 hover:bg-layer-2-hover",
+          "focus-within:bg-layer-2 focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
         ),
-        danger: "border-danger-strong",
+        danger: fieldControlSurfaceVariants({ tone: "danger", focus: "none" }),
       },
     },
   },
