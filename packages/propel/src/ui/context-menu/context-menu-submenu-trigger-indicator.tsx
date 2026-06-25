@@ -5,7 +5,10 @@ import { contextMenuSubmenuTriggerIndicatorVariants } from "./variants";
 export type ContextMenuSubmenuTriggerIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The caret icon to render (e.g. a Lucide `ChevronRight`), sized to the row's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The submenu caret region at a `ContextMenuSubmenuTrigger`'s inline-end. Renders whatever icon you

@@ -5,7 +5,10 @@ import { contextMenuItemLabelVariants } from "./variants";
 export type ContextMenuItemLabelProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The row's label text. */
+  children?: React.ReactNode;
+};
 
 /**
  * The label region of a menu row. Grows to fill the row so trailing regions (shortcut, indicator,
