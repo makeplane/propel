@@ -5,7 +5,10 @@ import { tableHeadSortTriggerVariants } from "./variants";
 export type TableHeadSortTriggerProps = Omit<
   React.ComponentPropsWithoutRef<"button">,
   "className" | "style" | "type"
->;
+> & {
+  /** The trigger's contents — a `TableHeadTitle` and a trailing `TableHeadSortIndicator`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The sort control inside a sortable `TableHead`: a `<button>` wrapping the `TableHeadTitle` and a
