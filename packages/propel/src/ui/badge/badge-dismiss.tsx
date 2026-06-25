@@ -8,6 +8,8 @@ export type BadgeDismissProps = Omit<
 > & {
   /** Accessible name — required because the control is an icon (e.g. "Remove label"). */
   "aria-label": string;
+  /** The dismiss glyph to render (e.g. a Lucide `X`), sized to the badge's `--node-size`. */
+  children?: React.ReactNode;
 };
 
 /**
