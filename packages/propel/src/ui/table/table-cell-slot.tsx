@@ -5,7 +5,10 @@ import { tableCellSlotVariants } from "./variants";
 export type TableCellSlotProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The bare node to render (an icon or `Avatar`), sized to the cell's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * A leading/trailing slot beside cell content (an icon or an `Avatar`). Sizes its single child to
