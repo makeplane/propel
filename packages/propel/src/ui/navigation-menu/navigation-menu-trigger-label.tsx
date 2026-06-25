@@ -5,7 +5,10 @@ import { navigationMenuTriggerLabelVariants } from "./variants";
 export type NavigationMenuTriggerLabelProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The trigger's label text. */
+  children?: React.ReactNode;
+};
 
 /**
  * The trigger's text label, sitting beside the disclosure `NavigationMenuIcon`. Splitting the label
