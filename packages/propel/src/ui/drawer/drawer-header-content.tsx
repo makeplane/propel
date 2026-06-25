@@ -5,7 +5,10 @@ import { drawerHeaderContentVariants } from "./variants";
 export type DrawerHeaderContentProps = Omit<
   React.ComponentPropsWithoutRef<"div">,
   "className" | "style"
->;
+> & {
+  /** The stacked heading block — a `DrawerTitle` and an optional `DrawerDescription`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The stacked title + description inside a `DrawerHeader`. Groups them at the header's inline-start
