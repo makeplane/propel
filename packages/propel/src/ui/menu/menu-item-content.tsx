@@ -5,7 +5,10 @@ import { menuItemContentVariants } from "./variants";
 export type MenuItemContentProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The row's text column — a `MenuItemTitleRow` and an optional `MenuItemDescription`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The text column of a row. Grows to fill the row so trailing nodes/indicators sit at the

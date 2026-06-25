@@ -5,7 +5,10 @@ import { menuItemSubmenuIndicatorVariants } from "./variants";
 export type MenuItemSubmenuIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The submenu chevron to render (e.g. a Lucide `ChevronRight`), sized to the row's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The chevron slot marking a submenu trigger, pinned at the row's inline-end and mirrored under
