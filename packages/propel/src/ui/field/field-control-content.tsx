@@ -1,15 +1,15 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { fieldControlContentVariants } from "./variants";
+import { type FieldControlContentVariantProps, fieldControlContentVariants } from "./variants";
+
+export type { FieldControlContentVariantProps } from "./variants";
 
 export type FieldControlContentProps = Omit<
   useRender.ComponentProps<"div">,
   "className" | "style"
-> & {
-  /** Label placement: `vertical` (label above) | `horizontal` (label beside). */
-  orientation: "vertical" | "horizontal";
-};
+> &
+  FieldControlContentVariantProps;
 
 /** The control + helper-text column of `InputField`. */
 export function FieldControlContent({ orientation, render, ...props }: FieldControlContentProps) {

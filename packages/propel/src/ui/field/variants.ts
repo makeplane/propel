@@ -53,6 +53,8 @@ export const fieldDescriptionVariants = cva("text-tertiary", {
   },
 });
 
+export type FieldDescriptionVariantProps = StrictVariantProps<typeof fieldDescriptionVariants>;
+
 export const fieldErrorVariants = cva("text-danger-primary", {
   variants: {
     magnitude: {
@@ -63,6 +65,8 @@ export const fieldErrorVariants = cva("text-danger-primary", {
   },
 });
 
+export type FieldErrorVariantProps = StrictVariantProps<typeof fieldErrorVariants>;
+
 // The control + helper-text column shared by the input and textarea fields (orientation-aware).
 export const fieldControlContentVariants = cva("flex flex-col", {
   variants: {
@@ -72,6 +76,10 @@ export const fieldControlContentVariants = cva("flex flex-col", {
     },
   },
 });
+
+export type FieldControlContentVariantProps = StrictVariantProps<
+  typeof fieldControlContentVariants
+>;
 
 export const fieldItemVariants = cva(
   cx(

@@ -1,11 +1,11 @@
 import { Field as BaseField } from "@base-ui/react/field";
 
-import { inputFieldVariants } from "./variants";
+import { type InputFieldVariantProps, inputFieldVariants } from "./variants";
 
-export type InputFieldProps = Omit<BaseField.Root.Props, "className" | "style"> & {
-  /** Label placement: `vertical` (label above) | `horizontal` (label beside). */
-  orientation: "vertical" | "horizontal";
-};
+export type { InputFieldVariantProps } from "./variants";
+
+export type InputFieldProps = Omit<BaseField.Root.Props, "className" | "style"> &
+  InputFieldVariantProps;
 
 /** The Base UI `Field.Root` chrome for `InputField`, with orientation-aware layout. */
 export function InputField({ orientation, ...props }: InputFieldProps) {
