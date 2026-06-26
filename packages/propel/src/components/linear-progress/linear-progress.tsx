@@ -41,7 +41,7 @@ export function LinearProgress({
   ...props
 }: LinearProgressProps) {
   return (
-    <LinearProgressElement layout="linear" value={value} {...props}>
+    <LinearProgressElement value={value} {...props}>
       <LinearProgressTrack magnitude={magnitude}>
         <LinearProgressIndicator tone={tone} />
       </LinearProgressTrack>

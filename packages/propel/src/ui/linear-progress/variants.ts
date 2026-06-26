@@ -2,9 +2,7 @@ import { cva } from "class-variance-authority";
 
 import { type StrictVariantProps } from "../../internal/variant-props";
 
-export const linearProgressVariants = cva("", {
-  variants: { layout: { linear: "flex w-full items-center gap-2" } },
-});
+export const linearProgressVariants = cva("flex w-full items-center gap-2");
 
 export const linearProgressTrackVariants = cva(
   "relative min-w-0 flex-1 overflow-hidden rounded-full bg-layer-3-selected",
@@ -39,7 +37,6 @@ export const linearProgressLabelVariants = cva("text-13 font-medium text-seconda
 // lives on the fill bar. Neutral also avoids low-contrast amber/green readouts on a neutral surface.
 export const linearProgressValueVariants = cva("text-12 font-medium text-secondary tabular-nums");
 
-export type LinearProgressVariantProps = StrictVariantProps<typeof linearProgressVariants>;
 export type LinearProgressTrackVariantProps = StrictVariantProps<
   typeof linearProgressTrackVariants
 >;
