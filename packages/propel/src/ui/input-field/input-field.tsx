@@ -2,7 +2,6 @@ import { Field as BaseField } from "@base-ui/react/field";
 
 import { type InputFieldVariantProps, inputFieldVariants } from "./variants";
 
-export type { InputFieldVariantProps } from "./variants";
 
 export type InputFieldProps = Omit<BaseField.Root.Props, "className" | "style"> &
   InputFieldVariantProps;

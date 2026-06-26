@@ -3,7 +3,6 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type FieldLabelGroupVariantProps, fieldLabelGroupVariants } from "./variants";
 
-export type { FieldLabelGroupVariantProps } from "./variants";
 
 export type FieldLabelGroupProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
   FieldLabelGroupVariantProps;
