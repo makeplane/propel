@@ -2,23 +2,24 @@ import type * as React from "react";
 
 import {
   Combobox,
-  ComboboxClear,
   ComboboxEmpty,
   ComboboxInput,
   ComboboxInputGroup,
   ComboboxItem,
-  ComboboxItemIndicator,
   ComboboxList,
   ComboboxPopup,
   ComboboxPortal,
   ComboboxPositioner,
   type ComboboxProps,
-  ComboboxTrigger,
 } from "../../ui/combobox/index";
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
 import { FieldLabel } from "../../ui/field/field-label";
 import type { FieldMagnitude } from "../../ui/field/variants";
+// Ready-made parts that supply a default icon when no children are given (defaults are a `components` concern).
+import { ComboboxClear } from "../combobox/combobox-clear";
+import { ComboboxItemIndicator } from "../combobox/combobox-item-indicator";
+import { ComboboxTrigger } from "../combobox/combobox-trigger";
 import { FieldHelperText } from "../field/field-helper-text";
 
 export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items"> & {

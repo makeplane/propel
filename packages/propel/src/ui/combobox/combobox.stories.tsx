@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Check, ChevronsUpDown, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
 import { Field, FieldError, FieldLabel } from "../field/index";
@@ -51,8 +52,12 @@ export const Default: Story = {
         <FieldLabel magnitude="md">Region</FieldLabel>
         <ComboboxInputGroup>
           <ComboboxInput placeholder="e.g. eu-central-1" />
-          <ComboboxClear />
-          <ComboboxTrigger />
+          <ComboboxClear>
+            <X aria-hidden />
+          </ComboboxClear>
+          <ComboboxTrigger>
+            <ChevronsUpDown aria-hidden />
+          </ComboboxTrigger>
         </ComboboxInputGroup>
         <ComboboxPortal>
           <ComboboxPositioner>
@@ -61,7 +66,9 @@ export const Default: Story = {
               <ComboboxList>
                 {REGIONS.map((region) => (
                   <ComboboxItem key={region} value={region}>
-                    <ComboboxItemIndicator />
+                    <ComboboxItemIndicator>
+                      <Check aria-hidden />
+                    </ComboboxItemIndicator>
                     <span>{region}</span>
                   </ComboboxItem>
                 ))}

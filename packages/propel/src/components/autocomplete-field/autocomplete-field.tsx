@@ -2,7 +2,6 @@ import type * as React from "react";
 
 import {
   Autocomplete,
-  AutocompleteClear,
   AutocompleteEmpty,
   AutocompleteInput,
   AutocompleteInputGroup,
@@ -12,8 +11,9 @@ import {
   AutocompletePortal,
   AutocompletePositioner,
   type AutocompleteProps,
-  AutocompleteTrigger,
 } from "../../ui/autocomplete/index";
+import { AutocompleteClear } from "../autocomplete/autocomplete-clear";
+import { AutocompleteTrigger } from "../autocomplete/autocomplete-trigger";
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
 import { FieldLabel } from "../../ui/field/field-label";

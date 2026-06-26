@@ -14,7 +14,7 @@ export const autocompleteInputVariants = cva(
   "min-w-0 flex-1 bg-transparent text-14 text-primary outline-none placeholder:text-placeholder disabled:text-disabled",
 );
 export const autocompleteButtonVariants = cva(
-  "flex size-6 items-center justify-center rounded-sm text-icon-secondary outline-none hover:bg-layer-transparent-hover focus-visible:bg-layer-transparent-hover data-disabled:text-disabled",
+  "flex size-6 items-center justify-center rounded-sm text-icon-secondary outline-none hover:bg-layer-transparent-hover focus-visible:bg-layer-transparent-hover data-disabled:text-disabled [&>svg]:size-4",
 );
 export const autocompletePositionerVariants = cva("z-50 outline-none");
 export const autocompletePopupVariants = cva(
