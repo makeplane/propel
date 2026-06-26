@@ -27,9 +27,12 @@ from tiers below it, never above. `internal/` is shared implementation usable by
   `button.tsx` must not `export { ButtonIcon } from "./button-icon"`); the index stars each file.
 - **Never `export *` from `ui` inside a `components` index** — it would re-export the `ui` element
   the components ready-made replaces (name collision). Cross-tier re-exports stay **explicit**.
-- **Don't `export *` from `./variants`** — it holds cvas (not public). A part's public variant
-  types are re-exported by its own component file (`export type { … } from "./variants"`), which the
-  index then stars. Renames (`export { X as Y }`) also stay explicit.
+- **Don't `export *` from `./variants`** — it holds cvas and the `<Name>VariantProps` cva-props
+  bundle, which stay **private**: a part imports `<Name>VariantProps` for its own `Props` (rule 10)
+  but **never re-exports it**, and a cva is **never** re-exported (not by the part, not by the index,
+  not across tiers). Only the **per-axis** types (`<Name>Magnitude`, `<Name>Tone`, …) are public —
+  re-exported by the part's component file (`export type { <Name>Magnitude } from "./variants"`),
+  which the index then stars. Renames (`export { X as Y }`) also stay explicit.
 
 ## Hard rules
 
