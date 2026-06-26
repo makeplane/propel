@@ -1,4 +1,4 @@
-export { OTPField, type OTPFieldProps } from "./otp-field";
+export * from "./otp-field";
 export {
   OTPFieldInput,
   type OTPFieldInputProps,

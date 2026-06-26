@@ -1,4 +1,4 @@
-export { Collapsible, type CollapsibleProps } from "./collapsible";
+export * from "./collapsible";
 // Re-export the atomic structural parts so a custom collapsible is importable from this convenience.
 export {
   CollapsiblePanel,

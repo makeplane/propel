@@ -48,7 +48,13 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Drawer>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
+      <Button
+        sizing="hug"
+        prominence="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DrawerTrigger />}
+      >
         Open details
       </Button>
       <DrawerPanel side="end">
@@ -58,7 +64,7 @@ export const Default: Story = {
             <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
           </DrawerHeaderContent>
           <IconButton
-            variant="ghost"
+            prominence="ghost"
             tone="neutral"
             magnitude="lg"
             aria-label="Close"
@@ -69,10 +75,16 @@ export const Default: Story = {
         </DrawerHeader>
         <DrawerBody>Panel body content goes here.</DrawerBody>
         <DrawerFooter>
-          <Button variant="ghost" tone="neutral" magnitude="lg" render={<DrawerClose />}>
+          <Button
+            sizing="hug"
+            prominence="ghost"
+            tone="neutral"
+            magnitude="lg"
+            render={<DrawerClose />}
+          >
             Cancel
           </Button>
-          <Button variant="primary" tone="neutral" magnitude="lg">
+          <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg">
             Save
           </Button>
         </DrawerFooter>
@@ -99,7 +111,13 @@ export const Default: Story = {
 export const StartSide: Story = {
   render: () => (
     <Drawer>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
+      <Button
+        sizing="hug"
+        prominence="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DrawerTrigger />}
+      >
         Open navigation
       </Button>
       <DrawerPanel side="start">
@@ -108,7 +126,7 @@ export const StartSide: Story = {
             <DrawerTitle>Navigation</DrawerTitle>
           </DrawerHeaderContent>
           <IconButton
-            variant="ghost"
+            prominence="ghost"
             tone="neutral"
             magnitude="lg"
             aria-label="Close"
@@ -145,7 +163,13 @@ export const EscapeCloses: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Drawer>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DrawerTrigger />}>
+      <Button
+        sizing="hug"
+        prominence="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DrawerTrigger />}
+      >
         Open filters
       </Button>
       <DrawerPanel side="end">

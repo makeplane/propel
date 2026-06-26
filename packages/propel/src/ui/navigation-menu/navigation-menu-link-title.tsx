@@ -8,8 +8,8 @@ export type NavigationMenuLinkTitleProps = Omit<
 >;
 
 /**
- * The primary line of a `variant="card"` `NavigationMenuLink`: the navigable label. Pairs with an
- * optional `NavigationMenuLinkDescription` below it.
+ * The primary line of a `presentation="card"` `NavigationMenuLink`: the navigable label. Pairs with
+ * an optional `NavigationMenuLinkDescription` below it.
  */
 export function NavigationMenuLinkTitle(props: NavigationMenuLinkTitleProps) {
   return <span className={navigationMenuLinkTitleVariants()} {...props} />;

@@ -1,6 +1,7 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Badge is the small rounded pill of inline text (a status tag, a "Paid"/"Free"
 // label). Per the designer spec on the Badge issue, every part's static chrome lives
@@ -15,7 +16,6 @@ import { nodeSlotClass } from "../../internal/node-slot";
 // "Depends (adjustable)" — exposed as required cva variants:
 //   - magnitude: S / Base / Large (height, horizontal padding, text size, node size)
 //   - tone: color/sentiment (neutral, grey, brand, info, …)
-//   - variant: Solid (outline listed as a potential future value — axis introduced now)
 export const badgeVariants = cva(
   "inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-full leading-none font-medium whitespace-nowrap",
   {
@@ -47,12 +47,6 @@ export const badgeVariants = cva(
         crimson: "bg-label-crimson-bg text-label-crimson-text",
         orange: "bg-label-orange-bg text-label-orange-text",
       },
-      // Figma Variant axis. Currently only "solid" (filled background) exists; "outline"
-      // is listed as a potential future value. The axis is introduced now so call sites
-      // are forward-compatible.
-      variant: {
-        solid: "",
-      },
     },
   },
 );
@@ -61,6 +55,11 @@ export const badgeVariants = cva(
 // its single child to the badge's `--node-size` (shared node-slot class) and inherits
 // the tone's text color so the icon tints to match — per the spec, "icon follows the
 // badge's size and color".
+type BadgeVariantConfig = VariantProps<typeof badgeVariants>;
+export type BadgeMagnitude = NonNullable<BadgeVariantConfig["magnitude"]>;
+export type BadgeTone = NonNullable<BadgeVariantConfig["tone"]>;
+export type BadgeVariantProps = StrictVariantProps<typeof badgeVariants>;
+
 export const badgeIconVariants = cva(nodeSlotClass);
 
 // The badge's text label. Single-line (the base already sets `whitespace-nowrap`); kept

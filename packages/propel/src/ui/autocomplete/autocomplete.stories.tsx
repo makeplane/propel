@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { ChevronsUpDown, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
 import { Field, FieldDescription, FieldError, FieldLabel } from "../field/index";
@@ -47,8 +48,12 @@ export const Default: Story = {
         <FieldLabel magnitude="md">Container image</FieldLabel>
         <AutocompleteInputGroup>
           <AutocompleteInput placeholder="e.g. docker.io/library/node:latest" />
-          <AutocompleteClear />
-          <AutocompleteTrigger />
+          <AutocompleteClear>
+            <X aria-hidden />
+          </AutocompleteClear>
+          <AutocompleteTrigger>
+            <ChevronsUpDown aria-hidden />
+          </AutocompleteTrigger>
         </AutocompleteInputGroup>
         <FieldDescription magnitude="md">Enter a registry URL with optional tags.</FieldDescription>
         <AutocompletePortal>

@@ -23,6 +23,9 @@ export const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"
     "inline-flex size-7 items-center justify-center rounded-md text-icon-tertiary hover:bg-layer-transparent-hover disabled:opacity-50",
   button_next:
     "inline-flex size-7 items-center justify-center rounded-md text-icon-tertiary hover:bg-layer-transparent-hover disabled:opacity-50",
+  // The nav chevron: 16px, mirrored in RTL. react-day-picker passes this class to its `Chevron`
+  // component (default or a custom one), so the icon needs no className of its own.
+  chevron: "size-4 rtl:-scale-x-100",
   month_grid: "border-collapse",
   weekdays: "flex",
   // Weekday column headers: body-sm-regular tertiary text on a 40px cell. The

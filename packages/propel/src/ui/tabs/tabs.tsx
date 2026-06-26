@@ -1,27 +1,16 @@
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 
-import { TabsVariantContext, type TabsVariant } from "./tabs-context";
-import { rootVariants } from "./variants";
+import { type TabsVariantProps, tabsVariants } from "./variants";
 
-export type { TabsVariant } from "./tabs-context";
+export type { TabsAppearance } from "./variants";
 
-export type TabsProps = Omit<BaseTabs.Root.Props, "className" | "style"> & {
-  /**
-   * Visual treatment (Figma variant). `contained` lifts the active tab onto a raised card inside a
-   * pill; `underline` slides a dark bar under it. Required, with no silent default, like the other
-   * essential axes (e.g. Switch `magnitude`).
-   */
-  variant: TabsVariant;
-};
+export type TabsProps = Omit<BaseTabs.Root.Props, "className" | "style"> & TabsVariantProps;
 
 /**
- * Root of a tab set. Groups a `TabsList` of `Tab`s with their `TabsPanel`s and tracks which tab is
- * active.
+ * Root of a tab set (Base UI `Tabs.Root`) — a single element. Groups a `TabsList` of `Tab`s with
+ * their `TabsPanel`s and tracks the active tab. The appearance-sharing context (so the list/tabs
+ * pick up the set's `appearance`) is the ready-made `components/tabs`.
  */
-export function Tabs({ variant, ...props }: TabsProps) {
-  return (
-    <TabsVariantContext.Provider value={variant}>
-      <BaseTabs.Root className={rootVariants({ variant })} {...props} />
-    </TabsVariantContext.Provider>
-  );
+export function Tabs({ appearance, ...props }: TabsProps) {
+  return <BaseTabs.Root className={tabsVariants({ appearance })} {...props} />;
 }

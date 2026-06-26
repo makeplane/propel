@@ -1,8 +1,12 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
-import { nodeSlotClass } from "../../internal/node-slot";
+import { type FieldControlTone } from "../../internal/field-control-surface";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 export type { InputMagnitude } from "../input/variants";
+
+/** Resting treatment of a bordered field control. Shared across controls. */
+export type InputTone = FieldControlTone;
 
 export const fieldVariants = cva("flex flex-col gap-1.5");
 
@@ -49,6 +53,8 @@ export const fieldDescriptionVariants = cva("text-tertiary", {
   },
 });
 
+export type FieldDescriptionVariantProps = StrictVariantProps<typeof fieldDescriptionVariants>;
+
 export const fieldErrorVariants = cva("text-danger-primary", {
   variants: {
     magnitude: {
@@ -59,16 +65,10 @@ export const fieldErrorVariants = cva("text-danger-primary", {
   },
 });
 
-export const inputFieldRootVariants = cva("flex gap-2", {
-  variants: {
-    orientation: {
-      vertical: "flex-col items-start",
-      horizontal: "flex-row items-start",
-    },
-  },
-});
+export type FieldErrorVariantProps = StrictVariantProps<typeof fieldErrorVariants>;
 
-export const inputFieldContentVariants = cva("flex flex-col", {
+// The control + helper-text column shared by the input and textarea fields (orientation-aware).
+export const fieldControlContentVariants = cva("flex flex-col", {
   variants: {
     orientation: {
       vertical: "w-full gap-1.5",
@@ -77,62 +77,9 @@ export const inputFieldContentVariants = cva("flex flex-col", {
   },
 });
 
-export const inputFieldBoxVariants = cva(
-  cx(
-    "flex w-full items-center gap-1.5 bg-layer-2 transition-[color,background-color,border-color,box-shadow]",
-    "border-sm",
-    "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
-    "rounded-md px-3",
-  ),
-  {
-    variants: {
-      tone: {
-        neutral: cx(
-          "border-subtle hover:border-subtle-1 hover:bg-layer-2-hover",
-          "focus-within:border-accent-strong focus-within:bg-layer-2 focus-within:ring-2 focus-within:ring-accent-strong/20",
-          "focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
-        ),
-        danger: "border-danger-strong",
-      },
-      magnitude: {
-        md: "py-1.5",
-        lg: "py-2",
-        xl: "py-3",
-      },
-    },
-  },
-);
-
-type InputFieldBoxVariantProps = VariantProps<typeof inputFieldBoxVariants>;
-
-export type InputTone = NonNullable<InputFieldBoxVariantProps["tone"]>;
-
-export const textAreaFieldBoxVariants = cva(
-  cx(
-    "flex w-full items-center gap-1.5 bg-layer-2 transition-[color,background-color,border-color,box-shadow]",
-    "border-sm",
-    "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
-    "items-stretch rounded-lg py-2",
-  ),
-  {
-    variants: {
-      tone: {
-        neutral: cx(
-          "border-subtle hover:border-subtle-1 hover:bg-layer-2-hover",
-          "focus-within:border-accent-strong focus-within:bg-layer-2 focus-within:ring-2 focus-within:ring-accent-strong/20",
-          "focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
-        ),
-        danger: "border-danger-strong",
-      },
-    },
-  },
-);
-
-// The decorative 16px node at the control's inline start/end. Sizes its single child
-// to `--node-size` (via the shared node-slot class) and tints it.
-export const inputFieldIconSlotVariants = cva(
-  cx(nodeSlotClass, "text-icon-secondary [--node-size:1rem]"),
-);
+export type FieldControlContentVariantProps = StrictVariantProps<
+  typeof fieldControlContentVariants
+>;
 
 export const fieldItemVariants = cva(
   cx(
@@ -150,3 +97,5 @@ export const fieldLabelGroupVariants = cva("flex flex-col gap-1", {
     },
   },
 });
+
+export type FieldLabelGroupVariantProps = StrictVariantProps<typeof fieldLabelGroupVariants>;

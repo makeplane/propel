@@ -1,17 +1,17 @@
 import type * as React from "react";
 
 import {
-  Meter as MeterRoot,
+  Meter as MeterElement,
   MeterHeader,
   MeterIndicator,
   MeterLabel,
   MeterTrack,
   MeterValue,
   type MeterIndicatorTone,
-  type MeterProps as MeterRootProps,
+  type MeterProps as MeterElementProps,
 } from "../../ui/meter";
 
-export type MeterProps = MeterRootProps & {
+export type MeterProps = MeterElementProps & {
   /**
    * Optional visible label rendered above the track (e.g. "Disk usage"). When omitted, provide an
    * `aria-label` so the gauge is still named for assistive tech.
@@ -134,7 +134,7 @@ export function Meter({
   const header = hasLabel || showValue;
 
   return (
-    <MeterRoot min={min} max={max} {...props}>
+    <MeterElement min={min} max={max} {...props}>
       {header ? (
         <MeterHeader>
           {hasLabel ? <MeterLabel>{label}</MeterLabel> : null}
@@ -144,6 +144,6 @@ export function Meter({
       <MeterTrack>
         <MeterIndicator tone={tone} />
       </MeterTrack>
-    </MeterRoot>
+    </MeterElement>
   );
 }

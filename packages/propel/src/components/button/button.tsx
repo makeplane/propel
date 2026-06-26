@@ -2,14 +2,14 @@ import { LoaderCircle } from "lucide-react";
 import type * as React from "react";
 
 import {
-  Button as ButtonRoot,
+  Button as ButtonElement,
   ButtonIcon,
   ButtonLabel,
-  type ButtonProps as ButtonRootProps,
+  type ButtonProps as ButtonElementProps,
   ButtonSpinner,
 } from "../../ui/button";
 
-export type ButtonProps = ButtonRootProps & {
+export type ButtonProps = ButtonElementProps & {
   /**
    * Node rendered before the label (inline-start). An icon, avatar, or any node; it is sized to the
    * button's `--node-size`. Decorative, kept out of the name.
@@ -41,7 +41,7 @@ export function Button({
   // `focusableWhenDisabled` while suppressing activation from pointer and keyboard.
   // A plain `disabled` prop remains the hard, non-focusable native disabled state.
   return (
-    <ButtonRoot
+    <ButtonElement
       {...props}
       disabled={disabled || loading}
       focusableWhenDisabled={loading ? true : undefined}
@@ -56,6 +56,6 @@ export function Button({
       ) : null}
       <ButtonLabel>{children}</ButtonLabel>
       {!loading && inlineEndNode ? <ButtonIcon>{inlineEndNode}</ButtonIcon> : null}
-    </ButtonRoot>
+    </ButtonElement>
   );
 }

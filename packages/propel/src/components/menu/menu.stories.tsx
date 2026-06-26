@@ -34,9 +34,9 @@ import {
   MenuLabel,
   MenuSearch,
   MenuSeparator,
-  MenuSub,
-  MenuSubContent,
-  MenuSubTrigger,
+  MenuSubmenu,
+  MenuSubmenuContent,
+  MenuSubmenuTrigger,
   MenuTrigger,
 } from "./index";
 
@@ -62,9 +62,9 @@ const meta = {
     MenuLabel,
     MenuSearch,
     MenuFooter,
-    MenuSub,
-    MenuSubTrigger,
-    MenuSubContent,
+    MenuSubmenu,
+    MenuSubmenuTrigger,
+    MenuSubmenuContent,
   },
 } satisfies Meta<typeof Menu>;
 
@@ -111,11 +111,12 @@ function resolveAccentPrimary() {
   return color;
 }
 
-// The presentational box inside a `menuitemcheckbox` row is the leading
-// `aria-hidden` span (CheckboxVisual). Returns its computed background-color.
+// The checkbox box inside a `menuitemcheckbox` row is the kept-mounted
+// `Menu.CheckboxItemIndicator` — an `aria-hidden` span carrying `data-checked` /
+// `data-unchecked`. Returns its computed background-color.
 function checkboxBoxBgColor(row: HTMLElement) {
-  const box = row.querySelector("span[aria-hidden]") as HTMLElement | null;
-  if (box == null) throw new Error("CheckboxVisual box not found in row");
+  const box = row.querySelector("[data-checked], [data-unchecked]") as HTMLElement | null;
+  if (box == null) throw new Error("checkbox indicator box not found in row");
   return getComputedStyle(box).backgroundColor;
 }
 
@@ -211,13 +212,13 @@ export const Status: Story = {
           {visible.map((s) => (
             <MenuItem
               key={s.key}
-              variant="default"
               inlineStartNode={s.icon}
-              label={s.label}
               selected={selected === s.key}
               closeOnClick={false}
               onClick={() => setSelected(s.key)}
-            />
+            >
+              {s.label}
+            </MenuItem>
           ))}
         </MenuContent>
       </Menu>
@@ -259,20 +260,19 @@ export const Labels: Story = {
             // (Figma 64-626): the sticky MenuSearch already draws its own bottom
             // rule, so the "Add label" row mounts directly beneath it with no extra line.
             <MenuItem
-              variant="default"
               inlineStartNode={<Plus className="text-icon-secondary" />}
-              label={`Add label "${trimmed}"`}
               closeOnClick={false}
-            />
+            >{`Add label "${trimmed}"`}</MenuItem>
           ) : null}
           {visible.map((l) => (
             <MenuCheckboxItem
               key={l.key}
               inlineStartNode={<ColorSwatch className={l.color} />}
-              label={l.label}
               checked={Boolean(checked[l.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [l.key]: next }))}
-            />
+            >
+              {l.label}
+            </MenuCheckboxItem>
           ))}
         </MenuContent>
       </Menu>
@@ -307,29 +307,27 @@ export const ActionMenu: Story = {
     <Menu>
       <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
       <MenuContent width="sm">
-        <MenuItem variant="default" inlineStartNode={<Pencil />} label="Edit" />
-        <MenuItem variant="default" inlineStartNode={<Copy />} label="Make a copy" />
-        <MenuItem variant="default" inlineStartNode={<ExternalLink />} label="Open in new tab" />
+        <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
+        <MenuItem inlineStartNode={<Copy />}>Make a copy</MenuItem>
+        <MenuItem inlineStartNode={<ExternalLink />}>Open in new tab</MenuItem>
         <MenuItem
-          variant="default"
           inlineStartNode={<Link2 />}
-          label="Copy link"
           inlineEndNode={<span className="text-12 text-tertiary">⌘L</span>}
-        />
+        >
+          Copy link
+        </MenuItem>
         <MenuSeparator />
         <MenuItem
           inlineStartNode={<Trash2 />}
-          label="Archive"
-          variant="with-description"
           description="Only completed or cancelled work items can be archived"
           disabled
-        />
+        >
+          Archive
+        </MenuItem>
         <MenuSeparator />
-        <MenuItem
-          variant="default"
-          inlineStartNode={<Trash2 className="text-danger-primary" />}
-          label={<span className="text-danger-primary">Delete</span>}
-        />
+        <MenuItem inlineStartNode={<Trash2 className="text-danger-primary" />}>
+          {<span className="text-danger-primary">Delete</span>}
+        </MenuItem>
       </MenuContent>
     </Menu>
   ),
@@ -395,22 +393,22 @@ export const Description: Story = {
         <MenuContent width="lg">
           <MenuItem
             inlineStartNode={<Lock />}
-            label="Private"
-            variant="with-description"
             description="Accessible only by invite"
             selected={selected === "private"}
             closeOnClick={false}
             onClick={() => setSelected("private")}
-          />
+          >
+            Private
+          </MenuItem>
           <MenuItem
             inlineStartNode={<Globe />}
-            label="Public"
-            variant="with-description"
             description="Anyone in the workspace except Guests can join"
             selected={selected === "public"}
             closeOnClick={false}
             onClick={() => setSelected("public")}
-          />
+          >
+            Public
+          </MenuItem>
         </MenuContent>
       </Menu>
     );
@@ -441,7 +439,7 @@ export const LabelAndFooterSemantics: Story = {
       <MenuContent width="sm" footer={<MenuFooter>Type to add another item.</MenuFooter>}>
         <MenuGroup>
           <MenuLabel inlineEndNode={<span>3</span>}>Section</MenuLabel>
-          <MenuItem variant="default" label="First item" />
+          <MenuItem>First item</MenuItem>
         </MenuGroup>
       </MenuContent>
     </Menu>
@@ -477,11 +475,12 @@ export const Assignees: Story = {
             <MenuCheckboxItem
               key={a.key}
               inlineStartNode={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
-              label={a.name}
               checked={Boolean(checked[a.key])}
               disabled={a.disabled}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [a.key]: next }))}
-            />
+            >
+              {a.name}
+            </MenuCheckboxItem>
           ))}
         </MenuContent>
       </Menu>
@@ -523,13 +522,13 @@ export const LanguagePicker: Story = {
           {visible.map((l) => (
             <MenuItem
               key={l.key}
-              variant="default"
-              label={l.label}
               secondaryText={l.secondary}
               selected={selected === l.key}
               closeOnClick={false}
               onClick={() => setSelected(l.key)}
-            />
+            >
+              {l.label}
+            </MenuItem>
           ))}
         </MenuContent>
       </Menu>
@@ -570,10 +569,11 @@ export const Priority: Story = {
             <MenuCheckboxItem
               key={p.key}
               inlineStartNode={p.icon}
-              label={p.label}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
-            />
+            >
+              {p.label}
+            </MenuCheckboxItem>
           ))}
         </MenuContent>
       </Menu>
@@ -595,10 +595,11 @@ const VIEW_ALL_PREVIEW = 2;
 
 /**
  * Regression — **CheckedFillVisible**. Locks in the fix for the invisible checked checkbox: a
- * tone-less `CheckboxVisual` (as rendered by `MenuCheckboxItem`) used to inherit no fill, so the
- * white check sat on a transparent box and disappeared. Toggling a row to CHECKED must give its box
- * a VISIBLE `bg-accent-primary` fill — a non-transparent background-color equal to the
- * accent-primary token. Not a documented demo; this is a test-only fixture.
+ * tone-less checkbox box (the `MenuCheckboxItemIndicator`, as rendered by `MenuCheckboxItem`) used
+ * to inherit no fill, so the white check sat on a transparent box and disappeared. Toggling a row
+ * to CHECKED must give its box a VISIBLE `bg-accent-primary` fill — a non-transparent
+ * background-color equal to the accent-primary token. Not a documented demo; this is a test-only
+ * fixture.
  */
 export const CheckedFillVisible: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -614,10 +615,11 @@ export const CheckedFillVisible: Story = {
             <MenuCheckboxItem
               key={p.key}
               inlineStartNode={p.icon}
-              label={p.label}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
-            />
+            >
+              {p.label}
+            </MenuCheckboxItem>
           ))}
         </MenuContent>
       </Menu>
@@ -722,8 +724,6 @@ export const Filters: Story = {
                       ARIA. The label is the section title; the chevron is the
                       inlineEndNode. */}
                   <MenuItem
-                    variant="default"
-                    label={section.title}
                     aria-expanded={!isCollapsed}
                     inlineEndNode={
                       isCollapsed ? (
@@ -734,16 +734,19 @@ export const Filters: Story = {
                     }
                     closeOnClick={false}
                     onClick={() => setCollapsed((c) => ({ ...c, [section.title]: !isCollapsed }))}
-                  />
+                  >
+                    {section.title}
+                  </MenuItem>
                   {!isCollapsed
                     ? visibleItems.map((i) => (
                         <MenuCheckboxItem
                           key={i.key}
                           inlineStartNode={i.icon}
-                          label={i.label}
                           checked={Boolean(checked[i.key])}
                           onCheckedChange={toggle(i.key)}
-                        />
+                        >
+                          {i.label}
+                        </MenuCheckboxItem>
                       ))
                     : null}
                   {/* "View all" is its own menuitem (keyboard-focusable like any row)
@@ -752,19 +755,18 @@ export const Filters: Story = {
                       "Show less". `aria-expanded` reflects the inline-expansion state. */}
                   {!isCollapsed && hasOverflow ? (
                     <MenuItem
-                      variant="default"
-                      emphasis="link"
                       aria-expanded={isExpandedAll}
-                      label={
-                        <span className="text-accent-primary">
-                          {isExpandedAll ? "Show less" : `View all (${items.length})`}
-                        </span>
-                      }
                       closeOnClick={false}
                       onClick={() =>
                         setExpandedAll((s) => ({ ...s, [section.title]: !isExpandedAll }))
                       }
-                    />
+                    >
+                      {
+                        <span className="text-accent-primary">
+                          {isExpandedAll ? "Show less" : `View all (${items.length})`}
+                        </span>
+                      }
+                    </MenuItem>
                   ) : null}
                 </MenuGroup>
               </React.Fragment>
@@ -824,7 +826,9 @@ export const EmptyState: Story = {
         <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
           {visible.length > 0 ? (
             visible.map((s) => (
-              <MenuItem key={s.key} variant="default" inlineStartNode={s.icon} label={s.label} />
+              <MenuItem key={s.key} inlineStartNode={s.icon}>
+                {s.label}
+              </MenuItem>
             ))
           ) : (
             <div className="px-2 py-2 text-13 text-tertiary">No matching results</div>
@@ -850,7 +854,7 @@ export const EmptyState: Story = {
 
 /**
  * Demo 10 — **Submenu**. Rows carry a trailing count `Badge` and a chevron; hovering one opens a
- * nested submenu of options (built on `MenuSub`).
+ * nested submenu of options (built on `MenuSubmenu`).
  */
 export const Submenu: Story = {
   parameters: {
@@ -874,71 +878,66 @@ export const Submenu: Story = {
         Filter by
       </MenuTrigger>
       <MenuContent width="sm">
-        <MenuSub>
-          <MenuSubTrigger
-            label="Priority"
+        <MenuSubmenu>
+          <MenuSubmenuTrigger
             inlineEndNode={
-              <Badge magnitude="sm" tone="neutral" variant="solid">
+              <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
             }
-          />
-          <MenuSubContent width="sm">
+          >
+            Priority
+          </MenuSubmenuTrigger>
+          <MenuSubmenuContent width="sm">
             {PRIORITIES.map((p) => (
-              <MenuItem
-                key={p.key}
-                variant="default"
-                inlineStartNode={p.icon}
-                label={p.label}
-                closeOnClick={false}
-              />
+              <MenuItem key={p.key} inlineStartNode={p.icon} closeOnClick={false}>
+                {p.label}
+              </MenuItem>
             ))}
-          </MenuSubContent>
-        </MenuSub>
-        <MenuSub>
-          <MenuSubTrigger
-            label="State"
+          </MenuSubmenuContent>
+        </MenuSubmenu>
+        <MenuSubmenu>
+          <MenuSubmenuTrigger
             inlineEndNode={
-              <Badge magnitude="sm" tone="neutral" variant="solid">
+              <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
             }
-          />
-          <MenuSubContent width="sm">
+          >
+            State
+          </MenuSubmenuTrigger>
+          <MenuSubmenuContent width="sm">
             {STATUSES.map((s) => (
-              <MenuItem
-                key={s.key}
-                variant="default"
-                inlineStartNode={s.icon}
-                label={s.label}
-                closeOnClick={false}
-              />
+              <MenuItem key={s.key} inlineStartNode={s.icon} closeOnClick={false}>
+                {s.label}
+              </MenuItem>
             ))}
-          </MenuSubContent>
-        </MenuSub>
-        <MenuSub>
-          <MenuSubTrigger
-            label="Assignee"
+          </MenuSubmenuContent>
+        </MenuSubmenu>
+        <MenuSubmenu>
+          <MenuSubmenuTrigger
             inlineEndNode={
-              <Badge magnitude="sm" tone="neutral" variant="solid">
+              <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
             }
-          />
-          <MenuSubContent width="sm">
+          >
+            Assignee
+          </MenuSubmenuTrigger>
+          <MenuSubmenuContent width="sm">
             {ASSIGNEES.map((a) => (
               <MenuItem
                 key={a.key}
-                variant="default"
                 inlineStartNode={
                   <Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />
                 }
-                label={a.name}
                 closeOnClick={false}
-              />
+              >
+                {a.name}
+              </MenuItem>
             ))}
-          </MenuSubContent>
-        </MenuSub>
+          </MenuSubmenuContent>
+        </MenuSubmenu>
       </MenuContent>
     </Menu>
   ),

@@ -1,4 +1,4 @@
-export { DrawerPanel, type DrawerPanelProps } from "./drawer-panel";
+export * from "./drawer-panel";
 // Re-export the atomic parts so a full drawer can be assembled from one entry.
 export {
   Drawer,

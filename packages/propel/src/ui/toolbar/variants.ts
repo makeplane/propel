@@ -1,7 +1,8 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
 import { surfaceVariants } from "../../internal/surface";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const toolbarVariants = cva("flex w-fit items-center gap-2 p-1.5 text-secondary", {
   variants: {
@@ -78,3 +79,17 @@ export const toolbarMenuTriggerLabelVariants = cva("text-13");
 // The disclosure caret at the trigger's inline-end. Sizes its single child to the
 // trigger's `--node-size` and tints it; a slot, like `ToolbarItemIcon`.
 export const toolbarMenuTriggerIndicatorVariants = cva(cx(nodeSlotClass, "text-icon-secondary"));
+
+/** Whether the toolbar draws its own surface (`raised`) or sits flush (`flat`). */
+export type ToolbarElevation = NonNullable<VariantProps<typeof toolbarVariants>["elevation"]>;
+
+/** How tightly the controls pack: `compact` (24px) or `comfortable` (28px). */
+export type ToolbarDensity = NonNullable<VariantProps<typeof toolbarVariants>["density"]>;
+
+export type ToolbarVariantProps = StrictVariantProps<typeof toolbarVariants>;
+
+export type ToolbarItemVariantProps = StrictVariantProps<typeof toolbarItemVariants>;
+
+export type ToolbarMenuTriggerButtonVariantProps = StrictVariantProps<
+  typeof toolbarMenuTriggerButtonVariants
+>;

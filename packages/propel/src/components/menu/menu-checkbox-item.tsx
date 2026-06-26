@@ -1,10 +1,10 @@
+import { Check } from "lucide-react";
 import type * as React from "react";
 
-import { useControllableState } from "../../hooks/use-controllable-state/index";
-import { CheckboxVisual } from "../../ui/checkbox/index";
 import {
-  MenuCheckboxItem as MenuCheckboxItemRoot,
-  type MenuCheckboxItemProps as MenuCheckboxItemRootProps,
+  MenuCheckboxItem as MenuCheckboxItemElement,
+  type MenuCheckboxItemProps as MenuCheckboxItemElementProps,
+  MenuCheckboxItemIndicator,
   MenuItemContent,
   MenuItemControl,
   MenuItemIcon,
@@ -13,54 +13,40 @@ import {
   MenuItemTitleRow,
 } from "../../ui/menu";
 
-export type MenuCheckboxItemProps = MenuCheckboxItemRootProps & {
+export type MenuCheckboxItemProps = MenuCheckboxItemElementProps & {
   /** Leading content shown after the checkbox. */
   inlineStartNode?: React.ReactNode;
-  /** The primary text of the row. */
-  label?: React.ReactNode;
   /** Trailing content. */
   inlineEndNode?: React.ReactNode;
 };
 
 /**
  * The ready-made toggleable multi-select menu row: composes the atomic `MenuCheckboxItem` and lays
- * out the propel `CheckboxVisual`, optional leading/trailing nodes, and the label.
+ * out the checkbox box (`MenuCheckboxItemIndicator` + a lucide `Check`), optional leading/trailing
+ * nodes, and the label. Base UI's `MenuCheckboxItem` tracks the checked state, so `checked` /
+ * `defaultChecked` / `onCheckedChange` forward straight to it and the indicator reads it from
+ * context.
  */
 export function MenuCheckboxItem({
   inlineStartNode,
-  label,
   inlineEndNode,
-  checked,
-  defaultChecked,
-  onCheckedChange,
   children,
   ...props
 }: MenuCheckboxItemProps) {
-  const [isChecked, setChecked] = useControllableState<boolean>({
-    value: checked,
-    defaultValue: defaultChecked ?? false,
-  });
-
   return (
-    <MenuCheckboxItemRoot
-      checked={checked}
-      defaultChecked={defaultChecked}
-      onCheckedChange={(next, details) => {
-        setChecked(next);
-        onCheckedChange?.(next, details);
-      }}
-      {...props}
-    >
+    <MenuCheckboxItemElement {...props}>
       <MenuItemControl>
-        <CheckboxVisual tone="neutral" checked={isChecked} disabled={props.disabled} />
+        <MenuCheckboxItemIndicator>
+          <Check aria-hidden />
+        </MenuCheckboxItemIndicator>
       </MenuItemControl>
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
-          <MenuItemTitle>{label ?? children}</MenuItemTitle>
+          <MenuItemTitle>{children}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
       {inlineEndNode != null ? <MenuItemMeta>{inlineEndNode}</MenuItemMeta> : null}
-    </MenuCheckboxItemRoot>
+    </MenuCheckboxItemElement>
   );
 }

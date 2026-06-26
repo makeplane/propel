@@ -1,40 +1,13 @@
-export { Pagination, type PaginationProps } from "./pagination";
-export { PaginationArrowButton, type PaginationArrowButtonProps } from "./pagination-arrow-button";
-export { PaginationEllipsis, type PaginationEllipsisProps } from "./pagination-ellipsis";
-export { PaginationItem, type PaginationItemProps } from "./pagination-item";
-export { PaginationList, type PaginationListProps } from "./pagination-list";
-export { PaginationPageButton, type PaginationPageButtonProps } from "./pagination-page-button";
-export { PaginationPerPage, type PaginationPerPageProps } from "./pagination-per-page";
-export {
-  PaginationPerPageIndicator,
-  type PaginationPerPageIndicatorProps,
-} from "./pagination-per-page-indicator";
-export {
-  PaginationPerPageLabel,
-  type PaginationPerPageLabelProps,
-} from "./pagination-per-page-label";
-export {
-  PaginationPerPageTrigger,
-  type PaginationPerPageTriggerProps,
-} from "./pagination-per-page-trigger";
-export { PaginationRange, type PaginationRangeProps } from "./pagination-range";
-export {
-  PaginationRangeCurrent,
-  type PaginationRangeCurrentProps,
-} from "./pagination-range-current";
-export { PaginationSpinner, type PaginationSpinnerProps } from "./pagination-spinner";
-export {
-  paginationArrowButtonVariants,
-  paginationEllipsisVariants,
-  paginationItemVariants,
-  paginationListVariants,
-  paginationPageButtonVariants,
-  paginationPerPageIndicatorVariants,
-  paginationPerPageLabelVariants,
-  paginationPerPageTriggerVariants,
-  paginationPerPageVariants,
-  paginationRangeCurrentVariants,
-  paginationRangeVariants,
-  paginationSpinnerVariants,
-  paginationVariants,
-} from "./variants";
+export * from "./pagination";
+export * from "./pagination-arrow-button";
+export * from "./pagination-ellipsis";
+export * from "./pagination-item";
+export * from "./pagination-list";
+export * from "./pagination-page-button";
+export * from "./pagination-per-page";
+export * from "./pagination-per-page-indicator";
+export * from "./pagination-per-page-label";
+export * from "./pagination-per-page-trigger";
+export * from "./pagination-range";
+export * from "./pagination-range-current";
+export * from "./pagination-spinner";

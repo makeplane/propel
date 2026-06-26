@@ -1,7 +1,7 @@
 import { Search } from "lucide-react";
 import type * as React from "react";
 
-import { MenuSearch as MenuSearchRoot, MenuSearchIcon, MenuSearchInput } from "../../ui/menu";
+import { MenuSearch as MenuSearchElement, MenuSearchIcon, MenuSearchInput } from "../../ui/menu";
 
 export type MenuSearchProps = Omit<
   React.ComponentPropsWithoutRef<"input">,
@@ -23,7 +23,7 @@ export function MenuSearch({
   ...props
 }: MenuSearchProps) {
   return (
-    <MenuSearchRoot>
+    <MenuSearchElement>
       <MenuSearchIcon>
         <Search />
       </MenuSearchIcon>
@@ -34,6 +34,6 @@ export function MenuSearch({
         placeholder={placeholder}
         {...props}
       />
-    </MenuSearchRoot>
+    </MenuSearchElement>
   );
 }

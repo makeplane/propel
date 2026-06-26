@@ -79,19 +79,17 @@ const PEOPLE: Person[] = [
 const COLUMNS = ["Name", "Display name", "Email", "Account type", "Billing status"];
 
 /**
- * The standard **Table** (`variant="table"`): a rounded outer border with row dividers only (no
+ * The standard **Table** (`mode="table"`): a rounded outer border with row dividers only (no
  * vertical rules). Header on `layer-1`, body on `surface-1`.
  */
 export const Default: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: (args) => (
     <Table {...args}>
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead key={c} variant="default">
-              {c}
-            </TableHead>
+            <TableHead key={c}>{c}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
@@ -123,19 +121,17 @@ export const Default: Story = {
 };
 
 /**
- * The denser **Spreadsheet** (`variant="spreadsheet"`): the same metrics, but every cell is fully
+ * The denser **Spreadsheet** (`mode="spreadsheet"`): the same metrics, but every cell is fully
  * bordered to form a grid (Figma "Spreadsheet").
  */
 export const Spreadsheet: Story = {
-  args: { variant: "spreadsheet" },
+  args: { mode: "spreadsheet" },
   render: (args) => (
     <Table {...args}>
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead key={c} variant="default">
-              {c}
-            </TableHead>
+            <TableHead key={c}>{c}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
@@ -165,11 +161,11 @@ export const Spreadsheet: Story = {
 };
 
 /**
- * A sortable header: `variant="sortable"` renders the label as a button with a sort chevron and
+ * A sortable header: `mode="sortable"` renders the label as a button with a sort chevron and
  * reflects the order through `aria-sort`. Clicking cycles none → asc → desc.
  */
 export const Sortable: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: (args) => {
     const [sort, setSort] = React.useState<TableHeadSort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
@@ -177,11 +173,11 @@ export const Sortable: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="sortable" sort={sort} onSort={cycle}>
+            <TableHead sortable sort={sort} onSort={cycle}>
               Name
             </TableHead>
-            <TableHead variant="default">Account type</TableHead>
-            <TableHead variant="default">Email</TableHead>
+            <TableHead>Account type</TableHead>
+            <TableHead>Email</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -222,7 +218,7 @@ const ROLES = ["Admin", "Member", "Guest"];
  * `selected` tint to mark the active cell. Works in both table variants.
  */
 export const EditableCells: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: function EditableCellsStory(args) {
     const [people, setPeople] = React.useState(PEOPLE);
     const [selectedEmail, setSelectedEmail] = React.useState<string | null>(null);
@@ -232,9 +228,9 @@ export const EditableCells: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="default">Name</TableHead>
-            <TableHead variant="default">Email</TableHead>
-            <TableHead variant="default">Account type</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Account type</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -260,11 +256,11 @@ export const EditableCells: Story = {
                   {ROLES.map((role) => (
                     <MenuItem
                       key={role}
-                      variant="default"
-                      label={role}
                       selected={role === person.role}
                       onClick={() => setRole(person.email, role)}
-                    />
+                    >
+                      {role}
+                    </MenuItem>
                   ))}
                 </MenuContent>
               </TableEditableCell>
@@ -304,7 +300,7 @@ const DIRECTORY: Person[] = Array.from({ length: 23 }, (_, i) => {
  * composing the two.
  */
 export const WithPagination: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: (args) => {
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
@@ -319,10 +315,10 @@ export const WithPagination: Story = {
         <Table {...args}>
           <TableHeader>
             <TableRow>
-              <TableHead variant="default">Name</TableHead>
-              <TableHead variant="default">Email</TableHead>
-              <TableHead variant="default">Account type</TableHead>
-              <TableHead variant="default">Billing status</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Account type</TableHead>
+              <TableHead>Billing status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -378,7 +374,7 @@ export const WithPagination: Story = {
  * from the row's own hover.
  */
 export const RichRows: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   parameters: { controls: { disable: true } },
   render: function RichRowsStory(args) {
     const [people, setPeople] = React.useState(PEOPLE);
@@ -388,10 +384,10 @@ export const RichRows: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="default">Name</TableHead>
-            <TableHead variant="default">Email</TableHead>
-            <TableHead variant="default">Account type</TableHead>
-            <TableHead variant="default">
+            <TableHead>Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Account type</TableHead>
+            <TableHead>
               <span className="sr-only">Actions</span>
             </TableHead>
           </TableRow>
@@ -412,18 +408,18 @@ export const RichRows: Story = {
                   {ROLES.map((role) => (
                     <MenuItem
                       key={role}
-                      variant="default"
-                      label={role}
                       selected={role === person.role}
                       onClick={() => setRole(person.email, role)}
-                    />
+                    >
+                      {role}
+                    </MenuItem>
                   ))}
                 </MenuContent>
               </TableEditableCell>
               <TableActionCell aria-label={`Options for ${person.name}`}>
                 <MenuContent>
-                  <MenuItem variant="default" inlineStartNode={<Pencil />} label="Edit" />
-                  <MenuItem variant="default" inlineStartNode={<Trash2 />} label="Delete" />
+                  <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
+                  <MenuItem inlineStartNode={<Trash2 />}>Delete</MenuItem>
                 </MenuContent>
               </TableActionCell>
             </TableRow>
@@ -450,20 +446,18 @@ export const RichRows: Story = {
  * cells) stays put on horizontal scroll.
  */
 export const StickyHeaderAndColumns: Story = {
-  args: { variant: "table" },
+  args: { mode: "table" },
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="h-64 w-115">
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="default" pinned="start">
-              Name
-            </TableHead>
-            <TableHead variant="default">Display name</TableHead>
-            <TableHead variant="default">Email</TableHead>
-            <TableHead variant="default">Account type</TableHead>
-            <TableHead variant="default">Billing status</TableHead>
+            <TableHead pinned="start">Name</TableHead>
+            <TableHead>Display name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Account type</TableHead>
+            <TableHead>Billing status</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -505,7 +499,7 @@ export const StickyHeaderAndColumns: Story = {
  */
 export const SortableKeyboard: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: function SortableKeyboardStory(args) {
     const [sort, setSort] = React.useState<TableHeadSort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
@@ -513,10 +507,10 @@ export const SortableKeyboard: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="sortable" sort={sort} onSort={cycle}>
+            <TableHead sortable sort={sort} onSort={cycle}>
               Name
             </TableHead>
-            <TableHead variant="default">Email</TableHead>
+            <TableHead>Email</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -572,15 +566,15 @@ export const SortableKeyboard: Story = {
  */
 export const EditableCellKeyboard: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { variant: "table" },
+  args: { mode: "table" },
   render: function EditableCellKeyboardStory(args) {
     const [role, setRole] = React.useState("Admin");
     return (
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead variant="default">Name</TableHead>
-            <TableHead variant="default">Account type</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Account type</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -589,13 +583,9 @@ export const EditableCellKeyboard: Story = {
             <TableEditableCell value={role} aria-label="Account type for Chargers">
               <MenuContent>
                 {ROLES.map((r) => (
-                  <MenuItem
-                    key={r}
-                    variant="default"
-                    label={r}
-                    selected={r === role}
-                    onClick={() => setRole(r)}
-                  />
+                  <MenuItem key={r} selected={r === role} onClick={() => setRole(r)}>
+                    {r}
+                  </MenuItem>
                 ))}
               </MenuContent>
             </TableEditableCell>

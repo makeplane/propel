@@ -5,7 +5,7 @@ import { expect, userEvent } from "storybook/test";
 
 import {
   Checkbox,
-  CheckboxGlyph,
+  CheckboxIndeterminateIndicator,
   CheckboxIndicator,
   CheckboxInlineStartNode,
   CheckboxLabel,
@@ -14,7 +14,12 @@ import {
 const meta = {
   title: "Components/Checkbox",
   component: Checkbox,
-  subcomponents: { CheckboxLabel, CheckboxInlineStartNode, CheckboxIndicator, CheckboxGlyph },
+  subcomponents: {
+    CheckboxLabel,
+    CheckboxInlineStartNode,
+    CheckboxIndicator,
+    CheckboxIndeterminateIndicator,
+  },
   args: {
     tone: "neutral",
     "aria-label": "Example",

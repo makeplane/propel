@@ -1,22 +1,34 @@
 import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
+import * as React from "react";
 
-import { scrollbarClass, scrollbarThumbClass } from "../../internal/scrollbar";
-import { TabsList as TabsListRoot, type TabsListProps as TabsListRootProps } from "../../ui/tabs";
+import { ScrollAreaScrollbar, ScrollAreaThumb } from "../../ui/scroll-area";
+import {
+  TabsIndicator,
+  TabsList as TabsListElement,
+  type TabsListProps as TabsListElementProps,
+  TabsListScrollArea,
+} from "../../ui/tabs";
+import { TabsAppearanceContext } from "./tabs-context";
 
-export type TabsListProps = TabsListRootProps;
+export type TabsListProps = Omit<TabsListElementProps, "appearance">;
 
 /**
- * The ready-made tab strip: composes the atomic `TabsList` inside a Base UI `ScrollArea` so a long
- * row of tabs scrolls horizontally with propel's overlay scrollbar. The atomic `TabsList` renders
- * as the scroll viewport.
+ * The ready-made tab strip: composes the atomic `TabsList` (taking the set's `appearance` from
+ * context) rendered as the scroll viewport inside a horizontal `TabsListScrollArea` so a long row
+ * of tabs scrolls, and renders the active-tab underline `TabsIndicator` for the `underline`
+ * appearance.
  */
-export function TabsList(props: TabsListProps) {
+export function TabsList({ children, ...props }: TabsListProps) {
+  const appearance = React.useContext(TabsAppearanceContext);
   return (
-    <BaseScrollArea.Root className="relative max-w-full">
-      <TabsListRoot render={<BaseScrollArea.Viewport />} {...props} />
-      <BaseScrollArea.Scrollbar orientation="horizontal" className={scrollbarClass}>
-        <BaseScrollArea.Thumb className={scrollbarThumbClass} />
-      </BaseScrollArea.Scrollbar>
-    </BaseScrollArea.Root>
+    <TabsListScrollArea>
+      <TabsListElement appearance={appearance} render={<BaseScrollArea.Viewport />} {...props}>
+        {children}
+        {appearance === "underline" ? <TabsIndicator /> : null}
+      </TabsListElement>
+      <ScrollAreaScrollbar orientation="horizontal" visibility="auto" magnitude="thin">
+        <ScrollAreaThumb />
+      </ScrollAreaScrollbar>
+    </TabsListScrollArea>
   );
 }

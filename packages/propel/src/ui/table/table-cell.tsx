@@ -1,11 +1,13 @@
-import type * as React from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 
-import { TablePinned, useTableVariant } from "./table-context";
-import { tableCellVariants } from "./variants";
+import { type TablePinned, type TableMode, tableCellVariants } from "./variants";
 
 export type TableCellPadding = "cell" | "trigger";
 
-export type TableCellProps = Omit<React.ComponentProps<"td">, "className" | "style"> & {
+export type TableCellProps = Omit<useRender.ComponentProps<"td">, "className" | "style"> & {
+  /** The surrounding table's look, matching the `Table` root. */
+  mode: TableMode;
   /** Pin this cell to the inline-start/end edge when the table scrolls sideways. */
   pinned?: TablePinned;
   /**
@@ -15,10 +17,10 @@ export type TableCellProps = Omit<React.ComponentProps<"td">, "className" | "sty
   padding?: TableCellPadding;
 };
 
-/** A data cell (`<td>`). Borders follow the surrounding `Table`'s variant. */
-export function TableCell({ pinned, padding = "cell", ...props }: TableCellProps) {
-  const surface = useTableVariant();
-  return (
-    <td className={tableCellVariants({ surface, pinned: pinned ?? "none", padding })} {...props} />
-  );
+/** A data cell (`<td>`). Borders follow the `mode`. */
+export function TableCell({ mode, pinned, padding = "cell", render, ...props }: TableCellProps) {
+  const defaultProps: useRender.ElementProps<"td"> = {
+    className: tableCellVariants({ surface: mode, pinned: pinned ?? "none", padding }),
+  };
+  return useRender({ defaultTagName: "td", render, props: mergeProps(defaultProps, props) });
 }

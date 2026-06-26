@@ -12,10 +12,8 @@ export type BannerDismissProps = Omit<
  * callers pass a bare icon. Defaults `type` to `button` and carries an accessible name; both are
  * overridable via spread.
  */
-export function BannerDismiss({ children, ...props }: BannerDismissProps) {
+export function BannerDismiss(props: BannerDismissProps) {
   return (
-    <button type="button" aria-label="Dismiss" className={bannerDismissVariants()} {...props}>
-      {children}
-    </button>
+    <button type="button" aria-label="Dismiss" className={bannerDismissVariants()} {...props} />
   );
 }

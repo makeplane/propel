@@ -8,8 +8,8 @@ export type NavigationMenuLinkDescriptionProps = Omit<
 >;
 
 /**
- * The optional secondary line of a `variant="card"` `NavigationMenuLink`: a muted description shown
- * below the `NavigationMenuLinkTitle`.
+ * The optional secondary line of a `presentation="card"` `NavigationMenuLink`: a muted description
+ * shown below the `NavigationMenuLinkTitle`.
  */
 export function NavigationMenuLinkDescription(props: NavigationMenuLinkDescriptionProps) {
   return <span className={navigationMenuLinkDescriptionVariants()} {...props} />;

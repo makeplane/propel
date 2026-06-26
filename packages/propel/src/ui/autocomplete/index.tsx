@@ -1,17 +1,11 @@
-export { Autocomplete, type AutocompleteProps } from "./autocomplete";
-export { AutocompleteClear, type AutocompleteClearProps } from "./autocomplete-clear";
-export { AutocompleteEmpty, type AutocompleteEmptyProps } from "./autocomplete-empty";
-export { AutocompleteInput, type AutocompleteInputProps } from "./autocomplete-input";
-export {
-  AutocompleteInputGroup,
-  type AutocompleteInputGroupProps,
-} from "./autocomplete-input-group";
-export { AutocompleteItem, type AutocompleteItemProps } from "./autocomplete-item";
-export { AutocompleteList } from "./autocomplete-list";
-export { AutocompletePopup, type AutocompletePopupProps } from "./autocomplete-popup";
-export { AutocompletePortal } from "./autocomplete-portal";
-export {
-  AutocompletePositioner,
-  type AutocompletePositionerProps,
-} from "./autocomplete-positioner";
-export { AutocompleteTrigger, type AutocompleteTriggerProps } from "./autocomplete-trigger";
+export * from "./autocomplete";
+export * from "./autocomplete-clear";
+export * from "./autocomplete-empty";
+export * from "./autocomplete-input";
+export * from "./autocomplete-input-group";
+export * from "./autocomplete-item";
+export * from "./autocomplete-list";
+export * from "./autocomplete-popup";
+export * from "./autocomplete-portal";
+export * from "./autocomplete-positioner";
+export * from "./autocomplete-trigger";

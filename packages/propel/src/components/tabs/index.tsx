@@ -1,12 +1,13 @@
-export { Tab, type TabProps } from "./tab";
-export { TabsList, type TabsListProps } from "./tabs-list";
+export * from "./tab";
+export * from "./tabs";
+export * from "./tabs-list";
 // Re-export the atomic structural parts so a full tab set is importable from this convenience.
 export {
-  Tabs,
   TabsIndicator,
   type TabsIndicatorProps,
+  TabsListScrollArea,
+  type TabsListScrollAreaProps,
   TabsPanel,
   type TabsPanelProps,
-  type TabsProps,
-  type TabsVariant,
+  type TabsAppearance,
 } from "../../ui/tabs";

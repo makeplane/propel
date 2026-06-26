@@ -22,6 +22,6 @@ export function PaginationPerPageTrigger({ render, ...props }: PaginationPerPage
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps(props, defaultProps),
+    props: mergeProps(defaultProps, props),
   });
 }

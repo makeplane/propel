@@ -1,6 +1,7 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // AlertDialog is a structural overlay primitive. It is always modal and
 // non-dismissible, and Base UI drives every interactive state (open/closed,
@@ -74,3 +75,6 @@ export const alertDialogCloseVariants = cva(
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
   ),
 );
+
+export type AlertDialogIconTone = NonNullable<VariantProps<typeof alertDialogIconVariants>["tone"]>;
+export type AlertDialogIconVariantProps = StrictVariantProps<typeof alertDialogIconVariants>;

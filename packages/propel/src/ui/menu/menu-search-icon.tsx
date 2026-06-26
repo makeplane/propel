@@ -11,10 +11,6 @@ export type MenuSearchIconProps = Omit<
  * The leading icon slot inside `MenuSearch`. Sizes its single child; decorative, so it is
  * `aria-hidden`. Renders and sizes its single child; pass the glyph as `children`.
  */
-export function MenuSearchIcon({ children, ...props }: MenuSearchIconProps) {
-  return (
-    <span aria-hidden className={menuSearchIconVariants()} {...props}>
-      {children}
-    </span>
-  );
+export function MenuSearchIcon(props: MenuSearchIconProps) {
+  return <span aria-hidden className={menuSearchIconVariants()} {...props} />;
 }

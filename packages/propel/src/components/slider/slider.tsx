@@ -1,19 +1,19 @@
 import type * as React from "react";
 
 import {
-  Slider as SliderRoot,
+  Slider as SliderElement,
   SliderControl,
   SliderHeader,
   SliderIndicator,
   SliderLabel,
   type SliderMagnitude,
-  type SliderProps as SliderRootProps,
+  type SliderProps as SliderElementProps,
   SliderThumb,
   SliderTrack,
   SliderValue,
 } from "../../ui/slider";
 
-export type SliderProps = SliderRootProps<number> & {
+export type SliderProps = SliderElementProps<number> & {
   /**
    * Optional visible label rendered above the track (e.g. "Volume"). When omitted, provide an
    * `aria-label` for the thumb so the control is still named for assistive tech.
@@ -40,7 +40,7 @@ export type SliderProps = SliderRootProps<number> & {
  */
 export function Slider({ label, "aria-label": ariaLabel, magnitude, ...props }: SliderProps) {
   return (
-    <SliderRoot {...props}>
+    <SliderElement {...props}>
       <SliderHeader>
         {label == null ? <span /> : <SliderLabel>{label}</SliderLabel>}
         <SliderValue />
@@ -51,6 +51,6 @@ export function Slider({ label, "aria-label": ariaLabel, magnitude, ...props }: 
           <SliderThumb magnitude={magnitude} aria-label={ariaLabel} />
         </SliderTrack>
       </SliderControl>
-    </SliderRoot>
+    </SliderElement>
   );
 }

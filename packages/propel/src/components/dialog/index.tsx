@@ -1,4 +1,4 @@
-export { DialogContent, type DialogContentProps } from "./dialog-content";
+export * from "./dialog-content";
 // Re-export the atomic parts so a full dialog can be assembled from one entry.
 export {
   Dialog,

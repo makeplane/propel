@@ -1,10 +1,9 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
-import type { VariantProps } from "class-variance-authority";
 
-import { dialogPopupVariants } from "./variants";
+import { type DialogPopupVariantProps, dialogPopupVariants } from "./variants";
 
 export type DialogPopupProps = Omit<BaseDialog.Popup.Props, "className" | "style"> &
-  Required<Pick<VariantProps<typeof dialogPopupVariants>, "magnitude">>;
+  DialogPopupVariantProps;
 
 /**
  * The centered card that holds the dialog content. Scales and fades on open/close using Base UI's

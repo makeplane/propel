@@ -1,4 +1,4 @@
-export { Fieldset, type FieldsetProps } from "./fieldset";
-export { FieldsetBody, type FieldsetBodyProps } from "./fieldset-body";
-export { FieldsetDescription, type FieldsetDescriptionProps } from "./fieldset-description";
-export { FieldsetLegend, type FieldsetLegendProps } from "./fieldset-legend";
+export * from "./fieldset";
+export * from "./fieldset-body";
+export * from "./fieldset-description";
+export * from "./fieldset-legend";

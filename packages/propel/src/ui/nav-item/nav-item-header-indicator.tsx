@@ -12,10 +12,6 @@ export type NavItemHeaderIndicatorProps = Omit<
  * collapsed and rotates to point down when the section opens. Decorative (the toggle carries the
  * a11y state), so it is `aria-hidden`. Pass the glyph as `children`.
  */
-export function NavItemHeaderIndicator({ children, ...props }: NavItemHeaderIndicatorProps) {
-  return (
-    <span aria-hidden className={navItemHeaderIndicatorVariants()} {...props}>
-      {children}
-    </span>
-  );
+export function NavItemHeaderIndicator(props: NavItemHeaderIndicatorProps) {
+  return <span aria-hidden className={navItemHeaderIndicatorVariants()} {...props} />;
 }

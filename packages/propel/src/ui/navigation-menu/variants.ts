@@ -1,9 +1,11 @@
 import { cva, cx } from "class-variance-authority";
 
+import { type StrictVariantProps } from "../../internal/variant-props";
+
 // Navigation Menu wraps Base UI's parts and extends the anatomy with the styled regions
 // inside a menu item (TriggerLabel, ContentList, LinkTitle, LinkDescription). Base UI drives
 // open/active state through `data-*` attributes, so the only authored styling axis is the
-// `Link`'s `variant` (an inline `item` pill vs a stacked content `card`). The cva pairings
+// `Link`'s `presentation` (an inline `item` pill vs a stacked content `card`). The cva pairings
 // below hold the static chrome for every styled part in one place, with no `className` at the
 // boundary.
 
@@ -23,7 +25,7 @@ export const navigationMenuTriggerVariants = cva(
 // `Title`/`Icon` split used by other triggers so the trigger renders parts, not raw text.
 export const navigationMenuTriggerLabelVariants = cva("min-w-0 truncate");
 
-// A `Link` is used two ways, so its arrangement is a required `variant`: an `item`
+// A `Link` is used two ways, so its arrangement is a required `presentation`: an `item`
 // pill (a top-level nav entry beside the triggers) or a stacked `card` (a rich entry
 // inside a `Content` panel, pairing a `Title` with an optional `Description`). The
 // shared chrome — radius, highlight, focus ring — is baked in for both.
@@ -35,7 +37,7 @@ export const navigationMenuLinkVariants = cva(
   ),
   {
     variants: {
-      variant: {
+      presentation: {
         item: "inline-flex h-8 items-center gap-1 px-3",
         card: "flex flex-col gap-0.5 px-3 py-2 text-start",
       },
@@ -88,3 +90,5 @@ export const navigationMenuBackdropVariants = cva(
     "data-ending-style:opacity-0 data-starting-style:opacity-0",
   ),
 );
+
+export type NavigationMenuLinkVariantProps = StrictVariantProps<typeof navigationMenuLinkVariants>;

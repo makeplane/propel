@@ -1,6 +1,7 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Search size scale: sm/md/lg map to the Figma height steps (28/32/36px).
 // `--node-size` (set on each box part) drives both the leading magnifier and the
@@ -30,6 +31,8 @@ export const searchVariants = cva(
   },
 );
 
+export type SearchVariantProps = StrictVariantProps<typeof searchVariants>;
+
 // The leading magnifier slot — a decorative `<span>` that sizes its single child to
 // the box's `--node-size`. Tints toward the placeholder color, brightening on focus.
 export const searchIconVariants = cva(
@@ -57,6 +60,8 @@ export const searchInputVariants = cva(
   },
 );
 
+export type SearchInputVariantProps = StrictVariantProps<typeof searchInputVariants>;
+
 // The trailing clear slot — a square `<button>` sized to `--node-size`, focus ring on
 // accent. Renders whatever glyph is passed (the node-slot sizes it).
 export const searchClearVariants = cva(
@@ -77,6 +82,8 @@ export const searchClearVariants = cva(
   },
 );
 
+export type SearchClearVariantProps = StrictVariantProps<typeof searchClearVariants>;
+
 // Expandable-search viewport: a `<div>` that reserves the collapsed square and anchors
 // the expanding box, so the icon stays on the inline-start as the box widens.
 export const searchExpandableViewportVariants = cva("relative inline-flex shrink-0", {
@@ -88,6 +95,10 @@ export const searchExpandableViewportVariants = cva("relative inline-flex shrink
     },
   },
 });
+
+export type SearchExpandableViewportVariantProps = StrictVariantProps<
+  typeof searchExpandableViewportVariants
+>;
 
 // The expandable box: a `<label>` that collapses to a magnifier square and expands from
 // the inline-end edge while focused or filled (`data-expanded`). Same chrome family as
@@ -112,5 +123,7 @@ export const searchExpandableVariants = cva(
   },
 );
 
-type SearchVariantProps = VariantProps<typeof searchVariants>;
-export type SearchMagnitude = NonNullable<SearchVariantProps["magnitude"]>;
+export type SearchExpandableVariantProps = StrictVariantProps<typeof searchExpandableVariants>;
+
+type SearchVariantConfig = VariantProps<typeof searchVariants>;
+export type SearchMagnitude = NonNullable<SearchVariantConfig["magnitude"]>;

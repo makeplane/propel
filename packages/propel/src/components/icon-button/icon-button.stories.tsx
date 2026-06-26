@@ -3,22 +3,22 @@ import { Plus } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
+import { IconButton as IconButtonElement } from "../../ui/icon-button";
 import {
   IconButton,
   IconButtonIcon,
   type IconButtonMagnitude,
-  IconButtonRoot,
   IconButtonSpinner,
-  type IconButtonVariant,
+  type IconButtonProminence,
 } from "./index";
 
-const VARIANTS: IconButtonVariant[] = ["primary", "secondary", "tertiary", "ghost"];
+const PROMINENCES: IconButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
 const meta = {
   title: "Components/IconButton",
   component: IconButton,
-  subcomponents: { IconButtonRoot, IconButtonIcon, IconButtonSpinner },
+  subcomponents: { IconButtonElement, IconButtonIcon, IconButtonSpinner },
   argTypes: { children: iconControl },
   parameters: {
     design: {
@@ -27,7 +27,7 @@ const meta = {
     },
   },
   args: {
-    variant: "primary",
+    prominence: "primary",
     tone: "neutral",
     magnitude: "md",
     children: <Plus />,
@@ -45,12 +45,17 @@ export const Default: Story = {};
  * the two Error types are the `danger` tone of `primary` (Error fill) and `secondary` (Error
  * outline) — see {@link Tones}.
  */
-export const Variants: Story = {
-  argTypes: { variant: { control: false }, "aria-label": { control: false } },
+export const Prominences: Story = {
+  argTypes: { prominence: { control: false }, "aria-label": { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      {VARIANTS.map((variant) => (
-        <IconButton key={variant} {...args} variant={variant} aria-label={`${variant} action`} />
+      {PROMINENCES.map((prominence) => (
+        <IconButton
+          key={prominence}
+          {...args}
+          prominence={prominence}
+          aria-label={`${prominence} action`}
+        />
       ))}
     </div>
   ),
@@ -64,9 +69,9 @@ export const Tones: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <IconButton {...args} tone="neutral" variant="primary" aria-label="Neutral" />
-      <IconButton {...args} tone="danger" variant="primary" aria-label="Danger fill" />
-      <IconButton {...args} tone="danger" variant="secondary" aria-label="Danger outline" />
+      <IconButton {...args} tone="neutral" prominence="primary" aria-label="Neutral" />
+      <IconButton {...args} tone="danger" prominence="primary" aria-label="Danger fill" />
+      <IconButton {...args} tone="danger" prominence="secondary" aria-label="Danger outline" />
     </div>
   ),
 };
@@ -93,9 +98,9 @@ export const Loading: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <IconButton {...args} variant="primary" aria-label="Saving" loading />
-      <IconButton {...args} variant="secondary" aria-label="Loading" loading />
-      <IconButton {...args} variant="tertiary" aria-label="Refreshing" loading />
+      <IconButton {...args} prominence="primary" aria-label="Saving" loading />
+      <IconButton {...args} prominence="secondary" aria-label="Loading" loading />
+      <IconButton {...args} prominence="tertiary" aria-label="Refreshing" loading />
     </div>
   ),
 };
@@ -105,12 +110,12 @@ export const Disabled: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      {VARIANTS.map((variant) => (
+      {PROMINENCES.map((prominence) => (
         <IconButton
-          key={variant}
+          key={prominence}
           {...args}
-          variant={variant}
-          aria-label={`${variant} disabled`}
+          prominence={prominence}
+          aria-label={`${prominence} disabled`}
           disabled
         />
       ))}
@@ -125,7 +130,7 @@ export const Disabled: Story = {
 export const HasAccessibleName: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <IconButton variant="primary" tone="neutral" magnitude="md" aria-label="Add item">
+    <IconButton prominence="primary" tone="neutral" magnitude="md" aria-label="Add item">
       <Plus />
     </IconButton>
   ),

@@ -1,6 +1,6 @@
 import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 
-import { scrollAreaRootVariants } from "./variants";
+import { scrollAreaVariants } from "./variants";
 
 /** Props for {@link ScrollArea}; 1:1 with Base UI `ScrollArea.Root`. */
 export type ScrollAreaProps = Omit<BaseScrollArea.Root.Props, "className" | "style">;
@@ -12,5 +12,5 @@ export type ScrollAreaProps = Omit<BaseScrollArea.Root.Props, "className" | "sty
  * `@plane/propel/components/scroll-area`.
  */
 export function ScrollArea(props: ScrollAreaProps) {
-  return <BaseScrollArea.Root className={scrollAreaRootVariants()} {...props} />;
+  return <BaseScrollArea.Root className={scrollAreaVariants()} {...props} />;
 }

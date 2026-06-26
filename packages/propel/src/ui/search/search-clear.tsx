@@ -1,14 +1,12 @@
 import type * as React from "react";
 
-import { searchClearVariants, type SearchMagnitude } from "./variants";
+import { searchClearVariants, type SearchClearVariantProps } from "./variants";
 
 export type SearchClearProps = Omit<
   React.ComponentPropsWithoutRef<"button">,
   "className" | "style" | "type"
-> & {
-  /** Square size, matched to the box `magnitude`. */
-  magnitude: SearchMagnitude;
-};
+> &
+  SearchClearVariantProps;
 
 /**
  * The trailing clear control at the box's inline-end, shown only while the field has a value. A

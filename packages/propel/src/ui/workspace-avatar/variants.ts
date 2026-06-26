@@ -1,4 +1,6 @@
-import { cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
+
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Magnitudes follow the same scale as Avatar (Figma "Workspace avatar"): 2xs 16
 // → 3xl 64. Square with a radius that grows with size: rounded-sm (16–24),
@@ -48,3 +50,13 @@ export const workspaceAvatarFallbackVariants = cva(
     },
   },
 );
+
+export type WorkspaceAvatarMagnitude = NonNullable<
+  VariantProps<typeof workspaceAvatarVariants>["magnitude"]
+>;
+
+export type WorkspaceAvatarVariantProps = StrictVariantProps<typeof workspaceAvatarVariants>;
+
+export type WorkspaceAvatarFallbackVariantProps = StrictVariantProps<
+  typeof workspaceAvatarFallbackVariants
+>;

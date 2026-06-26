@@ -1,10 +1,12 @@
-export { ComboboxContent, type ComboboxContentProps } from "./combobox-content";
+export * from "./combobox-content";
+// Ready-made parts that supply a default icon — these replace the bare `ui` slots for consumers.
+export * from "./combobox-clear";
+export * from "./combobox-item-indicator";
+export * from "./combobox-trigger";
 // Re-export the atomic combobox parts so a full combobox can be assembled from one entry.
 export {
   Combobox,
   type ComboboxProps,
-  ComboboxClear,
-  type ComboboxClearProps,
   ComboboxEmpty,
   type ComboboxEmptyProps,
   ComboboxInput,
@@ -13,11 +15,7 @@ export {
   type ComboboxInputGroupProps,
   ComboboxItem,
   type ComboboxItemProps,
-  ComboboxItemIndicator,
-  type ComboboxItemIndicatorProps,
   ComboboxLabel,
   type ComboboxLabelProps,
   ComboboxList,
-  ComboboxTrigger,
-  type ComboboxTriggerProps,
 } from "../../ui/combobox";

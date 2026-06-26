@@ -1,4 +1,3 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker, type DayPickerProps } from "react-day-picker";
 
 import { calendarClassNames } from "./variants";
@@ -20,20 +19,7 @@ export type CalendarProps = DistributiveOmit<DayPickerProps, "className" | "styl
  * (react-day-picker owns the grid semantics). Pass `selected`/`onSelect` to control the selection.
  */
 export function Calendar(props: CalendarProps) {
-  return (
-    <DayPicker
-      // react-day-picker handles month/grid/aria; we only restyle and swap the
-      // nav chevrons for lucide icons (decorative, hidden from assistive tech).
-      classNames={calendarClassNames}
-      components={{
-        Chevron: ({ orientation }) =>
-          orientation === "left" ? (
-            <ChevronLeft aria-hidden className="size-4 rtl:-scale-x-100" />
-          ) : (
-            <ChevronRight aria-hidden className="size-4 rtl:-scale-x-100" />
-          ),
-      }}
-      {...props}
-    />
-  );
+  // react-day-picker handles month/grid/aria; we only restyle (its default nav chevron is styled
+  // via `classNames.chevron`). The ready-made `Calendar` in `components` swaps in lucide chevrons.
+  return <DayPicker classNames={calendarClassNames} {...props} />;
 }

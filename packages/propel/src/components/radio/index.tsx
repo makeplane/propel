@@ -1,4 +1,4 @@
-export { Radio, type RadioProps } from "./radio";
+export * from "./radio";
 // Re-export the group wrapper and atomic parts so the full radio surface is importable here.
 export {
   Radio as RadioRing,

@@ -1,10 +1,7 @@
-export { Search, type SearchProps } from "./search";
-export { SearchClear, type SearchClearProps } from "./search-clear";
-export { SearchExpandable, type SearchExpandableProps } from "./search-expandable";
-export {
-  SearchExpandableViewport,
-  type SearchExpandableViewportProps,
-} from "./search-expandable-viewport";
-export { SearchIcon, type SearchIconProps } from "./search-icon";
-export { SearchInput, type SearchInputProps } from "./search-input";
+export * from "./search";
+export * from "./search-clear";
+export * from "./search-expandable";
+export * from "./search-expandable-viewport";
+export * from "./search-icon";
+export * from "./search-input";
 export type { SearchMagnitude } from "./variants";

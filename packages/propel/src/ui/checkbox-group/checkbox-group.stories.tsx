@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Check, Minus } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { Checkbox, CheckboxGlyph, CheckboxIndicator } from "../checkbox/index";
+import { Checkbox, CheckboxIndeterminateIndicator, CheckboxIndicator } from "../checkbox/index";
 import { CheckboxGroup } from "./index";
 
 // UI-tier story: composes the atomic group + atomic checkbox boxes. The group only
@@ -22,8 +23,11 @@ function Option({ value, label }: { value: string; label: string }) {
   return (
     <Checkbox tone="neutral" value={value} aria-label={label}>
       <CheckboxIndicator>
-        <CheckboxGlyph />
+        <Check aria-hidden />
       </CheckboxIndicator>
+      <CheckboxIndeterminateIndicator>
+        <Minus aria-hidden />
+      </CheckboxIndeterminateIndicator>
     </Checkbox>
   );
 }

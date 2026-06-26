@@ -1,13 +1,11 @@
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 
-import { checkboxVariants, type CheckboxTone } from "./variants";
+import { checkboxVariants, type CheckboxVariantProps } from "./variants";
 
 export type { CheckboxTone } from "./variants";
 
-export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style"> & {
-  /** Resting color of the box. `danger` is the Figma "Error" state. */
-  tone: CheckboxTone;
-};
+export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style"> &
+  CheckboxVariantProps;
 
 /**
  * The checkbox box: a styled `BaseCheckbox.Root`. Base UI renders a real checkbox with

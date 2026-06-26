@@ -5,16 +5,14 @@ import {
   ContextMenuItemIcon,
   ContextMenuItemIndicator,
   ContextMenuItemLabel,
-  ContextMenuItem as ContextMenuItemRoot,
-  type ContextMenuItemProps as ContextMenuItemRootProps,
+  ContextMenuItem as ContextMenuItemElement,
+  type ContextMenuItemProps as ContextMenuItemElementProps,
   ContextMenuItemShortcut,
 } from "../../ui/context-menu";
 
-export type ContextMenuItemProps = Omit<ContextMenuItemRootProps, "label"> & {
+export type ContextMenuItemProps = ContextMenuItemElementProps & {
   /** Leading icon before the label. */
   inlineStartNode?: React.ReactNode;
-  /** The primary text of the row. */
-  label?: React.ReactNode;
   /** Trailing keyboard-shortcut hint after the label. */
   inlineEndNode?: React.ReactNode;
   /** Single-select selected state. */
@@ -28,18 +26,17 @@ export type ContextMenuItemProps = Omit<ContextMenuItemRootProps, "label"> & {
  */
 export function ContextMenuItem({
   inlineStartNode,
-  label,
   inlineEndNode,
   selected,
   children,
   ...props
 }: ContextMenuItemProps) {
   return (
-    <ContextMenuItemRoot {...props}>
+    <ContextMenuItemElement {...props}>
       {inlineStartNode != null ? (
         <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
       ) : null}
-      <ContextMenuItemLabel>{label ?? children}</ContextMenuItemLabel>
+      <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
       {inlineEndNode != null ? (
         <ContextMenuItemShortcut>{inlineEndNode}</ContextMenuItemShortcut>
       ) : null}
@@ -48,6 +45,6 @@ export function ContextMenuItem({
           <Check />
         </ContextMenuItemIndicator>
       ) : null}
-    </ContextMenuItemRoot>
+    </ContextMenuItemElement>
   );
 }

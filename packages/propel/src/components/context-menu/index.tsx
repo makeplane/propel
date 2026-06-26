@@ -1,9 +1,6 @@
-export { ContextMenuItem, type ContextMenuItemProps } from "./context-menu-item";
-export { ContextMenuLinkItem, type ContextMenuLinkItemProps } from "./context-menu-link-item";
-export {
-  ContextMenuSubmenuTrigger,
-  type ContextMenuSubmenuTriggerProps,
-} from "./context-menu-submenu-trigger";
+export * from "./context-menu-item";
+export * from "./context-menu-link-item";
+export * from "./context-menu-submenu-trigger";
 // Re-export the atomic structural parts so a full context menu is importable from this convenience.
 export {
   ContextMenu,
@@ -41,8 +38,8 @@ export {
   type ContextMenuRadioItemProps,
   ContextMenuSeparator,
   type ContextMenuSeparatorProps,
-  ContextMenuSubmenuRoot,
-  type ContextMenuSubmenuRootProps,
+  ContextMenuSubmenu,
+  type ContextMenuSubmenuProps,
   ContextMenuSubmenuTriggerIndicator,
   type ContextMenuSubmenuTriggerIndicatorProps,
   ContextMenuTrigger,

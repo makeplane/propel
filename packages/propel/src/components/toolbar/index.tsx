@@ -1,29 +1,21 @@
+export * from "./toolbar-button";
+export * from "./toolbar-toggle";
+export * from "./toolbar-menu-trigger-button";
 export {
-  Toolbar,
-  ToolbarButton,
-  ToolbarMenuTriggerButton,
   ToolbarMenuTriggerIndicator,
-  ToolbarMenuTriggerLabel,
-  ToolbarGroup,
-  ToolbarItemIcon,
-  ToolbarSeparator,
-  ToolbarToggle,
-  ToolbarToggleGroup,
-  type ToolbarButtonProps,
-  type ToolbarDensity,
-  type ToolbarMenuTriggerButtonProps,
   type ToolbarMenuTriggerIndicatorProps,
+  ToolbarMenuTriggerLabel,
   type ToolbarMenuTriggerLabelProps,
-  type ToolbarElevation,
+  ToolbarGroup,
   type ToolbarGroupProps,
+  ToolbarItemIcon,
   type ToolbarItemIconProps,
-  type ToolbarProps,
+  ToolbarSeparator,
   type ToolbarSeparatorProps,
+  ToolbarToggleGroup,
   type ToolbarToggleGroupProps,
-  type ToolbarToggleProps,
+  type ToolbarDensity,
+  type ToolbarElevation,
 } from "../../ui/toolbar/index";
-export { ToolbarMenu, type ToolbarMenuProps } from "./toolbar-menu";
-export { ToolbarMenuContent, type ToolbarMenuContentProps } from "./toolbar-menu-content";
-export { ToolbarMenuItem, type ToolbarMenuItemProps } from "./toolbar-menu-item";
-export { ToolbarMenuSeparator, type ToolbarMenuSeparatorProps } from "./toolbar-menu-separator";
-export { ToolbarMenuTrigger, type ToolbarMenuTriggerProps } from "./toolbar-menu-trigger";
+export * from "./toolbar";
+export * from "./toolbar-menu-trigger";

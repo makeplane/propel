@@ -1,6 +1,8 @@
 import { cva, cx } from "class-variance-authority";
 
+import { checkboxBoxVariants } from "../../internal/checkbox-box";
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 /** Positioner: anchors the popup at the pointer with overlay stacking. */
 export const menuPositionerVariants = cva("z-50 outline-none");
@@ -40,16 +42,12 @@ const menuRowBase = cx(
   "data-disabled:pointer-events-none data-disabled:text-disabled",
 );
 
-/** Standalone `MenuItem` row: variant-driven layout + emphasis. */
-export const menuRowVariants = cva(menuRowBase, {
+/** Standalone `MenuItem` row: `layout` (single vs with-description) + `emphasis`. */
+export const menuRowVariants = cva(cx(menuRowBase, "data-highlighted:bg-layer-transparent-hover"), {
   variants: {
-    variant: {
+    layout: {
       default: "h-[34px] items-center",
       "with-description": "min-h-[34px] items-start py-1.5",
-    },
-    emphasis: {
-      default: "cursor-default data-highlighted:bg-layer-transparent-hover",
-      link: "cursor-pointer data-highlighted:bg-layer-transparent-hover",
     },
   },
 });
@@ -69,7 +67,7 @@ export const menuCheckboxItemVariants = cva(
  * SubmenuTrigger row: the shared row base; also highlights while its submenu popup is open
  * (`data-popup-open`).
  */
-export const menuSubTriggerVariants = cva(
+export const menuSubmenuTriggerVariants = cva(
   cx(
     menuRowBase,
     "h-[34px] cursor-default items-center",
@@ -131,9 +129,19 @@ export const menuItemSubmenuIndicatorVariants = cva(
 /** The leading control slot of a checkbox/radio row, holding the visual toggle. */
 export const menuItemControlVariants = cva("flex shrink-0 items-center");
 
-/** Indicator slot inside radio/checkbox items. */
-export const menuItemIndicatorVariants = cva(
+/** Indicator slot inside a radio item: the accent dot shown when the row is selected. */
+export const menuRadioItemIndicatorVariants = cva(
   "flex size-4 items-center justify-center text-icon-accent-primary",
+);
+
+/**
+ * CheckboxItem indicator: the leading checkbox BOX. Composes the shared `checkboxBoxVariants` (the
+ * 16px bordered square that fills the accent on `data-checked`) with the node-slot that sizes its
+ * inner glyph. Kept mounted by `MenuCheckboxItemIndicator`, so the empty box shows when unchecked;
+ * the glyph stays hidden until the box is checked (`data-unchecked:[&>*]:invisible`).
+ */
+export const menuCheckboxItemIndicatorVariants = cva(
+  cx(checkboxBoxVariants({ tone: "neutral" }), nodeSlotClass, "data-unchecked:[&>*]:invisible"),
 );
 
 /** Separator: a thin divider spanning the popup padding. */
@@ -176,3 +184,7 @@ export const menuFooterVariants = cva(
 
 /** Arrow: a small caret matching the popup surface color. */
 export const menuArrowVariants = cva("text-layer-1");
+
+export type MenuPopupVariantProps = StrictVariantProps<typeof menuPopupVariants>;
+
+export type MenuRowVariantProps = StrictVariantProps<typeof menuRowVariants>;

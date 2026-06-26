@@ -1,6 +1,6 @@
 import { Meter as BaseMeter } from "@base-ui/react/meter";
 
-import { meterRootVariants } from "./variants";
+import { meterVariants } from "./variants";
 
 export type MeterProps = Omit<BaseMeter.Root.Props, "className" | "style">;
 
@@ -11,5 +11,5 @@ export type MeterProps = Omit<BaseMeter.Root.Props, "className" | "style">;
  * either direction. Maps 1:1 to Base UI's `Meter.Root`.
  */
 export function Meter(props: MeterProps) {
-  return <BaseMeter.Root className={meterRootVariants()} {...props} />;
+  return <BaseMeter.Root className={meterVariants()} {...props} />;
 }

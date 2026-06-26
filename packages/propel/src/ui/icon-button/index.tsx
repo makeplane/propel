@@ -1,9 +1,8 @@
-export { IconButtonIcon, type IconButtonIconProps } from "./icon-button-icon";
+export * from "./icon-button";
+export * from "./icon-button-icon";
+export * from "./icon-button-spinner";
 export {
-  IconButtonRoot,
-  type IconButtonRootProps,
+  type IconButtonMagnitude,
   type IconButtonTone,
-  type IconButtonVariant,
-} from "./icon-button-root";
-export { IconButtonSpinner, type IconButtonSpinnerProps } from "./icon-button-spinner";
-export { type IconButtonMagnitude } from "./variants";
+  type IconButtonProminence,
+} from "./variants";

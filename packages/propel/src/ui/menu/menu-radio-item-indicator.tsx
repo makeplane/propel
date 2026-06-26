@@ -1,6 +1,6 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 
-import { menuItemIndicatorVariants } from "./variants";
+import { menuRadioItemIndicatorVariants } from "./variants";
 
 export type MenuRadioItemIndicatorProps = Omit<
   BaseMenu.RadioItemIndicator.Props,
@@ -9,5 +9,5 @@ export type MenuRadioItemIndicatorProps = Omit<
 
 /** Shows whether the radio item is selected. Wraps `Menu.RadioItemIndicator` 1:1. */
 export function MenuRadioItemIndicator(props: MenuRadioItemIndicatorProps) {
-  return <BaseMenu.RadioItemIndicator className={menuItemIndicatorVariants()} {...props} />;
+  return <BaseMenu.RadioItemIndicator className={menuRadioItemIndicatorVariants()} {...props} />;
 }

@@ -28,7 +28,10 @@ const meta = {
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1329-396",
     },
   },
-  args: { magnitude: "lg" },
+  args: {
+    level: 1,
+    magnitude: "lg",
+  },
   // The row stretches to its container; constrain it to a sidebar-like width.
   decorators: [
     (Story) => (

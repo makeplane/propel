@@ -1,11 +1,9 @@
 import { Input as BaseInput } from "@base-ui/react/input";
 
-import { searchInputVariants, type SearchMagnitude } from "./variants";
+import { searchInputVariants, type SearchInputVariantProps } from "./variants";
 
-export type SearchInputProps = Omit<BaseInput.Props, "className" | "style" | "type"> & {
-  /** Text scale, matched to the box `magnitude`. */
-  magnitude: SearchMagnitude;
-};
+export type SearchInputProps = Omit<BaseInput.Props, "className" | "style" | "type"> &
+  SearchInputVariantProps;
 
 /**
  * The text field itself — a `type="search"` input that fills the box row. Placeholder and disabled

@@ -1,16 +1,19 @@
-import { type VariantProps } from "class-variance-authority";
-import type * as React from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 
-import { bannerBodyVariants } from "./variants";
+import { type BannerBodyVariantProps, bannerBodyVariants } from "./variants";
 
-export type BannerBodyProps = Omit<React.ComponentPropsWithoutRef<"div">, "className" | "style"> &
-  VariantProps<typeof bannerBodyVariants>;
+export type BannerBodyProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
+  BannerBodyVariantProps;
 
 /**
  * The message column between the icon and the trailing controls. Grows to fill the row and stacks a
  * `BannerTitle` above a `BannerDescription`. Carries the tone foreground color (inherited by both)
- * and the per-variant text weight.
+ * and the per-placement text weight.
  */
-export function BannerBody({ variant, tone, ...props }: BannerBodyProps) {
-  return <div className={bannerBodyVariants({ variant, tone })} {...props} />;
+export function BannerBody({ placement, tone, render, ...props }: BannerBodyProps) {
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: bannerBodyVariants({ placement, tone }),
+  };
+  return useRender({ defaultTagName: "div", render, props: mergeProps(defaultProps, props) });
 }

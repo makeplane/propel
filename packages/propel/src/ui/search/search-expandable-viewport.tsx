@@ -1,14 +1,15 @@
 import type * as React from "react";
 
-import { searchExpandableViewportVariants, type SearchMagnitude } from "./variants";
+import {
+  searchExpandableViewportVariants,
+  type SearchExpandableViewportVariantProps,
+} from "./variants";
 
 export type SearchExpandableViewportProps = Omit<
   React.ComponentPropsWithoutRef<"div">,
   "className" | "style"
-> & {
-  /** Collapsed-square size, matched to the box `magnitude`. */
-  magnitude: SearchMagnitude;
-};
+> &
+  SearchExpandableViewportVariantProps;
 
 /**
  * The positioning viewport for an expandable search. Reserves the collapsed magnifier square and

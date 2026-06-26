@@ -1,20 +1,26 @@
+/** The two table looks: `table` (row dividers only) and `spreadsheet` (full grid). */
+export type TableMode = "table" | "spreadsheet";
+
+/** Which inline edge a header/cell pins to while the table scrolls sideways. */
+export type TablePinned = "start" | "end";
+
 import { cva, cx } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
 
 // Table is a structural data primitive. The designer locked two layout looks (Figma
-// "Table" vs "Spreadsheet") as the only `variant` axis, and baked everything else
+// "Table" vs "Spreadsheet") as the only `mode` axis, and baked everything else
 // (header chrome, cell padding, row hover, sort-indicator position, focus ring) into
 // the component so every table stays consistent. Every part's className lives here as
 // a cva pairing, so no part takes a `className` at its boundary.
 
 // The rounded, hairline scroll frame around the `<table>` (Base UI ScrollArea root).
-export const tableRootVariants = cva(
+export const tableScrollAreaVariants = cva(
   "relative flex max-h-full w-full flex-col overflow-hidden rounded-lg border border-subtle bg-surface-1",
 );
 
 // The scroll viewport that the `<table>` lives in.
-export const tableViewportVariants = cva(
+export const tableScrollAreaViewportVariants = cva(
   cx(
     "min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-inset",
@@ -22,7 +28,7 @@ export const tableViewportVariants = cva(
 );
 
 // The `<table>` element itself.
-export const tableVariants = cva("w-full caption-bottom border-collapse text-13 text-primary");
+export const tableModes = cva("w-full caption-bottom border-collapse text-13 text-primary");
 
 // `<thead>` / `<tbody>` carry no chrome of their own; the cva keeps every part styled
 // in one place even when the pairing is empty.
@@ -34,8 +40,8 @@ export const tableBodyVariants = cva("");
 // pinned cells can react to the row's hover.
 export const tableRowVariants = cva("group/body-row bg-layer-2 hover:bg-layer-2-hover");
 
-// A header cell (`<th>`). `variant` is the table look; the row/edge borders come from
-// the surrounding `Table`'s variant via `pinned`/`edge`. Sticky to the top so the
+// A header cell (`<th>`). `mode` is the table look; the row/edge borders come from
+// the surrounding `Table`'s mode via `pinned`/`edge`. Sticky to the top so the
 // header stays visible while the body scrolls (an "always").
 export const tableHeadVariants = cva(
   cx(
@@ -113,7 +119,7 @@ export const tableHeadSortTriggerVariants = cva(
 export const tableHeadSortIndicatorVariants = cva(cx(nodeSlotClass, "text-icon-secondary"));
 
 // The full-cell trigger inside an editable/action cell (rendered as the styled outer of
-// a Base UI Menu trigger). `variant` picks the editable (text + trailing chevron) or
+// a Base UI Menu trigger). `layout` picks the editable (text + trailing chevron) or
 // action (centered icon) layout; `selected` keeps the active editable cell tinted.
 export const tableCellTriggerVariants = cva(
   cx(
@@ -124,7 +130,7 @@ export const tableCellTriggerVariants = cva(
   ),
   {
     variants: {
-      variant: {
+      layout: {
         editable: "justify-between gap-1 px-4 text-start",
         action: "justify-center px-4",
       },

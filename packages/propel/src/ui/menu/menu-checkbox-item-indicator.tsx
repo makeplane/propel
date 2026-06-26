@@ -1,13 +1,25 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 
-import { menuItemIndicatorVariants } from "./variants";
+import { menuCheckboxItemIndicatorVariants } from "./variants";
 
 export type MenuCheckboxItemIndicatorProps = Omit<
   BaseMenu.CheckboxItemIndicator.Props,
   "className" | "style"
 >;
 
-/** Shows whether the checkbox item is ticked. Wraps `Menu.CheckboxItemIndicator` 1:1. */
+/**
+ * The checkbox BOX shown at the leading edge of a checkbox item. Renders
+ * `Menu.CheckboxItemIndicator` styled as the box (via `menuCheckboxItemIndicatorVariants`) and
+ * `keepMounted` so the empty bordered box is visible when unchecked — Base UI sets
+ * `data-checked`/`data-unchecked` on it, filling the box and revealing the glyph child only when
+ * ticked. Not a 1:1 wrap of `Menu.CheckboxItemIndicator` (it bakes the always-mounted box).
+ */
 export function MenuCheckboxItemIndicator(props: MenuCheckboxItemIndicatorProps) {
-  return <BaseMenu.CheckboxItemIndicator className={menuItemIndicatorVariants()} {...props} />;
+  return (
+    <BaseMenu.CheckboxItemIndicator
+      keepMounted
+      className={menuCheckboxItemIndicatorVariants()}
+      {...props}
+    />
+  );
 }

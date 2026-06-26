@@ -1,9 +1,12 @@
 import { cva, cx } from "class-variance-authority";
 
+import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
+
 export const autocompleteInputGroupVariants = cva(
   cx(
-    "flex min-h-9 min-w-64 items-center gap-2 rounded-md border-sm border-subtle bg-layer-2 px-3",
-    "focus-within:border-accent-strong focus-within:ring-2 focus-within:ring-accent-strong/20",
+    // Wraps a separate focusable input → `focus: within`.
+    fieldControlSurfaceVariants({ tone: "neutral", focus: "within" }),
+    "flex min-h-9 min-w-64 items-center gap-2 rounded-md px-3",
     "data-disabled:cursor-not-allowed data-disabled:text-disabled",
   ),
 );
@@ -11,7 +14,7 @@ export const autocompleteInputVariants = cva(
   "min-w-0 flex-1 bg-transparent text-14 text-primary outline-none placeholder:text-placeholder disabled:text-disabled",
 );
 export const autocompleteButtonVariants = cva(
-  "flex size-6 items-center justify-center rounded-sm text-icon-secondary outline-none hover:bg-layer-transparent-hover focus-visible:bg-layer-transparent-hover data-disabled:text-disabled",
+  "flex size-6 items-center justify-center rounded-sm text-icon-secondary outline-none hover:bg-layer-transparent-hover focus-visible:bg-layer-transparent-hover data-disabled:text-disabled [&>svg]:size-4",
 );
 export const autocompletePositionerVariants = cva("z-50 outline-none");
 export const autocompletePopupVariants = cva(

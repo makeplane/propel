@@ -2,21 +2,21 @@ import { CircleAlert, Info, Megaphone, TriangleAlert, X, type LucideIcon } from 
 import type * as React from "react";
 
 import {
-  Banner as BannerRoot,
+  Banner as BannerElement,
   BannerActions,
   BannerBody,
   BannerDescription,
   BannerDismiss,
   BannerIcon,
-  type BannerProps as BannerRootProps,
+  type BannerProps as BannerElementProps,
   type BannerTone,
   BannerTitle,
 } from "../../ui/banner";
 
-export type { BannerTone, BannerVariant } from "../../ui/banner";
+export type { BannerTone, BannerPlacement } from "../../ui/banner";
 
 // The leading icon the system picks per tone when none is supplied. Treated as
-// content (overridable via `inlineStartNode`), not a style variant.
+// content (overridable via `inlineStartNode`), not a style placement.
 const toneIcon: Record<BannerTone, LucideIcon> = {
   neutral: Info,
   info: Info,
@@ -25,7 +25,7 @@ const toneIcon: Record<BannerTone, LucideIcon> = {
   danger: CircleAlert,
 };
 
-export type BannerProps = BannerRootProps & {
+export type BannerProps = BannerElementProps & {
   /**
    * Node rendered before the message (inline-start). Defaults to a tone-appropriate lucide icon;
    * pass `null` to hide it. Sized to the banner's node size. Decorative, kept out of the name.
@@ -45,7 +45,7 @@ export type BannerProps = BannerRootProps & {
  * content, not layout. Drop down to `@plane/propel/ui/banner` to assemble the parts directly.
  */
 export function Banner({
-  variant,
+  placement,
   tone,
   inlineStartNode,
   title,
@@ -56,17 +56,17 @@ export function Banner({
 }: BannerProps) {
   const DefaultIcon = toneIcon[tone];
   return (
-    <BannerRoot variant={variant} tone={tone} {...props}>
+    <BannerElement placement={placement} tone={tone} {...props}>
       {inlineStartNode === undefined ? (
-        <BannerIcon variant={variant} tone={tone}>
+        <BannerIcon placement={placement} tone={tone}>
           <DefaultIcon />
         </BannerIcon>
       ) : inlineStartNode ? (
-        <BannerIcon variant={variant} tone={tone}>
+        <BannerIcon placement={placement} tone={tone}>
           {inlineStartNode}
         </BannerIcon>
       ) : null}
-      <BannerBody variant={variant} tone={tone}>
+      <BannerBody placement={placement} tone={tone}>
         {title ? <BannerTitle>{title}</BannerTitle> : null}
         {children ? <BannerDescription>{children}</BannerDescription> : null}
       </BannerBody>
@@ -76,6 +76,6 @@ export function Banner({
           <X aria-hidden />
         </BannerDismiss>
       ) : null}
-    </BannerRoot>
+    </BannerElement>
   );
 }

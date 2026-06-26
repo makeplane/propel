@@ -16,15 +16,16 @@ import * as React from "react";
 import { expect, fn, userEvent } from "storybook/test";
 
 import { IconButton } from "../components/icon-button/index";
-import { Button } from "../ui/button/index";
-import { Field, TextAreaFieldControl } from "../ui/field/index";
 import {
   Toolbar,
   ToolbarButton,
   ToolbarGroup,
   ToolbarSeparator,
   ToolbarToggle,
-} from "../ui/toolbar/index";
+} from "../components/toolbar/index";
+import { Button } from "../ui/button/index";
+import { Field } from "../ui/field/index";
+import { TextArea } from "../ui/text-area/index";
 
 // A comment composer is a compositional (application-level) component, not a propel
 // primitive: it is assembled entirely from propel building blocks (Toolbar, Button,
@@ -145,7 +146,7 @@ function CommentComposer({
   const controlSurface = magnitude === "xs" ? "inline" : "embedded";
 
   const body = (
-    <TextAreaFieldControl
+    <TextArea
       id={controlId}
       rows={magnitude === "xs" ? 1 : 2}
       magnitude={controlMagnitude}
@@ -170,11 +171,16 @@ function CommentComposer({
             {body}
             <div className="flex shrink-0 items-center gap-1.5">
               <span aria-hidden className="h-4 w-0 shrink-0 border-s-sm border-subtle-1" />
-              <IconButton variant="ghost" tone="neutral" magnitude="md" aria-label="Attach a file">
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label="Attach a file"
+              >
                 <Paperclip aria-hidden />
               </IconButton>
               <IconButton
-                variant="secondary"
+                prominence="secondary"
                 tone="neutral"
                 magnitude="md"
                 aria-label={sendLabel}
@@ -194,7 +200,8 @@ function CommentComposer({
               </div>
               {magnitude === "base" ? (
                 <Button
-                  variant="secondary"
+                  sizing="hug"
+                  prominence="secondary"
                   tone="neutral"
                   magnitude="md"
                   disabled={isEmpty}
@@ -204,7 +211,7 @@ function CommentComposer({
                 </Button>
               ) : (
                 <IconButton
-                  variant="secondary"
+                  prominence="secondary"
                   tone="neutral"
                   magnitude="md"
                   aria-label={sendLabel}
@@ -238,7 +245,7 @@ const RECIPE_SOURCE = `function CommentComposer() {
     <Field name="comment">
       <div className="flex w-full flex-col overflow-clip rounded-xl border border-subtle-1 bg-layer-2 text-primary">
         <label htmlFor={controlId} className="sr-only">Add a comment</label>
-        <TextAreaFieldControl
+        <TextArea
           id={controlId}
           rows={2}
           magnitude="lg"
@@ -273,7 +280,7 @@ const RECIPE_SOURCE = `function CommentComposer() {
               </ToolbarToggle>
             </ToolbarGroup>
           </Toolbar>
-          <Button variant="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
+          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
             Comment
           </Button>
         </div>

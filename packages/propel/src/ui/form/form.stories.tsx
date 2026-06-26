@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent } from "storybook/test";
 
 import { Button } from "../button/index";
-import { Field, FieldError, FieldLabel, InputFieldControl } from "../field/index";
+import { Field, FieldError, FieldLabel } from "../field/index";
+import { Input } from "../input/index";
 import { Form, FormActions, FormBody } from "./index";
 
 // UI-tier story: composes the atomic `Form` parts — `FormBody` (the field stack, with
@@ -34,12 +35,12 @@ export const Default: Story = {
       <FormBody layout="single">
         <Field name="email">
           <FieldLabel magnitude="md">Email</FieldLabel>
-          <InputFieldControl magnitude="md" type="email" required placeholder="you@example.com" />
+          <Input magnitude="md" type="email" required placeholder="you@example.com" />
           <FieldError magnitude="md" />
         </Field>
       </FormBody>
-      <FormActions variant="inline">
-        <Button type="submit" variant="primary" tone="neutral" magnitude="md">
+      <FormActions layout="inline">
+        <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
           Submit
         </Button>
       </FormActions>
@@ -55,12 +56,12 @@ export const Validation: Story = {
       <FormBody layout="single">
         <Field name="email">
           <FieldLabel magnitude="md">Email</FieldLabel>
-          <InputFieldControl magnitude="md" type="email" required placeholder="you@example.com" />
+          <Input magnitude="md" type="email" required placeholder="you@example.com" />
           <FieldError magnitude="md" />
         </Field>
       </FormBody>
-      <FormActions variant="inline">
-        <Button type="submit" variant="primary" tone="neutral" magnitude="md">
+      <FormActions layout="inline">
+        <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
           Submit
         </Button>
       </FormActions>

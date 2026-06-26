@@ -1,12 +1,15 @@
 import { type VariantProps, cva, cx } from "class-variance-authority";
 
+import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
-export const numberFieldRootVariants = cva("flex min-w-0 flex-col gap-1.5");
+export const numberFieldVariants = cva("flex min-w-0 flex-col gap-1.5");
 export const numberFieldGroupVariants = cva(
   cx(
-    "flex w-fit items-center overflow-hidden rounded-md border-sm border-subtle bg-layer-2",
-    "focus-within:border-accent-strong focus-within:ring-2 focus-within:ring-accent-strong/20",
+    // Wraps a separate focusable input → `focus: within`.
+    fieldControlSurfaceVariants({ tone: "neutral", focus: "within" }),
+    "flex w-fit items-center overflow-hidden rounded-md",
     "data-disabled:cursor-not-allowed data-disabled:border-subtle data-disabled:bg-layer-2",
   ),
 );
@@ -42,6 +45,8 @@ export type NumberFieldMagnitude = NonNullable<
   VariantProps<typeof numberFieldButtonVariants>["magnitude"]
 >;
 
+export type NumberFieldButtonVariantProps = StrictVariantProps<typeof numberFieldButtonVariants>;
+
 // Input geometry per magnitude. Heights match the button square per magnitude so the
 // group container stays flush. The width is fixed to accommodate up to ~4 digits.
 export const numberFieldInputVariants = cva(
@@ -57,3 +62,5 @@ export const numberFieldInputVariants = cva(
     },
   },
 );
+
+export type NumberFieldInputVariantProps = StrictVariantProps<typeof numberFieldInputVariants>;

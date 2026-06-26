@@ -1,14 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-  FieldLabelRequiredMarker,
-  InputFieldControl,
-} from "./index";
+import { Input } from "../input/index";
+import { Field, FieldDescription, FieldError, FieldLabel, FieldLabelRequiredMarker } from "./index";
 
 // UI-tier story: composes the ATOMIC field parts. `Field` (Base UI `Field.Root`) is the
 // labeling/validation shell; `FieldLabel` names the control, `InputFieldControl` is the
@@ -21,7 +15,7 @@ const meta = {
   subcomponents: {
     FieldLabel,
     FieldLabelRequiredMarker,
-    InputFieldControl,
+    Input,
     FieldDescription,
     FieldError,
   },
@@ -47,7 +41,7 @@ export const Default: Story = {
       <FieldLabel magnitude="md" required>
         Display name
       </FieldLabel>
-      <InputFieldControl magnitude="md" required placeholder="Ada Lovelace" />
+      <Input magnitude="md" required placeholder="Ada Lovelace" />
       <FieldDescription magnitude="md">Shown anywhere your profile is visible.</FieldDescription>
     </Field>
   ),
@@ -69,7 +63,7 @@ export const RequiredMarker: Story = {
         Display name
         <FieldLabelRequiredMarker>*</FieldLabelRequiredMarker>
       </FieldLabel>
-      <InputFieldControl magnitude="md" required placeholder="Ada Lovelace" />
+      <Input magnitude="md" required placeholder="Ada Lovelace" />
     </Field>
   ),
 };
@@ -79,7 +73,7 @@ export const Invalid: Story = {
   render: () => (
     <Field name="workspaceSlug" invalid>
       <FieldLabel magnitude="md">Workspace slug</FieldLabel>
-      <InputFieldControl magnitude="md" defaultValue="Already taken" />
+      <Input magnitude="md" defaultValue="Already taken" />
       <FieldError magnitude="md" match={true}>
         Choose a different workspace slug.
       </FieldError>

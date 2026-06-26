@@ -1,7 +1,8 @@
-export { Tab, type TabProps } from "./tab";
-export { TabUnderlineBar } from "./tab-underline-bar";
-export { TabUnderlineLabel, type TabUnderlineLabelProps } from "./tab-underline-label";
-export { Tabs, type TabsProps, type TabsVariant } from "./tabs";
-export { TabsIndicator, type TabsIndicatorProps } from "./tabs-indicator";
-export { TabsList, type TabsListProps } from "./tabs-list";
-export { TabsPanel, type TabsPanelProps } from "./tabs-panel";
+export * from "./tab";
+export * from "./tab-underline-bar";
+export * from "./tab-underline-label";
+export * from "./tabs";
+export * from "./tabs-indicator";
+export * from "./tabs-list";
+export * from "./tabs-list-scroll-area";
+export * from "./tabs-panel";

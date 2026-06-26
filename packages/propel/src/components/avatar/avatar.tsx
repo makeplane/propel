@@ -2,17 +2,20 @@ import { User } from "lucide-react";
 import * as React from "react";
 
 import {
-  Avatar as AvatarRoot,
+  Avatar as AvatarElement,
   AvatarFallback,
-  AvatarGroupContext,
   AvatarIcon,
   AvatarImage,
-  type AvatarProps as AvatarRootProps,
+  type AvatarMagnitude,
+  type AvatarProps as AvatarElementProps,
   type AvatarTone,
   getAvatarTone,
 } from "../../ui/avatar";
+import { AvatarGroupContext } from "./avatar-group-context";
 
-export type AvatarProps = AvatarRootProps & {
+export type AvatarProps = Omit<AvatarElementProps, "magnitude"> & {
+  /** Avatar size. Optional here — resolved from the `AvatarGroup` context, else `md`. */
+  magnitude?: AvatarMagnitude;
   /** Image URL. When omitted, or while it is loading/failing, the fallback shows. */
   src?: string;
   /** Accessible name for the avatar (the person it represents). */
@@ -42,7 +45,7 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
   return (
     // `role="img"` + `aria-label` give the avatar one accessible name in every state
     // (image / initials / icon); the inner image is decorative.
-    <AvatarRoot role="img" aria-label={alt} magnitude={magnitude} {...props}>
+    <AvatarElement role="img" aria-label={alt} magnitude={effectiveMagnitude} {...props}>
       {src ? <AvatarImage src={src} alt="" /> : null}
       <AvatarFallback tone={hasInitials ? resolvedTone : "none"}>
         {fallback ?? (
@@ -51,6 +54,6 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
           </AvatarIcon>
         )}
       </AvatarFallback>
-    </AvatarRoot>
+    </AvatarElement>
   );
 }

@@ -54,7 +54,13 @@ type Story = StoryObj<typeof meta>;
 export const Anatomy: Story = {
   render: () => (
     <Dialog>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogTrigger />}>
+      <Button
+        sizing="hug"
+        prominence="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DialogTrigger />}
+      >
         Open dialog
       </Button>
       <DialogPortal>
@@ -66,7 +72,7 @@ export const Anatomy: Story = {
                 <DialogTitle>Delete project</DialogTitle>
               </DialogHeading>
               <IconButton
-                variant="ghost"
+                prominence="ghost"
                 tone="neutral"
                 magnitude="lg"
                 aria-label="Close"
@@ -81,7 +87,13 @@ export const Anatomy: Story = {
               </DialogDescription>
             </DialogBody>
             <DialogActions>
-              <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
+              <Button
+                sizing="hug"
+                prominence="secondary"
+                tone="neutral"
+                magnitude="xl"
+                render={<DialogClose />}
+              >
                 Cancel
               </Button>
             </DialogActions>
@@ -108,7 +120,13 @@ export const Anatomy: Story = {
 export const NonDismissable: Story = {
   render: () => (
     <Dialog disablePointerDismissal>
-      <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogTrigger />}>
+      <Button
+        sizing="hug"
+        prominence="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DialogTrigger />}
+      >
         Open locked dialog
       </Button>
       <DialogPortal>
@@ -126,7 +144,13 @@ export const NonDismissable: Story = {
               </DialogDescription>
             </DialogBody>
             <DialogActions>
-              <Button variant="secondary" tone="neutral" magnitude="xl" render={<DialogClose />}>
+              <Button
+                sizing="hug"
+                prominence="secondary"
+                tone="neutral"
+                magnitude="xl"
+                render={<DialogClose />}
+              >
                 Discard
               </Button>
             </DialogActions>

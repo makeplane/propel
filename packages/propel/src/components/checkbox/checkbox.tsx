@@ -1,17 +1,18 @@
+import { Check, Minus } from "lucide-react";
 import * as React from "react";
 
 import {
-  Checkbox as CheckboxRoot,
-  CheckboxGlyph,
+  Checkbox as CheckboxElement,
+  CheckboxIndeterminateIndicator,
   CheckboxIndicator,
   CheckboxInlineStartNode,
   CheckboxLabel,
-  type CheckboxProps as CheckboxRootProps,
+  type CheckboxProps as CheckboxElementProps,
 } from "../../ui/checkbox";
 
 export type { CheckboxTone } from "../../ui/checkbox";
 
-export type CheckboxProps = CheckboxRootProps & {
+export type CheckboxProps = CheckboxElementProps & {
   /**
    * Optional text shown beside the box; the whole row becomes the clickable label. Omit it for a
    * bare checkbox (just the box) — in that case give the box an accessible name with `aria-label`
@@ -27,20 +28,25 @@ export type CheckboxProps = CheckboxRootProps & {
 };
 
 /**
- * The ready-made checkbox: composes the atomic `Checkbox` box with its `CheckboxIndicator`/glyph,
- * and optionally wraps the row in a clickable `CheckboxLabel` with an icon slot.
+ * The ready-made checkbox: composes the atomic `Checkbox` box with its check and indeterminate
+ * indicators, and optionally wraps the row in a clickable `CheckboxLabel` with an icon slot.
  */
 export function Checkbox({ tone, label, inlineStartNode, id, ...props }: CheckboxProps) {
   // Generate a stable id so an explicit `label` can be associated with the box.
   const generatedId = React.useId();
   const checkboxId = id ?? generatedId;
 
+  // Only force the generated id when there's a `label` to associate; without one (e.g. inside a
+  // `Field`, which manages labeling), pass the caller's `id` through untouched.
   const box = (
-    <CheckboxRoot id={checkboxId} tone={tone} {...props}>
+    <CheckboxElement id={label != null ? checkboxId : id} tone={tone} {...props}>
       <CheckboxIndicator>
-        <CheckboxGlyph indeterminate={props.indeterminate} />
+        <Check aria-hidden />
       </CheckboxIndicator>
-    </CheckboxRoot>
+      <CheckboxIndeterminateIndicator>
+        <Minus aria-hidden />
+      </CheckboxIndeterminateIndicator>
+    </CheckboxElement>
   );
 
   if (label == null) return box;

@@ -3,7 +3,7 @@ import type { ToastManager } from "@base-ui/react/toast";
 
 import {
   ToastPortal,
-  ToastProvider as ToastProviderRoot,
+  ToastProvider as ToastProviderElement,
   ToastViewport,
 } from "../../ui/toast/index";
 import type { ToastData } from "./toast";
@@ -24,13 +24,13 @@ export type ToastProviderProps = Omit<
  */
 export function ToastProvider({ children, ...props }: ToastProviderProps) {
   return (
-    <ToastProviderRoot {...props}>
+    <ToastProviderElement {...props}>
       {children}
       <ToastPortal>
         <ToastViewport>
           <ToastList />
         </ToastViewport>
       </ToastPortal>
-    </ToastProviderRoot>
+    </ToastProviderElement>
   );
 }

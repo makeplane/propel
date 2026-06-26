@@ -3,8 +3,9 @@ import { Mail, Search } from "lucide-react";
 import type * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
-import { InputFieldBox, InputFieldIconSlot } from "../../ui/field/index";
-import { Field, FieldError, FieldLabel, type InputMagnitude, type InputTone } from "../field/index";
+import { InputBox, InputIconSlot } from "../../ui/input/index";
+import { Field, FieldError, FieldLabel } from "../field/index";
+import { type InputMagnitude, type InputTone } from "./index";
 import { Input } from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
@@ -12,7 +13,7 @@ const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
 const meta = {
   title: "Components/Input",
   component: Input,
-  subcomponents: { InputFieldBox, InputFieldIconSlot },
+  subcomponents: { InputBox, InputIconSlot },
 } satisfies Meta<typeof Input>;
 
 export default meta;
@@ -29,9 +30,9 @@ function InputSurface({
 }) {
   return (
     <div className="w-72">
-      <InputFieldBox magnitude={magnitude} tone={tone}>
+      <InputBox magnitude={magnitude} tone={tone}>
         {children}
-      </InputFieldBox>
+      </InputBox>
     </div>
   );
 }
@@ -69,7 +70,7 @@ export const Magnitudes: Story = {
   ),
 };
 
-/** Leading and trailing icon addons frame the control via `InputFieldIconSlot`. */
+/** Leading and trailing icon addons frame the control via `InputIconSlot`. */
 export const WithIconSlots: Story = {
   args: {
     magnitude: "md",
@@ -79,13 +80,13 @@ export const WithIconSlots: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <InputSurface>
-      <InputFieldIconSlot>
+      <InputIconSlot>
         <Search />
-      </InputFieldIconSlot>
+      </InputIconSlot>
       <Input {...args} />
-      <InputFieldIconSlot>
+      <InputIconSlot>
         <Mail />
-      </InputFieldIconSlot>
+      </InputIconSlot>
     </InputSurface>
   ),
 };

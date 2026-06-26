@@ -5,22 +5,22 @@ import { expect } from "storybook/test";
 import { iconControl } from "../../storybook/icon-control";
 import {
   IconButtonIcon,
-  IconButtonRoot,
+  IconButton,
   type IconButtonMagnitude,
   IconButtonSpinner,
-  type IconButtonVariant,
+  type IconButtonProminence,
 } from "./index";
 
 // UI-tier story: composes the ATOMIC icon-button parts (each renders a single element) —
-// the square `IconButtonRoot` box, the `IconButtonIcon` glyph slot, and the
+// the square `IconButton` box, the `IconButtonIcon` glyph slot, and the
 // `IconButtonSpinner` loading indicator. The components-tier `IconButton` story shows the
 // ready-made button that swaps the slot for the spinner while `loading`.
-const VARIANTS: IconButtonVariant[] = ["primary", "secondary", "tertiary", "ghost"];
+const PROMINENCES: IconButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
 const meta = {
   title: "UI/IconButton",
-  component: IconButtonRoot,
+  component: IconButton,
   subcomponents: { IconButtonIcon, IconButtonSpinner },
   // Icon picker control for the single glyph rendered inside the slot.
   argTypes: { children: iconControl },
@@ -31,7 +31,7 @@ const meta = {
     },
   },
   args: {
-    variant: "primary",
+    prominence: "primary",
     tone: "neutral",
     magnitude: "md",
     "aria-label": "Add item",
@@ -41,12 +41,12 @@ const meta = {
       </IconButtonIcon>
     ),
   },
-} satisfies Meta<typeof IconButtonRoot>;
+} satisfies Meta<typeof IconButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Assemble the atomic parts: `IconButtonRoot` wrapping an `IconButtonIcon` glyph slot. */
+/** Assemble the atomic parts: `IconButton` wrapping an `IconButtonIcon` glyph slot. */
 export const Default: Story = {};
 
 /**
@@ -54,16 +54,21 @@ export const Default: Story = {};
  * the two Error types are the `danger` tone of `primary` (Error fill) and `secondary` (Error
  * outline) — see {@link Tones}.
  */
-export const Variants: Story = {
-  argTypes: { variant: { control: false }, "aria-label": { control: false } },
+export const Prominences: Story = {
+  argTypes: { prominence: { control: false }, "aria-label": { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      {VARIANTS.map((variant) => (
-        <IconButtonRoot key={variant} {...args} variant={variant} aria-label={`${variant} action`}>
+      {PROMINENCES.map((prominence) => (
+        <IconButton
+          key={prominence}
+          {...args}
+          prominence={prominence}
+          aria-label={`${prominence} action`}
+        >
           <IconButtonIcon>
             <Plus />
           </IconButtonIcon>
-        </IconButtonRoot>
+        </IconButton>
       ))}
     </div>
   ),
@@ -77,21 +82,21 @@ export const Tones: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <IconButtonRoot {...args} tone="neutral" variant="primary" aria-label="Neutral">
+      <IconButton {...args} tone="neutral" prominence="primary" aria-label="Neutral">
         <IconButtonIcon>
           <Plus />
         </IconButtonIcon>
-      </IconButtonRoot>
-      <IconButtonRoot {...args} tone="danger" variant="primary" aria-label="Danger fill">
+      </IconButton>
+      <IconButton {...args} tone="danger" prominence="primary" aria-label="Danger fill">
         <IconButtonIcon>
           <Plus />
         </IconButtonIcon>
-      </IconButtonRoot>
-      <IconButtonRoot {...args} tone="danger" variant="secondary" aria-label="Danger outline">
+      </IconButton>
+      <IconButton {...args} tone="danger" prominence="secondary" aria-label="Danger outline">
         <IconButtonIcon>
           <Plus />
         </IconButtonIcon>
-      </IconButtonRoot>
+      </IconButton>
     </div>
   ),
 };
@@ -102,16 +107,11 @@ export const Magnitudes: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <IconButtonRoot
-          key={magnitude}
-          {...args}
-          magnitude={magnitude}
-          aria-label={`${magnitude} add`}
-        >
+        <IconButton key={magnitude} {...args} magnitude={magnitude} aria-label={`${magnitude} add`}>
           <IconButtonIcon>
             <Plus />
           </IconButtonIcon>
-        </IconButtonRoot>
+        </IconButton>
       ))}
     </div>
   ),
@@ -122,38 +122,38 @@ export const Spinner: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <IconButtonRoot {...args} variant="primary" aria-label="Saving" aria-busy>
+      <IconButton {...args} prominence="primary" aria-label="Saving" aria-busy>
         <IconButtonSpinner>
           <LoaderCircle className="animate-spin" />
         </IconButtonSpinner>
-      </IconButtonRoot>
-      <IconButtonRoot {...args} variant="secondary" aria-label="Loading" aria-busy>
+      </IconButton>
+      <IconButton {...args} prominence="secondary" aria-label="Loading" aria-busy>
         <IconButtonSpinner>
           <LoaderCircle className="animate-spin" />
         </IconButtonSpinner>
-      </IconButtonRoot>
-      <IconButtonRoot {...args} variant="tertiary" aria-label="Refreshing" aria-busy>
+      </IconButton>
+      <IconButton {...args} prominence="tertiary" aria-label="Refreshing" aria-busy>
         <IconButtonSpinner>
           <LoaderCircle className="animate-spin" />
         </IconButtonSpinner>
-      </IconButtonRoot>
+      </IconButton>
     </div>
   ),
 };
 
 /**
- * The `IconButtonRoot` exposes its `aria-label` as the accessible name. Tagged
+ * The `IconButton` exposes its `aria-label` as the accessible name. Tagged
  * `!dev`/`!autodocs`/`!manifest` so it's hidden from the sidebar, docs, and AI manifest — it's a
  * behavior test, not an example — but still runs under `test`.
  */
 export const HasAccessibleName: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <IconButtonRoot variant="primary" tone="neutral" magnitude="md" aria-label="Add item">
+    <IconButton prominence="primary" tone="neutral" magnitude="md" aria-label="Add item">
       <IconButtonIcon>
         <Plus />
       </IconButtonIcon>
-    </IconButtonRoot>
+    </IconButton>
   ),
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("button", { name: "Add item" })).toBeInTheDocument();

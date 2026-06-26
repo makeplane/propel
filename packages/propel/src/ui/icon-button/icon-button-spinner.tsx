@@ -13,10 +13,6 @@ export type IconButtonSpinnerProps = Omit<
  * it is `aria-hidden`. Bakes no glyph — pass the spinner as `children` (the ready-made `IconButton`
  * passes a `LoaderCircle`).
  */
-export function IconButtonSpinner({ children, ...props }: IconButtonSpinnerProps) {
-  return (
-    <span aria-hidden className={iconButtonSpinnerVariants()} {...props}>
-      {children}
-    </span>
-  );
+export function IconButtonSpinner(props: IconButtonSpinnerProps) {
+  return <span aria-hidden className={iconButtonSpinnerVariants()} {...props} />;
 }

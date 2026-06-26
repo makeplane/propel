@@ -1,16 +1,8 @@
 import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
-import { type VariantProps } from "class-variance-authority";
-import * as React from "react";
 
-import { avatarToneBgClass, avatarVariants } from "./variants";
+import { avatarToneBgClass, avatarVariants, type AvatarVariantProps } from "./variants";
 
-export type AvatarMagnitude = NonNullable<VariantProps<typeof avatarVariants>["magnitude"]>;
-
-/**
- * Set by `AvatarGroup` to give every avatar inside it the same `magnitude`, so a group stays
- * consistently sized. An avatar's own `magnitude` prop takes precedence.
- */
-export const AvatarGroupContext = React.createContext<AvatarMagnitude | undefined>(undefined);
+export type { AvatarMagnitude } from "./variants";
 
 // The initials tone palette the designer defined for avatars (Figma label colors).
 export const AVATAR_TONES = ["orange", "indigo", "emerald", "crimson", "pink", "purple"] as const;
@@ -33,13 +25,7 @@ export function getAvatarTone(seed: string): AvatarTone {
 }
 
 /** Props for {@link Avatar} (the Base UI `Avatar.Root`), plus a `magnitude`. */
-export type AvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> & {
-  /**
-   * Avatar size. Optional because an `Avatar` inside an `AvatarGroup` inherits the group's
-   * magnitude; standalone it falls back to `md`.
-   */
-  magnitude?: AvatarMagnitude;
-};
+export type AvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> & AvatarVariantProps;
 
 /**
  * The styled `Avatar.Root` — a single element that holds an `AvatarImage` and/or `AvatarFallback`.
@@ -47,11 +33,5 @@ export type AvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> & {
  * `Avatar` from `@plane/propel/components/avatar`.
  */
 export function Avatar({ magnitude, ...props }: AvatarProps) {
-  // An explicit `magnitude` wins; otherwise inherit the group's; a standalone avatar with
-  // neither falls back to `md` so it always has a size.
-  const groupMagnitude = React.useContext(AvatarGroupContext);
-  const effectiveMagnitude = magnitude ?? groupMagnitude ?? "md";
-  return (
-    <BaseAvatar.Root className={avatarVariants({ magnitude: effectiveMagnitude })} {...props} />
-  );
+  return <BaseAvatar.Root className={avatarVariants({ magnitude })} {...props} />;
 }

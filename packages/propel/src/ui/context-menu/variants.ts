@@ -1,6 +1,7 @@
 import { cva, cx } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 /** Positioner: anchors the popup at the pointer with overlay stacking. */
 export const contextMenuPositionerVariants = cva("z-50 outline-none");
@@ -96,3 +97,9 @@ export const contextMenuGroupLabelVariants = cva("px-2 py-1 text-12 font-medium 
 
 /** Arrow: a small caret matching the popup surface color. */
 export const contextMenuArrowVariants = cva("text-layer-1");
+
+export type ContextMenuItemVariantProps = StrictVariantProps<typeof contextMenuItemVariants>;
+
+export type ContextMenuSubmenuTriggerVariantProps = StrictVariantProps<
+  typeof contextMenuSubmenuTriggerVariants
+>;

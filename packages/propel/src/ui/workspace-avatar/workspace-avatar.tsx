@@ -1,17 +1,12 @@
 import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
-import { type VariantProps } from "class-variance-authority";
 
-import { workspaceAvatarVariants } from "./variants";
+import { type WorkspaceAvatarVariantProps, workspaceAvatarVariants } from "./variants";
 
-export type WorkspaceAvatarMagnitude = NonNullable<
-  VariantProps<typeof workspaceAvatarVariants>["magnitude"]
->;
+export type { WorkspaceAvatarMagnitude } from "./variants";
 
 /** Props for {@link WorkspaceAvatar} (the Base UI `Avatar.Root`), plus a `magnitude`. */
-export type WorkspaceAvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> & {
-  /** Avatar size. Required — there is no default. */
-  magnitude: WorkspaceAvatarMagnitude;
-};
+export type WorkspaceAvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> &
+  WorkspaceAvatarVariantProps;
 
 /**
  * The styled `Avatar.Root` for a workspace — a single element that holds a `WorkspaceAvatarImage`

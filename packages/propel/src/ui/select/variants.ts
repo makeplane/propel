@@ -1,6 +1,8 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // The field region that stacks the label over the trigger as a column. Holds the
 // gap between `SelectLabel` and `SelectTrigger`; sizes to its widest child (the
@@ -13,9 +15,10 @@ export const selectLabelVariants = cva("text-14 font-medium text-primary");
 // Height, text size, and icon size track the magnitude axis (Figma "Size").
 export const selectTriggerVariants = cva(
   cx(
-    "flex min-w-48 items-center justify-between gap-2 rounded-md border-sm border-subtle bg-layer-2 px-3 text-primary outline-none",
+    // The trigger is itself the focusable element → `focus: visible`.
+    fieldControlSurfaceVariants({ tone: "neutral", focus: "visible" }),
+    "flex min-w-48 items-center justify-between gap-2 rounded-md px-3 text-primary outline-none",
     "hover:border-subtle-1 hover:bg-layer-2-hover",
-    "focus-visible:border-accent-strong focus-visible:ring-2 focus-visible:ring-accent-strong/20",
     "data-disabled:cursor-not-allowed data-disabled:text-disabled",
   ),
   {
@@ -67,3 +70,13 @@ export const selectItemVariants = cva(
 export const selectItemIndicatorVariants = cva(
   cx(nodeSlotClass, "text-icon-accent-primary [--node-size:1rem]"),
 );
+
+export type SelectItemMagnitude = NonNullable<VariantProps<typeof selectItemVariants>["magnitude"]>;
+
+export type SelectItemVariantProps = StrictVariantProps<typeof selectItemVariants>;
+
+export type SelectTriggerMagnitude = NonNullable<
+  VariantProps<typeof selectTriggerVariants>["magnitude"]
+>;
+
+export type SelectTriggerVariantProps = StrictVariantProps<typeof selectTriggerVariants>;
