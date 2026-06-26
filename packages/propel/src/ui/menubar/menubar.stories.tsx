@@ -54,7 +54,7 @@ export const Default: Story = {
         </MenubarTrigger>
         <MenuPortal>
           <MenuPositioner sideOffset={4}>
-            <MenuPopup surface="raised">
+            <MenuPopup elevation="raised">
               <MenuItem layout="default">New file</MenuItem>
               <MenuItem layout="default">Open…</MenuItem>
               <MenuSeparator />
@@ -69,7 +69,7 @@ export const Default: Story = {
         </MenubarTrigger>
         <MenuPortal>
           <MenuPositioner sideOffset={4}>
-            <MenuPopup surface="raised">
+            <MenuPopup elevation="raised">
               <MenuItem layout="default">Undo</MenuItem>
               <MenuItem layout="default">Redo</MenuItem>
             </MenuPopup>

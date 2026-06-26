@@ -69,7 +69,7 @@ export const Default: Story = {
       <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
       <MenuPortal>
         <MenuPositioner sideOffset={4}>
-          <MenuPopup surface="raised">
+          <MenuPopup elevation="raised">
             <MenuItem layout="default">
               <MenuItemIcon>
                 <Pencil />
@@ -125,7 +125,7 @@ export const Grouped: Story = {
       <MenuTrigger render={<button type="button" className={triggerClass} />}>View</MenuTrigger>
       <MenuPortal>
         <MenuPositioner sideOffset={4}>
-          <MenuPopup surface="raised">
+          <MenuPopup elevation="raised">
             <MenuGroup>
               <MenuGroupLabel>Layout</MenuGroupLabel>
               <MenuItem layout="default">
@@ -188,7 +188,7 @@ export const Checkboxes: Story = {
         <MenuTrigger render={<button type="button" className={triggerClass} />}>Notify</MenuTrigger>
         <MenuPortal>
           <MenuPositioner sideOffset={4}>
-            <MenuPopup surface="raised">
+            <MenuPopup elevation="raised">
               {rows.map((row) => (
                 <MenuCheckboxItem
                   key={row.key}

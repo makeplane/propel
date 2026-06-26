@@ -17,14 +17,14 @@ export const menuPositionerVariants = cva("z-50 outline-none");
  */
 export const menuPopupVariants = cva("outline-none", {
   variants: {
-    surface: {
+    elevation: {
       raised: cx(
         "min-w-40 rounded-lg border-sm border-subtle bg-layer-1 p-1 shadow-overlay-100",
         "origin-(--transform-origin) transition-[opacity,transform] duration-150",
         "data-starting-style:scale-95 data-starting-style:opacity-0",
         "data-ending-style:scale-95 data-ending-style:opacity-0",
       ),
-      inset: "p-1",
+      flat: "p-1",
     },
   },
 });
