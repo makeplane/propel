@@ -1,4 +1,5 @@
 export * from "./toast";
+export * from "./toast-status-icon";
 export * from "./toast-list";
 export * from "./toast-provider";
 

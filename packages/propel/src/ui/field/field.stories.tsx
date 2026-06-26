@@ -32,13 +32,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * A labeled input with helper text, assembled from the atomic parts. `FieldLabel required` appends
- * the `FieldLabelRequiredMarker` slot, passing the asterisk glyph in as its child.
+ * A labeled input with helper text, assembled from the atomic parts. The `FieldLabel` slot names
+ * the control; the `RequiredMarker` story shows how to append the `FieldLabelRequiredMarker` slot.
  */
 export const Default: Story = {
   render: () => (
     <Field name="displayName">
-      <FieldLabel magnitude="md" required inset={false}>
+      <FieldLabel magnitude="md" inset={false}>
         Display name
       </FieldLabel>
       <Input magnitude="md" required placeholder="Ada Lovelace" />
