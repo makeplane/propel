@@ -1,3 +1,4 @@
+import { Toggle } from "@base-ui/react/toggle";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   AlignCenter,
@@ -22,7 +23,6 @@ import {
   ToolbarGroup,
   ToolbarItemIcon,
   ToolbarSeparator,
-  ToolbarToggle,
   ToolbarToggleGroup,
 } from "./index";
 
@@ -36,7 +36,6 @@ const meta = {
     ToolbarGroup,
     ToolbarButton,
     ToolbarItemIcon,
-    ToolbarToggle,
     ToolbarToggleGroup,
     ToolbarSeparator,
     ToolbarMenuTriggerButton,
@@ -65,44 +64,56 @@ export const Default: Story = {
       </ToolbarMenuTriggerButton>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
-        <ToolbarToggle density={args.density} aria-label="Bold">
+        <ToolbarButton density={args.density} aria-label="Bold" render={<Toggle />}>
           <ToolbarItemIcon>
             <Bold />
           </ToolbarItemIcon>
-        </ToolbarToggle>
-        <ToolbarToggle density={args.density} aria-label="Italic">
+        </ToolbarButton>
+        <ToolbarButton density={args.density} aria-label="Italic" render={<Toggle />}>
           <ToolbarItemIcon>
             <Italic />
           </ToolbarItemIcon>
-        </ToolbarToggle>
-        <ToolbarToggle density={args.density} aria-label="Underline">
+        </ToolbarButton>
+        <ToolbarButton density={args.density} aria-label="Underline" render={<Toggle />}>
           <ToolbarItemIcon>
             <Underline />
           </ToolbarItemIcon>
-        </ToolbarToggle>
-        <ToolbarToggle density={args.density} aria-label="Strikethrough">
+        </ToolbarButton>
+        <ToolbarButton density={args.density} aria-label="Strikethrough" render={<Toggle />}>
           <ToolbarItemIcon>
             <Strikethrough />
           </ToolbarItemIcon>
-        </ToolbarToggle>
+        </ToolbarButton>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarToggleGroup aria-label="Text alignment" defaultValue={["left"]}>
-        <ToolbarToggle density={args.density} value="left" aria-label="Align left">
+        <ToolbarButton
+          density={args.density}
+          aria-label="Align left"
+          render={<Toggle value="left" />}
+        >
           <ToolbarItemIcon>
             <AlignLeft />
           </ToolbarItemIcon>
-        </ToolbarToggle>
-        <ToolbarToggle density={args.density} value="center" aria-label="Align center">
+        </ToolbarButton>
+        <ToolbarButton
+          density={args.density}
+          aria-label="Align center"
+          render={<Toggle value="center" />}
+        >
           <ToolbarItemIcon>
             <AlignCenter />
           </ToolbarItemIcon>
-        </ToolbarToggle>
-        <ToolbarToggle density={args.density} value="right" aria-label="Align right">
+        </ToolbarButton>
+        <ToolbarButton
+          density={args.density}
+          aria-label="Align right"
+          render={<Toggle value="right" />}
+        >
           <ToolbarItemIcon>
             <AlignRight />
           </ToolbarItemIcon>
-        </ToolbarToggle>
+        </ToolbarButton>
       </ToolbarToggleGroup>
       <ToolbarSeparator />
       <ToolbarButton density={args.density} aria-label="Insert link">
@@ -137,16 +148,16 @@ export const Elevations: Story = {
     <div className="flex flex-col gap-6">
       {(["raised", "flat"] as const).map((elevation) => (
         <Toolbar key={elevation} {...args} elevation={elevation}>
-          <ToolbarToggle density={args.density} aria-label="Bold">
+          <ToolbarButton density={args.density} aria-label="Bold" render={<Toggle />}>
             <ToolbarItemIcon>
               <Bold />
             </ToolbarItemIcon>
-          </ToolbarToggle>
-          <ToolbarToggle density={args.density} aria-label="Italic">
+          </ToolbarButton>
+          <ToolbarButton density={args.density} aria-label="Italic" render={<Toggle />}>
             <ToolbarItemIcon>
               <Italic />
             </ToolbarItemIcon>
-          </ToolbarToggle>
+          </ToolbarButton>
           <ToolbarSeparator />
           <ToolbarButton density={args.density} aria-label="Insert link">
             <ToolbarItemIcon>
@@ -169,16 +180,16 @@ export const Densities: Story = {
     <div className="flex flex-col gap-6">
       {(["compact", "comfortable"] as const).map((density) => (
         <Toolbar key={density} {...args} density={density}>
-          <ToolbarToggle density={density} aria-label="Bold">
+          <ToolbarButton density={density} aria-label="Bold" render={<Toggle />}>
             <ToolbarItemIcon>
               <Bold />
             </ToolbarItemIcon>
-          </ToolbarToggle>
-          <ToolbarToggle density={density} aria-label="Italic">
+          </ToolbarButton>
+          <ToolbarButton density={density} aria-label="Italic" render={<Toggle />}>
             <ToolbarItemIcon>
               <Italic />
             </ToolbarItemIcon>
-          </ToolbarToggle>
+          </ToolbarButton>
           <ToolbarSeparator />
           <ToolbarButton density={density} aria-label="Insert link">
             <ToolbarItemIcon>

@@ -6,6 +6,5 @@ export * from "./toolbar-menu-trigger-label";
 export * from "./toolbar-group";
 export * from "./toolbar-item-icon";
 export * from "./toolbar-separator";
-export * from "./toolbar-toggle";
 export * from "./toolbar-toggle-group";
 export { type ToolbarDensity, type ToolbarElevation } from "./variants";
