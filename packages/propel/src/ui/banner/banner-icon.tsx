@@ -3,8 +3,6 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type BannerIconVariantProps, bannerIconVariants } from "./variants";
 
-export type { BannerIconVariantProps } from "./variants";
-
 export type BannerIconProps = Omit<useRender.ComponentProps<"span">, "className" | "style"> &
   BannerIconVariantProps;
 

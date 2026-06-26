@@ -2,8 +2,6 @@ import { Fieldset as BaseFieldset } from "@base-ui/react/fieldset";
 
 import { type FieldsetVariantProps, fieldsetVariants } from "./variants";
 
-export type { FieldsetVariantProps } from "./variants";
-
 export type FieldsetProps = Omit<BaseFieldset.Root.Props, "className" | "style"> &
   FieldsetVariantProps;
 

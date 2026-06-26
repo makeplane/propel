@@ -1,6 +1,6 @@
 export * from "./button";
-// Re-export the atomic button's parts, variant types, and `buttonVariants` so the full button
-// surface is importable from this convenience.
+// Re-export the atomic button's parts and variant axis types so the full button surface is
+// importable from this convenience. (cvas + the cva-props bundle stay private to `ui`.)
 export {
   ButtonIcon,
   type ButtonIconProps,
@@ -12,5 +12,4 @@ export {
   type ButtonSizing,
   type ButtonTone,
   type ButtonProminence,
-  buttonVariants,
 } from "../../ui/button";

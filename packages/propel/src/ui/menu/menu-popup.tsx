@@ -2,8 +2,6 @@ import { Menu as BaseMenu } from "@base-ui/react/menu";
 
 import { type MenuPopupVariantProps, menuPopupVariants } from "./variants";
 
-export type { MenuPopupVariantProps } from "./variants";
-
 export type MenuPopupProps = Omit<BaseMenu.Popup.Props, "className" | "style"> &
   MenuPopupVariantProps;
 

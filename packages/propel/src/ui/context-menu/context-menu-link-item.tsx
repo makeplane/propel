@@ -2,8 +2,6 @@ import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
 
 import { type ContextMenuItemVariantProps, contextMenuItemVariants } from "./variants";
 
-export type { ContextMenuItemVariantProps } from "./variants";
-
 export type ContextMenuLinkItemProps = Omit<BaseContextMenu.LinkItem.Props, "className" | "style"> &
   ContextMenuItemVariantProps;
 

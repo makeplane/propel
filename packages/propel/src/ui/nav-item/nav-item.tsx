@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type NavItemVariantProps, navItemVariants } from "./variants";
 
-export type { NavItemLevel, NavItemMagnitude, NavItemVariantProps } from "./variants";
+export type { NavItemLevel, NavItemMagnitude } from "./variants";
 
 export type NavItemProps = Omit<useRender.ComponentProps<"button">, "className" | "style"> &
   NavItemVariantProps & {

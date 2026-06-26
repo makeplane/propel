@@ -2,8 +2,6 @@ import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
 
 import { type ContextMenuItemVariantProps, contextMenuItemVariants } from "./variants";
 
-export type { ContextMenuItemVariantProps } from "./variants";
-
 export type ContextMenuCheckboxItemProps = Omit<
   BaseContextMenu.CheckboxItem.Props,
   "className" | "style"

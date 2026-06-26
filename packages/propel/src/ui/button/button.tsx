@@ -2,15 +2,7 @@ import { Button as BaseButton } from "@base-ui/react/button";
 
 import { type ButtonVariantProps, buttonVariants } from "./variants";
 
-// Re-exported so `buttonVariants` + its variant-prop types stay part of the button entry's surface.
-export { buttonVariants } from "./variants";
-export type {
-  ButtonMagnitude,
-  ButtonProminence,
-  ButtonSizing,
-  ButtonTone,
-  ButtonVariantProps,
-} from "./variants";
+export type { ButtonMagnitude, ButtonProminence, ButtonSizing, ButtonTone } from "./variants";
 
 export type ButtonProps = Omit<BaseButton.Props, "className" | "style"> & ButtonVariantProps;
 

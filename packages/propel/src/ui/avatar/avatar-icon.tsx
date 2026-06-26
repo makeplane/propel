@@ -3,8 +3,6 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type AvatarIconVariantProps, avatarIconVariants } from "./variants";
 
-export type { AvatarIconVariantProps } from "./variants";
-
 /** Props for {@link AvatarIcon}, plus the `magnitude` that sizes its glyph. */
 export type AvatarIconProps = Omit<useRender.ComponentProps<"span">, "className" | "style"> &
   AvatarIconVariantProps;

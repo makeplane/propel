@@ -2,7 +2,7 @@ import type * as React from "react";
 
 import { type AlertDialogIconVariantProps, alertDialogIconVariants } from "./variants";
 
-export type { AlertDialogIconTone, AlertDialogIconVariantProps } from "./variants";
+export type { AlertDialogIconTone } from "./variants";
 
 export type AlertDialogIconProps = Omit<
   React.ComponentPropsWithoutRef<"span">,

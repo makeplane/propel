@@ -2,8 +2,6 @@ import { NavigationMenu as BaseNavigationMenu } from "@base-ui/react/navigation-
 
 import { type NavigationMenuLinkVariantProps, navigationMenuLinkVariants } from "./variants";
 
-export type { NavigationMenuLinkVariantProps } from "./variants";
-
 export type NavigationMenuLinkProps = Omit<BaseNavigationMenu.Link.Props, "className" | "style"> &
   NavigationMenuLinkVariantProps;
 

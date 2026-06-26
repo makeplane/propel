@@ -2,8 +2,6 @@ import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 
 import { type DialogPopupVariantProps, dialogPopupVariants } from "./variants";
 
-export type { DialogPopupVariantProps } from "./variants";
-
 export type DialogPopupProps = Omit<BaseDialog.Popup.Props, "className" | "style"> &
   DialogPopupVariantProps;
 

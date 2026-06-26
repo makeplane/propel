@@ -5,8 +5,6 @@ import {
   circularProgressIndicatorVariants,
 } from "./variants";
 
-export type { CircularProgressIndicatorVariantProps } from "./variants";
-
 /** Props for {@link CircularProgressIndicator}. */
 export type CircularProgressIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"circle">,

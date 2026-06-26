@@ -5,10 +5,7 @@ import {
   toolbarMenuTriggerButtonVariants,
 } from "./variants";
 
-export type ToolbarMenuTriggerButtonProps = Omit<
-  BaseToolbar.Button.Props,
-  "className" | "style"
-> &
+export type ToolbarMenuTriggerButtonProps = Omit<BaseToolbar.Button.Props, "className" | "style"> &
   ToolbarMenuTriggerButtonVariantProps;
 
 /** The styled chrome for a toolbar menu trigger: a text label slot with density-aware sizing. */

@@ -1,9 +1,5 @@
 import { CheckboxGlyph } from "./checkbox-glyph";
-import {
-  checkboxIndicatorVariants,
-  checkboxVariants,
-  type CheckboxVariantProps,
-} from "./variants";
+import { checkboxIndicatorVariants, checkboxVariants, type CheckboxVariantProps } from "./variants";
 
 export type CheckboxVisualProps = {
   /** Whether the box shows as checked. */

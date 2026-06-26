@@ -5,8 +5,6 @@ import {
   contextMenuSubmenuTriggerVariants,
 } from "./variants";
 
-export type { ContextMenuSubmenuTriggerVariantProps } from "./variants";
-
 export type ContextMenuSubmenuTriggerProps = Omit<
   BaseContextMenu.SubmenuTrigger.Props,
   "className" | "style"

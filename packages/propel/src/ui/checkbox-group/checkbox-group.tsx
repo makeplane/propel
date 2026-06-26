@@ -2,7 +2,7 @@ import { CheckboxGroup as BaseCheckboxGroup } from "@base-ui/react/checkbox-grou
 
 import { type CheckboxGroupVariantProps, checkboxGroupVariants } from "./variants";
 
-export type { CheckboxGroupDensity, CheckboxGroupVariantProps } from "./variants";
+export type { CheckboxGroupDensity } from "./variants";
 
 export type CheckboxGroupProps = Omit<BaseCheckboxGroup.Props, "className" | "style"> &
   CheckboxGroupVariantProps;

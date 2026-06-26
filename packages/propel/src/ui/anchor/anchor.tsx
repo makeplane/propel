@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type AnchorVariantProps, anchorVariants } from "./variants";
 
-export type { AnchorMagnitude, AnchorProminence, AnchorVariantProps } from "./variants";
+export type { AnchorMagnitude, AnchorProminence } from "./variants";
 
 export type AnchorProps = Omit<useRender.ComponentProps<"a">, "className" | "style"> &
   AnchorVariantProps;

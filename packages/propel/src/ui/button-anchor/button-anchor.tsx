@@ -2,11 +2,7 @@ import { Button as BaseButton } from "@base-ui/react/button";
 
 import { type ButtonAnchorVariantProps, buttonAnchorVariants } from "./variants";
 
-export type {
-  ButtonAnchorMagnitude,
-  ButtonAnchorProminence,
-  ButtonAnchorVariantProps,
-} from "./variants";
+export type { ButtonAnchorMagnitude, ButtonAnchorProminence } from "./variants";
 
 export type ButtonAnchorProps = Omit<BaseButton.Props, "className" | "style"> &
   ButtonAnchorVariantProps;

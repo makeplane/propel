@@ -2,8 +2,6 @@ import { Progress as BaseProgress } from "@base-ui/react/progress";
 
 import { type LinearProgressTrackVariantProps, linearProgressTrackVariants } from "./variants";
 
-export type { LinearProgressTrackVariantProps } from "./variants";
-
 /** Props for {@link LinearProgressTrack}; 1:1 with Base UI `LinearProgress.Track`. */
 export type LinearProgressTrackProps = Omit<BaseProgress.Track.Props, "className" | "style"> &
   LinearProgressTrackVariantProps;

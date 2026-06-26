@@ -5,5 +5,4 @@ export {
   type IconButtonMagnitude,
   type IconButtonTone,
   type IconButtonProminence,
-  type IconButtonVariantProps,
 } from "./variants";

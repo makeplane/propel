@@ -3,7 +3,7 @@ import type { RadioGroup as BaseRadioGroupTypes } from "@base-ui/react/radio-gro
 
 import { type RadioGroupVariantProps, radioGroupVariants } from "./variants";
 
-export type { RadioGroupDensity, RadioGroupVariantProps } from "./variants";
+export type { RadioGroupDensity } from "./variants";
 
 // Mirror `BaseRadioGroup`'s own `Value` generic (default `any`); the typed/safe variant is the
 // components-tier `RadioGroupField`.

@@ -5,8 +5,6 @@ import {
   linearProgressIndicatorVariants,
 } from "./variants";
 
-export type { LinearProgressIndicatorVariantProps } from "./variants";
-
 /** Props for {@link LinearProgressIndicator}; 1:1 with Base UI `LinearProgress.Indicator`. */
 export type LinearProgressIndicatorProps = Omit<
   BaseProgress.Indicator.Props,

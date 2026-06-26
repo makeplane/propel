@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type BannerTone, type BannerVariantProps, bannerVariants } from "./variants";
 
-export type { BannerTone, BannerPlacement, BannerVariantProps } from "./variants";
+export type { BannerTone, BannerPlacement } from "./variants";
 
 // warning/danger are time-sensitive problems → `alert` (assertive). The calmer
 // tones are advisory → `status` (polite). Picks the right live-region semantics.

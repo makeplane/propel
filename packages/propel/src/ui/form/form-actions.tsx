@@ -3,8 +3,6 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type FormActionsVariantProps, formActionsVariants } from "./variants";
 
-export type { FormActionsVariantProps } from "./variants";
-
 export type FormActionsProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
   FormActionsVariantProps;
 

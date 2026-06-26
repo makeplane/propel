@@ -7,13 +7,3 @@ export * from "./breadcrumb-separator";
 export * from "./breadcrumb-trigger";
 export * from "./breadcrumb-trigger-icon";
 export * from "./breadcrumb-trigger-indicator";
-export {
-  breadcrumbItemVariants,
-  breadcrumbLinkVariants,
-  breadcrumbListVariants,
-  breadcrumbPageVariants,
-  breadcrumbSeparatorVariants,
-  breadcrumbTriggerIconVariants,
-  breadcrumbTriggerIndicatorVariants,
-  breadcrumbTriggerVariants,
-} from "./variants";

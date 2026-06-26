@@ -11,18 +11,3 @@ export * from "./pagination-per-page-trigger";
 export * from "./pagination-range";
 export * from "./pagination-range-current";
 export * from "./pagination-spinner";
-export {
-  paginationArrowButtonVariants,
-  paginationEllipsisVariants,
-  paginationItemVariants,
-  paginationListVariants,
-  paginationPageButtonVariants,
-  paginationPerPageIndicatorVariants,
-  paginationPerPageLabelVariants,
-  paginationPerPageTriggerVariants,
-  paginationPerPageVariants,
-  paginationRangeCurrentVariants,
-  paginationRangeVariants,
-  paginationSpinnerVariants,
-  paginationVariants,
-} from "./variants";

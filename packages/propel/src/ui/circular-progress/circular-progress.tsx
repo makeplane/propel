@@ -2,8 +2,6 @@ import { Progress as BaseProgress } from "@base-ui/react/progress";
 
 import { type CircularProgressVariantProps, circularProgressVariants } from "./variants";
 
-export type { CircularProgressVariantProps } from "./variants";
-
 /** Props for {@link CircularProgress}. */
 export type CircularProgressProps = Omit<BaseProgress.Root.Props, "className" | "style"> &
   CircularProgressVariantProps;

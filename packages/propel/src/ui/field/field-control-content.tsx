@@ -3,7 +3,6 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type FieldControlContentVariantProps, fieldControlContentVariants } from "./variants";
 
-
 export type FieldControlContentProps = Omit<
   useRender.ComponentProps<"div">,
   "className" | "style"

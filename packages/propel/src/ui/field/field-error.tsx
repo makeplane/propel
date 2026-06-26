@@ -2,7 +2,6 @@ import { Field as BaseField } from "@base-ui/react/field";
 
 import { type FieldErrorVariantProps, fieldErrorVariants } from "./variants";
 
-
 export type FieldErrorProps = Omit<BaseField.Error.Props, "className" | "style"> &
   FieldErrorVariantProps;
 

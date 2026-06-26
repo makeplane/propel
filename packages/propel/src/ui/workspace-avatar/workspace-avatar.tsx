@@ -2,7 +2,7 @@ import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 
 import { type WorkspaceAvatarVariantProps, workspaceAvatarVariants } from "./variants";
 
-export type { WorkspaceAvatarMagnitude, WorkspaceAvatarVariantProps } from "./variants";
+export type { WorkspaceAvatarMagnitude } from "./variants";
 
 /** Props for {@link WorkspaceAvatar} (the Base UI `Avatar.Root`), plus a `magnitude`. */
 export type WorkspaceAvatarProps = Omit<BaseAvatar.Root.Props, "className" | "style"> &

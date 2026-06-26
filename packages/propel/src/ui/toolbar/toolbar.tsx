@@ -4,7 +4,8 @@ import { type ToolbarVariantProps, toolbarVariants } from "./variants";
 
 export type { ToolbarDensity, ToolbarElevation } from "./variants";
 
-export type ToolbarProps = Omit<BaseToolbar.Root.Props, "className" | "style"> & ToolbarVariantProps;
+export type ToolbarProps = Omit<BaseToolbar.Root.Props, "className" | "style"> &
+  ToolbarVariantProps;
 
 /**
  * A row of controls built on Base UI's `Toolbar` — a single element. The density-sharing behavior

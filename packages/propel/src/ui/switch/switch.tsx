@@ -2,7 +2,7 @@ import { Switch as BaseSwitch } from "@base-ui/react/switch";
 
 import { type SwitchVariantProps, switchVariants } from "./variants";
 
-export type { SwitchMagnitude, SwitchVariantProps } from "./variants";
+export type { SwitchMagnitude } from "./variants";
 
 export type SwitchProps = Omit<BaseSwitch.Root.Props, "className" | "style"> & SwitchVariantProps;
 

@@ -9,10 +9,7 @@ export type ScrollAreaScrollbarVisibility = "auto" | "always";
 export type ScrollAreaScrollbarMagnitude = "thin" | "standard";
 
 /** Props for {@link ScrollAreaScrollbar}; extends Base UI `ScrollArea.Scrollbar`. */
-export type ScrollAreaScrollbarProps = Omit<
-  BaseScrollArea.Scrollbar.Props,
-  "className" | "style"
-> &
+export type ScrollAreaScrollbarProps = Omit<BaseScrollArea.Scrollbar.Props, "className" | "style"> &
   ScrollAreaScrollbarVariantProps;
 
 /** 1:1 wrapper around Base UI `ScrollArea.Scrollbar`. */

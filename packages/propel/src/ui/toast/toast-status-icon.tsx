@@ -12,7 +12,7 @@ import {
   toastStatusIconVariants,
 } from "./variants";
 
-export type { ToastStatusIconVariantProps, ToastTone } from "./variants";
+export type { ToastTone } from "./variants";
 
 type StatusIcon = (props: StatusIconProps) => React.JSX.Element;
 

@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type BadgeVariantProps, badgeVariants } from "./variants";
 
-export type { BadgeMagnitude, BadgeTone, BadgeVariantProps } from "./variants";
+export type { BadgeMagnitude, BadgeTone } from "./variants";
 
 export type BadgeProps = Omit<useRender.ComponentProps<"span">, "className" | "style"> &
   BadgeVariantProps;

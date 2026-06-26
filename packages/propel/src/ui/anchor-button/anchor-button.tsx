@@ -8,7 +8,6 @@ export type {
   AnchorButtonProminence,
   AnchorButtonSizing,
   AnchorButtonTone,
-  AnchorButtonVariantProps,
 } from "./variants";
 
 export type AnchorButtonProps = Omit<useRender.ComponentProps<"a">, "className" | "style"> &

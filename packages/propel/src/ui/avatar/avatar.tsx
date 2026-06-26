@@ -2,7 +2,7 @@ import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 
 import { avatarToneBgClass, avatarVariants, type AvatarVariantProps } from "./variants";
 
-export type { AvatarMagnitude, AvatarVariantProps } from "./variants";
+export type { AvatarMagnitude } from "./variants";
 
 // The initials tone palette the designer defined for avatars (Figma label colors).
 export const AVATAR_TONES = ["orange", "indigo", "emerald", "crimson", "pink", "purple"] as const;
