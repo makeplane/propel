@@ -38,7 +38,7 @@ export function MenuContentSurface({
     <MenuPortal>
       <MenuPositioner side={side} sideOffset={sideOffset} align={align}>
         <OverlayPanel elevation="overlay" radius="lg" width={width} header={search} footer={footer}>
-          <MenuPopup surface="inset" {...props} />
+          <MenuPopup elevation="flat" {...props} />
         </OverlayPanel>
       </MenuPositioner>
     </MenuPortal>
