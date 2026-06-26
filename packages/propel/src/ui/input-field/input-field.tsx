@@ -1,6 +1,6 @@
 import { Field as BaseField } from "@base-ui/react/field";
 
-import { inputFieldRootVariants } from "./variants";
+import { inputFieldVariants } from "./variants";
 
 export type InputFieldProps = Omit<BaseField.Root.Props, "className" | "style"> & {
   /** Label placement: `vertical` (label above) | `horizontal` (label beside). */
@@ -9,5 +9,5 @@ export type InputFieldProps = Omit<BaseField.Root.Props, "className" | "style"> 
 
 /** The Base UI `Field.Root` chrome for `InputField`, with orientation-aware layout. */
 export function InputField({ orientation, ...props }: InputFieldProps) {
-  return <BaseField.Root className={inputFieldRootVariants({ orientation })} {...props} />;
+  return <BaseField.Root className={inputFieldVariants({ orientation })} {...props} />;
 }

@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 
 /** Root: a vertical stack holding the header row and the track. */
-export const meterRootVariants = cva("flex w-full flex-col gap-1");
+export const meterVariants = cva("flex w-full flex-col gap-1");
 
 /**
  * Header: the row above the track that pairs the label and value. Per the spec the label sits at

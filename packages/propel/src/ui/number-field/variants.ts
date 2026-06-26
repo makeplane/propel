@@ -3,7 +3,7 @@ import { type VariantProps, cva, cx } from "class-variance-authority";
 import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 import { nodeSlotClass } from "../../internal/node-slot";
 
-export const numberFieldRootVariants = cva("flex min-w-0 flex-col gap-1.5");
+export const numberFieldVariants = cva("flex min-w-0 flex-col gap-1.5");
 export const numberFieldGroupVariants = cva(
   cx(
     // Wraps a separate focusable input → `focus: within`.

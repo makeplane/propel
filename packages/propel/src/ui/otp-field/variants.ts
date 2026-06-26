@@ -3,7 +3,7 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 
 /** Root: a horizontal row of character slots (and optional separators). */
-export const otpFieldRootVariants = cva("flex items-center gap-2");
+export const otpFieldVariants = cva("flex items-center gap-2");
 
 /**
  * Input: a single character cell with the input chrome tokens.

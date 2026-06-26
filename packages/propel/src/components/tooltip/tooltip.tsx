@@ -3,7 +3,7 @@ import type { TooltipRoot } from "@base-ui/react/tooltip";
 import type * as React from "react";
 
 import {
-  Tooltip as TooltipRootPart,
+  Tooltip as TooltipElement,
   TooltipArrow,
   TooltipPopup,
   TooltipPortal,
@@ -69,10 +69,10 @@ export function Tooltip<Payload = unknown>({
   side = "top",
   sideOffset = 8,
   delay = 600,
-  ...rootProps
+  ...props
 }: TooltipProps<Payload>) {
   return (
-    <TooltipRootPart {...rootProps}>
+    <TooltipElement {...props}>
       <TooltipTrigger delay={delay} render={children} />
       <TooltipPortal>
         <TooltipPositioner side={side} sideOffset={sideOffset}>
@@ -88,6 +88,6 @@ export function Tooltip<Payload = unknown>({
           </TooltipPopup>
         </TooltipPositioner>
       </TooltipPortal>
-    </TooltipRootPart>
+    </TooltipElement>
   );
 }
