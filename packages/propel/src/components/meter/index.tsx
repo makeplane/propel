@@ -4,7 +4,7 @@ export {
   type MeterHeaderProps,
   MeterIndicator,
   type MeterIndicatorProps,
-  type MeterIndicatorTone,
+  type MeterIndicatorLevel,
   MeterLabel,
   type MeterLabelProps,
   MeterTrack,
