@@ -5,6 +5,7 @@ import {
   fieldControlSurfaceVariants,
 } from "../../internal/field-control-surface";
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const inputVariants = cva(
   cx(
@@ -24,9 +25,11 @@ export const inputVariants = cva(
   },
 );
 
-type InputVariantProps = VariantProps<typeof inputVariants>;
+type InputVariantConfig = VariantProps<typeof inputVariants>;
 
-export type InputMagnitude = NonNullable<InputVariantProps["magnitude"]>;
+export type InputMagnitude = NonNullable<InputVariantConfig["magnitude"]>;
+
+export type InputVariantProps = StrictVariantProps<typeof inputVariants>;
 
 /** Resting treatment of the input box (`neutral` / `danger`). */
 export type InputTone = FieldControlTone;
@@ -54,6 +57,8 @@ export const inputBoxVariants = cva(
     },
   },
 );
+
+export type InputBoxVariantProps = StrictVariantProps<typeof inputBoxVariants>;
 
 // The decorative 16px node at the input's inline start/end (sizes its child to `--node-size`).
 export const inputIconSlotVariants = cva(

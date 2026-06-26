@@ -1,12 +1,10 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { searchVariants, type SearchMagnitude } from "./variants";
+import { searchVariants, type SearchVariantProps } from "./variants";
 
-export type SearchProps = Omit<useRender.ComponentProps<"label">, "className" | "style"> & {
-  /** Height + text + icon scale (Figma 28/32/36px steps). */
-  magnitude: SearchMagnitude;
-};
+export type SearchProps = Omit<useRender.ComponentProps<"label">, "className" | "style"> &
+  SearchVariantProps;
 
 /**
  * The search field box: a `<label>` wrapping the leading `SearchIcon`, the `SearchInput`, and an

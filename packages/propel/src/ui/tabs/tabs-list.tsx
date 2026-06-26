@@ -1,11 +1,8 @@
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 
-import { type TabsAppearance, tabsListVariants } from "./variants";
+import { type TabsListVariantProps, tabsListVariants } from "./variants";
 
-export type TabsListProps = Omit<BaseTabs.List.Props, "className" | "style"> & {
-  /** The set's visual treatment, matching the `Tabs` root. */
-  appearance: TabsAppearance;
-};
+export type TabsListProps = Omit<BaseTabs.List.Props, "className" | "style"> & TabsListVariantProps;
 
 /**
  * The row of tabs (Base UI `Tabs.List`) — a single element. The ready-made `components/tabs`

@@ -1,16 +1,18 @@
 import { CheckboxGlyph } from "./checkbox-glyph";
-import { checkboxIndicatorVariants, checkboxVariants, type CheckboxTone } from "./variants";
+import {
+  checkboxIndicatorVariants,
+  checkboxVariants,
+  type CheckboxVariantProps,
+} from "./variants";
 
 export type CheckboxVisualProps = {
-  /** Resting color of the box. `danger` is the Figma "Error" state. */
-  tone: CheckboxTone;
   /** Whether the box shows as checked. */
   checked?: boolean;
   /** Whether the box shows the indeterminate dash (wins over `checked`). */
   indeterminate?: boolean;
   /** Whether the box shows as disabled. */
   disabled?: boolean;
-};
+} & CheckboxVariantProps;
 
 /** A purely presentational copy of the `Checkbox` box for use inside another interactive control. */
 export function CheckboxVisual({ tone, checked, indeterminate, disabled }: CheckboxVisualProps) {

@@ -1,13 +1,11 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 
-import { pillButtonVariants, type PillMagnitude } from "./variants";
+import { pillButtonVariants, type PillButtonVariantProps } from "./variants";
 
 export type { PillMagnitude } from "./variants";
 
-export type PillButtonProps = Omit<BaseButton.Props, "className" | "style"> & {
-  /** Box scale. `sm` 20px / `md` 24px / `lg` 28px. */
-  magnitude: PillMagnitude;
-};
+export type PillButtonProps = Omit<BaseButton.Props, "className" | "style"> &
+  PillButtonVariantProps;
 
 /**
  * The pill-shaped button container. Renders a single Base UI `Button`; compose a `PillLabel` and

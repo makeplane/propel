@@ -1,16 +1,10 @@
 import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 
-import { type ToolbarDensity, type ToolbarElevation } from "./variants";
-import { toolbarVariants } from "./variants";
+import { type ToolbarVariantProps, toolbarVariants } from "./variants";
 
 export type { ToolbarDensity, ToolbarElevation } from "./variants";
 
-export type ToolbarProps = Omit<BaseToolbar.Root.Props, "className" | "style"> & {
-  /** Whether the toolbar draws its own surface. */
-  elevation: ToolbarElevation;
-  /** How tightly the controls pack. */
-  density: ToolbarDensity;
-};
+export type ToolbarProps = Omit<BaseToolbar.Root.Props, "className" | "style"> & ToolbarVariantProps;
 
 /**
  * A row of controls built on Base UI's `Toolbar` — a single element. The density-sharing behavior

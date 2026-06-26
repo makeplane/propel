@@ -1,14 +1,12 @@
 import type * as React from "react";
 
-import { searchExpandableVariants, type SearchMagnitude } from "./variants";
+import { searchExpandableVariants, type SearchExpandableVariantProps } from "./variants";
 
 export type SearchExpandableProps = Omit<
   React.ComponentPropsWithoutRef<"label">,
   "className" | "style"
-> & {
-  /** Height + text + icon scale (Figma 28/32/36px steps). */
-  magnitude: SearchMagnitude;
-};
+> &
+  SearchExpandableVariantProps;
 
 /**
  * The expandable search box: a `<label>` that renders as a magnifier square and expands from the

@@ -1,6 +1,6 @@
 import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 
-import { scrollAreaScrollbarVariants } from "./variants";
+import { scrollAreaScrollbarVariants, type ScrollAreaScrollbarVariantProps } from "./variants";
 
 /** Controls when the scrollbar track is visible. */
 export type ScrollAreaScrollbarVisibility = "auto" | "always";
@@ -12,18 +12,8 @@ export type ScrollAreaScrollbarMagnitude = "thin" | "standard";
 export type ScrollAreaScrollbarProps = Omit<
   BaseScrollArea.Scrollbar.Props,
   "className" | "style"
-> & {
-  /**
-   * `auto` hides the scrollbar at rest and reveals it on hover/scroll (fades when idle). `always`
-   * keeps the scrollbar permanently visible.
-   */
-  visibility: ScrollAreaScrollbarVisibility;
-  /**
-   * `thin` — 12 px gutter (3 px padding, 6 px thumb). `standard` — 16 px gutter (5 px padding, 6 px
-   * thumb).
-   */
-  magnitude: ScrollAreaScrollbarMagnitude;
-};
+> &
+  ScrollAreaScrollbarVariantProps;
 
 /** 1:1 wrapper around Base UI `ScrollArea.Scrollbar`. */
 export function ScrollAreaScrollbar({ visibility, magnitude, ...props }: ScrollAreaScrollbarProps) {

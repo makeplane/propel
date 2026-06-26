@@ -49,3 +49,4 @@ export const sliderLabelVariants = cva("text-14 font-medium text-primary");
 
 export type SliderMagnitude = NonNullable<VariantProps<typeof sliderControlVariants>["magnitude"]>;
 export type SliderControlVariantProps = StrictVariantProps<typeof sliderControlVariants>;
+export type SliderThumbVariantProps = StrictVariantProps<typeof sliderThumbVariants>;

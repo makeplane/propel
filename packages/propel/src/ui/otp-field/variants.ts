@@ -1,6 +1,7 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 /** Root: a horizontal row of character slots (and optional separators). */
 export const otpFieldVariants = cva("flex items-center gap-2");
@@ -33,10 +34,11 @@ export const otpFieldInputVariants = cva(
   },
 );
 
-type OTPFieldInputVariantProps = VariantProps<typeof otpFieldInputVariants>;
+type OTPFieldInputVariantConfig = VariantProps<typeof otpFieldInputVariants>;
 
-export type OTPFieldInputMagnitude = NonNullable<OTPFieldInputVariantProps["magnitude"]>;
-export type OTPFieldInputTone = NonNullable<OTPFieldInputVariantProps["tone"]>;
+export type OTPFieldInputMagnitude = NonNullable<OTPFieldInputVariantConfig["magnitude"]>;
+export type OTPFieldInputTone = NonNullable<OTPFieldInputVariantConfig["tone"]>;
+export type OTPFieldInputVariantProps = StrictVariantProps<typeof otpFieldInputVariants>;
 
 /** Separator: a visual divider between groups of slots (e.g. `123-456`). */
 export const otpFieldSeparatorVariants = cva("text-tertiary");

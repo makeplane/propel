@@ -1,15 +1,13 @@
 import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import type { Toggle as BaseToggleTypes } from "@base-ui/react/toggle";
 
-import { type ToggleMagnitude, toggleVariants } from "./variants";
+import { type ToggleVariantProps, toggleVariants } from "./variants";
 
 export type ToggleProps<Value extends string = string> = Omit<
   BaseToggleTypes.Props<Value>,
   "className" | "style"
-> & {
-  /** Button size (required). Inside the components `ToggleGroup` the group's magnitude is applied. */
-  magnitude: ToggleMagnitude;
-};
+> &
+  ToggleVariantProps;
 
 /**
  * A two-state button (pressed / not pressed) — typically wrapping an icon. Built on Base UI's

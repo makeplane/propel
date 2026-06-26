@@ -1,6 +1,7 @@
 import { cva, cx } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // "Always the same" per Figma design spec (issue #142):
 // - Pill-shaped border-radius (fully rounded ends)
@@ -46,6 +47,9 @@ export const pillButtonVariants = cva(
   },
 );
 
+// No `defaultVariants` today, so every axis is required.
+export type PillButtonVariantProps = StrictVariantProps<typeof pillButtonVariants>;
+
 export const pillSwitchVariants = cva(
   [
     labelPillBox,
@@ -58,6 +62,9 @@ export const pillSwitchVariants = cva(
     variants: { magnitude: labelPillMagnitude },
   },
 );
+
+// No `defaultVariants` today, so every axis is required.
+export type PillSwitchVariantProps = StrictVariantProps<typeof pillSwitchVariants>;
 
 export const iconPillVariants = cva(
   [
@@ -78,6 +85,9 @@ export const iconPillVariants = cva(
     },
   },
 );
+
+// No `defaultVariants` today, so every axis is required.
+export type IconPillVariantProps = StrictVariantProps<typeof iconPillVariants>;
 
 // ─── Inline parts (one element each) ─────────────────────────────────────────
 

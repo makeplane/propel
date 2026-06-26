@@ -1,6 +1,7 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const checkboxVariants = cva(
   cx(
@@ -23,9 +24,11 @@ export const checkboxVariants = cva(
   },
 );
 
-type CheckboxVariantProps = VariantProps<typeof checkboxVariants>;
+type CheckboxVariantConfig = VariantProps<typeof checkboxVariants>;
 
-export type CheckboxTone = NonNullable<CheckboxVariantProps["tone"]>;
+export type CheckboxTone = NonNullable<CheckboxVariantConfig["tone"]>;
+
+export type CheckboxVariantProps = StrictVariantProps<typeof checkboxVariants>;
 
 // The indicator wrapper centers its content (the glyph) inside the box and sizes
 // that single child to the box's `--node-size` (the node-slot pattern), so the glyph

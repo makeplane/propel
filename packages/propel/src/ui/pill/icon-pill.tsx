@@ -1,13 +1,12 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 
-import { iconPillVariants, type PillMagnitude } from "./variants";
+import { iconPillVariants, type IconPillVariantProps } from "./variants";
 
-export type IconPillProps = Omit<BaseButton.Props, "className" | "style"> & {
-  /** Box scale. */
-  magnitude: PillMagnitude;
-  /** Accessible name — required because the content is an icon. */
-  "aria-label": string;
-};
+export type IconPillProps = Omit<BaseButton.Props, "className" | "style"> &
+  IconPillVariantProps & {
+    /** Accessible name — required because the content is an icon. */
+    "aria-label": string;
+  };
 
 /**
  * The icon-only square pill container. Renders a single Base UI `Button`; compose a `PillIcon` (or

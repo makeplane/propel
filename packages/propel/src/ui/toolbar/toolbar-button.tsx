@@ -1,13 +1,12 @@
 import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 
-import { type ToolbarDensity, toolbarItemVariants } from "./variants";
+import { type ToolbarItemVariantProps, toolbarItemVariants } from "./variants";
 
-export type ToolbarButtonProps = Omit<BaseToolbar.Button.Props, "className" | "style"> & {
-  /** Accessible name for the icon button. */
-  "aria-label": string;
-  /** Control sizing, matching the toolbar's density. */
-  density: ToolbarDensity;
-};
+export type ToolbarButtonProps = Omit<BaseToolbar.Button.Props, "className" | "style"> &
+  ToolbarItemVariantProps & {
+    /** Accessible name for the icon button. */
+    "aria-label": string;
+  };
 
 /** A plain action button in the toolbar. */
 export function ToolbarButton({ density, ...props }: ToolbarButtonProps) {

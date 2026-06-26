@@ -1,10 +1,12 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { type StrictVariantProps } from "../../internal/variant-props";
+
 // `contained` wraps the tabs in a pill and lifts the active tab onto a raised card; `underline`
 // keeps them flat and slides a dark bar under the active one.
-export type TabsAppearance = NonNullable<VariantProps<typeof rootVariants>["appearance"]>;
+export type TabsAppearance = NonNullable<VariantProps<typeof tabsVariants>["appearance"]>;
 
-export const rootVariants = cva("inline-flex max-w-full flex-col items-start gap-3", {
+export const tabsVariants = cva("inline-flex max-w-full flex-col items-start gap-3", {
   variants: {
     appearance: {
       contained: "",
@@ -12,6 +14,8 @@ export const rootVariants = cva("inline-flex max-w-full flex-col items-start gap
     },
   },
 });
+
+export type TabsVariantProps = StrictVariantProps<typeof tabsVariants>;
 
 export const tabsListVariants = cva(
   "relative inline-flex max-w-full overscroll-x-contain outline-none",
@@ -24,6 +28,8 @@ export const tabsListVariants = cva(
     },
   },
 );
+
+export type TabsListVariantProps = StrictVariantProps<typeof tabsListVariants>;
 
 // The horizontal scroll frame around a `TabsList` so a long tab row scrolls.
 export const tabsListScrollAreaVariants = cva("relative max-w-full");
@@ -42,6 +48,8 @@ export const tabVariants = cva(
     },
   },
 );
+
+export type TabVariantProps = StrictVariantProps<typeof tabVariants>;
 
 export const underlineLabelVariants = cva(
   "flex h-7 items-center justify-center gap-1.5 rounded-md px-2 py-0.5 text-tertiary transition-colors group-hover/tab:bg-layer-transparent-hover group-hover/tab:text-secondary group-data-active/tab:bg-layer-transparent-selected group-data-active/tab:text-primary",

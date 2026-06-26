@@ -2,6 +2,7 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
 import { surfaceVariants } from "../../internal/surface";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const toolbarVariants = cva("flex w-fit items-center gap-2 p-1.5 text-secondary", {
   variants: {
@@ -84,3 +85,11 @@ export type ToolbarElevation = NonNullable<VariantProps<typeof toolbarVariants>[
 
 /** How tightly the controls pack: `compact` (24px) or `comfortable` (28px). */
 export type ToolbarDensity = NonNullable<VariantProps<typeof toolbarVariants>["density"]>;
+
+export type ToolbarVariantProps = StrictVariantProps<typeof toolbarVariants>;
+
+export type ToolbarItemVariantProps = StrictVariantProps<typeof toolbarItemVariants>;
+
+export type ToolbarMenuTriggerButtonVariantProps = StrictVariantProps<
+  typeof toolbarMenuTriggerButtonVariants
+>;

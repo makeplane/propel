@@ -2,6 +2,7 @@ import { type VariantProps, cva, cx } from "class-variance-authority";
 
 import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const numberFieldVariants = cva("flex min-w-0 flex-col gap-1.5");
 export const numberFieldGroupVariants = cva(
@@ -44,6 +45,8 @@ export type NumberFieldMagnitude = NonNullable<
   VariantProps<typeof numberFieldButtonVariants>["magnitude"]
 >;
 
+export type NumberFieldButtonVariantProps = StrictVariantProps<typeof numberFieldButtonVariants>;
+
 // Input geometry per magnitude. Heights match the button square per magnitude so the
 // group container stays flush. The width is fixed to accommodate up to ~4 digits.
 export const numberFieldInputVariants = cva(
@@ -59,3 +62,5 @@ export const numberFieldInputVariants = cva(
     },
   },
 );
+
+export type NumberFieldInputVariantProps = StrictVariantProps<typeof numberFieldInputVariants>;

@@ -1,5 +1,7 @@
 import { cva } from "class-variance-authority";
 
+import { type StrictVariantProps } from "../../internal/variant-props";
+
 /** Root: a vertical stack holding the header row and the track. */
 export const meterVariants = cva("flex w-full flex-col gap-1");
 
@@ -39,3 +41,6 @@ export const meterIndicatorVariants = cva("h-full rounded-full transition-[width
     },
   },
 });
+
+// No `defaultVariants` today, so every axis is required.
+export type MeterIndicatorVariantProps = StrictVariantProps<typeof meterIndicatorVariants>;

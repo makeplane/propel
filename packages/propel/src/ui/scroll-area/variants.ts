@@ -1,5 +1,7 @@
 import { cva } from "class-variance-authority";
 
+import { type StrictVariantProps } from "../../internal/variant-props";
+
 export const scrollAreaVariants = cva("relative flex min-h-0 flex-1 flex-col");
 export const scrollAreaViewportVariants = cva(
   "min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none",
@@ -41,6 +43,11 @@ export const scrollAreaScrollbarVariants = cva(
     },
   },
 );
+
+// No `defaultVariants` today, so every axis is required.
+export type ScrollAreaScrollbarVariantProps = StrictVariantProps<
+  typeof scrollAreaScrollbarVariants
+>;
 
 /** Scrollbar thumb variants. The thumb style is always the same per the design spec. */
 export const scrollAreaThumbVariants = cva(
