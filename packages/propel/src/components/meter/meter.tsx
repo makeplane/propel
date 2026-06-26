@@ -7,7 +7,7 @@ import {
   MeterLabel,
   MeterTrack,
   MeterValue,
-  type MeterIndicatorTone,
+  type MeterIndicatorLevel,
   type MeterProps as MeterElementProps,
 } from "../../ui/meter";
 
@@ -45,7 +45,7 @@ export type MeterProps = MeterElementProps & {
 };
 
 /**
- * Derives the indicator tone from the current value and the low/high/optimum thresholds, following
+ * Derives the indicator level from the current value and the low/high/optimum thresholds, following
  * the same color-assignment logic as the native HTML `<meter>` element:
  *
  * - The range is divided into three segments: [min, low), [low, high], (high, max].
@@ -60,7 +60,7 @@ export type MeterProps = MeterElementProps & {
  * For simplicity we use a three-bucket model: below `low` → warning, above `high` → success,
  * between → accent. When `optimum` shifts what's "best", we invert the outer buckets accordingly.
  */
-function deriveIndicatorTone({
+function deriveIndicatorLevel({
   value,
   low,
   high,
@@ -70,7 +70,7 @@ function deriveIndicatorTone({
   low: number;
   high: number;
   optimum: number | undefined;
-}): MeterIndicatorTone {
+}): MeterIndicatorLevel {
   const inLow = value < low;
   const inHigh = value > high;
   const inMiddle = !inLow && !inHigh;
@@ -123,7 +123,7 @@ export function Meter({
   const resolvedLow = low ?? min;
   const resolvedHigh = high ?? max;
 
-  const tone = deriveIndicatorTone({
+  const level = deriveIndicatorLevel({
     value: props.value,
     low: resolvedLow,
     high: resolvedHigh,
@@ -142,7 +142,7 @@ export function Meter({
         </MeterHeader>
       ) : null}
       <MeterTrack>
-        <MeterIndicator tone={tone} />
+        <MeterIndicator level={level} />
       </MeterTrack>
     </MeterElement>
   );

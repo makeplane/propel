@@ -34,7 +34,7 @@ export const Default: Story = {
         <MeterValue />
       </MeterHeader>
       <MeterTrack>
-        <MeterIndicator tone="medium" />
+        <MeterIndicator level="medium" />
       </MeterTrack>
     </Meter>
   ),
@@ -52,7 +52,7 @@ export const Levels: Story = {
             <MeterValue />
           </MeterHeader>
           <MeterTrack>
-            <MeterIndicator tone="medium" />
+            <MeterIndicator level="medium" />
           </MeterTrack>
         </Meter>
       ))}
@@ -72,7 +72,7 @@ export const HasMeterRole: Story = {
         <MeterValue />
       </MeterHeader>
       <MeterTrack>
-        <MeterIndicator tone="medium" />
+        <MeterIndicator level="medium" />
       </MeterTrack>
     </Meter>
   ),
