@@ -11,7 +11,10 @@ import {
 } from "../../ui/table/index";
 import { useTableMode } from "./table-context";
 
-export type TableEditableCellProps = Omit<TableCellProps, "padding" | "children" | "mode"> & {
+export type TableEditableCellProps = Omit<
+  TableCellProps,
+  "padding" | "pinned" | "children" | "mode"
+> & {
   /** The current value shown in the cell. */
   value: React.ReactNode;
   /** The menu shown when the cell is clicked. */
@@ -44,7 +47,7 @@ export function TableEditableCell({
 }: TableEditableCellProps) {
   const mode = useTableMode();
   return (
-    <TableCell mode={mode} padding="trigger" {...props}>
+    <TableCell mode={mode} pinned="none" padding="trigger" {...props}>
       <Menu open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
         <MenuTrigger
           disabled={disabled}

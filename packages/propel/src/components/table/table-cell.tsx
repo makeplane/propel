@@ -9,7 +9,7 @@ import {
 } from "../../ui/table/index";
 import { useTableMode } from "./table-context";
 
-export type TableCellProps = Omit<TableCellElementProps, "padding" | "mode"> & {
+export type TableCellProps = Omit<TableCellElementProps, "mode"> & {
   /** Leading content beside the cell text — an icon or an `Avatar`. */
   inlineStartNode?: React.ReactNode;
   /** Trailing content beside the cell text — an icon or an `Avatar`. */
