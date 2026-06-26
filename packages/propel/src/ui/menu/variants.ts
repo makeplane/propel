@@ -1,5 +1,6 @@
 import { cva, cx } from "class-variance-authority";
 
+import { checkboxBoxVariants } from "../../internal/checkbox-box";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
@@ -128,9 +129,19 @@ export const menuItemSubmenuIndicatorVariants = cva(
 /** The leading control slot of a checkbox/radio row, holding the visual toggle. */
 export const menuItemControlVariants = cva("flex shrink-0 items-center");
 
-/** Indicator slot inside radio/checkbox items. */
-export const menuItemIndicatorVariants = cva(
+/** Indicator slot inside a radio item: the accent dot shown when the row is selected. */
+export const menuRadioItemIndicatorVariants = cva(
   "flex size-4 items-center justify-center text-icon-accent-primary",
+);
+
+/**
+ * CheckboxItem indicator: the leading checkbox BOX. Composes the shared `checkboxBoxVariants` (the
+ * 16px bordered square that fills the accent on `data-checked`) with the node-slot that sizes its
+ * inner glyph. Kept mounted by `MenuCheckboxItemIndicator`, so the empty box shows when unchecked;
+ * the glyph stays hidden until the box is checked (`data-unchecked:[&>*]:invisible`).
+ */
+export const menuCheckboxItemIndicatorVariants = cva(
+  cx(checkboxBoxVariants({ tone: "neutral" }), nodeSlotClass, "data-unchecked:[&>*]:invisible"),
 );
 
 /** Separator: a thin divider spanning the popup padding. */

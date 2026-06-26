@@ -111,11 +111,12 @@ function resolveAccentPrimary() {
   return color;
 }
 
-// The presentational box inside a `menuitemcheckbox` row is the leading
-// `aria-hidden` span (CheckboxVisual). Returns its computed background-color.
+// The checkbox box inside a `menuitemcheckbox` row is the kept-mounted
+// `Menu.CheckboxItemIndicator` — an `aria-hidden` span carrying `data-checked` /
+// `data-unchecked`. Returns its computed background-color.
 function checkboxBoxBgColor(row: HTMLElement) {
-  const box = row.querySelector("span[aria-hidden]") as HTMLElement | null;
-  if (box == null) throw new Error("CheckboxVisual box not found in row");
+  const box = row.querySelector("[data-checked], [data-unchecked]") as HTMLElement | null;
+  if (box == null) throw new Error("checkbox indicator box not found in row");
   return getComputedStyle(box).backgroundColor;
 }
 
@@ -594,10 +595,11 @@ const VIEW_ALL_PREVIEW = 2;
 
 /**
  * Regression — **CheckedFillVisible**. Locks in the fix for the invisible checked checkbox: a
- * tone-less `CheckboxVisual` (as rendered by `MenuCheckboxItem`) used to inherit no fill, so the
- * white check sat on a transparent box and disappeared. Toggling a row to CHECKED must give its box
- * a VISIBLE `bg-accent-primary` fill — a non-transparent background-color equal to the
- * accent-primary token. Not a documented demo; this is a test-only fixture.
+ * tone-less checkbox box (the `MenuCheckboxItemIndicator`, as rendered by `MenuCheckboxItem`) used
+ * to inherit no fill, so the white check sat on a transparent box and disappeared. Toggling a row
+ * to CHECKED must give its box a VISIBLE `bg-accent-primary` fill — a non-transparent
+ * background-color equal to the accent-primary token. Not a documented demo; this is a test-only
+ * fixture.
  */
 export const CheckedFillVisible: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],

@@ -1,10 +1,10 @@
 import type * as React from "react";
 
-import { useControllableState } from "../../hooks/use-controllable-state/index";
-import { CheckboxVisual } from "../../ui/checkbox/index";
+import { CheckboxGlyph } from "../../ui/checkbox/index";
 import {
   MenuCheckboxItem as MenuCheckboxItemElement,
   type MenuCheckboxItemProps as MenuCheckboxItemElementProps,
+  MenuCheckboxItemIndicator,
   MenuItemContent,
   MenuItemControl,
   MenuItemIcon,
@@ -22,34 +22,23 @@ export type MenuCheckboxItemProps = MenuCheckboxItemElementProps & {
 
 /**
  * The ready-made toggleable multi-select menu row: composes the atomic `MenuCheckboxItem` and lays
- * out the propel `CheckboxVisual`, optional leading/trailing nodes, and the label.
+ * out the checkbox box (`MenuCheckboxItemIndicator` + `CheckboxGlyph`), optional leading/trailing
+ * nodes, and the label. Base UI's `MenuCheckboxItem` tracks the checked state, so `checked` /
+ * `defaultChecked` / `onCheckedChange` forward straight to it and the indicator reads it from
+ * context.
  */
 export function MenuCheckboxItem({
   inlineStartNode,
   inlineEndNode,
-  checked,
-  defaultChecked,
-  onCheckedChange,
   children,
   ...props
 }: MenuCheckboxItemProps) {
-  const [isChecked, setChecked] = useControllableState<boolean>({
-    value: checked,
-    defaultValue: defaultChecked ?? false,
-  });
-
   return (
-    <MenuCheckboxItemElement
-      checked={checked}
-      defaultChecked={defaultChecked}
-      onCheckedChange={(next, details) => {
-        setChecked(next);
-        onCheckedChange?.(next, details);
-      }}
-      {...props}
-    >
+    <MenuCheckboxItemElement {...props}>
       <MenuItemControl>
-        <CheckboxVisual tone="neutral" checked={isChecked} disabled={props.disabled} />
+        <MenuCheckboxItemIndicator>
+          <CheckboxGlyph />
+        </MenuCheckboxItemIndicator>
       </MenuItemControl>
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
