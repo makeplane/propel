@@ -367,6 +367,59 @@ export const WithPagination: Story = {
   },
 };
 
+function RichRowsStory(args: React.ComponentProps<typeof Table>) {
+  const [people, setPeople] = React.useState(PEOPLE);
+  const setRole = (email: string, role: string) =>
+    setPeople((rows) => rows.map((r) => (r.email === email ? { ...r, role } : r)));
+  return (
+    <Table {...args}>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Account type</TableHead>
+          <TableHead>
+            <span className="sr-only">Actions</span>
+          </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {people.map((person) => (
+          <TableRow key={person.email}>
+            <TableCell
+              inlineStartNode={
+                <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
+              }
+            >
+              {person.name}
+            </TableCell>
+            <TableCell>{person.email}</TableCell>
+            <TableEditableCell value={person.role} aria-label={`Account type for ${person.name}`}>
+              <MenuContent>
+                {ROLES.map((role) => (
+                  <MenuItem
+                    key={role}
+                    selected={role === person.role}
+                    onClick={() => setRole(person.email, role)}
+                  >
+                    {role}
+                  </MenuItem>
+                ))}
+              </MenuContent>
+            </TableEditableCell>
+            <TableActionCell aria-label={`Options for ${person.name}`}>
+              <MenuContent>
+                <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
+                <MenuItem inlineStartNode={<Trash2 />}>Delete</MenuItem>
+              </MenuContent>
+            </TableActionCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}
+
 /**
  * **Cell slots + an action cell.** Cells carry a leading `Avatar` (the Name column), an inline
  * editable cell (Account type), and a trailing icon-only `TableActionCell` (the "⋯" that opens a
@@ -376,58 +429,14 @@ export const WithPagination: Story = {
 export const RichRows: Story = {
   args: { mode: "table" },
   parameters: { controls: { disable: true } },
-  render: function RichRowsStory(args) {
-    const [people, setPeople] = React.useState(PEOPLE);
-    const setRole = (email: string, role: string) =>
-      setPeople((rows) => rows.map((r) => (r.email === email ? { ...r, role } : r)));
-    return (
-      <Table {...args}>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Account type</TableHead>
-            <TableHead>
-              <span className="sr-only">Actions</span>
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {people.map((person) => (
-            <TableRow key={person.email}>
-              <TableCell
-                inlineStartNode={
-                  <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
-                }
-              >
-                {person.name}
-              </TableCell>
-              <TableCell>{person.email}</TableCell>
-              <TableEditableCell value={person.role} aria-label={`Account type for ${person.name}`}>
-                <MenuContent>
-                  {ROLES.map((role) => (
-                    <MenuItem
-                      key={role}
-                      selected={role === person.role}
-                      onClick={() => setRole(person.email, role)}
-                    >
-                      {role}
-                    </MenuItem>
-                  ))}
-                </MenuContent>
-              </TableEditableCell>
-              <TableActionCell aria-label={`Options for ${person.name}`}>
-                <MenuContent>
-                  <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
-                  <MenuItem inlineStartNode={<Trash2 />}>Delete</MenuItem>
-                </MenuContent>
-              </TableActionCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    );
-  },
+  render: (args) => <RichRowsStory {...args} />,
+};
+
+export const RichRowsActionMenu: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { mode: "table" },
+  parameters: { controls: { disable: true } },
+  render: (args) => <RichRowsStory {...args} />,
   play: async ({ canvas }) => {
     // The trailing action cell opens a row-options menu.
     const trigger = canvas.getByRole("button", { name: "Options for Chargers" });

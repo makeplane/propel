@@ -48,59 +48,73 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Shared render: the hand-wired anatomy, reused by the visible display story and its hidden
+// interaction twin so a browsing user never sees the dialog flash open and then close.
+const renderDeleteAccount = () => (
+  <AlertDialog>
+    <Button
+      sizing="hug"
+      prominence="primary"
+      tone="danger"
+      magnitude="xl"
+      render={<AlertDialogTrigger />}
+    >
+      Delete account
+    </Button>
+    <AlertDialogPortal>
+      <AlertDialogBackdrop />
+      <AlertDialogViewport>
+        <AlertDialogPopup>
+          <AlertDialogHeader>
+            <AlertDialogIcon tone="danger">
+              <TriangleAlert />
+            </AlertDialogIcon>
+            <AlertDialogIntro>
+              <AlertDialogTitle>Delete account?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This permanently deletes your account and cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogIntro>
+          </AlertDialogHeader>
+          <AlertDialogActions>
+            <Button
+              sizing="hug"
+              prominence="secondary"
+              tone="neutral"
+              magnitude="xl"
+              render={<AlertDialogClose />}
+            >
+              Cancel
+            </Button>
+            <Button
+              sizing="hug"
+              prominence="primary"
+              tone="danger"
+              magnitude="xl"
+              render={<AlertDialogClose />}
+            >
+              Delete
+            </Button>
+          </AlertDialogActions>
+        </AlertDialogPopup>
+      </AlertDialogViewport>
+    </AlertDialogPortal>
+  </AlertDialog>
+);
+
 /** The full anatomy wired by hand: a destructive confirmation requiring an explicit choice. */
 export const Anatomy: Story = {
-  render: () => (
-    <AlertDialog>
-      <Button
-        sizing="hug"
-        prominence="primary"
-        tone="danger"
-        magnitude="xl"
-        render={<AlertDialogTrigger />}
-      >
-        Delete account
-      </Button>
-      <AlertDialogPortal>
-        <AlertDialogBackdrop />
-        <AlertDialogViewport>
-          <AlertDialogPopup>
-            <AlertDialogHeader>
-              <AlertDialogIcon tone="danger">
-                <TriangleAlert />
-              </AlertDialogIcon>
-              <AlertDialogIntro>
-                <AlertDialogTitle>Delete account?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This permanently deletes your account and cannot be undone.
-                </AlertDialogDescription>
-              </AlertDialogIntro>
-            </AlertDialogHeader>
-            <AlertDialogActions>
-              <Button
-                sizing="hug"
-                prominence="secondary"
-                tone="neutral"
-                magnitude="xl"
-                render={<AlertDialogClose />}
-              >
-                Cancel
-              </Button>
-              <Button
-                sizing="hug"
-                prominence="primary"
-                tone="danger"
-                magnitude="xl"
-                render={<AlertDialogClose />}
-              >
-                Delete
-              </Button>
-            </AlertDialogActions>
-          </AlertDialogPopup>
-        </AlertDialogViewport>
-      </AlertDialogPortal>
-    </AlertDialog>
-  ),
+  render: renderDeleteAccount,
+};
+
+/**
+ * Interaction test: opening it, then Cancel closes it. Tagged out of the sidebar/docs/manifest
+ * while still running under the default `test` tag — so a browsing user never sees the dialog flash
+ * open and then close.
+ */
+export const CancelCloses: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderDeleteAccount,
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Delete account" }));
     const dialog = await within(document.body).findByRole("alertdialog");

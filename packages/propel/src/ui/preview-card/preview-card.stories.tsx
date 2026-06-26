@@ -41,44 +41,52 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Shared render for the Anatomy twins. The card opens on HOVER
+const renderAnatomy = () => (
+  <p className="max-w-prose text-14 text-secondary">
+    The open-source project tracker{" "}
+    <PreviewCard>
+      <PreviewCardTrigger
+        render={
+          // Real external href for link semantics, but cancel navigation: the Vitest
+          // browser runner shares one page across story files, so a real navigation
+          // tears down the iframe and fails unrelated stories.
+          <a
+            href="https://plane.so"
+            className="text-accent-strong underline"
+            onClick={(event) => event.preventDefault()}
+          />
+        }
+      >
+        Plane
+      </PreviewCardTrigger>
+      <PreviewCardPortal>
+        <PreviewCardBackdrop />
+        <PreviewCardPositioner side="top" sideOffset={4}>
+          <PreviewCardPopup>
+            <PreviewCardBody>
+              <PreviewCardTitle>Plane</PreviewCardTitle>
+              <PreviewCardDescription>
+                Open-source project management for issues, sprints, and roadmaps.
+              </PreviewCardDescription>
+            </PreviewCardBody>
+            <PreviewCardArrow />
+          </PreviewCardPopup>
+        </PreviewCardPositioner>
+      </PreviewCardPortal>
+    </PreviewCard>{" "}
+    makes planning simple.
+  </p>
+);
+
 /** The full anatomy wired by hand: a hovered link reveals a positioned preview popup with an arrow. */
 export const Anatomy: Story = {
-  render: () => (
-    <p className="max-w-prose text-14 text-secondary">
-      The open-source project tracker{" "}
-      <PreviewCard>
-        <PreviewCardTrigger
-          render={
-            // Real external href for link semantics, but cancel navigation: the Vitest
-            // browser runner shares one page across story files, so a real navigation
-            // tears down the iframe and fails unrelated stories.
-            <a
-              href="https://plane.so"
-              className="text-accent-strong underline"
-              onClick={(event) => event.preventDefault()}
-            />
-          }
-        >
-          Plane
-        </PreviewCardTrigger>
-        <PreviewCardPortal>
-          <PreviewCardBackdrop />
-          <PreviewCardPositioner side="top" sideOffset={4}>
-            <PreviewCardPopup>
-              <PreviewCardBody>
-                <PreviewCardTitle>Plane</PreviewCardTitle>
-                <PreviewCardDescription>
-                  Open-source project management for issues, sprints, and roadmaps.
-                </PreviewCardDescription>
-              </PreviewCardBody>
-              <PreviewCardArrow />
-            </PreviewCardPopup>
-          </PreviewCardPositioner>
-        </PreviewCardPortal>
-      </PreviewCard>{" "}
-      makes planning simple.
-    </p>
-  ),
+  render: () => renderAnatomy(),
+};
+
+export const AnatomyInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => renderAnatomy(),
   play: async ({ canvas }) => {
     await userEvent.hover(canvas.getByRole("link", { name: "Plane" }));
     await waitFor(() =>

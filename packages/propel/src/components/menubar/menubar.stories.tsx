@@ -36,52 +36,62 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// With a menu open, Base UI's Menubar treats each menu as a submenu and emits a
+// visually-hidden `aria-owns` owner `<span>` to reparent the portaled popup into
+// the correct place in the accessibility tree. In the DOM that span lands inside
+// the `role="menubar"`, which axe's aria-required-children flags as a disallowed
+// child — a static-analysis false-positive (same as the Menu Submenu story; see
+// dequelabs/axe-core#4048 and floating-ui/floating-ui#3424). Suppress just this rule.
+const a11yParameters = {
+  a11y: {
+    config: { rules: [{ id: "aria-required-children", enabled: false }] },
+  },
+};
+
+const renderDefault = () => (
+  <Menubar>
+    <Menu>
+      <MenubarTrigger>
+        <MenubarTriggerIcon>
+          <FilePen />
+        </MenubarTriggerIcon>
+        <MenubarTriggerLabel>File</MenubarTriggerLabel>
+      </MenubarTrigger>
+      <MenuContent width="sm">
+        <MenuItem inlineStartNode={<FilePlus />}>New file</MenuItem>
+        <MenuItem inlineStartNode={<FolderOpen />}>Open…</MenuItem>
+        <MenuSeparator />
+        <MenuItem inlineStartNode={<Save />}>Save</MenuItem>
+      </MenuContent>
+    </Menu>
+    <Menu>
+      <MenubarTrigger>
+        <MenubarTriggerIcon>
+          <Pencil />
+        </MenubarTriggerIcon>
+        <MenubarTriggerLabel>Edit</MenubarTriggerLabel>
+      </MenubarTrigger>
+      <MenuContent width="sm">
+        <MenuItem inlineStartNode={<Undo2 />}>Undo</MenuItem>
+        <MenuItem inlineStartNode={<Redo2 />}>Redo</MenuItem>
+        <MenuSeparator />
+        <MenuItem inlineStartNode={<Scissors />}>Cut</MenuItem>
+        <MenuItem inlineStartNode={<Copy />}>Copy</MenuItem>
+      </MenuContent>
+    </Menu>
+  </Menubar>
+);
+
 /** A row of menus, each opening a ready-made `MenuContent` of icon rows. */
 export const Default: Story = {
-  parameters: {
-    a11y: {
-      // With a menu open, Base UI's Menubar treats each menu as a submenu and emits a
-      // visually-hidden `aria-owns` owner `<span>` to reparent the portaled popup into
-      // the correct place in the accessibility tree. In the DOM that span lands inside
-      // the `role="menubar"`, which axe's aria-required-children flags as a disallowed
-      // child — a static-analysis false-positive (same as the Menu Submenu story; see
-      // dequelabs/axe-core#4048 and floating-ui/floating-ui#3424). Suppress just this rule.
-      config: { rules: [{ id: "aria-required-children", enabled: false }] },
-    },
-  },
-  render: () => (
-    <Menubar>
-      <Menu>
-        <MenubarTrigger>
-          <MenubarTriggerIcon>
-            <FilePen />
-          </MenubarTriggerIcon>
-          <MenubarTriggerLabel>File</MenubarTriggerLabel>
-        </MenubarTrigger>
-        <MenuContent width="sm">
-          <MenuItem inlineStartNode={<FilePlus />}>New file</MenuItem>
-          <MenuItem inlineStartNode={<FolderOpen />}>Open…</MenuItem>
-          <MenuSeparator />
-          <MenuItem inlineStartNode={<Save />}>Save</MenuItem>
-        </MenuContent>
-      </Menu>
-      <Menu>
-        <MenubarTrigger>
-          <MenubarTriggerIcon>
-            <Pencil />
-          </MenubarTriggerIcon>
-          <MenubarTriggerLabel>Edit</MenubarTriggerLabel>
-        </MenubarTrigger>
-        <MenuContent width="sm">
-          <MenuItem inlineStartNode={<Undo2 />}>Undo</MenuItem>
-          <MenuItem inlineStartNode={<Redo2 />}>Redo</MenuItem>
-          <MenuSeparator />
-          <MenuItem inlineStartNode={<Scissors />}>Cut</MenuItem>
-          <MenuItem inlineStartNode={<Copy />}>Copy</MenuItem>
-        </MenuContent>
-      </Menu>
-    </Menubar>
-  ),
+  parameters: a11yParameters,
+  render: () => renderDefault(),
+};
+
+export const DefaultInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: a11yParameters,
+  render: () => renderDefault(),
   play: async ({ canvas }) => {
     // Inside a Menubar, each menu trigger is a `role="menuitem"` (not a plain button).
     await userEvent.click(canvas.getByRole("menuitem", { name: "Edit" }));

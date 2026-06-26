@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { ComponentProps } from "react";
 import { expect, within } from "storybook/test";
 
 import { Field, FieldError, FieldLabel } from "../field/index";
@@ -41,33 +42,41 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const renderDefault = (args: ComponentProps<typeof Combobox>) => (
+  <Field name="region">
+    <Combobox {...args}>
+      <FieldLabel magnitude="md">Region</FieldLabel>
+      <ComboboxInputGroup>
+        <ComboboxInput placeholder="e.g. eu-central-1" />
+        <ComboboxClear />
+        <ComboboxTrigger />
+      </ComboboxInputGroup>
+      <ComboboxContent>
+        <ComboboxEmpty>No matches</ComboboxEmpty>
+        <ComboboxList>
+          {REGIONS.map((region) => (
+            <ComboboxItem key={region} value={region}>
+              <ComboboxItemIndicator />
+              <span>{region}</span>
+            </ComboboxItem>
+          ))}
+        </ComboboxList>
+      </ComboboxContent>
+      <FieldError magnitude="md" />
+    </Combobox>
+  </Field>
+);
+
 /** Combobox using the ready-made `ComboboxContent` surface for filterable selection. */
 export const Default: Story = {
   args: { items: REGIONS, required: true },
-  render: (args) => (
-    <Field name="region">
-      <Combobox {...args}>
-        <FieldLabel magnitude="md">Region</FieldLabel>
-        <ComboboxInputGroup>
-          <ComboboxInput placeholder="e.g. eu-central-1" />
-          <ComboboxClear />
-          <ComboboxTrigger />
-        </ComboboxInputGroup>
-        <ComboboxContent>
-          <ComboboxEmpty>No matches</ComboboxEmpty>
-          <ComboboxList>
-            {REGIONS.map((region) => (
-              <ComboboxItem key={region} value={region}>
-                <ComboboxItemIndicator />
-                <span>{region}</span>
-              </ComboboxItem>
-            ))}
-          </ComboboxList>
-        </ComboboxContent>
-        <FieldError magnitude="md" />
-      </Combobox>
-    </Field>
-  ),
+  render: renderDefault,
+};
+
+export const DefaultInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { items: REGIONS, required: true },
+  render: renderDefault,
   play: async ({ canvas, userEvent }) => {
     await userEvent.type(canvas.getByRole("combobox", { name: "Region" }), "eu");
     await expect(within(document.body).getByText("eu-central-1")).toBeInTheDocument();

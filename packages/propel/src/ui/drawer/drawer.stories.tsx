@@ -52,60 +52,74 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Shared render: the hand-wired anatomy, reused by the visible display story and its hidden
+// interaction twin so a browsing user never sees the drawer flash open and then close.
+const renderDrawerAnatomy = () => (
+  <Drawer>
+    <Button
+      sizing="hug"
+      prominence="secondary"
+      tone="neutral"
+      magnitude="xl"
+      render={<DrawerTrigger />}
+    >
+      Open drawer
+    </Button>
+    <DrawerPortal>
+      <DrawerBackdrop />
+      <DrawerViewport>
+        <DrawerPopup side="end">
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerHeaderContent>
+                <DrawerTitle>Work item details</DrawerTitle>
+                <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
+              </DrawerHeaderContent>
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="lg"
+                aria-label="Close"
+                render={<DrawerClose />}
+              >
+                <X />
+              </IconButton>
+            </DrawerHeader>
+            <DrawerBody>Panel body content goes here.</DrawerBody>
+            <DrawerFooter>
+              <Button
+                sizing="hug"
+                prominence="ghost"
+                tone="neutral"
+                magnitude="lg"
+                render={<DrawerClose />}
+              >
+                Cancel
+              </Button>
+              <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg">
+                Save
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </DrawerPopup>
+      </DrawerViewport>
+    </DrawerPortal>
+  </Drawer>
+);
+
 /** The full anatomy wired by hand: trigger opens an end-edge sliding panel. */
 export const Anatomy: Story = {
-  render: () => (
-    <Drawer>
-      <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
-        render={<DrawerTrigger />}
-      >
-        Open drawer
-      </Button>
-      <DrawerPortal>
-        <DrawerBackdrop />
-        <DrawerViewport>
-          <DrawerPopup side="end">
-            <DrawerContent>
-              <DrawerHeader>
-                <DrawerHeaderContent>
-                  <DrawerTitle>Work item details</DrawerTitle>
-                  <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
-                </DrawerHeaderContent>
-                <IconButton
-                  prominence="ghost"
-                  tone="neutral"
-                  magnitude="lg"
-                  aria-label="Close"
-                  render={<DrawerClose />}
-                >
-                  <X />
-                </IconButton>
-              </DrawerHeader>
-              <DrawerBody>Panel body content goes here.</DrawerBody>
-              <DrawerFooter>
-                <Button
-                  sizing="hug"
-                  prominence="ghost"
-                  tone="neutral"
-                  magnitude="lg"
-                  render={<DrawerClose />}
-                >
-                  Cancel
-                </Button>
-                <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg">
-                  Save
-                </Button>
-              </DrawerFooter>
-            </DrawerContent>
-          </DrawerPopup>
-        </DrawerViewport>
-      </DrawerPortal>
-    </Drawer>
-  ),
+  render: renderDrawerAnatomy,
+};
+
+/**
+ * Interaction test: opening the drawer, then the dismiss button closes it. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees the drawer flash open and then close.
+ */
+export const CloseButtonDismisses: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderDrawerAnatomy,
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
     const dialog = await within(document.body).findByRole("dialog");
@@ -117,10 +131,9 @@ export const Anatomy: Story = {
   },
 };
 
-/** Open on mount via the root's `defaultOpen`, with no trigger present. */
 export const DefaultOpen: Story = {
   render: () => (
-    <Drawer defaultOpen>
+    <Drawer>
       <DrawerPortal>
         <DrawerBackdrop />
         <DrawerViewport>

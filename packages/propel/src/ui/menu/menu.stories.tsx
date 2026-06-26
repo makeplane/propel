@@ -62,54 +62,61 @@ type Story = StoryObj<typeof meta>;
 const triggerClass =
   "inline-flex h-8 items-center gap-1.5 rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none";
 
+const renderDefault = () => (
+  <Menu>
+    <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
+    <MenuPortal>
+      <MenuPositioner sideOffset={4}>
+        <MenuPopup surface="raised">
+          <MenuItem layout="default">
+            <MenuItemIcon>
+              <Pencil />
+            </MenuItemIcon>
+            <MenuItemContent>
+              <MenuItemTitleRow>
+                <MenuItemTitle>Edit</MenuItemTitle>
+              </MenuItemTitleRow>
+            </MenuItemContent>
+            <MenuItemMeta>⌘E</MenuItemMeta>
+          </MenuItem>
+          <MenuItem layout="default">
+            <MenuItemIcon>
+              <Copy />
+            </MenuItemIcon>
+            <MenuItemContent>
+              <MenuItemTitleRow>
+                <MenuItemTitle>Duplicate</MenuItemTitle>
+              </MenuItemTitleRow>
+            </MenuItemContent>
+            <MenuItemSelectedIndicator>
+              <Check />
+            </MenuItemSelectedIndicator>
+          </MenuItem>
+          <MenuSeparator />
+          <MenuItem layout="default">
+            <MenuItemIcon>
+              <Trash2 />
+            </MenuItemIcon>
+            <MenuItemContent>
+              <MenuItemTitleRow>
+                <MenuItemTitle>Delete</MenuItemTitle>
+              </MenuItemTitleRow>
+            </MenuItemContent>
+          </MenuItem>
+        </MenuPopup>
+      </MenuPositioner>
+    </MenuPortal>
+  </Menu>
+);
+
 /** Assemble the surface by hand: Root › Trigger, then Portal › Positioner › Popup wrapping items. */
 export const Default: Story = {
-  render: () => (
-    <Menu>
-      <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
-      <MenuPortal>
-        <MenuPositioner sideOffset={4}>
-          <MenuPopup surface="raised">
-            <MenuItem layout="default">
-              <MenuItemIcon>
-                <Pencil />
-              </MenuItemIcon>
-              <MenuItemContent>
-                <MenuItemTitleRow>
-                  <MenuItemTitle>Edit</MenuItemTitle>
-                </MenuItemTitleRow>
-              </MenuItemContent>
-              <MenuItemMeta>⌘E</MenuItemMeta>
-            </MenuItem>
-            <MenuItem layout="default">
-              <MenuItemIcon>
-                <Copy />
-              </MenuItemIcon>
-              <MenuItemContent>
-                <MenuItemTitleRow>
-                  <MenuItemTitle>Duplicate</MenuItemTitle>
-                </MenuItemTitleRow>
-              </MenuItemContent>
-              <MenuItemSelectedIndicator>
-                <Check />
-              </MenuItemSelectedIndicator>
-            </MenuItem>
-            <MenuSeparator />
-            <MenuItem layout="default">
-              <MenuItemIcon>
-                <Trash2 />
-              </MenuItemIcon>
-              <MenuItemContent>
-                <MenuItemTitleRow>
-                  <MenuItemTitle>Delete</MenuItemTitle>
-                </MenuItemTitleRow>
-              </MenuItemContent>
-            </MenuItem>
-          </MenuPopup>
-        </MenuPositioner>
-      </MenuPortal>
-    </Menu>
-  ),
+  render: () => renderDefault(),
+};
+
+export const DefaultInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => renderDefault(),
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Actions" }));
     await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
@@ -118,54 +125,61 @@ export const Default: Story = {
   },
 };
 
+const renderGrouped = () => (
+  <Menu>
+    <MenuTrigger render={<button type="button" className={triggerClass} />}>View</MenuTrigger>
+    <MenuPortal>
+      <MenuPositioner sideOffset={4}>
+        <MenuPopup surface="raised">
+          <MenuGroup>
+            <MenuGroupLabel>Layout</MenuGroupLabel>
+            <MenuItem layout="default">
+              <MenuItemContent>
+                <MenuItemTitleRow>
+                  <MenuItemTitle>List</MenuItemTitle>
+                </MenuItemTitleRow>
+              </MenuItemContent>
+            </MenuItem>
+            <MenuItem layout="default">
+              <MenuItemContent>
+                <MenuItemTitleRow>
+                  <MenuItemTitle>Board</MenuItemTitle>
+                </MenuItemTitleRow>
+              </MenuItemContent>
+            </MenuItem>
+          </MenuGroup>
+          <MenuSeparator />
+          <MenuGroup>
+            <MenuGroupLabel>Density</MenuGroupLabel>
+            <MenuItem layout="default">
+              <MenuItemContent>
+                <MenuItemTitleRow>
+                  <MenuItemTitle>Comfortable</MenuItemTitle>
+                </MenuItemTitleRow>
+              </MenuItemContent>
+            </MenuItem>
+            <MenuItem layout="default">
+              <MenuItemContent>
+                <MenuItemTitleRow>
+                  <MenuItemTitle>Compact</MenuItemTitle>
+                </MenuItemTitleRow>
+              </MenuItemContent>
+            </MenuItem>
+          </MenuGroup>
+        </MenuPopup>
+      </MenuPositioner>
+    </MenuPortal>
+  </Menu>
+);
+
 /** `MenuGroup` + `MenuGroupLabel` title a section; a `MenuSeparator` divides groups. */
 export const Grouped: Story = {
-  render: () => (
-    <Menu>
-      <MenuTrigger render={<button type="button" className={triggerClass} />}>View</MenuTrigger>
-      <MenuPortal>
-        <MenuPositioner sideOffset={4}>
-          <MenuPopup surface="raised">
-            <MenuGroup>
-              <MenuGroupLabel>Layout</MenuGroupLabel>
-              <MenuItem layout="default">
-                <MenuItemContent>
-                  <MenuItemTitleRow>
-                    <MenuItemTitle>List</MenuItemTitle>
-                  </MenuItemTitleRow>
-                </MenuItemContent>
-              </MenuItem>
-              <MenuItem layout="default">
-                <MenuItemContent>
-                  <MenuItemTitleRow>
-                    <MenuItemTitle>Board</MenuItemTitle>
-                  </MenuItemTitleRow>
-                </MenuItemContent>
-              </MenuItem>
-            </MenuGroup>
-            <MenuSeparator />
-            <MenuGroup>
-              <MenuGroupLabel>Density</MenuGroupLabel>
-              <MenuItem layout="default">
-                <MenuItemContent>
-                  <MenuItemTitleRow>
-                    <MenuItemTitle>Comfortable</MenuItemTitle>
-                  </MenuItemTitleRow>
-                </MenuItemContent>
-              </MenuItem>
-              <MenuItem layout="default">
-                <MenuItemContent>
-                  <MenuItemTitleRow>
-                    <MenuItemTitle>Compact</MenuItemTitle>
-                  </MenuItemTitleRow>
-                </MenuItemContent>
-              </MenuItem>
-            </MenuGroup>
-          </MenuPopup>
-        </MenuPositioner>
-      </MenuPortal>
-    </Menu>
-  ),
+  render: () => renderGrouped(),
+};
+
+export const GroupedInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => renderGrouped(),
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "View" }));
     await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
@@ -174,44 +188,51 @@ export const Grouped: Story = {
   },
 };
 
+function CheckboxesStory() {
+  const [checked, setChecked] = React.useState<Record<string, boolean>>({ comments: true });
+  const rows = [
+    { key: "comments", label: "Comments" },
+    { key: "mentions", label: "Mentions" },
+    { key: "updates", label: "Updates" },
+  ];
+  return (
+    <Menu>
+      <MenuTrigger render={<button type="button" className={triggerClass} />}>Notify</MenuTrigger>
+      <MenuPortal>
+        <MenuPositioner sideOffset={4}>
+          <MenuPopup surface="raised">
+            {rows.map((row) => (
+              <MenuCheckboxItem
+                key={row.key}
+                checked={Boolean(checked[row.key])}
+                onCheckedChange={(next) => setChecked((c) => ({ ...c, [row.key]: next }))}
+                closeOnClick={false}
+              >
+                <MenuItemContent>
+                  <MenuItemTitleRow>
+                    <MenuItemTitle>{row.label}</MenuItemTitle>
+                  </MenuItemTitleRow>
+                </MenuItemContent>
+                <MenuCheckboxItemIndicator>
+                  <CircleDot aria-hidden="true" />
+                </MenuCheckboxItemIndicator>
+              </MenuCheckboxItem>
+            ))}
+          </MenuPopup>
+        </MenuPositioner>
+      </MenuPortal>
+    </Menu>
+  );
+}
+
 /** `MenuCheckboxItem` + `MenuCheckboxItemIndicator` make a toggleable multi-select row. */
 export const Checkboxes: Story = {
-  render: function CheckboxesStory() {
-    const [checked, setChecked] = React.useState<Record<string, boolean>>({ comments: true });
-    const rows = [
-      { key: "comments", label: "Comments" },
-      { key: "mentions", label: "Mentions" },
-      { key: "updates", label: "Updates" },
-    ];
-    return (
-      <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>Notify</MenuTrigger>
-        <MenuPortal>
-          <MenuPositioner sideOffset={4}>
-            <MenuPopup surface="raised">
-              {rows.map((row) => (
-                <MenuCheckboxItem
-                  key={row.key}
-                  checked={Boolean(checked[row.key])}
-                  onCheckedChange={(next) => setChecked((c) => ({ ...c, [row.key]: next }))}
-                  closeOnClick={false}
-                >
-                  <MenuItemContent>
-                    <MenuItemTitleRow>
-                      <MenuItemTitle>{row.label}</MenuItemTitle>
-                    </MenuItemTitleRow>
-                  </MenuItemContent>
-                  <MenuCheckboxItemIndicator>
-                    <CircleDot aria-hidden="true" />
-                  </MenuCheckboxItemIndicator>
-                </MenuCheckboxItem>
-              ))}
-            </MenuPopup>
-          </MenuPositioner>
-        </MenuPortal>
-      </Menu>
-    );
-  },
+  render: () => <CheckboxesStory />,
+};
+
+export const CheckboxesInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => <CheckboxesStory />,
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Notify" }));
     const findRow = (text: string) =>

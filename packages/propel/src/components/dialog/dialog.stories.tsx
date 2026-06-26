@@ -42,63 +42,77 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Shared render: the confirmation dialog, reused by the visible display story and its hidden
+// interaction twin so a browsing user never sees the dialog flash open and then close.
+const renderDeleteProjectDialog = () => (
+  <Dialog>
+    <Button
+      sizing="hug"
+      prominence="secondary"
+      tone="neutral"
+      magnitude="xl"
+      render={<DialogTrigger />}
+    >
+      Delete project
+    </Button>
+    <DialogContent magnitude="sm">
+      <DialogHeader>
+        <DialogHeading>
+          <DialogTitle>Delete project</DialogTitle>
+        </DialogHeading>
+        <IconButton
+          prominence="ghost"
+          tone="neutral"
+          magnitude="lg"
+          aria-label="Close"
+          render={<DialogClose />}
+        >
+          <X />
+        </IconButton>
+      </DialogHeader>
+      <DialogBody>
+        <DialogDescription>
+          This permanently removes the project and all of its work items. This action can&apos;t be
+          undone.
+        </DialogDescription>
+      </DialogBody>
+      <DialogActions>
+        <Button
+          sizing="hug"
+          prominence="secondary"
+          tone="neutral"
+          magnitude="xl"
+          render={<DialogClose />}
+        >
+          Cancel
+        </Button>
+        <Button
+          sizing="hug"
+          prominence="primary"
+          tone="danger"
+          magnitude="xl"
+          render={<DialogClose />}
+        >
+          Delete
+        </Button>
+      </DialogActions>
+    </DialogContent>
+  </Dialog>
+);
+
 /** A confirmation dialog: title, description, and a footer of cancel / confirm actions. */
 export const Default: Story = {
-  render: () => (
-    <Dialog>
-      <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
-        render={<DialogTrigger />}
-      >
-        Delete project
-      </Button>
-      <DialogContent magnitude="sm">
-        <DialogHeader>
-          <DialogHeading>
-            <DialogTitle>Delete project</DialogTitle>
-          </DialogHeading>
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
-            aria-label="Close"
-            render={<DialogClose />}
-          >
-            <X />
-          </IconButton>
-        </DialogHeader>
-        <DialogBody>
-          <DialogDescription>
-            This permanently removes the project and all of its work items. This action can&apos;t
-            be undone.
-          </DialogDescription>
-        </DialogBody>
-        <DialogActions>
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            render={<DialogClose />}
-          >
-            Cancel
-          </Button>
-          <Button
-            sizing="hug"
-            prominence="primary"
-            tone="danger"
-            magnitude="xl"
-            render={<DialogClose />}
-          >
-            Delete
-          </Button>
-        </DialogActions>
-      </DialogContent>
-    </Dialog>
-  ),
+  render: renderDeleteProjectDialog,
+};
+
+/**
+ * Interaction test: opening the dialog, then Cancel closes it. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees the dialog flash open and then close.
+ */
+export const CancelCloses: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderDeleteProjectDialog,
   play: async ({ canvas, step }) => {
     await step("open the dialog", async () => {
       await userEvent.click(canvas.getByRole("button", { name: "Delete project" }));

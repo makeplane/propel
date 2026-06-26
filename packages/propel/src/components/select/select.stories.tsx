@@ -46,37 +46,43 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const renderDefault = () => (
+  <Field name="serverType">
+    <Select items={SERVER_TYPES} defaultValue="general" required>
+      <SelectField>
+        <SelectLabel>Server type</SelectLabel>
+        <SelectTrigger magnitude="md">
+          <SelectValue />
+          <SelectIcon>
+            <ChevronsUpDown />
+          </SelectIcon>
+        </SelectTrigger>
+      </SelectField>
+      <SelectContent>
+        <SelectList>
+          {SERVER_TYPES.map(({ label, value }) => (
+            <SelectItem key={value} value={value} magnitude="md">
+              <SelectItemIndicator>
+                <Check />
+              </SelectItemIndicator>
+              <SelectItemText>{label}</SelectItemText>
+            </SelectItem>
+          ))}
+        </SelectList>
+      </SelectContent>
+      <FieldError magnitude="md" />
+    </Select>
+  </Field>
+);
+
 /** Trigger-based select using the ready-made `SelectContent` surface inside a `Field`. */
 export const Default: Story = {
-  args: { items: SERVER_TYPES, defaultValue: "general", required: true },
-  render: (args) => (
-    <Field name="serverType">
-      <Select {...args}>
-        <SelectField>
-          <SelectLabel>Server type</SelectLabel>
-          <SelectTrigger magnitude="md">
-            <SelectValue />
-            <SelectIcon>
-              <ChevronsUpDown />
-            </SelectIcon>
-          </SelectTrigger>
-        </SelectField>
-        <SelectContent>
-          <SelectList>
-            {SERVER_TYPES.map(({ label, value }) => (
-              <SelectItem key={value} value={value} magnitude="md">
-                <SelectItemIndicator>
-                  <Check />
-                </SelectItemIndicator>
-                <SelectItemText>{label}</SelectItemText>
-              </SelectItem>
-            ))}
-          </SelectList>
-        </SelectContent>
-        <FieldError magnitude="md" />
-      </Select>
-    </Field>
-  ),
+  render: () => renderDefault(),
+};
+
+export const DefaultInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => renderDefault(),
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole("combobox", { name: "Server type" }));
     const popup = within(document.body);

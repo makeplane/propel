@@ -73,6 +73,24 @@ function ToggleFooter({ defaultToggles = {} }: { defaultToggles?: Record<string,
   );
 }
 
+// Shared render for the Default twins.
+const renderDefault = () => (
+  <Popover>
+    <Button
+      sizing="hug"
+      prominence="secondary"
+      tone="neutral"
+      magnitude="xl"
+      render={<PopoverTrigger />}
+    >
+      Options
+    </Button>
+    <PopoverContent side="bottom" align="start" width="md" aria-label="Options">
+      <ToggleFooter defaultToggles={{ sub: true }} />
+    </PopoverContent>
+  </Popover>
+);
+
 /**
  * The default popover: a trigger plus a generic floating panel. The panel hosts arbitrary content
  * (here a couple of checkbox toggles) — it is NOT a `role="menu"`, so these controls are valid
@@ -80,22 +98,12 @@ function ToggleFooter({ defaultToggles = {} }: { defaultToggles?: Record<string,
  * the trigger again.
  */
 export const Default: Story = {
-  render: () => (
-    <Popover>
-      <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
-        render={<PopoverTrigger />}
-      >
-        Options
-      </Button>
-      <PopoverContent side="bottom" align="start" width="md" aria-label="Options">
-        <ToggleFooter defaultToggles={{ sub: true }} />
-      </PopoverContent>
-    </Popover>
-  ),
+  render: () => renderDefault(),
+};
+
+export const DefaultInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => renderDefault(),
   play: async ({ canvas, step }) => {
     await step("open the popover and toggle a checkbox", async () => {
       const trigger = canvas.getByRole("button", { name: "Options" });
@@ -124,6 +132,57 @@ export const Default: Story = {
   },
 };
 
+// Shared stateful render for the DisplayProperties twins. Keeps the useState-driven pill
+// and group-by selections intact
+function DisplayPropertiesStory() {
+  const PILLS = ["ID", "Work item type", "Assignee", "Start date", "Due date", "Labels"];
+  const [pills, setPills] = React.useState<Record<string, boolean>>({
+    ID: true,
+    "Work item type": true,
+    Assignee: true,
+    "Due date": true,
+  });
+  const [groupBy, setGroupBy] = React.useState("state");
+  return (
+    <Popover>
+      <Button
+        sizing="hug"
+        prominence="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<PopoverTrigger />}
+      >
+        Display
+      </Button>
+      <PopoverContent side="bottom" align="start" width="md" aria-label="Display options">
+        <PanelLabel>Display Properties</PanelLabel>
+        <div className="flex flex-wrap gap-1.5 px-2 py-1.5">
+          {PILLS.map((p) => (
+            <PillSwitch
+              key={p}
+              magnitude="md"
+              pressed={Boolean(pills[p])}
+              onPressedChange={(next) => setPills((s) => ({ ...s, [p]: next }))}
+            >
+              {p}
+            </PillSwitch>
+          ))}
+        </div>
+        <PanelSeparator />
+        <PanelLabel>Group by</PanelLabel>
+        {/* Rows sit flush like the menu's items. */}
+        <RadioGroup density="compact" value={groupBy} onValueChange={(v) => setGroupBy(String(v))}>
+          {["Priority", "State", "Cycle", "Labels"].map((g) => (
+            <PanelRadioRow key={g} value={g.toLowerCase()} label={g} />
+          ))}
+        </RadioGroup>
+        <PanelSeparator />
+        <ToggleFooter />
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 /**
  * **DisplayProperties** — the settings panel that used to live in the Menu stories (and had to
  * disable `aria-allowed-attr`). On the non-menu Popover surface the pill group, single-select
@@ -133,58 +192,12 @@ export const Default: Story = {
  * The selectable property pills are propel's `PillSwitch` (a toggle pill).
  */
 export const DisplayProperties: Story = {
-  render: function DisplayPropertiesStory() {
-    const PILLS = ["ID", "Work item type", "Assignee", "Start date", "Due date", "Labels"];
-    const [pills, setPills] = React.useState<Record<string, boolean>>({
-      ID: true,
-      "Work item type": true,
-      Assignee: true,
-      "Due date": true,
-    });
-    const [groupBy, setGroupBy] = React.useState("state");
-    return (
-      <Popover>
-        <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
-          render={<PopoverTrigger />}
-        >
-          Display
-        </Button>
-        <PopoverContent side="bottom" align="start" width="md" aria-label="Display options">
-          <PanelLabel>Display Properties</PanelLabel>
-          <div className="flex flex-wrap gap-1.5 px-2 py-1.5">
-            {PILLS.map((p) => (
-              <PillSwitch
-                key={p}
-                magnitude="md"
-                pressed={Boolean(pills[p])}
-                onPressedChange={(next) => setPills((s) => ({ ...s, [p]: next }))}
-              >
-                {p}
-              </PillSwitch>
-            ))}
-          </div>
-          <PanelSeparator />
-          <PanelLabel>Group by</PanelLabel>
-          {/* Rows sit flush like the menu's items. */}
-          <RadioGroup
-            density="compact"
-            value={groupBy}
-            onValueChange={(v) => setGroupBy(String(v))}
-          >
-            {["Priority", "State", "Cycle", "Labels"].map((g) => (
-              <PanelRadioRow key={g} value={g.toLowerCase()} label={g} />
-            ))}
-          </RadioGroup>
-          <PanelSeparator />
-          <ToggleFooter />
-        </PopoverContent>
-      </Popover>
-    );
-  },
+  render: () => <DisplayPropertiesStory />,
+};
+
+export const DisplayPropertiesInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => <DisplayPropertiesStory />,
   play: async ({ canvas, step }) => {
     await step("open and toggle a property pill", async () => {
       await userEvent.click(canvas.getByRole("button", { name: "Display" }));
@@ -206,68 +219,77 @@ export const DisplayProperties: Story = {
   },
 };
 
+// Shared stateful render for the DisplayAccordion twins. Keeps the useState-driven
+// expand/collapse and order selection intact
+function DisplayAccordionStory() {
+  const [open, setOpen] = React.useState<string | null>("order");
+  const [order, setOrder] = React.useState("priority");
+  const SECTIONS = ["Display Properties", "Group by", "Sub Group by", "Order by"];
+  const ORDER = ["Manual - Rank", "Last created", "Last updated", "Priority", "Due date"];
+  return (
+    <Popover>
+      <Button
+        sizing="hug"
+        prominence="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<PopoverTrigger />}
+      >
+        Display options
+      </Button>
+      <PopoverContent side="bottom" align="start" width="md" aria-label="Display options">
+        {SECTIONS.map((title) => {
+          const key = title.split(" ")[0].toLowerCase();
+          const isOpen = open === key;
+          return (
+            <div key={title}>
+              <button
+                type="button"
+                aria-expanded={isOpen}
+                onClick={() => setOpen(isOpen ? null : key)}
+                className="flex h-[34px] w-full items-center gap-2 rounded-md px-2 text-13 text-secondary outline-none hover:bg-layer-transparent-hover"
+              >
+                <span className="min-w-0 flex-1 truncate text-left">{title}</span>
+                {isOpen ? (
+                  <ChevronUp className="size-4 shrink-0 text-icon-tertiary" />
+                ) : (
+                  <ChevronDown className="size-4 shrink-0 text-icon-tertiary" />
+                )}
+              </button>
+              {isOpen && key === "order" ? (
+                // Items within an expanded category sit flush (0 spacing).
+                <RadioGroup
+                  density="compact"
+                  value={order}
+                  onValueChange={(v) => setOrder(String(v))}
+                >
+                  {ORDER.map((o) => (
+                    <PanelRadioRow key={o} value={o.toLowerCase()} label={o} />
+                  ))}
+                </RadioGroup>
+              ) : null}
+            </div>
+          );
+        })}
+        <PanelSeparator />
+        <ToggleFooter />
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 /**
  * **DisplayAccordion** — the other settings panel that used to disable `aria-allowed-attr` in the
  * Menu stories. Collapsible sections with an expanded single-select `Radio` sort list and checkbox
  * toggles, all valid on the non-menu Popover surface.
  */
 export const DisplayAccordion: Story = {
-  render: function DisplayAccordionStory() {
-    const [open, setOpen] = React.useState<string | null>("order");
-    const [order, setOrder] = React.useState("priority");
-    const SECTIONS = ["Display Properties", "Group by", "Sub Group by", "Order by"];
-    const ORDER = ["Manual - Rank", "Last created", "Last updated", "Priority", "Due date"];
-    return (
-      <Popover>
-        <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
-          render={<PopoverTrigger />}
-        >
-          Display options
-        </Button>
-        <PopoverContent side="bottom" align="start" width="md" aria-label="Display options">
-          {SECTIONS.map((title) => {
-            const key = title.split(" ")[0].toLowerCase();
-            const isOpen = open === key;
-            return (
-              <div key={title}>
-                <button
-                  type="button"
-                  aria-expanded={isOpen}
-                  onClick={() => setOpen(isOpen ? null : key)}
-                  className="flex h-[34px] w-full items-center gap-2 rounded-md px-2 text-13 text-secondary outline-none hover:bg-layer-transparent-hover"
-                >
-                  <span className="min-w-0 flex-1 truncate text-left">{title}</span>
-                  {isOpen ? (
-                    <ChevronUp className="size-4 shrink-0 text-icon-tertiary" />
-                  ) : (
-                    <ChevronDown className="size-4 shrink-0 text-icon-tertiary" />
-                  )}
-                </button>
-                {isOpen && key === "order" ? (
-                  // Items within an expanded category sit flush (0 spacing).
-                  <RadioGroup
-                    density="compact"
-                    value={order}
-                    onValueChange={(v) => setOrder(String(v))}
-                  >
-                    {ORDER.map((o) => (
-                      <PanelRadioRow key={o} value={o.toLowerCase()} label={o} />
-                    ))}
-                  </RadioGroup>
-                ) : null}
-              </div>
-            );
-          })}
-          <PanelSeparator />
-          <ToggleFooter />
-        </PopoverContent>
-      </Popover>
-    );
-  },
+  render: () => <DisplayAccordionStory />,
+};
+
+export const DisplayAccordionInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => <DisplayAccordionStory />,
   play: async ({ canvas, step }) => {
     const findHeader = (panel: HTMLElement, text: string) =>
       within(panel)

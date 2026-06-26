@@ -98,21 +98,29 @@ function Trigger() {
   );
 }
 
+// Shared render for the Default twins.
+const renderDefault = () => (
+  <ToastProvider>
+    <Trigger />
+    <ToastPortal>
+      <ToastViewport>
+        <ToastList />
+      </ToastViewport>
+    </ToastPortal>
+  </ToastProvider>
+);
+
 /**
  * Click the trigger to queue a toast; the manager renders it through the atomic anatomy (status
  * icon, title, description, close). The viewport is a polite live region.
  */
 export const Default: Story = {
-  render: () => (
-    <ToastProvider>
-      <Trigger />
-      <ToastPortal>
-        <ToastViewport>
-          <ToastList />
-        </ToastViewport>
-      </ToastPortal>
-    </ToastProvider>
-  ),
+  render: () => renderDefault(),
+};
+
+export const DefaultInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => renderDefault(),
   play: async ({ canvas, userEvent }) => {
     const body = within(document.body);
     await userEvent.click(canvas.getByRole("button", { name: "Show toast" }));

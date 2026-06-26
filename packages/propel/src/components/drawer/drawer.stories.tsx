@@ -44,53 +44,67 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Shared render: the end-edge details panel, reused by the visible display story and its hidden
+// interaction twin so a browsing user never sees the drawer flash open and then close.
+const renderDetailsDrawer = () => (
+  <Drawer>
+    <Button
+      sizing="hug"
+      prominence="secondary"
+      tone="neutral"
+      magnitude="xl"
+      render={<DrawerTrigger />}
+    >
+      Open details
+    </Button>
+    <DrawerPanel side="end">
+      <DrawerHeader>
+        <DrawerHeaderContent>
+          <DrawerTitle>Work item details</DrawerTitle>
+          <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
+        </DrawerHeaderContent>
+        <IconButton
+          prominence="ghost"
+          tone="neutral"
+          magnitude="lg"
+          aria-label="Close"
+          render={<DrawerClose />}
+        >
+          <X />
+        </IconButton>
+      </DrawerHeader>
+      <DrawerBody>Panel body content goes here.</DrawerBody>
+      <DrawerFooter>
+        <Button
+          sizing="hug"
+          prominence="ghost"
+          tone="neutral"
+          magnitude="lg"
+          render={<DrawerClose />}
+        >
+          Cancel
+        </Button>
+        <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg">
+          Save
+        </Button>
+      </DrawerFooter>
+    </DrawerPanel>
+  </Drawer>
+);
+
 /** A right-edge panel: header (title + dismiss), body, and footer actions. Slides in from the end. */
 export const Default: Story = {
-  render: () => (
-    <Drawer>
-      <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
-        render={<DrawerTrigger />}
-      >
-        Open details
-      </Button>
-      <DrawerPanel side="end">
-        <DrawerHeader>
-          <DrawerHeaderContent>
-            <DrawerTitle>Work item details</DrawerTitle>
-            <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
-          </DrawerHeaderContent>
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
-            aria-label="Close"
-            render={<DrawerClose />}
-          >
-            <X />
-          </IconButton>
-        </DrawerHeader>
-        <DrawerBody>Panel body content goes here.</DrawerBody>
-        <DrawerFooter>
-          <Button
-            sizing="hug"
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
-            render={<DrawerClose />}
-          >
-            Cancel
-          </Button>
-          <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg">
-            Save
-          </Button>
-        </DrawerFooter>
-      </DrawerPanel>
-    </Drawer>
-  ),
+  render: renderDetailsDrawer,
+};
+
+/**
+ * Interaction test: opening the drawer, then the dismiss button closes it. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees the drawer flash open and then close.
+ */
+export const CloseButtonDismisses: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderDetailsDrawer,
   play: async ({ canvas, step }) => {
     await step("open the drawer", async () => {
       await userEvent.click(canvas.getByRole("button", { name: "Open details" }));
@@ -107,38 +121,52 @@ export const Default: Story = {
   },
 };
 
+// Shared render: the start-edge navigation panel, reused by the visible display story and its
+// hidden interaction twin so a browsing user never sees the drawer flash open and then close.
+const renderNavDrawer = () => (
+  <Drawer>
+    <Button
+      sizing="hug"
+      prominence="secondary"
+      tone="neutral"
+      magnitude="xl"
+      render={<DrawerTrigger />}
+    >
+      Open navigation
+    </Button>
+    <DrawerPanel side="start">
+      <DrawerHeader>
+        <DrawerHeaderContent>
+          <DrawerTitle>Navigation</DrawerTitle>
+        </DrawerHeaderContent>
+        <IconButton
+          prominence="ghost"
+          tone="neutral"
+          magnitude="lg"
+          aria-label="Close"
+          render={<DrawerClose />}
+        >
+          <X />
+        </IconButton>
+      </DrawerHeader>
+      <DrawerBody>Navigation links go here.</DrawerBody>
+    </DrawerPanel>
+  </Drawer>
+);
+
 /** A left-edge panel: same anatomy, anchored to the inline-start edge and slides in from the left. */
 export const StartSide: Story = {
-  render: () => (
-    <Drawer>
-      <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
-        render={<DrawerTrigger />}
-      >
-        Open navigation
-      </Button>
-      <DrawerPanel side="start">
-        <DrawerHeader>
-          <DrawerHeaderContent>
-            <DrawerTitle>Navigation</DrawerTitle>
-          </DrawerHeaderContent>
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
-            aria-label="Close"
-            render={<DrawerClose />}
-          >
-            <X />
-          </IconButton>
-        </DrawerHeader>
-        <DrawerBody>Navigation links go here.</DrawerBody>
-      </DrawerPanel>
-    </Drawer>
-  ),
+  render: renderNavDrawer,
+};
+
+/**
+ * Interaction test: opening the start-edge drawer, then the dismiss button closes it. Tagged out of
+ * the sidebar/docs/manifest while still running under the default `test` tag — so a browsing user
+ * never sees the drawer flash open and then close.
+ */
+export const StartSideDismisses: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderNavDrawer,
   play: async ({ canvas, step }) => {
     await step("open the drawer", async () => {
       await userEvent.click(canvas.getByRole("button", { name: "Open navigation" }));

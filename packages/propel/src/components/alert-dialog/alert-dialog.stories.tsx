@@ -41,55 +41,69 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Shared render: the destructive confirmation, reused by the visible display story and its hidden
+// interaction twin so a browsing user never sees the dialog flash open and then close.
+const renderDeleteProject = () => (
+  <AlertDialog>
+    <Button
+      sizing="hug"
+      prominence="primary"
+      tone="danger"
+      magnitude="xl"
+      render={<AlertDialogTrigger />}
+    >
+      Delete project
+    </Button>
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogIcon tone="danger">
+          <TriangleAlert />
+        </AlertDialogIcon>
+        <AlertDialogIntro>
+          <AlertDialogTitle>Delete project?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This permanently removes the project and all of its work items. This action can&apos;t
+            be undone.
+          </AlertDialogDescription>
+        </AlertDialogIntro>
+      </AlertDialogHeader>
+      <AlertDialogActions>
+        <Button
+          sizing="hug"
+          prominence="secondary"
+          tone="neutral"
+          magnitude="xl"
+          render={<AlertDialogClose />}
+        >
+          Cancel
+        </Button>
+        <Button
+          sizing="hug"
+          prominence="primary"
+          tone="danger"
+          magnitude="xl"
+          render={<AlertDialogClose />}
+        >
+          Delete
+        </Button>
+      </AlertDialogActions>
+    </AlertDialogContent>
+  </AlertDialog>
+);
+
 /** A destructive confirmation: it is modal and only closes through an explicit Cancel/Delete. */
 export const Default: Story = {
-  render: () => (
-    <AlertDialog>
-      <Button
-        sizing="hug"
-        prominence="primary"
-        tone="danger"
-        magnitude="xl"
-        render={<AlertDialogTrigger />}
-      >
-        Delete project
-      </Button>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogIcon tone="danger">
-            <TriangleAlert />
-          </AlertDialogIcon>
-          <AlertDialogIntro>
-            <AlertDialogTitle>Delete project?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This permanently removes the project and all of its work items. This action can&apos;t
-              be undone.
-            </AlertDialogDescription>
-          </AlertDialogIntro>
-        </AlertDialogHeader>
-        <AlertDialogActions>
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            render={<AlertDialogClose />}
-          >
-            Cancel
-          </Button>
-          <Button
-            sizing="hug"
-            prominence="primary"
-            tone="danger"
-            magnitude="xl"
-            render={<AlertDialogClose />}
-          >
-            Delete
-          </Button>
-        </AlertDialogActions>
-      </AlertDialogContent>
-    </AlertDialog>
-  ),
+  render: renderDeleteProject,
+};
+
+/**
+ * Interaction test: it opens, an outside click does NOT dismiss it (always modal), and Cancel
+ * closes it. Tagged out of the sidebar/docs/manifest while still running under the default `test`
+ * tag — so a browsing user never sees the dialog flash open and then close.
+ */
+export const ModalDismissal: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderDeleteProject,
   play: async ({ canvas, step }) => {
     await step("open the alert dialog", async () => {
       await userEvent.click(canvas.getByRole("button", { name: "Delete project" }));

@@ -50,58 +50,72 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Shared render: the hand-wired anatomy, reused by the visible display story and its hidden
+// interaction twin so a browsing user never sees the dialog flash open and then close.
+const renderDialogAnatomy = () => (
+  <Dialog>
+    <Button
+      sizing="hug"
+      prominence="secondary"
+      tone="neutral"
+      magnitude="xl"
+      render={<DialogTrigger />}
+    >
+      Open dialog
+    </Button>
+    <DialogPortal>
+      <DialogBackdrop />
+      <DialogViewport>
+        <DialogPopup magnitude="sm">
+          <DialogHeader>
+            <DialogHeading>
+              <DialogTitle>Delete project</DialogTitle>
+            </DialogHeading>
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude="lg"
+              aria-label="Close"
+              render={<DialogClose />}
+            >
+              <X />
+            </IconButton>
+          </DialogHeader>
+          <DialogBody>
+            <DialogDescription>
+              This permanently removes the project and all of its work items.
+            </DialogDescription>
+          </DialogBody>
+          <DialogActions>
+            <Button
+              sizing="hug"
+              prominence="secondary"
+              tone="neutral"
+              magnitude="xl"
+              render={<DialogClose />}
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </DialogPopup>
+      </DialogViewport>
+    </DialogPortal>
+  </Dialog>
+);
+
 /** The full anatomy wired by hand: trigger opens a portaled, backdropped, centered popup. */
 export const Anatomy: Story = {
-  render: () => (
-    <Dialog>
-      <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
-        render={<DialogTrigger />}
-      >
-        Open dialog
-      </Button>
-      <DialogPortal>
-        <DialogBackdrop />
-        <DialogViewport>
-          <DialogPopup magnitude="sm">
-            <DialogHeader>
-              <DialogHeading>
-                <DialogTitle>Delete project</DialogTitle>
-              </DialogHeading>
-              <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
-                aria-label="Close"
-                render={<DialogClose />}
-              >
-                <X />
-              </IconButton>
-            </DialogHeader>
-            <DialogBody>
-              <DialogDescription>
-                This permanently removes the project and all of its work items.
-              </DialogDescription>
-            </DialogBody>
-            <DialogActions>
-              <Button
-                sizing="hug"
-                prominence="secondary"
-                tone="neutral"
-                magnitude="xl"
-                render={<DialogClose />}
-              >
-                Cancel
-              </Button>
-            </DialogActions>
-          </DialogPopup>
-        </DialogViewport>
-      </DialogPortal>
-    </Dialog>
-  ),
+  render: renderDialogAnatomy,
+};
+
+/**
+ * Interaction test: opening the dialog, then Cancel closes it. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees the dialog flash open and then close.
+ */
+export const CancelCloses: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderDialogAnatomy,
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Open dialog" }));
     const dialog = await within(document.body).findByRole("dialog");

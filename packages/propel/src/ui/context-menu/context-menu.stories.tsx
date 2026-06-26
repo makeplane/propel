@@ -49,48 +49,55 @@ type Story = StoryObj<typeof meta>;
 const triggerClass =
   "flex h-32 w-72 items-center justify-center rounded-lg border-sm border-dashed border-subtle text-13 text-tertiary select-none";
 
+const renderDefault = () => (
+  <ContextMenu>
+    <ContextMenuTrigger render={<div className={triggerClass} />}>
+      Right-click here
+    </ContextMenuTrigger>
+    <ContextMenuPortal>
+      <ContextMenuPositioner>
+        <ContextMenuPopup>
+          <ContextMenuGroup>
+            <ContextMenuGroupLabel>Actions</ContextMenuGroupLabel>
+            <ContextMenuItem tone="neutral">
+              <ContextMenuItemIcon>
+                <Scissors />
+              </ContextMenuItemIcon>
+              <ContextMenuItemLabel>Cut</ContextMenuItemLabel>
+              <ContextMenuItemShortcut>⌘X</ContextMenuItemShortcut>
+            </ContextMenuItem>
+            <ContextMenuItem tone="neutral">
+              <ContextMenuItemIcon>
+                <Copy />
+              </ContextMenuItemIcon>
+              <ContextMenuItemLabel>Copy</ContextMenuItemLabel>
+              <ContextMenuItemShortcut>⌘C</ContextMenuItemShortcut>
+              <ContextMenuItemIndicator>
+                <Check />
+              </ContextMenuItemIndicator>
+            </ContextMenuItem>
+          </ContextMenuGroup>
+          <ContextMenuSeparator />
+          <ContextMenuItem tone="danger">
+            <ContextMenuItemIcon>
+              <Trash2 />
+            </ContextMenuItemIcon>
+            <ContextMenuItemLabel>Delete</ContextMenuItemLabel>
+          </ContextMenuItem>
+        </ContextMenuPopup>
+      </ContextMenuPositioner>
+    </ContextMenuPortal>
+  </ContextMenu>
+);
+
 /** Right-click (or long-press) the area to open the popup assembled from raw parts. */
 export const Default: Story = {
-  render: () => (
-    <ContextMenu>
-      <ContextMenuTrigger render={<div className={triggerClass} />}>
-        Right-click here
-      </ContextMenuTrigger>
-      <ContextMenuPortal>
-        <ContextMenuPositioner>
-          <ContextMenuPopup>
-            <ContextMenuGroup>
-              <ContextMenuGroupLabel>Actions</ContextMenuGroupLabel>
-              <ContextMenuItem tone="neutral">
-                <ContextMenuItemIcon>
-                  <Scissors />
-                </ContextMenuItemIcon>
-                <ContextMenuItemLabel>Cut</ContextMenuItemLabel>
-                <ContextMenuItemShortcut>⌘X</ContextMenuItemShortcut>
-              </ContextMenuItem>
-              <ContextMenuItem tone="neutral">
-                <ContextMenuItemIcon>
-                  <Copy />
-                </ContextMenuItemIcon>
-                <ContextMenuItemLabel>Copy</ContextMenuItemLabel>
-                <ContextMenuItemShortcut>⌘C</ContextMenuItemShortcut>
-                <ContextMenuItemIndicator>
-                  <Check />
-                </ContextMenuItemIndicator>
-              </ContextMenuItem>
-            </ContextMenuGroup>
-            <ContextMenuSeparator />
-            <ContextMenuItem tone="danger">
-              <ContextMenuItemIcon>
-                <Trash2 />
-              </ContextMenuItemIcon>
-              <ContextMenuItemLabel>Delete</ContextMenuItemLabel>
-            </ContextMenuItem>
-          </ContextMenuPopup>
-        </ContextMenuPositioner>
-      </ContextMenuPortal>
-    </ContextMenu>
-  ),
+  render: () => renderDefault(),
+};
+
+export const DefaultInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => renderDefault(),
   play: async ({ canvas }) => {
     await fireEvent.contextMenu(canvas.getByText("Right-click here"));
     await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());

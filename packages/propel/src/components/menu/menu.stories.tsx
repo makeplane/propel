@@ -193,12 +193,8 @@ function initials(name: string) {
     .join("");
 }
 
-/**
- * Demo 1 — **Status**. Single-select with status icons, a sticky search header, and a leading
- * checkmark on the selected row only.
- */
-export const Status: Story = {
-  render: function StatusStory() {
+const renderStatus = () =>
+  function StatusStory() {
     const [selected, setSelected] = React.useState<string>("backlog");
     const [query, setQuery] = React.useState("");
     const visible = STATUSES.filter((s) => s.label.toLowerCase().includes(query.toLowerCase()));
@@ -222,7 +218,19 @@ export const Status: Story = {
         </MenuContent>
       </Menu>
     );
-  },
+  };
+
+/**
+ * Demo 1 — **Status**. Single-select with status icons, a sticky search header, and a leading
+ * checkmark on the selected row only.
+ */
+export const Status: Story = {
+  render: renderStatus(),
+};
+
+export const StatusInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderStatus(),
   play: async ({ canvas, step }) => {
     await step("open and pick a status", async () => {
       await openMenu(canvas, "Backlog");
@@ -235,14 +243,8 @@ export const Status: Story = {
   },
 };
 
-/**
- * Demo 2 — **Labels**. Multi-select: each row is a `MenuCheckboxItem` (the propel `Checkbox` as the
- * leading control) plus a color swatch, with a search header. When the typed query has no exact
- * match, an "Add label" option (Figma `64-626`) appears, separated from the search by a single
- * divider line.
- */
-export const Labels: Story = {
-  render: function LabelsStory() {
+const renderLabels = () =>
+  function LabelsStory() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({ customer: true });
     const [query, setQuery] = React.useState("");
     const trimmed = query.trim();
@@ -276,7 +278,21 @@ export const Labels: Story = {
         </MenuContent>
       </Menu>
     );
-  },
+  };
+
+/**
+ * Demo 2 — **Labels**. Multi-select: each row is a `MenuCheckboxItem` (the propel `Checkbox` as the
+ * leading control) plus a color swatch, with a search header. When the typed query has no exact
+ * match, an "Add label" option (Figma `64-626`) appears, separated from the search by a single
+ * divider line.
+ */
+export const Labels: Story = {
+  render: renderLabels(),
+};
+
+export const LabelsInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderLabels(),
   play: async ({ canvas, step }) => {
     await step("open and toggle a label", async () => {
       await openMenu(canvas, "Labels");
@@ -297,39 +313,46 @@ export const Labels: Story = {
   },
 };
 
+const renderActionMenu = () => (
+  <Menu>
+    <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
+    <MenuContent width="sm">
+      <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
+      <MenuItem inlineStartNode={<Copy />}>Make a copy</MenuItem>
+      <MenuItem inlineStartNode={<ExternalLink />}>Open in new tab</MenuItem>
+      <MenuItem
+        inlineStartNode={<Link2 />}
+        inlineEndNode={<span className="text-12 text-tertiary">⌘L</span>}
+      >
+        Copy link
+      </MenuItem>
+      <MenuSeparator />
+      <MenuItem
+        inlineStartNode={<Trash2 />}
+        description="Only completed or cancelled work items can be archived"
+        disabled
+      >
+        Archive
+      </MenuItem>
+      <MenuSeparator />
+      <MenuItem inlineStartNode={<Trash2 className="text-danger-primary" />}>
+        {<span className="text-danger-primary">Delete</span>}
+      </MenuItem>
+    </MenuContent>
+  </Menu>
+);
+
 /**
  * Demo 3 — **ActionMenu**. Icon items, a trailing keyboard shortcut (⌘L), a disabled item with a
  * description, a destructive Delete, and separators between groups.
  */
 export const ActionMenu: Story = {
-  render: () => (
-    <Menu>
-      <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
-      <MenuContent width="sm">
-        <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
-        <MenuItem inlineStartNode={<Copy />}>Make a copy</MenuItem>
-        <MenuItem inlineStartNode={<ExternalLink />}>Open in new tab</MenuItem>
-        <MenuItem
-          inlineStartNode={<Link2 />}
-          inlineEndNode={<span className="text-12 text-tertiary">⌘L</span>}
-        >
-          Copy link
-        </MenuItem>
-        <MenuSeparator />
-        <MenuItem
-          inlineStartNode={<Trash2 />}
-          description="Only completed or cancelled work items can be archived"
-          disabled
-        >
-          Archive
-        </MenuItem>
-        <MenuSeparator />
-        <MenuItem inlineStartNode={<Trash2 className="text-danger-primary" />}>
-          {<span className="text-danger-primary">Delete</span>}
-        </MenuItem>
-      </MenuContent>
-    </Menu>
-  ),
+  render: () => renderActionMenu(),
+};
+
+export const ActionMenuInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => renderActionMenu(),
   play: async ({ canvas, step }) => {
     await step("open and confirm the disabled Archive row", async () => {
       await openMenu(canvas, "Actions");
@@ -377,12 +400,8 @@ export const ActionMenu: Story = {
   },
 };
 
-/**
- * Demo 4 — **Description**. Single-select with a two-line label + muted description, laid out in a
- * wider menu.
- */
-export const Description: Story = {
-  render: function DescriptionStory() {
+const renderDescription = () =>
+  function DescriptionStory() {
     const [selected, setSelected] = React.useState("private");
     return (
       <Menu>
@@ -411,7 +430,19 @@ export const Description: Story = {
         </MenuContent>
       </Menu>
     );
-  },
+  };
+
+/**
+ * Demo 4 — **Description**. Single-select with a two-line label + muted description, laid out in a
+ * wider menu.
+ */
+export const Description: Story = {
+  render: renderDescription(),
+};
+
+export const DescriptionInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderDescription(),
   play: async ({ canvas, step }) => {
     await step("open and select Public", async () => {
       await openMenu(canvas, "Visibility");
@@ -452,12 +483,8 @@ export const LabelAndFooterSemantics: Story = {
   },
 };
 
-/**
- * Demo 5 — **Assignees**. Multi-select: a `MenuCheckboxItem` (propel `Checkbox`) with a propel
- * `Avatar` as the leading content, a search header, and a disabled row.
- */
-export const Assignees: Story = {
-  render: function AssigneesStory() {
+const renderAssignees = () =>
+  function AssigneesStory() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({ amelia: true });
     const [query, setQuery] = React.useState("");
     const visible = ASSIGNEES.filter((a) => a.name.toLowerCase().includes(query.toLowerCase()));
@@ -484,7 +511,19 @@ export const Assignees: Story = {
         </MenuContent>
       </Menu>
     );
-  },
+  };
+
+/**
+ * Demo 5 — **Assignees**. Multi-select: a `MenuCheckboxItem` (propel `Checkbox`) with a propel
+ * `Avatar` as the leading content, a search header, and a disabled row.
+ */
+export const Assignees: Story = {
+  render: renderAssignees(),
+};
+
+export const AssigneesInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderAssignees(),
   play: async ({ canvas, step }) => {
     await step("open and toggle an assignee", async () => {
       await openMenu(canvas, "Assignees");
@@ -501,12 +540,8 @@ export const Assignees: Story = {
   },
 };
 
-/**
- * Demo 6 — **LanguagePicker**. Single-select; each row pairs a label with muted secondary text
- * inline (the English name), a search header, and a selected checkmark.
- */
-export const LanguagePicker: Story = {
-  render: function LanguagePickerStory() {
+const renderLanguagePicker = () =>
+  function LanguagePickerStory() {
     const [selected, setSelected] = React.useState("en");
     const [query, setQuery] = React.useState("");
     const visible = LANGUAGES.filter((l) =>
@@ -532,7 +567,19 @@ export const LanguagePicker: Story = {
         </MenuContent>
       </Menu>
     );
-  },
+  };
+
+/**
+ * Demo 6 — **LanguagePicker**. Single-select; each row pairs a label with muted secondary text
+ * inline (the English name), a search header, and a selected checkmark.
+ */
+export const LanguagePicker: Story = {
+  render: renderLanguagePicker(),
+};
+
+export const LanguagePickerInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderLanguagePicker(),
   play: async ({ canvas, step }) => {
     await step("filter and select a language", async () => {
       await openMenu(canvas, "English");
@@ -549,12 +596,8 @@ export const LanguagePicker: Story = {
   },
 };
 
-/**
- * Demo 7 — **Priority**. Multi-select: a `MenuCheckboxItem` (propel `Checkbox`) with a leading
- * priority glyph, plus a search header.
- */
-export const Priority: Story = {
-  render: function PriorityStory() {
+const renderPriority = () =>
+  function PriorityStory() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({});
     const [query, setQuery] = React.useState("");
     const visible = PRIORITIES.filter((p) => p.label.toLowerCase().includes(query.toLowerCase()));
@@ -577,7 +620,19 @@ export const Priority: Story = {
         </MenuContent>
       </Menu>
     );
-  },
+  };
+
+/**
+ * Demo 7 — **Priority**. Multi-select: a `MenuCheckboxItem` (propel `Checkbox`) with a leading
+ * priority glyph, plus a search header.
+ */
+export const Priority: Story = {
+  render: renderPriority(),
+};
+
+export const PriorityInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderPriority(),
   play: async ({ canvas, step }) => {
     await step("open and toggle High", async () => {
       await openMenu(canvas, "Priority");
@@ -661,15 +716,8 @@ export const CheckedFillVisible: Story = {
   },
 };
 
-/**
- * Demo 8 — **Filters**. Multi-select across several titled, collapsible sections (Priority, State,
- * Assignee, …). Each item carries a leading icon; a chevron on the heading collapses/expands the
- * category; categories are separated by a divider; and a long category previews only its first few
- * rows with a "View all" toggle that expands the remaining rows inline (and collapses back to "Show
- * less").
- */
-export const Filters: Story = {
-  render: function FiltersStory() {
+const renderFilters = () =>
+  function FiltersStory() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({});
     const [collapsed, setCollapsed] = React.useState<Record<string, boolean>>({});
     // Which `viewAll` sections have been expanded to show every row.
@@ -773,7 +821,22 @@ export const Filters: Story = {
         </MenuContent>
       </Menu>
     );
-  },
+  };
+
+/**
+ * Demo 8 — **Filters**. Multi-select across several titled, collapsible sections (Priority, State,
+ * Assignee, …). Each item carries a leading icon; a chevron on the heading collapses/expands the
+ * category; categories are separated by a divider; and a long category previews only its first few
+ * rows with a "View all" toggle that expands the remaining rows inline (and collapses back to "Show
+ * less").
+ */
+export const Filters: Story = {
+  render: renderFilters(),
+};
+
+export const FiltersInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderFilters(),
   play: async ({ canvas, step }) => {
     await step("open and confirm multiple sections render", async () => {
       await openMenu(canvas, "Filters");
@@ -810,12 +873,8 @@ export const Filters: Story = {
   },
 };
 
-/**
- * Demo 9 — **EmptyState**. Searching filters the list; when nothing matches, the menu shows a "No
- * matching results" message instead of items.
- */
-export const EmptyState: Story = {
-  render: function EmptyStateStory() {
+const renderEmptyState = () =>
+  function EmptyStateStory() {
     const [query, setQuery] = React.useState("Product");
     const visible = STATUSES.filter((s) => s.label.toLowerCase().includes(query.toLowerCase()));
     return (
@@ -834,7 +893,30 @@ export const EmptyState: Story = {
         </MenuContent>
       </Menu>
     );
+  };
+
+// The empty state intentionally renders an open `role="menu"` whose only child is the "No matching
+// results" message — no menu items. axe's aria-required-children flags a menu with no item
+// children, but an empty results menu legitimately has none, so suppress just this rule for the
+// static display story (the interaction twin clears the search, restoring items before its scan).
+const emptyMenuA11yParameters = {
+  a11y: {
+    config: { rules: [{ id: "aria-required-children", enabled: false }] },
   },
+};
+
+/**
+ * Demo 9 — **EmptyState**. Searching filters the list; when nothing matches, the menu shows a "No
+ * matching results" message instead of items.
+ */
+export const EmptyState: Story = {
+  parameters: emptyMenuA11yParameters,
+  render: renderEmptyState(),
+};
+
+export const EmptyStateInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: renderEmptyState(),
   play: async ({ step }) => {
     await step("the no-results message shows for a non-matching query", async () => {
       await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
@@ -850,95 +932,101 @@ export const EmptyState: Story = {
   },
 };
 
+// When a submenu is open, Base UI's FloatingPortal emits a visually-hidden
+// `aria-owns` owner `<span>` next to the trigger. It reparents the portaled
+// submenu to the correct place in the accessibility tree (next to its trigger),
+// but in the DOM that span lands as a child of the parent `role="menu"`. axe's
+// aria-required-children reads the DOM tree rather than the a11y tree, so it
+// flags the span as a disallowed menu child. This is a static-analysis
+// false-positive on axe's side, not invalid markup (tracked at
+// dequelabs/axe-core#4048; the floating-ui maintainer confirmed the span is doing
+// correct a11y-tree placement in floating-ui/floating-ui#3424). Suppress just
+// this rule for this story.
+const submenuA11yParameters = {
+  a11y: {
+    config: { rules: [{ id: "aria-required-children", enabled: false }] },
+  },
+};
+
+const renderSubmenu = () => (
+  <Menu>
+    <MenuTrigger render={<button type="button" className={triggerClass} />}>Filter by</MenuTrigger>
+    <MenuContent width="sm">
+      <MenuSubmenu>
+        <MenuSubmenuTrigger
+          inlineEndNode={
+            <Badge magnitude="sm" tone="neutral">
+              5
+            </Badge>
+          }
+        >
+          Priority
+        </MenuSubmenuTrigger>
+        <MenuSubmenuContent width="sm">
+          {PRIORITIES.map((p) => (
+            <MenuItem key={p.key} inlineStartNode={p.icon} closeOnClick={false}>
+              {p.label}
+            </MenuItem>
+          ))}
+        </MenuSubmenuContent>
+      </MenuSubmenu>
+      <MenuSubmenu>
+        <MenuSubmenuTrigger
+          inlineEndNode={
+            <Badge magnitude="sm" tone="neutral">
+              5
+            </Badge>
+          }
+        >
+          State
+        </MenuSubmenuTrigger>
+        <MenuSubmenuContent width="sm">
+          {STATUSES.map((s) => (
+            <MenuItem key={s.key} inlineStartNode={s.icon} closeOnClick={false}>
+              {s.label}
+            </MenuItem>
+          ))}
+        </MenuSubmenuContent>
+      </MenuSubmenu>
+      <MenuSubmenu>
+        <MenuSubmenuTrigger
+          inlineEndNode={
+            <Badge magnitude="sm" tone="neutral">
+              5
+            </Badge>
+          }
+        >
+          Assignee
+        </MenuSubmenuTrigger>
+        <MenuSubmenuContent width="sm">
+          {ASSIGNEES.map((a) => (
+            <MenuItem
+              key={a.key}
+              inlineStartNode={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
+              closeOnClick={false}
+            >
+              {a.name}
+            </MenuItem>
+          ))}
+        </MenuSubmenuContent>
+      </MenuSubmenu>
+    </MenuContent>
+  </Menu>
+);
+
 /**
  * Demo 10 — **Submenu**. Rows carry a trailing count `Badge` and a chevron; hovering one opens a
  * nested submenu of options (built on `MenuSubmenu`).
  */
 export const Submenu: Story = {
-  parameters: {
-    a11y: {
-      // When a submenu is open, Base UI's FloatingPortal emits a visually-hidden
-      // `aria-owns` owner `<span>` next to the trigger. It reparents the portaled
-      // submenu to the correct place in the accessibility tree (next to its trigger),
-      // but in the DOM that span lands as a child of the parent `role="menu"`. axe's
-      // aria-required-children reads the DOM tree rather than the a11y tree, so it
-      // flags the span as a disallowed menu child. This is a static-analysis
-      // false-positive on axe's side, not invalid markup (tracked at
-      // dequelabs/axe-core#4048; the floating-ui maintainer confirmed the span is doing
-      // correct a11y-tree placement in floating-ui/floating-ui#3424). Suppress just
-      // this rule for this story.
-      config: { rules: [{ id: "aria-required-children", enabled: false }] },
-    },
-  },
-  render: () => (
-    <Menu>
-      <MenuTrigger render={<button type="button" className={triggerClass} />}>
-        Filter by
-      </MenuTrigger>
-      <MenuContent width="sm">
-        <MenuSubmenu>
-          <MenuSubmenuTrigger
-            inlineEndNode={
-              <Badge magnitude="sm" tone="neutral">
-                5
-              </Badge>
-            }
-          >
-            Priority
-          </MenuSubmenuTrigger>
-          <MenuSubmenuContent width="sm">
-            {PRIORITIES.map((p) => (
-              <MenuItem key={p.key} inlineStartNode={p.icon} closeOnClick={false}>
-                {p.label}
-              </MenuItem>
-            ))}
-          </MenuSubmenuContent>
-        </MenuSubmenu>
-        <MenuSubmenu>
-          <MenuSubmenuTrigger
-            inlineEndNode={
-              <Badge magnitude="sm" tone="neutral">
-                5
-              </Badge>
-            }
-          >
-            State
-          </MenuSubmenuTrigger>
-          <MenuSubmenuContent width="sm">
-            {STATUSES.map((s) => (
-              <MenuItem key={s.key} inlineStartNode={s.icon} closeOnClick={false}>
-                {s.label}
-              </MenuItem>
-            ))}
-          </MenuSubmenuContent>
-        </MenuSubmenu>
-        <MenuSubmenu>
-          <MenuSubmenuTrigger
-            inlineEndNode={
-              <Badge magnitude="sm" tone="neutral">
-                5
-              </Badge>
-            }
-          >
-            Assignee
-          </MenuSubmenuTrigger>
-          <MenuSubmenuContent width="sm">
-            {ASSIGNEES.map((a) => (
-              <MenuItem
-                key={a.key}
-                inlineStartNode={
-                  <Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />
-                }
-                closeOnClick={false}
-              >
-                {a.name}
-              </MenuItem>
-            ))}
-          </MenuSubmenuContent>
-        </MenuSubmenu>
-      </MenuContent>
-    </Menu>
-  ),
+  parameters: submenuA11yParameters,
+  render: () => renderSubmenu(),
+};
+
+export const SubmenuInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: submenuA11yParameters,
+  render: () => renderSubmenu(),
   play: async ({ canvas, step }) => {
     await step("open the menu and reveal a submenu", async () => {
       await openMenu(canvas, "Filter by");

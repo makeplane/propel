@@ -34,35 +34,43 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Shared render for the Anatomy twins.
+const renderAnatomy = () => (
+  <Tooltip>
+    <TooltipTrigger
+      delay={0}
+      render={
+        <button
+          type="button"
+          className="inline-flex h-8 items-center rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none"
+        />
+      }
+    >
+      Hover or focus me
+    </TooltipTrigger>
+    <TooltipPortal>
+      <TooltipPositioner side="top" sideOffset={8}>
+        <TooltipPopup role="tooltip">
+          Saves automatically
+          <TooltipShortcut>⌘ S</TooltipShortcut>
+          <TooltipArrow />
+        </TooltipPopup>
+      </TooltipPositioner>
+    </TooltipPortal>
+  </Tooltip>
+);
+
 /**
  * The full anatomy wired by hand: a focusable trigger opens a positioned popup that holds the
  * label, an optional `TooltipShortcut` hint, and the arrow.
  */
 export const Anatomy: Story = {
-  render: () => (
-    <Tooltip>
-      <TooltipTrigger
-        delay={0}
-        render={
-          <button
-            type="button"
-            className="inline-flex h-8 items-center rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none"
-          />
-        }
-      >
-        Hover or focus me
-      </TooltipTrigger>
-      <TooltipPortal>
-        <TooltipPositioner side="top" sideOffset={8}>
-          <TooltipPopup role="tooltip">
-            Saves automatically
-            <TooltipShortcut>⌘ S</TooltipShortcut>
-            <TooltipArrow />
-          </TooltipPopup>
-        </TooltipPositioner>
-      </TooltipPortal>
-    </Tooltip>
-  ),
+  render: () => renderAnatomy(),
+};
+
+export const AnatomyInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => renderAnatomy(),
   play: async ({ canvas }) => {
     await userEvent.tab();
     await expect(canvas.getByRole("button", { name: "Hover or focus me" })).toHaveFocus();
@@ -72,36 +80,44 @@ export const Anatomy: Story = {
   },
 };
 
+// Shared render for the SharedProvider twins.
+const renderSharedProvider = () => (
+  <TooltipProvider delay={0} closeDelay={0}>
+    <div className="flex gap-2">
+      {["Cut", "Copy", "Paste"].map((label) => (
+        <Tooltip key={label}>
+          <TooltipTrigger
+            render={
+              <button
+                type="button"
+                className="inline-flex h-8 items-center rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none"
+              />
+            }
+          >
+            {label}
+          </TooltipTrigger>
+          <TooltipPortal>
+            <TooltipPositioner side="top" sideOffset={8}>
+              <TooltipPopup role="tooltip">{label} the selection</TooltipPopup>
+            </TooltipPositioner>
+          </TooltipPortal>
+        </Tooltip>
+      ))}
+    </div>
+  </TooltipProvider>
+);
+
 /**
  * `TooltipProvider` shares one open/close delay across the tooltips beneath it, so moving between
  * adjacent triggers shows the next tooltip immediately.
  */
 export const SharedProvider: Story = {
-  render: () => (
-    <TooltipProvider delay={0} closeDelay={0}>
-      <div className="flex gap-2">
-        {["Cut", "Copy", "Paste"].map((label) => (
-          <Tooltip key={label}>
-            <TooltipTrigger
-              render={
-                <button
-                  type="button"
-                  className="inline-flex h-8 items-center rounded-md border border-subtle bg-surface-1 px-3 text-13 text-secondary outline-none"
-                />
-              }
-            >
-              {label}
-            </TooltipTrigger>
-            <TooltipPortal>
-              <TooltipPositioner side="top" sideOffset={8}>
-                <TooltipPopup role="tooltip">{label} the selection</TooltipPopup>
-              </TooltipPositioner>
-            </TooltipPortal>
-          </Tooltip>
-        ))}
-      </div>
-    </TooltipProvider>
-  ),
+  render: () => renderSharedProvider(),
+};
+
+export const SharedProviderInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => renderSharedProvider(),
   play: async ({ canvas }) => {
     await userEvent.tab();
     await expect(canvas.getByRole("button", { name: "Cut" })).toHaveFocus();

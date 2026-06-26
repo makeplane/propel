@@ -42,34 +42,41 @@ type Story = StoryObj<typeof meta>;
 const triggerClass =
   "flex h-32 w-72 items-center justify-center rounded-lg border-sm border-dashed border-subtle text-13 text-tertiary select-none";
 
+const renderDefault = () => (
+  <ContextMenu>
+    <ContextMenuTrigger render={<div className={triggerClass} />}>
+      Right-click here
+    </ContextMenuTrigger>
+    <ContextMenuPortal>
+      <ContextMenuPositioner>
+        <ContextMenuPopup>
+          <ContextMenuItem tone="neutral" inlineStartNode={<Scissors />} inlineEndNode="⌘X">
+            Cut
+          </ContextMenuItem>
+          <ContextMenuItem tone="neutral" inlineStartNode={<Copy />} inlineEndNode="⌘C">
+            Copy
+          </ContextMenuItem>
+          <ContextMenuItem tone="neutral" inlineStartNode={<ClipboardPaste />} inlineEndNode="⌘V">
+            Paste
+          </ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem tone="danger" inlineStartNode={<Trash2 />}>
+            Delete
+          </ContextMenuItem>
+        </ContextMenuPopup>
+      </ContextMenuPositioner>
+    </ContextMenuPortal>
+  </ContextMenu>
+);
+
 /** Right-click the area to open a ready-made menu of icon + label rows. */
 export const Default: Story = {
-  render: () => (
-    <ContextMenu>
-      <ContextMenuTrigger render={<div className={triggerClass} />}>
-        Right-click here
-      </ContextMenuTrigger>
-      <ContextMenuPortal>
-        <ContextMenuPositioner>
-          <ContextMenuPopup>
-            <ContextMenuItem tone="neutral" inlineStartNode={<Scissors />} inlineEndNode="⌘X">
-              Cut
-            </ContextMenuItem>
-            <ContextMenuItem tone="neutral" inlineStartNode={<Copy />} inlineEndNode="⌘C">
-              Copy
-            </ContextMenuItem>
-            <ContextMenuItem tone="neutral" inlineStartNode={<ClipboardPaste />} inlineEndNode="⌘V">
-              Paste
-            </ContextMenuItem>
-            <ContextMenuSeparator />
-            <ContextMenuItem tone="danger" inlineStartNode={<Trash2 />}>
-              Delete
-            </ContextMenuItem>
-          </ContextMenuPopup>
-        </ContextMenuPositioner>
-      </ContextMenuPortal>
-    </ContextMenu>
-  ),
+  render: () => renderDefault(),
+};
+
+export const DefaultInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => renderDefault(),
   play: async ({ canvas }) => {
     await fireEvent.contextMenu(canvas.getByText("Right-click here"));
     await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
