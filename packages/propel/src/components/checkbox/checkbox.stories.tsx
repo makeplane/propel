@@ -3,6 +3,7 @@ import { Repeat } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
+import { Field } from "../../ui/field/field";
 import {
   Checkbox,
   CheckboxIndeterminateIndicator,
@@ -21,7 +22,6 @@ const meta = {
     CheckboxIndeterminateIndicator,
   },
   args: {
-    tone: "neutral",
     "aria-label": "Example",
   },
   parameters: {
@@ -55,11 +55,11 @@ export const States: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-4">
-      <Checkbox tone="neutral" label="Unchecked" />
-      <Checkbox tone="neutral" label="Checked" defaultChecked />
-      <Checkbox tone="neutral" label="Indeterminate" indeterminate />
-      <Checkbox tone="neutral" label="Disabled" disabled />
-      <Checkbox tone="neutral" label="Disabled checked" disabled defaultChecked />
+      <Checkbox label="Unchecked" />
+      <Checkbox label="Checked" defaultChecked />
+      <Checkbox label="Indeterminate" indeterminate />
+      <Checkbox label="Disabled" disabled />
+      <Checkbox label="Disabled checked" disabled defaultChecked />
     </div>
   ),
   play: async ({ canvas }) => {
@@ -77,13 +77,13 @@ export const States: Story = {
  */
 export const WithoutLabel: Story = {
   parameters: { controls: { disable: true } },
-  render: () => <Checkbox tone="neutral" aria-label="Select row" />,
+  render: () => <Checkbox aria-label="Select row" />,
 };
 
 /** A single labeled checkbox; the whole row is the clickable label. */
 export const WithLabel: Story = {
   parameters: { controls: { disable: true } },
-  render: () => <Checkbox tone="neutral" label="Send me product updates" defaultChecked />,
+  render: () => <Checkbox label="Send me product updates" defaultChecked />,
 };
 
 /**
@@ -94,7 +94,6 @@ export const WithIcon: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <Checkbox
-      tone="neutral"
       inlineStartNode={<Repeat aria-hidden className="size-3.5" />}
       label="Sync automatically"
       defaultChecked
@@ -105,30 +104,43 @@ export const WithIcon: Story = {
 /** The mixed state renders `aria-checked="mixed"` and shows a dash. */
 export const Indeterminate: Story = {
   parameters: { controls: { disable: true } },
-  render: () => <Checkbox tone="neutral" label="Select all" indeterminate />,
+  render: () => <Checkbox label="Select all" indeterminate />,
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("checkbox")).toHaveAttribute("aria-checked", "mixed");
   },
 };
 
 /**
- * The Figma "Error" state. The danger tone only colors the _unchecked_ border red; once checked,
- * the fill is the same accent blue as every other tone.
+ * The Figma "Error" state. The danger look is a STATE, not a prop: inside an invalid `Field.Root`
+ * Base UI propagates `data-invalid` to the box, which recolors its _unchecked_ border red. Once
+ * checked, the fill is the same accent blue as every other state. A resting checkbox is shown
+ * alongside for contrast.
  */
 export const Error: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-4">
-      <Checkbox tone="danger" label="Required" />
-      <Checkbox tone="danger" label="Required (checked)" defaultChecked />
+      <Checkbox label="Resting" />
+      <Field invalid>
+        <Checkbox label="Required" />
+      </Field>
+      <Field invalid>
+        <Checkbox label="Required (checked)" defaultChecked />
+      </Field>
     </div>
   ),
   play: async ({ canvas }) => {
-    const [unchecked, checked] = canvas.getAllByRole("checkbox");
-    // Unchecked danger box: red border, no accent fill.
+    const [resting, unchecked, checked] = canvas.getAllByRole("checkbox");
+    // The resting box has no field-invalid state.
+    await expect(resting).not.toHaveAttribute("data-invalid");
+    // The invalid `Field` propagates `data-invalid` onto the box (Base UI Field -> Checkbox.Root).
+    await expect(unchecked).toHaveAttribute("data-invalid");
     await expect(unchecked).toHaveAttribute("aria-checked", "false");
-    await expect(unchecked).toHaveClass("border-danger-strong");
-    // Checked danger box: accent-blue fill, like every other tone.
+    // ...and the danger border actually renders: its border color differs from the resting box.
+    await expect(getComputedStyle(unchecked).borderColor).not.toBe(
+      getComputedStyle(resting).borderColor,
+    );
+    // Checked invalid box: accent-blue fill, like every other state.
     await expect(checked).toHaveAttribute("aria-checked", "true");
     await expect(checked).toHaveClass("data-checked:bg-accent-primary");
   },
@@ -186,7 +198,7 @@ export const BoxDoesNotShiftOnToggle: Story = {
       const [indeterminate, setIndeterminate] = React.useState(false);
       return (
         <div>
-          <Checkbox tone="neutral" aria-label="Shift target" indeterminate={indeterminate} />
+          <Checkbox aria-label="Shift target" indeterminate={indeterminate} />
           <button type="button" onClick={() => setIndeterminate(true)}>
             make indeterminate
           </button>

@@ -58,13 +58,11 @@ function ToggleFooter({ defaultToggles = {} }: { defaultToggles?: Record<string,
   return (
     <div className="flex flex-col">
       <Checkbox
-        tone="neutral"
         checked={Boolean(toggles.sub)}
         onCheckedChange={(next) => setToggles((t) => ({ ...t, sub: Boolean(next) }))}
         label={<span className="flex-1">Show sub-work items</span>}
       />
       <Checkbox
-        tone="neutral"
         checked={Boolean(toggles.empty)}
         onCheckedChange={(next) => setToggles((t) => ({ ...t, empty: Boolean(next) }))}
         label={<span className="flex-1">Show empty groups</span>}

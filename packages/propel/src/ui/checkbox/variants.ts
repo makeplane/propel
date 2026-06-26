@@ -8,10 +8,6 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 // indicator (rule 4). `Checkbox` renders it directly — same signature, so delegate to it.
 export const checkboxVariants = checkboxBoxVariants;
 
-type CheckboxVariantConfig = VariantProps<typeof checkboxVariants>;
-
-export type CheckboxTone = NonNullable<CheckboxVariantConfig["tone"]>;
-
 export type CheckboxVariantProps = StrictVariantProps<typeof checkboxVariants>;
 
 // the CHECK indicator: shown when checked, hidden when indeterminate

@@ -21,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 
 function Option({ value, label }: { value: string; label: string }) {
   return (
-    <Checkbox tone="neutral" value={value} aria-label={label}>
+    <Checkbox value={value} aria-label={label}>
       <CheckboxIndicator>
         <Check aria-hidden />
       </CheckboxIndicator>

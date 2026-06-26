@@ -10,8 +10,6 @@ import {
   type CheckboxProps as CheckboxElementProps,
 } from "../../ui/checkbox";
 
-export type { CheckboxTone } from "../../ui/checkbox";
-
 export type CheckboxProps = CheckboxElementProps & {
   /**
    * Optional text shown beside the box; the whole row becomes the clickable label. Omit it for a
@@ -31,7 +29,7 @@ export type CheckboxProps = CheckboxElementProps & {
  * The ready-made checkbox: composes the atomic `Checkbox` box with its check and indeterminate
  * indicators, and optionally wraps the row in a clickable `CheckboxLabel` with an icon slot.
  */
-export function Checkbox({ tone, label, inlineStartNode, id, ...props }: CheckboxProps) {
+export function Checkbox({ label, inlineStartNode, id, ...props }: CheckboxProps) {
   // Generate a stable id so an explicit `label` can be associated with the box.
   const generatedId = React.useId();
   const checkboxId = id ?? generatedId;
@@ -39,7 +37,7 @@ export function Checkbox({ tone, label, inlineStartNode, id, ...props }: Checkbo
   // Only force the generated id when there's a `label` to associate; without one (e.g. inside a
   // `Field`, which manages labeling), pass the caller's `id` through untouched.
   const box = (
-    <CheckboxElement id={label != null ? checkboxId : id} tone={tone} {...props}>
+    <CheckboxElement id={label != null ? checkboxId : id} {...props}>
       <CheckboxIndicator>
         <Check aria-hidden />
       </CheckboxIndicator>

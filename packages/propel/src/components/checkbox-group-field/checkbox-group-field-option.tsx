@@ -5,14 +5,13 @@ import {
   type CheckboxFieldControlProps,
 } from "../../internal/checkbox-field-control";
 import { useFieldOptionMagnitude } from "../../internal/field-option-magnitude";
-import type { CheckboxTone } from "../../ui/checkbox/index";
 import { FieldItem } from "../../ui/field/field-item";
 import type { FieldMagnitude } from "../../ui/field/variants";
 import { FieldItemContent } from "../field";
 
 export type CheckboxGroupFieldOptionProps = Omit<
   CheckboxFieldControlProps,
-  "aria-label" | "label" | "inlineStartNode" | "tone"
+  "aria-label" | "label" | "inlineStartNode"
 > & {
   /** Visible option label. */
   label: React.ReactNode;
@@ -20,8 +19,6 @@ export type CheckboxGroupFieldOptionProps = Omit<
   description?: React.ReactNode;
   /** Label and description size. Inherited from `CheckboxGroupField` when omitted. */
   magnitude?: FieldMagnitude;
-  /** Resting color of the box. */
-  tone: CheckboxTone;
 };
 
 /** A checkbox option row for use inside `CheckboxGroupField` or a custom `CheckboxGroup`. */
@@ -29,14 +26,13 @@ export function CheckboxGroupFieldOption({
   label,
   description,
   magnitude: magnitudeProp,
-  tone,
   ...props
 }: CheckboxGroupFieldOptionProps) {
   const magnitude = useFieldOptionMagnitude(magnitudeProp);
 
   return (
     <FieldItem disabled={props.disabled}>
-      <CheckboxFieldControl tone={tone} {...props} />
+      <CheckboxFieldControl {...props} />
       <FieldItemContent magnitude={magnitude} description={description}>
         {label}
       </FieldItemContent>
