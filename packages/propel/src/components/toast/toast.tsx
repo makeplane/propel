@@ -10,7 +10,6 @@ import {
   ToastClose,
   ToastContent,
   ToastDescription,
-  ToastStatusIcon,
   type ToastTone,
   ToastTextGroup,
   ToastTitle,
@@ -18,6 +17,7 @@ import {
   useToastManager,
 } from "../../ui/toast/index";
 import { LinearProgress } from "../linear-progress/index";
+import { ToastStatusIcon } from "./toast-status-icon";
 
 // The semantic intent of a toast (Figma "Property 1": Default / Variant2 / Variant3
 // = success / danger / info). `warning` and `neutral` round out the standard set.

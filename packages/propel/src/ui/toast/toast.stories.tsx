@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { X } from "lucide-react";
+import { Info, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
 import {
@@ -35,7 +35,10 @@ function ToastList() {
     const tone = (toast.data as { tone?: ToastTone } | undefined)?.tone ?? "info";
     return (
       <Toast key={toast.id} toast={toast}>
-        <ToastStatusIcon tone={tone} />
+        {/* The ui slot is icon-agnostic — it sizes/colors whatever glyph child it's given. */}
+        <ToastStatusIcon tone={tone}>
+          <Info />
+        </ToastStatusIcon>
         <ToastContent>
           <ToastTextGroup>
             <ToastTitle />

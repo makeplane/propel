@@ -4,6 +4,7 @@ import { expect } from "storybook/test";
 import {
   Tab,
   TabUnderlineBar,
+  TabUnderlineBarTrack,
   TabUnderlineLabel,
   Tabs,
   TabsIndicator,
@@ -61,7 +62,8 @@ export const Default: Story = {
 /**
  * The underline appearance: compose the shared `TabsIndicator` inside the `TabsList` (the
  * ready-made `components/tabs` adds it for you). Each `Tab` decorates its body with the atomic
- * `TabUnderlineLabel` (the rounded label box) and `TabUnderlineBar` (the per-tab hover bar).
+ * `TabUnderlineLabel` (the rounded label box) and a `TabUnderlineBarTrack` wrapping a
+ * `TabUnderlineBar` (the padded track plus the per-tab hover bar).
  */
 export const Underline: Story = {
   render: () => (
@@ -70,7 +72,9 @@ export const Underline: Story = {
         {TAB_ITEMS.map((item) => (
           <Tab key={item.value} appearance="underline" value={item.value}>
             <TabUnderlineLabel>{item.label}</TabUnderlineLabel>
-            <TabUnderlineBar />
+            <TabUnderlineBarTrack>
+              <TabUnderlineBar />
+            </TabUnderlineBarTrack>
           </Tab>
         ))}
         <TabsIndicator />

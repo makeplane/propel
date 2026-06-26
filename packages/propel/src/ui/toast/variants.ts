@@ -70,11 +70,12 @@ export const toastCloseVariants = cva(
   ),
 );
 
-// Status-icon color per tone, straight from propel's `icon/*` tokens. The icon is
-// the only tone-colored element; surface/border/text stay neutral, matching Figma.
-// `mt-0.5` nudges the icon 2px down so it visually aligns with the title baseline
-// when the toast root uses `items-start` — eliminates the need for a wrapper span.
-export const toastStatusIconVariants = cva("mt-0.5 size-4 shrink-0", {
+// Status-icon slot: a single styled `<span>` that sizes and tone-colors a bare `<svg>`
+// glyph child (`[&>svg]:size-full` makes the glyph fill the 16px box; `fill="currentColor"`
+// inherits the per-tone color). The slot is the only tone-colored element; surface/border/
+// text stay neutral, matching Figma. `mt-0.5` nudges it 2px down so it aligns with the title
+// baseline when the toast root uses `items-start` — eliminates the need for a wrapper span.
+export const toastStatusIconVariants = cva("mt-0.5 size-4 shrink-0 [&>svg]:size-full", {
   variants: {
     tone: {
       success: "text-icon-success-primary",

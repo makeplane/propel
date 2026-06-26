@@ -1,14 +1,17 @@
-import { underlineBarTrackVariants, underlineBarVariants } from "./variants";
+import type * as React from "react";
+
+import { underlineBarVariants } from "./variants";
+
+export type TabUnderlineBarProps = Omit<
+  React.ComponentPropsWithoutRef<"span">,
+  "className" | "style"
+>;
 
 /**
- * The sliding underline beneath an `underline`-appearance tab's label: a padded track containing
- * the decorative bar that tints on hover and goes transparent when active (the shared
- * `TabsIndicator` takes over). Owns both styled `<span>`s so the underline cva stays internal.
+ * The decorative bar beneath an `underline`-appearance tab's label: tints on hover and goes
+ * transparent when active (the shared `TabsIndicator` takes over). Sits inside a
+ * `TabUnderlineBarTrack`. Owns the styled `<span>` so the underline cva stays internal.
  */
-export function TabUnderlineBar() {
-  return (
-    <span className={underlineBarTrackVariants()}>
-      <span aria-hidden className={underlineBarVariants()} />
-    </span>
-  );
+export function TabUnderlineBar(props: TabUnderlineBarProps) {
+  return <span aria-hidden className={underlineBarVariants()} {...props} />;
 }

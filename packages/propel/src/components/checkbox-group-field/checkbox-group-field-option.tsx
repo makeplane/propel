@@ -7,8 +7,8 @@ import {
 import { useFieldOptionMagnitude } from "../../internal/field-option-magnitude";
 import type { CheckboxTone } from "../../ui/checkbox/index";
 import { FieldItem } from "../../ui/field/field-item";
-import { FieldItemContent } from "../../ui/field/field-item-content";
 import type { FieldMagnitude } from "../../ui/field/variants";
+import { FieldItemContent } from "../field";
 
 export type CheckboxGroupFieldOptionProps = Omit<
   CheckboxFieldControlProps,

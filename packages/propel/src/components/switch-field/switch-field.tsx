@@ -2,8 +2,8 @@ import type * as React from "react";
 
 import { Field } from "../../ui/field/field";
 import { FieldItem } from "../../ui/field/field-item";
-import { FieldItemContent } from "../../ui/field/field-item-content";
 import type { FieldMagnitude } from "../../ui/field/variants";
+import { FieldItemContent } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 import { Switch, type SwitchMagnitude, type SwitchProps } from "../switch/index";
 

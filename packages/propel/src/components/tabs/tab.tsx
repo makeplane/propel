@@ -5,6 +5,7 @@ import {
   Tab as TabElement,
   type TabProps as TabElementProps,
   TabUnderlineBar,
+  TabUnderlineBarTrack,
   TabUnderlineLabel,
 } from "../../ui/tabs";
 import { TabsAppearanceContext } from "./tabs-context";
@@ -33,7 +34,9 @@ export function Tab({ inlineStartNode, children, ...props }: TabProps) {
           {iconNode}
           {children}
         </TabUnderlineLabel>
-        <TabUnderlineBar />
+        <TabUnderlineBarTrack>
+          <TabUnderlineBar />
+        </TabUnderlineBarTrack>
       </TabElement>
     );
   }

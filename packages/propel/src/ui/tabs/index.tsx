@@ -1,5 +1,6 @@
 export * from "./tab";
 export * from "./tab-underline-bar";
+export * from "./tab-underline-bar-track";
 export * from "./tab-underline-label";
 export * from "./tabs";
 export * from "./tabs-indicator";

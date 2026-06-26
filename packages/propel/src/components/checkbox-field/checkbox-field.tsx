@@ -7,8 +7,8 @@ import {
 import type { CheckboxTone } from "../../ui/checkbox/index";
 import { Field } from "../../ui/field/field";
 import { FieldItem } from "../../ui/field/field-item";
-import { FieldItemContent } from "../../ui/field/field-item-content";
 import type { FieldMagnitude } from "../../ui/field/variants";
+import { FieldItemContent } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 
 export type CheckboxFieldProps = Omit<

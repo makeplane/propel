@@ -1,20 +1,11 @@
 import { Field as BaseField } from "@base-ui/react/field";
-import type * as React from "react";
 
-import { FieldLabelRequiredMarker } from "./field-label-required-marker";
 import { fieldLabelVariants, type FieldLabelVariantProps } from "./variants";
 
-export type FieldLabelProps = {
-  children: React.ReactNode;
-  required?: boolean;
-} & FieldLabelVariantProps;
+export type FieldLabelProps = Omit<BaseField.Label.Props, "className" | "style"> &
+  FieldLabelVariantProps;
 
-/** The label row: the label text, plus a `FieldLabelRequiredMarker` when `required`. */
-export function FieldLabel({ children, magnitude, required, inset }: FieldLabelProps) {
-  return (
-    <BaseField.Label className={fieldLabelVariants({ magnitude, inset })}>
-      {children}
-      {required ? <FieldLabelRequiredMarker>*</FieldLabelRequiredMarker> : null}
-    </BaseField.Label>
-  );
+/** The label naming a field's control. */
+export function FieldLabel({ magnitude, inset, ...props }: FieldLabelProps) {
+  return <BaseField.Label className={fieldLabelVariants({ magnitude, inset })} {...props} />;
 }
