@@ -15,7 +15,9 @@ export function FieldItemContent({
 }) {
   return (
     <div className={fieldItemContentVariants()}>
-      <FieldLabel magnitude={magnitude}>{children}</FieldLabel>
+      <FieldLabel magnitude={magnitude} inset={false}>
+        {children}
+      </FieldLabel>
       {description != null ? (
         <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
       ) : null}

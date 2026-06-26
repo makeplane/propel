@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Field name="displayName">
-      <FieldLabel magnitude="md" required>
+      <FieldLabel magnitude="md" required inset={false}>
         Display name
       </FieldLabel>
       <Input magnitude="md" required placeholder="Ada Lovelace" />
@@ -33,7 +33,9 @@ export const Default: Story = {
 export const Invalid: Story = {
   render: () => (
     <Field name="workspaceSlug" invalid>
-      <FieldLabel magnitude="md">Workspace slug</FieldLabel>
+      <FieldLabel magnitude="md" inset={false}>
+        Workspace slug
+      </FieldLabel>
       <Input magnitude="md" defaultValue="Already taken" />
       <FieldError magnitude="md" match={true}>
         Choose a different workspace slug.
@@ -46,7 +48,7 @@ export const LabelAndDescription: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Field name="customField">
-      <FieldLabel magnitude="md" required>
+      <FieldLabel magnitude="md" required inset={false}>
         Custom field
       </FieldLabel>
       <Input magnitude="md" placeholder="Custom value" required />
@@ -65,7 +67,9 @@ export const ErrorAssociation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Field name="email" invalid>
-      <FieldLabel magnitude="md">Email</FieldLabel>
+      <FieldLabel magnitude="md" inset={false}>
+        Email
+      </FieldLabel>
       <Input magnitude="md" defaultValue="not-an-email" />
       <FieldError magnitude="md" match={true}>
         Enter a valid email address.
@@ -83,7 +87,9 @@ export const TypingUpdatesValue: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Field name="nickname">
-      <FieldLabel magnitude="md">Nickname</FieldLabel>
+      <FieldLabel magnitude="md" inset={false}>
+        Nickname
+      </FieldLabel>
       <Input magnitude="md" />
     </Field>
   ),

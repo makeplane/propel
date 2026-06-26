@@ -99,7 +99,9 @@ export const FieldComposition: Story = {
   args: { magnitude: "md" },
   render: (args) => (
     <Field name="displayName">
-      <FieldLabel magnitude="md">Display name</FieldLabel>
+      <FieldLabel magnitude="md" inset={false}>
+        Display name
+      </FieldLabel>
       <InputSurface>
         <Input {...args} placeholder="Ada Lovelace" />
       </InputSurface>
@@ -118,7 +120,9 @@ export const FieldErrorAssociation: Story = {
   args: { magnitude: "md" },
   render: (args) => (
     <Field name="email" invalid>
-      <FieldLabel magnitude="md">Email</FieldLabel>
+      <FieldLabel magnitude="md" inset={false}>
+        Email
+      </FieldLabel>
       <InputSurface tone="danger">
         <Input {...args} defaultValue="not-an-email" />
       </InputSurface>

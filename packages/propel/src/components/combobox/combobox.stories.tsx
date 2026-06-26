@@ -47,7 +47,9 @@ export const Default: Story = {
   render: (args) => (
     <Field name="region">
       <Combobox {...args}>
-        <FieldLabel magnitude="md">Region</FieldLabel>
+        <FieldLabel magnitude="md" inset={false}>
+          Region
+        </FieldLabel>
         <ComboboxInputGroup>
           <ComboboxInput placeholder="e.g. eu-central-1" />
           <ComboboxClear />

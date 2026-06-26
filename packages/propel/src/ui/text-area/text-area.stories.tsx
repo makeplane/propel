@@ -46,7 +46,9 @@ export const FieldComposition: Story = {
   args: { magnitude: "md", surface: "field", resize: "vertical", rows: 3 },
   render: (args) => (
     <Field name="comment">
-      <FieldLabel magnitude="md">Comment</FieldLabel>
+      <FieldLabel magnitude="md" inset={false}>
+        Comment
+      </FieldLabel>
       <TextAreaBox tone="neutral">
         <TextArea {...args} placeholder="Leave a comment..." />
       </TextAreaBox>
@@ -65,7 +67,9 @@ export const FieldErrorAssociation: Story = {
   args: { magnitude: "md", surface: "field", resize: "vertical", rows: 3 },
   render: (args) => (
     <Field name="comment" invalid>
-      <FieldLabel magnitude="md">Comment</FieldLabel>
+      <FieldLabel magnitude="md" inset={false}>
+        Comment
+      </FieldLabel>
       <TextAreaBox tone="danger">
         <TextArea {...args} defaultValue="No" />
       </TextAreaBox>

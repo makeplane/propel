@@ -38,7 +38,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Field name="displayName">
-      <FieldLabel magnitude="md" required>
+      <FieldLabel magnitude="md" required inset={false}>
         Display name
       </FieldLabel>
       <Input magnitude="md" required placeholder="Ada Lovelace" />
@@ -59,7 +59,7 @@ export const Default: Story = {
 export const RequiredMarker: Story = {
   render: () => (
     <Field name="displayName">
-      <FieldLabel magnitude="md">
+      <FieldLabel magnitude="md" inset={false}>
         Display name
         <FieldLabelRequiredMarker>*</FieldLabelRequiredMarker>
       </FieldLabel>
@@ -72,7 +72,9 @@ export const RequiredMarker: Story = {
 export const Invalid: Story = {
   render: () => (
     <Field name="workspaceSlug" invalid>
-      <FieldLabel magnitude="md">Workspace slug</FieldLabel>
+      <FieldLabel magnitude="md" inset={false}>
+        Workspace slug
+      </FieldLabel>
       <Input magnitude="md" defaultValue="Already taken" />
       <FieldError magnitude="md" match={true}>
         Choose a different workspace slug.
