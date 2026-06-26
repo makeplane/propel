@@ -162,9 +162,11 @@ govern this: `variant` is too vague (6c), and native HTML/CSS attribute names ar
 | `presentation` | **shape** of a repeated entry               | NavigationMenuLink `item·card`       |
 | `mode`         | **behavior mode** of one component          | Table `table·spreadsheet`            |
 | `surface`      | host background it adapts to                | `background·fill`                    |
-| `density`      | compactness                                 | `short·default·auto`                 |
+| `density`      | compactness                                 | `comfortable·compact`                |
 | `elevation`    | draws its own raised surface vs flat        | `raised·flat`                        |
 | `orientation`  | layout axis                                 | `horizontal·vertical`                |
+| `side`         | which edge a panel attaches to              | Drawer `start·end`                   |
+| `visibility`   | when a transient affordance shows           | ScrollArea `auto·always`             |
 
 **Why these names — decided on merit, not on what already shipped:**
 
