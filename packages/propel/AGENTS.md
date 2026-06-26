@@ -47,11 +47,11 @@ from tiers below it, never above. `internal/` is shared implementation usable by
    defaults, and wiring belong here — never in `ui`.
 
 2a. **Icons (`lucide-react`) are a `components` concern.** A `ui` part is icon-agnostic: it never
-   imports `lucide-react`, rendering an icon as `{children}` (a slot) and sizing it through its cva
-   (`[&>svg]:size-4`). The ready-made `components` part supplies the default icon —
-   `{props.children ?? <Icon aria-hidden />}` (defaults belong in `components`, rule 2; the icon
-   carries no `className`, so its size comes from the `ui` cva). `lucide-react` may be imported
-   **only** in `components` source and in stories — never in `ui`, `base`, or `internal` source.
+imports `lucide-react`, rendering an icon as `{children}` (a slot) and sizing it through its cva
+(`[&>svg]:size-4`). The ready-made `components` part supplies the default icon —
+`{props.children ?? <Icon aria-hidden />}` (defaults belong in `components`, rule 2; the icon
+carries no `className`, so its size comes from the `ui` cva). `lucide-react` may be imported
+**only** in `components` source and in stories — never in `ui`, `base`, or `internal` source.
 
 3. **`cva`/`cx` live only in `ui`; `className`/`style` exposure stops at `base`.** `base` follows
    Base UI exactly and **exposes `className`/`style`** (it is unstyled — `ui` is what styles it).

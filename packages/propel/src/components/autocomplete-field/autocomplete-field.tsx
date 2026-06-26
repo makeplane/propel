@@ -12,12 +12,12 @@ import {
   AutocompletePositioner,
   type AutocompleteProps,
 } from "../../ui/autocomplete/index";
-import { AutocompleteClear } from "../autocomplete/autocomplete-clear";
-import { AutocompleteTrigger } from "../autocomplete/autocomplete-trigger";
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
 import { FieldLabel } from "../../ui/field/field-label";
 import type { FieldMagnitude } from "../../ui/field/variants";
+import { AutocompleteClear } from "../autocomplete/autocomplete-clear";
+import { AutocompleteTrigger } from "../autocomplete/autocomplete-trigger";
 import { FieldHelperText } from "../field/field-helper-text";
 
 export type AutocompleteFieldProps = Omit<AutocompleteProps<string>, "children" | "items"> & {
