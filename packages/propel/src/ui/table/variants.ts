@@ -1,12 +1,7 @@
-/** The two table looks: `table` (row dividers only) and `spreadsheet` (full grid). */
-export type TableMode = "table" | "spreadsheet";
-
-/** Which inline edge a header/cell pins to while the table scrolls sideways. */
-export type TablePinned = "start" | "end";
-
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Table is a structural data primitive. The designer locked two layout looks (Figma
 // "Table" vs "Spreadsheet") as the only `mode` axis, and baked everything else
@@ -51,7 +46,7 @@ export const tableHeadVariants = cva(
   {
     variants: {
       // The surrounding table look, which decides this cell's borders.
-      surface: {
+      mode: {
         table: "border-b border-subtle",
         spreadsheet: "border-e-[0.5px] border-b-[0.5px] border-subtle last:border-e-0",
       },
@@ -65,11 +60,11 @@ export const tableHeadVariants = cva(
   },
 );
 
-// A data cell (`<td>`). `surface` decides its borders; `pinned` makes it stick to an
+// A data cell (`<td>`). `mode` decides its borders; `pinned` makes it stick to an
 // inline edge (carrying its own background so scrolled content does not show through).
 export const tableCellVariants = cva("h-11 align-middle", {
   variants: {
-    surface: {
+    mode: {
       table: "border-b-[0.5px] border-subtle group-last/body-row:border-b-0",
       spreadsheet:
         "border-e-[0.5px] border-b-[0.5px] border-subtle group-last/body-row:border-b-0 last:border-e-0",
@@ -88,6 +83,23 @@ export const tableCellVariants = cva("h-11 align-middle", {
     },
   },
 });
+
+// Per-axis types derive from the cvas (the single source of truth). `mode`/`pinned` are shared by
+// head + cell; `padding` is cell-only. The `<Name>VariantProps` bundles stay PRIVATE — a part
+// imports its own for `Props` (rule 10) and never re-exports it.
+type TableCellVariantConfig = VariantProps<typeof tableCellVariants>;
+
+/** The two table looks: `table` (row dividers only) and `spreadsheet` (full grid). */
+export type TableMode = NonNullable<TableCellVariantConfig["mode"]>;
+
+/** Which inline edge a header/cell pins to (or `none`) while the table scrolls sideways. */
+export type TablePinned = NonNullable<TableCellVariantConfig["pinned"]>;
+
+/** A cell's inner spacing: `cell` pads the content; `trigger` drops it for a full-cell trigger. */
+export type TableCellPadding = NonNullable<TableCellVariantConfig["padding"]>;
+
+export type TableCellVariantProps = StrictVariantProps<typeof tableCellVariants>;
+export type TableHeadVariantProps = StrictVariantProps<typeof tableHeadVariants>;
 
 // The inline flex layout inside a plain cell: leading slot, growing content, trailing
 // slot. Padding lives on the `<td>` (`TableCell`), not here.

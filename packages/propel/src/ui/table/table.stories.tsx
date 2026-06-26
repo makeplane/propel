@@ -62,7 +62,7 @@ export const Default: Story = {
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead mode="table" key={c}>
+            <TableHead mode="table" pinned="none" key={c}>
               <TableHeadTitle>{c}</TableHeadTitle>
             </TableHead>
           ))}
@@ -71,7 +71,7 @@ export const Default: Story = {
       <TableBody>
         {PEOPLE.map((person) => (
           <TableRow key={person.email}>
-            <TableCell mode="table">
+            <TableCell mode="table" pinned="none" padding="cell">
               <TableCellLayout>
                 <TableCellSlot>
                   <Avatar magnitude="xs" role="img" aria-label={person.name}>
@@ -81,17 +81,17 @@ export const Default: Story = {
                 <TableCellContent>{person.name}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell mode="table">
+            <TableCell mode="table" pinned="none" padding="cell">
               <TableCellLayout>
                 <TableCellContent>{person.display}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell mode="table">
+            <TableCell mode="table" pinned="none" padding="cell">
               <TableCellLayout>
                 <TableCellContent>{person.email}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell mode="table">
+            <TableCell mode="table" pinned="none" padding="cell">
               <TableCellLayout>
                 <TableCellContent>{person.role}</TableCellContent>
               </TableCellLayout>
@@ -115,7 +115,7 @@ export const Spreadsheet: Story = {
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead mode="spreadsheet" key={c}>
+            <TableHead mode="spreadsheet" pinned="none" key={c}>
               <TableHeadTitle>{c}</TableHeadTitle>
             </TableHead>
           ))}
@@ -124,22 +124,22 @@ export const Spreadsheet: Story = {
       <TableBody>
         {PEOPLE.map((person) => (
           <TableRow key={person.email}>
-            <TableCell mode="spreadsheet">
+            <TableCell mode="spreadsheet" pinned="none" padding="cell">
               <TableCellLayout>
                 <TableCellContent>{person.name}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell mode="spreadsheet">
+            <TableCell mode="spreadsheet" pinned="none" padding="cell">
               <TableCellLayout>
                 <TableCellContent>{person.display}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell mode="spreadsheet">
+            <TableCell mode="spreadsheet" pinned="none" padding="cell">
               <TableCellLayout>
                 <TableCellContent>{person.email}</TableCellContent>
               </TableCellLayout>
             </TableCell>
-            <TableCell mode="spreadsheet">
+            <TableCell mode="spreadsheet" pinned="none" padding="cell">
               <TableCellLayout>
                 <TableCellContent>{person.role}</TableCellContent>
               </TableCellLayout>
@@ -169,7 +169,7 @@ export const Sortable: Story = {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead mode="table" aria-sort={ariaSort[sort]}>
+            <TableHead mode="table" pinned="none" aria-sort={ariaSort[sort]}>
               <TableHeadSortTrigger onClick={cycle}>
                 <TableHeadTitle>Name</TableHeadTitle>
                 <TableHeadSortIndicator>
@@ -177,7 +177,7 @@ export const Sortable: Story = {
                 </TableHeadSortIndicator>
               </TableHeadSortTrigger>
             </TableHead>
-            <TableHead mode="table">
+            <TableHead mode="table" pinned="none">
               <TableHeadTitle>Email</TableHeadTitle>
             </TableHead>
           </TableRow>
@@ -185,12 +185,12 @@ export const Sortable: Story = {
         <TableBody>
           {PEOPLE.map((person) => (
             <TableRow key={person.email}>
-              <TableCell mode="table">
+              <TableCell mode="table" pinned="none" padding="cell">
                 <TableCellLayout>
                   <TableCellContent>{person.name}</TableCellContent>
                 </TableCellLayout>
               </TableCell>
-              <TableCell mode="table">
+              <TableCell mode="table" pinned="none" padding="cell">
                 <TableCellLayout>
                   <TableCellContent>{person.email}</TableCellContent>
                 </TableCellLayout>
@@ -226,13 +226,13 @@ export const PinnedColumn: Story = {
             <TableHead mode="table" pinned="start">
               <TableHeadTitle>Name</TableHeadTitle>
             </TableHead>
-            <TableHead mode="table">
+            <TableHead mode="table" pinned="none">
               <TableHeadTitle>Display name</TableHeadTitle>
             </TableHead>
-            <TableHead mode="table">
+            <TableHead mode="table" pinned="none">
               <TableHeadTitle>Email</TableHeadTitle>
             </TableHead>
-            <TableHead mode="table">
+            <TableHead mode="table" pinned="none">
               <TableHeadTitle>Account type</TableHeadTitle>
             </TableHead>
           </TableRow>
@@ -240,7 +240,7 @@ export const PinnedColumn: Story = {
         <TableBody>
           {PEOPLE.map((person) => (
             <TableRow key={person.email}>
-              <TableCell mode="table" pinned="start">
+              <TableCell mode="table" pinned="start" padding="cell">
                 <TableCellLayout>
                   <TableCellSlot>
                     <Avatar magnitude="xs" role="img" aria-label={person.name}>
@@ -250,17 +250,17 @@ export const PinnedColumn: Story = {
                   <TableCellContent>{person.name}</TableCellContent>
                 </TableCellLayout>
               </TableCell>
-              <TableCell mode="table">
+              <TableCell mode="table" pinned="none" padding="cell">
                 <TableCellLayout>
                   <TableCellContent>{person.display}</TableCellContent>
                 </TableCellLayout>
               </TableCell>
-              <TableCell mode="table">
+              <TableCell mode="table" pinned="none" padding="cell">
                 <TableCellLayout>
                   <TableCellContent>{person.email}</TableCellContent>
                 </TableCellLayout>
               </TableCell>
-              <TableCell mode="table">
+              <TableCell mode="table" pinned="none" padding="cell">
                 <TableCellLayout>
                   <TableCellContent>{person.role}</TableCellContent>
                 </TableCellLayout>

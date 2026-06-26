@@ -10,7 +10,10 @@ import {
 } from "../../ui/table/index";
 import { useTableMode } from "./table-context";
 
-export type TableActionCellProps = Omit<TableCellProps, "padding" | "children" | "mode"> & {
+export type TableActionCellProps = Omit<
+  TableCellProps,
+  "padding" | "pinned" | "children" | "mode"
+> & {
   /** The menu of row actions. */
   children: React.ReactNode;
   /** Accessible name for the trigger (e.g. "Row options"). Required (icon-only). */
@@ -40,7 +43,7 @@ export function TableActionCell({
 }: TableActionCellProps) {
   const mode = useTableMode();
   return (
-    <TableCell mode={mode} padding="trigger" {...props}>
+    <TableCell mode={mode} pinned="none" padding="trigger" {...props}>
       <Menu open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
         <MenuTrigger
           disabled={disabled}

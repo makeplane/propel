@@ -89,7 +89,9 @@ export const Default: Story = {
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead key={c}>{c}</TableHead>
+            <TableHead pinned="none" key={c}>
+              {c}
+            </TableHead>
           ))}
         </TableRow>
       </TableHeader>
@@ -97,16 +99,26 @@ export const Default: Story = {
         {PEOPLE.map((person) => (
           <TableRow key={person.email}>
             <TableCell
+              pinned="none"
+              padding="cell"
               inlineStartNode={
                 <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
               }
             >
               {person.name}
             </TableCell>
-            <TableCell>{person.display}</TableCell>
-            <TableCell>{person.email}</TableCell>
-            <TableCell>{person.role}</TableCell>
-            <TableCell>{person.billing}</TableCell>
+            <TableCell pinned="none" padding="cell">
+              {person.display}
+            </TableCell>
+            <TableCell pinned="none" padding="cell">
+              {person.email}
+            </TableCell>
+            <TableCell pinned="none" padding="cell">
+              {person.role}
+            </TableCell>
+            <TableCell pinned="none" padding="cell">
+              {person.billing}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -131,7 +143,9 @@ export const Spreadsheet: Story = {
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead key={c}>{c}</TableHead>
+            <TableHead pinned="none" key={c}>
+              {c}
+            </TableHead>
           ))}
         </TableRow>
       </TableHeader>
@@ -139,16 +153,26 @@ export const Spreadsheet: Story = {
         {PEOPLE.map((person) => (
           <TableRow key={person.email}>
             <TableCell
+              pinned="none"
+              padding="cell"
               inlineStartNode={
                 <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
               }
             >
               {person.name}
             </TableCell>
-            <TableCell>{person.display}</TableCell>
-            <TableCell>{person.email}</TableCell>
-            <TableCell>{person.role}</TableCell>
-            <TableCell>{person.billing}</TableCell>
+            <TableCell pinned="none" padding="cell">
+              {person.display}
+            </TableCell>
+            <TableCell pinned="none" padding="cell">
+              {person.email}
+            </TableCell>
+            <TableCell pinned="none" padding="cell">
+              {person.role}
+            </TableCell>
+            <TableCell pinned="none" padding="cell">
+              {person.billing}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -173,25 +197,31 @@ export const Sortable: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead sortable sort={sort} onSort={cycle}>
+            <TableHead pinned="none" sortable sort={sort} onSort={cycle}>
               Name
             </TableHead>
-            <TableHead>Account type</TableHead>
-            <TableHead>Email</TableHead>
+            <TableHead pinned="none">Account type</TableHead>
+            <TableHead pinned="none">Email</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {PEOPLE.map((person) => (
             <TableRow key={person.email}>
               <TableCell
+                pinned="none"
+                padding="cell"
                 inlineStartNode={
                   <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                 }
               >
                 {person.name}
               </TableCell>
-              <TableCell>{person.role}</TableCell>
-              <TableCell>{person.email}</TableCell>
+              <TableCell pinned="none" padding="cell">
+                {person.role}
+              </TableCell>
+              <TableCell pinned="none" padding="cell">
+                {person.email}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -228,22 +258,26 @@ export const EditableCells: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Account type</TableHead>
+            <TableHead pinned="none">Name</TableHead>
+            <TableHead pinned="none">Email</TableHead>
+            <TableHead pinned="none">Account type</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {people.map((person) => (
             <TableRow key={person.email}>
               <TableCell
+                pinned="none"
+                padding="cell"
                 inlineStartNode={
                   <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                 }
               >
                 {person.name}
               </TableCell>
-              <TableCell>{person.email}</TableCell>
+              <TableCell pinned="none" padding="cell">
+                {person.email}
+              </TableCell>
               <TableEditableCell
                 value={person.role}
                 selected={selectedEmail === person.email}
@@ -315,25 +349,33 @@ export const WithPagination: Story = {
         <Table {...args}>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Account type</TableHead>
-              <TableHead>Billing status</TableHead>
+              <TableHead pinned="none">Name</TableHead>
+              <TableHead pinned="none">Email</TableHead>
+              <TableHead pinned="none">Account type</TableHead>
+              <TableHead pinned="none">Billing status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {rows.map((person) => (
               <TableRow key={person.email}>
                 <TableCell
+                  pinned="none"
+                  padding="cell"
                   inlineStartNode={
                     <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                   }
                 >
                   {person.name}
                 </TableCell>
-                <TableCell>{person.email}</TableCell>
-                <TableCell>{person.role}</TableCell>
-                <TableCell>{person.billing}</TableCell>
+                <TableCell pinned="none" padding="cell">
+                  {person.email}
+                </TableCell>
+                <TableCell pinned="none" padding="cell">
+                  {person.role}
+                </TableCell>
+                <TableCell pinned="none" padding="cell">
+                  {person.billing}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -384,10 +426,10 @@ export const RichRows: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Account type</TableHead>
-            <TableHead>
+            <TableHead pinned="none">Name</TableHead>
+            <TableHead pinned="none">Email</TableHead>
+            <TableHead pinned="none">Account type</TableHead>
+            <TableHead pinned="none">
               <span className="sr-only">Actions</span>
             </TableHead>
           </TableRow>
@@ -396,13 +438,17 @@ export const RichRows: Story = {
           {people.map((person) => (
             <TableRow key={person.email}>
               <TableCell
+                pinned="none"
+                padding="cell"
                 inlineStartNode={
                   <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                 }
               >
                 {person.name}
               </TableCell>
-              <TableCell>{person.email}</TableCell>
+              <TableCell pinned="none" padding="cell">
+                {person.email}
+              </TableCell>
               <TableEditableCell value={person.role} aria-label={`Account type for ${person.name}`}>
                 <MenuContent>
                   {ROLES.map((role) => (
@@ -454,10 +500,10 @@ export const StickyHeaderAndColumns: Story = {
         <TableHeader>
           <TableRow>
             <TableHead pinned="start">Name</TableHead>
-            <TableHead>Display name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Account type</TableHead>
-            <TableHead>Billing status</TableHead>
+            <TableHead pinned="none">Display name</TableHead>
+            <TableHead pinned="none">Email</TableHead>
+            <TableHead pinned="none">Account type</TableHead>
+            <TableHead pinned="none">Billing status</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -465,16 +511,25 @@ export const StickyHeaderAndColumns: Story = {
             <TableRow key={person.email}>
               <TableCell
                 pinned="start"
+                padding="cell"
                 inlineStartNode={
                   <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                 }
               >
                 {person.name}
               </TableCell>
-              <TableCell>{person.display}</TableCell>
-              <TableCell>{person.email}</TableCell>
-              <TableCell>{person.role}</TableCell>
-              <TableCell>{person.billing}</TableCell>
+              <TableCell pinned="none" padding="cell">
+                {person.display}
+              </TableCell>
+              <TableCell pinned="none" padding="cell">
+                {person.email}
+              </TableCell>
+              <TableCell pinned="none" padding="cell">
+                {person.role}
+              </TableCell>
+              <TableCell pinned="none" padding="cell">
+                {person.billing}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -507,23 +562,27 @@ export const SortableKeyboard: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead sortable sort={sort} onSort={cycle}>
+            <TableHead pinned="none" sortable sort={sort} onSort={cycle}>
               Name
             </TableHead>
-            <TableHead>Email</TableHead>
+            <TableHead pinned="none">Email</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {PEOPLE.map((person) => (
             <TableRow key={person.email}>
               <TableCell
+                pinned="none"
+                padding="cell"
                 inlineStartNode={
                   <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                 }
               >
                 {person.name}
               </TableCell>
-              <TableCell>{person.email}</TableCell>
+              <TableCell pinned="none" padding="cell">
+                {person.email}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -573,13 +632,15 @@ export const EditableCellKeyboard: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Account type</TableHead>
+            <TableHead pinned="none">Name</TableHead>
+            <TableHead pinned="none">Account type</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell>Chargers</TableCell>
+            <TableCell pinned="none" padding="cell">
+              Chargers
+            </TableCell>
             <TableEditableCell value={role} aria-label="Account type for Chargers">
               <MenuContent>
                 {ROLES.map((r) => (

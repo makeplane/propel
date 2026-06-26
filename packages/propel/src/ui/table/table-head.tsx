@@ -1,14 +1,10 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { type TablePinned, type TableMode, tableHeadVariants } from "./variants";
+import { type TableHeadVariantProps, tableHeadVariants } from "./variants";
 
-export type TableHeadProps = Omit<useRender.ComponentProps<"th">, "className" | "style"> & {
-  /** The surrounding table's look, matching the `Table` root. */
-  mode: TableMode;
-  /** Pin this header to the inline-start/end edge when the table scrolls sideways. */
-  pinned?: TablePinned;
-};
+export type TableHeadProps = Omit<useRender.ComponentProps<"th">, "className" | "style"> &
+  TableHeadVariantProps;
 
 /**
  * A header cell (`<th scope="col">`). Borders follow the `mode`. Holds a `TableHeadTitle` (or, when
@@ -17,7 +13,7 @@ export type TableHeadProps = Omit<useRender.ComponentProps<"th">, "className" | 
 export function TableHead({ mode, pinned, render, ...props }: TableHeadProps) {
   const defaultProps: useRender.ElementProps<"th"> = {
     scope: "col",
-    className: tableHeadVariants({ surface: mode, pinned: pinned ?? "none" }),
+    className: tableHeadVariants({ mode, pinned }),
   };
   return useRender({ defaultTagName: "th", render, props: mergeProps(defaultProps, props) });
 }
