@@ -1,19 +1,13 @@
-import {
-  Checkbox,
-  CheckboxGlyph,
-  CheckboxIndicator,
-  type CheckboxProps,
-} from "../ui/checkbox/index";
+import { Checkbox, type CheckboxProps } from "../components/checkbox";
 
-export type CheckboxFieldControlProps = Omit<CheckboxProps, "children">;
+export type CheckboxFieldControlProps = Omit<CheckboxProps, "children" | "label" | "inlineStartNode">;
 
-/** The bare checkbox box (Root + indicator + glyph) used inside a field row. */
+/**
+ * The bare checkbox box (Root + check + indeterminate indicators) used inside a field row — the
+ * label-less form of the ready-made `Checkbox`. Delegating keeps the check/dash icons a `components`
+ * concern; with no `label`, `Checkbox` renders just the box and lets the surrounding `Field` own
+ * labeling.
+ */
 export function CheckboxFieldControl(props: CheckboxFieldControlProps) {
-  return (
-    <Checkbox {...props}>
-      <CheckboxIndicator>
-        <CheckboxGlyph indeterminate={props.indeterminate} />
-      </CheckboxIndicator>
-    </Checkbox>
-  );
+  return <Checkbox {...props} />;
 }

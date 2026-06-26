@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Repeat } from "lucide-react";
+import { Check, Minus, Repeat } from "lucide-react";
 import { expect } from "storybook/test";
 
 import {
   Checkbox,
-  CheckboxGlyph,
+  CheckboxIndeterminateIndicator,
   CheckboxIndicator,
   CheckboxInlineStartNode,
   CheckboxLabel,
@@ -12,27 +12,36 @@ import {
 
 // UI-tier story: composes the ATOMIC checkbox parts. `Checkbox` is the bare box
 // (Base UI `Checkbox.Root`); the tick/dash only shows when you nest a
-// `CheckboxIndicator` wrapping a `CheckboxGlyph`. A labeled row is the
-// `CheckboxLabel` chip wrapping the box, an optional `CheckboxInlineStartNode`
-// icon slot, and the text. The components-tier `Checkbox` story shows the
-// ready-made version. Here you assemble the raw parts and own the accessible name.
+// `CheckboxIndicator` (check) and a `CheckboxIndeterminateIndicator` (dash). A
+// labeled row is the `CheckboxLabel` chip wrapping the box, an optional
+// `CheckboxInlineStartNode` icon slot, and the text. The components-tier `Checkbox`
+// story shows the ready-made version. Here you assemble the raw parts and own the
+// accessible name.
 const meta = {
   title: "UI/Checkbox",
   component: Checkbox,
-  subcomponents: { CheckboxIndicator, CheckboxGlyph, CheckboxLabel, CheckboxInlineStartNode },
+  subcomponents: {
+    CheckboxIndicator,
+    CheckboxIndeterminateIndicator,
+    CheckboxLabel,
+    CheckboxInlineStartNode,
+  },
   args: { tone: "neutral", "aria-label": "Example" },
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Root box with its indicator + glyph. Toggling mounts/unmounts the tick. */
+/** Root box with its check + indeterminate indicators. Toggling mounts/unmounts the tick. */
 export const Default: Story = {
   render: (args) => (
     <Checkbox {...args}>
       <CheckboxIndicator>
-        <CheckboxGlyph />
+        <Check aria-hidden />
       </CheckboxIndicator>
+      <CheckboxIndeterminateIndicator>
+        <Minus aria-hidden />
+      </CheckboxIndeterminateIndicator>
     </Checkbox>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -45,35 +54,50 @@ export const Default: Story = {
   },
 };
 
-/** Resting, checked, indeterminate (dash glyph), and the danger tone. */
+/** Resting, checked, indeterminate (dash only), and the danger tone. */
 export const States: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-4">
       <Checkbox tone="neutral" aria-label="Unchecked">
         <CheckboxIndicator>
-          <CheckboxGlyph />
+          <Check aria-hidden />
         </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator>
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
       </Checkbox>
       <Checkbox tone="neutral" aria-label="Checked" defaultChecked>
         <CheckboxIndicator>
-          <CheckboxGlyph />
+          <Check aria-hidden />
         </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator>
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
       </Checkbox>
       <Checkbox tone="neutral" aria-label="Indeterminate" indeterminate>
         <CheckboxIndicator>
-          <CheckboxGlyph indeterminate />
+          <Check aria-hidden />
         </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator>
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
       </Checkbox>
       <Checkbox tone="neutral" aria-label="Disabled" disabled>
         <CheckboxIndicator>
-          <CheckboxGlyph />
+          <Check aria-hidden />
         </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator>
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
       </Checkbox>
       <Checkbox tone="danger" aria-label="Error">
         <CheckboxIndicator>
-          <CheckboxGlyph />
+          <Check aria-hidden />
         </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator>
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
       </Checkbox>
     </div>
   ),
@@ -96,8 +120,11 @@ export const Labeled: Story = {
     <CheckboxLabel disabled={false} htmlFor="ui-checkbox-labeled">
       <Checkbox id="ui-checkbox-labeled" tone="neutral">
         <CheckboxIndicator>
-          <CheckboxGlyph />
+          <Check aria-hidden />
         </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator>
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
       </Checkbox>
       <CheckboxInlineStartNode>
         <Repeat aria-hidden />

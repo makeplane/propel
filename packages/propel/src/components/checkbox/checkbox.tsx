@@ -1,8 +1,9 @@
+import { Check, Minus } from "lucide-react";
 import * as React from "react";
 
 import {
   Checkbox as CheckboxElement,
-  CheckboxGlyph,
+  CheckboxIndeterminateIndicator,
   CheckboxIndicator,
   CheckboxInlineStartNode,
   CheckboxLabel,
@@ -27,19 +28,24 @@ export type CheckboxProps = CheckboxElementProps & {
 };
 
 /**
- * The ready-made checkbox: composes the atomic `Checkbox` box with its `CheckboxIndicator`/glyph,
- * and optionally wraps the row in a clickable `CheckboxLabel` with an icon slot.
+ * The ready-made checkbox: composes the atomic `Checkbox` box with its check and indeterminate
+ * indicators, and optionally wraps the row in a clickable `CheckboxLabel` with an icon slot.
  */
 export function Checkbox({ tone, label, inlineStartNode, id, ...props }: CheckboxProps) {
   // Generate a stable id so an explicit `label` can be associated with the box.
   const generatedId = React.useId();
   const checkboxId = id ?? generatedId;
 
+  // Only force the generated id when there's a `label` to associate; without one (e.g. inside a
+  // `Field`, which manages labeling), pass the caller's `id` through untouched.
   const box = (
-    <CheckboxElement id={checkboxId} tone={tone} {...props}>
+    <CheckboxElement id={label != null ? checkboxId : id} tone={tone} {...props}>
       <CheckboxIndicator>
-        <CheckboxGlyph indeterminate={props.indeterminate} />
+        <Check aria-hidden />
       </CheckboxIndicator>
+      <CheckboxIndeterminateIndicator>
+        <Minus aria-hidden />
+      </CheckboxIndeterminateIndicator>
     </CheckboxElement>
   );
 

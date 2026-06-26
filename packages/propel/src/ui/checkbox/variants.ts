@@ -14,10 +14,19 @@ export type CheckboxTone = NonNullable<CheckboxVariantConfig["tone"]>;
 
 export type CheckboxVariantProps = StrictVariantProps<typeof checkboxVariants>;
 
-// The indicator wrapper centers its content (the glyph) inside the box and sizes
-// that single child to the box's `--node-size` (the node-slot pattern), so the glyph
-// never bakes its own size. No adjustable axes on the indicator itself.
-export const checkboxIndicatorVariants = cva(cx(nodeSlotClass, "text-current"));
+// the CHECK indicator: shown when checked, hidden when indeterminate
+export const checkboxIndicatorVariants = cva(
+  cx(nodeSlotClass, "text-current", "data-indeterminate:hidden"),
+);
+// the INDETERMINATE (dash) indicator: a second Checkbox.Indicator that shows ONLY when indeterminate.
+// NOTE: do NOT use nodeSlotClass here — its bare `inline-flex` would fight the default `hidden`.
+// Spell out the node sizing + center, default hidden, reveal on data-indeterminate:
+export const checkboxIndeterminateIndicatorVariants = cva(
+  cx(
+    "hidden items-center justify-center data-indeterminate:inline-flex [&>img]:size-(--node-size) [&>svg]:size-(--node-size)",
+    "text-current",
+  ),
+);
 
 // The clickable label row that wraps the box + optional icon + label text.
 // `disabled` mirrors the `disabled` prop; the cursor and hover background change.

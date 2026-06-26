@@ -3,7 +3,8 @@ export * from "./checkbox";
 export {
   type CheckboxIndicatorProps,
   CheckboxIndicator,
-  CheckboxGlyph,
+  CheckboxIndeterminateIndicator,
+  type CheckboxIndeterminateIndicatorProps,
   CheckboxInlineStartNode,
   type CheckboxInlineStartNodeProps,
   CheckboxLabel,
