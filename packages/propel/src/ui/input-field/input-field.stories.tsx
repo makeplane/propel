@@ -19,7 +19,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: (args) => (
     <InputField {...args}>
-      <FieldLabel magnitude="md">Display name</FieldLabel>
+      <FieldLabel magnitude="md" inset={false}>
+        Display name
+      </FieldLabel>
       <Input magnitude="md" placeholder="Ada Lovelace" />
     </InputField>
   ),

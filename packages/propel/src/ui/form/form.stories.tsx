@@ -34,7 +34,9 @@ export const Default: Story = {
     <Form {...args}>
       <FormBody layout="single">
         <Field name="email">
-          <FieldLabel magnitude="md">Email</FieldLabel>
+          <FieldLabel magnitude="md" inset={false}>
+            Email
+          </FieldLabel>
           <Input magnitude="md" type="email" required placeholder="you@example.com" />
           <FieldError magnitude="md" />
         </Field>
@@ -55,7 +57,9 @@ export const Validation: Story = {
     <Form {...args}>
       <FormBody layout="single">
         <Field name="email">
-          <FieldLabel magnitude="md">Email</FieldLabel>
+          <FieldLabel magnitude="md" inset={false}>
+            Email
+          </FieldLabel>
           <Input magnitude="md" type="email" required placeholder="you@example.com" />
           <FieldError magnitude="md" />
         </Field>

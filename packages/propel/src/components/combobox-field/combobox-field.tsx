@@ -61,7 +61,9 @@ export function ComboboxField({
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Combobox disabled={disabled} items={items} {...comboboxProps}>
-        <FieldLabel magnitude={magnitude}>{label}</FieldLabel>
+        <FieldLabel magnitude={magnitude} inset={false}>
+          {label}
+        </FieldLabel>
         <ComboboxInputGroup>
           <ComboboxInput placeholder={placeholder} />
           <ComboboxClear aria-label={`Clear ${controlLabel}`} />

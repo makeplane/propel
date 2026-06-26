@@ -32,9 +32,11 @@ export const fieldLabelVariants = cva(
   },
 );
 
-type FieldLabelVariantProps = VariantProps<typeof fieldLabelVariants>;
+type FieldLabelVariantConfig = VariantProps<typeof fieldLabelVariants>;
 
-export type FieldMagnitude = NonNullable<FieldLabelVariantProps["magnitude"]>;
+export type FieldMagnitude = NonNullable<FieldLabelVariantConfig["magnitude"]>;
+
+export type FieldLabelVariantProps = StrictVariantProps<typeof fieldLabelVariants>;
 
 // The required `*` marker rendered after the label text. Decorative (the control's
 // `required` carries the semantics), tinted danger per the Figma spec.

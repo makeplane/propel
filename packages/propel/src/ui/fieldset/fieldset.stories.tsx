@@ -27,7 +27,9 @@ type Story = StoryObj<typeof meta>;
 function TextField({ name, label }: { name: string; label: string }) {
   return (
     <Field name={name}>
-      <FieldLabel magnitude="md">{label}</FieldLabel>
+      <FieldLabel magnitude="md" inset={false}>
+        {label}
+      </FieldLabel>
       <Input magnitude="md" placeholder={label} />
     </Field>
   );

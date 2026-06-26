@@ -45,7 +45,9 @@ export const Default: Story = {
   render: (args) => (
     <Field name="containerImage">
       <Autocomplete {...args}>
-        <FieldLabel magnitude="md">Container image</FieldLabel>
+        <FieldLabel magnitude="md" inset={false}>
+          Container image
+        </FieldLabel>
         <AutocompleteInputGroup>
           <AutocompleteInput placeholder="e.g. docker.io/library/node:latest" />
           <AutocompleteClear>

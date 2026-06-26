@@ -59,7 +59,9 @@ export function AutocompleteField({
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Autocomplete disabled={disabled} items={items} {...autocompleteProps}>
-        <FieldLabel magnitude={magnitude}>{label}</FieldLabel>
+        <FieldLabel magnitude={magnitude} inset={false}>
+          {label}
+        </FieldLabel>
         <AutocompleteInputGroup>
           <AutocompleteInput placeholder={placeholder} />
           <AutocompleteClear aria-label={`Clear ${controlLabel}`} />
