@@ -22,9 +22,9 @@ export const Default: Story = {
   args: { density: "comfortable", defaultValue: ["https"] },
   render: (args) => (
     <CheckboxGroup {...args} aria-label="Allowed protocols">
-      <Checkbox tone="neutral" value="http" label="HTTP" />
-      <Checkbox tone="neutral" value="https" label="HTTPS" />
-      <Checkbox tone="neutral" value="ssh" label="SSH" />
+      <Checkbox value="http" label="HTTP" />
+      <Checkbox value="https" label="HTTPS" />
+      <Checkbox value="ssh" label="SSH" />
     </CheckboxGroup>
   ),
   play: async ({ canvas }) => {
@@ -41,12 +41,12 @@ export const Density: Story = {
   render: () => (
     <div className="flex items-start gap-10">
       <CheckboxGroup density="comfortable" defaultValue={["daily"]} aria-label="Comfortable">
-        <Checkbox tone="neutral" value="daily" label="Daily" />
-        <Checkbox tone="neutral" value="weekly" label="Weekly" />
+        <Checkbox value="daily" label="Daily" />
+        <Checkbox value="weekly" label="Weekly" />
       </CheckboxGroup>
       <CheckboxGroup density="compact" defaultValue={["daily"]} aria-label="Compact">
-        <Checkbox tone="neutral" value="daily" label="Daily" />
-        <Checkbox tone="neutral" value="weekly" label="Weekly" />
+        <Checkbox value="daily" label="Daily" />
+        <Checkbox value="weekly" label="Weekly" />
       </CheckboxGroup>
     </div>
   ),
@@ -58,8 +58,8 @@ export const SelectionBehavior: Story = {
   args: { density: "comfortable", defaultValue: [] },
   render: (args) => (
     <CheckboxGroup {...args} aria-label="Allowed protocols">
-      <Checkbox tone="neutral" value="http" label="HTTP" />
-      <Checkbox tone="neutral" value="https" label="HTTPS" />
+      <Checkbox value="http" label="HTTP" />
+      <Checkbox value="https" label="HTTPS" />
     </CheckboxGroup>
   ),
   play: async ({ canvas, userEvent }) => {

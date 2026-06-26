@@ -141,7 +141,7 @@ export const menuRadioItemIndicatorVariants = cva(
  * the glyph stays hidden until the box is checked (`data-unchecked:[&>*]:invisible`).
  */
 export const menuCheckboxItemIndicatorVariants = cva(
-  cx(checkboxBoxVariants({ tone: "neutral" }), nodeSlotClass, "data-unchecked:[&>*]:invisible"),
+  cx(checkboxBoxVariants(), nodeSlotClass, "data-unchecked:[&>*]:invisible"),
 );
 
 /** Separator: a thin divider spanning the popup padding. */

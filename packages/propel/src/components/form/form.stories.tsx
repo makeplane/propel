@@ -103,9 +103,9 @@ function ExampleForm({ onFormSubmit }: ExampleFormProps) {
           density="comfortable"
           defaultValue={["https"]}
         >
-          <CheckboxGroupFieldOption tone="neutral" value="http" label="HTTP" />
-          <CheckboxGroupFieldOption tone="neutral" value="https" label="HTTPS" />
-          <CheckboxGroupFieldOption tone="neutral" value="ssh" label="SSH" />
+          <CheckboxGroupFieldOption value="http" label="HTTP" />
+          <CheckboxGroupFieldOption value="https" label="HTTPS" />
+          <CheckboxGroupFieldOption value="ssh" label="SSH" />
         </CheckboxGroupField>
         <SwitchField
           name="restartOnFailure"

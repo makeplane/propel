@@ -26,7 +26,7 @@ const meta = {
     CheckboxLabel,
     CheckboxInlineStartNode,
   },
-  args: { tone: "neutral", "aria-label": "Example" },
+  args: { "aria-label": "Example" },
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;
@@ -54,12 +54,16 @@ export const Default: Story = {
   },
 };
 
-/** Resting, checked, indeterminate (dash only), and the danger tone. */
+/**
+ * Resting, checked, indeterminate (dash only), disabled, and the danger look. The error look isn't
+ * a prop — it's the `data-invalid` STATE: inside an invalid `Field.Root` Base UI sets it on the
+ * box, and any host can set it directly (as the last box does here) to get the danger border.
+ */
 export const States: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-4">
-      <Checkbox tone="neutral" aria-label="Unchecked">
+      <Checkbox aria-label="Unchecked">
         <CheckboxIndicator>
           <Check aria-hidden />
         </CheckboxIndicator>
@@ -67,7 +71,7 @@ export const States: Story = {
           <Minus aria-hidden />
         </CheckboxIndeterminateIndicator>
       </Checkbox>
-      <Checkbox tone="neutral" aria-label="Checked" defaultChecked>
+      <Checkbox aria-label="Checked" defaultChecked>
         <CheckboxIndicator>
           <Check aria-hidden />
         </CheckboxIndicator>
@@ -75,7 +79,7 @@ export const States: Story = {
           <Minus aria-hidden />
         </CheckboxIndeterminateIndicator>
       </Checkbox>
-      <Checkbox tone="neutral" aria-label="Indeterminate" indeterminate>
+      <Checkbox aria-label="Indeterminate" indeterminate>
         <CheckboxIndicator>
           <Check aria-hidden />
         </CheckboxIndicator>
@@ -83,7 +87,7 @@ export const States: Story = {
           <Minus aria-hidden />
         </CheckboxIndeterminateIndicator>
       </Checkbox>
-      <Checkbox tone="neutral" aria-label="Disabled" disabled>
+      <Checkbox aria-label="Disabled" disabled>
         <CheckboxIndicator>
           <Check aria-hidden />
         </CheckboxIndicator>
@@ -91,7 +95,7 @@ export const States: Story = {
           <Minus aria-hidden />
         </CheckboxIndeterminateIndicator>
       </Checkbox>
-      <Checkbox tone="danger" aria-label="Error">
+      <Checkbox aria-label="Error" data-invalid="">
         <CheckboxIndicator>
           <Check aria-hidden />
         </CheckboxIndicator>
@@ -102,10 +106,15 @@ export const States: Story = {
     </div>
   ),
   play: async ({ canvas }) => {
-    const [unchecked, checked] = canvas.getAllByRole("checkbox");
+    const [unchecked, checked, , , error] = canvas.getAllByRole("checkbox");
     // The indicator is only mounted while checked/indeterminate, so the resting box is empty.
     await expect(unchecked).toBeEmptyDOMElement();
     await expect(checked).not.toBeEmptyDOMElement();
+    // The `data-invalid` host state recolors the box border to danger (differs from resting).
+    await expect(error).toHaveAttribute("data-invalid");
+    await expect(getComputedStyle(error).borderColor).not.toBe(
+      getComputedStyle(unchecked).borderColor,
+    );
   },
 };
 
@@ -118,7 +127,7 @@ export const Labeled: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <CheckboxLabel disabled={false} htmlFor="ui-checkbox-labeled">
-      <Checkbox id="ui-checkbox-labeled" tone="neutral">
+      <Checkbox id="ui-checkbox-labeled">
         <CheckboxIndicator>
           <Check aria-hidden />
         </CheckboxIndicator>

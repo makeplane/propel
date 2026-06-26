@@ -11,7 +11,6 @@ const meta = {
     name: "emailUpdates",
     label: "Email updates",
     magnitude: "md",
-    tone: "neutral",
     value: "enabled",
   },
 } satisfies Meta<typeof CheckboxField>;
@@ -24,6 +23,39 @@ export const Default: Story = {
     description: "Send a message when the deployment status changes.",
     hint: "You can change this later.",
     defaultChecked: true,
+  },
+};
+
+/**
+ * Setting `error` marks the field invalid. Base UI's `Field.Root` propagates that validity to the
+ * checkbox box as `data-invalid`, and the box recolors its border to `danger` — no `tone` prop. A
+ * resting field is shown alongside so the danger border is visibly (and assertably) different.
+ */
+export const Invalid: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <CheckboxField name="resting" label="Resting" magnitude="md" value="a" />
+      <CheckboxField
+        name="terms"
+        label="Accept the terms"
+        magnitude="md"
+        value="b"
+        error="You must accept the terms to continue."
+      />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const [resting, invalid] = canvas.getAllByRole("checkbox");
+    // The error-free field leaves the box in its resting (non-invalid) state.
+    await expect(resting).not.toHaveAttribute("data-invalid");
+    // The invalid field propagates `data-invalid` onto the box (Base UI Field -> Checkbox.Root).
+    await expect(invalid).toHaveAttribute("data-invalid");
+    await expect(invalid).toHaveClass("data-invalid:border-danger-strong");
+    // ...and the danger border actually renders: its color differs from the resting box's border.
+    await expect(getComputedStyle(invalid).borderColor).not.toBe(
+      getComputedStyle(resting).borderColor,
+    );
   },
 };
 

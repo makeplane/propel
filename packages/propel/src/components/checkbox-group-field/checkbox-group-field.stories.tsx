@@ -17,13 +17,8 @@ const meta = {
     defaultValue: ["email"],
     children: (
       <>
-        <CheckboxGroupFieldOption value="email" label="Email" tone="neutral" />
-        <CheckboxGroupFieldOption
-          value="slack"
-          label="Slack"
-          description="Workspace alerts."
-          tone="neutral"
-        />
+        <CheckboxGroupFieldOption value="email" label="Email" />
+        <CheckboxGroupFieldOption value="slack" label="Slack" description="Workspace alerts." />
       </>
     ),
   },
@@ -33,6 +28,21 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = { args: { hint: "At least one channel is recommended." } };
+
+/**
+ * Setting `error` marks the whole group invalid. Base UI's `Field.Root` propagates that validity to
+ * every checkbox box as `data-invalid`, so each option's border recolors to `danger` automatically
+ * — no per-option `tone`.
+ */
+export const Invalid: Story = {
+  args: { error: "Choose at least one channel." },
+  play: async ({ canvas }) => {
+    for (const box of canvas.getAllByRole("checkbox")) {
+      await expect(box).toHaveAttribute("data-invalid");
+      await expect(box).toHaveClass("data-invalid:border-danger-strong");
+    }
+  },
+};
 
 export const RendersGroup: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
