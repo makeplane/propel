@@ -40,8 +40,10 @@ from tiers below it, never above. `internal/` is shared implementation usable by
    `base` primitive, or an intrinsic element via Base UI's `useRender`
    (`useRender({ defaultTagName, render, props: mergeProps(defaults, props) })`, defaults first).
    No `Context.Provider` wrap, no second element/frame, no baked default child (a slot renders
-   `{children}`, never `children ?? <Default/>`). If you need more structure, add a NEW named
-   `ui` part and compose the parts in `components`.
+   `{children}`, never `children ?? <Default/>`), and no authored `render={<X/>}` that injects
+   another component/behavior — forwarding the consumer's own `render` (the `useRender` mechanism)
+   IS the render-capability and is fine; baking a specific render target is composition. If you
+   need more structure, add a NEW named `ui` part and compose the parts in `components`.
 
 2. **All composition lives in `components`** (and `patterns`). Providers, multi-element frames,
    defaults, and wiring belong here — never in `ui`.
@@ -52,6 +54,11 @@ imports `lucide-react`, rendering an icon as `{children}` (a slot) and sizing it
 `{props.children ?? <Icon aria-hidden />}` (defaults belong in `components`, rule 2; the icon
 carries no `className`, so its size comes from the `ui` cva). `lucide-react` may be imported
 **only** in `components` source and in stories — never in `ui`, `base`, or `internal` source.
+
+2b. **`ui`/`base` stories stay in-tier.** A `ui` (or `base`) story imports only from `ui`/`base`
+(+ Base UI and external libs like `lucide-react`) — NEVER from `components`. To show what a
+`components` ready-made composes (e.g. a toolbar toggle = `ToolbarButton` + Base UI `Toggle`), build
+it from the `ui` atoms inline in the story.
 
 3. **`cva`/`cx` live only in `ui`; `className`/`style` exposure stops at `base`.** `base` follows
    Base UI exactly and **exposes `className`/`style`** (it is unstyled — `ui` is what styles it).
