@@ -20,7 +20,7 @@ const meta = {
     LinearProgressLabel,
   },
   // The render fns assemble their own atoms; these satisfy the Root's required value-model props.
-  args: { value: 60, "aria-label": "Progress", layout: "linear" },
+  args: { value: 60, "aria-label": "Progress" },
 } satisfies Meta<typeof LinearProgress>;
 
 export default meta;
