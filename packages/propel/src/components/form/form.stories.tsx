@@ -60,7 +60,6 @@ function ExampleForm({ onFormSubmit }: ExampleFormProps) {
       <FormBody layout="single">
         <InputField
           magnitude="md"
-          tone={homepageError ? "danger" : "neutral"}
           orientation="vertical"
           name="homepage"
           label="Homepage"

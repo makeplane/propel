@@ -7,28 +7,25 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 export const otpFieldVariants = cva("flex items-center gap-2");
 
 /**
- * Input: a single character cell with the input chrome tokens.
+ * Input: a single character cell with the shared field-control surface.
  *
- * Magnitude — controls the box size (sm/md/lg); required, no default. tone — neutral for the
- * default state, danger for the error state; required, no default.
+ * Magnitude — controls the box size (sm/md/lg); required, no default. The error look isn't a prop:
+ * the cell rests at the `subtle` border and recolors to `danger` off Base UI's `data-invalid` (set
+ * on the digit when the field is wrapped in a `Field.Root invalid`), including the danger focus
+ * ring — so there's no hand-rolled danger ring here.
  */
-// Each digit cell is itself the focusable element → `focus: self`. `danger` opts out of the shared
-// accent ring (`focus: none`) and pairs it with a danger-colored ring instead.
 export const otpFieldInputVariants = cva(
-  "rounded-md text-center text-primary outline-none data-disabled:cursor-not-allowed data-disabled:text-disabled",
+  cx(
+    // Each digit cell is itself the focusable element → `focus: self`.
+    fieldControlSurfaceVariants({ focus: "self" }),
+    "rounded-md text-center text-primary outline-none data-disabled:cursor-not-allowed data-disabled:text-disabled",
+  ),
   {
     variants: {
       magnitude: {
         sm: "size-8 text-13",
         md: "size-9 text-14",
         lg: "size-10 text-16",
-      },
-      tone: {
-        neutral: fieldControlSurfaceVariants({ tone: "neutral", focus: "self" }),
-        danger: cx(
-          fieldControlSurfaceVariants({ tone: "danger", focus: "none" }),
-          "focus:ring-2 focus:ring-danger-strong/20",
-        ),
       },
     },
   },
@@ -37,7 +34,6 @@ export const otpFieldInputVariants = cva(
 type OTPFieldInputVariantConfig = VariantProps<typeof otpFieldInputVariants>;
 
 export type OTPFieldInputMagnitude = NonNullable<OTPFieldInputVariantConfig["magnitude"]>;
-export type OTPFieldInputTone = NonNullable<OTPFieldInputVariantConfig["tone"]>;
 export type OTPFieldInputVariantProps = StrictVariantProps<typeof otpFieldInputVariants>;
 
 /** Separator: a visual divider between groups of slots (e.g. `123-456`). */

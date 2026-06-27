@@ -10,7 +10,7 @@ import { OTPField } from "./index";
 const meta = {
   title: "Components/OTPField",
   component: OTPField,
-  args: { length: 6, magnitude: "md", tone: "neutral", "aria-label": "Verification code" },
+  args: { length: 6, magnitude: "md", "aria-label": "Verification code" },
 } satisfies Meta<typeof OTPField>;
 
 export default meta;
@@ -43,7 +43,7 @@ export const Masked: Story = {
   args: { length: 6, mask: true, defaultValue: "123456" },
 };
 
-/** `tone="danger"` shows error borders on all boxes. */
-export const Error: Story = {
-  args: { tone: "danger", defaultValue: "12" },
+/** An invalid field shows danger borders on all boxes. */
+export const Invalid: Story = {
+  args: { error: "Code is invalid", defaultValue: "12" },
 };

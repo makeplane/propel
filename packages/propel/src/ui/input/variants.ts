@@ -1,9 +1,6 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
-import {
-  type FieldControlTone,
-  fieldControlSurfaceVariants,
-} from "../../internal/field-control-surface";
+import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
@@ -31,28 +28,21 @@ export type InputMagnitude = NonNullable<InputVariantConfig["magnitude"]>;
 
 export type InputVariantProps = StrictVariantProps<typeof inputVariants>;
 
-/** Resting treatment of the input box (`neutral` / `danger`). */
-export type InputTone = FieldControlTone;
-
 // The bordered "box" that frames the input + its inline icon slots: the shared field-control
-// surface + input geometry (rounded-md, px, magnitude py), hover, transition, and the
-// descendant-`:disabled` muting (disabled lives on the inner `<input>`).
+// surface (`focus: within`) + input geometry (rounded-md, px, magnitude py), hover, transition,
+// and the descendant-`:disabled` muting (disabled lives on the inner `<input>`). Danger isn't a
+// prop — the surface recolors its border off the wrapped control's `data-invalid`.
 export const inputBoxVariants = cva(
   cx(
+    fieldControlSurfaceVariants({ focus: "within" }),
     "flex w-full items-center gap-1.5 transition-[color,background-color,border-color,box-shadow]",
     "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
     "rounded-md px-3",
+    "hover:border-subtle-1 hover:bg-layer-2-hover",
+    "focus-within:bg-layer-2 focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
   ),
   {
     variants: {
-      tone: {
-        neutral: cx(
-          fieldControlSurfaceVariants({ tone: "neutral", focus: "within" }),
-          "hover:border-subtle-1 hover:bg-layer-2-hover",
-          "focus-within:bg-layer-2 focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
-        ),
-        danger: fieldControlSurfaceVariants({ tone: "danger", focus: "none" }),
-      },
       magnitude: { md: "py-1.5", lg: "py-2", xl: "py-3" },
     },
   },

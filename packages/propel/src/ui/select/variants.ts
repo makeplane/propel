@@ -16,7 +16,7 @@ export const selectLabelVariants = cva("text-14 font-medium text-primary");
 export const selectTriggerVariants = cva(
   cx(
     // The trigger is itself the focusable element → `focus: visible`.
-    fieldControlSurfaceVariants({ tone: "neutral", focus: "visible" }),
+    fieldControlSurfaceVariants({ focus: "visible" }),
     "flex min-w-48 items-center justify-between gap-2 rounded-md px-3 text-primary outline-none",
     "hover:border-subtle-1 hover:bg-layer-2-hover",
     "data-disabled:cursor-not-allowed data-disabled:text-disabled",

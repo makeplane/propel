@@ -29,19 +29,9 @@ export const Default: Story = {
       <OTPFieldLabel id={FIRST_SLOT_LABEL_ID}>Character 1</OTPFieldLabel>
       {Array.from({ length: args.length }, (_, index) =>
         index === 0 ? (
-          <OTPFieldInput
-            key={index}
-            magnitude="md"
-            tone="neutral"
-            aria-labelledby={FIRST_SLOT_LABEL_ID}
-          />
+          <OTPFieldInput key={index} magnitude="md" aria-labelledby={FIRST_SLOT_LABEL_ID} />
         ) : (
-          <OTPFieldInput
-            key={index}
-            magnitude="md"
-            tone="neutral"
-            aria-label={`Character ${index + 1}`}
-          />
+          <OTPFieldInput key={index} magnitude="md" aria-label={`Character ${index + 1}`} />
         ),
       )}
     </OTPField>
@@ -57,13 +47,13 @@ export const Grouped: Story = {
   render: (args) => (
     <OTPField {...args} aria-label="Verification code">
       <OTPFieldLabel id={FIRST_SLOT_LABEL_ID}>Character 1</OTPFieldLabel>
-      <OTPFieldInput magnitude="md" tone="neutral" aria-labelledby={FIRST_SLOT_LABEL_ID} />
-      <OTPFieldInput magnitude="md" tone="neutral" aria-label="Character 2" />
-      <OTPFieldInput magnitude="md" tone="neutral" aria-label="Character 3" />
+      <OTPFieldInput magnitude="md" aria-labelledby={FIRST_SLOT_LABEL_ID} />
+      <OTPFieldInput magnitude="md" aria-label="Character 2" />
+      <OTPFieldInput magnitude="md" aria-label="Character 3" />
       <OTPFieldSeparator>-</OTPFieldSeparator>
-      <OTPFieldInput magnitude="md" tone="neutral" aria-label="Character 4" />
-      <OTPFieldInput magnitude="md" tone="neutral" aria-label="Character 5" />
-      <OTPFieldInput magnitude="md" tone="neutral" aria-label="Character 6" />
+      <OTPFieldInput magnitude="md" aria-label="Character 4" />
+      <OTPFieldInput magnitude="md" aria-label="Character 5" />
+      <OTPFieldInput magnitude="md" aria-label="Character 6" />
     </OTPField>
   ),
   play: async ({ canvas }) => {
@@ -72,7 +62,7 @@ export const Grouped: Story = {
 };
 
 /** All boxes show the danger border when the code is invalid. */
-export const Error: Story = {
+export const Invalid: Story = {
   args: { length: 6 },
   render: (args) => (
     <OTPField {...args} aria-label="Verification code">
@@ -82,14 +72,14 @@ export const Error: Story = {
           <OTPFieldInput
             key={index}
             magnitude="md"
-            tone="danger"
+            data-invalid
             aria-labelledby={FIRST_SLOT_LABEL_ID}
           />
         ) : (
           <OTPFieldInput
             key={index}
             magnitude="md"
-            tone="danger"
+            data-invalid
             aria-label={`Character ${index + 1}`}
           />
         ),

@@ -8,7 +8,7 @@ export const numberFieldVariants = cva("flex min-w-0 flex-col gap-1.5");
 export const numberFieldGroupVariants = cva(
   cx(
     // Wraps a separate focusable input → `focus: within`.
-    fieldControlSurfaceVariants({ tone: "neutral", focus: "within" }),
+    fieldControlSurfaceVariants({ focus: "within" }),
     "flex w-fit items-center overflow-hidden rounded-md",
     "data-disabled:cursor-not-allowed data-disabled:border-subtle data-disabled:bg-layer-2",
   ),

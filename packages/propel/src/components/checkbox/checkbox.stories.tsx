@@ -116,7 +116,7 @@ export const Indeterminate: Story = {
  * checked, the fill is the same accent blue as every other state. A resting checkbox is shown
  * alongside for contrast.
  */
-export const Error: Story = {
+export const Invalid: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-4">

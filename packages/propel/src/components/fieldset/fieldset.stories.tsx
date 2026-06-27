@@ -35,7 +35,6 @@ export const Default: Story = {
       <>
         <InputField
           magnitude="md"
-          tone="neutral"
           orientation="vertical"
           name="company"
           label="Company"
@@ -43,7 +42,6 @@ export const Default: Story = {
         />
         <InputField
           magnitude="md"
-          tone="neutral"
           orientation="vertical"
           name="taxId"
           label="Tax ID"
@@ -67,7 +65,6 @@ export const Bordered: Story = {
       <>
         <InputField
           magnitude="md"
-          tone="neutral"
           orientation="vertical"
           name="company"
           label="Company"
@@ -75,7 +72,6 @@ export const Bordered: Story = {
         />
         <InputField
           magnitude="md"
-          tone="neutral"
           orientation="vertical"
           name="taxId"
           label="Tax ID"
@@ -91,9 +87,7 @@ export const GroupSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: {
     legend: "Shipping address",
-    children: (
-      <InputField magnitude="md" tone="neutral" orientation="vertical" name="city" label="City" />
-    ),
+    children: <InputField magnitude="md" orientation="vertical" name="city" label="City" />,
   },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("group", { name: "Shipping address" })).toBeInTheDocument();

@@ -87,3 +87,41 @@ export const Default: Story = {
     await expect(within(document.body).getByText("eu-central-1")).toBeInTheDocument();
   },
 };
+
+/**
+ * An invalid field: `Field.Root invalid` propagates `data-invalid` to the input, and the input
+ * group recolors its border to `danger` off `:has([data-invalid])` — no `tone` prop required.
+ */
+export const Invalid: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { items: REGIONS, required: true },
+  render: (args) => (
+    <Field name="region" invalid>
+      <Combobox {...args}>
+        <FieldLabel magnitude="md" inset={false}>
+          Region
+        </FieldLabel>
+        <ComboboxInputGroup>
+          <ComboboxInput placeholder="e.g. eu-central-1" />
+          <ComboboxClear>
+            <X aria-hidden />
+          </ComboboxClear>
+          <ComboboxTrigger>
+            <ChevronsUpDown aria-hidden />
+          </ComboboxTrigger>
+        </ComboboxInputGroup>
+        <FieldError magnitude="md" match={true}>
+          Choose a deployment region.
+        </FieldError>
+      </Combobox>
+    </Field>
+  ),
+  play: async ({ canvas }) => {
+    const input = canvas.getByRole("combobox", { name: "Region" });
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(input).toHaveAttribute("data-invalid");
+    // The wrapping input group recolors its border off `:has([data-invalid])`.
+    const group = input.closest<HTMLElement>(":has([data-invalid])");
+    await expect(group).toHaveClass("has-[[data-invalid]]:border-danger-strong");
+  },
+};

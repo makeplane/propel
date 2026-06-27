@@ -4,10 +4,9 @@ import {
   type TextAreaMagnitude,
   type TextAreaResize,
   type TextAreaSurface,
-  type TextAreaTone,
 } from "./variants";
 
-export type { TextAreaMagnitude, TextAreaResize, TextAreaSurface, TextAreaTone };
+export type { TextAreaMagnitude, TextAreaResize, TextAreaSurface };
 
 export type TextAreaProps = Omit<BaseTextAreaProps, "className" | "style"> & {
   /** Text size for the textarea value. */

@@ -31,7 +31,7 @@ export const Default: Story = {
     rows: 4,
   },
   render: (args) => (
-    <TextAreaBox tone="neutral">
+    <TextAreaBox>
       <TextArea {...args} />
     </TextAreaBox>
   ),
@@ -45,7 +45,7 @@ export const FieldComposition: Story = {
       <FieldLabel magnitude="md" inset={false}>
         Comment
       </FieldLabel>
-      <TextAreaBox tone="neutral">
+      <TextAreaBox>
         <TextArea {...args} placeholder="Leave a comment..." />
       </TextAreaBox>
     </Field>
@@ -66,7 +66,7 @@ export const FieldErrorAssociation: Story = {
       <FieldLabel magnitude="md" inset={false}>
         Comment
       </FieldLabel>
-      <TextAreaBox tone="danger">
+      <TextAreaBox>
         <TextArea {...args} defaultValue="No" />
       </TextAreaBox>
       <FieldError magnitude="md" match={true}>
