@@ -30,7 +30,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     magnitude: "md",
-    tone: "neutral",
     orientation: "vertical",
     label: "Email",
     placeholder: "you@example.com",
@@ -43,7 +42,6 @@ export const Default: Story = {
 export const Horizontal: Story = {
   args: {
     magnitude: "md",
-    tone: "neutral",
     orientation: "horizontal",
     label: "Email",
     placeholder: "you@example.com",
@@ -57,21 +55,14 @@ export const Horizontal: Story = {
  */
 export const HorizontalShowcase: Story = {
   // Required axes for the args table; the custom `render` ignores them.
-  args: { magnitude: "md", tone: "neutral", orientation: "horizontal" },
+  args: { magnitude: "md", orientation: "horizontal" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex w-110 flex-col gap-4">
-      <InputField
-        orientation="horizontal"
-        magnitude="md"
-        tone="neutral"
-        label="Email"
-        placeholder="md"
-      />
+      <InputField orientation="horizontal" magnitude="md" label="Email" placeholder="md" />
       <InputField
         orientation="horizontal"
         magnitude="lg"
-        tone="neutral"
         label="Email"
         placeholder="lg"
         hint="Use your work email."
@@ -79,7 +70,6 @@ export const HorizontalShowcase: Story = {
       <InputField
         orientation="horizontal"
         magnitude="xl"
-        tone="neutral"
         label="Email"
         placeholder="xl"
         description="We never share your email with anyone."
@@ -88,7 +78,6 @@ export const HorizontalShowcase: Story = {
         orientation="horizontal"
         magnitude="md"
         label="Email"
-        tone="danger"
         error="Enter a valid email address"
         defaultValue="not-an-email"
       />
@@ -100,7 +89,6 @@ export const HorizontalShowcase: Story = {
 export const WithIcons: Story = {
   args: {
     magnitude: "md",
-    tone: "neutral",
     orientation: "vertical",
     label: "Search",
     placeholder: "Search…",
@@ -111,39 +99,30 @@ export const WithIcons: Story = {
 
 /**
  * The element-driven states side by side. Hover/focus/filled aren't props — they come from
- * interacting with the control; `disabled` and the error treatment (`tone="danger"`) are shown
+ * interacting with the control; `disabled` and the error treatment (set via `error`) are shown
  * statically.
  */
 export const States: Story = {
   // Required axes for the args table; the custom `render` ignores them.
-  args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
+  args: { magnitude: "md", orientation: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex w-72 flex-col gap-4">
+      <InputField magnitude="md" orientation="vertical" label="Default" placeholder="Placeholder" />
       <InputField
         magnitude="md"
-        tone="neutral"
-        orientation="vertical"
-        label="Default"
-        placeholder="Placeholder"
-      />
-      <InputField
-        magnitude="md"
-        tone="neutral"
         orientation="vertical"
         label="Focus / hover (interact)"
         placeholder="Click me"
       />
       <InputField
         magnitude="md"
-        tone="neutral"
         orientation="vertical"
         label="Filled"
         defaultValue="Ada Lovelace"
       />
       <InputField
         magnitude="md"
-        tone="neutral"
         orientation="vertical"
         label="Disabled"
         placeholder="Placeholder"
@@ -151,7 +130,6 @@ export const States: Story = {
       />
       <InputField
         magnitude="md"
-        tone="danger"
         orientation="vertical"
         label="Error"
         defaultValue="not-an-email"
@@ -163,7 +141,7 @@ export const States: Story = {
 
 /** Every magnitude (`md` / `lg` / `xl`) stacked. */
 export const Magnitudes: Story = {
-  args: { magnitude: "md", tone: "neutral", orientation: "vertical", placeholder: "Placeholder" },
+  args: { magnitude: "md", orientation: "vertical", placeholder: "Placeholder" },
   argTypes: { magnitude: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex w-72 flex-col gap-4">
@@ -175,12 +153,11 @@ export const Magnitudes: Story = {
 };
 
 /** The error treatment: danger border, danger helper text, and `aria-invalid`. */
-export const Error: Story = {
+export const Invalid: Story = {
   args: {
     magnitude: "md",
     orientation: "vertical",
     label: "Email",
-    tone: "danger",
     defaultValue: "not-an-email",
     error: "Enter a valid email address.",
     required: true,
@@ -196,13 +173,12 @@ export const Error: Story = {
 export const RtlVerify: Story = {
   name: "RTL Verify",
   tags: ["!autodocs", "!manifest"],
-  args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
+  args: { magnitude: "md", orientation: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div dir="rtl" className="flex w-80 flex-col gap-6">
       <InputField
         magnitude="md"
-        tone="neutral"
         orientation="vertical"
         label="البريد الإلكتروني"
         placeholder="you@example.com"
@@ -211,14 +187,12 @@ export const RtlVerify: Story = {
       />
       <InputField
         magnitude="md"
-        tone="neutral"
         orientation="horizontal"
         label="البريد"
         placeholder="you@example.com"
       />
       <InputField
         magnitude="md"
-        tone="neutral"
         orientation="vertical"
         label="بحث"
         placeholder="Search…"
@@ -228,7 +202,6 @@ export const RtlVerify: Story = {
       <InputField
         magnitude="md"
         orientation="vertical"
-        tone="danger"
         label="البريد الإلكتروني"
         required
         defaultValue="not-an-email"
@@ -242,13 +215,12 @@ export const RtlVerify: Story = {
 export const LtrVerify: Story = {
   name: "LTR Verify",
   tags: ["!autodocs", "!manifest"],
-  args: { magnitude: "md", tone: "neutral", orientation: "vertical" },
+  args: { magnitude: "md", orientation: "vertical" },
   parameters: { controls: { disable: true } },
   render: () => (
     <div dir="ltr" className="flex w-80 flex-col gap-6">
       <InputField
         magnitude="md"
-        tone="neutral"
         orientation="vertical"
         label="Email"
         placeholder="you@example.com"
@@ -257,14 +229,12 @@ export const LtrVerify: Story = {
       />
       <InputField
         magnitude="md"
-        tone="neutral"
         orientation="horizontal"
         label="Email"
         placeholder="you@example.com"
       />
       <InputField
         magnitude="md"
-        tone="neutral"
         orientation="vertical"
         label="Search"
         placeholder="Search…"
@@ -274,7 +244,6 @@ export const LtrVerify: Story = {
       <InputField
         magnitude="md"
         orientation="vertical"
-        tone="danger"
         label="Email"
         required
         defaultValue="not-an-email"
@@ -292,7 +261,6 @@ export const TypingUpdatesValue: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: {
     magnitude: "md",
-    tone: "neutral",
     orientation: "vertical",
     label: "Name",
     placeholder: "Your name",
@@ -311,7 +279,6 @@ export const DisabledBlocksInput: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: {
     magnitude: "md",
-    tone: "neutral",
     orientation: "vertical",
     label: "Name",
     placeholder: "Your name",
@@ -325,14 +292,13 @@ export const DisabledBlocksInput: Story = {
   },
 };
 
-/** `tone="danger"` sets `aria-invalid` and renders the announced error text. */
+/** Setting `error` marks the field invalid (`aria-invalid`) and renders the announced error text. */
 export const ErrorAnnouncesInvalid: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: {
     magnitude: "md",
     orientation: "vertical",
     label: "Email",
-    tone: "danger",
     defaultValue: "x",
     error: "Enter a valid email address.",
   },
@@ -348,12 +314,52 @@ export const NativeAriaLabel: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: {
     magnitude: "md",
-    tone: "neutral",
     orientation: "vertical",
     "aria-label": "Search projects",
     placeholder: "Search",
   },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("textbox", { name: "Search projects" })).toBeInTheDocument();
+  },
+};
+
+/**
+ * Setting `error` marks the field invalid; Base UI's `Field.Root` propagates that validity to the
+ * control as `data-invalid`, and the wrapping `InputBox` recolors its border to `danger` via
+ * `:has([data-invalid])` — no `tone` prop. A resting field is shown alongside so the danger border
+ * is assertably different.
+ */
+export const InvalidShowsDangerBorder: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: { controls: { disable: true } },
+  args: { magnitude: "md", orientation: "vertical" },
+  render: () => (
+    <div className="flex w-72 flex-col gap-4">
+      <InputField magnitude="md" orientation="vertical" label="Resting" placeholder="Resting" />
+      <InputField
+        magnitude="md"
+        orientation="vertical"
+        label="Invalid"
+        defaultValue="not-an-email"
+        error="Enter a valid email address."
+      />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const resting = canvas.getByRole<HTMLInputElement>("textbox", { name: "Resting" });
+    const invalid = canvas.getByRole<HTMLInputElement>("textbox", { name: "Invalid" });
+    await expect(invalid).toHaveAttribute("aria-invalid", "true");
+    // The box is the input's wrapping `div`; danger keys off `:has([data-invalid])` on it.
+    const restingBox = resting.parentElement;
+    const invalidBox = invalid.parentElement;
+    // `Error` is shadowed by this file's `Error` story, so reach for the global constructor.
+    if (restingBox == null || invalidBox == null) {
+      throw new Error("expected an InputBox wrapper");
+    }
+    await expect(invalidBox).toHaveClass("has-[[data-invalid]]:border-danger-strong");
+    // ...and the danger border actually renders: its color differs from the resting box's border.
+    await expect(getComputedStyle(invalidBox).borderColor).not.toBe(
+      getComputedStyle(restingBox).borderColor,
+    );
   },
 };

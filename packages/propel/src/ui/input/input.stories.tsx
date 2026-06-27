@@ -4,7 +4,7 @@ import type * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
 import { Field, FieldError, FieldLabel } from "../field/index";
-import type { InputMagnitude, InputTone } from "../field/variants";
+import type { InputMagnitude } from "../field/variants";
 import { InputBox, InputIconSlot } from "./index";
 import { Input } from "./index";
 
@@ -25,17 +25,13 @@ type Story = StoryObj<typeof meta>;
 function InputSurface({
   children,
   magnitude = "md",
-  tone = "neutral",
 }: {
   children: React.ReactNode;
   magnitude?: InputMagnitude;
-  tone?: InputTone;
 }) {
   return (
     <div className="w-72">
-      <InputBox magnitude={magnitude} tone={tone}>
-        {children}
-      </InputBox>
+      <InputBox magnitude={magnitude}>{children}</InputBox>
     </div>
   );
 }
@@ -123,7 +119,7 @@ export const FieldErrorAssociation: Story = {
       <FieldLabel magnitude="md" inset={false}>
         Email
       </FieldLabel>
-      <InputSurface tone="danger">
+      <InputSurface>
         <Input {...args} defaultValue="not-an-email" />
       </InputSurface>
       <FieldError magnitude="md" match={true}>

@@ -32,3 +32,15 @@ export const RendersInput: Story = {
     await expect(canvas.getByRole("combobox", { name: "Container image" })).toBeInTheDocument();
   },
 };
+
+/** Setting `error` marks the field invalid, which recolors the input group border to danger. */
+export const Invalid: Story = {
+  args: { error: "Enter a container image." },
+  play: async ({ canvas }) => {
+    const input = canvas.getByRole("combobox", { name: "Container image" });
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(input).toHaveAttribute("data-invalid");
+    const group = input.closest<HTMLElement>(":has([data-invalid])");
+    await expect(group).toHaveClass("has-[[data-invalid]]:border-danger-strong");
+  },
+};

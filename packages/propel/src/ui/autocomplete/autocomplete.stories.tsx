@@ -81,3 +81,41 @@ export const Default: Story = {
     await expect(within(document.body).getByText("node:22-slim")).toBeInTheDocument();
   },
 };
+
+/**
+ * An invalid field: `Field.Root invalid` propagates `data-invalid` to the input, and the input
+ * group recolors its border to `danger` off `:has([data-invalid])` — no `tone` prop required.
+ */
+export const Invalid: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { items: IMAGES, mode: "both", required: true },
+  render: (args) => (
+    <Field name="containerImage" invalid>
+      <Autocomplete {...args}>
+        <FieldLabel magnitude="md" inset={false}>
+          Container image
+        </FieldLabel>
+        <AutocompleteInputGroup>
+          <AutocompleteInput placeholder="e.g. docker.io/library/node:latest" />
+          <AutocompleteClear>
+            <X aria-hidden />
+          </AutocompleteClear>
+          <AutocompleteTrigger>
+            <ChevronsUpDown aria-hidden />
+          </AutocompleteTrigger>
+        </AutocompleteInputGroup>
+        <FieldError magnitude="md" match={true}>
+          Enter a container image.
+        </FieldError>
+      </Autocomplete>
+    </Field>
+  ),
+  play: async ({ canvas }) => {
+    const input = canvas.getByRole("combobox", { name: "Container image" });
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(input).toHaveAttribute("data-invalid");
+    // The wrapping input group recolors its border off `:has([data-invalid])`.
+    const group = input.closest<HTMLElement>(":has([data-invalid])");
+    await expect(group).toHaveClass("has-[[data-invalid]]:border-danger-strong");
+  },
+};

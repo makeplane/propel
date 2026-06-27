@@ -3,7 +3,6 @@ export {
   OTPFieldInput,
   type OTPFieldInputProps,
   type OTPFieldInputMagnitude,
-  type OTPFieldInputTone,
   OTPFieldLabel,
   type OTPFieldLabelProps,
   OTPFieldSeparator,

@@ -1,12 +1,8 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
-import { type FieldControlTone } from "../../internal/field-control-surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 export type { InputMagnitude } from "../input/variants";
-
-/** Resting treatment of a bordered field control. Shared across controls. */
-export type InputTone = FieldControlTone;
 
 export const fieldVariants = cva("flex flex-col gap-1.5");
 

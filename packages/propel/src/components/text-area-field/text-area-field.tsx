@@ -2,10 +2,10 @@ import type * as React from "react";
 
 import { Field } from "../../ui/field/field";
 import { FieldControlContent } from "../../ui/field/field-control-content";
-import type { InputMagnitude, InputTone } from "../../ui/field/variants";
+import type { InputMagnitude } from "../../ui/field/variants";
 import { TextArea, type TextAreaProps } from "../../ui/text-area/text-area";
 
-export type { InputMagnitude, InputTone };
+export type { InputMagnitude };
 import { TextAreaBox } from "../../ui/text-area/text-area-box";
 import { FieldHelperText } from "../field/field-helper-text";
 import { FieldLabelGroup } from "../field/field-label-group";
@@ -13,8 +13,6 @@ import { FieldLabelGroup } from "../field/field-label-group";
 export type TextAreaFieldProps = Omit<TextAreaProps, "magnitude" | "surface"> & {
   /** Magnitude scale. `md` | `lg` | `xl`. */
   magnitude: InputMagnitude;
-  /** Resting treatment. `neutral` | `danger` (the Figma "error" state). */
-  tone: InputTone;
   /** Label text shown above the control. */
   label?: React.ReactNode;
   /** Marks the field required: adds a `*` asterisk and sets `required`. */
@@ -23,7 +21,10 @@ export type TextAreaFieldProps = Omit<TextAreaProps, "magnitude" | "surface"> & 
   description?: React.ReactNode;
   /** Helper text shown below the control. Replaced by `error` when an error is set. */
   hint?: React.ReactNode;
-  /** Error text shown below the control. Overrides `hint`; pair with `tone="danger"`. */
+  /**
+   * Error text shown below the control. Overrides `hint` and marks the field invalid (danger
+   * border).
+   */
   error?: React.ReactNode;
 };
 
@@ -33,7 +34,6 @@ export type TextAreaFieldProps = Omit<TextAreaProps, "magnitude" | "surface"> & 
  */
 export function TextAreaField({
   magnitude,
-  tone,
   name,
   label,
   required,
@@ -44,7 +44,7 @@ export function TextAreaField({
   ...controlProps
 }: TextAreaFieldProps) {
   return (
-    <Field name={name} disabled={disabled} invalid={tone === "danger" || undefined}>
+    <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <FieldLabelGroup
         magnitude={magnitude}
         required={required}
@@ -53,7 +53,7 @@ export function TextAreaField({
         orientation="vertical"
       />
       <FieldControlContent orientation="vertical">
-        <TextAreaBox tone={tone}>
+        <TextAreaBox>
           <TextArea required={required} magnitude={magnitude} surface="field" {...controlProps} />
         </TextAreaBox>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />

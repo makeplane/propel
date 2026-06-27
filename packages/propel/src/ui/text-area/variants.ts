@@ -1,35 +1,21 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
-import {
-  type FieldControlTone,
-  fieldControlSurfaceVariants,
-} from "../../internal/field-control-surface";
-
-export type TextAreaTone = FieldControlTone;
+import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 
 // The bordered frame around the textarea leaf. Per the Figma "Text area" spec the border
 // style/width, radius, padding, and the focus/error border treatments are "always the same",
-// so they live here as static chrome; only the resting treatment (neutral vs the error/danger
-// border) is adjustable, exposed as `tone`. Composes the shared field-box chrome so the input
-// and textarea frames stay in lockstep.
+// so they are static chrome. Composes the shared field-box chrome so the input and textarea
+// frames stay in lockstep; danger isn't a prop — the surface recolors its border off the
+// wrapped control's `data-invalid`.
 export const textAreaBoxVariants = cva(
   cx(
+    fieldControlSurfaceVariants({ focus: "within" }),
     "flex w-full items-stretch gap-1.5 transition-[color,background-color,border-color,box-shadow]",
     "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
     "rounded-lg py-2",
+    "hover:border-subtle-1 hover:bg-layer-2-hover",
+    "focus-within:bg-layer-2 focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
   ),
-  {
-    variants: {
-      tone: {
-        neutral: cx(
-          fieldControlSurfaceVariants({ tone: "neutral", focus: "within" }),
-          "hover:border-subtle-1 hover:bg-layer-2-hover",
-          "focus-within:bg-layer-2 focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
-        ),
-        danger: fieldControlSurfaceVariants({ tone: "danger", focus: "none" }),
-      },
-    },
-  },
 );
 
 export const textAreaVariants = cva(
