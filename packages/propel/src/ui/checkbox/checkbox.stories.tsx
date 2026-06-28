@@ -126,7 +126,7 @@ export const States: Story = {
 export const Labeled: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
-    <CheckboxLabel disabled={false} htmlFor="ui-checkbox-labeled">
+    <CheckboxLabel htmlFor="ui-checkbox-labeled">
       <Checkbox id="ui-checkbox-labeled">
         <CheckboxIndicator>
           <Check aria-hidden />

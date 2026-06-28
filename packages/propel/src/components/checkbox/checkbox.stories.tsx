@@ -249,6 +249,11 @@ export const DisabledDoesNotToggle: Story = {
     const checkbox = canvas.getByRole("checkbox");
     await expect(checkbox).toHaveAttribute("aria-checked", "false");
     await expect(checkbox).toHaveAttribute("aria-disabled", "true");
+    // The label row dims itself off the disabled box (`label:has([data-disabled])`), no prop needed:
+    // the not-allowed cursor renders even though `CheckboxLabel` takes no `disabled` prop.
+    const labelRow = checkbox.closest("label");
+    await expect(labelRow).not.toBeNull();
+    if (labelRow) await expect(getComputedStyle(labelRow).cursor).toBe("not-allowed");
     // Clicking the disabled control must not flip its state.
     await userEvent.click(checkbox);
     await expect(checkbox).toHaveAttribute("aria-checked", "false");

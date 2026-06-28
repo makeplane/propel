@@ -4,10 +4,11 @@ import { nodeSlotClass } from "../../internal/node-slot";
 
 // Pagination is a structural navigation primitive: the Figma "variant" axis (all
 // pages visible / near start / middle / near end) is a function of where the current
-// page sits in the total, not a styling axis — so the parts carry only static chrome
-// and the `current` page state. Every part renders ONE element, with its className held
-// in the cva below so no `className` crosses the part boundary. The Figma 24px slot is
-// the only defined size, so it is baked in (no size/magnitude axis to expose).
+// page sits in the total, not a styling axis — so the parts carry only static chrome.
+// The current page reads as selected purely from its `aria-current="page"` a11y marker
+// (no styling prop). Every part renders ONE element, with its className held in the cva
+// below so no `className` crosses the part boundary. The Figma 24px slot is the only
+// defined size, so it is baked in (no size/magnitude axis to expose).
 
 // The `<nav>` landmark wrapping the whole control: the optional per-page region and
 // range label sit before the page-button list, laid out in a row.
@@ -37,19 +38,14 @@ export const paginationPageButtonVariants = cva(
     "hover:bg-layer-transparent-hover",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
     "disabled:pointer-events-none disabled:text-disabled",
+    // The current page reads as pressed: it sits on the `transparent-active` fill
+    // (Figma "Selected") and is not interactive. It's marked `disabled` to block
+    // re-navigation AND `aria-current="page"` for a11y, so the selected styling keys
+    // off `aria-current` — no separate prop. The Figma "Selected" state keeps
+    // `text/primary`, so the doubled `aria-[current=page]:disabled:` specificity wins
+    // over the plain `disabled:text-disabled` dim the base applies.
+    "aria-[current=page]:bg-layer-transparent-active aria-[current=page]:disabled:text-primary",
   ),
-  {
-    variants: {
-      // The current page reads as pressed: it sits on the `transparent-active` fill
-      // (Figma "Selected") and is not interactive. It's marked `disabled` to block
-      // re-navigation, but the Figma "Selected" state keeps `text/primary` — so it
-      // must override the `disabled:text-disabled` dim that the base applies.
-      current: {
-        true: "bg-layer-transparent-active disabled:text-primary",
-        false: "",
-      },
-    },
-  },
 );
 
 export const paginationArrowButtonVariants = cva(
