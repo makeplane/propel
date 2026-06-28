@@ -1,4 +1,4 @@
-import { cva, cx, type VariantProps } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
 
 import { checkboxBoxVariants } from "../../internal/checkbox-box";
 import { nodeSlotClass } from "../../internal/node-slot";
@@ -24,26 +24,17 @@ export const checkboxIndeterminateIndicatorVariants = cva(
   ),
 );
 
-// The clickable label row that wraps the box + optional icon + label text.
-// `disabled` mirrors the `disabled` prop; the cursor and hover background change.
+// The clickable label row that wraps the box + optional icon + label text. The row reads its
+// disabled state off the wrapped `Checkbox` (Base UI — and `Field.Root` — set `data-disabled` on
+// it) via `:has()`, so it needs no `disabled` prop: it cancels the hover background and shows the
+// not-allowed cursor whenever a descendant is disabled.
 export const checkboxLabelVariants = cva(
   cx(
     "inline-flex items-center gap-2 rounded-sm px-2 py-1",
     "text-13 text-secondary transition-colors",
+    "cursor-pointer not-has-[[data-disabled]]:hover:bg-layer-transparent-hover has-[[data-disabled]]:cursor-not-allowed",
   ),
-  {
-    variants: {
-      disabled: {
-        true: "cursor-not-allowed",
-        false: "cursor-pointer hover:bg-layer-transparent-hover",
-      },
-    },
-  },
 );
-
-type CheckboxLabelVariantProps = VariantProps<typeof checkboxLabelVariants>;
-
-export type CheckboxLabelDisabled = NonNullable<CheckboxLabelVariantProps["disabled"]>;
 
 // The inline-start icon slot between the box and the label text.
 export const checkboxInlineStartNodeVariants = cva(

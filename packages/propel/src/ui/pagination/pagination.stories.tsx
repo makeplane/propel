@@ -14,8 +14,9 @@ import {
 // UI-tier story: composes the ATOMIC pagination parts (each renders a single element).
 // The components-tier `Pagination` story owns the truncation logic, the per-page Menu and the
 // range label. Here you lay out the raw slots yourself: the `Pagination` nav wraps a
-// `PaginationList`, whose `PaginationItem`s hold prev/next arrows, page-number buttons (one
-// marked `current`), and the non-interactive ellipsis (an icon slot).
+// `PaginationList`, whose `PaginationItem`s hold prev/next arrows, page-number buttons (the
+// current one marked `aria-current="page"`, which drives the selected fill), and the
+// non-interactive ellipsis (an icon slot).
 const meta = {
   title: "UI/Pagination",
   component: PaginationPageButton,
@@ -26,7 +27,7 @@ const meta = {
     PaginationArrowButton,
     PaginationEllipsis,
   },
-  args: { current: false, children: "1" },
+  args: { children: "1" },
 } satisfies Meta<typeof PaginationPageButton>;
 
 export default meta;
@@ -48,7 +49,6 @@ export const Default: Story = {
         {PAGES.map((n) => (
           <PaginationItem key={n}>
             <PaginationPageButton
-              current={n === 1}
               aria-current={n === 1 ? "page" : undefined}
               aria-label={`Go to page ${n}`}
               disabled={n === 1}
@@ -70,6 +70,12 @@ export const Default: Story = {
     const page1 = canvas.getByRole("button", { name: "Go to page 1" });
     await expect(page1).toHaveAttribute("aria-current", "page");
     await expect(canvas.getByRole("button", { name: "Go to previous page" })).toBeDisabled();
+    // The selected fill keys off `aria-current="page"`, not a prop: the current page's
+    // background differs from a non-current page button.
+    const page2 = canvas.getByRole("button", { name: "Go to page 2" });
+    await expect(getComputedStyle(page1).backgroundColor).not.toBe(
+      getComputedStyle(page2).backgroundColor,
+    );
   },
 };
 
@@ -87,7 +93,6 @@ export const WithEllipsis: Story = {
         {[1, 2, 3].map((n) => (
           <PaginationItem key={n}>
             <PaginationPageButton
-              current={n === 2}
               aria-current={n === 2 ? "page" : undefined}
               aria-label={`Go to page ${n}`}
               disabled={n === 2}
@@ -102,9 +107,7 @@ export const WithEllipsis: Story = {
           </PaginationEllipsis>
         </PaginationItem>
         <PaginationItem>
-          <PaginationPageButton current={false} aria-label="Go to page 100">
-            100
-          </PaginationPageButton>
+          <PaginationPageButton aria-label="Go to page 100">100</PaginationPageButton>
         </PaginationItem>
         <PaginationItem>
           <PaginationArrowButton aria-label="Go to next page">
@@ -116,7 +119,11 @@ export const WithEllipsis: Story = {
   ),
 };
 
-/** The standalone page-number button, with its `current` (pressed) state toggleable via controls. */
+/**
+ * The standalone page-number button. Its pressed/selected fill keys off `aria-current="page"` — the
+ * current page is marked `aria-current` (and `disabled` to block re-navigation), so toggling that
+ * attribute toggles the selected fill.
+ */
 export const PageButton: Story = {
   render: (args) => <PaginationPageButton {...args} aria-label="Go to page 1" />,
 };

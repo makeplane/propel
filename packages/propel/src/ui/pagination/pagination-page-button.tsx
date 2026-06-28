@@ -3,17 +3,15 @@ import type * as React from "react";
 import { paginationPageButtonVariants } from "./variants";
 
 export type PaginationPageButtonProps = Omit<
-  React.ComponentProps<"button">,
+  React.ComponentPropsWithoutRef<"button">,
   "className" | "style"
-> & {
-  /** Whether this button represents the current page (renders the pressed/selected fill). */
-  current: boolean;
-};
+>;
 
 /**
- * A styled page-number button. Applies `paginationPageButtonVariants({ current })`; pass the page
- * number (or a loading spinner) as `children` and wire `aria-current`/`onClick` through props.
+ * A styled page-number button. The current page is marked `aria-current="page"`, which the cva keys
+ * the pressed/selected fill off of; pass the page number (or a loading spinner) as `children` and
+ * wire `aria-current`/`onClick` through props.
  */
-export function PaginationPageButton({ current, ...props }: PaginationPageButtonProps) {
-  return <button type="button" className={paginationPageButtonVariants({ current })} {...props} />;
+export function PaginationPageButton(props: PaginationPageButtonProps) {
+  return <button type="button" className={paginationPageButtonVariants()} {...props} />;
 }

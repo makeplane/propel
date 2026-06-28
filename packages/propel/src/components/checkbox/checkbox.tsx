@@ -50,7 +50,7 @@ export function Checkbox({ label, inlineStartNode, id, ...props }: CheckboxProps
   if (label == null) return box;
 
   return (
-    <CheckboxLabel disabled={props.disabled ?? false} htmlFor={checkboxId}>
+    <CheckboxLabel htmlFor={checkboxId}>
       {box}
       {inlineStartNode ? (
         <CheckboxInlineStartNode>{inlineStartNode}</CheckboxInlineStartNode>

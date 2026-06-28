@@ -236,7 +236,6 @@ export function Pagination({
               <PaginationPageButton
                 aria-label={l.page(token)}
                 aria-current={isCurrent ? "page" : undefined}
-                current={isCurrent}
                 disabled={isCurrent}
                 onClick={() => onPageChange(token)}
               >
