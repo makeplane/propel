@@ -5,7 +5,13 @@ import { breadcrumbTriggerIndicatorVariants } from "./variants";
 export type BreadcrumbTriggerIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /**
+   * The disclosure caret to render (e.g. a Lucide `ChevronRight`), sized to the trigger's
+   * `--node-size`.
+   */
+  children?: React.ReactNode;
+};
 
 /**
  * The disclosure caret at a `BreadcrumbTrigger`'s inline-end. Points toward the inline-end at rest
