@@ -16,9 +16,7 @@ import {
   Collapsible,
   CollapsiblePanel,
   CollapsiblePanelContent,
-  CollapsibleTrigger,
   CollapsibleTriggerIndicator,
-  CollapsibleTriggerTitle,
 } from "../ui/collapsible/index";
 import {
   List,
@@ -27,6 +25,7 @@ import {
   ListItemIcon,
   ListItemLabel,
   ListItemLink,
+  ListSectionTrigger,
 } from "../ui/list/index";
 
 // App-level demo (not a shipped primitive): an app sidebar assembled from `ui/list` +
@@ -35,8 +34,7 @@ import {
 //
 // v1 keyboard model: each `List` is one roving group (arrow keys within); the section triggers are
 // their own tab stops. `role="toolbar"` is a placeholder so axe passes — the production role
-// (navigation tree vs region) is the open a11y decision in the RFC. The section-header *look* reuses
-// the generic `CollapsibleTrigger` and is bolder than Figma's gray heading — flagged for design.
+// (navigation tree vs region) is the open a11y decision in the RFC.
 const meta = {
   title: "Patterns/Sidebar",
   component: List,
@@ -48,7 +46,7 @@ type Story = StoryObj<typeof meta>;
 
 export const WorkspaceSidebar: Story = {
   render: () => (
-    <nav aria-label="Acme workspace" className="w-64">
+    <nav aria-label="Acme workspace" className="flex w-64 flex-col gap-3">
       <List role="toolbar" aria-label="Primary">
         <ListItem>
           <ListItemLink href="#home">
@@ -72,12 +70,12 @@ export const WorkspaceSidebar: Story = {
       </List>
 
       <Collapsible defaultOpen>
-        <CollapsibleTrigger>
-          <CollapsibleTriggerTitle>Workspace</CollapsibleTriggerTitle>
+        <ListSectionTrigger>
+          Workspace
           <CollapsibleTriggerIndicator>
             <ChevronDown aria-hidden />
           </CollapsibleTriggerIndicator>
-        </CollapsibleTrigger>
+        </ListSectionTrigger>
         <CollapsiblePanel>
           <CollapsiblePanelContent>
             <List role="toolbar" aria-label="Workspace">
@@ -111,12 +109,12 @@ export const WorkspaceSidebar: Story = {
       </Collapsible>
 
       <Collapsible defaultOpen>
-        <CollapsibleTrigger>
-          <CollapsibleTriggerTitle>Teams</CollapsibleTriggerTitle>
+        <ListSectionTrigger>
+          Teams
           <CollapsibleTriggerIndicator>
             <ChevronDown aria-hidden />
           </CollapsibleTriggerIndicator>
-        </CollapsibleTrigger>
+        </ListSectionTrigger>
         <CollapsiblePanel>
           <CollapsiblePanelContent>
             <List role="toolbar" aria-label="Teams">
@@ -163,5 +161,8 @@ export const WorkspaceSidebar: Story = {
     await expect(workspace).toHaveAttribute("aria-expanded", "true");
     await userEvent.click(workspace);
     await expect(workspace).toHaveAttribute("aria-expanded", "false");
+    // Re-open so the resting view shows both sections expanded.
+    await userEvent.click(workspace);
+    await expect(workspace).toHaveAttribute("aria-expanded", "true");
   },
 };

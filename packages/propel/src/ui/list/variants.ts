@@ -41,3 +41,18 @@ export type ListItemIconVariantProps = StrictVariantProps<typeof listItemIconVar
 /** The row label — fills the remaining width and truncates. */
 export const listItemLabelVariants = cva("min-w-0 flex-1 truncate");
 export type ListItemLabelVariantProps = StrictVariantProps<typeof listItemLabelVariants>;
+
+/**
+ * A collapsible section's header — a small, muted heading that toggles the section, with the
+ * chevron sitting right after the label (not pushed to the edge). Styled `Collapsible.Trigger`;
+ * carries the `group` so a `CollapsibleTriggerIndicator` inside rotates off its `data-panel-open`.
+ */
+export const listSectionTriggerVariants = cva(
+  cx(
+    "group flex w-full items-center gap-1 rounded-md px-2 py-1 [--node-size:0.875rem]",
+    "text-12 font-medium text-tertiary transition-colors",
+    "cursor-pointer outline-none hover:text-secondary",
+    "focus-visible:ring-2 focus-visible:ring-accent-strong",
+  ),
+);
+export type ListSectionTriggerVariantProps = StrictVariantProps<typeof listSectionTriggerVariants>;
