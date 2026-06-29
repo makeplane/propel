@@ -1,5 +1,6 @@
 import { cva, cx } from "class-variance-authority";
 
+import { listItemPrimaryVariants } from "../../internal/list-item-primary";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 /** The list container — a vertical stack of rows. Role/aria are supplied by the consumer. */
@@ -22,19 +23,14 @@ export const listItemVariants = cva(
 );
 export type ListItemVariantProps = StrictVariantProps<typeof listItemVariants>;
 
-/**
- * The row's primary link. A transparent `::after` covers its own flex box, so clicking anywhere in
- * the row's content area follows the link; any sibling actions or count sit outside that box and
- * keep their own clicks. No own outline — the wrapper shows the focus ring. Inherits the row's
- * text.
- */
-export const listItemLinkVariants = cva(
-  cx(
-    "relative flex min-w-0 flex-1 items-center gap-2 text-start outline-none",
-    "after:absolute after:inset-0",
-  ),
-);
+// A row's primary — `ListItemLink` (`<a>`) and `ListItemButton` (`<button>`) — wears the shared
+// row-primary chrome from `internal/list-item-primary` (rule 4); they differ only in the element
+// they render (rule 6c).
+export const listItemLinkVariants = listItemPrimaryVariants;
 export type ListItemLinkVariantProps = StrictVariantProps<typeof listItemLinkVariants>;
+
+export const listItemButtonVariants = listItemPrimaryVariants;
+export type ListItemButtonVariantProps = StrictVariantProps<typeof listItemButtonVariants>;
 
 /** The row's icon slot — holds an icon or an Avatar, sized to `--node-size`. */
 export const listItemIconVariants = cva(

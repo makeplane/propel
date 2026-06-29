@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Inbox, LayoutGrid, Settings } from "lucide-react";
+import { Ellipsis, Inbox, LayoutGrid, Settings } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { List, ListItem, ListItemIcon, ListItemLabel, ListItemLink } from "./index";
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemLabel, ListItemLink } from "./index";
 
 // `List` is role-flexible; this story uses `role="toolbar"` (the canonical roving-controls role) so
 // axe passes while showing the chrome. The production role — navigation tree vs region — is the open
@@ -10,7 +10,7 @@ import { List, ListItem, ListItemIcon, ListItemLabel, ListItemLink } from "./ind
 const meta = {
   title: "UI/List",
   component: List,
-  subcomponents: { ListItem, ListItemLink, ListItemIcon, ListItemLabel },
+  subcomponents: { ListItem, ListItemLink, ListItemButton, ListItemIcon, ListItemLabel },
   decorators: [
     (Story) => (
       <div className="w-64">
@@ -51,6 +51,15 @@ export const Navigation: Story = {
           <ListItemLabel>Settings</ListItemLabel>
         </ListItemLink>
       </ListItem>
+      <ListItem>
+        {/* An action row (not navigation) — a button that shares the row chrome. */}
+        <ListItemButton>
+          <ListItemIcon>
+            <Ellipsis aria-hidden />
+          </ListItemIcon>
+          <ListItemLabel>More</ListItemLabel>
+        </ListItemButton>
+      </ListItem>
     </List>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -66,10 +75,12 @@ export const Navigation: Story = {
       getComputedStyle(restingRow).backgroundColor,
     );
 
-    // One tab stop for the whole list; arrow keys roam the rows.
+    // One tab stop for the whole list; arrow keys roam the rows — links and the action button alike.
     inbox.focus();
     await expect(inbox).toHaveFocus();
     await userEvent.keyboard("{ArrowDown}");
     await expect(projects).toHaveFocus();
+    await userEvent.keyboard("{ArrowDown}{ArrowDown}");
+    await expect(canvas.getByRole("button", { name: "More" })).toHaveFocus();
   },
 };
