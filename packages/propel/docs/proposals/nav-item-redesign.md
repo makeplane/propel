@@ -9,12 +9,12 @@ Author: (pending)
 `nav-item` models a sidebar row as a single polymorphic `useRender` **button** (`NavItem`) that bakes
 in its icon, label, trailing content, an `open` chevron, and a custom `data-active`. Every real
 design we have — workspace settings, the app sidebar in three states — shows a sidebar is an
-**interactive list**: a `<ul>` of `<li>` rows, where a row *hosts* a link (or a collapsible trigger)
+**interactive list**: a `<ul>` of `<li>` rows, where a row _hosts_ a link (or a collapsible trigger)
 plus optional sibling actions, and groups are `Collapsible`.
 
-Base UI's *public* primitives don't fit semantically (below), but its **`Composite`** engine — the
+Base UI's _public_ primitives don't fit semantically (below), but its **`Composite`** engine — the
 roving-focus base that `Toolbar` (`Toolbar.Button`/`Toolbar.Link`) and `Menu` (`Menu.Item`/
-`Menu.LinkItem`) are built on — *is* exactly the interactive-list pattern. So propel defines a generic
+`Menu.LinkItem`) are built on — _is_ exactly the interactive-list pattern. So propel defines a generic
 **`List` + `ListItem`** on top of `Composite`, and composes the sidebar from it. `nav-item`'s bespoke
 pieces collapse onto that pattern + existing primitives; the genuinely-new part is the row chrome.
 
@@ -37,16 +37,16 @@ compose inside (a link, the `<nav>` landmark).
 
 ## Built on Base UI `Composite` (the interactive-list engine)
 
-Base UI *does* ship this pattern — as the internal **`Composite`** primitive
+Base UI _does_ ship this pattern — as the internal **`Composite`** primitive
 (`@base-ui/react/internals/composite`: `CompositeRoot` + `CompositeItem`), the roving-tabindex engine
 that **`Toolbar`** and **`Menu`** are built on. The element-per-item split we want is literally Base
 UI's own convention:
 
-| | `CompositeRoot` (one tab stop, arrow-key roving) | `CompositeItem` → `<button>` | `CompositeItem` → `<a>` |
-| --- | --- | --- | --- |
-| Toolbar | `Toolbar.Root` (`role="toolbar"`) | `Toolbar.Button` | `Toolbar.Link` |
-| Menu | `Menu` | `Menu.Item` | `Menu.LinkItem` |
-| **List (proposed)** | **`List`** | **`ListItemButton`** | **`ListItemLink`** |
+|                     | `CompositeRoot` (one tab stop, arrow-key roving) | `CompositeItem` → `<button>` | `CompositeItem` → `<a>` |
+| ------------------- | ------------------------------------------------ | ---------------------------- | ----------------------- |
+| Toolbar             | `Toolbar.Root` (`role="toolbar"`)                | `Toolbar.Button`             | `Toolbar.Link`          |
+| Menu                | `Menu`                                           | `Menu.Item`                  | `Menu.LinkItem`         |
+| **List (proposed)** | **`List`**                                       | **`ListItemButton`**         | **`ListItemLink`**      |
 
 So `List` builds on the same engine, and the link/button split (rule 6c) is Base UI's, not ours:
 
@@ -71,16 +71,16 @@ carries — and whether trailing actions are their own composite stops — needs
 
 Four contexts, one anatomy:
 
-| Context | Sections | Row contents | States |
-| --- | --- | --- | --- |
-| Workspace settings | **static** label groups + dividers | icon + label | selected |
-| App sidebar (default) | **collapsible** (`Workspace`/`Projects`/`Try`) | icon/avatar + label, "… More" rows | — |
-| App sidebar (collapsed) | a section collapsed (chevron rotated) | — | **selected** row (filled) |
-| App sidebar (hover) | — | — | row reveals a trailing **× action** |
+| Context                 | Sections                                       | Row contents                       | States                              |
+| ----------------------- | ---------------------------------------------- | ---------------------------------- | ----------------------------------- |
+| Workspace settings      | **static** label groups + dividers             | icon + label                       | selected                            |
+| App sidebar (default)   | **collapsible** (`Workspace`/`Projects`/`Try`) | icon/avatar + label, "… More" rows | —                                   |
+| App sidebar (collapsed) | a section collapsed (chevron rotated)          | —                                  | **selected** row (filled)           |
+| App sidebar (hover)     | —                                              | —                                  | row reveals a trailing **× action** |
 
 Two facts decide the design:
 
-1. **A row hosts more than one interactive thing.** The hover `×` sits *beside* the label — invalid
+1. **A row hosts more than one interactive thing.** The hover `×` sits _beside_ the label — invalid
    inside a single `<a>`/`<button>`. The row is a **container** with siblings. (`NavItemHeader`
    already proves this — it "holds a `NavItemHeaderToggle` … and an action **as siblings**".)
 2. **Sections are `Collapsible`-or-static, same rows inside.**
@@ -119,27 +119,27 @@ settings can adopt collapse as it scales without a structural change.
 
 ### State → attribute (no custom props)
 
-| State | Today | Proposed |
-| --- | --- | --- |
-| current page | `active` → custom `data-active` (+ `aria-current`) | `aria-current="page"` on the `Anchor`; `ListItem` fill via `:has([aria-current="page"])` |
-| section open | `NavItemChevron` `open` prop + hand-set `data-open` | `Collapsible`'s `data-panel-open`; chevron rotates off it |
-| hover | the row button | the `ListItem` container; trailing actions via `group-hover` |
-| disabled | — | `data-disabled` when needed |
+| State        | Today                                               | Proposed                                                                                 |
+| ------------ | --------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| current page | `active` → custom `data-active` (+ `aria-current`)  | `aria-current="page"` on the `Anchor`; `ListItem` fill via `:has([aria-current="page"])` |
+| section open | `NavItemChevron` `open` prop + hand-set `data-open` | `Collapsible`'s `data-panel-open`; chevron rotates off it                                |
+| hover        | the row button                                      | the `ListItem` container; trailing actions via `group-hover`                             |
+| disabled     | —                                                   | `data-disabled` when needed                                                              |
 
 ## `nav-item` → `List`/`ListItem` mapping
 
-| Today (13 `nav-item` parts) | Disposition |
-| --- | --- |
-| `NavItem` (`useRender` `<button>`) | **→ `ListItem`** (`<li>` container) + an `Anchor` child for the link |
-| `NavItemIcon`, `NavItemLabel` | **→ `ListItem` slots** (`ListItemIcon`/`ListItemLabel`) |
-| `NavItemTrailing` | **→ `ListItem` trailing slot** (now a real sibling region) |
-| `NavItemCount` | **drop → `Badge`** (confirmed in review) |
-| `NavItemChevron` (manual `open`) | **drop →** one chevron part riding `data-panel-open` |
-| `NavItemGroup` / `NavItemPanel` / `NavItemHeaderToggle` | **drop →** Base UI `Collapsible` / `CollapsiblePanel` / `CollapsibleTrigger` |
-| `NavItemHeader` | **→** the `CollapsibleTrigger`/static section header row (a `ListItem` shape) |
-| `NavItemHeaderLabel` | **→ section-label** part (serves both collapsible + static) |
-| `NavItemHeaderIndicator` | **keep as the chevron** — already rides `data-panel-open` (the model) |
-| `NavItemHeaderAction` | **→** a trailing `IconButton` sibling (same role for row hover actions) |
+| Today (13 `nav-item` parts)                             | Disposition                                                                   |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `NavItem` (`useRender` `<button>`)                      | **→ `ListItem`** (`<li>` container) + an `Anchor` child for the link          |
+| `NavItemIcon`, `NavItemLabel`                           | **→ `ListItem` slots** (`ListItemIcon`/`ListItemLabel`)                       |
+| `NavItemTrailing`                                       | **→ `ListItem` trailing slot** (now a real sibling region)                    |
+| `NavItemCount`                                          | **drop → `Badge`** (confirmed in review)                                      |
+| `NavItemChevron` (manual `open`)                        | **drop →** one chevron part riding `data-panel-open`                          |
+| `NavItemGroup` / `NavItemPanel` / `NavItemHeaderToggle` | **drop →** Base UI `Collapsible` / `CollapsiblePanel` / `CollapsibleTrigger`  |
+| `NavItemHeader`                                         | **→** the `CollapsibleTrigger`/static section header row (a `ListItem` shape) |
+| `NavItemHeaderLabel`                                    | **→ section-label** part (serves both collapsible + static)                   |
+| `NavItemHeaderIndicator`                                | **keep as the chevron** — already rides `data-panel-open` (the model)         |
+| `NavItemHeaderAction`                                   | **→** a trailing `IconButton` sibling (same role for row hover actions)       |
 
 ### New vs reused
 
@@ -159,7 +159,7 @@ stories, but does not ship a `Sidebar` component.
 
 ## Impact
 
-- Breaking: `NavItem`* parts are replaced by `List`/`ListItem` + Base UI `Collapsible` + existing
+- Breaking: `NavItem`\* parts are replaced by `List`/`ListItem` + Base UI `Collapsible` + existing
   primitives. Only in-repo consumers are stories, so migration is contained.
 - a11y improves: real `aria-current` link; `aria-expanded` from `Collapsible`; hover actions are
   focusable siblings, not trapped in a button.
@@ -178,7 +178,7 @@ stories, but does not ship a `Sidebar` component.
    adopt collapse with no rebuild.
 4. **"More" is a list row, "New work item" is a `Button`.** "More" opens the extended sidebar and is
    styled as a row, so it's a **`ListItem` whose primary element is a `<button>`** (an action, not a
-   link) — same row chrome as nav rows (rule 6c: different element/semantics, same look). It is *not*
+   link) — same row chrome as nav rows (rule 6c: different element/semantics, same look). It is _not_
    a standalone Ghost `Button`: a Ghost button has button geometry (hug + its own padding) and
    wouldn't sit flush with the full-width, indented nav rows. "New work item" is a separate `Button`
    above the list.
@@ -194,4 +194,5 @@ per rule 6c, sharing the stretched-row chrome, so that chrome goes to `internal/
 On sign-off: build `ui/list`, `ui/list-item` (+ the link/section-label parts), then a
 `components` layer that composes the collapsible/static section shapes, and port the `nav-item`
 stories onto it. Chevron, count, groups, panels, and active/open all resolve to existing primitives
-+ standard attributes.
+
+- standard attributes.
