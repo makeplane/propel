@@ -5,7 +5,10 @@ import { fieldLabelRequiredMarkerVariants } from "./variants";
 export type FieldLabelRequiredMarkerProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The required marker to render (e.g. an asterisk). */
+  children?: React.ReactNode;
+};
 
 /**
  * The required marker slot shown after a `FieldLabel`'s text. Decorative (the control's `required`

@@ -5,7 +5,10 @@ import { collapsiblePanelContentVariants } from "./variants";
 export type CollapsiblePanelContentProps = Omit<
   React.ComponentPropsWithoutRef<"div">,
   "className" | "style"
->;
+> & {
+  /** The panel's inner content shown while expanded. */
+  children?: React.ReactNode;
+};
 
 /**
  * The padded inner content of a `CollapsiblePanel`. The padding lives here rather than on the panel

@@ -5,7 +5,10 @@ import { paginationPageButtonVariants } from "./variants";
 export type PaginationPageButtonProps = Omit<
   React.ComponentPropsWithoutRef<"button">,
   "className" | "style"
->;
+> & {
+  /** The page number to render (or a loading spinner). */
+  children?: React.ReactNode;
+};
 
 /**
  * A styled page-number button. The current page is marked `aria-current="page"`, which the cva keys
