@@ -44,12 +44,12 @@ export type ListItemLabelVariantProps = StrictVariantProps<typeof listItemLabelV
 
 /**
  * A collapsible section's header — a small, muted heading that toggles the section, with the
- * chevron sitting right after the label (not pushed to the edge). Styled `Collapsible.Trigger`;
- * carries the `group` so a `CollapsibleTriggerIndicator` inside rotates off its `data-panel-open`.
+ * chevron pushed to the inline-end edge of the row. Styled `Collapsible.Trigger`; carries the
+ * `group` so a `CollapsibleTriggerIndicator` inside rotates off its `data-panel-open`.
  */
 export const listSectionTriggerVariants = cva(
   cx(
-    "group flex w-full items-center gap-1 rounded-md px-2 py-1 [--node-size:0.875rem]",
+    "group flex w-full items-center justify-between gap-1 rounded-md px-2 py-1 [--node-size:0.875rem]",
     "text-12 font-medium text-tertiary transition-colors",
     "cursor-pointer outline-none hover:text-secondary",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
