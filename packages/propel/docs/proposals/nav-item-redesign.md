@@ -103,9 +103,9 @@ Translate the design's states to standard attributes (`aria-current`, `data-pane
     │     ├─ primary CompositeItem, ::after covers its own box → the row content clicks through:
     │     │     ListItemLink   → <a aria-current="page"> (router <Link>)   like Toolbar.Link / Menu.LinkItem
     │     │     …or ListItemButton → <button>                              like Toolbar.Button / Menu.Item ("More")
-    │     │     holds: ListItemIcon (icon OR Avatar) + ListItemLabel
-    │     └─ sibling actions/count (sit outside the link's box, keep their own clicks):
-    │           IconButton (× / add) • Badge (count, non-interactive)
+    │     │     holds: ListItemIcon (icon OR Avatar) + ListItemLabel + Badge (count — inside, so it's
+    │     │            part of the row's click + name, e.g. "Inbox 6")
+    │     └─ sibling actions (sit outside the link's box, keep their own clicks): IconButton (× / add)
     │
     ├─ Collapsible                          ← every section; non-collapsible = degenerate (no trigger)
     │     CollapsibleTrigger → ListItem(section label + chevron ↻ data-panel-open  [+ IconButton action])
