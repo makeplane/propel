@@ -16,9 +16,10 @@ export type CompositeItemProps = Omit<
   BaseCompositeItemProps,
   "state" | "stateAttributesMapping" | "props" | "refs" | "metadata"
 > &
-  // Restore the element attributes CompositeItem.Props doesn't type (it spreads them at runtime);
-  // element-specific attrs (href, type) ride on the `render` target. Minus the keys it already owns.
-  Omit<React.HTMLAttributes<HTMLElement>, keyof BaseCompositeItemProps>;
+  // CompositeItem.Props only Picks render/className/style; it spreads the rest at runtime but doesn't
+  // type them. The item is element-flexible (a/button/div), so restore the *all-element* attributes
+  // (href for an <a>, type for a <button>, role, aria-*…) — minus the keys it already owns.
+  Omit<React.AllHTMLAttributes<HTMLElement>, keyof BaseCompositeItemProps>;
 
 export const CompositeItem = React.forwardRef<HTMLElement, CompositeItemProps>(
   function CompositeItem(props, forwardedRef) {
