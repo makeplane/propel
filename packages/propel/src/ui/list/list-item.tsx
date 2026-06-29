@@ -7,8 +7,8 @@ export type ListItemProps = Omit<useRender.ComponentProps<"div">, "className" | 
   ListItemVariantProps;
 
 /**
- * A row wrapper. Holds a primary `ListItemLink` (or `ListItemButton`) plus optional trailing
- * actions as siblings, and carries the row chrome. Renders a `<div>` by default.
+ * A row wrapper. Holds a primary `ListItemLink` (or `ListItemButton`) plus optional actions or a
+ * count as siblings, and carries the row chrome. Renders a `<div>` by default.
  */
 export function ListItem({ render, ...props }: ListItemProps) {
   return useRender({

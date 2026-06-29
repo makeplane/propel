@@ -23,9 +23,10 @@ export const listItemVariants = cva(
 export type ListItemVariantProps = StrictVariantProps<typeof listItemVariants>;
 
 /**
- * The row's primary link. Stretches a transparent `::after` over the whole row so the entire row is
- * the click target, while trailing actions stay above it. No own outline — the wrapper shows the
- * focus ring. Inherits the row's text colour.
+ * The row's primary link. A transparent `::after` covers its own flex box, so clicking anywhere in
+ * the row's content area follows the link; any sibling actions or count sit outside that box and
+ * keep their own clicks. No own outline — the wrapper shows the focus ring. Inherits the row's
+ * text.
  */
 export const listItemLinkVariants = cva(
   cx(
@@ -35,7 +36,7 @@ export const listItemLinkVariants = cva(
 );
 export type ListItemLinkVariantProps = StrictVariantProps<typeof listItemLinkVariants>;
 
-/** The leading slot — holds an icon or an Avatar, sized to `--node-size`. */
+/** The row's icon slot — holds an icon or an Avatar, sized to `--node-size`. */
 export const listItemIconVariants = cva(
   "inline-flex shrink-0 items-center justify-center [--node-size:1rem] [&>svg]:size-4",
 );

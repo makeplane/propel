@@ -100,11 +100,11 @@ Translate the design's states to standard attributes (`aria-current`, `data-pane
   List  = CompositeRoot (roving vertical focus, loopFocus) — base wrapper over @base-ui/react/internals/composite
     │
     ├─ ListItem  (row wrapper, position:relative — chrome: hover + selected fill via :has, indent; not focusable)
-    │     ├─ primary CompositeItem, STRETCHED (::after overlay covers the row → whole row clicks):
+    │     ├─ primary CompositeItem, ::after covers its own box → the row content clicks through:
     │     │     ListItemLink   → <a aria-current="page"> (router <Link>)   like Toolbar.Link / Menu.LinkItem
     │     │     …or ListItemButton → <button>                              like Toolbar.Button / Menu.Item ("More")
-    │     │     holds: one leading slot (icon OR Avatar) + label
-    │     └─ trailing CompositeItem(s), FOREGROUND (z above the overlay, own their click area):
+    │     │     holds: ListItemIcon (icon OR Avatar) + ListItemLabel
+    │     └─ sibling actions/count (sit outside the link's box, keep their own clicks):
     │           IconButton (× / add) • Badge (count, non-interactive)
     │
     ├─ Collapsible                          ← every section; non-collapsible = degenerate (no trigger)
@@ -123,32 +123,32 @@ settings can adopt collapse as it scales without a structural change.
 | ------------ | --------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | current page | `active` → custom `data-active` (+ `aria-current`)  | `aria-current="page"` on the `Anchor`; `ListItem` fill via `:has([aria-current="page"])` |
 | section open | `NavItemChevron` `open` prop + hand-set `data-open` | `Collapsible`'s `data-panel-open`; chevron rotates off it                                |
-| hover        | the row button                                      | the `ListItem` container; trailing actions via `group-hover`                             |
+| hover        | the row button                                      | the `ListItem` container; sibling actions revealed via `group-hover`                     |
 | disabled     | —                                                   | `data-disabled` when needed                                                              |
 
 ## `nav-item` → `List`/`ListItem` mapping
 
-| Today (13 `nav-item` parts)                             | Disposition                                                                   |
-| ------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `NavItem` (`useRender` `<button>`)                      | **→ `ListItem`** (`<li>` container) + an `Anchor` child for the link          |
-| `NavItemIcon`, `NavItemLabel`                           | **→ `ListItem` slots** (`ListItemIcon`/`ListItemLabel`)                       |
-| `NavItemTrailing`                                       | **→ `ListItem` trailing slot** (now a real sibling region)                    |
-| `NavItemCount`                                          | **drop → `Badge`** (confirmed in review)                                      |
-| `NavItemChevron` (manual `open`)                        | **drop →** one chevron part riding `data-panel-open`                          |
-| `NavItemGroup` / `NavItemPanel` / `NavItemHeaderToggle` | **drop →** Base UI `Collapsible` / `CollapsiblePanel` / `CollapsibleTrigger`  |
-| `NavItemHeader`                                         | **→** the `CollapsibleTrigger`/static section header row (a `ListItem` shape) |
-| `NavItemHeaderLabel`                                    | **→ section-label** part (serves both collapsible + static)                   |
-| `NavItemHeaderIndicator`                                | **keep as the chevron** — already rides `data-panel-open` (the model)         |
-| `NavItemHeaderAction`                                   | **→** a trailing `IconButton` sibling (same role for row hover actions)       |
+| Today (13 `nav-item` parts)                             | Disposition                                                                         |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `NavItem` (`useRender` `<button>`)                      | **→ `ListItem`** (row-wrapper) + a `ListItemLink` child for the link                |
+| `NavItemIcon`, `NavItemLabel`                           | **→** `ListItemIcon` / `ListItemLabel`                                              |
+| `NavItemTrailing`                                       | **dropped** — a count is a `Badge` sibling, hover actions are `IconButton` siblings |
+| `NavItemCount`                                          | **drop → `Badge`** (confirmed in review)                                            |
+| `NavItemChevron` (manual `open`)                        | **drop →** one chevron part riding `data-panel-open`                                |
+| `NavItemGroup` / `NavItemPanel` / `NavItemHeaderToggle` | **drop →** Base UI `Collapsible` / `CollapsiblePanel` / `CollapsibleTrigger`        |
+| `NavItemHeader`                                         | **→** the `CollapsibleTrigger`/static section header row (a `ListItem` shape)       |
+| `NavItemHeaderLabel`                                    | **→ section-label** part (serves both collapsible + static)                         |
+| `NavItemHeaderIndicator`                                | **keep as the chevron** — already rides `data-panel-open` (the model)               |
+| `NavItemHeaderAction`                                   | **→** an `IconButton` sibling (same role for row hover actions)                     |
 
 ### New vs reused
 
-- **New:** `List` (`<ul>`), `ListItem` (`<li>` row chrome, `position:relative`), a section-label
-  part, and the **stretched primary** — a row link/action carrying the leading slot + label, with an
-  `::after` overlay covering the row. Per rule 6c the link and the action are two elements (`<a>` vs
-  `<button>`), so the stretch + row-fill chrome lives in `internal/` and both depend on it; the link
-  is built like `Anchor`/`AnchorButton` (default `<a>`, render-capable for the router `<Link>`) but
-  carries the row's text, not the inline-link palette.
+- **New:** `List` (a role-flexible `Composite`), `ListItem` (the row-wrapper chrome,
+  `position:relative`), a section-label part, and the **primary** — a row link/action carrying the
+  icon slot + label, with an `::after` over its own box for the click target. Per rule 6c the link and
+  the action are two elements (`<a>` vs `<button>`); when both exist the shared stretch/content chrome
+  lives in `internal/` and both depend on it. The link is built like `Anchor`/`AnchorButton` (default
+  `<a>`, render-capable for the router `<Link>`) but carries the row's text, not the inline-link palette.
 - **Reused as-is:** `Collapsible`, `Badge`, `Avatar`, `IconButton`, `Separator`, `Button`.
 
 ## Scope boundary
@@ -168,9 +168,9 @@ stories, but does not ship a `Sidebar` component.
 
 1. **Whole-row click; buttons restrict their own area.** The entire row is the navigation target;
    where a row carries icon buttons (add, ×) that sub-area belongs to the button. → **stretched-link
-   pattern**: `ListItem`'s primary element stretches (an `::after` overlay covering the row) so the
-   whole row navigates, and trailing `IconButton`s are **foreground** (`z` above the overlay) and
-   capture their own clicks.
+   pattern**: the primary (`ListItemLink`) carries an `::after` over its own flex box, so the row's
+   content area follows the link; sibling action buttons sit outside that box and keep their own
+   clicks (no z-raise needed).
 2. **Count = `Badge`.** Drop `NavItemCount`, reuse `Badge` as-is.
 3. **Sections may collapse — including settings — as it scales.** So **don't** build a separate
    "static section": model every section as a `Collapsible` (header `Trigger` + `Panel`); a
@@ -182,8 +182,8 @@ stories, but does not ship a `Sidebar` component.
    a standalone Ghost `Button`: a Ghost button has button geometry (hug + its own padding) and
    wouldn't sit flush with the full-width, indented nav rows. "New work item" is a separate `Button`
    above the list.
-5. **One leading slot, two ways.** A single `ListItemIcon` leading slot holds either a monochrome
-   icon or an `Avatar`; the cva sizes it. No second slot.
+5. **One icon slot, two ways.** A single `ListItemIcon` slot holds either a monochrome icon or an
+   `Avatar`; the cva sizes it. No second slot.
 
 Net new wrinkle from #1 + #4: `ListItem`'s primary clickable element is **either an `Anchor`
 (`<a>`, navigation, `aria-current`) or a `Button` (`<button>`, action like "More")** — two elements
