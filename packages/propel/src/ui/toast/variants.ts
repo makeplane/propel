@@ -1,6 +1,5 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
-import { nodeSlotClass } from "../../internal/node-slot";
 import { surfaceVariants } from "../../internal/surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
@@ -59,16 +58,10 @@ export const toastActionVariants = cva(
   ),
 );
 
-// The dismiss button pinned to the toast's inline-end corner. Sizes its single glyph
-// child to `--node-size` (via the shared node-slot class), so callers pass a bare icon
-// rather than styling it at the boundary.
-export const toastCloseVariants = cva(
-  cx(
-    nodeSlotClass,
-    "absolute inset-e-1 top-1 size-5 rounded-sm text-icon-tertiary outline-none [--node-size:0.875rem]",
-    "transition-colors hover:bg-layer-transparent-hover",
-  ),
-);
+// The positioned slot that pins the dismiss `IconButton` to the toast's inline-end corner. Holds
+// only the 4px corner offset (`absolute inset-e-1 top-1`) against the `relative` toast popup; the
+// button's chrome (size/radius/hover) comes from the composed `IconButton`.
+export const toastCloseSlotVariants = cva("absolute inset-e-1 top-1");
 
 // Status-icon slot: a single styled `<span>` that sizes and tone-colors a bare `<svg>`
 // glyph child (`[&>svg]:size-full` makes the glyph fill the 16px box; `fill="currentColor"`

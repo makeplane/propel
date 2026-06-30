@@ -18,6 +18,8 @@ export {
   type ToastActionsProps,
   ToastClose,
   type ToastCloseProps,
+  ToastCloseSlot,
+  type ToastCloseSlotProps,
   ToastContent,
   type ToastContentProps,
   ToastDescription,
