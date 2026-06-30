@@ -13,6 +13,8 @@ export {
   type ListItemLabelProps,
   ListItemLink,
   type ListItemLinkProps,
+  ListSectionHeading,
+  type ListSectionHeadingProps,
   ListSectionTrigger,
   type ListSectionTriggerProps,
   ListSectionTriggerIndicator,
