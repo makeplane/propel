@@ -8,7 +8,12 @@ const meta = {
   title: "Components/Search",
   component: Search,
   subcomponents: { ExpandableSearch },
-  args: { placeholder: "Search", magnitude: "md" },
+  args: {
+    placeholder: "Search",
+    magnitude: "md",
+    "aria-label": "Search",
+    clearLabel: "Clear search",
+  },
   // The field fills its container; give it a width to render in.
   decorators: [
     (Story) => (
@@ -44,7 +49,14 @@ export const Disabled: Story = {
 /** `ExpandableSearch` collapses to a magnifier and expands into a full field while focused. */
 export const Expandable: Story = {
   parameters: { controls: { disable: true } },
-  render: () => <ExpandableSearch magnitude="md" />,
+  render: () => (
+    <ExpandableSearch
+      magnitude="md"
+      placeholder="Search"
+      aria-label="Search"
+      clearLabel="Clear search"
+    />
+  ),
 };
 
 /** Typing reveals the clear button; clicking it empties the field and refocuses the input. */

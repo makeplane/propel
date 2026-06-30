@@ -127,7 +127,7 @@ export const WithActions: Story = {
           Update now
         </Button>
       </BannerActions>
-      <BannerDismiss onClick={fn()}>
+      <BannerDismiss aria-label="Dismiss" onClick={fn()}>
         <X aria-hidden />
       </BannerDismiss>
     </Banner>
@@ -150,7 +150,7 @@ export const DismissCallsHandler: Story = {
       <BannerBody placement={args.placement} tone={args.tone}>
         <BannerTitle>There is something that needs your attention</BannerTitle>
       </BannerBody>
-      <BannerDismiss onClick={dismissSpy}>
+      <BannerDismiss aria-label="Dismiss" onClick={dismissSpy}>
         <X aria-hidden />
       </BannerDismiss>
     </Banner>

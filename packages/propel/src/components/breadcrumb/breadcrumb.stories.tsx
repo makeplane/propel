@@ -19,6 +19,7 @@ import {
 const meta = {
   title: "Components/Breadcrumb",
   component: Breadcrumb,
+  args: { "aria-label": "Breadcrumb" },
   // A Breadcrumb is assembled from these parts, so document them alongside it
   // (adds tabs to the args table + records the relationship in the manifest).
   subcomponents: {
@@ -51,7 +52,7 @@ const inertAnchor = () => <a href="#" onClick={(event) => event.preventDefault()
 /** A three-level trail ending in the current page. */
 export const Default: Story = {
   render: () => (
-    <Breadcrumb>
+    <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
@@ -93,7 +94,7 @@ export const Default: Story = {
  */
 export const WithCollapsedCrumbs: Story = {
   render: () => (
-    <Breadcrumb>
+    <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
@@ -137,7 +138,7 @@ export const WithCollapsedCrumbs: Story = {
 export const CollapsedCrumbsInteraction: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <Breadcrumb>
+    <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
@@ -188,7 +189,7 @@ export const CollapsedCrumbsInteraction: Story = {
  */
 export const WithMenuCrumb: Story = {
   render: () => (
-    <Breadcrumb>
+    <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
@@ -224,7 +225,7 @@ export const WithMenuCrumb: Story = {
  */
 export const MenuCrumbSelected: Story = {
   render: () => (
-    <Breadcrumb>
+    <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
@@ -264,7 +265,7 @@ export const MenuCrumbSelected: Story = {
 export const KeyboardNavigation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <Breadcrumb>
+    <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>

@@ -19,10 +19,11 @@ export function ExpandableSearch({
   value,
   defaultValue,
   onValueChange,
-  placeholder = "Search",
+  placeholder,
   disabled,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
+  clearLabel,
   ...props
 }: ExpandableSearchProps) {
   const [currentValue, commit] = useControllableState<string>({
@@ -31,7 +32,7 @@ export function ExpandableSearch({
     onValueChange,
   });
   const hasValue = currentValue != null && currentValue !== "";
-  const resolvedAriaLabel = ariaLabel ?? (ariaLabelledBy ? undefined : "Search");
+  const resolvedAriaLabel = ariaLabel;
   const [focused, setFocused] = React.useState(false);
   const showExpanded = focused || hasValue;
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -65,7 +66,7 @@ export function ExpandableSearch({
         {hasValue && !disabled ? (
           <SearchClear
             magnitude={magnitude}
-            aria-label="Clear search"
+            aria-label={clearLabel}
             onClick={() => {
               commit("");
               inputRef.current?.focus();
