@@ -62,28 +62,6 @@ export const searchInputVariants = cva(
 
 export type SearchInputVariantProps = StrictVariantProps<typeof searchInputVariants>;
 
-// The trailing clear slot — a square `<button>` sized to `--node-size`, focus ring on
-// accent. Renders whatever glyph is passed (the node-slot sizes it).
-export const searchClearVariants = cva(
-  cx(
-    "inline-flex shrink-0 items-center justify-center rounded-sm text-icon-secondary outline-none",
-    "transition-colors hover:bg-layer-transparent-hover",
-    "focus-visible:ring-2 focus-visible:ring-accent-strong",
-    "[&>svg]:size-(--node-size)",
-  ),
-  {
-    variants: {
-      magnitude: {
-        sm: "size-5",
-        md: "size-5",
-        lg: "size-6",
-      },
-    },
-  },
-);
-
-export type SearchClearVariantProps = StrictVariantProps<typeof searchClearVariants>;
-
 // Expandable-search viewport: a `<div>` that reserves the collapsed square and anchors
 // the expanding box, so the icon stays on the inline-start as the box widens.
 export const searchExpandableViewportVariants = cva("relative inline-flex shrink-0", {

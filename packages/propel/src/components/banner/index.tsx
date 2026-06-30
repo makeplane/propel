@@ -9,8 +9,6 @@ export {
   type BannerBodyProps,
   BannerDescription,
   type BannerDescriptionProps,
-  BannerDismiss,
-  type BannerDismissProps,
   BannerIcon,
   type BannerIconProps,
   BannerTitle,

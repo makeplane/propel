@@ -8,8 +8,8 @@ export type SearchProps = Omit<useRender.ComponentProps<"label">, "className" | 
 
 /**
  * The search field box: a `<label>` wrapping the leading `SearchIcon`, the `SearchInput`, and an
- * optional trailing `SearchClear`. Holds the border, radius, focus ring, and `--node-size` that
- * sizes the glyphs. Clicking anywhere in the box focuses the input.
+ * optional trailing clear control (a ghost `IconButton`). Holds the border, radius, focus ring, and
+ * `--node-size` that sizes the glyphs. Clicking anywhere in the box focuses the input.
  */
 export function Search({ magnitude, render, ...props }: SearchProps) {
   const defaultProps: useRender.ElementProps<"label"> = {

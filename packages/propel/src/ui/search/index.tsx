@@ -1,5 +1,4 @@
 export * from "./search";
-export * from "./search-clear";
 export * from "./search-expandable";
 export * from "./search-expandable-viewport";
 export * from "./search-icon";
