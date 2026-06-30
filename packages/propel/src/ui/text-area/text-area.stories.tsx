@@ -3,15 +3,15 @@ import { expect } from "storybook/test";
 
 import { Field, FieldError, FieldLabel } from "../field/index";
 import { TextArea } from "./index";
-import { TextAreaBox } from "./text-area-box";
+import { TextAreaGroup } from "./text-area-group";
 
-// UI-tier story: composes the atomic text-area parts — the bordered `TextAreaBox` frame
+// UI-tier story: composes the atomic text-area parts — the bordered `TextAreaGroup` frame
 // (border/radius/padding/focus + error treatments) wrapping the `TextArea` leaf, so the box
 // holds the chrome and the leaf holds no frame styling.
 const meta = {
   title: "UI/TextArea",
   component: TextArea,
-  subcomponents: { TextAreaBox },
+  subcomponents: { TextAreaGroup },
   decorators: [
     (Story) => (
       <div className="w-80">
@@ -24,7 +24,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Styled textarea leaf framed by `TextAreaBox`. Uses the Base UI-backed primitive for Field wiring. */
+/**
+ * Styled textarea leaf framed by `TextAreaGroup`. Uses the Base UI-backed primitive for Field
+ * wiring.
+ */
 export const Default: Story = {
   args: {
     magnitude: "md",
@@ -35,9 +38,9 @@ export const Default: Story = {
     rows: 4,
   },
   render: (args) => (
-    <TextAreaBox>
+    <TextAreaGroup>
       <TextArea {...args} />
-    </TextAreaBox>
+    </TextAreaGroup>
   ),
 };
 
@@ -49,9 +52,9 @@ export const FieldComposition: Story = {
       <FieldLabel magnitude="md" inset={false}>
         Comment
       </FieldLabel>
-      <TextAreaBox>
+      <TextAreaGroup>
         <TextArea {...args} placeholder="Leave a comment..." />
-      </TextAreaBox>
+      </TextAreaGroup>
     </Field>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -70,9 +73,9 @@ export const FieldErrorAssociation: Story = {
       <FieldLabel magnitude="md" inset={false}>
         Comment
       </FieldLabel>
-      <TextAreaBox>
+      <TextAreaGroup>
         <TextArea {...args} defaultValue="No" />
-      </TextAreaBox>
+      </TextAreaGroup>
       <FieldError magnitude="md" match={true}>
         Add a little more detail.
       </FieldError>
