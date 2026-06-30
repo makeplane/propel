@@ -1,3 +1,4 @@
+import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   Copy,
@@ -52,7 +53,7 @@ export const Default: Story = {
   render: () => (
     <Menubar>
       <Menu>
-        <MenubarTrigger>
+        <MenubarTrigger render={<BaseMenu.Trigger />}>
           <MenubarTriggerIcon>
             <FilePen />
           </MenubarTriggerIcon>
@@ -66,7 +67,7 @@ export const Default: Story = {
         </MenuContent>
       </Menu>
       <Menu>
-        <MenubarTrigger>
+        <MenubarTrigger render={<BaseMenu.Trigger />}>
           <MenubarTriggerIcon>
             <Pencil />
           </MenubarTriggerIcon>

@@ -1,19 +1,20 @@
-import { ToggleGroup } from "@base-ui/react/toggle-group";
-import type { ToggleGroup as BaseToggleGroupTypes } from "@base-ui/react/toggle-group";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 
 import { toolbarToggleGroupVariants } from "./variants";
 
-export type ToolbarToggleGroupProps<Value extends string = string> = Omit<
-  BaseToggleGroupTypes.Props<Value>,
-  "className" | "style"
-> & {
-  /** Allow more than one toggle in the group to be pressed at once. */
-  multiple?: boolean;
-};
+export type ToolbarToggleGroupProps = Omit<useRender.ComponentProps<"div">, "className" | "style">;
 
-/** A set of `ToolbarToggle`s that share state. */
-export function ToolbarToggleGroup<Value extends string = string>(
-  props: ToolbarToggleGroupProps<Value>,
-) {
-  return <ToggleGroup className={toolbarToggleGroupVariants()} {...props} />;
+/**
+ * A set of `ToolbarToggle`s that share state. Renders a `<div>` by default and bakes in only the
+ * cluster layout, keeping `ui/toolbar` independent of the ToggleGroup primitive: a composition
+ * grafts the shared-state behavior on by rendering it as a toggle group — `render={<ToggleGroup
+ * />}` (the styled div stays the outer element).
+ */
+export function ToolbarToggleGroup({ render, ...props }: ToolbarToggleGroupProps) {
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps({ className: toolbarToggleGroupVariants() }, props),
+  });
 }

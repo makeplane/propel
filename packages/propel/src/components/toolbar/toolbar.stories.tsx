@@ -1,3 +1,4 @@
+import { ToggleGroup } from "@base-ui/react/toggle-group";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   AlignCenter,
@@ -90,7 +91,9 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
         </ToolbarToggle>
       </ToolbarGroup>
       <ToolbarSeparator />
-      <ToolbarToggleGroup aria-label="Text alignment" defaultValue={["left"]}>
+      <ToolbarToggleGroup
+        render={<ToggleGroup defaultValue={["left"]} aria-label="Text alignment" />}
+      >
         <ToolbarToggle value="left" aria-label="Align left">
           <ToolbarItemIcon>
             <AlignLeft />
