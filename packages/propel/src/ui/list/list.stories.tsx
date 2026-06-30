@@ -1,8 +1,18 @@
+import { Collapsible } from "@base-ui/react/collapsible";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Ellipsis, Inbox, LayoutGrid, Settings } from "lucide-react";
+import { ChevronDown, Ellipsis, Inbox, LayoutGrid, Settings } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemLabel, ListItemLink } from "./index";
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemLabel,
+  ListItemLink,
+  ListSectionTrigger,
+  ListSectionTriggerIndicator,
+} from "./index";
 
 // `List` is role-flexible; this story uses `role="toolbar"` (the canonical roving-controls role) so
 // axe passes while showing the chrome. The production role — navigation tree vs region — is the open
@@ -10,7 +20,15 @@ import { List, ListItem, ListItemButton, ListItemIcon, ListItemLabel, ListItemLi
 const meta = {
   title: "UI/List",
   component: List,
-  subcomponents: { ListItem, ListItemLink, ListItemButton, ListItemIcon, ListItemLabel },
+  subcomponents: {
+    ListItem,
+    ListItemLink,
+    ListItemButton,
+    ListItemIcon,
+    ListItemLabel,
+    ListSectionTrigger,
+    ListSectionTriggerIndicator,
+  },
   decorators: [
     (Story) => (
       <div className="w-64">
@@ -82,5 +100,54 @@ export const Navigation: Story = {
     await expect(projects).toHaveFocus();
     await userEvent.keyboard("{ArrowDown}{ArrowDown}");
     await expect(canvas.getByRole("button", { name: "More" })).toHaveFocus();
+  },
+};
+
+/**
+ * A collapsible section. `ListSectionTrigger` is a plain styled button; the disclosure behavior is
+ * grafted by rendering it as a `Collapsible.Trigger` (the styled button stays the outer element),
+ * and `ListSectionTriggerIndicator` rotates the chevron off the trigger's `data-panel-open` —
+ * pointing inline-end while collapsed, down when open.
+ */
+export const Section: Story = {
+  render: () => (
+    <Collapsible.Root defaultOpen>
+      <ListSectionTrigger render={<Collapsible.Trigger />}>
+        Workspace
+        <ListSectionTriggerIndicator>
+          <ChevronDown aria-hidden />
+        </ListSectionTriggerIndicator>
+      </ListSectionTrigger>
+      <Collapsible.Panel>
+        <List role="toolbar" aria-label="Workspace">
+          <ListItem>
+            <ListItemLink href="#projects" aria-current="page">
+              <ListItemIcon>
+                <LayoutGrid aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>Projects</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemLink href="#settings">
+              <ListItemIcon>
+                <Settings aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>Settings</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+        </List>
+      </Collapsible.Panel>
+    </Collapsible.Root>
+  ),
+  play: async ({ canvas, userEvent }) => {
+    // The plain trigger gets its disclosure behavior from the Collapsible.Trigger it renders as.
+    const trigger = canvas.getByRole("button", { name: "Workspace" });
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    trigger.blur();
   },
 };
