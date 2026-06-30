@@ -1,17 +1,26 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
+  BarChart3,
+  Boxes,
   ChevronDown,
-  Code,
   Ellipsis,
-  Folder,
+  GitBranch,
   Home,
-  Inbox,
-  LayoutGrid,
-  Palette,
+  Lightbulb,
+  MessageSquare,
+  Package,
+  PanelLeft,
+  Plus,
+  SlidersHorizontal,
+  Sparkles,
+  Sticker,
+  UserRound,
+  Workflow,
 } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { Badge } from "../components/badge/index";
+import { Button } from "../components/button/index";
+import { IconButton } from "../components/icon-button/index";
 import {
   Collapsible,
   CollapsiblePanel,
@@ -28,9 +37,11 @@ import {
   ListSectionTrigger,
 } from "../ui/list/index";
 
-// App-level demo (not a shipped primitive): an app sidebar assembled from `ui/list` +
-// `ui/collapsible` + `Badge`. Proves the List primitives cover the real design — flat rows, a count,
-// collapsible sections, an action row — without a bespoke navigation component.
+// App-level demo (not a shipped primitive): the Plane workspace sidebar assembled entirely from
+// existing propel components — proving the design frame distills into the system with no bespoke
+// "navbar". Header actions are `IconButton`s, the create action is a `Button`, project icons are
+// `Avatar`s, rows/sections are `ui/list` + `ui/collapsible`. The only new primitive the frame
+// implied was `ListSectionTrigger` (the muted section header).
 //
 // v1 keyboard model: each `List` is one roving group (arrow keys within); the section triggers are
 // their own tab stops. `role="toolbar"` is a placeholder so axe passes — the production role
@@ -46,7 +57,29 @@ type Story = StoryObj<typeof meta>;
 
 export const WorkspaceSidebar: Story = {
   render: () => (
-    <nav aria-label="Acme workspace" className="flex w-64 flex-col gap-3">
+    <nav aria-label="Acme workspace" className="flex w-64 flex-col gap-2">
+      <div className="flex items-center justify-between px-2">
+        <span className="text-15 font-semibold text-primary">Projects</span>
+        <div className="flex items-center gap-0.5">
+          <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Filter">
+            <SlidersHorizontal aria-hidden />
+          </IconButton>
+          <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Toggle sidebar">
+            <PanelLeft aria-hidden />
+          </IconButton>
+        </div>
+      </div>
+
+      <Button
+        prominence="secondary"
+        tone="neutral"
+        magnitude="md"
+        sizing="fill"
+        inlineStartNode={<Plus aria-hidden />}
+      >
+        New work item
+      </Button>
+
       <List role="toolbar" aria-label="Primary">
         <ListItem>
           <ListItemLink href="#home">
@@ -57,14 +90,19 @@ export const WorkspaceSidebar: Story = {
           </ListItemLink>
         </ListItem>
         <ListItem>
-          <ListItemLink href="#inbox">
+          <ListItemLink href="#stickers">
             <ListItemIcon>
-              <Inbox aria-hidden />
+              <Sticker aria-hidden />
             </ListItemIcon>
-            <ListItemLabel>Inbox</ListItemLabel>
-            <Badge tone="neutral" magnitude="sm">
-              6
-            </Badge>
+            <ListItemLabel>Stickers</ListItemLabel>
+          </ListItemLink>
+        </ListItem>
+        <ListItem>
+          <ListItemLink href="#your-work">
+            <ListItemIcon>
+              <UserRound aria-hidden />
+            </ListItemIcon>
+            <ListItemLabel>Your work</ListItemLabel>
           </ListItemLink>
         </ListItem>
       </List>
@@ -82,17 +120,41 @@ export const WorkspaceSidebar: Story = {
               <ListItem>
                 <ListItemLink href="#projects" aria-current="page">
                   <ListItemIcon>
-                    <LayoutGrid aria-hidden />
+                    <Boxes aria-hidden />
                   </ListItemIcon>
                   <ListItemLabel>Projects</ListItemLabel>
                 </ListItemLink>
               </ListItem>
               <ListItem>
-                <ListItemLink href="#views">
+                <ListItemLink href="#work-graph">
                   <ListItemIcon>
-                    <Folder aria-hidden />
+                    <Workflow aria-hidden />
                   </ListItemIcon>
-                  <ListItemLabel>Views</ListItemLabel>
+                  <ListItemLabel>Work graph</ListItemLabel>
+                </ListItemLink>
+              </ListItem>
+              <ListItem>
+                <ListItemLink href="#initiatives">
+                  <ListItemIcon>
+                    <Lightbulb aria-hidden />
+                  </ListItemIcon>
+                  <ListItemLabel>Initiatives</ListItemLabel>
+                </ListItemLink>
+              </ListItem>
+              <ListItem>
+                <ListItemLink href="#analytics">
+                  <ListItemIcon>
+                    <BarChart3 aria-hidden />
+                  </ListItemIcon>
+                  <ListItemLabel>Analytics</ListItemLabel>
+                </ListItemLink>
+              </ListItem>
+              <ListItem>
+                <ListItemLink href="#releases">
+                  <ListItemIcon>
+                    <Package aria-hidden />
+                  </ListItemIcon>
+                  <ListItemLabel>Releases</ListItemLabel>
                 </ListItemLink>
               </ListItem>
               <ListItem>
@@ -110,28 +172,83 @@ export const WorkspaceSidebar: Story = {
 
       <Collapsible defaultOpen>
         <ListSectionTrigger>
-          Teams
+          Projects
           <CollapsibleTriggerIndicator>
             <ChevronDown aria-hidden />
           </CollapsibleTriggerIndicator>
         </ListSectionTrigger>
         <CollapsiblePanel>
           <CollapsiblePanelContent>
-            <List role="toolbar" aria-label="Teams">
+            <List role="toolbar" aria-label="Projects">
               <ListItem>
-                <ListItemLink href="#design">
-                  <ListItemIcon>
-                    <Palette aria-hidden />
-                  </ListItemIcon>
-                  <ListItemLabel>Design</ListItemLabel>
+                <ListItemLink href="#acme">
+                  <ListItemIcon aria-hidden>🚜</ListItemIcon>
+                  <ListItemLabel>Acme Inc.</ListItemLabel>
                 </ListItemLink>
               </ListItem>
               <ListItem>
-                <ListItemLink href="#engineering">
+                <ListItemLink href="#web-development">
+                  <ListItemIcon aria-hidden>🧩</ListItemIcon>
+                  <ListItemLabel>Web Development</ListItemLabel>
+                </ListItemLink>
+              </ListItem>
+              <ListItem>
+                <ListItemLink href="#plane-pro">
+                  <ListItemIcon aria-hidden>🚗</ListItemIcon>
+                  <ListItemLabel>Plane Pro</ListItemLabel>
+                </ListItemLink>
+              </ListItem>
+              <ListItem>
+                <ListItemLink href="#discover">
+                  <ListItemIcon aria-hidden>📞</ListItemIcon>
+                  <ListItemLabel>Discover</ListItemLabel>
+                </ListItemLink>
+              </ListItem>
+              <ListItem>
+                <ListItemButton>
                   <ListItemIcon>
-                    <Code aria-hidden />
+                    <Ellipsis aria-hidden />
                   </ListItemIcon>
-                  <ListItemLabel>Engineering</ListItemLabel>
+                  <ListItemLabel>More</ListItemLabel>
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </CollapsiblePanelContent>
+        </CollapsiblePanel>
+      </Collapsible>
+
+      <Collapsible defaultOpen>
+        <ListSectionTrigger>
+          Try
+          <CollapsibleTriggerIndicator>
+            <ChevronDown aria-hidden />
+          </CollapsibleTriggerIndicator>
+        </ListSectionTrigger>
+        <CollapsiblePanel>
+          <CollapsiblePanelContent>
+            <List role="toolbar" aria-label="Try">
+              <ListItem>
+                <ListItemLink href="#github">
+                  <ListItemIcon>
+                    <GitBranch aria-hidden />
+                  </ListItemIcon>
+                  <ListItemLabel>Connect to GitHub</ListItemLabel>
+                </ListItemLink>
+              </ListItem>
+              <ListItem>
+                <ListItemLink href="#slack">
+                  <ListItemIcon>
+                    <MessageSquare aria-hidden />
+                  </ListItemIcon>
+                  <ListItemLabel>Connect to Slack</ListItemLabel>
+                </ListItemLink>
+              </ListItem>
+              <ListItem>
+                <ListItemLink href="#plane-ai">
+                  <ListItemIcon>
+                    <Sparkles aria-hidden />
+                  </ListItemIcon>
+                  <ListItemLabel>Try Plane AI</ListItemLabel>
                 </ListItemLink>
               </ListItem>
             </List>
@@ -146,23 +263,23 @@ export const WorkspaceSidebar: Story = {
       "aria-current",
       "page",
     );
-    // An action row is a button, not a link.
-    await expect(canvas.getByRole("button", { name: "More" })).toBeInTheDocument();
+    // The action rows ("More") are buttons, not links.
+    await expect(canvas.getAllByRole("button", { name: "More" }).length).toBeGreaterThan(0);
 
     // Arrow keys roam within a list (one tab stop).
     const home = canvas.getByRole("link", { name: "Home" });
     home.focus();
     await userEvent.keyboard("{ArrowDown}");
-    // The count badge is inside the link, so its name is "Inbox 6".
-    await expect(canvas.getByRole("link", { name: /Inbox/ })).toHaveFocus();
+    await expect(canvas.getByRole("link", { name: "Stickers" })).toHaveFocus();
 
     // A section header toggles its panel (Base UI Collapsible).
     const workspace = canvas.getByRole("button", { name: "Workspace" });
     await expect(workspace).toHaveAttribute("aria-expanded", "true");
     await userEvent.click(workspace);
     await expect(workspace).toHaveAttribute("aria-expanded", "false");
-    // Re-open so the resting view shows both sections expanded.
+    // Re-open and drop focus so the resting view shows every section expanded, no focus ring.
     await userEvent.click(workspace);
     await expect(workspace).toHaveAttribute("aria-expanded", "true");
+    workspace.blur();
   },
 };
