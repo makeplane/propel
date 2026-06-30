@@ -1,3 +1,4 @@
+import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import type * as React from "react";
 
 import { ScrollAreaCorner, ScrollAreaScrollbar, ScrollAreaThumb } from "../../ui/scroll-area";
@@ -23,8 +24,8 @@ export type TableProps = TableElementProps & {
 export function Table({ mode, children, ...props }: TableProps) {
   return (
     <TableModeContext.Provider value={mode}>
-      <TableScrollArea>
-        <TableScrollAreaViewport>
+      <TableScrollArea render={<BaseScrollArea.Root />}>
+        <TableScrollAreaViewport render={<BaseScrollArea.Viewport />}>
           <TableElement {...props}>{children}</TableElement>
         </TableScrollAreaViewport>
         <ScrollAreaScrollbar orientation="vertical" visibility="auto" magnitude="thin">

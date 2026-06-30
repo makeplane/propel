@@ -9,7 +9,8 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 // the component so every table stays consistent. Every part's className lives here as
 // a cva pairing, so no part takes a `className` at its boundary.
 
-// The rounded, hairline scroll frame around the `<table>` (Base UI ScrollArea root).
+// The rounded, hairline scroll frame around the `<table>`. The ready-made grafts the Base UI
+// ScrollArea.Root onto this styled frame via `render`.
 export const tableScrollAreaVariants = cva(
   "relative flex max-h-full w-full flex-col overflow-hidden rounded-lg border border-subtle bg-surface-1",
 );

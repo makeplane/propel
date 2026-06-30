@@ -107,4 +107,6 @@ export const pillSpinnerVariants = cva(
   "inline-flex shrink-0 items-center justify-center [&>svg]:size-(--node-size) [&>svg]:animate-spin",
 );
 
-export type PillMagnitude = NonNullable<Parameters<typeof pillButtonVariants>[0]>["magnitude"];
+export type PillMagnitude = NonNullable<
+  NonNullable<Parameters<typeof pillButtonVariants>[0]>["magnitude"]
+>;

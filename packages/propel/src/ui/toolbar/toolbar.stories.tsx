@@ -1,4 +1,5 @@
 import { Toggle } from "@base-ui/react/toggle";
+import { ToggleGroup } from "@base-ui/react/toggle-group";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   AlignCenter,
@@ -86,7 +87,9 @@ export const Default: Story = {
         </ToolbarButton>
       </ToolbarGroup>
       <ToolbarSeparator />
-      <ToolbarToggleGroup aria-label="Text alignment" defaultValue={["left"]}>
+      <ToolbarToggleGroup
+        render={<ToggleGroup defaultValue={["left"]} aria-label="Text alignment" />}
+      >
         <ToolbarButton
           density={args.density}
           aria-label="Align left"

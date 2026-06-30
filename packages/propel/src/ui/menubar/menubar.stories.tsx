@@ -1,3 +1,4 @@
+import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor } from "storybook/test";
 
@@ -49,7 +50,7 @@ export const Default: Story = {
   render: () => (
     <Menubar>
       <Menu>
-        <MenubarTrigger>
+        <MenubarTrigger render={<BaseMenu.Trigger />}>
           <MenubarTriggerLabel>File</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuPortal>
@@ -64,7 +65,7 @@ export const Default: Story = {
         </MenuPortal>
       </Menu>
       <Menu>
-        <MenubarTrigger>
+        <MenubarTrigger render={<BaseMenu.Trigger />}>
           <MenubarTriggerLabel>Edit</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuPortal>
