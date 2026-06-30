@@ -1,10 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ChevronDown } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { Button } from "../components/button/index";
 import { IconButton } from "../components/icon-button/index";
-import { Collapsible, CollapsiblePanel, CollapsiblePanelContent } from "../ui/collapsible/index";
 import {
   List,
   ListItem,
@@ -12,9 +10,8 @@ import {
   ListItemIcon,
   ListItemLabel,
   ListItemLink,
-  ListSectionTrigger,
-  ListSectionTriggerIndicator,
-} from "../ui/list/index";
+  ListSection,
+} from "../components/list/index";
 import {
   AddWorkItemIcon,
   AnalyticsIcon,
@@ -34,10 +31,11 @@ import {
 
 // App-level demo (not a shipped primitive): the Plane workspace sidebar assembled entirely from
 // existing propel components — proving the design frame distills into the system with no bespoke
-// "navbar". Header actions are `IconButton`s, the create action is a `Button`; the glyphs are Plane's
-// own Foundations icons (copied verbatim from Figma as SVG in sidebar-icons.tsx — Plane uses its own
-// set, not lucide, and propel doesn't ship it yet), and project glyphs are emoji. Rows/sections are
-// `ui/list` + `ui/collapsible`; the only new primitive the frame implied was `ListSectionTrigger`.
+// "navbar". Header actions are `IconButton`s, the create action is a `Button`; collapsible groups are
+// the ready-made `ListSection`, and rows are `List` + `ListItem`(+`Link`/`Button`/`Icon`/`Label`) —
+// all from `components/list`. The glyphs are Plane's own Foundations icons (copied verbatim from
+// Figma as SVG in sidebar-icons.tsx — Plane uses its own set, not lucide, and propel doesn't ship it
+// yet); project glyphs are emoji.
 //
 // v1 keyboard model: each `List` is one roving group (arrow keys within); the section triggers are
 // their own tab stops. `role="toolbar"` is a placeholder so axe passes — the production role
@@ -106,154 +104,124 @@ export const WorkspaceSidebar: Story = {
         </ListItem>
       </List>
 
-      <Collapsible defaultOpen>
-        <ListSectionTrigger>
-          Workspace
-          <ListSectionTriggerIndicator>
-            <ChevronDown aria-hidden />
-          </ListSectionTriggerIndicator>
-        </ListSectionTrigger>
-        <CollapsiblePanel>
-          <CollapsiblePanelContent>
-            <List role="toolbar" aria-label="Workspace">
-              <ListItem>
-                <ListItemLink href="#projects" aria-current="page">
-                  <ListItemIcon>
-                    <ProjectsIcon aria-hidden />
-                  </ListItemIcon>
-                  <ListItemLabel>Projects</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-              <ListItem>
-                <ListItemLink href="#work-graph">
-                  <ListItemIcon>
-                    <YourWorkIcon aria-hidden />
-                  </ListItemIcon>
-                  <ListItemLabel>Work graph</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-              <ListItem>
-                <ListItemLink href="#initiatives">
-                  <ListItemIcon>
-                    <InitiativesIcon aria-hidden />
-                  </ListItemIcon>
-                  <ListItemLabel>Initiatives</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-              <ListItem>
-                <ListItemLink href="#analytics">
-                  <ListItemIcon>
-                    <AnalyticsIcon aria-hidden />
-                  </ListItemIcon>
-                  <ListItemLabel>Analytics</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-              <ListItem>
-                <ListItemLink href="#releases">
-                  <ListItemIcon>
-                    <ReleasesIcon aria-hidden />
-                  </ListItemIcon>
-                  <ListItemLabel>Releases</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <MoreIcon aria-hidden />
-                  </ListItemIcon>
-                  <ListItemLabel>More</ListItemLabel>
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </CollapsiblePanelContent>
-        </CollapsiblePanel>
-      </Collapsible>
+      <ListSection label="Workspace" indicator defaultOpen>
+        <List role="toolbar" aria-label="Workspace">
+          <ListItem>
+            <ListItemLink href="#projects" aria-current="page">
+              <ListItemIcon>
+                <ProjectsIcon aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>Projects</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemLink href="#work-graph">
+              <ListItemIcon>
+                <YourWorkIcon aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>Work graph</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemLink href="#initiatives">
+              <ListItemIcon>
+                <InitiativesIcon aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>Initiatives</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemLink href="#analytics">
+              <ListItemIcon>
+                <AnalyticsIcon aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>Analytics</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemLink href="#releases">
+              <ListItemIcon>
+                <ReleasesIcon aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>Releases</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <MoreIcon aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>More</ListItemLabel>
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </ListSection>
 
-      <Collapsible defaultOpen>
-        <ListSectionTrigger>
-          Projects
-          <ListSectionTriggerIndicator>
-            <ChevronDown aria-hidden />
-          </ListSectionTriggerIndicator>
-        </ListSectionTrigger>
-        <CollapsiblePanel>
-          <CollapsiblePanelContent>
-            <List role="toolbar" aria-label="Projects">
-              <ListItem>
-                <ListItemLink href="#acme">
-                  <ListItemIcon aria-hidden>🚜</ListItemIcon>
-                  <ListItemLabel>Acme Inc.</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-              <ListItem>
-                <ListItemLink href="#web-development">
-                  <ListItemIcon aria-hidden>🧩</ListItemIcon>
-                  <ListItemLabel>Web Development</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-              <ListItem>
-                <ListItemLink href="#plane-pro">
-                  <ListItemIcon aria-hidden>🚗</ListItemIcon>
-                  <ListItemLabel>Plane Pro</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-              <ListItem>
-                <ListItemLink href="#discover">
-                  <ListItemIcon aria-hidden>📞</ListItemIcon>
-                  <ListItemLabel>Discover</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <MoreIcon aria-hidden />
-                  </ListItemIcon>
-                  <ListItemLabel>More</ListItemLabel>
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </CollapsiblePanelContent>
-        </CollapsiblePanel>
-      </Collapsible>
+      <ListSection label="Projects" indicator defaultOpen>
+        <List role="toolbar" aria-label="Projects">
+          <ListItem>
+            <ListItemLink href="#acme">
+              <ListItemIcon aria-hidden>🚜</ListItemIcon>
+              <ListItemLabel>Acme Inc.</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemLink href="#web-development">
+              <ListItemIcon aria-hidden>🧩</ListItemIcon>
+              <ListItemLabel>Web Development</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemLink href="#plane-pro">
+              <ListItemIcon aria-hidden>🚗</ListItemIcon>
+              <ListItemLabel>Plane Pro</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemLink href="#discover">
+              <ListItemIcon aria-hidden>📞</ListItemIcon>
+              <ListItemLabel>Discover</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemButton>
+              <ListItemIcon>
+                <MoreIcon aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>More</ListItemLabel>
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </ListSection>
 
-      <Collapsible defaultOpen>
-        <ListSectionTrigger>
-          Try
-          <ListSectionTriggerIndicator>
-            <ChevronDown aria-hidden />
-          </ListSectionTriggerIndicator>
-        </ListSectionTrigger>
-        <CollapsiblePanel>
-          <CollapsiblePanelContent>
-            <List role="toolbar" aria-label="Try">
-              <ListItem>
-                <ListItemLink href="#github">
-                  <ListItemIcon>
-                    <GithubIcon aria-hidden />
-                  </ListItemIcon>
-                  <ListItemLabel>Connect to GitHub</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-              <ListItem>
-                <ListItemLink href="#slack">
-                  <ListItemIcon>
-                    <SlackIcon aria-hidden />
-                  </ListItemIcon>
-                  <ListItemLabel>Connect to Slack</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-              <ListItem>
-                <ListItemLink href="#plane-ai">
-                  <ListItemIcon>
-                    <PlaneAiIcon aria-hidden />
-                  </ListItemIcon>
-                  <ListItemLabel>Try Plane AI</ListItemLabel>
-                </ListItemLink>
-              </ListItem>
-            </List>
-          </CollapsiblePanelContent>
-        </CollapsiblePanel>
-      </Collapsible>
+      <ListSection label="Try" indicator defaultOpen>
+        <List role="toolbar" aria-label="Try">
+          <ListItem>
+            <ListItemLink href="#github">
+              <ListItemIcon>
+                <GithubIcon aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>Connect to GitHub</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemLink href="#slack">
+              <ListItemIcon>
+                <SlackIcon aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>Connect to Slack</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+          <ListItem>
+            <ListItemLink href="#plane-ai">
+              <ListItemIcon>
+                <PlaneAiIcon aria-hidden />
+              </ListItemIcon>
+              <ListItemLabel>Try Plane AI</ListItemLabel>
+            </ListItemLink>
+          </ListItem>
+        </List>
+      </ListSection>
     </nav>
   ),
   play: async ({ canvas, userEvent }) => {
