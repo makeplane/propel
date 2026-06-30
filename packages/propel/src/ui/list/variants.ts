@@ -44,6 +44,16 @@ export const listItemLabelVariants = cva("min-w-0 flex-1 truncate");
 export type ListItemLabelVariantProps = StrictVariantProps<typeof listItemLabelVariants>;
 
 /**
+ * A static section heading — a small, muted label that names a group of rows. The non-interactive
+ * sibling of `listSectionTrigger`: no button affordance (no hover/focus/cursor), it just titles a
+ * static section in a settings-style sidebar.
+ */
+export const listSectionHeadingVariants = cva(
+  cx("flex h-7 w-full items-center px-2 py-1", "text-13 font-semibold text-tertiary"),
+);
+export type ListSectionHeadingVariantProps = StrictVariantProps<typeof listSectionHeadingVariants>;
+
+/**
  * A collapsible section's header — a small, muted heading that toggles the section, with the
  * chevron pushed to the inline-end edge of the row. Styled `Collapsible.Trigger`; carries the
  * `group` so a `CollapsibleTriggerIndicator` inside rotates off its `data-panel-open`.

@@ -1,4 +1,5 @@
 export * from "./list";
+export * from "./list-section-heading";
 export * from "./list-section-trigger";
 export * from "./list-section-trigger-indicator";
 export * from "./list-item";
