@@ -25,10 +25,15 @@ export type SearchProps = Omit<
   defaultValue?: string;
   /** Called with the new text on each change and on clear. */
   onValueChange?: (value: string) => void;
-  /** Placeholder text. @default "Search" */
+  /** Placeholder text. */
   placeholder?: string;
-  /** Accessible name for the field. @default "Search" */
+  /**
+   * Accessible name for the field. The consumer must supply this (or `aria-labelledby`) to name the
+   * field.
+   */
   "aria-label"?: string;
+  /** Accessible name for the clear button. */
+  clearLabel: string;
 };
 
 /** A search field with leading magnifier and trailing clear button. */
@@ -37,10 +42,11 @@ export function Search({
   value,
   defaultValue,
   onValueChange,
-  placeholder = "Search",
+  placeholder,
   disabled,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
+  clearLabel,
   ...props
 }: SearchProps) {
   const [currentValue, commit] = useControllableState<string>({
@@ -51,7 +57,7 @@ export function Search({
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const hasValue = currentValue != null && currentValue !== "";
-  const resolvedAriaLabel = ariaLabel ?? (ariaLabelledBy ? undefined : "Search");
+  const resolvedAriaLabel = ariaLabel;
 
   return (
     <SearchBox magnitude={magnitude}>
@@ -72,7 +78,7 @@ export function Search({
       {hasValue && !disabled ? (
         <SearchClear
           magnitude={magnitude}
-          aria-label="Clear search"
+          aria-label={clearLabel}
           onClick={() => {
             commit("");
             inputRef.current?.focus();

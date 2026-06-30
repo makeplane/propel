@@ -14,6 +14,10 @@ import {
 export type NumberFieldProps = NumberFieldElementProps & {
   /** Visual size of the field: controls button square and input height. Required. */
   magnitude: NumberFieldMagnitude;
+  /** Accessible name for the decrement button. */
+  decrementLabel: string;
+  /** Accessible name for the increment button. */
+  incrementLabel: string;
 };
 
 /**
@@ -29,12 +33,14 @@ export function NumberField({
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledby,
   magnitude,
+  decrementLabel,
+  incrementLabel,
   ...props
 }: NumberFieldProps) {
   return (
     <NumberFieldElement {...props}>
       <NumberFieldGroup>
-        <NumberFieldDecrement magnitude={magnitude} aria-label="Decrease">
+        <NumberFieldDecrement magnitude={magnitude} aria-label={decrementLabel}>
           <NumberFieldButtonIcon>
             <Minus />
           </NumberFieldButtonIcon>
@@ -45,7 +51,7 @@ export function NumberField({
           aria-label={ariaLabel}
           aria-labelledby={ariaLabelledby}
         />
-        <NumberFieldIncrement magnitude={magnitude} aria-label="Increase">
+        <NumberFieldIncrement magnitude={magnitude} aria-label={incrementLabel}>
           <NumberFieldButtonIcon>
             <Plus />
           </NumberFieldButtonIcon>

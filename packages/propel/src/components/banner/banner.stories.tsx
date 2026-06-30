@@ -63,6 +63,7 @@ export const WithActions: Story = {
     placement: "page",
     tone: "neutral",
     onDismiss: fn(),
+    dismissLabel: "Dismiss",
     actions: (
       <>
         <Button sizing="hug" prominence="ghost" tone="neutral" magnitude="sm">
@@ -85,6 +86,7 @@ export const Dismissible: Story = {
     placement: "inline",
     tone: "info",
     onDismiss: fn(),
+    dismissLabel: "Dismiss",
   },
 };
 
@@ -98,6 +100,7 @@ export const DismissCallsHandler: Story = {
     placement: "inline",
     tone: "info",
     onDismiss: fn(),
+    dismissLabel: "Dismiss",
   },
   play: async ({ args, canvas, userEvent }) => {
     const button = canvas.getByRole("button", { name: "Dismiss" });

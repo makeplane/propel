@@ -78,7 +78,10 @@ export function useToast<Data extends ToastData = ToastData>() {
   return useToastManager<Data>();
 }
 
-export type ToastProps = Omit<BaseToast.Root.Props, "className" | "style">;
+export type ToastProps = Omit<BaseToast.Root.Props, "className" | "style"> & {
+  /** Accessible name for the close button. */
+  closeLabel: string;
+};
 
 /**
  * A single styled toast: status icon (auto-selected from `toast.data.tone`), title, description,
@@ -86,7 +89,7 @@ export type ToastProps = Omit<BaseToast.Root.Props, "className" | "style">;
  * Rendered automatically by `ToastProvider` for each queued toast — you normally don't render this
  * directly.
  */
-export function Toast({ toast, ...props }: ToastProps) {
+export function Toast({ toast, closeLabel, ...props }: ToastProps) {
   // `tone` is a required field of `ToastData`, supplied when the toast is queued.
   // We intentionally have NO default tone — fail loud with guidance if it's missing.
   const data = toast.data as ToastData | undefined;
@@ -143,7 +146,7 @@ export function Toast({ toast, ...props }: ToastProps) {
           </ToastActions>
         ) : null}
       </ToastContent>
-      <ToastClose aria-label="Dismiss">
+      <ToastClose aria-label={closeLabel}>
         <X />
       </ToastClose>
     </ToastElement>

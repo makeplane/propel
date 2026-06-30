@@ -10,7 +10,11 @@ import { NumberField } from "./index";
 const meta = {
   title: "Components/NumberField",
   component: NumberField,
-  args: { "aria-label": "Number of instances" },
+  args: {
+    "aria-label": "Number of instances",
+    decrementLabel: "Decrease",
+    incrementLabel: "Increase",
+  },
 } satisfies Meta<typeof NumberField>;
 
 export default meta;

@@ -15,6 +15,8 @@ export type ToastProviderProps = Omit<
 > & {
   /** Optional external manager. Must queue Propel `ToastData` so every toast has a `tone`. */
   toastManager?: ToastManager<ToastData>;
+  /** Accessible name for each toast's close button. */
+  closeLabel: string;
 };
 
 /**
@@ -22,13 +24,13 @@ export type ToastProviderProps = Omit<
  * `useToast().add({ title, description, data: { tone } })`. Composes the atomic `ui/toast` parts
  * (Provider + Portal + Viewport) and the manager-driven {@link ToastList}.
  */
-export function ToastProvider({ children, ...props }: ToastProviderProps) {
+export function ToastProvider({ children, closeLabel, ...props }: ToastProviderProps) {
   return (
     <ToastProviderElement {...props}>
       {children}
       <ToastPortal>
         <ToastViewport>
-          <ToastList />
+          <ToastList closeLabel={closeLabel} />
         </ToastViewport>
       </ToastPortal>
     </ToastProviderElement>

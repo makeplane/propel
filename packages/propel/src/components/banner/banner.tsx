@@ -35,9 +35,21 @@ export type BannerProps = BannerElementProps & {
   title?: React.ReactNode;
   /** Trailing actions (e.g. buttons), placed after the message. */
   actions?: React.ReactNode;
-  /** When provided, shows a dismiss button that calls this on click. */
-  onDismiss?: () => void;
-};
+} & (
+    | { onDismiss?: undefined; dismissLabel?: undefined }
+    | {
+        /**
+         * When provided, shows a dismiss button that calls this on click. Pair with `dismissLabel`
+         * for the button's accessible name.
+         */
+        onDismiss: () => void;
+        /**
+         * Accessible name for the dismiss button. Required whenever `onDismiss` is set — there is
+         * no baked default so consumers localize it.
+         */
+        dismissLabel: string;
+      }
+  );
 
 /**
  * The ready-made banner: composes the atomic banner parts — the tone icon, the message body
@@ -51,6 +63,7 @@ export function Banner({
   title,
   actions,
   onDismiss,
+  dismissLabel,
   children,
   ...props
 }: BannerProps) {
@@ -71,8 +84,8 @@ export function Banner({
         {children ? <BannerDescription>{children}</BannerDescription> : null}
       </BannerBody>
       {actions ? <BannerActions>{actions}</BannerActions> : null}
-      {onDismiss ? (
-        <BannerDismiss onClick={onDismiss}>
+      {onDismiss && dismissLabel ? (
+        <BannerDismiss aria-label={dismissLabel} onClick={onDismiss}>
           <X aria-hidden />
         </BannerDismiss>
       ) : null}

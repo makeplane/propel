@@ -76,11 +76,12 @@ class ToastErrorBoundary extends React.Component<
 const meta = {
   title: "Components/Toast",
   component: ToastProvider,
+  args: { closeLabel: "Dismiss" },
   // Every story renders inside a single ToastProvider so its trigger can queue
   // toasts and the viewport can display them.
   decorators: [
     (Story) => (
-      <ToastProvider>
+      <ToastProvider closeLabel="Dismiss">
         <Story />
       </ToastProvider>
     ),
@@ -237,7 +238,10 @@ export const MissingToneThrows: Story = {
   decorators: [(Story) => <Story />],
   render: () => (
     <ToastErrorBoundary>
-      <Toast toast={{ id: "missing-tone", title: "Missing tone" } as ToastProps["toast"]} />
+      <Toast
+        toast={{ id: "missing-tone", title: "Missing tone" } as ToastProps["toast"]}
+        closeLabel="Dismiss"
+      />
     </ToastErrorBoundary>
   ),
   play: async ({ canvas }) => {
