@@ -72,7 +72,7 @@ export const WorkspaceSidebar: Story = {
       <Button
         prominence="secondary"
         tone="neutral"
-        magnitude="md"
+        magnitude="xl"
         sizing="fill"
         inlineStartNode={<AddWorkItemIcon aria-hidden />}
       >
