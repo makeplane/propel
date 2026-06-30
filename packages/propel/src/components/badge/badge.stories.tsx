@@ -1,16 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Check } from "lucide-react";
-import { fn } from "storybook/test";
+import { Check, Sparkles } from "lucide-react";
 
 import { iconControl } from "../../storybook/icon-control";
-import {
-  Badge,
-  BadgeDismiss,
-  BadgeIcon,
-  BadgeLabel,
-  type BadgeMagnitude,
-  type BadgeTone,
-} from "./index";
+import { Badge, BadgeIcon, BadgeLabel, type BadgeMagnitude, type BadgeTone } from "./index";
 
 const TONES: BadgeTone[] = [
   "neutral",
@@ -31,13 +23,13 @@ const MAGNITUDES: BadgeMagnitude[] = ["sm", "md", "lg"];
 
 // Badge is static — no interaction-state styling — so it gets no pseudo-states story;
 // its variation is fully covered by Tones + Magnitudes. This is the ready-made
-// composition: the `Badge` pill plus optional leading icon (`inlineStartNode`) and a
-// trailing dismiss action (`onDismiss`), all wired to the atomic `ui/badge` parts.
+// composition: the `Badge` pill plus optional leading/trailing icon nodes
+// (`inlineStartNode` / `inlineEndNode`), wired to the atomic `ui/badge` parts.
 const meta = {
   title: "Components/Badge",
   component: Badge,
-  subcomponents: { BadgeIcon, BadgeLabel, BadgeDismiss },
-  argTypes: { inlineStartNode: iconControl },
+  subcomponents: { BadgeIcon, BadgeLabel },
+  argTypes: { inlineStartNode: iconControl, inlineEndNode: iconControl },
   args: {
     children: "Badge",
     tone: "neutral",
@@ -84,8 +76,8 @@ export const Magnitudes: Story = {
   ),
 };
 
-/** Badges with an optional leading icon, sized to the magnitude and tinted to the tone. */
-export const WithIcon: Story = {
+/** A leading icon node (`inlineStartNode`), sized to the magnitude and tinted to the tone. */
+export const WithLeadingIcon: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
@@ -104,8 +96,8 @@ export const WithIcon: Story = {
   ),
 };
 
-/** A dismissible badge: passing `onDismiss` adds a trailing remove button. */
-export const Dismissible: Story = {
+/** A trailing icon node (`inlineEndNode`), sized + tinted the same as the leading slot. */
+export const WithTrailingIcon: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
@@ -115,10 +107,9 @@ export const Dismissible: Story = {
           {...args}
           tone="brand"
           magnitude={magnitude}
-          dismissLabel="Remove label"
-          onDismiss={fn()}
+          inlineEndNode={<Sparkles />}
         >
-          Label
+          Pro
         </Badge>
       ))}
     </div>
