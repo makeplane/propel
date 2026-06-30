@@ -1,19 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-  BarChart3,
-  Boxes,
-  ChevronDown,
-  Ellipsis,
-  House,
-  Lightbulb,
-  Package,
-  PanelRight,
-  Plus,
-  SlidersHorizontal,
-  StickyNote,
-  UserRoundCheck,
-  Workflow,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { Button } from "../components/button/index";
@@ -33,14 +19,29 @@ import {
   ListItemLink,
   ListSectionTrigger,
 } from "../ui/list/index";
-import { GithubIcon, PlaneAiIcon, SlackIcon } from "./sidebar-brand-icons";
+import {
+  AddWorkItemIcon,
+  AnalyticsIcon,
+  GithubIcon,
+  HomeIcon,
+  InitiativesIcon,
+  MoreIcon,
+  PlaneAiIcon,
+  PreferencesIcon,
+  ProjectsIcon,
+  ReleasesIcon,
+  SidePeekIcon,
+  SlackIcon,
+  StickersIcon,
+  YourWorkIcon,
+} from "./sidebar-icons";
 
 // App-level demo (not a shipped primitive): the Plane workspace sidebar assembled entirely from
 // existing propel components — proving the design frame distills into the system with no bespoke
-// "navbar". Header actions are `IconButton`s, the create action is a `Button`, row glyphs are lucide
-// icons, project glyphs are emoji, and the Try brand marks (GitHub/Slack/Plane AI) are verbatim SVG
-// copied from Figma (lucide ships no brand icons). Rows/sections are `ui/list` + `ui/collapsible`;
-// the only new primitive the frame implied was `ListSectionTrigger` (the muted section header).
+// "navbar". Header actions are `IconButton`s, the create action is a `Button`; the glyphs are Plane's
+// own Foundations icons (copied verbatim from Figma as SVG in sidebar-icons.tsx — Plane uses its own
+// set, not lucide, and propel doesn't ship it yet), and project glyphs are emoji. Rows/sections are
+// `ui/list` + `ui/collapsible`; the only new primitive the frame implied was `ListSectionTrigger`.
 //
 // v1 keyboard model: each `List` is one roving group (arrow keys within); the section triggers are
 // their own tab stops. `role="toolbar"` is a placeholder so axe passes — the production role
@@ -61,10 +62,10 @@ export const WorkspaceSidebar: Story = {
         <span className="text-15 font-semibold text-primary">Projects</span>
         <div className="flex items-center gap-0.5">
           <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Filter">
-            <SlidersHorizontal aria-hidden />
+            <PreferencesIcon aria-hidden />
           </IconButton>
           <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Toggle sidebar">
-            <PanelRight aria-hidden />
+            <SidePeekIcon aria-hidden />
           </IconButton>
         </div>
       </div>
@@ -74,7 +75,7 @@ export const WorkspaceSidebar: Story = {
         tone="neutral"
         magnitude="md"
         sizing="fill"
-        inlineStartNode={<Plus aria-hidden />}
+        inlineStartNode={<AddWorkItemIcon aria-hidden />}
       >
         New work item
       </Button>
@@ -83,7 +84,7 @@ export const WorkspaceSidebar: Story = {
         <ListItem>
           <ListItemLink href="#home">
             <ListItemIcon>
-              <House aria-hidden />
+              <HomeIcon aria-hidden />
             </ListItemIcon>
             <ListItemLabel>Home</ListItemLabel>
           </ListItemLink>
@@ -91,7 +92,7 @@ export const WorkspaceSidebar: Story = {
         <ListItem>
           <ListItemLink href="#stickers">
             <ListItemIcon>
-              <StickyNote aria-hidden />
+              <StickersIcon aria-hidden />
             </ListItemIcon>
             <ListItemLabel>Stickers</ListItemLabel>
           </ListItemLink>
@@ -99,7 +100,7 @@ export const WorkspaceSidebar: Story = {
         <ListItem>
           <ListItemLink href="#your-work">
             <ListItemIcon>
-              <UserRoundCheck aria-hidden />
+              <YourWorkIcon aria-hidden />
             </ListItemIcon>
             <ListItemLabel>Your work</ListItemLabel>
           </ListItemLink>
@@ -119,7 +120,7 @@ export const WorkspaceSidebar: Story = {
               <ListItem>
                 <ListItemLink href="#projects" aria-current="page">
                   <ListItemIcon>
-                    <Boxes aria-hidden />
+                    <ProjectsIcon aria-hidden />
                   </ListItemIcon>
                   <ListItemLabel>Projects</ListItemLabel>
                 </ListItemLink>
@@ -127,7 +128,7 @@ export const WorkspaceSidebar: Story = {
               <ListItem>
                 <ListItemLink href="#work-graph">
                   <ListItemIcon>
-                    <Workflow aria-hidden />
+                    <YourWorkIcon aria-hidden />
                   </ListItemIcon>
                   <ListItemLabel>Work graph</ListItemLabel>
                 </ListItemLink>
@@ -135,7 +136,7 @@ export const WorkspaceSidebar: Story = {
               <ListItem>
                 <ListItemLink href="#initiatives">
                   <ListItemIcon>
-                    <Lightbulb aria-hidden />
+                    <InitiativesIcon aria-hidden />
                   </ListItemIcon>
                   <ListItemLabel>Initiatives</ListItemLabel>
                 </ListItemLink>
@@ -143,7 +144,7 @@ export const WorkspaceSidebar: Story = {
               <ListItem>
                 <ListItemLink href="#analytics">
                   <ListItemIcon>
-                    <BarChart3 aria-hidden />
+                    <AnalyticsIcon aria-hidden />
                   </ListItemIcon>
                   <ListItemLabel>Analytics</ListItemLabel>
                 </ListItemLink>
@@ -151,7 +152,7 @@ export const WorkspaceSidebar: Story = {
               <ListItem>
                 <ListItemLink href="#releases">
                   <ListItemIcon>
-                    <Package aria-hidden />
+                    <ReleasesIcon aria-hidden />
                   </ListItemIcon>
                   <ListItemLabel>Releases</ListItemLabel>
                 </ListItemLink>
@@ -159,7 +160,7 @@ export const WorkspaceSidebar: Story = {
               <ListItem>
                 <ListItemButton>
                   <ListItemIcon>
-                    <Ellipsis aria-hidden />
+                    <MoreIcon aria-hidden />
                   </ListItemIcon>
                   <ListItemLabel>More</ListItemLabel>
                 </ListItemButton>
@@ -206,7 +207,7 @@ export const WorkspaceSidebar: Story = {
               <ListItem>
                 <ListItemButton>
                   <ListItemIcon>
-                    <Ellipsis aria-hidden />
+                    <MoreIcon aria-hidden />
                   </ListItemIcon>
                   <ListItemLabel>More</ListItemLabel>
                 </ListItemButton>
