@@ -6,8 +6,8 @@ import { badgeLabelVariants } from "./variants";
 export type BadgeLabelProps = Omit<useRender.ComponentProps<"span">, "className" | "style">;
 
 /**
- * The badge's text label. Single-line (the pill clips wrapping); sits between an optional leading
- * `BadgeIcon` and a trailing `BadgeDismiss`.
+ * The badge's text label. Single-line (the pill clips wrapping); sits between optional leading and
+ * trailing `BadgeIcon` slots.
  */
 export function BadgeLabel({ render, ...props }: BadgeLabelProps) {
   const defaultProps: useRender.ElementProps<"span"> = { className: badgeLabelVariants() };

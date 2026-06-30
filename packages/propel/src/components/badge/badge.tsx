@@ -24,8 +24,7 @@ export type BadgeProps = BadgeElementProps & {
 
 /**
  * The ready-made badge: composes the atomic `Badge` pill with the `BadgeLabel` and optional leading
- * (`inlineStartNode`) and trailing (`inlineEndNode`) icon slots. For a removable badge,
- * hand-compose a `BadgeDismiss` with the atomic parts (see the UI/Badge story).
+ * (`inlineStartNode`) and trailing (`inlineEndNode`) icon slots.
  */
 export function Badge({ children, inlineStartNode, inlineEndNode, ...props }: BadgeProps) {
   return (

@@ -1,4 +1,4 @@
-import { cva, cx, type VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
@@ -63,16 +63,5 @@ export type BadgeVariantProps = StrictVariantProps<typeof badgeVariants>;
 export const badgeIconVariants = cva(nodeSlotClass);
 
 // The badge's text label. Single-line (the base already sets `whitespace-nowrap`); kept
-// as its own region so the label, leading icon, and dismiss action compose as siblings.
+// as its own region so the label and leading/trailing icons compose as siblings.
 export const badgeLabelVariants = cva("min-w-0");
-
-// The optional dismiss/remove action at the badge's inline-end. A button that sizes its
-// single child (the dismiss glyph, passed in) to the badge's `--node-size`, inherits the
-// tone's text color, and dims slightly until hovered so it reads as secondary to the label.
-export const badgeDismissVariants = cva(
-  cx(
-    nodeSlotClass,
-    "-me-0.5 cursor-pointer rounded-full opacity-70",
-    "outline-none hover:opacity-100 focus-visible:ring-2 focus-visible:ring-accent-strong",
-  ),
-);

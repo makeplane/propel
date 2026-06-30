@@ -1,14 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Check, X } from "lucide-react";
+import { Check } from "lucide-react";
 
-import {
-  Badge,
-  BadgeDismiss,
-  BadgeIcon,
-  BadgeLabel,
-  type BadgeMagnitude,
-  type BadgeTone,
-} from "./index";
+import { Badge, BadgeIcon, BadgeLabel, type BadgeMagnitude, type BadgeTone } from "./index";
 
 const TONES: BadgeTone[] = [
   "neutral",
@@ -37,12 +30,12 @@ const MAGNITUDES: BadgeMagnitude[] = ["sm", "md", "lg"];
 //      story; its variation is fully covered by Tones + Magnitudes.
 //
 // These ui stories show the atomic anatomy: each part (`Badge`, `BadgeIcon`,
-// `BadgeLabel`, `BadgeDismiss`) is a single styled element, composed by hand. The
-// ready-made `Components/Badge` composition wraps the same parts behind convenience props.
+// `BadgeLabel`) is a single styled element, composed by hand. The ready-made
+// `Components/Badge` composition wraps the same parts behind convenience props.
 const meta = {
   title: "UI/Badge",
   component: Badge,
-  subcomponents: { BadgeIcon, BadgeLabel, BadgeDismiss },
+  subcomponents: { BadgeIcon, BadgeLabel },
   args: {
     tone: "neutral",
     magnitude: "md",
@@ -107,23 +100,6 @@ export const WithIcon: Story = {
             <Check />
           </BadgeIcon>
           <BadgeLabel>Done</BadgeLabel>
-        </Badge>
-      ))}
-    </div>
-  ),
-};
-
-/** A trailing `BadgeDismiss` remove action, sized to the magnitude and tinted to the tone. */
-export const WithDismiss: Story = {
-  parameters: { controls: { disable: true } },
-  render: (args) => (
-    <div className="flex items-center gap-3">
-      {MAGNITUDES.map((magnitude) => (
-        <Badge key={magnitude} {...args} tone="brand" magnitude={magnitude}>
-          <BadgeLabel>Label</BadgeLabel>
-          <BadgeDismiss aria-label="Remove label">
-            <X />
-          </BadgeDismiss>
         </Badge>
       ))}
     </div>

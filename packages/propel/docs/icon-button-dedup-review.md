@@ -37,12 +37,11 @@ UI behavior **manages its own focusability/visibility**:
   IconButton-outer). Its `absolute inset-e-1 top-1` **4px corner offset** moved to a new `ToastCloseSlot`
   ui part (position is toast layout; chrome is the IconButton). `toastCloseVariants` deleted.
 
-## Not converted
+## Deleted
 
-- **`BadgeDismiss`** (`ui/badge`) — the one icon interaction that is NOT an `IconButton`: a tiny inline
-  dismiss sized to the badge's `--node-size` (14–16px), **below** `IconButton`'s 20px floor, so an
-  `IconButton` won't fit an 18px badge. Left as a distinct tiny control pending a design call (add a
-  `2xs` `IconButton` magnitude, or keep `BadgeDismiss`?).
+- **`BadgeDismiss`** (`ui/badge`) — removed as non-canonical. The badge spec is two symmetric node
+  slots (`inlineStartNode` / `inlineEndNode`), not a dismiss button — so the part, its
+  `badgeDismissVariants` cva, the exports, and the UI/Badge `WithDismiss` story are all gone.
 
 ## Keep as-is (already correct)
 

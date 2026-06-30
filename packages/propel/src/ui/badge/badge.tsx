@@ -9,9 +9,9 @@ export type BadgeProps = Omit<useRender.ComponentProps<"span">, "className" | "s
   BadgeVariantProps;
 
 /**
- * The badge pill: the styled inline-flex container. Compose a `BadgeIcon`, `BadgeLabel`, and/or
- * `BadgeDismiss` inside it (or use the ready-made `components/badge` composition). Sets the tone's
- * text color and the magnitude's `--node-size`, which its slot children inherit.
+ * The badge pill: the styled inline-flex container. Compose a `BadgeIcon` and `BadgeLabel` inside
+ * it (or use the ready-made `components/badge` composition). Sets the tone's text color and the
+ * magnitude's `--node-size`, which its slot children inherit.
  */
 export function Badge({ tone, magnitude, render, ...props }: BadgeProps) {
   const defaultProps: useRender.ElementProps<"span"> = {
