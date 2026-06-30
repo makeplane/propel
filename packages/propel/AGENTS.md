@@ -46,15 +46,15 @@ from tiers below it, never above. `internal/` is shared implementation usable by
    need more structure, add a NEW named `ui` part and compose the parts in `components`.
 
 1a. **The single element is the part's OWN primitive — never a foreign behavior it controls.** A
-   `ui` part may wrap the Base UI primitive it _is_ (a specialization: `IconButton` wraps Base UI
-   `Button`, a scroll frame wraps `ScrollArea`, a toggle pill wraps `Toggle`). It must NOT wrap a
-   _different_ primitive's interactive behavior that it merely **controls or composes** — a section
-   header is not a `Collapsible`, a menubar item is not a `Menu`, a table is not a `ScrollArea`. That
-   graft lives in `components` (or a story) via `render`, with the styled `ui` part as the OUTER
-   element so its `className` wins (`<ListSectionTrigger render={<Collapsible.Trigger />}>`) — so
-   `ui/list` never imports `@base-ui/react/collapsible`; the section composition does. Litmus: does
-   the part **IS-A** the primitive (specialization → wrap it) or **USE/CONTROL** it (foreign → graft
-   it in `components`/a story)? `useRender` makes the `ui` part render-capable so the graft works.
+`ui` part may wrap the Base UI primitive it _is_ (a specialization: `IconButton` wraps Base UI
+`Button`, a scroll frame wraps `ScrollArea`, a toggle pill wraps `Toggle`). It must NOT wrap a
+_different_ primitive's interactive behavior that it merely **controls or composes** — a section
+header is not a `Collapsible`, a menubar item is not a `Menu`, a table is not a `ScrollArea`. That
+graft lives in `components` (or a story) via `render`, with the styled `ui` part as the OUTER
+element so its `className` wins (`<ListSectionTrigger render={<Collapsible.Trigger />}>`) — so
+`ui/list` never imports `@base-ui/react/collapsible`; the section composition does. Litmus: does
+the part **IS-A** the primitive (specialization → wrap it) or **USE/CONTROL** it (foreign → graft
+it in `components`/a story)? `useRender` makes the `ui` part render-capable so the graft works.
 
 2. **All composition lives in `components`** (and `patterns`). Providers, multi-element frames,
    defaults, and wiring belong here — never in `ui`.
