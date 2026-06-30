@@ -33,20 +33,16 @@ UI behavior **manages its own focusability/visibility**:
 - **`NumberFieldIncrement` / `NumberFieldDecrement`** — destyled to behavior wrappers; the stepper
   renders `IconButton` behavior-outer (magnitude passed through, `−`/`+` glyphs). `numberFieldButtonVariants`
   and the `NumberFieldButtonIcon` slot deleted.
+- **`ToastClose`** — destyled to a behavior wrapper; the close is now an `IconButton` (ghost/neutral/sm,
+  IconButton-outer). Its `absolute inset-e-1 top-1` **4px corner offset** moved to a new `ToastCloseSlot`
+  ui part (position is toast layout; chrome is the IconButton). `toastCloseVariants` deleted.
 
-## To review next
+## Not converted
 
-Strip the styling to a pure behavior wrapper and compose with `IconButton` using the right render
-direction (above).
-
-- **`ToastClose`** (`ui/toast`) — wraps `Toast.Close` (always present). The button is icon-button-sized
-  but sits `absolute inset-e-1 top-1` (the **4px corner offset**). That position can't live on the
-  `IconButton` (no className) or the className-less composition, so it needs a **positioned wrapper ui
-  part** — the `relative` toast popup already exists; add an `absolute inset-e-1 top-1` slot around the
-  `IconButton render={<ToastClose />}`. The one case that isn't a drop-in.
-- **`BadgeDismiss`** (`ui/badge`) — a tiny inline dismiss (sized to the badge's `--node-size`,
-  14–16px) — **below** `IconButton`'s 20px floor, so an `IconButton` won't fit an 18px badge. Needs a
-  design call (shrink `IconButton`? keep `BadgeDismiss` as a distinct tiny control?).
+- **`BadgeDismiss`** (`ui/badge`) — the one icon interaction that is NOT an `IconButton`: a tiny inline
+  dismiss sized to the badge's `--node-size` (14–16px), **below** `IconButton`'s 20px floor, so an
+  `IconButton` won't fit an 18px badge. Left as a distinct tiny control pending a design call (add a
+  `2xs` `IconButton` magnitude, or keep `BadgeDismiss`?).
 
 ## Keep as-is (already correct)
 

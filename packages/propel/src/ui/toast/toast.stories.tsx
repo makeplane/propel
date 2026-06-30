@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Info, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
+import { IconButton, IconButtonIcon } from "../icon-button";
 import {
   Toast,
   ToastAction,
@@ -9,6 +10,7 @@ import {
   ToastActionGroup,
   ToastActions,
   ToastClose,
+  ToastCloseSlot,
   ToastContent,
   ToastDescription,
   ToastPortal,
@@ -51,9 +53,19 @@ function ToastList() {
             <ToastAction>View</ToastAction>
           </ToastActions>
         </ToastContent>
-        <ToastClose aria-label="Dismiss">
-          <X />
-        </ToastClose>
+        <ToastCloseSlot>
+          <IconButton
+            prominence="ghost"
+            tone="neutral"
+            magnitude="sm"
+            aria-label="Dismiss"
+            render={<ToastClose />}
+          >
+            <IconButtonIcon>
+              <X />
+            </IconButtonIcon>
+          </IconButton>
+        </ToastCloseSlot>
       </Toast>
     );
   });
@@ -73,6 +85,7 @@ const meta = {
     ToastActionGroup,
     ToastActionButton,
     ToastAction,
+    ToastCloseSlot,
     ToastClose,
     ToastStatusIcon,
   },

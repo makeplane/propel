@@ -8,6 +8,7 @@ import {
   ToastActionGroup,
   ToastActions,
   ToastClose,
+  ToastCloseSlot,
   ToastContent,
   ToastDescription,
   type ToastTone,
@@ -16,6 +17,7 @@ import {
   createToastManager as createBaseToastManager,
   useToastManager,
 } from "../../ui/toast/index";
+import { IconButton } from "../icon-button";
 import { LinearProgress } from "../linear-progress/index";
 import { ToastStatusIcon } from "./toast-status-icon";
 
@@ -146,9 +148,17 @@ export function Toast({ toast, closeLabel, ...props }: ToastProps) {
           </ToastActions>
         ) : null}
       </ToastContent>
-      <ToastClose aria-label={closeLabel}>
-        <X />
-      </ToastClose>
+      <ToastCloseSlot>
+        <IconButton
+          prominence="ghost"
+          tone="neutral"
+          magnitude="sm"
+          aria-label={closeLabel}
+          render={<ToastClose />}
+        >
+          <X />
+        </IconButton>
+      </ToastCloseSlot>
     </ToastElement>
   );
 }
