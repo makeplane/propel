@@ -1,3 +1,4 @@
+import { Collapsible as BaseCollapsible } from "@base-ui/react/collapsible";
 import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
@@ -27,7 +28,7 @@ export type ListSectionProps = CollapsibleProps & {
 export function ListSection({ label, children, indicator, ...props }: ListSectionProps) {
   return (
     <Collapsible {...props}>
-      <ListSectionTrigger>
+      <ListSectionTrigger render={<BaseCollapsible.Trigger />}>
         {label}
         {indicator ? (
           <ListSectionTriggerIndicator>
