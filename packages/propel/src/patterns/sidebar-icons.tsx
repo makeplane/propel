@@ -1,9 +1,9 @@
 import type { SVGProps } from "react";
 
 // The Plane workspace-sidebar glyphs, copied verbatim from the Figma Navigation frame — Plane
-// uses its own Foundations icon set, not lucide. fill="currentColor" so they inherit the row
-// text colour; the wrapping slot sizes each <svg> to 16px. A demo stopgap until propel adopts
-// the Plane icon library as a foundation.
+// uses its own Foundations icon set, not lucide. Monochrome marks use fill="currentColor" so
+// they inherit the row text colour; Slack keeps its brand colours. The wrapping slot sizes each
+// <svg> to 16px. A demo stopgap until propel adopts the Plane icon library as a foundation.
 
 export function HomeIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -150,25 +150,25 @@ export function SlackIcon(props: SVGProps<SVGSVGElement>) {
     <svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" {...props}>
       <svg height="6.624" viewBox="0 0 6.624 6.624" width="6.624" x="1" y="1">
         <path
-          fill="currentColor"
+          fill="#35C5F0"
           d="M5.1534 2.94119C4.34367 2.94119 3.68231 2.28081 3.68231 1.47098C3.68231 0.661145 4.34367 0 5.1534 0C5.96312 0 6.62449 0.661366 6.62449 1.47109V2.9413L5.1534 2.94119ZM5.1534 3.68231C5.96312 3.68231 6.62449 4.34367 6.62449 5.1534C6.62449 5.96312 5.96323 6.62449 5.1534 6.62449H1.47098C0.661256 6.62449 0 5.96323 0 5.1534C0 4.34367 0.661366 3.68231 1.47109 3.68231H5.1534Z"
         />
       </svg>
       <svg height="6.624" viewBox="0 0 6.624 6.624" width="6.624" x="8.376" y="1">
         <path
-          fill="currentColor"
+          fill="#2EB57D"
           d="M3.6833 5.1534C3.6833 4.34367 4.34367 3.68231 5.15351 3.68231C5.96334 3.68231 6.6246 4.34367 6.6246 5.1534C6.6246 5.96312 5.96323 6.62449 5.15351 6.62449H3.6833V5.1534ZM2.94218 5.1534C2.94218 5.96312 2.28081 6.62449 1.47109 6.62449C0.661366 6.62449 0 5.96323 0 5.1534V1.47098C0 0.661256 0.661256 0 1.47109 0C2.28081 0 2.94218 0.661366 2.94218 1.47109V5.1534Z"
         />
       </svg>
       <svg height="6.624" viewBox="0 0 6.624 6.624" width="6.624" x="1" y="8.376">
         <path
-          fill="currentColor"
+          fill="#DE1C59"
           d="M2.94119 1.47109C2.94119 2.28081 2.28081 2.94218 1.47098 2.94218C0.661145 2.94218 0 2.28081 0 1.47109C0 0.661366 0.661366 0 1.47109 0H2.9413L2.94119 1.47109ZM3.68231 1.47109C3.68231 0.661366 4.34367 0 5.1534 0C5.96312 0 6.62449 0.661256 6.62449 1.47109V5.15351C6.62449 5.96323 5.96323 6.6246 5.1534 6.6246C4.34367 6.6246 3.68231 5.96323 3.68231 5.15351V1.47109Z"
         />
       </svg>
       <svg height="6.624" viewBox="0 0 6.624 6.624" width="6.624" x="8.376" y="8.376">
         <path
-          fill="currentColor"
+          fill="#EBB02E"
           d="M1.47109 3.6833C2.28081 3.6833 2.94218 4.34367 2.94218 5.15351C2.94218 5.96334 2.28081 6.6246 1.47109 6.6246C0.661366 6.6246 0 5.96323 0 5.15351V3.6833H1.47109ZM1.47109 2.94218C0.661366 2.94218 0 2.28081 0 1.47109C0 0.661366 0.661256 0 1.47109 0H5.15351C5.96323 0 6.6246 0.661256 6.6246 1.47109C6.6246 2.28081 5.96323 2.94218 5.15351 2.94218H1.47109Z"
         />
       </svg>

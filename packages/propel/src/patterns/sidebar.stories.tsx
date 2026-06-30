@@ -4,12 +4,7 @@ import { expect } from "storybook/test";
 
 import { Button } from "../components/button/index";
 import { IconButton } from "../components/icon-button/index";
-import {
-  Collapsible,
-  CollapsiblePanel,
-  CollapsiblePanelContent,
-  CollapsibleTriggerIndicator,
-} from "../ui/collapsible/index";
+import { Collapsible, CollapsiblePanel, CollapsiblePanelContent } from "../ui/collapsible/index";
 import {
   List,
   ListItem,
@@ -18,6 +13,7 @@ import {
   ListItemLabel,
   ListItemLink,
   ListSectionTrigger,
+  ListSectionTriggerIndicator,
 } from "../ui/list/index";
 import {
   AddWorkItemIcon,
@@ -57,7 +53,10 @@ type Story = StoryObj<typeof meta>;
 
 export const WorkspaceSidebar: Story = {
   render: () => (
-    <nav aria-label="Acme workspace" className="flex w-64 flex-col gap-2">
+    <nav
+      aria-label="Acme workspace"
+      className="flex w-64 flex-col gap-2 rounded-l-lg border border-subtle bg-surface-1 p-3"
+    >
       <div className="flex items-center justify-between px-2">
         <span className="text-15 font-semibold text-primary">Projects</span>
         <div className="flex items-center gap-0.5">
@@ -110,9 +109,9 @@ export const WorkspaceSidebar: Story = {
       <Collapsible defaultOpen>
         <ListSectionTrigger>
           Workspace
-          <CollapsibleTriggerIndicator>
+          <ListSectionTriggerIndicator>
             <ChevronDown aria-hidden />
-          </CollapsibleTriggerIndicator>
+          </ListSectionTriggerIndicator>
         </ListSectionTrigger>
         <CollapsiblePanel>
           <CollapsiblePanelContent>
@@ -173,9 +172,9 @@ export const WorkspaceSidebar: Story = {
       <Collapsible defaultOpen>
         <ListSectionTrigger>
           Projects
-          <CollapsibleTriggerIndicator>
+          <ListSectionTriggerIndicator>
             <ChevronDown aria-hidden />
-          </CollapsibleTriggerIndicator>
+          </ListSectionTriggerIndicator>
         </ListSectionTrigger>
         <CollapsiblePanel>
           <CollapsiblePanelContent>
@@ -220,9 +219,9 @@ export const WorkspaceSidebar: Story = {
       <Collapsible defaultOpen>
         <ListSectionTrigger>
           Try
-          <CollapsibleTriggerIndicator>
+          <ListSectionTriggerIndicator>
             <ChevronDown aria-hidden />
-          </CollapsibleTriggerIndicator>
+          </ListSectionTriggerIndicator>
         </ListSectionTrigger>
         <CollapsiblePanel>
           <CollapsiblePanelContent>
