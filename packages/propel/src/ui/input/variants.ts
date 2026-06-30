@@ -28,11 +28,11 @@ export type InputMagnitude = NonNullable<InputVariantConfig["magnitude"]>;
 
 export type InputVariantProps = StrictVariantProps<typeof inputVariants>;
 
-// The bordered "box" that frames the input + its inline icon slots: the shared field-control
+// The bordered group that frames the input + its inline icon slots: the shared field-control
 // surface (`focus: within`) + input geometry (rounded-md, px, magnitude py), hover, transition,
 // and the descendant-`:disabled` muting (disabled lives on the inner `<input>`). Danger isn't a
 // prop — the surface recolors its border off the wrapped control's `data-invalid`.
-export const inputBoxVariants = cva(
+export const inputGroupVariants = cva(
   cx(
     fieldControlSurfaceVariants({ focus: "within" }),
     "flex w-full items-center gap-1.5 transition-[color,background-color,border-color,box-shadow]",
@@ -48,7 +48,7 @@ export const inputBoxVariants = cva(
   },
 );
 
-export type InputBoxVariantProps = StrictVariantProps<typeof inputBoxVariants>;
+export type InputGroupVariantProps = StrictVariantProps<typeof inputGroupVariants>;
 
 // The decorative 16px node at the input's inline start/end (sizes its child to `--node-size`).
 export const inputIconSlotVariants = cva(

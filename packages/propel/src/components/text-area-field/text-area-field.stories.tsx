@@ -148,7 +148,7 @@ export const ErrorAnnouncesInvalid: Story = {
 
 /**
  * Setting `error` marks the field invalid; Base UI's `Field.Root` propagates that validity to the
- * control as `data-invalid`, and the wrapping `TextAreaBox` recolors its border to `danger` via
+ * control as `data-invalid`, and the wrapping `TextAreaGroup` recolors its border to `danger` via
  * `:has([data-invalid])` — no `tone` prop. A resting field is shown alongside so the danger border
  * is assertably different.
  */
@@ -177,7 +177,7 @@ export const InvalidShowsDangerBorder: Story = {
     const invalidBox = invalid.parentElement;
     // `Error` is shadowed by this file's `Error` story, so reach for the global constructor.
     if (restingBox == null || invalidBox == null) {
-      throw new Error("expected a TextAreaBox wrapper");
+      throw new Error("expected a TextAreaGroup wrapper");
     }
     await expect(invalidBox).toHaveClass("has-[[data-invalid]]:border-danger-strong");
     // ...and the danger border actually renders: its color differs from the resting box's border.

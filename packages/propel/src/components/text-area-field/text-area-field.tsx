@@ -6,7 +6,7 @@ import type { InputMagnitude } from "../../ui/field/variants";
 import { TextArea, type TextAreaProps } from "../../ui/text-area/text-area";
 
 export type { InputMagnitude };
-import { TextAreaBox } from "../../ui/text-area/text-area-box";
+import { TextAreaGroup } from "../../ui/text-area/text-area-group";
 import { FieldHelperText } from "../field/field-helper-text";
 import { FieldLabelGroup } from "../field/field-label-group";
 
@@ -53,9 +53,9 @@ export function TextAreaField({
         orientation="vertical"
       />
       <FieldControlContent orientation="vertical">
-        <TextAreaBox>
+        <TextAreaGroup>
           <TextArea required={required} magnitude={magnitude} surface="field" {...controlProps} />
-        </TextAreaBox>
+        </TextAreaGroup>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </FieldControlContent>
     </Field>
