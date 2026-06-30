@@ -1,7 +1,9 @@
+import { ChevronsUpDown, X } from "lucide-react";
 import type * as React from "react";
 
 import {
   Autocomplete,
+  AutocompleteClear,
   AutocompleteEmpty,
   AutocompleteInput,
   AutocompleteInputGroup,
@@ -11,14 +13,14 @@ import {
   AutocompletePortal,
   AutocompletePositioner,
   type AutocompleteProps,
+  AutocompleteTrigger,
 } from "../../ui/autocomplete/index";
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
 import { FieldLabel } from "../../ui/field/field-label";
 import type { FieldMagnitude } from "../../ui/field/variants";
-import { AutocompleteClear } from "../autocomplete/autocomplete-clear";
-import { AutocompleteTrigger } from "../autocomplete/autocomplete-trigger";
 import { FieldHelperText } from "../field/field-helper-text";
+import { IconButton } from "../icon-button";
 
 export type AutocompleteFieldProps = Omit<AutocompleteProps<string>, "children" | "items"> & {
   /** Supporting text shown below the input. */
@@ -64,8 +66,30 @@ export function AutocompleteField({
         </FieldLabel>
         <AutocompleteInputGroup>
           <AutocompleteInput placeholder={placeholder} />
-          <AutocompleteClear aria-label={`Clear ${controlLabel}`} />
-          <AutocompleteTrigger aria-label={`Open ${controlLabel}`} />
+          <AutocompleteClear
+            render={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label={`Clear ${controlLabel}`}
+              >
+                <X />
+              </IconButton>
+            }
+          />
+          <AutocompleteTrigger
+            render={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label={`Open ${controlLabel}`}
+              >
+                <ChevronsUpDown />
+              </IconButton>
+            }
+          />
         </AutocompleteInputGroup>
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
