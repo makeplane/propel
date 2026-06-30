@@ -2,7 +2,6 @@ import { Minus, Plus } from "lucide-react";
 
 import {
   NumberField as NumberFieldElement,
-  NumberFieldButtonIcon,
   NumberFieldDecrement,
   NumberFieldGroup,
   NumberFieldIncrement,
@@ -10,6 +9,7 @@ import {
   type NumberFieldMagnitude,
   type NumberFieldProps as NumberFieldElementProps,
 } from "../../ui/number-field";
+import { IconButton } from "../icon-button";
 
 export type NumberFieldProps = NumberFieldElementProps & {
   /** Visual size of the field: controls button square and input height. Required. */
@@ -27,7 +27,7 @@ export type NumberFieldProps = NumberFieldElementProps & {
  *
  * Composed from the `ui/number-field` parts (`NumberField` root + `NumberFieldGroup` +
  * `NumberFieldDecrement` + `NumberFieldInput` + `NumberFieldIncrement`), which are built on Base UI
- * `NumberField`.
+ * `NumberField`. The steppers render as ghost `IconButton`s via the behavior wrappers' `render`.
  */
 export function NumberField({
   "aria-label": ariaLabel,
@@ -40,22 +40,36 @@ export function NumberField({
   return (
     <NumberFieldElement {...props}>
       <NumberFieldGroup>
-        <NumberFieldDecrement magnitude={magnitude} aria-label={decrementLabel}>
-          <NumberFieldButtonIcon>
-            <Minus />
-          </NumberFieldButtonIcon>
-        </NumberFieldDecrement>
+        <NumberFieldDecrement
+          render={
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude={magnitude}
+              aria-label={decrementLabel}
+            >
+              <Minus />
+            </IconButton>
+          }
+        />
         {/* The accessible name belongs on the input, not the root div. */}
         <NumberFieldInput
           magnitude={magnitude}
           aria-label={ariaLabel}
           aria-labelledby={ariaLabelledby}
         />
-        <NumberFieldIncrement magnitude={magnitude} aria-label={incrementLabel}>
-          <NumberFieldButtonIcon>
-            <Plus />
-          </NumberFieldButtonIcon>
-        </NumberFieldIncrement>
+        <NumberFieldIncrement
+          render={
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude={magnitude}
+              aria-label={incrementLabel}
+            >
+              <Plus />
+            </IconButton>
+          }
+        />
       </NumberFieldGroup>
     </NumberFieldElement>
   );

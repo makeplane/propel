@@ -1,5 +1,4 @@
 export * from "./number-field";
-export * from "./number-field-button-icon";
 export * from "./number-field-decrement";
 export * from "./number-field-group";
 export * from "./number-field-increment";

@@ -1,7 +1,5 @@
 export * from "./number-field";
 export {
-  NumberFieldButtonIcon,
-  type NumberFieldButtonIconProps,
   NumberFieldDecrement,
   type NumberFieldDecrementProps,
   NumberFieldGroup,

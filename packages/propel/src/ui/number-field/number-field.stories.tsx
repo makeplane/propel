@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Minus, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { IconButton, IconButtonIcon } from "../icon-button";
 import {
   NumberField,
-  NumberFieldButtonIcon,
   NumberFieldDecrement,
   NumberFieldGroup,
   NumberFieldIncrement,
@@ -12,15 +12,15 @@ import {
 } from "./index";
 
 // UI-tier story: composes the atomic parts (root + group + decrement + input +
-// increment). You own the button icons and accessible names. The components-tier story
-// shows the ready-made `NumberField` that wires the −/+ buttons for you.
+// increment). The steppers are pure behavior wrappers, rendered as ghost `IconButton`s — you own
+// the glyphs and accessible names. The components-tier story shows the ready-made `NumberField`
+// that wires the −/+ buttons for you.
 const meta = {
   title: "UI/NumberField",
   component: NumberField,
   subcomponents: {
     NumberFieldGroup,
     NumberFieldInput,
-    NumberFieldButtonIcon,
     NumberFieldDecrement,
     NumberFieldIncrement,
   },
@@ -35,17 +35,35 @@ export const Default: Story = {
   render: (args) => (
     <NumberField {...args} aria-label="Number of instances">
       <NumberFieldGroup>
-        <NumberFieldDecrement magnitude="xl" aria-label="Decrease instances">
-          <NumberFieldButtonIcon>
-            <Minus />
-          </NumberFieldButtonIcon>
-        </NumberFieldDecrement>
+        <NumberFieldDecrement
+          render={
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude="xl"
+              aria-label="Decrease instances"
+            >
+              <IconButtonIcon>
+                <Minus />
+              </IconButtonIcon>
+            </IconButton>
+          }
+        />
         <NumberFieldInput magnitude="xl" aria-label="Number of instances" />
-        <NumberFieldIncrement magnitude="xl" aria-label="Increase instances">
-          <NumberFieldButtonIcon>
-            <Plus />
-          </NumberFieldButtonIcon>
-        </NumberFieldIncrement>
+        <NumberFieldIncrement
+          render={
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude="xl"
+              aria-label="Increase instances"
+            >
+              <IconButtonIcon>
+                <Plus />
+              </IconButtonIcon>
+            </IconButton>
+          }
+        />
       </NumberFieldGroup>
     </NumberField>
   ),
@@ -58,17 +76,35 @@ export const IncrementAndDecrement: Story = {
   render: (args) => (
     <NumberField {...args} aria-label="Number of instances">
       <NumberFieldGroup>
-        <NumberFieldDecrement magnitude="xl" aria-label="Decrease instances">
-          <NumberFieldButtonIcon>
-            <Minus />
-          </NumberFieldButtonIcon>
-        </NumberFieldDecrement>
+        <NumberFieldDecrement
+          render={
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude="xl"
+              aria-label="Decrease instances"
+            >
+              <IconButtonIcon>
+                <Minus />
+              </IconButtonIcon>
+            </IconButton>
+          }
+        />
         <NumberFieldInput magnitude="xl" aria-label="Number of instances" />
-        <NumberFieldIncrement magnitude="xl" aria-label="Increase instances">
-          <NumberFieldButtonIcon>
-            <Plus />
-          </NumberFieldButtonIcon>
-        </NumberFieldIncrement>
+        <NumberFieldIncrement
+          render={
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude="xl"
+              aria-label="Increase instances"
+            >
+              <IconButtonIcon>
+                <Plus />
+              </IconButtonIcon>
+            </IconButton>
+          }
+        />
       </NumberFieldGroup>
     </NumberField>
   ),
