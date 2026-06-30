@@ -1,7 +1,9 @@
+import { ChevronsUpDown, X } from "lucide-react";
 import type * as React from "react";
 
 import {
   Combobox,
+  ComboboxClear,
   ComboboxEmpty,
   ComboboxInput,
   ComboboxInputGroup,
@@ -11,16 +13,16 @@ import {
   ComboboxPortal,
   ComboboxPositioner,
   type ComboboxProps,
+  ComboboxTrigger,
 } from "../../ui/combobox/index";
 import { Field } from "../../ui/field/field";
 import { FieldDescription } from "../../ui/field/field-description";
 import { FieldLabel } from "../../ui/field/field-label";
 import type { FieldMagnitude } from "../../ui/field/variants";
-// Ready-made parts that supply a default icon when no children are given (defaults are a `components` concern).
-import { ComboboxClear } from "../combobox/combobox-clear";
+// Ready-made part that supplies a default icon when no children are given (defaults are a `components` concern).
 import { ComboboxItemIndicator } from "../combobox/combobox-item-indicator";
-import { ComboboxTrigger } from "../combobox/combobox-trigger";
 import { FieldHelperText } from "../field/field-helper-text";
+import { IconButton } from "../icon-button";
 
 export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items"> & {
   /** Supporting text shown below the input. */
@@ -66,8 +68,30 @@ export function ComboboxField({
         </FieldLabel>
         <ComboboxInputGroup>
           <ComboboxInput placeholder={placeholder} />
-          <ComboboxClear aria-label={`Clear ${controlLabel}`} />
-          <ComboboxTrigger aria-label={`Open ${controlLabel}`} />
+          <ComboboxClear
+            render={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label={`Clear ${controlLabel}`}
+              >
+                <X />
+              </IconButton>
+            }
+          />
+          <ComboboxTrigger
+            render={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label={`Open ${controlLabel}`}
+              >
+                <ChevronsUpDown />
+              </IconButton>
+            }
+          />
         </ComboboxInputGroup>
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>

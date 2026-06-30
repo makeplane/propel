@@ -28,17 +28,22 @@ UI behavior **manages its own focusability/visibility**:
 - **`AutocompleteClear` / `AutocompleteTrigger`** — destyled to pure behavior wrappers; the field +
   stories render them behavior-outer (`<AutocompleteClear render={<IconButton …/>} />`,
   ghost/neutral/md). `autocompleteButtonVariants` and the obsolete components-tier wrappers deleted.
+- **`ComboboxClear` / `ComboboxTrigger`** — same as autocomplete (behavior-outer, ghost/neutral/md).
+  `comboboxButtonVariants` and the obsolete components-tier wrappers deleted.
+- **`NumberFieldIncrement` / `NumberFieldDecrement`** — destyled to behavior wrappers; the stepper
+  renders `IconButton` behavior-outer (magnitude passed through, `−`/`+` glyphs). `numberFieldButtonVariants`
+  and the `NumberFieldButtonIcon` slot deleted.
 
 ## To review next
 
 Strip the styling to a pure behavior wrapper and compose with `IconButton` using the right render
 direction (above).
 
-- **`ComboboxClear`** (`ui/combobox`) — wraps `Combobox.Clear` (managed visibility, like Autocomplete)
-  → **behavior-outer**. Check for a sibling `ComboboxTrigger` sharing the same cva (same treatment).
-- **`ToastClose`** (`ui/toast`) — wraps `Toast.Close` (always present → **IconButton-outer**). NOTE:
-  the close button needs a **4px top/inline-end offset** (`inset-e-1 top-1`) in the toast corner —
-  that positioning is toast layout, not the button, so the toast composition owns it.
+- **`ToastClose`** (`ui/toast`) — wraps `Toast.Close` (always present). The button is icon-button-sized
+  but sits `absolute inset-e-1 top-1` (the **4px corner offset**). That position can't live on the
+  `IconButton` (no className) or the className-less composition, so it needs a **positioned wrapper ui
+  part** — the `relative` toast popup already exists; add an `absolute inset-e-1 top-1` slot around the
+  `IconButton render={<ToastClose />}`. The one case that isn't a drop-in.
 - **`BadgeDismiss`** (`ui/badge`) — a tiny inline dismiss (sized to the badge's `--node-size`,
   14–16px) — **below** `IconButton`'s 20px floor, so an `IconButton` won't fit an 18px badge. Needs a
   design call (shrink `IconButton`? keep `BadgeDismiss` as a distinct tiny control?).

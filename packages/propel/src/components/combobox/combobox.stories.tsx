@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { ChevronsUpDown, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
 import { Field, FieldError, FieldLabel } from "../field/index";
+import { IconButton } from "../icon-button";
 import {
   Combobox,
   ComboboxClear,
@@ -52,8 +54,25 @@ export const Default: Story = {
         </FieldLabel>
         <ComboboxInputGroup>
           <ComboboxInput placeholder="e.g. eu-central-1" />
-          <ComboboxClear />
-          <ComboboxTrigger />
+          <ComboboxClear
+            render={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label="Clear region"
+              >
+                <X />
+              </IconButton>
+            }
+          />
+          <ComboboxTrigger
+            render={
+              <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
+                <ChevronsUpDown />
+              </IconButton>
+            }
+          />
         </ComboboxInputGroup>
         <ComboboxContent>
           <ComboboxEmpty>No matches</ComboboxEmpty>
