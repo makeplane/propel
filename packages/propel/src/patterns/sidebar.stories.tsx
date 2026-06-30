@@ -4,17 +4,14 @@ import {
   Boxes,
   ChevronDown,
   Ellipsis,
-  GitBranch,
-  Home,
+  House,
   Lightbulb,
-  MessageSquare,
   Package,
-  PanelLeft,
+  PanelRight,
   Plus,
   SlidersHorizontal,
-  Sparkles,
-  Sticker,
-  UserRound,
+  StickyNote,
+  UserRoundCheck,
   Workflow,
 } from "lucide-react";
 import { expect } from "storybook/test";
@@ -36,12 +33,14 @@ import {
   ListItemLink,
   ListSectionTrigger,
 } from "../ui/list/index";
+import { GithubIcon, PlaneAiIcon, SlackIcon } from "./sidebar-brand-icons";
 
 // App-level demo (not a shipped primitive): the Plane workspace sidebar assembled entirely from
 // existing propel components — proving the design frame distills into the system with no bespoke
-// "navbar". Header actions are `IconButton`s, the create action is a `Button`, project icons are
-// `Avatar`s, rows/sections are `ui/list` + `ui/collapsible`. The only new primitive the frame
-// implied was `ListSectionTrigger` (the muted section header).
+// "navbar". Header actions are `IconButton`s, the create action is a `Button`, row glyphs are lucide
+// icons, project glyphs are emoji, and the Try brand marks (GitHub/Slack/Plane AI) are verbatim SVG
+// copied from Figma (lucide ships no brand icons). Rows/sections are `ui/list` + `ui/collapsible`;
+// the only new primitive the frame implied was `ListSectionTrigger` (the muted section header).
 //
 // v1 keyboard model: each `List` is one roving group (arrow keys within); the section triggers are
 // their own tab stops. `role="toolbar"` is a placeholder so axe passes — the production role
@@ -65,7 +64,7 @@ export const WorkspaceSidebar: Story = {
             <SlidersHorizontal aria-hidden />
           </IconButton>
           <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Toggle sidebar">
-            <PanelLeft aria-hidden />
+            <PanelRight aria-hidden />
           </IconButton>
         </div>
       </div>
@@ -84,7 +83,7 @@ export const WorkspaceSidebar: Story = {
         <ListItem>
           <ListItemLink href="#home">
             <ListItemIcon>
-              <Home aria-hidden />
+              <House aria-hidden />
             </ListItemIcon>
             <ListItemLabel>Home</ListItemLabel>
           </ListItemLink>
@@ -92,7 +91,7 @@ export const WorkspaceSidebar: Story = {
         <ListItem>
           <ListItemLink href="#stickers">
             <ListItemIcon>
-              <Sticker aria-hidden />
+              <StickyNote aria-hidden />
             </ListItemIcon>
             <ListItemLabel>Stickers</ListItemLabel>
           </ListItemLink>
@@ -100,7 +99,7 @@ export const WorkspaceSidebar: Story = {
         <ListItem>
           <ListItemLink href="#your-work">
             <ListItemIcon>
-              <UserRound aria-hidden />
+              <UserRoundCheck aria-hidden />
             </ListItemIcon>
             <ListItemLabel>Your work</ListItemLabel>
           </ListItemLink>
@@ -230,7 +229,7 @@ export const WorkspaceSidebar: Story = {
               <ListItem>
                 <ListItemLink href="#github">
                   <ListItemIcon>
-                    <GitBranch aria-hidden />
+                    <GithubIcon aria-hidden />
                   </ListItemIcon>
                   <ListItemLabel>Connect to GitHub</ListItemLabel>
                 </ListItemLink>
@@ -238,7 +237,7 @@ export const WorkspaceSidebar: Story = {
               <ListItem>
                 <ListItemLink href="#slack">
                   <ListItemIcon>
-                    <MessageSquare aria-hidden />
+                    <SlackIcon aria-hidden />
                   </ListItemIcon>
                   <ListItemLabel>Connect to Slack</ListItemLabel>
                 </ListItemLink>
@@ -246,7 +245,7 @@ export const WorkspaceSidebar: Story = {
               <ListItem>
                 <ListItemLink href="#plane-ai">
                   <ListItemIcon>
-                    <Sparkles aria-hidden />
+                    <PlaneAiIcon aria-hidden />
                   </ListItemIcon>
                   <ListItemLabel>Try Plane AI</ListItemLabel>
                 </ListItemLink>
