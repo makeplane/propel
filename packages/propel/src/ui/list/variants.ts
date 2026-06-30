@@ -1,6 +1,7 @@
 import { cva, cx } from "class-variance-authority";
 
 import { listItemPrimaryVariants } from "../../internal/list-item-primary";
+import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 /** The list container — a vertical stack of rows. Role/aria are supplied by the consumer. */
@@ -56,3 +57,21 @@ export const listSectionTriggerVariants = cva(
   ),
 );
 export type ListSectionTriggerVariantProps = StrictVariantProps<typeof listSectionTriggerVariants>;
+
+/**
+ * The section header's disclosure caret slot. Renders the chevron you pass (sized to the trigger's
+ * `--node-size`) pointing toward the inline-end while collapsed, rotating down when the panel opens
+ * — the same disclosure motion as the accordion trigger, mirrored under RTL.
+ */
+export const listSectionTriggerIndicatorVariants = cva(
+  cx(
+    nodeSlotClass,
+    "text-icon-secondary [--node-size:0.875rem]",
+    "transition-transform duration-200",
+    "-rotate-90 group-data-panel-open:rotate-0",
+    "rtl:rotate-90 rtl:group-data-panel-open:rotate-0",
+  ),
+);
+export type ListSectionTriggerIndicatorVariantProps = StrictVariantProps<
+  typeof listSectionTriggerIndicatorVariants
+>;
