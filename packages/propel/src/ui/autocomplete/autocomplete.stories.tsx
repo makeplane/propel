@@ -3,6 +3,7 @@ import { ChevronsUpDown, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
 import { Field, FieldDescription, FieldError, FieldLabel } from "../field/index";
+import { IconButton, IconButtonIcon } from "../icon-button";
 import {
   Autocomplete,
   AutocompleteClear,
@@ -50,12 +51,34 @@ export const Default: Story = {
         </FieldLabel>
         <AutocompleteInputGroup>
           <AutocompleteInput placeholder="e.g. docker.io/library/node:latest" />
-          <AutocompleteClear>
-            <X aria-hidden />
-          </AutocompleteClear>
-          <AutocompleteTrigger>
-            <ChevronsUpDown aria-hidden />
-          </AutocompleteTrigger>
+          <AutocompleteClear
+            render={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label="Clear container image"
+              >
+                <IconButtonIcon>
+                  <X />
+                </IconButtonIcon>
+              </IconButton>
+            }
+          />
+          <AutocompleteTrigger
+            render={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label="Open container image"
+              >
+                <IconButtonIcon>
+                  <ChevronsUpDown />
+                </IconButtonIcon>
+              </IconButton>
+            }
+          />
         </AutocompleteInputGroup>
         <FieldDescription magnitude="md">Enter a registry URL with optional tags.</FieldDescription>
         <AutocompletePortal>
@@ -97,12 +120,34 @@ export const Invalid: Story = {
         </FieldLabel>
         <AutocompleteInputGroup>
           <AutocompleteInput placeholder="e.g. docker.io/library/node:latest" />
-          <AutocompleteClear>
-            <X aria-hidden />
-          </AutocompleteClear>
-          <AutocompleteTrigger>
-            <ChevronsUpDown aria-hidden />
-          </AutocompleteTrigger>
+          <AutocompleteClear
+            render={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label="Clear container image"
+              >
+                <IconButtonIcon>
+                  <X />
+                </IconButtonIcon>
+              </IconButton>
+            }
+          />
+          <AutocompleteTrigger
+            render={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label="Open container image"
+              >
+                <IconButtonIcon>
+                  <ChevronsUpDown />
+                </IconButtonIcon>
+              </IconButton>
+            }
+          />
         </AutocompleteInputGroup>
         <FieldError magnitude="md" match={true}>
           Enter a container image.
