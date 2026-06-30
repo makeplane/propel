@@ -3,9 +3,9 @@ import { Search as SearchIconGlyph, X } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
+import { IconButton, IconButtonIcon } from "../icon-button";
 import {
   Search,
-  SearchClear,
   SearchExpandable,
   SearchExpandableViewport,
   SearchIcon,
@@ -14,9 +14,9 @@ import {
 } from "./index";
 
 // UI-tier story: composes the ATOMIC search parts (each renders a single element) — the
-// box (`Search` / `SearchExpandable`), its leading `SearchIcon`, the `SearchInput`, and the
-// trailing `SearchClear`. The box holds no input logic; wiring the value, clear button, and
-// expand-on-focus behavior is the components-tier `Search` / `ExpandableSearch`'s job.
+// box (`Search` / `SearchExpandable`), its leading `SearchIcon`, the `SearchInput`, and a
+// trailing ghost `IconButton` clear control. The box holds no input logic; wiring the value,
+// clear button, and expand-on-focus behavior is the components-tier `Search` / `ExpandableSearch`'s job.
 const meta = {
   title: "UI/Search",
   component: Search,
@@ -24,7 +24,7 @@ const meta = {
   subcomponents: {
     SearchIcon,
     SearchInput,
-    SearchClear,
+    IconButton,
     SearchExpandableViewport,
     SearchExpandable,
   },
@@ -65,16 +65,20 @@ function ComposedSearch({ magnitude = "md" }: { magnitude?: SearchMagnitude }) {
         aria-label="Search"
       />
       {hasValue ? (
-        <SearchClear
-          magnitude={magnitude}
+        <IconButton
+          prominence="ghost"
+          tone="neutral"
+          magnitude={magnitude === "lg" ? "md" : "sm"}
           aria-label="Clear search"
           onClick={() => {
             setValue("");
             inputRef.current?.focus();
           }}
         >
-          <X aria-hidden />
-        </SearchClear>
+          <IconButtonIcon>
+            <X />
+          </IconButtonIcon>
+        </IconButton>
       ) : null}
     </Search>
   );
@@ -142,16 +146,20 @@ function ComposedExpandable({ magnitude = "md" }: { magnitude?: SearchMagnitude 
           aria-label="Search"
         />
         {hasValue ? (
-          <SearchClear
-            magnitude={magnitude}
+          <IconButton
+            prominence="ghost"
+            tone="neutral"
+            magnitude={magnitude === "lg" ? "md" : "sm"}
             aria-label="Clear search"
             onClick={() => {
               setValue("");
               inputRef.current?.focus();
             }}
           >
-            <X aria-hidden />
-          </SearchClear>
+            <IconButtonIcon>
+              <X />
+            </IconButtonIcon>
+          </IconButton>
         ) : null}
       </SearchExpandable>
     </SearchExpandableViewport>

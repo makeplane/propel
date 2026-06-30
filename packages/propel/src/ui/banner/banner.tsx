@@ -19,9 +19,9 @@ export type BannerProps = Omit<useRender.ComponentProps<"div">, "className" | "s
   BannerVariantProps;
 
 /**
- * The banner strip/card. Lays out its parts (`BannerIcon`, `BannerBody`, `BannerActions`,
- * `BannerDismiss`) in a row. The `role`/`aria-live` come from the tone so assistive tech announces
- * problems assertively and advisories politely; consumers can override via spread.
+ * The banner strip/card. Lays out its parts (`BannerIcon`, `BannerBody`, `BannerActions`, and an
+ * optional dismiss `IconButton`) in a row. The `role`/`aria-live` come from the tone so assistive
+ * tech announces problems assertively and advisories politely; consumers can override via spread.
  */
 export function Banner({ placement, tone, render, ...props }: BannerProps) {
   const defaultProps: useRender.ElementProps<"div"> = {

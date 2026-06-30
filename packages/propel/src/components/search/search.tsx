@@ -4,12 +4,12 @@ import * as React from "react";
 import { useControllableState } from "../../hooks/use-controllable-state/index";
 import {
   Search as SearchBox,
-  SearchClear,
   SearchIcon,
   SearchInput,
   type SearchInputProps,
   type SearchMagnitude,
 } from "../../ui/search";
+import { IconButton } from "../icon-button";
 
 export type { SearchMagnitude };
 
@@ -76,8 +76,10 @@ export function Search({
         {...props}
       />
       {hasValue && !disabled ? (
-        <SearchClear
-          magnitude={magnitude}
+        <IconButton
+          prominence="ghost"
+          tone="neutral"
+          magnitude={magnitude === "lg" ? "md" : "sm"}
           aria-label={clearLabel}
           onClick={() => {
             commit("");
@@ -85,7 +87,7 @@ export function Search({
           }}
         >
           <X aria-hidden />
-        </SearchClear>
+        </IconButton>
       ) : null}
     </SearchBox>
   );

@@ -3,12 +3,12 @@ import * as React from "react";
 
 import { useControllableState } from "../../hooks/use-controllable-state/index";
 import {
-  SearchClear,
   SearchExpandable,
   SearchExpandableViewport,
   SearchIcon,
   SearchInput,
 } from "../../ui/search";
+import { IconButton } from "../icon-button";
 import type { SearchProps } from "./search";
 
 export type ExpandableSearchProps = SearchProps;
@@ -64,8 +64,10 @@ export function ExpandableSearch({
           {...props}
         />
         {hasValue && !disabled ? (
-          <SearchClear
-            magnitude={magnitude}
+          <IconButton
+            prominence="ghost"
+            tone="neutral"
+            magnitude={magnitude === "lg" ? "md" : "sm"}
             aria-label={clearLabel}
             onClick={() => {
               commit("");
@@ -73,7 +75,7 @@ export function ExpandableSearch({
             }}
           >
             <X aria-hidden />
-          </SearchClear>
+          </IconButton>
         ) : null}
       </SearchExpandable>
     </SearchExpandableViewport>
