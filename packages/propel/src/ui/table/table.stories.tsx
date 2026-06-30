@@ -165,6 +165,10 @@ export const Sortable: Story = {
     const [sort, setSort] = React.useState<Sort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
     const SortGlyph = sortGlyph[sort];
+    const sorted =
+      sort === "none"
+        ? PEOPLE
+        : [...PEOPLE].sort((a, b) => a.name.localeCompare(b.name) * (sort === "asc" ? 1 : -1));
     return (
       <Table>
         <TableHeader>
@@ -183,7 +187,7 @@ export const Sortable: Story = {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {PEOPLE.map((person) => (
+          {sorted.map((person) => (
             <TableRow key={person.email}>
               <TableCell mode="table" pinned="none" padding="cell">
                 <TableCellLayout>

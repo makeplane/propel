@@ -193,6 +193,10 @@ export const Sortable: Story = {
   render: (args) => {
     const [sort, setSort] = React.useState<TableHeadSort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
+    const sorted =
+      sort === "none"
+        ? PEOPLE
+        : [...PEOPLE].sort((a, b) => a.name.localeCompare(b.name) * (sort === "asc" ? 1 : -1));
     return (
       <Table {...args}>
         <TableHeader>
@@ -205,7 +209,7 @@ export const Sortable: Story = {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {PEOPLE.map((person) => (
+          {sorted.map((person) => (
             <TableRow key={person.email}>
               <TableCell
                 pinned="none"
@@ -558,6 +562,10 @@ export const SortableKeyboard: Story = {
   render: function SortableKeyboardStory(args) {
     const [sort, setSort] = React.useState<TableHeadSort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
+    const sorted =
+      sort === "none"
+        ? PEOPLE
+        : [...PEOPLE].sort((a, b) => a.name.localeCompare(b.name) * (sort === "asc" ? 1 : -1));
     return (
       <Table {...args}>
         <TableHeader>
@@ -569,7 +577,7 @@ export const SortableKeyboard: Story = {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {PEOPLE.map((person) => (
+          {sorted.map((person) => (
             <TableRow key={person.email}>
               <TableCell
                 pinned="none"
