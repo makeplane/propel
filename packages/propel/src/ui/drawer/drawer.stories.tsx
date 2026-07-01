@@ -117,8 +117,20 @@ export const Anatomy: Story = {
   },
 };
 
-/** Open on mount via the root's `defaultOpen`, with no trigger present. */
+/**
+ * Open on mount via the root's `defaultOpen`, with no trigger present. Rendered in an isolated
+ * iframe on the docs page (`docs.story.inline: false`) — the portaled backdrop/popup are fixed to
+ * the viewport, so inline rendering would cover the whole docs page instead of staying boxed.
+ */
 export const DefaultOpen: Story = {
+  parameters: {
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 500,
+      },
+    },
+  },
   render: () => (
     <Drawer defaultOpen>
       <DrawerPortal>
