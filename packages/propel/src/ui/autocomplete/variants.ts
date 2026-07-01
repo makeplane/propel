@@ -32,7 +32,7 @@ export type AutocompleteInputGroupVariantProps = StrictVariantProps<
 
 // The decorative leading icon (e.g. a search magnifier) at the input group's inline-start. Sizes its
 // single child to the group's `--node-size` and tints toward the placeholder, brightening on focus.
-export const autocompleteInputIconVariants = cva(
+export const autocompleteIconVariants = cva(
   cx(
     nodeSlotClass,
     "text-icon-placeholder transition-colors group-focus-within/autocomplete:text-icon-secondary",

@@ -11,7 +11,7 @@ import {
   AutocompleteEmpty,
   AutocompleteInput,
   AutocompleteInputGroup,
-  AutocompleteInputIcon,
+  AutocompleteIcon,
   AutocompleteItem,
   AutocompleteList,
   AutocompleteTrigger,
@@ -27,7 +27,7 @@ const meta = {
   component: Autocomplete,
   subcomponents: {
     AutocompleteInputGroup,
-    AutocompleteInputIcon,
+    AutocompleteIcon,
     AutocompleteInput,
     AutocompleteClear,
     AutocompleteTrigger,
@@ -99,18 +99,18 @@ export const Default: Story = {
 };
 
 /**
- * The autocomplete dressed as a search box: a leading `AutocompleteInputIcon` magnifier + input +
- * clear, and no chevron trigger. Same parts as `Default` — this is the styling target for folding
- * `Search` into `Autocomplete`.
+ * The autocomplete dressed as a search box: a leading `AutocompleteIcon` magnifier + input + clear,
+ * and no chevron trigger. Same parts as `Default` — this is the styling target for folding `Search`
+ * into `Autocomplete`.
  */
 export const Search: Story = {
   args: { items: IMAGES, mode: "both" },
   render: (args) => (
     <Autocomplete {...args}>
       <AutocompleteInputGroup magnitude="md">
-        <AutocompleteInputIcon>
+        <AutocompleteIcon>
           <SearchGlyph />
-        </AutocompleteInputIcon>
+        </AutocompleteIcon>
         <AutocompleteInput magnitude="md" placeholder="Search images" aria-label="Search images" />
         <AutocompleteClear
           render={
