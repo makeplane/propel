@@ -3,6 +3,7 @@ export * from "./autocomplete-clear";
 export * from "./autocomplete-empty";
 export * from "./autocomplete-input";
 export * from "./autocomplete-input-group";
+export * from "./autocomplete-icon";
 export * from "./autocomplete-item";
 export * from "./autocomplete-list";
 export * from "./autocomplete-popup";

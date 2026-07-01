@@ -32,6 +32,7 @@ import {
 const meta = {
   title: "UI/Breadcrumb",
   component: Breadcrumb,
+  args: { "aria-label": "Breadcrumb" },
   subcomponents: {
     BreadcrumbList,
     BreadcrumbItem,
@@ -52,7 +53,7 @@ type Story = StoryObj<typeof meta>;
 /** Root › List › Item › (Link | Page), with Separator between crumbs. */
 export const Default: Story = {
   render: () => (
-    <Breadcrumb>
+    <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
@@ -105,7 +106,7 @@ const inertAnchor = () => <a href="#" onClick={(event) => event.preventDefault()
  */
 export const MenuTrigger: Story = {
   render: () => (
-    <Breadcrumb>
+    <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>

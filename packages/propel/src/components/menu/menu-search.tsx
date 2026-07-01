@@ -11,17 +11,12 @@ export type MenuSearchProps = Omit<
   value?: string;
   /** Called with the new text on each keystroke. */
   onValueChange?: (value: string) => void;
-  /** Placeholder text. @default "Search" */
+  /** Placeholder text. */
   placeholder?: string;
 };
 
 /** A sticky search input pinned above a `MenuContent` menu popup. */
-export function MenuSearch({
-  value,
-  onValueChange,
-  placeholder = "Search",
-  ...props
-}: MenuSearchProps) {
+export function MenuSearch({ value, onValueChange, placeholder, ...props }: MenuSearchProps) {
   return (
     <MenuSearchElement>
       <MenuSearchIcon>

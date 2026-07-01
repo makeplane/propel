@@ -7,7 +7,7 @@ import { fieldControlSurfaceVariants } from "../../internal/field-control-surfac
 // so they are static chrome. Composes the shared field-box chrome so the input and textarea
 // frames stay in lockstep; danger isn't a prop — the surface recolors its border off the
 // wrapped control's `data-invalid`.
-export const textAreaBoxVariants = cva(
+export const textAreaGroupVariants = cva(
   cx(
     fieldControlSurfaceVariants({ focus: "within" }),
     "flex w-full items-stretch gap-1.5 transition-[color,background-color,border-color,box-shadow]",

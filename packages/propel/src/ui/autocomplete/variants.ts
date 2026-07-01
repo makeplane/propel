@@ -1,21 +1,52 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
+import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const autocompleteInputGroupVariants = cva(
   cx(
     // Wraps a separate focusable input → `focus: within`.
     fieldControlSurfaceVariants({ focus: "within" }),
-    "flex min-h-9 min-w-64 items-center gap-2 rounded-md px-3",
+    "group/autocomplete flex w-full items-center gap-2 rounded-lg",
     "data-disabled:cursor-not-allowed data-disabled:text-disabled",
+  ),
+  {
+    variants: {
+      // Height / padding / icon-size per step, matching the Search box (Figma 28/32/36px).
+      // `--node-size` sizes the leading icon slot (and any bare node-slot child).
+      magnitude: {
+        sm: "min-h-7 px-1.5 [--node-size:0.875rem]",
+        md: "min-h-8 px-2 [--node-size:1rem]",
+        lg: "min-h-9 px-2.5 [--node-size:1rem]",
+      },
+    },
+  },
+);
+
+type AutocompleteInputGroupVariantConfig = VariantProps<typeof autocompleteInputGroupVariants>;
+export type AutocompleteMagnitude = NonNullable<AutocompleteInputGroupVariantConfig["magnitude"]>;
+export type AutocompleteInputGroupVariantProps = StrictVariantProps<
+  typeof autocompleteInputGroupVariants
+>;
+
+// The decorative leading icon (e.g. a search magnifier) at the input group's inline-start. Sizes its
+// single child to the group's `--node-size` and tints toward the placeholder, brightening on focus.
+export const autocompleteIconVariants = cva(
+  cx(
+    nodeSlotClass,
+    "text-icon-placeholder transition-colors group-focus-within/autocomplete:text-icon-secondary",
   ),
 );
 export const autocompleteInputVariants = cva(
-  "min-w-0 flex-1 bg-transparent text-14 text-primary outline-none placeholder:text-placeholder disabled:text-disabled",
+  "min-w-0 flex-1 bg-transparent text-primary outline-none placeholder:text-placeholder disabled:text-disabled",
+  {
+    variants: {
+      magnitude: { sm: "text-13", md: "text-14", lg: "text-14" },
+    },
+  },
 );
-export const autocompleteButtonVariants = cva(
-  "flex size-6 items-center justify-center rounded-sm text-icon-secondary outline-none hover:bg-layer-transparent-hover focus-visible:bg-layer-transparent-hover data-disabled:text-disabled [&>svg]:size-4",
-);
+export type AutocompleteInputVariantProps = StrictVariantProps<typeof autocompleteInputVariants>;
 export const autocompletePositionerVariants = cva("z-50 outline-none");
 export const autocompletePopupVariants = cva(
   "max-h-[min(var(--available-height),18rem)] min-w-(--anchor-width) overflow-y-auto rounded-md border-sm border-subtle bg-layer-1 p-1 shadow-overlay-100",

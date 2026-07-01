@@ -3,7 +3,7 @@ import { Mail, Search } from "lucide-react";
 import type * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
-import { InputBox, InputIconSlot } from "../../ui/input/index";
+import { InputGroup, InputIconSlot } from "../../ui/input/index";
 import { Field, FieldError, FieldLabel } from "../field/index";
 import { type InputMagnitude } from "./index";
 import { Input } from "./index";
@@ -13,7 +13,7 @@ const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
 const meta = {
   title: "Components/Input",
   component: Input,
-  subcomponents: { InputBox, InputIconSlot },
+  subcomponents: { InputGroup, InputIconSlot },
 } satisfies Meta<typeof Input>;
 
 export default meta;
@@ -28,7 +28,7 @@ function InputSurface({
 }) {
   return (
     <div className="w-72">
-      <InputBox magnitude={magnitude}>{children}</InputBox>
+      <InputGroup magnitude={magnitude}>{children}</InputGroup>
     </div>
   );
 }

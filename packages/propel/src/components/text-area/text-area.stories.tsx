@@ -2,12 +2,12 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
 import { Field, FieldError, FieldLabel } from "../field/index";
-import { TextArea, TextAreaBox } from "./index";
+import { TextArea, TextAreaGroup } from "./index";
 
 const meta = {
   title: "Components/TextArea",
   component: TextArea,
-  subcomponents: { TextAreaBox },
+  subcomponents: { TextAreaGroup },
   decorators: [
     (Story) => (
       <div className="w-80">
@@ -20,7 +20,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Styled textarea leaf framed by `TextAreaBox`. Uses the Base UI-backed primitive for Field wiring. */
+/**
+ * Styled textarea leaf framed by `TextAreaGroup`. Uses the Base UI-backed primitive for Field
+ * wiring.
+ */
 export const Default: Story = {
   args: {
     magnitude: "md",
@@ -31,9 +34,9 @@ export const Default: Story = {
     rows: 4,
   },
   render: (args) => (
-    <TextAreaBox>
+    <TextAreaGroup>
       <TextArea {...args} />
-    </TextAreaBox>
+    </TextAreaGroup>
   ),
 };
 
@@ -45,9 +48,9 @@ export const FieldComposition: Story = {
       <FieldLabel magnitude="md" inset={false}>
         Comment
       </FieldLabel>
-      <TextAreaBox>
+      <TextAreaGroup>
         <TextArea {...args} placeholder="Leave a comment..." />
-      </TextAreaBox>
+      </TextAreaGroup>
     </Field>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -66,9 +69,9 @@ export const FieldErrorAssociation: Story = {
       <FieldLabel magnitude="md" inset={false}>
         Comment
       </FieldLabel>
-      <TextAreaBox>
+      <TextAreaGroup>
         <TextArea {...args} defaultValue="No" />
-      </TextAreaBox>
+      </TextAreaGroup>
       <FieldError magnitude="md" match={true}>
         Add a little more detail.
       </FieldError>

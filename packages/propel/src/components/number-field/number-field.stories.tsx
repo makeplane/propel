@@ -1,16 +1,29 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Minus, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { IconButton } from "../icon-button";
 import { NumberField } from "./index";
 
 // Components-tier story: the ready-made `NumberField` — a numeric input flanked by
 // −/+ buttons, wired for you. Drive it with `value`/`defaultValue`, bound it with
-// `min`/`max`/`step`. The UI-tier story shows how to compose the parts with custom
-// button icons or labels.
+// `min`/`max`/`step`. The decrement/increment steppers are consumer-provided controls.
 const meta = {
   title: "Components/NumberField",
   component: NumberField,
-  args: { "aria-label": "Number of instances" },
+  args: {
+    "aria-label": "Number of instances",
+    decrement: (
+      <IconButton prominence="ghost" tone="neutral" magnitude="xl" aria-label="Decrease">
+        <Minus />
+      </IconButton>
+    ),
+    increment: (
+      <IconButton prominence="ghost" tone="neutral" magnitude="xl" aria-label="Increase">
+        <Plus />
+      </IconButton>
+    ),
+  },
 } satisfies Meta<typeof NumberField>;
 
 export default meta;

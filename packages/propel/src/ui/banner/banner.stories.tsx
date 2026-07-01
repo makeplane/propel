@@ -3,12 +3,12 @@ import { Info, X } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { Button } from "../button/index";
+import { IconButton, IconButtonIcon } from "../icon-button";
 import {
   Banner,
   BannerActions,
   BannerBody,
   BannerDescription,
-  BannerDismiss,
   BannerIcon,
   type BannerTone,
   BannerTitle,
@@ -31,7 +31,6 @@ const meta = {
     BannerTitle,
     BannerDescription,
     BannerActions,
-    BannerDismiss,
   },
   parameters: {
     design: {
@@ -102,7 +101,7 @@ export const Placements: Story = {
 /**
  * The full page banner from Figma (see the meta's design link): a message with trailing actions and
  * a dismiss control, assembled from the atomic parts. `BannerActions` takes any nodes, so the
- * banner composes propel `Button`s — a ghost, a secondary, and a primary, plus the `BannerDismiss`
+ * banner composes propel `Button`s — a ghost, a secondary, and a primary, plus a ghost `IconButton`
  * close.
  */
 export const WithActions: Story = {
@@ -126,17 +125,25 @@ export const WithActions: Story = {
         <Button sizing="hug" prominence="primary" tone="neutral" magnitude="sm">
           Update now
         </Button>
+        <IconButton
+          prominence="ghost"
+          tone="neutral"
+          magnitude="md"
+          aria-label="Dismiss"
+          onClick={fn()}
+        >
+          <IconButtonIcon>
+            <X />
+          </IconButtonIcon>
+        </IconButton>
       </BannerActions>
-      <BannerDismiss onClick={fn()}>
-        <X aria-hidden />
-      </BannerDismiss>
     </Banner>
   ),
 };
 
 /**
- * Real interaction test: clicking the `BannerDismiss` button invokes its handler. The spy comes
- * from a Storybook `fn()`; the button is queried by its `aria-label`. Tagged out of the
+ * Real interaction test: clicking the dismiss button invokes its handler. The spy comes from a
+ * Storybook `fn()`; the button is queried by its `aria-label`. Tagged out of the
  * sidebar/docs/manifest but still run under the default `test` tag.
  */
 export const DismissCallsHandler: Story = {
@@ -150,9 +157,17 @@ export const DismissCallsHandler: Story = {
       <BannerBody placement={args.placement} tone={args.tone}>
         <BannerTitle>There is something that needs your attention</BannerTitle>
       </BannerBody>
-      <BannerDismiss onClick={dismissSpy}>
-        <X aria-hidden />
-      </BannerDismiss>
+      <IconButton
+        prominence="ghost"
+        tone="neutral"
+        magnitude="md"
+        aria-label="Dismiss"
+        onClick={dismissSpy}
+      >
+        <IconButtonIcon>
+          <X />
+        </IconButtonIcon>
+      </IconButton>
     </Banner>
   ),
   play: async ({ canvas, userEvent }) => {

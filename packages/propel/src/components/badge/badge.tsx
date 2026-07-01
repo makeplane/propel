@@ -1,10 +1,8 @@
-import { X } from "lucide-react";
 import type * as React from "react";
 
 import {
   Badge as BadgeElement,
   type BadgeProps as BadgeElementProps,
-  BadgeDismiss,
   BadgeIcon,
   BadgeLabel,
 } from "../../ui/badge";
@@ -13,39 +11,27 @@ export type BadgeProps = BadgeElementProps & {
   /** The badge label — text, a count, or any inline content. */
   children?: React.ReactNode;
   /**
-   * Node rendered before the label (inline-start). An icon or any node; sized to the badge's
+   * Node rendered before the label (inline-start). A bare icon or any node; sized to the badge's
    * `--node-size` and tinted to the tone. Decorative, kept out of the name.
    */
   inlineStartNode?: React.ReactNode;
   /**
-   * When provided, shows a trailing dismiss/remove button that calls this on click. Pair with
-   * `dismissLabel` for the button's accessible name.
+   * Node rendered after the label (inline-end). A bare icon or any node; sized to the badge's
+   * `--node-size` and tinted to the tone. Decorative, kept out of the name.
    */
-  onDismiss?: () => void;
-  /** Accessible name for the dismiss button (defaults to "Remove"). */
-  dismissLabel?: string;
+  inlineEndNode?: React.ReactNode;
 };
 
 /**
- * The ready-made badge: composes the atomic `Badge` pill with an optional leading `BadgeIcon`, the
- * `BadgeLabel`, and an optional trailing `BadgeDismiss` action.
+ * The ready-made badge: composes the atomic `Badge` pill with the `BadgeLabel` and optional leading
+ * (`inlineStartNode`) and trailing (`inlineEndNode`) icon slots.
  */
-export function Badge({
-  children,
-  inlineStartNode,
-  onDismiss,
-  dismissLabel = "Remove",
-  ...props
-}: BadgeProps) {
+export function Badge({ children, inlineStartNode, inlineEndNode, ...props }: BadgeProps) {
   return (
     <BadgeElement {...props}>
       {inlineStartNode ? <BadgeIcon>{inlineStartNode}</BadgeIcon> : null}
       <BadgeLabel>{children}</BadgeLabel>
-      {onDismiss ? (
-        <BadgeDismiss aria-label={dismissLabel} onClick={onDismiss}>
-          <X />
-        </BadgeDismiss>
-      ) : null}
+      {inlineEndNode ? <BadgeIcon>{inlineEndNode}</BadgeIcon> : null}
     </BadgeElement>
   );
 }

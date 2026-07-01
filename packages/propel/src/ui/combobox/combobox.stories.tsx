@@ -3,6 +3,7 @@ import { Check, ChevronsUpDown, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
 import { Field, FieldError, FieldLabel } from "../field/index";
+import { IconButton, IconButtonIcon } from "../icon-button";
 import {
   Combobox,
   ComboboxClear,
@@ -54,12 +55,29 @@ export const Default: Story = {
         </FieldLabel>
         <ComboboxInputGroup>
           <ComboboxInput placeholder="e.g. eu-central-1" />
-          <ComboboxClear>
-            <X aria-hidden />
-          </ComboboxClear>
-          <ComboboxTrigger>
-            <ChevronsUpDown aria-hidden />
-          </ComboboxTrigger>
+          <ComboboxClear
+            render={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label="Clear region"
+              >
+                <IconButtonIcon>
+                  <X />
+                </IconButtonIcon>
+              </IconButton>
+            }
+          />
+          <ComboboxTrigger
+            render={
+              <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
+                <IconButtonIcon>
+                  <ChevronsUpDown />
+                </IconButtonIcon>
+              </IconButton>
+            }
+          />
         </ComboboxInputGroup>
         <ComboboxPortal>
           <ComboboxPositioner>
@@ -103,12 +121,29 @@ export const Invalid: Story = {
         </FieldLabel>
         <ComboboxInputGroup>
           <ComboboxInput placeholder="e.g. eu-central-1" />
-          <ComboboxClear>
-            <X aria-hidden />
-          </ComboboxClear>
-          <ComboboxTrigger>
-            <ChevronsUpDown aria-hidden />
-          </ComboboxTrigger>
+          <ComboboxClear
+            render={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label="Clear region"
+              >
+                <IconButtonIcon>
+                  <X />
+                </IconButtonIcon>
+              </IconButton>
+            }
+          />
+          <ComboboxTrigger
+            render={
+              <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
+                <IconButtonIcon>
+                  <ChevronsUpDown />
+                </IconButtonIcon>
+              </IconButton>
+            }
+          />
         </ComboboxInputGroup>
         <FieldError magnitude="md" match={true}>
           Choose a deployment region.

@@ -208,7 +208,10 @@ export const Status: Story = {
         <MenuTrigger render={<button type="button" className={triggerClass} />}>
           {STATUSES.find((s) => s.key === selected)?.label ?? "Status"}
         </MenuTrigger>
-        <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
+        <MenuContent
+          width="sm"
+          search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
+        >
           {visible.map((s) => (
             <MenuItem
               key={s.key}
@@ -254,7 +257,10 @@ export const Labels: Story = {
     return (
       <Menu>
         <MenuTrigger render={<button type="button" className={triggerClass} />}>Labels</MenuTrigger>
-        <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
+        <MenuContent
+          width="sm"
+          search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
+        >
           {canAdd ? (
             // A single horizontal divider separates the search from the new-label item
             // (Figma 64-626): the sticky MenuSearch already draws its own bottom
@@ -518,7 +524,10 @@ export const LanguagePicker: Story = {
         <MenuTrigger render={<button type="button" className={triggerClass} />}>
           {LANGUAGES.find((l) => l.key === selected)?.label ?? "Language"}
         </MenuTrigger>
-        <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
+        <MenuContent
+          width="sm"
+          search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
+        >
           {visible.map((l) => (
             <MenuItem
               key={l.key}
@@ -564,7 +573,10 @@ export const Priority: Story = {
         <MenuTrigger render={<button type="button" className={triggerClass} />}>
           Priority
         </MenuTrigger>
-        <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
+        <MenuContent
+          width="sm"
+          search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
+        >
           {visible.map((p) => (
             <MenuCheckboxItem
               key={p.key}
@@ -703,7 +715,10 @@ export const Filters: Story = {
         <MenuTrigger render={<button type="button" className={triggerClass} />}>
           Filters
         </MenuTrigger>
-        <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
+        <MenuContent
+          width="sm"
+          search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
+        >
           {sections.map((section, index) => {
             const items = section.items.filter((i) => match(i.label));
             if (items.length === 0) return null;
@@ -835,7 +850,10 @@ export const EmptyState: Story = {
     return (
       <Menu defaultOpen>
         <MenuTrigger render={<button type="button" className={triggerClass} />}>Status</MenuTrigger>
-        <MenuContent width="sm" search={<MenuSearch value={query} onValueChange={setQuery} />}>
+        <MenuContent
+          width="sm"
+          search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
+        >
           {visible.length > 0 ? (
             visible.map((s) => (
               <MenuItem key={s.key} inlineStartNode={s.icon}>

@@ -5,18 +5,18 @@ import { expect, userEvent } from "storybook/test";
 
 import { Field, FieldError, FieldLabel } from "../field/index";
 import type { InputMagnitude } from "../field/variants";
-import { InputBox, InputIconSlot } from "./index";
+import { InputGroup, InputIconSlot } from "./index";
 import { Input } from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
 
 // UI-tier story: the bare `Input` is a single native element. To frame it with a border
-// and inline icon addons we compose the single-element `InputBox` / `InputIconSlot`
+// and inline icon addons we compose the single-element `InputGroup` / `InputIconSlot`
 // parts from `ui/field` — the story holds no raw box styling of its own.
 const meta = {
   title: "UI/Input",
   component: Input,
-  subcomponents: { InputBox, InputIconSlot },
+  subcomponents: { InputGroup, InputIconSlot },
 } satisfies Meta<typeof Input>;
 
 export default meta;
@@ -31,7 +31,7 @@ function InputSurface({
 }) {
   return (
     <div className="w-72">
-      <InputBox magnitude={magnitude}>{children}</InputBox>
+      <InputGroup magnitude={magnitude}>{children}</InputGroup>
     </div>
   );
 }

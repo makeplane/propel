@@ -1,4 +1,4 @@
-import { cva, cx, type VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
@@ -90,17 +90,6 @@ export const bannerDescriptionVariants = cva("");
 
 // Trailing actions wrapper: always the same layout regardless of placement/tone.
 export const bannerActionsVariants = cva("flex shrink-0 items-center gap-2");
-
-// Dismiss button: always the same layout and chrome regardless of placement/tone. Sizes
-// its single glyph child to a 16px node so callers pass a bare icon.
-export const bannerDismissVariants = cva(
-  cx(
-    nodeSlotClass,
-    "rounded-md p-1 text-icon-tertiary [--node-size:1rem]",
-    "cursor-pointer hover:bg-layer-1",
-    "outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
-  ),
-);
 
 export type BannerPlacement = NonNullable<VariantProps<typeof bannerVariants>["placement"]>;
 export type BannerTone = NonNullable<VariantProps<typeof bannerVariants>["tone"]>;

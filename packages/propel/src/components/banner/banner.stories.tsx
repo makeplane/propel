@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Info } from "lucide-react";
+import { Info, X } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
 import { Button } from "../button/index";
+import { IconButton } from "../icon-button/index";
 import { Banner, type BannerTone } from "./index";
 
 const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
@@ -54,15 +55,14 @@ export const Placements: Story = {
 };
 
 /**
- * The full page banner from Figma: a message with trailing actions and a dismiss control. `actions`
- * composes propel `Button`s — a ghost, a secondary, and a primary.
+ * The full page banner from Figma: a message with trailing `actions`. A dismiss is just one of
+ * those actions — a ghost `IconButton` — so it lives in `actions` alongside the `Button`s.
  */
 export const WithActions: Story = {
   parameters: { controls: { disable: true } },
   args: {
     placement: "page",
     tone: "neutral",
-    onDismiss: fn(),
     actions: (
       <>
         <Button sizing="hug" prominence="ghost" tone="neutral" magnitude="sm">
@@ -74,35 +74,36 @@ export const WithActions: Story = {
         <Button sizing="hug" prominence="primary" tone="neutral" magnitude="sm">
           Update now
         </Button>
+        <IconButton
+          prominence="ghost"
+          tone="neutral"
+          magnitude="md"
+          aria-label="Dismiss"
+          onClick={fn()}
+        >
+          <X />
+        </IconButton>
       </>
     ),
   },
 };
 
-/** A dismissible inline banner. Clicking the dismiss button calls `onDismiss`. */
+/** A dismissible inline banner — the dismiss is just an `IconButton` rendered in `actions`. */
 export const Dismissible: Story = {
   args: {
     placement: "inline",
     tone: "info",
-    onDismiss: fn(),
-  },
-};
-
-/**
- * Real interaction test: clicking the dismiss button invokes `onDismiss`. Tagged out of the
- * sidebar/docs/manifest but still run under the default `test` tag.
- */
-export const DismissCallsHandler: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
-  args: {
-    placement: "inline",
-    tone: "info",
-    onDismiss: fn(),
-  },
-  play: async ({ args, canvas, userEvent }) => {
-    const button = canvas.getByRole("button", { name: "Dismiss" });
-    await userEvent.click(button);
-    await expect(args.onDismiss).toHaveBeenCalledTimes(1);
+    actions: (
+      <IconButton
+        prominence="ghost"
+        tone="neutral"
+        magnitude="md"
+        aria-label="Dismiss"
+        onClick={fn()}
+      >
+        <X />
+      </IconButton>
+    ),
   },
 };
 

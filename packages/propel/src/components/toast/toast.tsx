@@ -1,5 +1,5 @@
 import type { Toast as BaseToast } from "@base-ui/react/toast";
-import { X } from "lucide-react";
+import type * as React from "react";
 
 import {
   Toast as ToastElement,
@@ -8,6 +8,7 @@ import {
   ToastActionGroup,
   ToastActions,
   ToastClose,
+  ToastCloseSlot,
   ToastContent,
   ToastDescription,
   type ToastTone,
@@ -78,7 +79,13 @@ export function useToast<Data extends ToastData = ToastData>() {
   return useToastManager<Data>();
 }
 
-export type ToastProps = Omit<BaseToast.Root.Props, "className" | "style">;
+export type ToastProps = Omit<BaseToast.Root.Props, "className" | "style"> & {
+  /**
+   * The close control (e.g. an `IconButton`), rendered as the toast's close button. It carries its
+   * own — localizable — `aria-label`; the toast bakes no label or glyph.
+   */
+  close: React.ReactElement;
+};
 
 /**
  * A single styled toast: status icon (auto-selected from `toast.data.tone`), title, description,
@@ -86,7 +93,7 @@ export type ToastProps = Omit<BaseToast.Root.Props, "className" | "style">;
  * Rendered automatically by `ToastProvider` for each queued toast — you normally don't render this
  * directly.
  */
-export function Toast({ toast, ...props }: ToastProps) {
+export function Toast({ toast, close, ...props }: ToastProps) {
   // `tone` is a required field of `ToastData`, supplied when the toast is queued.
   // We intentionally have NO default tone — fail loud with guidance if it's missing.
   const data = toast.data as ToastData | undefined;
@@ -143,9 +150,9 @@ export function Toast({ toast, ...props }: ToastProps) {
           </ToastActions>
         ) : null}
       </ToastContent>
-      <ToastClose aria-label="Dismiss">
-        <X />
-      </ToastClose>
+      <ToastCloseSlot>
+        <ToastClose render={close} />
+      </ToastCloseSlot>
     </ToastElement>
   );
 }

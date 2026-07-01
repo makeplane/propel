@@ -148,7 +148,7 @@ export const ErrorAnnouncesInvalid: Story = {
 
 /**
  * Setting `error` marks the field invalid; Base UI's `Field.Root` propagates that validity to the
- * control as `data-invalid`, and the wrapping `TextAreaBox` recolors its border to `danger` via
+ * control as `data-invalid`, and the wrapping `TextAreaGroup` recolors its border to `danger` via
  * `:has([data-invalid])` — no `tone` prop. A resting field is shown alongside so the danger border
  * is assertably different.
  */
@@ -172,17 +172,17 @@ export const InvalidShowsDangerBorder: Story = {
     const resting = canvas.getByRole<HTMLTextAreaElement>("textbox", { name: "Resting" });
     const invalid = canvas.getByRole<HTMLTextAreaElement>("textbox", { name: "Invalid" });
     await expect(invalid).toHaveAttribute("aria-invalid", "true");
-    // The box is the textarea's wrapping `div`; danger keys off `:has([data-invalid])` on it.
-    const restingBox = resting.parentElement;
-    const invalidBox = invalid.parentElement;
+    // The group is the textarea's wrapping `div`; danger keys off `:has([data-invalid])` on it.
+    const restingGroup = resting.parentElement;
+    const invalidGroup = invalid.parentElement;
     // `Error` is shadowed by this file's `Error` story, so reach for the global constructor.
-    if (restingBox == null || invalidBox == null) {
-      throw new Error("expected a TextAreaBox wrapper");
+    if (restingGroup == null || invalidGroup == null) {
+      throw new Error("expected a TextAreaGroup wrapper");
     }
-    await expect(invalidBox).toHaveClass("has-[[data-invalid]]:border-danger-strong");
-    // ...and the danger border actually renders: its color differs from the resting box's border.
-    await expect(getComputedStyle(invalidBox).borderColor).not.toBe(
-      getComputedStyle(restingBox).borderColor,
+    await expect(invalidGroup).toHaveClass("has-[[data-invalid]]:border-danger-strong");
+    // ...and the danger border actually renders: its color differs from the resting group's border.
+    await expect(getComputedStyle(invalidGroup).borderColor).not.toBe(
+      getComputedStyle(restingGroup).borderColor,
     );
   },
 };
