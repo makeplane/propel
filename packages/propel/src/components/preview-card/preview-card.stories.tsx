@@ -64,6 +64,11 @@ export const Default: Story = {
       makes planning simple.
     </p>
   ),
+};
+
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await userEvent.hover(canvas.getByRole("link", { name: "Plane" }));
     await waitFor(() =>

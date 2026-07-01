@@ -27,6 +27,15 @@ export const Default: Story = {
       <SwitchThumb />
     </Switch>
   ),
+};
+
+/**
+ * Interaction test: clicking the switch flips its checked state. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     const sw = canvas.getByRole("switch");
     await expect(sw).toHaveAttribute("aria-checked", "true");

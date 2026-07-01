@@ -110,6 +110,11 @@ export const Default: Story = {
       </MenuPortal>
     </Menu>
   ),
+};
+
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Actions" }));
     await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
@@ -166,6 +171,11 @@ export const Grouped: Story = {
       </MenuPortal>
     </Menu>
   ),
+};
+
+export const GroupedInteraction: Story = {
+  ...Grouped,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "View" }));
     await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
@@ -176,7 +186,7 @@ export const Grouped: Story = {
 
 /** `MenuCheckboxItem` + `MenuCheckboxItemIndicator` make a toggleable multi-select row. */
 export const Checkboxes: Story = {
-  render: function CheckboxesStory() {
+  render: function Render() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({ comments: true });
     const rows = [
       { key: "comments", label: "Comments" },
@@ -212,6 +222,11 @@ export const Checkboxes: Story = {
       </Menu>
     );
   },
+};
+
+export const CheckboxesInteraction: Story = {
+  ...Checkboxes,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Notify" }));
     const findRow = (text: string) =>

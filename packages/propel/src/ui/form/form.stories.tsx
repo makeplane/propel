@@ -50,27 +50,14 @@ export const Default: Story = {
   ),
 };
 
-/** Native constraint validation: submitting an empty required field shows the error. */
-export const Validation: Story = {
+/**
+ * Interaction test: native constraint validation — submitting an empty required field shows the
+ * error. Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const ValidationInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   args: { onSubmit: fn((e) => e.preventDefault()) },
-  render: (args) => (
-    <Form {...args}>
-      <FormBody layout="single">
-        <Field name="email">
-          <FieldLabel magnitude="md" inset={false}>
-            Email
-          </FieldLabel>
-          <Input magnitude="md" type="email" required placeholder="you@example.com" />
-          <FieldError magnitude="md" />
-        </Field>
-      </FormBody>
-      <FormActions layout="inline">
-        <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
-          Submit
-        </Button>
-      </FormActions>
-    </Form>
-  ),
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Submit" }));
     await expect(canvas.getByRole("textbox", { name: "Email" })).toBeInvalid();

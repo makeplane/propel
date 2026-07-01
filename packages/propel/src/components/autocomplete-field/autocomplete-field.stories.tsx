@@ -49,6 +49,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const RendersInput: Story = {
+  ...Default,
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("combobox", { name: "Container image" })).toBeInTheDocument();
@@ -58,6 +59,16 @@ export const RendersInput: Story = {
 /** Setting `error` marks the field invalid, which recolors the input group border to danger. */
 export const Invalid: Story = {
   args: { error: "Enter a container image." },
+};
+
+/**
+ * Interaction test: the invalid field marks the input `aria-invalid`/`data-invalid` and recolors
+ * the group border. Tagged out of the sidebar/docs/manifest while still running under the default
+ * `test` tag.
+ */
+export const InvalidInteraction: Story = {
+  ...Invalid,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     const input = canvas.getByRole("combobox", { name: "Container image" });
     await expect(input).toHaveAttribute("aria-invalid", "true");

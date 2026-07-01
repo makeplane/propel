@@ -42,6 +42,15 @@ export const Default: Story = {
       <Option value="ssh" label="SSH" />
     </CheckboxGroup>
   ),
+};
+
+/**
+ * Interaction test: the group reflects its `defaultValue`, so HTTPS reads as checked. Tagged out of
+ * the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("checkbox", { name: "HTTPS" })).toHaveAttribute(
       "aria-checked",

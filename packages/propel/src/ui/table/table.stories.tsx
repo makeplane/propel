@@ -101,6 +101,15 @@ export const Default: Story = {
       </TableBody>
     </Table>
   ),
+};
+
+/**
+ * Interaction test: the standard table exposes 4 column headers and 1 header + 3 data rows. Tagged
+ * out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getAllByRole("columnheader")).toHaveLength(4);
     // 1 header row + 3 data rows.
@@ -161,7 +170,7 @@ type Sort = keyof typeof sortGlyph;
  * cycles none → asc → desc.
  */
 export const Sortable: Story = {
-  render: function SortableStory() {
+  render: function Render() {
     const [sort, setSort] = React.useState<Sort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
     const SortGlyph = sortGlyph[sort];
@@ -205,6 +214,15 @@ export const Sortable: Story = {
       </Table>
     );
   },
+};
+
+/**
+ * Interaction test: clicking the sort trigger cycles `aria-sort` none → ascending → descending.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const SortableInteraction: Story = {
+  ...Sortable,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     const header = canvas.getAllByRole("columnheader")[0];
     await expect(header).toHaveAttribute("aria-sort", "none");

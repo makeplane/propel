@@ -36,6 +36,15 @@ export const Default: Story = {
       <Option value="high" label="High" />
     </RadioGroup>
   ),
+};
+
+/**
+ * Interaction test: the default-selected ring reports `aria-checked="true"`. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("radio", { name: "Low" })).toHaveAttribute(
       "aria-checked",

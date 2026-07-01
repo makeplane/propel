@@ -85,6 +85,16 @@ export const Default: Story = {
       </BreadcrumbList>
     </Breadcrumb>
   ),
+};
+
+/**
+ * Interaction test: the trail exposes its accessible landmark name and marks the last crumb as the
+ * current page. Tagged out of the sidebar/docs/manifest while still running under the default
+ * `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     // The trail exposes its accessible landmark name, and the last crumb is the current page.
     await expect(canvas.getByRole("navigation", { name: "Breadcrumb" })).toBeInTheDocument();

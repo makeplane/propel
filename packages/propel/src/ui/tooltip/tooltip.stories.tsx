@@ -63,6 +63,11 @@ export const Anatomy: Story = {
       </TooltipPortal>
     </Tooltip>
   ),
+};
+
+export const AnatomyInteraction: Story = {
+  ...Anatomy,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await userEvent.tab();
     await expect(canvas.getByRole("button", { name: "Hover or focus me" })).toHaveFocus();
@@ -102,6 +107,11 @@ export const SharedProvider: Story = {
       </div>
     </TooltipProvider>
   ),
+};
+
+export const SharedProviderInteraction: Story = {
+  ...SharedProvider,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await userEvent.tab();
     await expect(canvas.getByRole("button", { name: "Cut" })).toHaveFocus();

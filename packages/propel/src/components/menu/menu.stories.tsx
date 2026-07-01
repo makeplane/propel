@@ -199,7 +199,7 @@ function initials(name: string) {
  * checkmark on the selected row only.
  */
 export const Status: Story = {
-  render: function StatusStory() {
+  render: function Render() {
     const [selected, setSelected] = React.useState<string>("backlog");
     const [query, setQuery] = React.useState("");
     const visible = STATUSES.filter((s) => s.label.toLowerCase().includes(query.toLowerCase()));
@@ -227,6 +227,11 @@ export const Status: Story = {
       </Menu>
     );
   },
+};
+
+export const StatusInteraction: Story = {
+  ...Status,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open and pick a status", async () => {
       await openMenu(canvas, "Backlog");
@@ -246,7 +251,7 @@ export const Status: Story = {
  * divider line.
  */
 export const Labels: Story = {
-  render: function LabelsStory() {
+  render: function Render() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({ customer: true });
     const [query, setQuery] = React.useState("");
     const trimmed = query.trim();
@@ -284,6 +289,11 @@ export const Labels: Story = {
       </Menu>
     );
   },
+};
+
+export const LabelsInteraction: Story = {
+  ...Labels,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open and toggle a label", async () => {
       await openMenu(canvas, "Labels");
@@ -337,6 +347,11 @@ export const ActionMenu: Story = {
       </MenuContent>
     </Menu>
   ),
+};
+
+export const ActionMenuInteraction: Story = {
+  ...ActionMenu,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open and confirm the disabled Archive row", async () => {
       await openMenu(canvas, "Actions");
@@ -389,7 +404,7 @@ export const ActionMenu: Story = {
  * wider menu.
  */
 export const Description: Story = {
-  render: function DescriptionStory() {
+  render: function Render() {
     const [selected, setSelected] = React.useState("private");
     return (
       <Menu>
@@ -419,6 +434,11 @@ export const Description: Story = {
       </Menu>
     );
   },
+};
+
+export const DescriptionInteraction: Story = {
+  ...Description,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open and select Public", async () => {
       await openMenu(canvas, "Visibility");
@@ -464,7 +484,7 @@ export const LabelAndFooterSemantics: Story = {
  * `Avatar` as the leading content, a search header, and a disabled row.
  */
 export const Assignees: Story = {
-  render: function AssigneesStory() {
+  render: function Render() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({ amelia: true });
     const [query, setQuery] = React.useState("");
     const visible = ASSIGNEES.filter((a) => a.name.toLowerCase().includes(query.toLowerCase()));
@@ -492,6 +512,11 @@ export const Assignees: Story = {
       </Menu>
     );
   },
+};
+
+export const AssigneesInteraction: Story = {
+  ...Assignees,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open and toggle an assignee", async () => {
       await openMenu(canvas, "Assignees");
@@ -513,7 +538,7 @@ export const Assignees: Story = {
  * inline (the English name), a search header, and a selected checkmark.
  */
 export const LanguagePicker: Story = {
-  render: function LanguagePickerStory() {
+  render: function Render() {
     const [selected, setSelected] = React.useState("en");
     const [query, setQuery] = React.useState("");
     const visible = LANGUAGES.filter((l) =>
@@ -543,6 +568,11 @@ export const LanguagePicker: Story = {
       </Menu>
     );
   },
+};
+
+export const LanguagePickerInteraction: Story = {
+  ...LanguagePicker,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("filter and select a language", async () => {
       await openMenu(canvas, "English");
@@ -564,7 +594,7 @@ export const LanguagePicker: Story = {
  * priority glyph, plus a search header.
  */
 export const Priority: Story = {
-  render: function PriorityStory() {
+  render: function Render() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({});
     const [query, setQuery] = React.useState("");
     const visible = PRIORITIES.filter((p) => p.label.toLowerCase().includes(query.toLowerCase()));
@@ -591,6 +621,11 @@ export const Priority: Story = {
       </Menu>
     );
   },
+};
+
+export const PriorityInteraction: Story = {
+  ...Priority,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open and toggle High", async () => {
       await openMenu(canvas, "Priority");
@@ -615,7 +650,7 @@ const VIEW_ALL_PREVIEW = 2;
  */
 export const CheckedFillVisible: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: function CheckedFillVisibleStory() {
+  render: function Render() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({});
     return (
       <Menu>
@@ -683,7 +718,7 @@ export const CheckedFillVisible: Story = {
  * less").
  */
 export const Filters: Story = {
-  render: function FiltersStory() {
+  render: function Render() {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({});
     const [collapsed, setCollapsed] = React.useState<Record<string, boolean>>({});
     // Which `viewAll` sections have been expanded to show every row.
@@ -791,6 +826,11 @@ export const Filters: Story = {
       </Menu>
     );
   },
+};
+
+export const FiltersInteraction: Story = {
+  ...Filters,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open and confirm multiple sections render", async () => {
       await openMenu(canvas, "Filters");
@@ -843,8 +883,12 @@ export const EmptyState: Story = {
         iframeHeight: 500,
       },
     },
+    // The empty state intentionally renders an open role="menu" whose only child is the
+    // "No matching results" message — no menu items. axe's aria-required-children flags a
+    // menu with no item children, but an empty results menu legitimately has none.
+    a11y: { config: { rules: [{ id: "aria-required-children", enabled: false }] } },
   },
-  render: function EmptyStateStory() {
+  render: function Render() {
     const [query, setQuery] = React.useState("Product");
     const visible = STATUSES.filter((s) => s.label.toLowerCase().includes(query.toLowerCase()));
     return (
@@ -867,6 +911,11 @@ export const EmptyState: Story = {
       </Menu>
     );
   },
+};
+
+export const EmptyStateInteraction: Story = {
+  ...EmptyState,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ step }) => {
     await step("the no-results message shows for a non-matching query", async () => {
       await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
@@ -971,6 +1020,11 @@ export const Submenu: Story = {
       </MenuContent>
     </Menu>
   ),
+};
+
+export const SubmenuInteraction: Story = {
+  ...Submenu,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open the menu and reveal a submenu", async () => {
       await openMenu(canvas, "Filter by");

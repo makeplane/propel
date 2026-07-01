@@ -47,6 +47,15 @@ export const Default: Story = {
       </Toggle>
     </ToggleGroup>
   ),
+};
+
+/**
+ * Interaction test: selecting another toggle moves the pressed state and fires `onValueChange`.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent, args }) => {
     const left = canvas.getByRole("button", { name: "Align left" });
     const center = canvas.getByRole("button", { name: "Align center" });

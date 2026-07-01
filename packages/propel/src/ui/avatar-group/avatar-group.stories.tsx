@@ -49,6 +49,15 @@ export const ThreeMembers: Story = {
       </Avatar>
     </AvatarGroup>
   ),
+};
+
+/**
+ * Interaction test: the group renders three avatars, each sized `sm` (24px). Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const ThreeMembersInteraction: Story = {
+  ...ThreeMembers,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     const avatars = canvas.getAllByRole("img");
     await expect(avatars).toHaveLength(3);

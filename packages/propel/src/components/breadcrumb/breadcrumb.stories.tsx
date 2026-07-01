@@ -78,6 +78,15 @@ export const Default: Story = {
       </BreadcrumbList>
     </Breadcrumb>
   ),
+};
+
+/**
+ * Interaction test: the trail exposes its landmark name and the last crumb is the current page.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     // The trail exposes its accessible landmark name, and the last crumb is the
     // current page.
@@ -136,36 +145,8 @@ export const WithCollapsedCrumbs: Story = {
  * behavior canary, not a designer example — but still runs under the default `test` tag.
  */
 export const CollapsedCrumbsInteraction: Story = {
+  ...WithCollapsedCrumbs,
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => (
-    <Breadcrumb aria-label="Breadcrumb">
-      <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Plane
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <Menu>
-            <BaseMenu.Trigger aria-label="Show more breadcrumbs" render={<BreadcrumbTrigger />}>
-              <BreadcrumbTriggerIcon>
-                <Ellipsis />
-              </BreadcrumbTriggerIcon>
-            </BaseMenu.Trigger>
-            <MenuContent width="auto">
-              <MenuItem render={inertAnchor()}>Projects</MenuItem>
-              <MenuItem render={inertAnchor()}>Design</MenuItem>
-            </MenuContent>
-          </Menu>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-        </BreadcrumbItem>
-      </BreadcrumbList>
-    </Breadcrumb>
-  ),
   play: async ({ canvas }) => {
     // The current crumb is marked for assistive tech.
     await expect(canvas.getByText("Breadcrumb")).toHaveAttribute("aria-current", "page");

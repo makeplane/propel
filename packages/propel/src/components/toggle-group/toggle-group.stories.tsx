@@ -45,6 +45,16 @@ export const Default: Story = {
       </Toggle>
     </ToggleGroup>
   ),
+};
+
+/**
+ * Interaction test: selecting one toggle clears the other and fires `onValueChange`. Tagged out of
+ * the sidebar/docs/manifest while still running under the default `test` tag — so a browsing user
+ * never sees the selection change on its own.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent, args }) => {
     const bulleted = canvas.getByRole("button", { name: "Bulleted list" });
     const numbered = canvas.getByRole("button", { name: "Numbered list" });

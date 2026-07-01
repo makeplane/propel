@@ -124,6 +124,15 @@ export const Default: Story = {
       </TableBody>
     </Table>
   ),
+};
+
+/**
+ * Interaction test: the table renders 5 column headers, 5 rows (1 header + 4 data), and 20 cells.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getAllByRole("columnheader")).toHaveLength(5);
     // 1 header row + 4 data rows.
@@ -137,47 +146,17 @@ export const Default: Story = {
  * bordered to form a grid (Figma "Spreadsheet").
  */
 export const Spreadsheet: Story = {
+  ...Default,
   args: { mode: "spreadsheet" },
-  render: (args) => (
-    <Table {...args}>
-      <TableHeader>
-        <TableRow>
-          {COLUMNS.map((c) => (
-            <TableHead pinned="none" key={c}>
-              {c}
-            </TableHead>
-          ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {PEOPLE.map((person) => (
-          <TableRow key={person.email}>
-            <TableCell
-              pinned="none"
-              padding="cell"
-              inlineStartNode={
-                <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
-              }
-            >
-              {person.name}
-            </TableCell>
-            <TableCell pinned="none" padding="cell">
-              {person.display}
-            </TableCell>
-            <TableCell pinned="none" padding="cell">
-              {person.email}
-            </TableCell>
-            <TableCell pinned="none" padding="cell">
-              {person.role}
-            </TableCell>
-            <TableCell pinned="none" padding="cell">
-              {person.billing}
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  ),
+};
+
+/**
+ * Interaction test: the spreadsheet renders 5 column headers and 5 rows. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const SpreadsheetInteraction: Story = {
+  ...Spreadsheet,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getAllByRole("columnheader")).toHaveLength(5);
     await expect(canvas.getAllByRole("row")).toHaveLength(5);
@@ -190,7 +169,7 @@ export const Spreadsheet: Story = {
  */
 export const Sortable: Story = {
   args: { mode: "table" },
-  render: (args) => {
+  render: function Render(args) {
     const [sort, setSort] = React.useState<TableHeadSort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
     const sorted =
@@ -232,6 +211,17 @@ export const Sortable: Story = {
       </Table>
     );
   },
+};
+
+/**
+ * **Sortable header (interaction).** Clicking the column-header button cycles the sort none → asc →
+ * desc and the `<th>`'s `aria-sort` follows. Tagged so it stays out of the sidebar, docs, and AI
+ * manifest while still running under the default `test` tag — so a browsing user never sees the
+ * sort change on its own.
+ */
+export const SortableInteraction: Story = {
+  ...Sortable,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     const header = canvas.getAllByRole("columnheader")[0];
     await expect(header).toHaveAttribute("aria-sort", "none");
@@ -253,7 +243,7 @@ const ROLES = ["Admin", "Member", "Guest"];
  */
 export const EditableCells: Story = {
   args: { mode: "table" },
-  render: function EditableCellsStory(args) {
+  render: function Render(args) {
     const [people, setPeople] = React.useState(PEOPLE);
     const [selectedEmail, setSelectedEmail] = React.useState<string | null>(null);
     const setRole = (email: string, role: string) =>
@@ -308,6 +298,17 @@ export const EditableCells: Story = {
       </Table>
     );
   },
+};
+
+/**
+ * **Editable cells (interaction).** Clicking an editable cell opens a portaled `Menu`; picking a
+ * role updates the cell value in place. Tagged so it stays out of the sidebar, docs, and AI
+ * manifest while still running under the default `test` tag — so a browsing user never sees the
+ * menu open on its own.
+ */
+export const EditableCellsInteraction: Story = {
+  ...EditableCells,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     // The first editable cell opens a menu; picking a role updates the cell value.
     const trigger = canvas.getByRole("button", { name: "Account type for Chargers" });
@@ -339,7 +340,7 @@ const DIRECTORY: Person[] = Array.from({ length: 23 }, (_, i) => {
  */
 export const WithPagination: Story = {
   args: { mode: "table" },
-  render: (args) => {
+  render: function Render(args) {
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(5);
     const pageCount = Math.ceil(DIRECTORY.length / pageSize);
@@ -404,6 +405,16 @@ export const WithPagination: Story = {
       </div>
     );
   },
+};
+
+/**
+ * **Pagination (interaction).** Advancing the pager swaps the table's rows to the next page. Tagged
+ * so it stays out of the sidebar, docs, and AI manifest while still running under the default
+ * `test` tag — so a browsing user never sees the rows page on their own.
+ */
+export const WithPaginationInteraction: Story = {
+  ...WithPagination,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     // Page 1 shows the first slice; advancing the pagination swaps the table's rows.
     await expect(canvas.getByText("user1@example.com")).toBeInTheDocument();
@@ -422,7 +433,7 @@ export const WithPagination: Story = {
 export const RichRows: Story = {
   args: { mode: "table" },
   parameters: { controls: { disable: true } },
-  render: function RichRowsStory(args) {
+  render: function Render(args) {
     const [people, setPeople] = React.useState(PEOPLE);
     const setRole = (email: string, role: string) =>
       setPeople((rows) => rows.map((r) => (r.email === email ? { ...r, role } : r)));
@@ -478,6 +489,16 @@ export const RichRows: Story = {
       </Table>
     );
   },
+};
+
+/**
+ * **Row action menu (interaction).** The trailing `TableActionCell` "⋯" opens a portaled `Menu` of
+ * row actions. Tagged so it stays out of the sidebar, docs, and AI manifest while still running
+ * under the default `test` tag.
+ */
+export const RichRowsActionMenu: Story = {
+  ...RichRows,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     // The trailing action cell opens a row-options menu.
     const trigger = canvas.getByRole("button", { name: "Options for Chargers" });
@@ -540,6 +561,16 @@ export const StickyHeaderAndColumns: Story = {
       </Table>
     </div>
   ),
+};
+
+/**
+ * Interaction test: the pinned header is the sticky-column corner — sticky to both the top and the
+ * inline-start edge. Tagged out of the sidebar/docs/manifest while still running under the default
+ * `test` tag.
+ */
+export const StickyHeaderAndColumnsInteraction: Story = {
+  ...StickyHeaderAndColumns,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     // The pinned header is the sticky-column corner: sticky to both the top (header)
     // and the inline-start edge (pinned column).
@@ -559,7 +590,7 @@ export const StickyHeaderAndColumns: Story = {
 export const SortableKeyboard: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { mode: "table" },
-  render: function SortableKeyboardStory(args) {
+  render: function Render(args) {
     const [sort, setSort] = React.useState<TableHeadSort>("none");
     const cycle = () => setSort((s) => (s === "none" ? "asc" : s === "asc" ? "desc" : "none"));
     const sorted =
@@ -634,7 +665,7 @@ export const SortableKeyboard: Story = {
 export const EditableCellKeyboard: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { mode: "table" },
-  render: function EditableCellKeyboardStory(args) {
+  render: function Render(args) {
     const [role, setRole] = React.useState("Admin");
     return (
       <Table {...args}>

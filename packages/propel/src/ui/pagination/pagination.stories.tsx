@@ -65,6 +65,16 @@ export const Default: Story = {
       </PaginationList>
     </Pagination>
   ),
+};
+
+/**
+ * Interaction test: page 1 is current (pressed fill + aria-current), the prev arrow is disabled at
+ * the start, and the selected fill differs from a non-current page button. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     // Page 1 is current (pressed fill + aria-current) and the prev arrow is disabled at the start.
     const page1 = canvas.getByRole("button", { name: "Go to page 1" });

@@ -36,6 +36,15 @@ export const Default: Story = {
       )}
     </OTPField>
   ),
+};
+
+/**
+ * Interaction test: the six slots each expose a textbox. Tagged out of the sidebar/docs/manifest
+ * while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getAllByRole("textbox")).toHaveLength(6);
   },
@@ -56,6 +65,15 @@ export const Grouped: Story = {
       <OTPFieldInput magnitude="md" aria-label="Character 6" />
     </OTPField>
   ),
+};
+
+/**
+ * Interaction test: the grouped slots each expose a textbox. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const GroupedInteraction: Story = {
+  ...Grouped,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getAllByRole("textbox")).toHaveLength(6);
   },
@@ -86,6 +104,15 @@ export const Invalid: Story = {
       )}
     </OTPField>
   ),
+};
+
+/**
+ * Interaction test: the invalid slots each expose a textbox. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const InvalidInteraction: Story = {
+  ...Invalid,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getAllByRole("textbox")).toHaveLength(6);
   },

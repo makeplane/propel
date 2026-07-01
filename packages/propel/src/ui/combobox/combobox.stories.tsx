@@ -100,6 +100,11 @@ export const Default: Story = {
       </Combobox>
     </Field>
   ),
+};
+
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     await userEvent.type(canvas.getByRole("combobox", { name: "Region" }), "eu");
     await expect(within(document.body).getByText("eu-central-1")).toBeInTheDocument();

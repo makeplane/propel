@@ -45,6 +45,16 @@ export const Invalid: Story = {
       />
     </div>
   ),
+};
+
+/**
+ * Interaction test: the invalid field propagates `data-invalid` and renders a different border
+ * color than the resting field. Tagged out of the sidebar/docs/manifest while still running under
+ * the default `test` tag.
+ */
+export const InvalidInteraction: Story = {
+  ...Invalid,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     const [resting, invalid] = canvas.getAllByRole("checkbox");
     // The error-free field leaves the box in its resting (non-invalid) state.
@@ -60,6 +70,7 @@ export const Invalid: Story = {
 };
 
 export const RendersCheckbox: Story = {
+  ...Default,
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("checkbox", { name: "Email updates" })).toBeInTheDocument();

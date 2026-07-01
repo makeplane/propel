@@ -79,6 +79,11 @@ export const Anatomy: Story = {
       makes planning simple.
     </p>
   ),
+};
+
+export const AnatomyInteraction: Story = {
+  ...Anatomy,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await userEvent.hover(canvas.getByRole("link", { name: "Plane" }));
     await waitFor(() =>

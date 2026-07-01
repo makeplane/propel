@@ -45,6 +45,16 @@ export const Default: Story = {
       <FieldDescription magnitude="md">Shown anywhere your profile is visible.</FieldDescription>
     </Field>
   ),
+};
+
+/**
+ * Interaction test: the control is required and exposes its helper text as the accessible
+ * description. Tagged out of the sidebar/docs/manifest while still running under the default `test`
+ * tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     const input = canvas.getByRole("textbox", { name: "Display name" });
     await expect(input).toBeRequired();
@@ -81,6 +91,16 @@ export const Invalid: Story = {
       </FieldError>
     </Field>
   ),
+};
+
+/**
+ * Interaction test: the control exposes `aria-invalid` and announces the `FieldError` text as its
+ * accessible description. Tagged out of the sidebar/docs/manifest while still running under the
+ * default `test` tag.
+ */
+export const InvalidInteraction: Story = {
+  ...Invalid,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     const input = canvas.getByRole("textbox", { name: "Workspace slug" });
     await expect(input).toHaveAttribute("aria-invalid", "true");

@@ -44,6 +44,16 @@ export const Default: Story = {
       </CheckboxIndeterminateIndicator>
     </Checkbox>
   ),
+};
+
+/**
+ * Interaction test: clicking the box toggles the tick on and off. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees the tick flip on its own.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     const box = canvas.getByRole("checkbox");
     await expect(box).toHaveAttribute("aria-checked", "false");
@@ -105,6 +115,16 @@ export const States: Story = {
       </Checkbox>
     </div>
   ),
+};
+
+/**
+ * Interaction test: the resting box is empty, the checked box mounts its indicator, and the
+ * `data-invalid` box recolors its border to danger. Tagged out of the sidebar/docs/manifest while
+ * still running under the default `test` tag.
+ */
+export const StatesInteraction: Story = {
+  ...States,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     const [unchecked, checked, , , error] = canvas.getAllByRole("checkbox");
     // The indicator is only mounted while checked/indeterminate, so the resting box is empty.
@@ -141,6 +161,16 @@ export const Labeled: Story = {
       Sync automatically
     </CheckboxLabel>
   ),
+};
+
+/**
+ * Interaction test: clicking the label text toggles the associated box. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees the tick flip on its own.
+ */
+export const LabeledInteraction: Story = {
+  ...Labeled,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     const box = canvas.getByRole("checkbox");
     await expect(box).toHaveAttribute("aria-checked", "false");
