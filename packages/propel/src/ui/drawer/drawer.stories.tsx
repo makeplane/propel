@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { X } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { IconButton } from "../../components/icon-button";
 import { Button } from "../button";
+import { IconButton, IconButtonIcon } from "../icon-button";
 import {
   Drawer,
   DrawerBackdrop,
@@ -82,7 +82,9 @@ export const Anatomy: Story = {
                   aria-label="Close"
                   render={<DrawerClose />}
                 >
-                  <X />
+                  <IconButtonIcon>
+                    <X />
+                  </IconButtonIcon>
                 </IconButton>
               </DrawerHeader>
               <DrawerBody>Panel body content goes here.</DrawerBody>
