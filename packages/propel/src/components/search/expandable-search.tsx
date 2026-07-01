@@ -32,7 +32,6 @@ export function ExpandableSearch({
     onValueChange,
   });
   const hasValue = currentValue != null && currentValue !== "";
-  const resolvedAriaLabel = ariaLabel;
   const [focused, setFocused] = React.useState(false);
   const showExpanded = focused || hasValue;
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -59,7 +58,7 @@ export function ExpandableSearch({
           }}
           placeholder={placeholder}
           disabled={disabled}
-          aria-label={resolvedAriaLabel}
+          aria-label={ariaLabel}
           aria-labelledby={ariaLabelledBy}
           {...props}
         />
