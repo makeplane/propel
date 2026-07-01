@@ -1,4 +1,4 @@
-import { Minus, Plus } from "lucide-react";
+import type * as React from "react";
 
 import {
   NumberField as NumberFieldElement,
@@ -9,15 +9,20 @@ import {
   type NumberFieldMagnitude,
   type NumberFieldProps as NumberFieldElementProps,
 } from "../../ui/number-field";
-import { IconButton } from "../icon-button";
 
 export type NumberFieldProps = NumberFieldElementProps & {
-  /** Visual size of the field: controls button square and input height. Required. */
+  /** Visual size of the field: controls the input height. Required. */
   magnitude: NumberFieldMagnitude;
-  /** Accessible name for the decrement button. */
-  decrementLabel: string;
-  /** Accessible name for the increment button. */
-  incrementLabel: string;
+  /**
+   * The decrement control (e.g. an `IconButton`), rendered as the field's decrement stepper. It
+   * carries its own — localizable — `aria-label`; the field bakes no label or glyph.
+   */
+  decrement: React.ReactElement;
+  /**
+   * The increment control (e.g. an `IconButton`), rendered as the field's increment stepper. It
+   * carries its own — localizable — `aria-label`; the field bakes no label or glyph.
+   */
+  increment: React.ReactElement;
 };
 
 /**
@@ -27,49 +32,28 @@ export type NumberFieldProps = NumberFieldElementProps & {
  *
  * Composed from the `ui/number-field` parts (`NumberField` root + `NumberFieldGroup` +
  * `NumberFieldDecrement` + `NumberFieldInput` + `NumberFieldIncrement`), which are built on Base UI
- * `NumberField`. The steppers render as ghost `IconButton`s via the behavior wrappers' `render`.
+ * `NumberField`. The `decrement`/`increment` steppers are consumer-provided controls, grafted onto
+ * the behavior wrappers via `render`.
  */
 export function NumberField({
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledby,
   magnitude,
-  decrementLabel,
-  incrementLabel,
+  decrement,
+  increment,
   ...props
 }: NumberFieldProps) {
   return (
     <NumberFieldElement {...props}>
       <NumberFieldGroup>
-        <NumberFieldDecrement
-          render={
-            <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude={magnitude}
-              aria-label={decrementLabel}
-            >
-              <Minus />
-            </IconButton>
-          }
-        />
+        <NumberFieldDecrement render={decrement} />
         {/* The accessible name belongs on the input, not the root div. */}
         <NumberFieldInput
           magnitude={magnitude}
           aria-label={ariaLabel}
           aria-labelledby={ariaLabelledby}
         />
-        <NumberFieldIncrement
-          render={
-            <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude={magnitude}
-              aria-label={incrementLabel}
-            >
-              <Plus />
-            </IconButton>
-          }
-        />
+        <NumberFieldIncrement render={increment} />
       </NumberFieldGroup>
     </NumberFieldElement>
   );

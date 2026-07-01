@@ -1,4 +1,3 @@
-import { ChevronsUpDown, X } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -20,15 +19,22 @@ import { FieldDescription } from "../../ui/field/field-description";
 import { FieldLabel } from "../../ui/field/field-label";
 import type { FieldMagnitude } from "../../ui/field/variants";
 import { FieldHelperText } from "../field/field-helper-text";
-import { IconButton } from "../icon-button";
 
 export type AutocompleteFieldProps = Omit<AutocompleteProps<string>, "children" | "items"> & {
   /** Supporting text shown below the input. */
   description?: React.ReactNode;
-  /** Accessible label used by the clear and popup trigger buttons. */
-  controlLabel: string;
+  /**
+   * The clear control (e.g. an `IconButton`), rendered as the autocomplete's clear button. It
+   * carries its own — localizable — `aria-label`; the field bakes no label text.
+   */
+  clear: React.ReactElement;
+  /**
+   * The popup-trigger control (e.g. an `IconButton`), rendered as the autocomplete's trigger. It
+   * carries its own — localizable — `aria-label`; the field bakes no label text.
+   */
+  trigger: React.ReactElement;
   /** Message rendered when no item matches. */
-  emptyLabel: React.ReactNode;
+  empty: React.ReactNode;
   /** Error text shown below the control. */
   error?: React.ReactNode;
   /** Helper text shown below the control. Replaced by `error` when an error is set. */
@@ -46,9 +52,10 @@ export type AutocompleteFieldProps = Omit<AutocompleteProps<string>, "children" 
 /** Ready-to-use autocomplete field with label, input, popup items, and helper/error text. */
 export function AutocompleteField({
   description,
-  controlLabel,
+  clear,
+  trigger,
   disabled,
-  emptyLabel,
+  empty,
   error,
   hint,
   items,
@@ -68,30 +75,8 @@ export function AutocompleteField({
             box height (search magnitude scale sm/md/lg ≠ the field's md/lg/xl). */}
         <AutocompleteInputGroup magnitude="lg">
           <AutocompleteInput magnitude="lg" placeholder={placeholder} />
-          <AutocompleteClear
-            render={
-              <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="md"
-                aria-label={`Clear ${controlLabel}`}
-              >
-                <X />
-              </IconButton>
-            }
-          />
-          <AutocompleteTrigger
-            render={
-              <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="md"
-                aria-label={`Open ${controlLabel}`}
-              >
-                <ChevronsUpDown />
-              </IconButton>
-            }
-          />
+          <AutocompleteClear render={clear} />
+          <AutocompleteTrigger render={trigger} />
         </AutocompleteInputGroup>
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
@@ -99,7 +84,7 @@ export function AutocompleteField({
         <AutocompletePortal>
           <AutocompletePositioner>
             <AutocompletePopup>
-              <AutocompleteEmpty>{emptyLabel}</AutocompleteEmpty>
+              <AutocompleteEmpty>{empty}</AutocompleteEmpty>
               <AutocompleteList>
                 {items.map((item) => (
                   <AutocompleteItem key={item} value={item}>

@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { X } from "lucide-react";
 import * as React from "react";
 import { expect, fn, waitFor, within } from "storybook/test";
 
+import { IconButton } from "../icon-button";
 import {
   Toast,
   type ToastData,
@@ -12,6 +14,13 @@ import {
 } from "./index";
 
 const TONES: ToastTone[] = ["success", "danger", "info", "warning", "neutral"];
+
+// A shared close control passed to each ToastProvider — carries its own (localizable) aria-label.
+const closeButton = (
+  <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Dismiss">
+    <X />
+  </IconButton>
+);
 
 // Stable spies shared between the ActionsInteraction story's render and play fn so the
 // test can assert the action handlers fired. Cleared at the start of each play run.
@@ -76,12 +85,12 @@ class ToastErrorBoundary extends React.Component<
 const meta = {
   title: "Components/Toast",
   component: ToastProvider,
-  args: { closeLabel: "Dismiss" },
+  args: { close: closeButton },
   // Every story renders inside a single ToastProvider so its trigger can queue
   // toasts and the viewport can display them.
   decorators: [
     (Story) => (
-      <ToastProvider closeLabel="Dismiss">
+      <ToastProvider close={closeButton}>
         <Story />
       </ToastProvider>
     ),
@@ -240,7 +249,7 @@ export const MissingToneThrows: Story = {
     <ToastErrorBoundary>
       <Toast
         toast={{ id: "missing-tone", title: "Missing tone" } as ToastProps["toast"]}
-        closeLabel="Dismiss"
+        close={closeButton}
       />
     </ToastErrorBoundary>
   ),

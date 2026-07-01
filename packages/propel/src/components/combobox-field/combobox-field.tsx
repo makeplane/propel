@@ -1,4 +1,3 @@
-import { ChevronsUpDown, X } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -22,15 +21,22 @@ import type { FieldMagnitude } from "../../ui/field/variants";
 // Ready-made part that supplies a default icon when no children are given (defaults are a `components` concern).
 import { ComboboxItemIndicator } from "../combobox/combobox-item-indicator";
 import { FieldHelperText } from "../field/field-helper-text";
-import { IconButton } from "../icon-button";
 
 export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items"> & {
   /** Supporting text shown below the input. */
   description?: React.ReactNode;
-  /** Accessible label used by the clear and popup trigger buttons. */
-  controlLabel: string;
+  /**
+   * The clear control (e.g. an `IconButton`), rendered as the combobox's clear button. It carries
+   * its own — localizable — `aria-label`; the field bakes no label text.
+   */
+  clear: React.ReactElement;
+  /**
+   * The popup-trigger control (e.g. an `IconButton`), rendered as the combobox's trigger. It
+   * carries its own — localizable — `aria-label`; the field bakes no label text.
+   */
+  trigger: React.ReactElement;
   /** Message rendered when no item matches. */
-  emptyLabel: React.ReactNode;
+  empty: React.ReactNode;
   /** Error text shown below the control. */
   error?: React.ReactNode;
   /** Helper text shown below the control. Replaced by `error` when an error is set. */
@@ -48,9 +54,10 @@ export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items
 /** Ready-to-use combobox field with label, filter input, popup items, and helper/error text. */
 export function ComboboxField({
   description,
-  controlLabel,
+  clear,
+  trigger,
   disabled,
-  emptyLabel,
+  empty,
   error,
   hint,
   items,
@@ -68,30 +75,8 @@ export function ComboboxField({
         </FieldLabel>
         <ComboboxInputGroup>
           <ComboboxInput placeholder={placeholder} />
-          <ComboboxClear
-            render={
-              <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="md"
-                aria-label={`Clear ${controlLabel}`}
-              >
-                <X />
-              </IconButton>
-            }
-          />
-          <ComboboxTrigger
-            render={
-              <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="md"
-                aria-label={`Open ${controlLabel}`}
-              >
-                <ChevronsUpDown />
-              </IconButton>
-            }
-          />
+          <ComboboxClear render={clear} />
+          <ComboboxTrigger render={trigger} />
         </ComboboxInputGroup>
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
@@ -99,7 +84,7 @@ export function ComboboxField({
         <ComboboxPortal>
           <ComboboxPositioner>
             <ComboboxPopup>
-              <ComboboxEmpty>{emptyLabel}</ComboboxEmpty>
+              <ComboboxEmpty>{empty}</ComboboxEmpty>
               <ComboboxList>
                 {items.map((item) => (
                   <ComboboxItem key={item} value={item}>

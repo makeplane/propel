@@ -1,11 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { ChevronsUpDown, X } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { IconButton } from "../icon-button";
 import { AutocompleteField } from "./index";
 
 const IMAGES = ["nginx:1.29-alpine", "node:22-slim", "postgres:18", "redis:8.2.2-alpine"];
 
-// An Autocomplete laid out as a field (Field + Autocomplete + label/helper).
+// An Autocomplete laid out as a field (Field + Autocomplete + label/helper). The clear/trigger
+// controls are consumer-provided nodes carrying their own (localizable) aria-labels.
 const meta = {
   title: "Components/AutocompleteField",
   component: AutocompleteField,
@@ -13,8 +16,27 @@ const meta = {
     name: "containerImage",
     label: "Container image",
     description: "Type or choose an image tag.",
-    controlLabel: "container image",
-    emptyLabel: "No images found",
+    clear: (
+      <IconButton
+        prominence="ghost"
+        tone="neutral"
+        magnitude="md"
+        aria-label="Clear container image"
+      >
+        <X />
+      </IconButton>
+    ),
+    trigger: (
+      <IconButton
+        prominence="ghost"
+        tone="neutral"
+        magnitude="md"
+        aria-label="Open container image"
+      >
+        <ChevronsUpDown />
+      </IconButton>
+    ),
+    empty: "No images found",
     magnitude: "md",
     items: IMAGES,
     placeholder: "e.g. node:22-slim",
