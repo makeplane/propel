@@ -64,8 +64,10 @@ export function AutocompleteField({
         <FieldLabel magnitude={magnitude} inset={false}>
           {label}
         </FieldLabel>
-        <AutocompleteInputGroup>
-          <AutocompleteInput placeholder={placeholder} />
+        {/* The field's magnitude sizes its label/text; the control keeps the standard lg (36px)
+            box height (search magnitude scale sm/md/lg ≠ the field's md/lg/xl). */}
+        <AutocompleteInputGroup magnitude="lg">
+          <AutocompleteInput magnitude="lg" placeholder={placeholder} />
           <AutocompleteClear
             render={
               <IconButton
