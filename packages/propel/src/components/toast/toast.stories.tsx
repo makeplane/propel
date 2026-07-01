@@ -89,8 +89,8 @@ const meta = {
   // Every story renders inside a single ToastProvider so its trigger can queue
   // toasts and the viewport can display them.
   decorators: [
-    (Story) => (
-      <ToastProvider close={closeButton}>
+    (Story, context) => (
+      <ToastProvider close={context.args.close}>
         <Story />
       </ToastProvider>
     ),
