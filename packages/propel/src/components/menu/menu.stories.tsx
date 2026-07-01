@@ -814,9 +814,21 @@ export const Filters: Story = {
 
 /**
  * Demo 9 — **EmptyState**. Searching filters the list; when nothing matches, the menu shows a "No
- * matching results" message instead of items.
+ * matching results" message instead of items. Rendered in an isolated iframe on the docs page
+ * (`docs.story.inline: false`) — `defaultOpen` mounts the menu already open, and its outside-click
+ * listener attaches to the whole document. Inline on a shared docs page, the first click anywhere
+ * on that page (e.g. another story's trigger) gets consumed closing this menu instead of opening
+ * the one actually clicked.
  */
 export const EmptyState: Story = {
+  parameters: {
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 300,
+      },
+    },
+  },
   render: function EmptyStateStory() {
     const [query, setQuery] = React.useState("Product");
     const visible = STATUSES.filter((s) => s.label.toLowerCase().includes(query.toLowerCase()));
