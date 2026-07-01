@@ -1,11 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { ChevronsUpDown, X } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { IconButton } from "../icon-button";
 import { ComboboxField } from "./index";
 
 const REGIONS = ["us-central-1", "us-east-1", "eu-central-1", "ap-west-1"];
 
-// A Combobox laid out as a field (Field + Combobox + label/helper).
+// A Combobox laid out as a field (Field + Combobox + label/helper). The clear/trigger controls are
+// consumer-provided nodes carrying their own (localizable) aria-labels.
 const meta = {
   title: "Components/ComboboxField",
   component: ComboboxField,
@@ -13,8 +16,17 @@ const meta = {
     name: "region",
     label: "Region",
     description: "Filter the deployment region.",
-    controlLabel: "region",
-    emptyLabel: "No regions found",
+    clear: (
+      <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear region">
+        <X />
+      </IconButton>
+    ),
+    trigger: (
+      <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
+        <ChevronsUpDown />
+      </IconButton>
+    ),
+    empty: "No regions found",
     magnitude: "md",
     items: REGIONS,
     placeholder: "e.g. eu-central-1",

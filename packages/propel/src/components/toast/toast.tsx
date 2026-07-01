@@ -1,5 +1,5 @@
 import type { Toast as BaseToast } from "@base-ui/react/toast";
-import { X } from "lucide-react";
+import type * as React from "react";
 
 import {
   Toast as ToastElement,
@@ -17,7 +17,6 @@ import {
   createToastManager as createBaseToastManager,
   useToastManager,
 } from "../../ui/toast/index";
-import { IconButton } from "../icon-button";
 import { LinearProgress } from "../linear-progress/index";
 import { ToastStatusIcon } from "./toast-status-icon";
 
@@ -81,8 +80,11 @@ export function useToast<Data extends ToastData = ToastData>() {
 }
 
 export type ToastProps = Omit<BaseToast.Root.Props, "className" | "style"> & {
-  /** Accessible name for the close button. */
-  closeLabel: string;
+  /**
+   * The close control (e.g. an `IconButton`), rendered as the toast's close button. It carries its
+   * own — localizable — `aria-label`; the toast bakes no label or glyph.
+   */
+  close: React.ReactElement;
 };
 
 /**
@@ -91,7 +93,7 @@ export type ToastProps = Omit<BaseToast.Root.Props, "className" | "style"> & {
  * Rendered automatically by `ToastProvider` for each queued toast — you normally don't render this
  * directly.
  */
-export function Toast({ toast, closeLabel, ...props }: ToastProps) {
+export function Toast({ toast, close, ...props }: ToastProps) {
   // `tone` is a required field of `ToastData`, supplied when the toast is queued.
   // We intentionally have NO default tone — fail loud with guidance if it's missing.
   const data = toast.data as ToastData | undefined;
@@ -149,15 +151,7 @@ export function Toast({ toast, closeLabel, ...props }: ToastProps) {
         ) : null}
       </ToastContent>
       <ToastCloseSlot>
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="sm"
-          aria-label={closeLabel}
-          render={<ToastClose />}
-        >
-          <X />
-        </IconButton>
+        <ToastClose render={close} />
       </ToastCloseSlot>
     </ToastElement>
   );
