@@ -21,9 +21,9 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 const pillBase =
   "inline-flex shrink-0 items-center justify-center rounded-full border-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-strong";
 
-// Shared label-pill box (PillButton + PillSwitch): a 14px node scale, capped width, and
+// Shared label-pill base (PillButton + PillSwitch): a 14px node scale, capped width, and
 // per-magnitude height/padding/font.
-const labelPillBox = cx(pillBase, "max-w-[120px] gap-1 py-1 [--node-size:0.875rem]");
+const labelPillBase = cx(pillBase, "max-w-[120px] gap-1 py-1 [--node-size:0.875rem]");
 
 const labelPillMagnitude = {
   sm: "h-5 px-1.5 text-12",
@@ -35,7 +35,7 @@ const labelPillMagnitude = {
 
 export const pillButtonVariants = cva(
   [
-    labelPillBox,
+    labelPillBase,
     "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
     "hover:border-strong hover:bg-layer-2-hover",
     "active:border-strong active:bg-layer-2-active active:text-primary",
@@ -52,7 +52,7 @@ export type PillButtonVariantProps = StrictVariantProps<typeof pillButtonVariant
 
 export const pillSwitchVariants = cva(
   [
-    labelPillBox,
+    labelPillBase,
     "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
     "hover:border-strong hover:bg-layer-2-hover",
     "data-pressed:border-strong data-pressed:bg-layer-2-selected data-pressed:text-primary",

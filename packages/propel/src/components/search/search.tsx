@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { useControllableState } from "../../hooks/use-controllable-state/index";
 import {
-  Search as SearchBox,
+  Search as SearchElement,
   SearchIcon,
   SearchInput,
   type SearchInputProps,
@@ -57,10 +57,9 @@ export function Search({
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const hasValue = currentValue != null && currentValue !== "";
-  const resolvedAriaLabel = ariaLabel;
 
   return (
-    <SearchBox magnitude={magnitude}>
+    <SearchElement magnitude={magnitude}>
       <SearchIcon>
         <SearchIconGlyph />
       </SearchIcon>
@@ -71,7 +70,7 @@ export function Search({
         onValueChange={(next) => commit(next)}
         placeholder={placeholder}
         disabled={disabled}
-        aria-label={resolvedAriaLabel}
+        aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
         {...props}
       />
@@ -89,6 +88,6 @@ export function Search({
           <X aria-hidden />
         </IconButton>
       ) : null}
-    </SearchBox>
+    </SearchElement>
   );
 }
