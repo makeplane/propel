@@ -11,8 +11,8 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const navigationMenuListVariants = cva("flex items-center gap-1");
 
-// Trigger and Link share the nav-item chrome: a pill that highlights on hover and
-// while its popup is open, with a focus-visible accent ring.
+// Trigger and Link share a pill chrome: highlights on hover and while its popup
+// is open, with a focus-visible accent ring.
 export const navigationMenuTriggerVariants = cva(
   cx(
     "group inline-flex h-8 items-center gap-1 rounded-md px-3 text-13 font-medium text-secondary outline-none",

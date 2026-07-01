@@ -5,7 +5,13 @@ import { tableCellTriggerIndicatorVariants } from "./variants";
 export type TableCellTriggerIndicatorProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /**
+   * The trailing glyph to render (e.g. a chevron or ellipsis), sized to the trigger's
+   * `--node-size`.
+   */
+  children?: React.ReactNode;
+};
 
 /**
  * The trailing glyph slot inside a `TableCellTrigger` (the editable chevron, the action ellipsis).

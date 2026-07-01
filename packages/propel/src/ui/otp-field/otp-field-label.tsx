@@ -5,7 +5,10 @@ import { otpFieldLabelVariants } from "./variants";
 export type OTPFieldLabelProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The visually-hidden accessible name text for the first slot. */
+  children?: React.ReactNode;
+};
 
 /**
  * The visually-hidden accessible name for the field's first slot. Base UI ignores `aria-label` on

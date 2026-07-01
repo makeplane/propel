@@ -3,6 +3,17 @@ import { ChevronRight, Layers } from "lucide-react";
 import { expect } from "storybook/test";
 
 import {
+  Menu,
+  MenuItem,
+  MenuItemContent,
+  MenuItemTitle,
+  MenuItemTitleRow,
+  MenuPopup,
+  MenuPortal,
+  MenuPositioner,
+  MenuTrigger as MenuTriggerElement,
+} from "../menu";
+import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -15,10 +26,9 @@ import {
 } from "./index";
 
 // UI-tier story: composes the ATOMIC breadcrumb parts (each renders a single element).
-// The components-tier `Breadcrumb` story shows the ready-made menu crumbs (which
-// compose propel's Menu). Here you assemble the raw crumb chrome: the landmark + list, links,
-// the current page, separators, and the bare menu-trigger surface (without an attached menu)
-// with its own leading icon and trailing indicator parts.
+// The components-tier `Breadcrumb` story shows the ready-made menu crumbs. Here you assemble the
+// raw crumb chrome from `ui` atoms: the landmark + list, links, the current page, separators, and
+// a menu-trigger crumb wired to a Base UI `Menu` (its own leading icon and trailing indicator).
 const meta = {
   title: "UI/Breadcrumb",
   component: Breadcrumb,
@@ -31,6 +41,8 @@ const meta = {
     BreadcrumbTrigger,
     BreadcrumbTriggerIcon,
     BreadcrumbTriggerIndicator,
+    Menu,
+    MenuItem,
   },
 } satisfies Meta<typeof Breadcrumb>;
 
@@ -79,11 +91,17 @@ export const Default: Story = {
   },
 };
 
+// A non-navigating anchor for the `render` prop of crumb menu items. Activating a
+// bare `href="#"` performs a full document navigation, which tears down the test page in the
+// browser runner — so swallow the default click. Real apps pass a router link here instead.
+const inertAnchor = () => <a href="#" onClick={(event) => event.preventDefault()} />;
+
 /**
  * A menu-style crumb built from the raw `BreadcrumbTrigger` (`group` adds the open-state marker so
  * the indicator can rotate), composing the atomic `BreadcrumbTriggerIcon` and
- * `BreadcrumbTriggerIndicator` parts. The UI tier styles just the trigger surface — wiring it to a
- * real menu via the `render` prop is a components-tier concern, so no separator follows it.
+ * `BreadcrumbTriggerIndicator` parts. The trigger is projected onto a Base UI `Menu`'s trigger via
+ * `render`, with the menu surface assembled from the `ui` menu atoms. The menu crumb owns its own
+ * chevron, so no separator follows it.
  */
 export const MenuTrigger: Story = {
   render: () => (
@@ -98,15 +116,32 @@ export const MenuTrigger: Story = {
           <ChevronRight />
         </BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbTrigger group>
-            <BreadcrumbTriggerIcon>
-              <Layers />
-            </BreadcrumbTriggerIcon>
-            <span>Plane Design</span>
-            <BreadcrumbTriggerIndicator>
-              <ChevronRight />
-            </BreadcrumbTriggerIndicator>
-          </BreadcrumbTrigger>
+          <Menu>
+            <MenuTriggerElement render={<BreadcrumbTrigger group />}>
+              <BreadcrumbTriggerIcon>
+                <Layers />
+              </BreadcrumbTriggerIcon>
+              Plane Design
+              <BreadcrumbTriggerIndicator>
+                <ChevronRight />
+              </BreadcrumbTriggerIndicator>
+            </MenuTriggerElement>
+            <MenuPortal>
+              <MenuPositioner sideOffset={4}>
+                <MenuPopup elevation="raised">
+                  {["Plane Web", "Plane Mobile", "Plane Server"].map((label) => (
+                    <MenuItem key={label} render={inertAnchor()} layout="default">
+                      <MenuItemContent>
+                        <MenuItemTitleRow>
+                          <MenuItemTitle>{label}</MenuItemTitle>
+                        </MenuItemTitleRow>
+                      </MenuItemContent>
+                    </MenuItem>
+                  ))}
+                </MenuPopup>
+              </MenuPositioner>
+            </MenuPortal>
+          </Menu>
         </BreadcrumbItem>
         <BreadcrumbItem>
           <BreadcrumbPage>Components</BreadcrumbPage>

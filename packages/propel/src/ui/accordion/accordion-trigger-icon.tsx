@@ -5,7 +5,10 @@ import { accordionTriggerIconVariants } from "./variants";
 export type AccordionTriggerIconProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The bare icon to render (e.g. a Lucide glyph), sized to the trigger's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * A decorative leading icon at the trigger's inline-start (the Figma header icon). Sizes its single

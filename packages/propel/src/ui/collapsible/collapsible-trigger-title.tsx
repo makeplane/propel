@@ -5,7 +5,10 @@ import { collapsibleTriggerTitleVariants } from "./variants";
 export type CollapsibleTriggerTitleProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The trigger's label text. */
+  children?: React.ReactNode;
+};
 
 /**
  * The trigger's label. Grows to fill the trigger row so a trailing `CollapsibleTriggerIndicator`

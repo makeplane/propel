@@ -5,7 +5,10 @@ import { numberFieldButtonIconVariants } from "./variants";
 export type NumberFieldButtonIconProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The bare icon to render, sized to the button's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The icon slot inside a stepper button (`NumberFieldDecrement` or `NumberFieldIncrement`). Sizes

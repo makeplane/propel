@@ -5,7 +5,10 @@ import { toastActionVariants } from "./variants";
 export type ToastActionButtonProps = Omit<
   React.ComponentPropsWithoutRef<"button">,
   "className" | "style"
->;
+> & {
+  /** The button's label (e.g. "Undo"). */
+  children?: React.ReactNode;
+};
 
 /**
  * A plain action button for the inline-start `ToastActionGroup` cluster. Shares the toast

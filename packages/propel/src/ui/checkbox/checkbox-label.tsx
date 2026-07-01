@@ -5,7 +5,10 @@ import { checkboxLabelVariants } from "./variants";
 export type CheckboxLabelProps = Omit<
   React.ComponentPropsWithoutRef<"label">,
   "className" | "style"
->;
+> & {
+  /** The row's contents — a `Checkbox`, an optional `CheckboxInlineStartNode`, and the label text. */
+  children?: React.ReactNode;
+};
 
 /**
  * The clickable row chip that wraps a `Checkbox` box with an optional `CheckboxInlineStartNode` and

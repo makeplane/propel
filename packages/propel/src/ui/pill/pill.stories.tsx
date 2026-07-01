@@ -1,3 +1,4 @@
+import { Toggle } from "@base-ui/react/toggle";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, LoaderCircle, Tag, X } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
@@ -69,18 +70,21 @@ export const Spinner: Story = {
   ),
 };
 
-/** `PillSwitch` container: the selected look is its pressed state. */
+/**
+ * `PillSwitch` container: the selected look is its pressed state. The toggle behavior is grafted on
+ * by rendering the styled button as a Base UI `Toggle` (`render={<Toggle />}`).
+ */
 export const Switch: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-3">
-      <PillSwitch magnitude="md">
+      <PillSwitch magnitude="md" render={<Toggle />}>
         <PillIcon>
           <Tag />
         </PillIcon>
         <PillLabel>Off</PillLabel>
       </PillSwitch>
-      <PillSwitch magnitude="md" defaultPressed>
+      <PillSwitch magnitude="md" render={<Toggle defaultPressed />}>
         <PillIcon>
           <Check />
         </PillIcon>
@@ -113,7 +117,7 @@ export const Icons: Story = {
 export const SwitchToggles: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <PillSwitch magnitude="md">
+    <PillSwitch magnitude="md" render={<Toggle />}>
       <PillIcon>
         <Tag />
       </PillIcon>

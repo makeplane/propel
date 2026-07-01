@@ -5,7 +5,10 @@ import { paginationArrowButtonVariants } from "./variants";
 export type PaginationArrowButtonProps = Omit<
   React.ComponentProps<"button">,
   "className" | "style"
->;
+> & {
+  /** The directional arrow icon to render (RTL-mirrored), sized to the slot's `--node-size`. */
+  children?: React.ReactNode;
+};
 
 /**
  * A styled prev/next arrow button. Applies `paginationArrowButtonVariants()`; pass the

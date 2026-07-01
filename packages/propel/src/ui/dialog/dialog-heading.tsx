@@ -2,7 +2,13 @@ import * as React from "react";
 
 import { dialogHeadingVariants } from "./variants";
 
-export type DialogHeadingProps = Omit<React.HTMLAttributes<HTMLDivElement>, "className" | "style">;
+export type DialogHeadingProps = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "className" | "style"
+> & {
+  /** The heading block's contents — a `DialogTitle` and an optional `DialogDescription`. */
+  children?: React.ReactNode;
+};
 
 /**
  * The heading block inside a `DialogHeader`: stacks the `DialogTitle` over an optional

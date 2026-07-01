@@ -6,7 +6,10 @@ import { tooltipShortcutVariants } from "./variants";
 export type TooltipShortcutProps = Omit<
   React.ComponentPropsWithoutRef<"span">,
   "className" | "style"
->;
+> & {
+  /** The keyboard-shortcut hint text (e.g. "⌘K"). */
+  children?: React.ReactNode;
+};
 
 /**
  * A dimmed caption-scale label for a keyboard-shortcut hint shown to the inline-end of the tooltip

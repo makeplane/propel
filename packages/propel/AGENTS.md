@@ -14,7 +14,7 @@ from tiers below it, never above. `internal/` is shared implementation usable by
 | **base**       | `src/base/<name>/`       | Extensions of Base UI — primitives we add where Base UI has a gap (e.g. `BaseTextArea` = `Field.Control` rendering `<textarea>`). Follow Base UI's conventions **exactly**: expose `className`, `style`, `render`, `forwardRef`. Named `Base<Name>`. | unstyled (no cva/Tailwind), but **passes `className`/`style` through** like any Base UI primitive                       |
 | **ui**         | `src/ui/<name>/`         | A `base`/Base UI primitive with cva style **baked in**, reduced to a **single** element. Same shape as `base` _minus_ `className`/`style` (the cva owns the styling). All styling lives here.                                                        | one element per part; cva in `variants.ts`; **does not expose `className`/`style`**; `useRender` for intrinsic elements |
 | **components** | `src/components/<name>/` | The composition layer: ready-made components that assemble `ui` parts so consumers don't hand-wire them.                                                                                                                                             | composition only — **no cva, no `cx`, no class strings**; **does not expose `className`/`style`**                       |
-| **patterns**   | `src/patterns/`          | App-level example compositions (demonstrations), not shipped primitives.                                                                                                                                                                             | composition of `components`/`ui`                                                                                        |
+| **patterns**   | `src/patterns/`          | App-level example compositions (demonstrations), not shipped primitives.                                                                                                                                                                             | composition of `components` only                                                                                        |
 | **internal**   | `src/internal/`          | Private shared implementation: class-string helpers (`node-slot`, `scrollbar`, `surface`), type utils (`variant-props`), internal compositions (`overlay-panel`). Not public API.                                                                    | extracted ONLY on cross-primitive duplication                                                                           |
 | **hooks**      | `src/hooks/<name>/`      | Hooks.                                                                                                                                                                                                                                               | —                                                                                                                       |
 
@@ -44,6 +44,17 @@ from tiers below it, never above. `internal/` is shared implementation usable by
    another component/behavior — forwarding the consumer's own `render` (the `useRender` mechanism)
    IS the render-capability and is fine; baking a specific render target is composition. If you
    need more structure, add a NEW named `ui` part and compose the parts in `components`.
+
+1a. **The single element is the part's OWN primitive — never a foreign behavior it controls.** A
+`ui` part may wrap the Base UI primitive it _is_ (a specialization: `IconButton` wraps Base UI
+`Button`, a scroll frame wraps `ScrollArea`, a toggle pill wraps `Toggle`). It must NOT wrap a
+_different_ primitive's interactive behavior that it merely **controls or composes** — a section
+header is not a `Collapsible`, a menubar item is not a `Menu`, a table is not a `ScrollArea`. That
+graft lives in `components` (or a story) via `render`, with the styled `ui` part as the OUTER
+element so its `className` wins (`<ListSectionTrigger render={<Collapsible.Trigger />}>`) — so
+`ui/list` never imports `@base-ui/react/collapsible`; the section composition does. Litmus: does
+the part **IS-A** the primitive (specialization → wrap it) or **USE/CONTROL** it (foreign → graft
+it in `components`/a story)? `useRender` makes the `ui` part render-capable so the graft works.
 
 2. **All composition lives in `components`** (and `patterns`). Providers, multi-element frames,
    defaults, and wiring belong here — never in `ui`.
@@ -252,6 +263,7 @@ govern this: `variant` is too vague (6c), and native HTML/CSS attribute names ar
 ## Before you commit
 
 - [ ] Every touched `ui` part renders one element; no `className` prop anywhere.
+- [ ] No `ui` part wraps a foreign Base UI behavior it merely controls (another primitive's `Trigger`/`Toggle`/…) — graft it in `components`/a story via `render` (rule 1a).
 - [ ] cva only in `ui/.../variants.ts`, named after the part, no `Root`, no generic names.
 - [ ] Props use the axis vocabulary — no `variant`, no native attribute names (`size`/`width`/`type`/`color`); per-axis types named for the axis, cva-props type stays `<Name>VariantProps`.
 - [ ] Variant types via `StrictVariantProps` in `variants.ts`; `Props = Omit<Base.Props, "className" | "style"> & <Name>VariantProps`.
