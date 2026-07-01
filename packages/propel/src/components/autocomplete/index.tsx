@@ -13,6 +13,8 @@ export {
   type AutocompleteInputProps,
   AutocompleteInputGroup,
   type AutocompleteInputGroupProps,
+  AutocompleteInputIcon,
+  type AutocompleteInputIconProps,
   AutocompleteItem,
   type AutocompleteItemProps,
   AutocompleteList,

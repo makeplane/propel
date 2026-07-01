@@ -49,8 +49,8 @@ export const Default: Story = {
         <FieldLabel magnitude="md" inset={false}>
           Container image
         </FieldLabel>
-        <AutocompleteInputGroup>
-          <AutocompleteInput placeholder="e.g. docker.io/library/node:latest" />
+        <AutocompleteInputGroup magnitude="md">
+          <AutocompleteInput magnitude="md" placeholder="e.g. docker.io/library/node:latest" />
           <AutocompleteClear
             render={
               <IconButton
@@ -118,8 +118,8 @@ export const Invalid: Story = {
         <FieldLabel magnitude="md" inset={false}>
           Container image
         </FieldLabel>
-        <AutocompleteInputGroup>
-          <AutocompleteInput placeholder="e.g. docker.io/library/node:latest" />
+        <AutocompleteInputGroup magnitude="md">
+          <AutocompleteInput magnitude="md" placeholder="e.g. docker.io/library/node:latest" />
           <AutocompleteClear
             render={
               <IconButton

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ChevronsUpDown, X } from "lucide-react";
+import { ChevronsUpDown, Search as SearchGlyph, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
 import { Field, FieldDescription, FieldError, FieldLabel } from "../field/index";
@@ -11,6 +11,7 @@ import {
   AutocompleteEmpty,
   AutocompleteInput,
   AutocompleteInputGroup,
+  AutocompleteInputIcon,
   AutocompleteItem,
   AutocompleteList,
   AutocompleteTrigger,
@@ -26,6 +27,7 @@ const meta = {
   component: Autocomplete,
   subcomponents: {
     AutocompleteInputGroup,
+    AutocompleteInputIcon,
     AutocompleteInput,
     AutocompleteClear,
     AutocompleteTrigger,
@@ -48,8 +50,8 @@ export const Default: Story = {
         <FieldLabel magnitude="md" inset={false}>
           Container image
         </FieldLabel>
-        <AutocompleteInputGroup>
-          <AutocompleteInput placeholder="e.g. docker.io/library/node:latest" />
+        <AutocompleteInputGroup magnitude="md">
+          <AutocompleteInput magnitude="md" placeholder="e.g. docker.io/library/node:latest" />
           <AutocompleteClear
             render={
               <IconButton
@@ -94,4 +96,40 @@ export const Default: Story = {
     await userEvent.type(canvas.getByRole("combobox", { name: "Container image" }), "node");
     await expect(within(document.body).getByText("node:22-slim")).toBeInTheDocument();
   },
+};
+
+/**
+ * The autocomplete dressed as a search box: a leading `AutocompleteInputIcon` magnifier + input +
+ * clear, and no chevron trigger. Same parts as `Default` — this is the styling target for folding
+ * `Search` into `Autocomplete`.
+ */
+export const Search: Story = {
+  args: { items: IMAGES, mode: "both" },
+  render: (args) => (
+    <Autocomplete {...args}>
+      <AutocompleteInputGroup magnitude="md">
+        <AutocompleteInputIcon>
+          <SearchGlyph />
+        </AutocompleteInputIcon>
+        <AutocompleteInput magnitude="md" placeholder="Search images" aria-label="Search images" />
+        <AutocompleteClear
+          render={
+            <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear search">
+              <X />
+            </IconButton>
+          }
+        />
+      </AutocompleteInputGroup>
+      <AutocompleteContent>
+        <AutocompleteEmpty>No matches</AutocompleteEmpty>
+        <AutocompleteList>
+          {IMAGES.map((image) => (
+            <AutocompleteItem key={image} value={image}>
+              {image}
+            </AutocompleteItem>
+          ))}
+        </AutocompleteList>
+      </AutocompleteContent>
+    </Autocomplete>
+  ),
 };
