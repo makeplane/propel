@@ -825,7 +825,7 @@ export const EmptyState: Story = {
     docs: {
       story: {
         inline: false,
-        iframeHeight: 300,
+        iframeHeight: 500,
       },
     },
   },
