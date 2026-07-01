@@ -3,7 +3,7 @@ import { Info, X } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { Button } from "../button/index";
-import { IconButton } from "../icon-button";
+import { IconButton, IconButtonIcon } from "../icon-button";
 import {
   Banner,
   BannerActions,
@@ -132,7 +132,9 @@ export const WithActions: Story = {
           aria-label="Dismiss"
           onClick={fn()}
         >
-          <X />
+          <IconButtonIcon>
+            <X />
+          </IconButtonIcon>
         </IconButton>
       </BannerActions>
     </Banner>
@@ -162,7 +164,9 @@ export const DismissCallsHandler: Story = {
         aria-label="Dismiss"
         onClick={dismissSpy}
       >
-        <X />
+        <IconButtonIcon>
+          <X />
+        </IconButtonIcon>
       </IconButton>
     </Banner>
   ),
