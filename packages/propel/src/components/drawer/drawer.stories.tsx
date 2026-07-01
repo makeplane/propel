@@ -91,6 +91,16 @@ export const Default: Story = {
       </DrawerPanel>
     </Drawer>
   ),
+};
+
+/**
+ * Interaction test: opening the drawer, then the dismiss button closes it. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees the drawer flash open and then close.
+ */
+export const CloseButtonDismisses: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open the drawer", async () => {
       await userEvent.click(canvas.getByRole("button", { name: "Open details" }));
@@ -139,6 +149,16 @@ export const StartSide: Story = {
       </DrawerPanel>
     </Drawer>
   ),
+};
+
+/**
+ * Interaction test: opening the start-edge drawer, then the dismiss button closes it. Tagged out of
+ * the sidebar/docs/manifest while still running under the default `test` tag — so a browsing user
+ * never sees the drawer flash open and then close.
+ */
+export const StartSideDismisses: Story = {
+  ...StartSide,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open the drawer", async () => {
       await userEvent.click(canvas.getByRole("button", { name: "Open navigation" }));

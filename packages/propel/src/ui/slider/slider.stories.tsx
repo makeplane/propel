@@ -56,6 +56,15 @@ export const Default: Story = {
       </SliderControl>
     </Slider>
   ),
+};
+
+/**
+ * Interaction test: the single-thumb slider exposes its `slider` role. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("slider", { name: "Volume" })).toBeInTheDocument();
   },
@@ -85,6 +94,15 @@ export const Range: Story = {
       </SliderControl>
     </Slider>
   ),
+};
+
+/**
+ * Interaction test: the range slider exposes both thumb `slider` roles. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const RangeInteraction: Story = {
+  ...Range,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("slider", { name: "Minimum threshold" })).toBeInTheDocument();
     await expect(canvas.getByRole("slider", { name: "Maximum threshold" })).toBeInTheDocument();

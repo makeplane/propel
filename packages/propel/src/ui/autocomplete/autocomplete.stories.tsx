@@ -99,6 +99,11 @@ export const Default: Story = {
       </Autocomplete>
     </Field>
   ),
+};
+
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     await userEvent.type(canvas.getByRole("combobox", { name: "Container image" }), "node");
     await expect(within(document.body).getByText("node:22-slim")).toBeInTheDocument();

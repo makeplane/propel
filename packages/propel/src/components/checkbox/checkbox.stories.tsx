@@ -39,7 +39,20 @@ type Story = StoryObj<typeof meta>;
  * Interactive, label-less checkbox — just the box. Toggle it from the controls or by clicking. With
  * no visible `label`, the accessible name comes from `aria-label`.
  */
-export const Default: Story = {
+export const Default: Story = {};
+
+/**
+ * Interaction test: clicking the box toggles `aria-checked` on and off. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees the tick flip on its own.
+ */
+const Interaction: Story = {
+  ...Default,
+};
+
+export const DefaultInteraction: Story = {
+  ...Interaction,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     const checkbox = canvas.getByRole("checkbox");
     await expect(checkbox).toHaveAttribute("aria-checked", "false");
@@ -62,6 +75,15 @@ export const States: Story = {
       <Checkbox label="Disabled checked" disabled defaultChecked />
     </div>
   ),
+};
+
+/**
+ * Interaction test: the unchecked box mounts no tick while the checked box renders its check icon.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const StatesInteraction: Story = {
+  ...States,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     const [unchecked, checked] = canvas.getAllByRole("checkbox");
     // No tick is rendered while unchecked (the indicator is not mounted).
@@ -105,6 +127,15 @@ export const WithIcon: Story = {
 export const Indeterminate: Story = {
   parameters: { controls: { disable: true } },
   render: () => <Checkbox label="Select all" indeterminate />,
+};
+
+/**
+ * Interaction test: the mixed state reports `aria-checked="mixed"`. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const IndeterminateInteraction: Story = {
+  ...Indeterminate,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("checkbox")).toHaveAttribute("aria-checked", "mixed");
   },
@@ -129,6 +160,16 @@ export const Invalid: Story = {
       </Field>
     </div>
   ),
+};
+
+/**
+ * Interaction test: the invalid `Field` propagates `data-invalid` and the danger border, while the
+ * checked box keeps the accent fill. Tagged out of the sidebar/docs/manifest while still running
+ * under the default `test` tag.
+ */
+export const InvalidInteraction: Story = {
+  ...Invalid,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     const [resting, unchecked, checked] = canvas.getAllByRole("checkbox");
     // The resting box has no field-invalid state.
@@ -153,6 +194,7 @@ export const Invalid: Story = {
  * the default `test` tag.
  */
 export const KeyboardToggle: Story = {
+  ...Interaction,
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { label: "Subscribe", defaultChecked: false },
   play: async ({ canvas, userEvent }) => {
@@ -188,6 +230,7 @@ export const KeyboardToggle: Story = {
  * manifest, but still runs under the default `test` tag.
  */
 export const BoxDoesNotShiftOnToggle: Story = {
+  ...Interaction,
   tags: ["!dev", "!autodocs", "!manifest"],
   parameters: { controls: { disable: true } },
   // A controlled wrapper so a single, stable box element can be driven through
@@ -243,6 +286,7 @@ export const BoxDoesNotShiftOnToggle: Story = {
  * still runs under the default `test` tag.
  */
 export const DisabledDoesNotToggle: Story = {
+  ...Interaction,
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { label: "Disabled", disabled: true },
   play: async ({ canvas, userEvent }) => {

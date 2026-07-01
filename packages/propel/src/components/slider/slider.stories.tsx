@@ -25,6 +25,15 @@ type Story = StoryObj<typeof meta>;
 /** A labelled single-thumb slider. */
 export const Default: Story = {
   args: { label: "Volume", magnitude: "md", defaultValue: 40, min: 0, max: 100, step: 1 },
+};
+
+/**
+ * Interaction test: the labelled thumb is reachable by its accessible name. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("slider", { name: "Volume" })).toBeInTheDocument();
   },
@@ -41,6 +50,15 @@ export const Percentage: Story = {
     step: 0.01,
     format: { style: "percent", maximumFractionDigits: 0 },
   },
+};
+
+/**
+ * Interaction test: the percentage-formatted thumb is reachable by its accessible name. Tagged out
+ * of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const PercentageInteraction: Story = {
+  ...Percentage,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("slider", { name: "Opacity" })).toBeInTheDocument();
   },
@@ -57,6 +75,15 @@ export const WithoutLabel: Story = {
     max: 100,
     step: 1,
   },
+};
+
+/**
+ * Interaction test: the `aria-label`-named thumb is reachable by its accessible name. Tagged out of
+ * the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const WithoutLabelInteraction: Story = {
+  ...WithoutLabel,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("slider", { name: "Brightness" })).toBeInTheDocument();
   },

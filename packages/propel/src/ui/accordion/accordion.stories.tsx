@@ -85,6 +85,16 @@ export const Default: Story = {
       ))}
     </Accordion>
   ),
+};
+
+/**
+ * Interaction test: clicking a collapsed trigger expands its panel. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees a panel expand on its own.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     const triggers = canvas.getAllByRole("button");
     await expect(triggers[0]).toHaveAttribute("aria-expanded", "false");

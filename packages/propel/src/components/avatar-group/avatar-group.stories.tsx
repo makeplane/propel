@@ -40,6 +40,15 @@ export const ThreeMembers: Story = {
       <Avatar alt="Linus" fallback="LT" />
     </AvatarGroup>
   ),
+};
+
+/**
+ * Interaction test: all three avatars render and the group's `magnitude` flows to each. Tagged out
+ * of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const ThreeMembersInteraction: Story = {
+  ...ThreeMembers,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     // Each avatar exposes role="img"; querying by role proves all three rendered.
     const avatars = canvas.getAllByRole("img");

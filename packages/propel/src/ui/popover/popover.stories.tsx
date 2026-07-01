@@ -81,6 +81,11 @@ export const Anatomy: Story = {
       </PopoverPortal>
     </Popover>
   ),
+};
+
+export const AnatomyInteraction: Story = {
+  ...Anatomy,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "About" }));
     await waitFor(() =>
@@ -136,6 +141,11 @@ export const Modal: Story = {
       </PopoverPortal>
     </Popover>
   ),
+};
+
+export const ModalInteraction: Story = {
+  ...Modal,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Open menu" }));
     const close = await within(document.body).findByRole("button", { name: "Close" });

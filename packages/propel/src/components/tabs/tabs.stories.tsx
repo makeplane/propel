@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Activity, LayoutGrid, Settings } from "lucide-react";
-import type { ComponentProps } from "react";
+import type * as React from "react";
 import { expect, waitFor } from "storybook/test";
 
 import { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./index";
@@ -26,7 +26,7 @@ const TAB_ITEMS = [
 function TabsFixture({
   withIcons = false,
   ...props
-}: ComponentProps<typeof Tabs> & { withIcons?: boolean }) {
+}: React.ComponentProps<typeof Tabs> & { withIcons?: boolean }) {
   return (
     <Tabs {...props}>
       <TabsList>

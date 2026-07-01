@@ -36,6 +36,15 @@ export const Default: Story = { args: { hint: "At least one channel is recommend
  */
 export const Invalid: Story = {
   args: { error: "Choose at least one channel." },
+};
+
+/**
+ * Interaction test: every option's box propagates `data-invalid` and the danger border class.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const InvalidInteraction: Story = {
+  ...Invalid,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     for (const box of canvas.getAllByRole("checkbox")) {
       await expect(box).toHaveAttribute("data-invalid");
@@ -45,6 +54,7 @@ export const Invalid: Story = {
 };
 
 export const RendersGroup: Story = {
+  ...Default,
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("checkbox", { name: "Email" })).toBeInTheDocument();

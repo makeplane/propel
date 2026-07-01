@@ -71,43 +71,8 @@ export const Default: Story = {
 
 /** The +/- buttons step the value within `min`/`max`. */
 export const IncrementAndDecrement: Story = {
+  ...Default,
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { defaultValue: 2, min: 1, max: 64 },
-  render: (args) => (
-    <NumberField {...args} aria-label="Number of instances">
-      <NumberFieldGroup>
-        <NumberFieldDecrement
-          render={
-            <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="xl"
-              aria-label="Decrease instances"
-            >
-              <IconButtonIcon>
-                <Minus />
-              </IconButtonIcon>
-            </IconButton>
-          }
-        />
-        <NumberFieldInput magnitude="xl" aria-label="Number of instances" />
-        <NumberFieldIncrement
-          render={
-            <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="xl"
-              aria-label="Increase instances"
-            >
-              <IconButtonIcon>
-                <Plus />
-              </IconButtonIcon>
-            </IconButton>
-          }
-        />
-      </NumberFieldGroup>
-    </NumberField>
-  ),
   play: async ({ canvas, userEvent }) => {
     const input = canvas.getByRole("textbox", { name: "Number of instances" });
     await expect(input).toHaveDisplayValue("2");

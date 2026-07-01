@@ -27,6 +27,16 @@ export const Default: Story = {
       </ToggleIcon>
     </Toggle>
   ),
+};
+
+/**
+ * Interaction test: clicking the toggle flips `aria-pressed`. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees the pressed state flip on its own.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     const toggle = canvas.getByRole("button", { name: "Favorite" });
     await expect(toggle).toHaveAttribute("aria-pressed", "false");

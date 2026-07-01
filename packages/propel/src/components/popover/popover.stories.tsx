@@ -94,6 +94,11 @@ export const Default: Story = {
       </PopoverContent>
     </Popover>
   ),
+};
+
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open the popover and toggle a checkbox", async () => {
       const trigger = canvas.getByRole("button", { name: "Options" });
@@ -131,7 +136,7 @@ export const Default: Story = {
  * The selectable property pills are propel's `PillSwitch` (a toggle pill).
  */
 export const DisplayProperties: Story = {
-  render: function DisplayPropertiesStory() {
+  render: function Render() {
     const PILLS = ["ID", "Work item type", "Assignee", "Start date", "Due date", "Labels"];
     const [pills, setPills] = React.useState<Record<string, boolean>>({
       ID: true,
@@ -183,6 +188,11 @@ export const DisplayProperties: Story = {
       </Popover>
     );
   },
+};
+
+export const DisplayPropertiesInteraction: Story = {
+  ...DisplayProperties,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     await step("open and toggle a property pill", async () => {
       await userEvent.click(canvas.getByRole("button", { name: "Display" }));
@@ -210,7 +220,7 @@ export const DisplayProperties: Story = {
  * toggles, all valid on the non-menu Popover surface.
  */
 export const DisplayAccordion: Story = {
-  render: function DisplayAccordionStory() {
+  render: function Render() {
     const [open, setOpen] = React.useState<string | null>("order");
     const [order, setOrder] = React.useState("priority");
     const SECTIONS = ["Display Properties", "Group by", "Sub Group by", "Order by"];
@@ -266,6 +276,11 @@ export const DisplayAccordion: Story = {
       </Popover>
     );
   },
+};
+
+export const DisplayAccordionInteraction: Story = {
+  ...DisplayAccordion,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, step }) => {
     const findHeader = (panel: HTMLElement, text: string) =>
       within(panel)
@@ -316,7 +331,7 @@ export const RTL: Story = {
       return <Story />;
     },
   ],
-  render: function RtlStory() {
+  render: function Render() {
     return (
       <DirectionProvider direction="rtl">
         <Popover>

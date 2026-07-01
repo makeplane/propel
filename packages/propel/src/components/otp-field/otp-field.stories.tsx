@@ -17,7 +17,19 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /** A six-digit verification code. */
-export const Default: Story = {
+export const Default: Story = {};
+
+const Interaction: Story = {
+  ...Default,
+};
+
+/**
+ * Interaction test: the field renders six slots. Tagged out of the sidebar/docs/manifest while
+ * still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Interaction,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await expect(canvas.getAllByRole("textbox")).toHaveLength(6);
   },
@@ -25,6 +37,7 @@ export const Default: Story = {
 
 /** Typing fills slots left to right and advances focus. */
 export const TypingFillsSlots: Story = {
+  ...Interaction,
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { length: 4 },
   play: async ({ canvas, userEvent }) => {

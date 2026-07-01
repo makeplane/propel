@@ -36,6 +36,10 @@ export const Default: Story = {
   ),
 };
 
+const Interaction: Story = {
+  ...Default,
+};
+
 /**
  * `TextAreaField` across every magnitude (`md` / `lg` / `xl`). Magnitude steps the value font-size
  * and the field min-height; padding and radius stay fixed.
@@ -103,6 +107,7 @@ export const Invalid: Story = {
 
 /** Typing into the textarea updates its value and fires the native change handler. */
 export const TypingUpdatesValue: Story = {
+  ...Interaction,
   tags: ["!dev", "!autodocs", "!manifest"],
   args: {
     magnitude: "md",
@@ -111,11 +116,6 @@ export const TypingUpdatesValue: Story = {
     placeholder: "Leave a comment...",
     onChange: fn(),
   },
-  render: (args) => (
-    <div className="w-80">
-      <TextAreaField {...args} />
-    </div>
-  ),
   play: async ({ args, canvas, userEvent }) => {
     const textarea = canvas.getByRole<HTMLTextAreaElement>("textbox", { name: "Comment" });
     await userEvent.type(textarea, "Looks good");
@@ -126,6 +126,7 @@ export const TypingUpdatesValue: Story = {
 
 /** Setting `error` marks the field invalid (`aria-invalid`) and renders the announced error text. */
 export const ErrorAnnouncesInvalid: Story = {
+  ...Interaction,
   tags: ["!dev", "!autodocs", "!manifest"],
   args: {
     magnitude: "md",
@@ -134,11 +135,6 @@ export const ErrorAnnouncesInvalid: Story = {
     defaultValue: "No",
     error: "Add a little more detail.",
   },
-  render: (args) => (
-    <div className="w-80">
-      <TextAreaField {...args} />
-    </div>
-  ),
   play: async ({ canvas }) => {
     const textarea = canvas.getByRole("textbox", { name: "Comment" });
     await expect(textarea).toHaveAttribute("aria-invalid", "true");
@@ -153,6 +149,7 @@ export const ErrorAnnouncesInvalid: Story = {
  * is assertably different.
  */
 export const InvalidShowsDangerBorder: Story = {
+  ...Interaction,
   tags: ["!dev", "!autodocs", "!manifest"],
   parameters: { controls: { disable: true } },
   args: { magnitude: "md", resize: "vertical", label: "Comment" },

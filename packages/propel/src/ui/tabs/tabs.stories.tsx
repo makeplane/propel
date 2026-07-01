@@ -49,6 +49,16 @@ export const Default: Story = {
       ))}
     </Tabs>
   ),
+};
+
+/**
+ * Interaction test: clicking a tab activates it and swaps the panel. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees the active tab/panel change on its own.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     const overview = canvas.getByRole("tab", { name: "Overview" });
     const activity = canvas.getByRole("tab", { name: "Activity" });

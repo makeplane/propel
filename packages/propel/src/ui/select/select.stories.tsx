@@ -86,6 +86,11 @@ export const Default: Story = {
       </Select>
     </Field>
   ),
+};
+
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole("combobox", { name: "Server type" }));
     const popup = within(document.body);

@@ -129,6 +129,11 @@ export const Default: Story = {
       </ToastPortal>
     </ToastProvider>
   ),
+};
+
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     const body = within(document.body);
     await userEvent.click(canvas.getByRole("button", { name: "Show toast" }));

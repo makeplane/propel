@@ -91,6 +91,11 @@ export const Default: Story = {
       </ContextMenuPortal>
     </ContextMenu>
   ),
+};
+
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await fireEvent.contextMenu(canvas.getByText("Right-click here"));
     await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());

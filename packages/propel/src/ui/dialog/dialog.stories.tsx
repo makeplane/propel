@@ -104,6 +104,16 @@ export const Anatomy: Story = {
       </DialogPortal>
     </Dialog>
   ),
+};
+
+/**
+ * Interaction test: opening the dialog, then Cancel closes it. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
+ * sees the dialog flash open and then close.
+ */
+export const CancelCloses: Story = {
+  ...Anatomy,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Open dialog" }));
     const dialog = await within(document.body).findByRole("dialog");
