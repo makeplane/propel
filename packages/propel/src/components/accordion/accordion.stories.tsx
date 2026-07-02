@@ -84,14 +84,14 @@ export const Default: Story = {
   ),
 };
 
-/** Each trigger can carry a `inlineStartNode`, matching the Figma header icon. */
+/** Each trigger can carry a `icon`, matching the Figma header icon. */
 export const WithIcon: Story = {
   render: (args) => (
     <Accordion {...args} defaultValue={["what"]}>
       {ITEMS.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
           <AccordionHeader>
-            <AccordionTrigger inlineStartNode={<CircleHelp />}>{item.label}</AccordionTrigger>
+            <AccordionTrigger icon={<CircleHelp />}>{item.label}</AccordionTrigger>
           </AccordionHeader>
           <AccordionPanel>{item.body}</AccordionPanel>
         </AccordionItem>
@@ -193,6 +193,38 @@ export const Interaction: Story = {
     // Click again collapses.
     await userEvent.click(trigger);
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  },
+};
+
+/**
+ * Behavior twin of `MultipleItems`: with `multiple`, both `defaultValue` items start expanded at
+ * once, opening a third keeps the first two open (single-open mode would collapse them), and each
+ * item still collapses independently.
+ */
+export const MultipleItemsInteraction: Story = {
+  ...MultipleItems,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const what = canvas.getByRole("button", { name: "What is Plane?" });
+    const pricing = canvas.getByRole("button", { name: "How does pricing work?" });
+    const importData = canvas.getByRole("button", { name: "Can I import my existing data?" });
+
+    // Both defaultValue items start expanded simultaneously.
+    await expect(what).toHaveAttribute("aria-expanded", "true");
+    await expect(pricing).toHaveAttribute("aria-expanded", "true");
+    await expect(importData).toHaveAttribute("aria-expanded", "false");
+
+    // Opening the third item leaves the other two open.
+    await userEvent.click(importData);
+    await expect(importData).toHaveAttribute("aria-expanded", "true");
+    await expect(what).toHaveAttribute("aria-expanded", "true");
+    await expect(pricing).toHaveAttribute("aria-expanded", "true");
+
+    // Each item collapses independently without affecting its siblings.
+    await userEvent.click(what);
+    await expect(what).toHaveAttribute("aria-expanded", "false");
+    await expect(pricing).toHaveAttribute("aria-expanded", "true");
+    await expect(importData).toHaveAttribute("aria-expanded", "true");
   },
 };
 

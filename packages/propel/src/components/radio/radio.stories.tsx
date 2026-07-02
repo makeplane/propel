@@ -1,17 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import * as React from "react";
 import { expect } from "storybook/test";
 
-import { Fieldset, FieldsetLegend } from "../../ui/fieldset/index";
+import { Fieldset, FieldsetLegend } from "../../elements/fieldset/index";
+import { Button } from "../button/index";
 import { Field } from "../field/index";
+import { Form, FormActions, FormBody } from "../form/index";
 import { RadioGroupField, RadioGroupFieldOption } from "../radio-group-field/index";
-import { Radio, RadioGroup } from "./index";
+import { Radio, RadioGroup, RadioIndicator, RadioRing } from "./index";
 
 const meta = {
   title: "Components/Radio",
   component: RadioGroup,
   // RadioGroup is composed of Radios, so document Radio's props alongside it
   // (adds a Radio tab to the args table + records the relationship in the manifest).
-  subcomponents: { Radio, RadioGroupField, RadioGroupFieldOption },
+  subcomponents: { Radio, RadioGroupField, RadioGroupFieldOption, RadioIndicator, RadioRing },
   parameters: {
     design: {
       type: "figma",
@@ -112,6 +115,133 @@ export const States: Story = {
       </RadioGroup>
     </div>
   ),
+};
+
+/**
+ * A radio renders as a `<span>` by default so an enclosing `<label>` stays valid HTML. When the
+ * label is a sibling wired up with `htmlFor`/`id` instead, render the ring as a real `<button>`:
+ * pass `nativeButton` and graft the styled `RadioRing` onto a `<button>` via `render`. The look is
+ * unchanged, and clicking a sibling label still selects its radio.
+ */
+export const NativeButton: Story = {
+  args: { density: "comfortable" },
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex flex-col gap-2">
+      <div id="storage-type-label" className="text-13 font-medium text-primary">
+        Storage type
+      </div>
+      <RadioGroup density="comfortable" defaultValue="ssd" aria-labelledby="storage-type-label">
+        <div className="flex items-center gap-2">
+          <Radio
+            value="ssd"
+            id="storage-type-ssd"
+            nativeButton
+            render={<RadioRing render={<button type="button" />} />}
+          />
+          <label htmlFor="storage-type-ssd" className="text-13 text-secondary">
+            SSD
+          </label>
+        </div>
+        <div className="flex items-center gap-2">
+          <Radio
+            value="hdd"
+            id="storage-type-hdd"
+            nativeButton
+            render={<RadioRing render={<button type="button" />} />}
+          />
+          <label htmlFor="storage-type-hdd" className="text-13 text-secondary">
+            HDD
+          </label>
+        </div>
+      </RadioGroup>
+    </div>
+  ),
+};
+
+/**
+ * Interaction test: the native-button pattern keeps the radio semantics — each ring IS a `<button>`
+ * with `role="radio"`, the sibling `htmlFor` label names it, and clicking the label selects it.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const NativeButtonInteraction: Story = {
+  ...NativeButton,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const ssd = canvas.getByRole("radio", { name: "SSD" });
+    const hdd = canvas.getByRole("radio", { name: "HDD" });
+
+    // Real <button> elements, named by their sibling labels.
+    await expect(ssd.tagName).toBe("BUTTON");
+    await expect(hdd.tagName).toBe("BUTTON");
+    await expect(ssd).toHaveAttribute("aria-checked", "true");
+
+    // Clicking a sibling label activates its radio, like any labelled native button.
+    await userEvent.click(canvas.getByText("HDD"));
+    await expect(hdd).toHaveAttribute("aria-checked", "true");
+    await expect(ssd).toHaveAttribute("aria-checked", "false");
+  },
+};
+
+/**
+ * Form integration: `RadioGroupField` already owns the `Field` name, so inside a `Form` the group's
+ * selected value serializes with the submission — `onFormSubmit` receives it under the field's
+ * `name`, with no extra wiring on the radios. Submit to see the captured value.
+ */
+export const FormIntegration: Story = {
+  args: { density: "comfortable" },
+  parameters: { controls: { disable: true } },
+  render: function Render() {
+    const [submitted, setSubmitted] = React.useState<{ storageType: string } | null>(null);
+    return (
+      <div className="flex w-80 flex-col gap-3">
+        <Form<{ storageType: string }> onFormSubmit={(values) => setSubmitted(values)}>
+          <FormBody layout="single">
+            <RadioGroupField
+              name="storageType"
+              label="Storage type"
+              magnitude="md"
+              density="comfortable"
+              defaultValue="ssd"
+            >
+              <RadioGroupFieldOption value="ssd" label="SSD" />
+              <RadioGroupFieldOption value="hdd" label="HDD" />
+            </RadioGroupField>
+          </FormBody>
+          <FormActions layout="inline">
+            <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
+              Save
+            </Button>
+          </FormActions>
+        </Form>
+        <output className="text-13 text-secondary">
+          {submitted ? `Storage type: ${submitted.storageType}` : null}
+        </output>
+      </div>
+    );
+  },
+};
+
+/**
+ * Interaction test: the `Field` name serializes the group's selected value into `Form`'s
+ * `onFormSubmit` — the default selection first, then the newly picked option after resubmitting.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const FormIntegrationInteraction: Story = {
+  ...FormIntegration,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const save = canvas.getByRole("button", { name: "Save" });
+
+    // Submitting with the default selection serializes "ssd".
+    await userEvent.click(save);
+    await expect(canvas.getByText("Storage type: ssd")).toBeInTheDocument();
+
+    // Picking another option and resubmitting serializes the new value.
+    await userEvent.click(canvas.getByRole("radio", { name: "HDD" }));
+    await userEvent.click(save);
+    await expect(canvas.getByText("Storage type: hdd")).toBeInTheDocument();
+  },
 };
 
 /**

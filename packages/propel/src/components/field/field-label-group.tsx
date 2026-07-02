@@ -1,8 +1,11 @@
 import type * as React from "react";
 
-import { FieldDescription } from "../../ui/field";
-import { FieldLabelGroup as FieldLabelGroupContainer } from "../../ui/field/field-label-group";
-import { type FieldLabelGroupVariantProps, type InputMagnitude } from "../../ui/field/variants";
+import { FieldLabelGroup as FieldLabelGroupContainer } from "../../elements/field/field-label-group";
+import {
+  type FieldLabelGroupVariantProps,
+  type InputMagnitude,
+} from "../../elements/field/variants";
+import { FieldDescription } from "./field-description";
 import { FieldLabel } from "./field-label";
 
 export type FieldLabelGroupProps = FieldLabelGroupVariantProps & {

@@ -2,15 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
+import { IconButton as IconButtonElement } from "../../elements/icon-button";
 import { iconControl } from "../../storybook/icon-control";
-import { IconButton as IconButtonElement } from "../../ui/icon-button";
-import {
-  IconButton,
-  IconButtonIcon,
-  type IconButtonMagnitude,
-  IconButtonSpinner,
-  type IconButtonProminence,
-} from "./index";
+import { IconButton, type IconButtonMagnitude, type IconButtonProminence } from "./index";
 
 const PROMINENCES: IconButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
@@ -18,7 +12,7 @@ const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/IconButton",
   component: IconButton,
-  subcomponents: { IconButtonElement, IconButtonIcon, IconButtonSpinner },
+  subcomponents: { IconButtonElement },
   argTypes: { children: iconControl },
   parameters: {
     design: {

@@ -1,0 +1,55 @@
+import { cva, cx, type VariantProps } from "class-variance-authority";
+
+import { controlGroupClass } from "../../internal/control-group";
+import { type StrictVariantProps } from "../../internal/variant-props";
+
+// The bordered frame around the textarea leaf. Per the Figma "Text area" spec the border
+// style/width, radius, padding, and the focus/error border treatments are "always the same",
+// so they are static chrome. Composes the shared field-box chrome so the input and textarea
+// frames stay in lockstep; danger isn't a prop — the surface recolors its border off the
+// wrapped control's `data-invalid`.
+export const textAreaGroupVariants = cva(
+  cx(controlGroupClass, "w-full items-stretch gap-1.5 rounded-lg py-2"),
+);
+
+export const textAreaVariants = cva(
+  cx(
+    "scrollbar-sm min-w-0 flex-1 overflow-y-auto bg-transparent text-primary outline-none",
+    "placeholder:text-placeholder",
+    "disabled:cursor-not-allowed disabled:text-disabled",
+  ),
+  {
+    variants: {
+      magnitude: {
+        sm: "text-12",
+        md: "text-13",
+        lg: "text-14",
+        xl: "text-16",
+      },
+      surface: {
+        field: "px-3",
+        embedded: "p-3 leading-snug",
+        inline: "leading-tight",
+      },
+      /** Controls whether the user can resize the textarea. */
+      resize: {
+        none: "resize-none",
+        vertical: "resize-y",
+        both: "resize",
+      },
+    },
+    compoundVariants: [
+      { surface: "field", magnitude: "sm", class: "min-h-10" },
+      { surface: "field", magnitude: "md", class: "min-h-[66px]" },
+      { surface: "field", magnitude: "lg", class: "min-h-[84px]" },
+      { surface: "field", magnitude: "xl", class: "min-h-[84px]" },
+    ],
+  },
+);
+
+type TextAreaVariantConfig = VariantProps<typeof textAreaVariants>;
+
+export type TextAreaMagnitude = NonNullable<TextAreaVariantConfig["magnitude"]>;
+export type TextAreaSurface = NonNullable<TextAreaVariantConfig["surface"]>;
+export type TextAreaResize = NonNullable<TextAreaVariantConfig["resize"]>;
+export type TextAreaVariantProps = StrictVariantProps<typeof textAreaVariants>;

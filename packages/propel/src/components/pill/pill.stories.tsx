@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, Plus, Tag, X } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
 
-import { IconPill, PillButton, PillIcon, PillLabel, PillSpinner, PillSwitch } from "./index";
+import { IconPill, PillButton, PillLabel, PillSwitch } from "./index";
 
 const MAGNITUDES = ["sm", "md", "lg"] as const;
 
@@ -13,7 +13,7 @@ const clickSpies = { onClick: fn(), onLoadingClick: fn() };
 const meta = {
   title: "Components/Pill",
   component: PillButton,
-  subcomponents: { PillSwitch, IconPill, PillIcon, PillLabel, PillSpinner },
+  subcomponents: { PillSwitch, IconPill, PillLabel },
   args: { magnitude: "md", children: "Label" },
   parameters: {
     design: {
@@ -28,7 +28,7 @@ type Story = StoryObj<typeof meta>;
 
 /** A pill-shaped button. Holds a label with optional inline-start/end nodes. */
 export const Button: Story = {
-  args: { magnitude: "md", inlineStartNode: <Plus />, children: "Add label" },
+  args: { magnitude: "md", startIcon: <Plus />, children: "Add label" },
 };
 
 /** Every magnitude (`sm` / `md` / `lg`) of `PillButton`. */
@@ -37,7 +37,7 @@ export const Magnitudes: Story = {
   render: () => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <PillButton key={magnitude} magnitude={magnitude} inlineStartNode={<Tag />}>
+        <PillButton key={magnitude} magnitude={magnitude} startIcon={<Tag />}>
           {magnitude}
         </PillButton>
       ))}
@@ -57,16 +57,16 @@ export const States: Story = {
   },
   render: () => (
     <div className="flex items-center gap-3">
-      <PillButton magnitude="md" inlineStartNode={<Tag />}>
+      <PillButton magnitude="md" startIcon={<Tag />}>
         Default
       </PillButton>
-      <PillButton id="pill-hover" magnitude="md" inlineStartNode={<Tag />}>
+      <PillButton id="pill-hover" magnitude="md" startIcon={<Tag />}>
         Hover
       </PillButton>
-      <PillButton id="pill-active" magnitude="md" inlineStartNode={<Tag />}>
+      <PillButton id="pill-active" magnitude="md" startIcon={<Tag />}>
         Active
       </PillButton>
-      <PillButton magnitude="md" inlineStartNode={<Tag />} disabled>
+      <PillButton magnitude="md" startIcon={<Tag />} disabled>
         Disabled
       </PillButton>
       <PillButton magnitude="md" loading>
@@ -84,10 +84,10 @@ export const Switch: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-3">
-      <PillSwitch magnitude="md" inlineStartNode={<Tag />}>
+      <PillSwitch magnitude="md" startIcon={<Tag />}>
         Off
       </PillSwitch>
-      <PillSwitch magnitude="md" inlineStartNode={<Check />} defaultPressed>
+      <PillSwitch magnitude="md" startIcon={<Check />} defaultPressed>
         On
       </PillSwitch>
     </div>
@@ -156,7 +156,7 @@ export const ButtonClicks: Story = {
 export const SwitchToggles: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <PillSwitch magnitude="md" inlineStartNode={<Tag />}>
+    <PillSwitch magnitude="md" startIcon={<Tag />}>
       Toggle me
     </PillSwitch>
   ),

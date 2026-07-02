@@ -33,8 +33,8 @@ for us.
    `propel-no-default-variants` convention.)
 2. **Design for what we know now.** Model only the props and parts we can justify
    today. Don't speculate.
-3. **Expose required changes through the `ui` layer as we learn.** When the refactor
-   proves a component needs an axis it doesn't have, add it to the `ui` primitive
+3. **Expose required changes through the `elements` layer as we learn.** When the refactor
+   proves a component needs an axis it doesn't have, add it to the `elements` primitive
    first, then let the `components` compositions follow.
 4. **Use _required_ props to find every call site.** When a component grows a new
    axis, make it **required** rather than defaulted, so TypeScript lights up every
@@ -140,7 +140,7 @@ component takes a `className` prop (see `propel-no-className-prop-internal`).
 The remaining work is to formalize component anatomy from what the stories already
 show, in three steps:
 
-1. **Define the `ui` component anatomy from the styles used in Storybook.** Where a
+1. **Define the `elements` component anatomy from the styles used in Storybook.** Where a
    story lays out a component with raw `<div className="flex …">`, that markup names
    a missing part. We've already redrawn these layout boundaries in the overlay
    stories (grouping `Title`+`Description` as an intro and the buttons as actions,
@@ -151,7 +151,7 @@ show, in three steps:
    group). Decide these names (and the open ownership questions — where padding
    lives, the corner-close treatment) with design. See
    [`design.md` → Component anatomy](./design.md#component-anatomy).
-3. **Define the new compositions for each `ui` primitive's API.** With the parts
+3. **Define the new compositions for each `elements` primitive's API.** With the parts
    named, give each primitive the parts as real surfaces, and update the
    `components`-tier ready-mades to compose them — so consumers stop writing raw
    layout and compose the anatomy instead.

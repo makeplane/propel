@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { CheckboxField } from "./index";
+import { CheckboxField, type FieldMagnitude } from "./index";
+
+const MAGNITUDES: FieldMagnitude[] = ["md", "lg", "xl"];
 
 // A single checkbox laid out as a field row (Field + CheckboxFieldControl + label/helper).
 const meta = {
@@ -24,6 +26,40 @@ export const Default: Story = {
     hint: "You can change this later.",
     defaultChecked: true,
   },
+};
+
+/**
+ * Every `magnitude` (`md` / `lg` / `xl`) stacked. Magnitude scales the label, description, and
+ * helper text; the checkbox box itself keeps one size.
+ */
+export const Magnitudes: Story = {
+  // Iterates `magnitude` and labels each field with the magnitude name, so disable those two
+  // controls (plus the per-instance `name`/`value`); the rest stay live and update every field
+  // at once.
+  argTypes: {
+    magnitude: { control: false },
+    label: { control: false },
+    name: { control: false },
+    value: { control: false },
+  },
+  args: {
+    description: "Send a message when the deployment status changes.",
+    hint: "You can change this later.",
+  },
+  render: (args) => (
+    <div className="flex w-80 flex-col gap-4">
+      {MAGNITUDES.map((magnitude) => (
+        <CheckboxField
+          key={magnitude}
+          {...args}
+          magnitude={magnitude}
+          label={magnitude}
+          name={magnitude}
+          value={magnitude}
+        />
+      ))}
+    </div>
+  ),
 };
 
 /**

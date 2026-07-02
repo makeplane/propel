@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Activity, LayoutGrid, Settings } from "lucide-react";
-import type * as React from "react";
 import { expect, waitFor } from "storybook/test";
 
 import { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./index";
@@ -22,28 +21,6 @@ const TAB_ITEMS = [
     panel: "Configuration and preferences.",
   },
 ];
-
-function TabsFixture({
-  withIcons = false,
-  ...props
-}: React.ComponentProps<typeof Tabs> & { withIcons?: boolean }) {
-  return (
-    <Tabs {...props}>
-      <TabsList>
-        {TAB_ITEMS.map((t) => (
-          <Tab key={t.value} value={t.value} inlineStartNode={withIcons ? t.icon : undefined}>
-            {t.label}
-          </Tab>
-        ))}
-      </TabsList>
-      {TAB_ITEMS.map((t) => (
-        <TabsPanel key={t.value} value={t.value}>
-          {t.panel}
-        </TabsPanel>
-      ))}
-    </Tabs>
-  );
-}
 
 const meta = {
   title: "Components/Tabs",
@@ -67,25 +44,85 @@ type Story = StoryObj<typeof meta>;
 /** A working contained tab set: a raised card lifts the active tab inside the pill. */
 export const Contained: Story = {
   args: { appearance: "contained" },
-  render: (args) => <TabsFixture {...args} />,
+  render: (args) => (
+    <Tabs {...args}>
+      <TabsList>
+        {TAB_ITEMS.map((t) => (
+          <Tab key={t.value} value={t.value}>
+            {t.label}
+          </Tab>
+        ))}
+      </TabsList>
+      {TAB_ITEMS.map((t) => (
+        <TabsPanel key={t.value} value={t.value}>
+          {t.panel}
+        </TabsPanel>
+      ))}
+    </Tabs>
+  ),
 };
 
 /** A working underline tab set: a dark bar slides under the active tab. */
 export const Underline: Story = {
   args: { appearance: "underline" },
-  render: (args) => <TabsFixture {...args} />,
+  render: (args) => (
+    <Tabs {...args}>
+      <TabsList>
+        {TAB_ITEMS.map((t) => (
+          <Tab key={t.value} value={t.value}>
+            {t.label}
+          </Tab>
+        ))}
+      </TabsList>
+      {TAB_ITEMS.map((t) => (
+        <TabsPanel key={t.value} value={t.value}>
+          {t.panel}
+        </TabsPanel>
+      ))}
+    </Tabs>
+  ),
 };
 
-/** Both variants accept an optional `inlineStartNode` (a 16px slot tinted to the tab's text color). */
+/** Both variants accept an optional `icon` (a 16px slot tinted to the tab's text color). */
 export const WithIcons: Story = {
   args: { appearance: "contained" },
-  render: (args) => <TabsFixture {...args} withIcons />,
+  render: (args) => (
+    <Tabs {...args}>
+      <TabsList>
+        {TAB_ITEMS.map((t) => (
+          <Tab key={t.value} value={t.value} icon={t.icon}>
+            {t.label}
+          </Tab>
+        ))}
+      </TabsList>
+      {TAB_ITEMS.map((t) => (
+        <TabsPanel key={t.value} value={t.value}>
+          {t.panel}
+        </TabsPanel>
+      ))}
+    </Tabs>
+  ),
 };
 
-/** The `inlineStartNode` slot on the underline appearance. */
+/** The `icon` slot on the underline appearance. */
 export const UnderlineWithIcons: Story = {
   args: { appearance: "underline" },
-  render: (args) => <TabsFixture {...args} withIcons />,
+  render: (args) => (
+    <Tabs {...args}>
+      <TabsList>
+        {TAB_ITEMS.map((t) => (
+          <Tab key={t.value} value={t.value} icon={t.icon}>
+            {t.label}
+          </Tab>
+        ))}
+      </TabsList>
+      {TAB_ITEMS.map((t) => (
+        <TabsPanel key={t.value} value={t.value}>
+          {t.panel}
+        </TabsPanel>
+      ))}
+    </Tabs>
+  ),
 };
 
 /**

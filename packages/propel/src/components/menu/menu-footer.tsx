@@ -1,1 +1,1 @@
-export { MenuFooter, type MenuFooterProps } from "../../ui/menu";
+export { MenuFooter, type MenuFooterProps } from "../../elements/menu";

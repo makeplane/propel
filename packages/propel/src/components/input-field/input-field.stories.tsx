@@ -11,7 +11,7 @@ const meta = {
   title: "Components/InputField",
   component: InputField,
   // Icon picker controls for the inline start/end slots.
-  argTypes: { inlineStartNode: iconControl, inlineEndNode: iconControl },
+  argTypes: { startIcon: iconControl, endIcon: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -92,8 +92,8 @@ export const WithIcons: Story = {
     orientation: "vertical",
     label: "Search",
     placeholder: "Search…",
-    inlineStartNode: <Search />,
-    inlineEndNode: <Mail />,
+    startIcon: <Search />,
+    endIcon: <Mail />,
   },
 };
 
@@ -196,8 +196,8 @@ export const RtlVerify: Story = {
         orientation="vertical"
         label="بحث"
         placeholder="Search…"
-        inlineStartNode={<Search />}
-        inlineEndNode={<Mail />}
+        startIcon={<Search />}
+        endIcon={<Mail />}
       />
       <InputField
         magnitude="md"
@@ -238,8 +238,8 @@ export const LtrVerify: Story = {
         orientation="vertical"
         label="Search"
         placeholder="Search…"
-        inlineStartNode={<Search />}
-        inlineEndNode={<Mail />}
+        startIcon={<Search />}
+        endIcon={<Mail />}
       />
       <InputField
         magnitude="md"

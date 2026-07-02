@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ChevronDown } from "lucide-react";
 import type * as React from "react";
-import { expect, waitFor } from "storybook/test";
+import { expect, waitFor, within } from "storybook/test";
 
+import { ScrollArea } from "../scroll-area";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -19,9 +19,11 @@ import {
   NavigationMenuViewport,
 } from "./index";
 
-// Components-tier story: the ready-made `NavigationMenuPanel` collapses the Portal › Positioner ›
-// Popup surface into one part, so the consumer only nests `NavigationMenuViewport` inside it. The
-// UI-tier story assembles that portal chain by hand.
+// Components-tier story: every part is a ready-made — the root `NavigationMenu`, the
+// `NavigationMenuList`/`NavigationMenuItem` row, the `NavigationMenuTrigger` (caret baked in),
+// per-item `NavigationMenuContent`, `NavigationMenuLink`, and the `NavigationMenuPanel` (Portal ›
+// Positioner › Popup) with `NavigationMenuViewport` nested inside — so nothing is hand-wired from
+// Base UI. The elements-tier story assembles the behavior chain by hand.
 const meta = {
   title: "Components/NavigationMenu",
   component: NavigationMenu,
@@ -37,6 +39,7 @@ const meta = {
     NavigationMenuLinkTitle,
     NavigationMenuLinkDescription,
     NavigationMenuPanel,
+    NavigationMenuViewport,
   },
   parameters: {
     design: {
@@ -85,34 +88,16 @@ const RESOURCE_LINKS = [
   },
 ];
 
+// Enough entries to overflow the height-capped panel in the `LargeContent` story.
+const PROJECT_LINKS = Array.from({ length: 24 }, (_, index) => ({
+  href: `#project-${index + 1}`,
+  title: `Project ${index + 1}`,
+}));
+
 // The demo links carry real hrefs for correct anchor semantics, but cancel navigation:
 // the Vitest browser runner shares one page across story files, so an activated link
 // navigates the page, tears down the iframe, and fails unrelated stories.
 const cancelNavigation = (event: React.MouseEvent) => event.preventDefault();
-
-/** A rich content link pairing a title with a description, wrapped in its list item. */
-function ContentLink({ href, title, description }: (typeof PRODUCT_LINKS)[number]) {
-  return (
-    <li>
-      <NavigationMenuLink presentation="card" render={<a href={href} onClick={cancelNavigation} />}>
-        <NavigationMenuLinkTitle>{title}</NavigationMenuLinkTitle>
-        <NavigationMenuLinkDescription>{description}</NavigationMenuLinkDescription>
-      </NavigationMenuLink>
-    </li>
-  );
-}
-
-/** A trigger row that pairs the label with the rotating disclosure caret. */
-function TriggerRow({ children }: { children: React.ReactNode }) {
-  return (
-    <NavigationMenuTrigger>
-      <NavigationMenuTriggerLabel>{children}</NavigationMenuTriggerLabel>
-      <NavigationMenuIcon>
-        <ChevronDown aria-hidden />
-      </NavigationMenuIcon>
-    </NavigationMenuTrigger>
-  );
-}
 
 /** Two menu items plus a bare top-level link, opening into the shared `NavigationMenuPanel`. */
 export const Default: Story = {
@@ -120,32 +105,51 @@ export const Default: Story = {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <TriggerRow>Product</TriggerRow>
-          <NavigationMenuContent>
-            <ul className="grid w-md grid-cols-2 gap-1 p-2">
-              {PRODUCT_LINKS.map((item) => (
-                <ContentLink key={item.href} {...item} />
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <TriggerRow>Resources</TriggerRow>
+          <NavigationMenuTrigger>Product</NavigationMenuTrigger>
           <NavigationMenuContent>
             <NavigationMenuContentList>
-              {RESOURCE_LINKS.map((item) => (
-                <ContentLink key={item.href} {...item} />
+              {PRODUCT_LINKS.map((item) => (
+                <li key={item.href}>
+                  <NavigationMenuLink
+                    href={item.href}
+                    presentation="card"
+                    onClick={cancelNavigation}
+                  >
+                    <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
+                    <NavigationMenuLinkDescription>
+                      {item.description}
+                    </NavigationMenuLinkDescription>
+                  </NavigationMenuLink>
+                </li>
               ))}
             </NavigationMenuContentList>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuLink
-            presentation="item"
-            render={<a href="#pricing" onClick={cancelNavigation} />}
-          >
+          <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <NavigationMenuContentList>
+              {RESOURCE_LINKS.map((item) => (
+                <li key={item.href}>
+                  <NavigationMenuLink
+                    href={item.href}
+                    presentation="card"
+                    onClick={cancelNavigation}
+                  >
+                    <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
+                    <NavigationMenuLinkDescription>
+                      {item.description}
+                    </NavigationMenuLinkDescription>
+                  </NavigationMenuLink>
+                </li>
+              ))}
+            </NavigationMenuContentList>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink href="#pricing" presentation="item" onClick={cancelNavigation}>
             Pricing
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -162,7 +166,8 @@ export const Default: Story = {
  * Behavior test: clicking a trigger opens its content into the portaled panel; the content's links
  * become reachable by their unique text once open.
  */
-export const OpenContent: Story = {
+export const DefaultInteraction: Story = {
+  ...Default,
   tags: ["!dev", "!autodocs", "!manifest"],
   parameters: {
     a11y: {
@@ -181,33 +186,6 @@ export const OpenContent: Story = {
       },
     },
   },
-  render: () => (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <TriggerRow>Product</TriggerRow>
-          <NavigationMenuContent>
-            <NavigationMenuContentList>
-              {PRODUCT_LINKS.map((item) => (
-                <li key={item.href}>
-                  <NavigationMenuLink
-                    presentation="card"
-                    render={<a href={item.href} onClick={cancelNavigation} />}
-                  >
-                    <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
-                  </NavigationMenuLink>
-                </li>
-              ))}
-            </NavigationMenuContentList>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-
-      <NavigationMenuPanel>
-        <NavigationMenuViewport />
-      </NavigationMenuPanel>
-    </NavigationMenu>
-  ),
   play: async ({ canvas, userEvent }) => {
     const trigger = canvas.getByRole("button", { name: /Product/ });
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
@@ -217,6 +195,139 @@ export const OpenContent: Story = {
     await expect(trigger).toHaveAttribute("aria-expanded", "true");
     await waitFor(async () => {
       await expect(document.body).toHaveTextContent("Cycles");
+    });
+  },
+};
+
+/**
+ * The link's two presentations side by side: `item` is a top-level pill beside the triggers; `card`
+ * stacks a `NavigationMenuLinkTitle` over an optional `NavigationMenuLinkDescription` inside a
+ * content panel.
+ */
+export const Presentations: Story = {
+  render: () => (
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="#pricing" presentation="item" onClick={cancelNavigation}>
+            Pricing
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="#docs" presentation="card" onClick={cancelNavigation}>
+            <NavigationMenuLinkTitle>Documentation</NavigationMenuLinkTitle>
+            <NavigationMenuLinkDescription>
+              Guides and API references.
+            </NavigationMenuLinkDescription>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  ),
+};
+
+/** Behavior test: both presentations render real, named links with their hrefs intact. */
+export const PresentationsInteraction: Story = {
+  ...Presentations,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    const item = canvas.getByRole("link", { name: "Pricing" });
+    await expect(item).toHaveAttribute("href", "#pricing");
+
+    const card = canvas.getByRole("link", { name: /Documentation/ });
+    await expect(card).toHaveAttribute("href", "#docs");
+    await expect(card).toHaveTextContent("Guides and API references.");
+  },
+};
+
+/**
+ * A menu whose content outgrows the panel: the story caps the content region's height and wraps the
+ * link list in a `ScrollArea`, so the panel keeps a stable size while the links scroll — the
+ * recommended composition for large menus instead of native popup scrollbars.
+ */
+export const LargeContent: Story = {
+  render: () => (
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <div className="flex h-72 flex-col">
+              <ScrollArea orientation="vertical" visibility="auto" magnitude="thin">
+                <NavigationMenuContentList>
+                  {PROJECT_LINKS.map((item) => (
+                    <li key={item.href}>
+                      <NavigationMenuLink
+                        href={item.href}
+                        presentation="card"
+                        onClick={cancelNavigation}
+                      >
+                        <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
+                      </NavigationMenuLink>
+                    </li>
+                  ))}
+                </NavigationMenuContentList>
+              </ScrollArea>
+            </div>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink href="#pricing" presentation="item" onClick={cancelNavigation}>
+            Pricing
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+
+      <NavigationMenuPanel>
+        <NavigationMenuViewport />
+      </NavigationMenuPanel>
+    </NavigationMenu>
+  ),
+};
+
+/**
+ * Behavior test: opening the trigger renders every link into the portaled panel, and the capped
+ * content region overflows so the list actually scrolls.
+ */
+export const LargeContentInteraction: Story = {
+  ...LargeContent,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: {
+    a11y: {
+      // Same two Base UI internals as `DefaultInteraction` (the focus-guard sentinels and the
+      // portaled second `<nav>` landmark) — static-analysis false positives while the popup is
+      // open, so suppress just those two rules here as well.
+      config: {
+        rules: [
+          { id: "aria-hidden-focus", enabled: false },
+          { id: "landmark-unique", enabled: false },
+        ],
+      },
+    },
+  },
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByRole("button", { name: /Projects/ });
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    // The popup is portaled, so query the document body once open. The last link exists in the
+    // DOM even though it starts scrolled out of view.
+    const lastLink = await within(document.body).findByRole("link", { name: "Project 24" });
+
+    // The height-capped wrapper + `ScrollArea` leave an ancestor of the link overflowing its box
+    // (the scrollable viewport); wait for layout to settle before measuring.
+    await waitFor(() => {
+      let node = lastLink.parentElement;
+      let scroller: HTMLElement | null = null;
+      while (node && node !== document.body) {
+        if (node.scrollHeight > node.clientHeight) {
+          scroller = node;
+          break;
+        }
+        node = node.parentElement;
+      }
+      void expect(scroller).not.toBeNull();
     });
   },
 };

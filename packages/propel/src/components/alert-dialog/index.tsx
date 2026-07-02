@@ -1,14 +1,17 @@
+export * from "./alert-dialog";
+export * from "./alert-dialog-close";
 export * from "./alert-dialog-content";
-// Re-export the atomic parts so a full alert dialog can be assembled from one entry.
+export * from "./alert-dialog-description";
+export * from "./alert-dialog-title";
+export * from "./alert-dialog-trigger";
+export * from "./create-handle";
+// Re-export propel's STYLED alert-dialog parts so a full alert dialog can be assembled from one
+// entry. The Popup/Viewport boilerplate is composed by `AlertDialogContent`, and the styled
+// `elements` Close is shadowed by this family's behavior `AlertDialogClose`, so those parts are
+// not re-exported here.
 export {
-  AlertDialog,
-  type AlertDialogProps,
   AlertDialogActions,
   type AlertDialogActionsProps,
-  AlertDialogClose,
-  type AlertDialogCloseProps,
-  AlertDialogDescription,
-  type AlertDialogDescriptionProps,
   AlertDialogHeader,
   type AlertDialogHeaderProps,
   AlertDialogIcon,
@@ -16,8 +19,4 @@ export {
   type AlertDialogIconTone,
   AlertDialogIntro,
   type AlertDialogIntroProps,
-  AlertDialogTitle,
-  type AlertDialogTitleProps,
-  AlertDialogTrigger,
-  type AlertDialogTriggerProps,
-} from "../../ui/alert-dialog";
+} from "../../elements/alert-dialog";

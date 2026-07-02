@@ -1,3 +1,4 @@
+import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { Check } from "lucide-react";
 import type * as React from "react";
 
@@ -5,37 +6,37 @@ import {
   MenuItem as MenuItemElement,
   MenuItemContent,
   MenuItemDescription,
-  MenuItemIcon,
   MenuItemSecondaryText,
-  MenuItemSelectedIndicator,
+  MenuItemIndicator,
   MenuItemTitle,
   MenuItemTitleRow,
   MenuItemTrailing,
-  type MenuItemProps as MenuItemElementProps,
-} from "../../ui/menu";
+} from "../../elements/menu";
+import { Icon } from "../../internal/icon";
 
-export type MenuItemProps = Omit<MenuItemElementProps, "layout"> & {
+export type MenuItemProps = Omit<BaseMenu.Item.Props, "className" | "style"> & {
   /** Leading content before the label. */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
   /** Muted secondary line under the label. */
   description?: React.ReactNode;
   /** Muted text shown inline after the label. */
   secondaryText?: React.ReactNode;
   /** Trailing content after the label. */
-  inlineEndNode?: React.ReactNode;
+  trailing?: React.ReactNode;
   /** Single-select selected state. */
   selected?: boolean;
 };
 
 /**
- * The ready-made selectable menu row: composes the atomic `MenuItem` and lays out optional
- * leading/trailing nodes, the label, a secondary line, and the single-select check indicator.
+ * The ready-made selectable menu row: grafts Base UI's `Menu.Item` behavior onto the styled
+ * `MenuItem` and lays out optional leading/trailing nodes, the label, a secondary line, and the
+ * single-select check indicator.
  */
 export function MenuItem({
-  inlineStartNode,
+  icon,
   description,
   secondaryText,
-  inlineEndNode,
+  trailing,
   selected,
   children,
   ...props
@@ -43,8 +44,8 @@ export function MenuItem({
   // The taller, top-aligned row layout is implied by having a description — derived, not a prop.
   const layout = description != null ? "with-description" : "default";
   return (
-    <MenuItemElement layout={layout} {...props}>
-      {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
+    <BaseMenu.Item {...props} render={<MenuItemElement layout={layout} />}>
+      {icon != null ? <Icon tint="secondary">{icon}</Icon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
           <MenuItemTitle>{children}</MenuItemTitle>
@@ -54,12 +55,12 @@ export function MenuItem({
         </MenuItemTitleRow>
         {description != null ? <MenuItemDescription>{description}</MenuItemDescription> : null}
       </MenuItemContent>
-      {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}
+      {trailing != null ? <MenuItemTrailing>{trailing}</MenuItemTrailing> : null}
       {selected ? (
-        <MenuItemSelectedIndicator>
+        <MenuItemIndicator>
           <Check />
-        </MenuItemSelectedIndicator>
+        </MenuItemIndicator>
       ) : null}
-    </MenuItemElement>
+    </BaseMenu.Item>
   );
 }

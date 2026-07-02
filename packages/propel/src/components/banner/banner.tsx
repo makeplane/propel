@@ -10,12 +10,12 @@ import {
   type BannerProps as BannerElementProps,
   type BannerTone,
   BannerTitle,
-} from "../../ui/banner";
+} from "../../elements/banner";
 
-export type { BannerTone, BannerPlacement } from "../../ui/banner";
+export type { BannerTone, BannerPlacement } from "../../elements/banner";
 
 // The leading icon the system picks per tone when none is supplied. Treated as
-// content (overridable via `inlineStartNode`), not a style placement.
+// content (overridable via `icon`), not a style placement.
 const toneIcon: Record<BannerTone, LucideIcon> = {
   neutral: Info,
   info: Info,
@@ -29,7 +29,7 @@ export type BannerProps = BannerElementProps & {
    * Node rendered before the message (inline-start). Defaults to a tone-appropriate lucide icon;
    * pass `null` to hide it. Sized to the banner's node size. Decorative, kept out of the name.
    */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
   /** The banner's headline. Rendered as its own block above any `children` body. */
   title?: React.ReactNode;
   /**
@@ -42,28 +42,20 @@ export type BannerProps = BannerElementProps & {
 /**
  * The ready-made banner: composes the atomic banner parts — the tone icon, the message body
  * (`title` + `children`), and trailing `actions` — so consumers pass content, not layout. A dismiss
- * is just an action: render an `IconButton` in `actions`. Drop down to `@plane/propel/ui/banner` to
- * assemble the parts directly.
+ * is just an action: render an `IconButton` in `actions`. Drop down to
+ * `@plane/propel/elements/banner` to assemble the parts directly.
  */
-export function Banner({
-  placement,
-  tone,
-  inlineStartNode,
-  title,
-  actions,
-  children,
-  ...props
-}: BannerProps) {
+export function Banner({ placement, tone, icon, title, actions, children, ...props }: BannerProps) {
   const DefaultIcon = toneIcon[tone];
   return (
     <BannerElement placement={placement} tone={tone} {...props}>
-      {inlineStartNode === undefined ? (
+      {icon === undefined ? (
         <BannerIcon placement={placement} tone={tone}>
           <DefaultIcon />
         </BannerIcon>
-      ) : inlineStartNode ? (
+      ) : icon ? (
         <BannerIcon placement={placement} tone={tone}>
-          {inlineStartNode}
+          {icon}
         </BannerIcon>
       ) : null}
       <BannerBody placement={placement} tone={tone}>

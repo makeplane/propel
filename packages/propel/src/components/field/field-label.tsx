@@ -1,20 +1,24 @@
-import {
-  FieldLabel as FieldLabelElement,
-  type FieldLabelProps as FieldLabelElementProps,
-} from "../../ui/field/field-label";
-import { FieldLabelRequiredMarker } from "../../ui/field/field-label-required-marker";
+import { Field as BaseField } from "@base-ui/react/field";
 
-export type FieldLabelProps = FieldLabelElementProps & { required?: boolean };
+import { FieldLabel as FieldLabelElement } from "../../elements/field/field-label";
+import { FieldLabelRequiredMarker } from "../../elements/field/field-label-required-marker";
+import { type FieldLabelVariantProps } from "../../elements/field/variants";
+
+export type { FieldMagnitude } from "../../elements/field/variants";
+
+export type FieldLabelProps = Omit<BaseField.Label.Props, "className" | "style"> &
+  FieldLabelVariantProps & { required?: boolean };
 
 /**
- * The ready-made field label: the `FieldLabel` slot, plus a `FieldLabelRequiredMarker` when
+ * The ready-made field label: Base UI's `Field.Label` (auto-associated with the control) grafted
+ * onto the styled `FieldLabel` element (rule 1a), plus a `FieldLabelRequiredMarker` when
  * `required`.
  */
-export function FieldLabel({ required, children, ...props }: FieldLabelProps) {
+export function FieldLabel({ magnitude, inset, required, children, ...props }: FieldLabelProps) {
   return (
-    <FieldLabelElement {...props}>
+    <BaseField.Label {...props} render={<FieldLabelElement magnitude={magnitude} inset={inset} />}>
       {children}
       {required ? <FieldLabelRequiredMarker>*</FieldLabelRequiredMarker> : null}
-    </FieldLabelElement>
+    </BaseField.Label>
   );
 }

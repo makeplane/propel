@@ -1,26 +1,25 @@
+export * from "./select";
 export * from "./select-content";
-// Re-export the atomic select parts so a full select can be assembled from one entry.
+export * from "./select-item";
+export * from "./select-label";
+export * from "./select-list";
+export * from "./select-trigger";
+export * from "./select-group";
+export * from "./select-group-label";
+// Re-export propel's STYLED select parts that stay styling-only, so a full select can be assembled
+// from one entry. The ready-mades above graft Base UI's `Trigger`/`Value`/`Label`/`List`/`Item`
+// behavior onto the styled parts, so consumers never compose `@base-ui/react/select` directly. The
+// styled `SelectTrigger`/`SelectValue`/`SelectIcon`/`SelectLabel` elements are NOT re-exported here
+// — the same-named ready-mades replace them (name collision rule); import them from
+// `elements/select` to hand-wire a custom anatomy.
 export {
-  Select,
-  type SelectProps,
   SelectField,
   type SelectFieldProps,
-  SelectIcon,
-  type SelectIconProps,
-  SelectItem,
-  type SelectItemMagnitude,
-  type SelectItemProps,
   SelectItemIndicator,
   type SelectItemIndicatorProps,
-  SelectItemText,
-  SelectLabel,
-  type SelectLabelProps,
-  SelectList,
   SelectScrollDownArrow,
+  type SelectScrollDownArrowProps,
   SelectScrollUpArrow,
-  SelectTrigger,
+  type SelectScrollUpArrowProps,
   type SelectTriggerMagnitude,
-  type SelectTriggerProps,
-  SelectValue,
-  type SelectValueProps,
-} from "../../ui/select";
+} from "../../elements/select";

@@ -7,7 +7,9 @@ import { IconButton } from "../icon-button";
 import {
   Toast,
   type ToastData,
+  ToastList,
   type ToastProps,
+  ToastStatusIcon,
   type ToastTone,
   ToastProvider,
   useToast,
@@ -85,6 +87,7 @@ class ToastErrorBoundary extends React.Component<
 const meta = {
   title: "Components/Toast",
   component: ToastProvider,
+  subcomponents: { Toast, ToastList, ToastStatusIcon },
   args: { close: closeButton },
   // Every story renders inside a single ToastProvider so its trigger can queue
   // toasts and the viewport can display them.
@@ -295,6 +298,136 @@ export const WithPrimaryAction: Story = {
       }}
     />
   ),
+};
+
+/**
+ * Report an async task with a single toast that advances through its lifecycle:
+ * `useToast().promise(promise, { loading, success, error })` queues a loading toast, then updates
+ * it in place when the promise settles. Each state carries its own `data.tone`, so the status icon
+ * tracks the lifecycle (neutral while pending, success/danger once settled). The demo settles
+ * deterministically after a 300 ms delay.
+ */
+export const AsyncPromise: Story = {
+  parameters: { controls: { disable: true } },
+  render: function Render() {
+    const { promise } = useToast();
+    return (
+      <button
+        type="button"
+        className="inline-flex h-8 items-center rounded-md border-sm border-subtle-1 bg-layer-2 px-3 text-13 font-medium text-secondary"
+        onClick={() => {
+          void promise<string, ToastData>(
+            new Promise<string>((resolve) => {
+              setTimeout(() => resolve("3 attachments"), 300);
+            }),
+            {
+              loading: {
+                title: "Uploading files",
+                description: "Your attachments are on their way",
+                data: { tone: "neutral" },
+              },
+              success: (uploaded) => ({
+                title: "Upload complete",
+                description: `${uploaded} uploaded`,
+                data: { tone: "success" },
+              }),
+              error: {
+                title: "Upload failed",
+                description: "Something went wrong — try again",
+                data: { tone: "danger" },
+              },
+            },
+          );
+        }}
+      >
+        Upload files
+      </button>
+    );
+  },
+};
+
+/**
+ * Interaction test for the promise lifecycle: clicking the trigger shows the loading toast, and
+ * once the 300 ms task resolves the SAME toast updates in place to the success state (one dialog
+ * throughout, no second toast). Tagged so it stays out of the sidebar/docs/manifest.
+ */
+export const AsyncPromiseInteraction: Story = {
+  ...AsyncPromise,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const body = within(document.body);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Upload files" }));
+
+    // The loading state appears first, as a dialog named by its loading title.
+    const toast = await body.findByRole("dialog", { name: "Uploading files" });
+    await expect(toast).toBeVisible();
+
+    // When the promise resolves, the same toast updates in place to the success state.
+    await waitFor(() => expect(body.getByText("Upload complete")).toBeVisible());
+    await expect(body.getByText("3 attachments uploaded")).toBeVisible();
+    await expect(body.getAllByRole("dialog")).toHaveLength(1);
+    await expect(body.queryByText("Uploading files")).not.toBeInTheDocument();
+  },
+};
+
+/**
+ * Deduplicated toast: pass a stable `id` to `add` and repeated calls update the existing toast in
+ * place (refreshing its auto-dismiss timer) instead of stacking duplicates. Click the trigger
+ * repeatedly while the toast is visible — the save count updates inside the one toast.
+ */
+export const Deduplicated: Story = {
+  parameters: { controls: { disable: true } },
+  render: function Render() {
+    const { add } = useToast();
+    const [saves, setSaves] = React.useState(0);
+    return (
+      <button
+        type="button"
+        className="inline-flex h-8 items-center rounded-md border-sm border-subtle-1 bg-layer-2 px-3 text-13 font-medium text-secondary"
+        onClick={() => {
+          const next = saves + 1;
+          setSaves(next);
+          add({
+            id: "draft-save",
+            title: "Draft saved",
+            description: `Saved ${next} ${next === 1 ? "time" : "times"} this session`,
+            data: { tone: "success" },
+          });
+        }}
+      >
+        Save draft
+      </button>
+    );
+  },
+};
+
+/**
+ * Interaction test for deduplication: two clicks on the trigger produce ONE toast — the second
+ * `add` call with the same `id` upserts the existing toast (its description advances to the new
+ * save count) rather than queueing a duplicate. Tagged so it stays out of the
+ * sidebar/docs/manifest.
+ */
+export const DeduplicatedInteraction: Story = {
+  ...Deduplicated,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const body = within(document.body);
+    const trigger = canvas.getByRole("button", { name: "Save draft" });
+
+    await userEvent.click(trigger);
+    const toast = await body.findByRole("dialog", { name: "Draft saved" });
+    await expect(within(toast).getByText("Saved 1 time this session")).toBeVisible();
+
+    // A second add with the same `id` updates the existing toast in place…
+    await userEvent.click(trigger);
+    await waitFor(() =>
+      expect(within(toast).getByText("Saved 2 times this session")).toBeVisible(),
+    );
+
+    // …so the live region still holds exactly one toast.
+    await expect(body.getAllByRole("dialog", { name: "Draft saved" })).toHaveLength(1);
+  },
 };
 
 /**

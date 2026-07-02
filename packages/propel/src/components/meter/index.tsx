@@ -11,4 +11,4 @@ export {
   type MeterTrackProps,
   MeterValue,
   type MeterValueProps,
-} from "../../ui/meter";
+} from "../../elements/meter";

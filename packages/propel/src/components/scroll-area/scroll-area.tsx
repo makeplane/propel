@@ -1,3 +1,4 @@
+import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import * as React from "react";
 
 import {
@@ -8,7 +9,7 @@ import {
   type ScrollAreaScrollbarVisibility,
   ScrollAreaThumb,
   ScrollAreaViewport,
-} from "../../ui/scroll-area";
+} from "../../elements/scroll-area";
 
 // propel's scroll container, built on Base UI ScrollArea. Unlike a re-skinned native
 // scrollbar it paints a real DOM thumb, so it renders consistently across browsers
@@ -17,7 +18,7 @@ import {
 // area is hovered or scrolling, darker on thumb hover, darkest while dragging, over a
 // transparent track. It fills its parent, so constrain the parent's height (or width)
 // to make the content scroll. The scrollbar gutter and thumb styling are owned by the
-// `ui/scroll-area` parts (their cva), reveal/width driven by the `visibility` and `magnitude`
+// `elements/scroll-area` parts (their cva), reveal/width driven by the `visibility` and `magnitude`
 // props threaded to each `ScrollAreaScrollbar`.
 
 /** Which axes scroll. Drives which scrollbars (and the corner) are rendered. */
@@ -58,20 +59,27 @@ export function ScrollArea({ orientation, visibility, magnitude, children }: Scr
     // through flex). The Root is a flex item that also lays its viewport out as a flex
     // column; the Viewport is a `flex-1` child whose `overflow: scroll` (set by Base UI)
     // gives it an automatic min-height of 0, so it bounds to the column and scrolls. The
-    // scrollbars are positioned absolutely by Base UI, so they never take flex space.
-    <ScrollAreaElement>
-      <ScrollAreaViewport>{children}</ScrollAreaViewport>
+    // scrollbars are positioned absolutely by Base UI, so they never take flex space. The
+    // Base UI behavior parts graft onto the styled `elements` parts via `render`.
+    <BaseScrollArea.Root render={<ScrollAreaElement />}>
+      <BaseScrollArea.Viewport render={<ScrollAreaViewport />}>{children}</BaseScrollArea.Viewport>
       {showVertical ? (
-        <ScrollAreaScrollbar orientation="vertical" visibility={visibility} magnitude={magnitude}>
-          <ScrollAreaThumb />
-        </ScrollAreaScrollbar>
+        <BaseScrollArea.Scrollbar
+          orientation="vertical"
+          render={<ScrollAreaScrollbar visibility={visibility} magnitude={magnitude} />}
+        >
+          <BaseScrollArea.Thumb render={<ScrollAreaThumb />} />
+        </BaseScrollArea.Scrollbar>
       ) : null}
       {showHorizontal ? (
-        <ScrollAreaScrollbar orientation="horizontal" visibility={visibility} magnitude={magnitude}>
-          <ScrollAreaThumb />
-        </ScrollAreaScrollbar>
+        <BaseScrollArea.Scrollbar
+          orientation="horizontal"
+          render={<ScrollAreaScrollbar visibility={visibility} magnitude={magnitude} />}
+        >
+          <BaseScrollArea.Thumb render={<ScrollAreaThumb />} />
+        </BaseScrollArea.Scrollbar>
       ) : null}
-      {orientation === "both" ? <ScrollAreaCorner /> : null}
-    </ScrollAreaElement>
+      {orientation === "both" ? <BaseScrollArea.Corner render={<ScrollAreaCorner />} /> : null}
+    </BaseScrollArea.Root>
   );
 }

@@ -7,7 +7,7 @@ import {
   type CircularProgressProps as CircularProgressElementProps,
   CircularProgressSvg,
   CircularProgressTrack,
-} from "../../ui/circular-progress";
+} from "../../elements/circular-progress";
 
 export type CircularProgressMagnitude = NonNullable<CircularProgressElementProps["magnitude"]>;
 export type CircularProgressTone = NonNullable<CircularProgressIndicatorProps["tone"]>;
@@ -24,8 +24,11 @@ export type CircularProgressProps = Omit<
   BaseProgress.Root.Props,
   "className" | "style" | "value"
 > & {
-  /** Completion from 0 to `max` (default 100). The ring has no indeterminate mode. */
-  value: number;
+  /**
+   * Completion from 0 to `max` (default 100). `null` = indeterminate: a fixed quarter arc spins
+   * (`aria-valuenow` unset).
+   */
+  value: number | null;
   /** Diameter: `sm` 16px / `md` 20px. */
   magnitude: CircularProgressMagnitude;
   /** Arc color: `brand` accent, `success`/`warning`/`danger` outcome. */
@@ -35,21 +38,27 @@ export type CircularProgressProps = Omit<
 };
 
 /**
- * A small determinate progress ring (no label — too small). Drive it with `value` (0–`max`); the
- * arc and `aria-valuenow` follow. For a bar with an optional label, use `LinearProgress`. Composes
- * the `ui/circular-progress` primitives on Base UI `Progress`.
+ * A small progress ring (no label — too small). Drive it with `value` (0–`max`); the arc and
+ * `aria-valuenow` follow, and `value={null}` is indeterminate — a fixed quarter arc spins. For a
+ * bar with an optional label, use `LinearProgress`. Composes the `elements/circular-progress`
+ * primitives on Base UI `Progress`.
  */
 export function CircularProgress({ value, magnitude, tone, ...props }: CircularProgressProps) {
   const { box, radius } = RING_GEOMETRY[magnitude];
   const circumference = 2 * Math.PI * radius;
   const max = props.max ?? 100;
-  // Clamp once so the arc and `aria-valuenow` never disagree for out-of-range input.
-  const clampedValue = Math.min(Math.max(value, 0), max);
-  const fraction = max > 0 ? clampedValue / max : 0;
+  // Clamp once so the arc and `aria-valuenow` never disagree for out-of-range input. While
+  // indeterminate a fixed quarter arc shows; the svg part spins it off `data-indeterminate`.
+  const clampedValue = value == null ? null : Math.min(Math.max(value, 0), max);
+  const fraction = clampedValue == null ? 0.25 : max > 0 ? clampedValue / max : 0;
   const dashOffset = circumference * (1 - fraction);
   const center = box / 2;
   return (
-    <CircularProgressElement value={clampedValue} magnitude={magnitude} {...props}>
+    <BaseProgress.Root
+      value={clampedValue}
+      render={<CircularProgressElement magnitude={magnitude} />}
+      {...props}
+    >
       <CircularProgressSvg viewBox={`0 0 ${box} ${box}`}>
         <CircularProgressTrack cx={center} cy={center} r={radius} strokeWidth={RING_STROKE} />
         <CircularProgressIndicator
@@ -63,6 +72,6 @@ export function CircularProgress({ value, magnitude, tone, ...props }: CircularP
           strokeDashoffset={dashOffset}
         />
       </CircularProgressSvg>
-    </CircularProgressElement>
+    </BaseProgress.Root>
   );
 }

@@ -25,6 +25,7 @@ import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Avatar } from "../avatar/index";
 import { Badge } from "../badge/index";
 import {
+  createMenuHandle,
   Menu,
   MenuCheckboxItem,
   MenuContent,
@@ -38,6 +39,9 @@ import {
   MenuSubmenuContent,
   MenuSubmenuTrigger,
   MenuTrigger,
+  MenuViewport,
+  MenuRadioGroup,
+  MenuRadioItem,
 } from "./index";
 
 const meta = {
@@ -65,6 +69,7 @@ const meta = {
     MenuSubmenu,
     MenuSubmenuTrigger,
     MenuSubmenuContent,
+    MenuViewport,
   },
 } satisfies Meta<typeof Menu>;
 
@@ -209,13 +214,13 @@ export const Status: Story = {
           {STATUSES.find((s) => s.key === selected)?.label ?? "Status"}
         </MenuTrigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {visible.map((s) => (
             <MenuItem
               key={s.key}
-              inlineStartNode={s.icon}
+              icon={s.icon}
               selected={selected === s.key}
               closeOnClick={false}
               onClick={() => setSelected(s.key)}
@@ -263,7 +268,7 @@ export const Labels: Story = {
       <Menu>
         <MenuTrigger render={<button type="button" className={triggerClass} />}>Labels</MenuTrigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {canAdd ? (
@@ -271,14 +276,14 @@ export const Labels: Story = {
             // (Figma 64-626): the sticky MenuSearch already draws its own bottom
             // rule, so the "Add label" row mounts directly beneath it with no extra line.
             <MenuItem
-              inlineStartNode={<Plus className="text-icon-secondary" />}
+              icon={<Plus className="text-icon-secondary" />}
               closeOnClick={false}
             >{`Add label "${trimmed}"`}</MenuItem>
           ) : null}
           {visible.map((l) => (
             <MenuCheckboxItem
               key={l.key}
-              inlineStartNode={<ColorSwatch className={l.color} />}
+              icon={<ColorSwatch className={l.color} />}
               checked={Boolean(checked[l.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [l.key]: next }))}
             >
@@ -322,26 +327,23 @@ export const ActionMenu: Story = {
   render: () => (
     <Menu>
       <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
-      <MenuContent width="sm">
-        <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
-        <MenuItem inlineStartNode={<Copy />}>Make a copy</MenuItem>
-        <MenuItem inlineStartNode={<ExternalLink />}>Open in new tab</MenuItem>
-        <MenuItem
-          inlineStartNode={<Link2 />}
-          inlineEndNode={<span className="text-12 text-tertiary">⌘L</span>}
-        >
+      <MenuContent sizing="sm">
+        <MenuItem icon={<Pencil />}>Edit</MenuItem>
+        <MenuItem icon={<Copy />}>Make a copy</MenuItem>
+        <MenuItem icon={<ExternalLink />}>Open in new tab</MenuItem>
+        <MenuItem icon={<Link2 />} trailing={<span className="text-12 text-tertiary">⌘L</span>}>
           Copy link
         </MenuItem>
         <MenuSeparator />
         <MenuItem
-          inlineStartNode={<Trash2 />}
+          icon={<Trash2 />}
           description="Only completed or cancelled work items can be archived"
           disabled
         >
           Archive
         </MenuItem>
         <MenuSeparator />
-        <MenuItem inlineStartNode={<Trash2 className="text-danger-primary" />}>
+        <MenuItem icon={<Trash2 className="text-danger-primary" />}>
           {<span className="text-danger-primary">Delete</span>}
         </MenuItem>
       </MenuContent>
@@ -411,9 +413,9 @@ export const Description: Story = {
         <MenuTrigger render={<button type="button" className={triggerClass} />}>
           Visibility
         </MenuTrigger>
-        <MenuContent width="lg">
+        <MenuContent sizing="lg">
           <MenuItem
-            inlineStartNode={<Lock />}
+            icon={<Lock />}
             description="Accessible only by invite"
             selected={selected === "private"}
             closeOnClick={false}
@@ -422,7 +424,7 @@ export const Description: Story = {
             Private
           </MenuItem>
           <MenuItem
-            inlineStartNode={<Globe />}
+            icon={<Globe />}
             description="Anyone in the workspace except Guests can join"
             selected={selected === "public"}
             closeOnClick={false}
@@ -462,9 +464,9 @@ export const LabelAndFooterSemantics: Story = {
       <MenuTrigger render={<button type="button" className={triggerClass} />}>
         Grouped menu
       </MenuTrigger>
-      <MenuContent width="sm" footer={<MenuFooter>Type to add another item.</MenuFooter>}>
+      <MenuContent sizing="sm" footer={<MenuFooter>Type to add another item.</MenuFooter>}>
         <MenuGroup>
-          <MenuLabel inlineEndNode={<span>3</span>}>Section</MenuLabel>
+          <MenuLabel meta={<span>3</span>}>Section</MenuLabel>
           <MenuItem>First item</MenuItem>
         </MenuGroup>
       </MenuContent>
@@ -494,13 +496,13 @@ export const Assignees: Story = {
           Assignees
         </MenuTrigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {visible.map((a) => (
             <MenuCheckboxItem
               key={a.key}
-              inlineStartNode={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
+              icon={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
               checked={Boolean(checked[a.key])}
               disabled={a.disabled}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [a.key]: next }))}
@@ -550,7 +552,7 @@ export const LanguagePicker: Story = {
           {LANGUAGES.find((l) => l.key === selected)?.label ?? "Language"}
         </MenuTrigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {visible.map((l) => (
@@ -604,13 +606,13 @@ export const Priority: Story = {
           Priority
         </MenuTrigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {visible.map((p) => (
             <MenuCheckboxItem
               key={p.key}
-              inlineStartNode={p.icon}
+              icon={p.icon}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
             >
@@ -657,11 +659,11 @@ export const CheckedFillVisible: Story = {
         <MenuTrigger render={<button type="button" className={triggerClass} />}>
           Priority
         </MenuTrigger>
-        <MenuContent width="sm">
+        <MenuContent sizing="sm">
           {PRIORITIES.map((p) => (
             <MenuCheckboxItem
               key={p.key}
-              inlineStartNode={p.icon}
+              icon={p.icon}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
             >
@@ -751,7 +753,7 @@ export const Filters: Story = {
           Filters
         </MenuTrigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {sections.map((section, index) => {
@@ -772,10 +774,10 @@ export const Filters: Story = {
                   {/* The category heading is itself a menuitem (valid `role="menu"`
                       child) so its collapse chevron stays interactive without breaking
                       ARIA. The label is the section title; the chevron is the
-                      inlineEndNode. */}
+                      trailing. */}
                   <MenuItem
                     aria-expanded={!isCollapsed}
-                    inlineEndNode={
+                    trailing={
                       isCollapsed ? (
                         <ChevronRight aria-hidden="true" />
                       ) : (
@@ -791,7 +793,7 @@ export const Filters: Story = {
                     ? visibleItems.map((i) => (
                         <MenuCheckboxItem
                           key={i.key}
-                          inlineStartNode={i.icon}
+                          icon={i.icon}
                           checked={Boolean(checked[i.key])}
                           onCheckedChange={toggle(i.key)}
                         >
@@ -895,12 +897,12 @@ export const EmptyState: Story = {
       <Menu defaultOpen>
         <MenuTrigger render={<button type="button" className={triggerClass} />}>Status</MenuTrigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {visible.length > 0 ? (
             visible.map((s) => (
-              <MenuItem key={s.key} inlineStartNode={s.icon}>
+              <MenuItem key={s.key} icon={s.icon}>
                 {s.label}
               </MenuItem>
             ))
@@ -956,10 +958,10 @@ export const Submenu: Story = {
       <MenuTrigger render={<button type="button" className={triggerClass} />}>
         Filter by
       </MenuTrigger>
-      <MenuContent width="sm">
+      <MenuContent sizing="sm">
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            inlineEndNode={
+            trailing={
               <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
@@ -967,9 +969,9 @@ export const Submenu: Story = {
           >
             Priority
           </MenuSubmenuTrigger>
-          <MenuSubmenuContent width="sm">
+          <MenuSubmenuContent sizing="sm">
             {PRIORITIES.map((p) => (
-              <MenuItem key={p.key} inlineStartNode={p.icon} closeOnClick={false}>
+              <MenuItem key={p.key} icon={p.icon} closeOnClick={false}>
                 {p.label}
               </MenuItem>
             ))}
@@ -977,7 +979,7 @@ export const Submenu: Story = {
         </MenuSubmenu>
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            inlineEndNode={
+            trailing={
               <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
@@ -985,9 +987,9 @@ export const Submenu: Story = {
           >
             State
           </MenuSubmenuTrigger>
-          <MenuSubmenuContent width="sm">
+          <MenuSubmenuContent sizing="sm">
             {STATUSES.map((s) => (
-              <MenuItem key={s.key} inlineStartNode={s.icon} closeOnClick={false}>
+              <MenuItem key={s.key} icon={s.icon} closeOnClick={false}>
                 {s.label}
               </MenuItem>
             ))}
@@ -995,7 +997,7 @@ export const Submenu: Story = {
         </MenuSubmenu>
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            inlineEndNode={
+            trailing={
               <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
@@ -1003,13 +1005,11 @@ export const Submenu: Story = {
           >
             Assignee
           </MenuSubmenuTrigger>
-          <MenuSubmenuContent width="sm">
+          <MenuSubmenuContent sizing="sm">
             {ASSIGNEES.map((a) => (
               <MenuItem
                 key={a.key}
-                inlineStartNode={
-                  <Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />
-                }
+                icon={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
                 closeOnClick={false}
               >
                 {a.name}
@@ -1036,5 +1036,359 @@ export const SubmenuInteraction: Story = {
       );
       await waitFor(() => expect(findItem("menuitem", "Urgent")).toBeDefined());
     });
+  },
+};
+
+/**
+ * **OpenOnHover**. The trigger's `openOnHover` prop (with an optional hover `delay`) opens the menu
+ * from pointer hover as well as click/keyboard — for browse-style menus such as a quick-add.
+ */
+export const OpenOnHover: Story = {
+  parameters: {
+    a11y: {
+      // While the hover-opened popup is up, axe flags Base UI's focus guards (aria-hidden spans
+      // with tabindex=0 — floating-ui's standard focus-trap sentinels) as aria-hidden-focus
+      // violations. Intentional library markup, so suppress just this rule (same precedent as
+      // the menubar's aria-required-children suppression).
+      config: { rules: [{ id: "aria-hidden-focus", enabled: false }] },
+    },
+  },
+  render: () => (
+    <Menu>
+      <MenuTrigger
+        openOnHover
+        delay={100}
+        render={<button type="button" className={triggerClass} />}
+      >
+        Quick add
+      </MenuTrigger>
+      <MenuContent sizing="sm">
+        <MenuItem>Work item</MenuItem>
+        <MenuItem>Page</MenuItem>
+        <MenuItem>Cycle</MenuItem>
+        <MenuItem>Module</MenuItem>
+      </MenuContent>
+    </Menu>
+  ),
+};
+
+export const OpenOnHoverInteraction: Story = {
+  ...OpenOnHover,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    await step("hovering the trigger opens the menu", async () => {
+      await userEvent.hover(canvas.getByRole("button", { name: "Quick add" }));
+      await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
+      await waitFor(() => expect(findItem("menuitem", "Page")).toBeDefined());
+    });
+  },
+};
+
+/**
+ * **GroupLabels**. `MenuGroup` + `MenuLabel` title related items as non-interactive section
+ * headings (each group is labelled by its heading for assistive tech); a `MenuSeparator` divides
+ * the sections.
+ */
+export const GroupLabels: Story = {
+  render: function Render() {
+    const [sort, setSort] = React.useState("date");
+    const [workspace, setWorkspace] = React.useState<Record<string, boolean>>({ sidebar: true });
+    const sorts = [
+      { key: "date", label: "Date created" },
+      { key: "name", label: "Name" },
+      { key: "type", label: "Type" },
+    ];
+    const panels = [
+      { key: "minimap", label: "Minimap" },
+      { key: "search", label: "Search" },
+      { key: "sidebar", label: "Sidebar" },
+    ];
+    return (
+      <Menu>
+        <MenuTrigger render={<button type="button" className={triggerClass} />}>View</MenuTrigger>
+        <MenuContent sizing="sm">
+          <MenuGroup>
+            <MenuLabel>Sort</MenuLabel>
+            {sorts.map((s) => (
+              <MenuItem
+                key={s.key}
+                selected={sort === s.key}
+                closeOnClick={false}
+                onClick={() => setSort(s.key)}
+              >
+                {s.label}
+              </MenuItem>
+            ))}
+          </MenuGroup>
+          <MenuSeparator />
+          <MenuGroup>
+            <MenuLabel>Workspace</MenuLabel>
+            {panels.map((p) => (
+              <MenuCheckboxItem
+                key={p.key}
+                checked={Boolean(workspace[p.key])}
+                onCheckedChange={(next) => setWorkspace((w) => ({ ...w, [p.key]: next }))}
+              >
+                {p.label}
+              </MenuCheckboxItem>
+            ))}
+          </MenuGroup>
+        </MenuContent>
+      </Menu>
+    );
+  },
+};
+
+export const GroupLabelsInteraction: Story = {
+  ...GroupLabels,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    await step("each group is labelled by its heading", async () => {
+      await openMenu(canvas, "View");
+      const groups = await waitFor(() => {
+        const found = Array.from(document.body.querySelectorAll('[role="group"]'));
+        if (found.length < 2) throw new Error("groups not mounted yet");
+        return found;
+      });
+      const headings = groups.map((group) => {
+        const labelId = group.getAttribute("aria-labelledby");
+        return labelId != null ? document.getElementById(labelId)?.textContent : null;
+      });
+      await expect(headings).toContain("Sort");
+      await expect(headings).toContain("Workspace");
+    });
+  },
+};
+
+// A handle created outside the React tree links a detached `MenuTrigger` to its `Menu` — the
+// trigger can live anywhere in the DOM, no shared ancestor required.
+const workItemActionsHandle = createMenuHandle();
+
+/**
+ * **DetachedTrigger**. `createMenuHandle` detaches the trigger from the menu tree: pass the same
+ * handle to a `MenuTrigger` and to a `Menu` declared elsewhere, and the trigger drives it as if
+ * they were nested.
+ */
+export const DetachedTrigger: Story = {
+  render: () => (
+    <>
+      <MenuTrigger
+        handle={workItemActionsHandle}
+        render={<button type="button" className={triggerClass} />}
+      >
+        Work item actions
+      </MenuTrigger>
+      <Menu handle={workItemActionsHandle}>
+        <MenuContent sizing="sm">
+          <MenuItem icon={<Pencil />}>Edit</MenuItem>
+          <MenuItem icon={<Copy />}>Make a copy</MenuItem>
+          <MenuSeparator />
+          <MenuItem icon={<Trash2 className="text-danger-primary" />}>
+            {<span className="text-danger-primary">Delete</span>}
+          </MenuItem>
+        </MenuContent>
+      </Menu>
+    </>
+  ),
+};
+
+export const DetachedTriggerInteraction: Story = {
+  ...DetachedTrigger,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    await step("the detached trigger opens the handle's menu", async () => {
+      await openMenu(canvas, "Work item actions");
+      await waitFor(() => expect(findItem("menuitem", "Edit")).toBeDefined());
+    });
+    await step("Escape closes it again", async () => {
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(document.body.querySelector('[role="menu"]')).not.toBeInTheDocument(),
+      );
+    });
+  },
+};
+
+// One shared handle: several triggers open the same menu surface, each passing its own typed
+// payload; the `Menu`'s function-children receive the active trigger's payload.
+const commandMenuHandle = createMenuHandle<ReadonlyArray<string>>();
+
+const COMMAND_SECTIONS = {
+  file: ["New work item", "New page", "Import"],
+  edit: ["Undo", "Redo", "Duplicate"],
+} as const;
+
+/**
+ * **MultipleTriggers**. Several `MenuTrigger`s share one `Menu` through a typed handle; each
+ * trigger passes a `payload`, and the menu's function-children render whichever trigger opened it.
+ * `MenuViewport` lets the popup morph its size when the payload swaps while open.
+ */
+export const MultipleTriggers: Story = {
+  render: () => (
+    <div className="flex items-center gap-2">
+      <MenuTrigger
+        handle={commandMenuHandle}
+        payload={COMMAND_SECTIONS.file}
+        render={<button type="button" className={triggerClass} />}
+      >
+        File
+      </MenuTrigger>
+      <MenuTrigger
+        handle={commandMenuHandle}
+        payload={COMMAND_SECTIONS.edit}
+        render={<button type="button" className={triggerClass} />}
+      >
+        Edit
+      </MenuTrigger>
+      <Menu handle={commandMenuHandle}>
+        {({ payload }) => (
+          <MenuContent sizing="sm">
+            <MenuViewport>
+              {(payload ?? []).map((command) => (
+                <MenuItem key={command}>{command}</MenuItem>
+              ))}
+            </MenuViewport>
+          </MenuContent>
+        )}
+      </Menu>
+    </div>
+  ),
+};
+
+export const MultipleTriggersInteraction: Story = {
+  ...MultipleTriggers,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    await step("the File trigger opens the menu with its payload", async () => {
+      await openMenu(canvas, "File");
+      await waitFor(() => expect(findItem("menuitem", "New work item")).toBeDefined());
+      await expect(findItem("menuitem", "Undo")).toBeUndefined();
+    });
+    await step("the Edit trigger swaps the payload", async () => {
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(document.body.querySelector('[role="menu"]')).not.toBeInTheDocument(),
+      );
+      await openMenu(canvas, "Edit");
+      await waitFor(() => expect(findItem("menuitem", "Undo")).toBeDefined());
+      await expect(findItem("menuitem", "New work item")).toBeUndefined();
+    });
+  },
+};
+
+// Controlled mode across multiple detached triggers (test-only fixture — the visible payload demo
+// is `MultipleTriggers`): `open` + `onOpenChange` hold the state outside the menu, and `triggerId`
+// tells it which trigger owns the surface; `eventDetails.trigger` identifies the trigger that
+// asked to open.
+const controlledMenuHandle = createMenuHandle<string>();
+
+/**
+ * Controlled `open`/`onOpenChange` with `triggerId` routing across multiple triggers. Not a
+ * documented demo; this is a test-only fixture.
+ */
+export const ControlledMultipleTriggers: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: function Render() {
+    const [open, setOpen] = React.useState(false);
+    const [activeTriggerId, setActiveTriggerId] = React.useState<string | null>(null);
+    return (
+      <div className="flex items-center gap-2">
+        <MenuTrigger
+          handle={controlledMenuHandle}
+          id="controlled-menu-file"
+          payload="File"
+          render={<button type="button" className={triggerClass} />}
+        >
+          File
+        </MenuTrigger>
+        <MenuTrigger
+          handle={controlledMenuHandle}
+          id="controlled-menu-edit"
+          payload="Edit"
+          render={<button type="button" className={triggerClass} />}
+        >
+          Edit
+        </MenuTrigger>
+        <Menu
+          handle={controlledMenuHandle}
+          open={open}
+          triggerId={activeTriggerId}
+          onOpenChange={(nextOpen, eventDetails) => {
+            setOpen(nextOpen);
+            setActiveTriggerId(nextOpen ? (eventDetails.trigger?.id ?? null) : null);
+          }}
+        >
+          {({ payload }) => (
+            <MenuContent sizing="sm">
+              <MenuItem>{`${payload ?? ""} action`}</MenuItem>
+            </MenuContent>
+          )}
+        </Menu>
+      </div>
+    );
+  },
+  play: async ({ canvas, step }) => {
+    await step("clicking a trigger routes controlled open state through it", async () => {
+      await openMenu(canvas, "Edit");
+      // The handle routes the pressed trigger's payload into the popup — the menu shows the
+      // Edit actions, not the File ones.
+      await waitFor(() => expect(findItem("menuitem", "Edit action")).toBeDefined());
+      await expect(findItem("menuitem", "File action")).toBeUndefined();
+    });
+    await step("Escape closes through onOpenChange", async () => {
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(document.body.querySelector('[role="menu"]')).not.toBeInTheDocument(),
+      );
+    });
+  },
+};
+
+/**
+ * Single-select radio rows: `MenuRadioGroup` carries the `value`, and each `MenuRadioItem` shows a
+ * kept-mounted radio dot that follows the selection.
+ */
+export const RadioRows: Story = {
+  render: function Render(args) {
+    const [density, setDensity] = React.useState("comfortable");
+    void args;
+    return (
+      <Menu>
+        <MenuTrigger render={<button type="button" className={triggerClass} />}>
+          Density
+        </MenuTrigger>
+        <MenuContent sizing="sm">
+          <MenuRadioGroup value={density} onValueChange={setDensity}>
+            <MenuRadioItem value="comfortable" closeOnClick={false}>
+              Comfortable
+            </MenuRadioItem>
+            <MenuRadioItem value="compact" closeOnClick={false}>
+              Compact
+            </MenuRadioItem>
+          </MenuRadioGroup>
+        </MenuContent>
+      </Menu>
+    );
+  },
+};
+
+/**
+ * Interaction test: rows expose `menuitemradio`, and picking one moves `aria-checked`. Tagged out
+ * of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const RadioRowsInteraction: Story = {
+  ...RadioRows,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    await openMenu(canvas, "Density");
+    const comfortable = await within(document.body).findByRole("menuitemradio", {
+      name: "Comfortable",
+    });
+    await expect(comfortable).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(within(document.body).getByRole("menuitemradio", { name: "Compact" }));
+    await expect(
+      within(document.body).getByRole("menuitemradio", { name: "Compact" }),
+    ).toHaveAttribute("aria-checked", "true");
+    await expect(comfortable).toHaveAttribute("aria-checked", "false");
   },
 };

@@ -1,4 +1,3 @@
-import { ToggleGroup } from "@base-ui/react/toggle-group";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   AlignCenter,
@@ -9,6 +8,7 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  History,
   Image,
   Italic,
   Link,
@@ -23,16 +23,17 @@ import {
   Underline,
 } from "lucide-react";
 import type * as React from "react";
-import { expect } from "storybook/test";
+import { expect, waitFor, within } from "storybook/test";
 
-import { Menu, MenuSeparator } from "../../ui/menu";
-import { MenuContent, MenuItem } from "../menu";
+import { Menu, MenuContent, MenuItem, MenuSeparator } from "../menu";
+import { Tooltip, TooltipProvider } from "../tooltip";
 import {
   Toolbar,
+  ToolbarInput,
   ToolbarButton,
+  ToolbarLink,
   ToolbarMenuTrigger,
   ToolbarGroup,
-  ToolbarItemIcon,
   ToolbarSeparator,
   ToolbarToggle,
   ToolbarToggleGroup,
@@ -63,99 +64,65 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
         </MenuContent>
       </Menu>
       <ToolbarButton aria-label="Comment">
-        <ToolbarItemIcon>
-          <MessageSquare />
-        </ToolbarItemIcon>
+        <MessageSquare />
       </ToolbarButton>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
         <ToolbarToggle aria-label="Bold">
-          <ToolbarItemIcon>
-            <Bold />
-          </ToolbarItemIcon>
+          <Bold />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Italic">
-          <ToolbarItemIcon>
-            <Italic />
-          </ToolbarItemIcon>
+          <Italic />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Underline">
-          <ToolbarItemIcon>
-            <Underline />
-          </ToolbarItemIcon>
+          <Underline />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Strikethrough">
-          <ToolbarItemIcon>
-            <Strikethrough />
-          </ToolbarItemIcon>
+          <Strikethrough />
         </ToolbarToggle>
       </ToolbarGroup>
       <ToolbarSeparator />
-      <ToolbarToggleGroup
-        render={<ToggleGroup defaultValue={["left"]} aria-label="Text alignment" />}
-      >
+      <ToolbarToggleGroup defaultValue={["left"]} aria-label="Text alignment">
         <ToolbarToggle value="left" aria-label="Align left">
-          <ToolbarItemIcon>
-            <AlignLeft />
-          </ToolbarItemIcon>
+          <AlignLeft />
         </ToolbarToggle>
         <ToolbarToggle value="center" aria-label="Align center">
-          <ToolbarItemIcon>
-            <AlignCenter />
-          </ToolbarItemIcon>
+          <AlignCenter />
         </ToolbarToggle>
         <ToolbarToggle value="right" aria-label="Align right">
-          <ToolbarItemIcon>
-            <AlignRight />
-          </ToolbarItemIcon>
+          <AlignRight />
         </ToolbarToggle>
       </ToolbarToggleGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Lists">
         <ToolbarToggle aria-label="Bullet list">
-          <ToolbarItemIcon>
-            <List />
-          </ToolbarItemIcon>
+          <List />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Numbered list">
-          <ToolbarItemIcon>
-            <ListOrdered />
-          </ToolbarItemIcon>
+          <ListOrdered />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Checklist">
-          <ToolbarItemIcon>
-            <ListChecks />
-          </ToolbarItemIcon>
+          <ListChecks />
         </ToolbarToggle>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Blocks">
         <ToolbarToggle aria-label="Quote">
-          <ToolbarItemIcon>
-            <Quote />
-          </ToolbarItemIcon>
+          <Quote />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Code block">
-          <ToolbarItemIcon>
-            <Code />
-          </ToolbarItemIcon>
+          <Code />
         </ToolbarToggle>
         <ToolbarButton aria-label="Insert table">
-          <ToolbarItemIcon>
-            <Table />
-          </ToolbarItemIcon>
+          <Table />
         </ToolbarButton>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarButton aria-label="Insert link">
-        <ToolbarItemIcon>
-          <Link />
-        </ToolbarItemIcon>
+        <Link />
       </ToolbarButton>
       <ToolbarButton aria-label="Insert image">
-        <ToolbarItemIcon>
-          <Image />
-        </ToolbarItemIcon>
+        <Image />
       </ToolbarButton>
     </Toolbar>
   );
@@ -167,9 +134,10 @@ const meta = {
   // Toolbar is a compound component: document its parts alongside it so the args
   // table gets a tab per part and the manifest records the relationship.
   subcomponents: {
+    ToolbarInput,
     ToolbarGroup,
     ToolbarButton,
-    ToolbarItemIcon,
+    ToolbarLink,
     ToolbarToggle,
     ToolbarToggleGroup,
     ToolbarSeparator,
@@ -178,6 +146,8 @@ const meta = {
     MenuContent,
     MenuItem,
     MenuSeparator,
+    Tooltip,
+    TooltipProvider,
   },
   args: { elevation: "raised", density: "compact" },
   render: (args) => <FormattingToolbar {...args} />,
@@ -250,9 +220,7 @@ export const DensityDrivesControlSize: Story = {
   render: () => (
     <Toolbar elevation="flat" density="compact">
       <ToolbarToggle aria-label="Bold">
-        <ToolbarItemIcon>
-          <Bold />
-        </ToolbarItemIcon>
+        <Bold />
       </ToolbarToggle>
     </Toolbar>
   ),
@@ -279,14 +247,14 @@ export const ComposableMenu: Story = {
       <Menu defaultOpen>
         <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
         <MenuContent>
-          <MenuItem inlineStartNode={<Pilcrow />} selected>
+          <MenuItem icon={<Pilcrow />} selected>
             Paragraph
           </MenuItem>
-          <MenuItem inlineStartNode={<Heading1 />}>Heading 1</MenuItem>
-          <MenuItem inlineStartNode={<Heading2 />}>Heading 2</MenuItem>
-          <MenuItem inlineStartNode={<Heading3 />}>Heading 3</MenuItem>
+          <MenuItem icon={<Heading1 />}>Heading 1</MenuItem>
+          <MenuItem icon={<Heading2 />}>Heading 2</MenuItem>
+          <MenuItem icon={<Heading3 />}>Heading 3</MenuItem>
           <MenuSeparator />
-          <MenuItem inlineStartNode={<Code />} disabled>
+          <MenuItem icon={<Code />} disabled>
             Code block
           </MenuItem>
         </MenuContent>
@@ -328,19 +296,13 @@ export const KeyboardRovingFocus: Story = {
   render: () => (
     <Toolbar elevation="raised" density="compact">
       <ToolbarToggle aria-label="Bold">
-        <ToolbarItemIcon>
-          <Bold />
-        </ToolbarItemIcon>
+        <Bold />
       </ToolbarToggle>
       <ToolbarToggle aria-label="Italic">
-        <ToolbarItemIcon>
-          <Italic />
-        </ToolbarItemIcon>
+        <Italic />
       </ToolbarToggle>
       <ToolbarToggle aria-label="Underline">
-        <ToolbarItemIcon>
-          <Underline />
-        </ToolbarItemIcon>
+        <Underline />
       </ToolbarToggle>
     </Toolbar>
   ),
@@ -378,5 +340,148 @@ export const KeyboardRovingFocus: Story = {
     await expect(italic).toHaveAttribute("aria-pressed", "true");
     await userEvent.keyboard(" ");
     await expect(italic).toHaveAttribute("aria-pressed", "false");
+  },
+};
+
+/**
+ * An inline filter input in the roving tab order — a miniature field whose height tracks the
+ * toolbar's density. Invented pending a Figma spec (flagged for design polish).
+ */
+export const WithFilter: Story = {
+  render: (args) => (
+    <Toolbar {...args} aria-label="Issue actions">
+      <ToolbarInput aria-label="Filter issues" placeholder="Filter…" />
+      <ToolbarSeparator />
+      <ToolbarGroup aria-label="Text formatting">
+        <ToolbarToggle aria-label="Bold">
+          <Bold />
+        </ToolbarToggle>
+        <ToolbarToggle aria-label="Italic">
+          <Italic />
+        </ToolbarToggle>
+      </ToolbarGroup>
+    </Toolbar>
+  ),
+};
+
+/**
+ * Interaction test: the input participates in the toolbar and takes text. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const WithFilterInteraction: Story = {
+  ...WithFilter,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const input = canvas.getByRole("textbox", { name: "Filter issues" });
+    await userEvent.type(input, "bug");
+    await expect(input).toHaveValue("bug");
+  },
+};
+
+/**
+ * A toolbar item that navigates instead of acting: `ToolbarLink` is an `<a>` sharing the same
+ * roving tab order and icon chrome as the buttons around it — here linking to the document's edit
+ * history. Like the icon buttons it wraps a bare glyph in the shared slot, so its accessible name
+ * comes from `aria-label`.
+ */
+export const WithLink: Story = {
+  render: (args) => (
+    <Toolbar {...args} aria-label="Document actions">
+      <ToolbarGroup aria-label="Text formatting">
+        <ToolbarToggle aria-label="Bold">
+          <Bold />
+        </ToolbarToggle>
+        <ToolbarToggle aria-label="Italic">
+          <Italic />
+        </ToolbarToggle>
+      </ToolbarGroup>
+      <ToolbarSeparator />
+      <ToolbarLink href="#history" aria-label="View edit history">
+        <History />
+      </ToolbarLink>
+    </Toolbar>
+  ),
+};
+
+/**
+ * Interaction test: the link is a named `<a>` that participates in the toolbar's roving tab order —
+ * the separator is skipped, Arrow Right reaches the link, and the roving `tabindex=0` follows.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const WithLinkInteraction: Story = {
+  ...WithLink,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const link = canvas.getByRole("link", { name: "View edit history" });
+    await expect(link).toHaveAttribute("href", "#history");
+
+    // The link starts out of the tab order — the toolbar is a single tab stop.
+    await expect(link).toHaveAttribute("tabindex", "-1");
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "Bold" })).toHaveFocus();
+
+    // Arrow Right roams past the toggles (skipping the separator) onto the link,
+    // and the roving tabindex follows it.
+    await userEvent.keyboard("{ArrowRight}{ArrowRight}");
+    await expect(link).toHaveFocus();
+    await expect(link).toHaveAttribute("tabindex", "0");
+  },
+};
+
+/**
+ * Toolbar controls are icon-only, so pair each with a `Tooltip` naming it (plus a dimmed shortcut
+ * hint). The control goes in as the tooltip's trigger child — the tooltip grafts its hover/focus
+ * behavior onto the control without disturbing the toolbar's roving focus — and a shared
+ * `TooltipProvider` keeps open/close timing consistent while sweeping across the bar.
+ */
+export const WithTooltips: Story = {
+  render: (args) => (
+    <TooltipProvider>
+      <Toolbar {...args} aria-label="Text formatting">
+        <Tooltip content="Bold" shortcut="⌘ B">
+          <ToolbarToggle aria-label="Bold">
+            <Bold />
+          </ToolbarToggle>
+        </Tooltip>
+        <Tooltip content="Italic" shortcut="⌘ I">
+          <ToolbarToggle aria-label="Italic">
+            <Italic />
+          </ToolbarToggle>
+        </Tooltip>
+        <Tooltip content="Underline" shortcut="⌘ U">
+          <ToolbarToggle aria-label="Underline">
+            <Underline />
+          </ToolbarToggle>
+        </Tooltip>
+      </Toolbar>
+    </TooltipProvider>
+  ),
+};
+
+/**
+ * Interaction test: focusing a toolbar item opens its tooltip (focus opens immediately, no hover
+ * delay), and the toolbar's roving focus keeps working with the tooltip grafted on — Arrow Right
+ * moves to the next control and the tooltip follows. Tagged out of the sidebar/docs/manifest while
+ * still running under the default `test` tag.
+ */
+export const WithTooltipsInteraction: Story = {
+  ...WithTooltips,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    // The tooltip popup portals outside the story canvas, so query the document.
+    const body = within(document.body);
+
+    // Tab enters the toolbar; the focused control's tooltip opens.
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "Bold" })).toHaveFocus();
+    const tooltip = await body.findByRole("tooltip");
+    await expect(tooltip).toHaveTextContent("Bold");
+
+    // Roving focus still works with the tooltip grafted on: Arrow Right moves to the
+    // next control and the tooltip swaps (the old one leaves asynchronously, so retry
+    // until only the new one remains).
+    await userEvent.keyboard("{ArrowRight}");
+    await expect(canvas.getByRole("button", { name: "Italic" })).toHaveFocus();
+    await waitFor(() => expect(body.getByRole("tooltip")).toHaveTextContent("Italic"));
   },
 };

@@ -1,3 +1,3 @@
-// Ready-made 1:1 re-export of the ui primitive. Drop down to `@plane/propel/ui/separator` only
-// when you need the lower-level parts.
-export * from "../../ui/separator";
+// The ready-made Separator: Base UI's `Separator` behavior grafted onto the styled `elements` element.
+// Drop down to `@plane/propel/elements/separator` only when you need the lower-level styled `<div>`.
+export * from "./separator";

@@ -42,11 +42,11 @@ export const STORY_ICONS: Record<string, React.ReactNode> = {
 };
 
 /**
- * Reusable Storybook argType for any icon-shaped prop (`inlineStartNode`, `inlineEndNode`, `icon`).
+ * Reusable Storybook argType for any icon-shaped prop (`icon`, `startIcon`, `endIcon`, `trailing`).
  * Icon props are `ReactNode`, which Storybook can't render as a control, so a story spreads this
  * into its `argTypes` to turn the prop into a searchable select of `STORY_ICONS`:
  *
- * `argTypes: { inlineStartNode: iconControl }`
+ * `argTypes: { icon: iconControl }`
  *
  * Per propel's convention we only hand-write an argType to give a control a usable shape (here:
  * pick an icon), never to restate a type docgen already infers.

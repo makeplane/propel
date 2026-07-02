@@ -1,23 +1,23 @@
+export * from "./autocomplete";
 export * from "./autocomplete-content";
-// Re-export the atomic autocomplete parts so a full autocomplete can be assembled from one entry.
-// `AutocompleteClear`/`AutocompleteTrigger` are behavior-only ui parts now — composed under an
-// `IconButton` via `render` at the call site (see `autocomplete-field`).
+export * from "./autocomplete-empty";
+export * from "./autocomplete-input-group";
+export * from "./autocomplete-item";
+export * from "./autocomplete-list";
+export * from "./autocomplete-collection";
+export * from "./autocomplete-group";
+export * from "./autocomplete-group-label";
+export * from "./autocomplete-row";
+export * from "./autocomplete-status";
+// Re-export the STYLED `elements` parts the ready-mades above do NOT replace, so a custom input
+// row can still be assembled from one entry. Cross-tier re-exports stay explicit — never
+// `export *` — because the ready-made `AutocompleteInputGroup` and `AutocompleteEmpty` replace
+// their same-named `elements` parts (name collision). `Clear`/`Trigger` are the `clear`/`trigger`
+// node props on `AutocompleteInputGroup`; `Portal`/`Positioner`/`Popup` are `AutocompleteContent`;
+// `List`/`Item` are `AutocompleteList`/`AutocompleteItem` — no Base UI import needed at call sites.
 export {
-  Autocomplete,
-  type AutocompleteProps,
-  AutocompleteClear,
-  type AutocompleteClearProps,
-  AutocompleteEmpty,
-  type AutocompleteEmptyProps,
   AutocompleteInput,
   type AutocompleteInputProps,
-  AutocompleteInputGroup,
-  type AutocompleteInputGroupProps,
-  AutocompleteIcon,
-  type AutocompleteIconProps,
-  AutocompleteItem,
-  type AutocompleteItemProps,
-  AutocompleteList,
-  AutocompleteTrigger,
-  type AutocompleteTriggerProps,
-} from "../../ui/autocomplete";
+  type AutocompleteMagnitude,
+} from "../../elements/autocomplete";
+export * from "./use-filter";

@@ -101,7 +101,7 @@ export const Default: Story = {
             <TableCell
               pinned="none"
               padding="cell"
-              inlineStartNode={
+              startIcon={
                 <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
               }
             >
@@ -193,7 +193,7 @@ export const Sortable: Story = {
               <TableCell
                 pinned="none"
                 padding="cell"
-                inlineStartNode={
+                startIcon={
                   <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                 }
               >
@@ -263,7 +263,7 @@ export const EditableCells: Story = {
               <TableCell
                 pinned="none"
                 padding="cell"
-                inlineStartNode={
+                startIcon={
                   <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                 }
               >
@@ -366,7 +366,7 @@ export const WithPagination: Story = {
                 <TableCell
                   pinned="none"
                   padding="cell"
-                  inlineStartNode={
+                  startIcon={
                     <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                   }
                 >
@@ -455,7 +455,7 @@ export const RichRows: Story = {
               <TableCell
                 pinned="none"
                 padding="cell"
-                inlineStartNode={
+                startIcon={
                   <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                 }
               >
@@ -479,8 +479,8 @@ export const RichRows: Story = {
               </TableEditableCell>
               <TableActionCell aria-label={`Options for ${person.name}`}>
                 <MenuContent>
-                  <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
-                  <MenuItem inlineStartNode={<Trash2 />}>Delete</MenuItem>
+                  <MenuItem icon={<Pencil />}>Edit</MenuItem>
+                  <MenuItem icon={<Trash2 />}>Delete</MenuItem>
                 </MenuContent>
               </TableActionCell>
             </TableRow>
@@ -537,7 +537,7 @@ export const StickyHeaderAndColumns: Story = {
               <TableCell
                 pinned="start"
                 padding="cell"
-                inlineStartNode={
+                startIcon={
                   <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                 }
               >
@@ -613,7 +613,7 @@ export const SortableKeyboard: Story = {
               <TableCell
                 pinned="none"
                 padding="cell"
-                inlineStartNode={
+                startIcon={
                   <Avatar magnitude="xs" alt={person.name} fallback={person.name.charAt(0)} />
                 }
               >

@@ -4,7 +4,7 @@ import { expect } from "storybook/test";
 import { Composite, CompositeItem } from "./index";
 
 // The roving-tabindex engine the List primitive is built on. Unstyled here on purpose — this story
-// only proves the keyboard behavior; the look arrives in `ui/list`.
+// only proves the keyboard behavior; the look arrives in `elements/list`.
 const meta = {
   title: "Base/Composite",
   component: Composite,
@@ -17,8 +17,8 @@ type Story = StoryObj<typeof meta>;
 /**
  * One tab stop for the whole group; arrow keys roam between items (vertical by default).
  * `Composite` emits `aria-orientation`, which needs a supporting role — here `toolbar`, the
- * canonical roving button group. (`ui/list` will pick its own role; that's the open a11y decision
- * in the RFC.)
+ * canonical roving button group. (`elements/list` will pick its own role; that's the open a11y
+ * decision in the RFC.)
  */
 export const RovingFocus: Story = {
   render: () => (

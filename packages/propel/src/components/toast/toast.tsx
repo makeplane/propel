@@ -1,4 +1,4 @@
-import type { Toast as BaseToast } from "@base-ui/react/toast";
+import { Toast as BaseToast } from "@base-ui/react/toast";
 import type * as React from "react";
 
 import {
@@ -7,17 +7,15 @@ import {
   ToastActionButton,
   ToastActionGroup,
   ToastActions,
-  ToastClose,
-  ToastCloseSlot,
+  ToastCloseGroup,
   ToastContent,
   ToastDescription,
   type ToastTone,
   ToastTextGroup,
   ToastTitle,
-  createToastManager as createBaseToastManager,
-  useToastManager,
-} from "../../ui/toast/index";
+} from "../../elements/toast/index";
 import { LinearProgress } from "../linear-progress/index";
+import { createToastManager as createBaseToastManager, useToastManager } from "./manager";
 import { ToastStatusIcon } from "./toast-status-icon";
 
 // The semantic intent of a toast (Figma "Property 1": Default / Variant2 / Variant3
@@ -109,13 +107,13 @@ export function Toast({ toast, close, ...props }: ToastProps) {
   const primaryAction = data.primaryAction;
   const hasActionRow = leftActions.length > 0 || primaryAction != null;
   return (
-    <ToastElement toast={toast} {...props}>
+    <BaseToast.Root toast={toast} {...props} render={<ToastElement />}>
       {/* `mt-0.5` on the icon (via toastStatusIconVariants) baselines it with the title. */}
       <ToastStatusIcon tone={data.tone} />
-      <ToastContent>
+      <BaseToast.Content render={<ToastContent />}>
         <ToastTextGroup>
-          <ToastTitle />
-          <ToastDescription />
+          <BaseToast.Title render={<ToastTitle />} />
+          <BaseToast.Description render={<ToastDescription />} />
         </ToastTextGroup>
         {data.progress != null ? (
           <LinearProgress
@@ -128,7 +126,7 @@ export function Toast({ toast, close, ...props }: ToastProps) {
         {hasActionRow ? (
           // The left cluster grows to fill so the primary action pins to the inline-end
           // edge; `ToastActionGroup` carries the offset that lines the buttons up with
-          // the title text. RTL-safe via logical utilities (owned by the ui parts).
+          // the title text. RTL-safe via logical utilities (owned by the elements parts).
           <ToastActions>
             <ToastActionGroup>
               {leftActions.map((action, index) => (
@@ -145,14 +143,16 @@ export function Toast({ toast, close, ...props }: ToastProps) {
             {primaryAction ? (
               // The right-aligned action is wired through Base UI's `Toast.Action` so it
               // takes part in the toast's focus management.
-              <ToastAction onClick={primaryAction.onClick}>{primaryAction.label}</ToastAction>
+              <BaseToast.Action render={<ToastAction />} onClick={primaryAction.onClick}>
+                {primaryAction.label}
+              </BaseToast.Action>
             ) : null}
           </ToastActions>
         ) : null}
-      </ToastContent>
-      <ToastCloseSlot>
-        <ToastClose render={close} />
-      </ToastCloseSlot>
-    </ToastElement>
+      </BaseToast.Content>
+      <ToastCloseGroup>
+        <BaseToast.Close render={close} />
+      </ToastCloseGroup>
+    </BaseToast.Root>
   );
 }

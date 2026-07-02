@@ -7,4 +7,4 @@ export {
   type OTPFieldLabelProps,
   OTPFieldSeparator,
   type OTPFieldSeparatorProps,
-} from "../../ui/otp-field";
+} from "../../elements/otp-field";

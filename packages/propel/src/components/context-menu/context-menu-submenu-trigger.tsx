@@ -1,48 +1,51 @@
-import { ChevronRight } from "lucide-react";
+import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
+import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import {
-  ContextMenuItemIcon,
   ContextMenuItemLabel,
   ContextMenuItemShortcut,
   ContextMenuSubmenuTrigger as ContextMenuSubmenuTriggerElement,
-  type ContextMenuSubmenuTriggerProps as ContextMenuSubmenuTriggerElementProps,
-  ContextMenuSubmenuTriggerIndicator,
-} from "../../ui/context-menu";
+  type ContextMenuSubmenuTriggerTone,
+} from "../../elements/context-menu";
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
+import { Icon } from "../../internal/icon";
 
 export type ContextMenuSubmenuTriggerProps = Omit<
-  ContextMenuSubmenuTriggerElementProps,
-  "label"
+  BaseContextMenu.SubmenuTrigger.Props,
+  "className" | "style" | "render"
 > & {
+  /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+  tone: ContextMenuSubmenuTriggerTone;
   /** Leading icon before the label. */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
   /** Trailing hint before the submenu caret. */
-  inlineEndNode?: React.ReactNode;
+  trailing?: React.ReactNode;
 };
 
 /**
- * The ready-made submenu trigger: composes the atomic `ContextMenuSubmenuTrigger` and its region
- * parts — a leading icon, the label, an optional trailing hint, and the caret that points toward
- * the submenu.
+ * The ready-made submenu trigger: grafts Base UI's `SubmenuTrigger` behavior onto the styled
+ * `ContextMenuSubmenuTrigger` and composes its region parts — a leading icon, the label, an
+ * optional trailing hint, and the caret that points toward the submenu.
  */
 export function ContextMenuSubmenuTrigger({
-  inlineStartNode,
-  inlineEndNode,
+  tone,
+  icon,
+  trailing,
   children,
   ...props
 }: ContextMenuSubmenuTriggerProps) {
   return (
-    <ContextMenuSubmenuTriggerElement {...props}>
-      {inlineStartNode != null ? (
-        <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
-      ) : null}
+    <BaseContextMenu.SubmenuTrigger
+      {...props}
+      render={<ContextMenuSubmenuTriggerElement tone={tone} />}
+    >
+      {icon != null ? <Icon>{icon}</Icon> : null}
       <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
-      {inlineEndNode != null ? (
-        <ContextMenuItemShortcut>{inlineEndNode}</ContextMenuItemShortcut>
-      ) : null}
-      <ContextMenuSubmenuTriggerIndicator>
-        <ChevronRight />
-      </ContextMenuSubmenuTriggerIndicator>
-    </ContextMenuSubmenuTriggerElement>
+      {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
+      <DisclosureIndicator motion="pointEnd" tint="tertiary" magnitude="inherit">
+        <ChevronDown />
+      </DisclosureIndicator>
+    </BaseContextMenu.SubmenuTrigger>
   );
 }

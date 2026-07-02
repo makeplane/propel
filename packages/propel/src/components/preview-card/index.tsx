@@ -1,18 +1,16 @@
+export * from "./preview-card";
+export * from "./preview-card-arrow";
 export * from "./preview-card-content";
-// Re-export the atomic parts so a full preview card can be assembled from one entry.
+export * from "./preview-card-description";
+export * from "./preview-card-title";
+export * from "./preview-card-trigger";
+export * from "./create-handle";
+// Re-export propel's STYLED preview-card parts so a full card can be assembled from one entry. The
+// remaining behavior/structural parts (`Portal`, `Backdrop`, `Positioner`) are composed inside
+// `PreviewCardContent`, so consumers never wire Base UI directly.
 export {
-  PreviewCard,
-  type PreviewCardProps,
-  PreviewCardArrow,
-  type PreviewCardArrowProps,
   PreviewCardBody,
   type PreviewCardBodyProps,
-  PreviewCardDescription,
-  type PreviewCardDescriptionProps,
   PreviewCardImage,
   type PreviewCardImageProps,
-  PreviewCardTitle,
-  type PreviewCardTitleProps,
-  PreviewCardTrigger,
-  type PreviewCardTriggerProps,
-} from "../../ui/preview-card";
+} from "../../elements/preview-card";

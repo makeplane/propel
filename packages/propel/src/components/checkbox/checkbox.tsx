@@ -1,3 +1,4 @@
+import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import { Check, Minus } from "lucide-react";
 import * as React from "react";
 
@@ -5,12 +6,11 @@ import {
   Checkbox as CheckboxElement,
   CheckboxIndeterminateIndicator,
   CheckboxIndicator,
-  CheckboxInlineStartNode,
   CheckboxLabel,
-  type CheckboxProps as CheckboxElementProps,
-} from "../../ui/checkbox";
+} from "../../elements/checkbox";
+import { Icon } from "../../internal/icon";
 
-export type CheckboxProps = CheckboxElementProps & {
+export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" | "render"> & {
   /**
    * Optional text shown beside the box; the whole row becomes the clickable label. Omit it for a
    * bare checkbox (just the box) — in that case give the box an accessible name with `aria-label`
@@ -22,14 +22,15 @@ export type CheckboxProps = CheckboxElementProps & {
    * label" icon slot. Only rendered when `label` is present. Sized to `--node-size` (14px).
    * Decorative, kept out of the name.
    */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
 };
 
 /**
- * The ready-made checkbox: composes the atomic `Checkbox` box with its check and indeterminate
- * indicators, and optionally wraps the row in a clickable `CheckboxLabel` with an icon slot.
+ * The ready-made checkbox: grafts Base UI checkbox behavior onto the styled `Checkbox` box with its
+ * check and indeterminate indicators, and optionally wraps the row in a clickable `CheckboxLabel`
+ * with an icon slot.
  */
-export function Checkbox({ label, inlineStartNode, id, ...props }: CheckboxProps) {
+export function Checkbox({ label, icon, id, ...props }: CheckboxProps) {
   // Generate a stable id so an explicit `label` can be associated with the box.
   const generatedId = React.useId();
   const checkboxId = id ?? generatedId;
@@ -37,14 +38,14 @@ export function Checkbox({ label, inlineStartNode, id, ...props }: CheckboxProps
   // Only force the generated id when there's a `label` to associate; without one (e.g. inside a
   // `Field`, which manages labeling), pass the caller's `id` through untouched.
   const box = (
-    <CheckboxElement id={label != null ? checkboxId : id} {...props}>
-      <CheckboxIndicator>
+    <BaseCheckbox.Root id={label != null ? checkboxId : id} render={<CheckboxElement />} {...props}>
+      <BaseCheckbox.Indicator render={<CheckboxIndicator />}>
         <Check aria-hidden />
-      </CheckboxIndicator>
-      <CheckboxIndeterminateIndicator>
+      </BaseCheckbox.Indicator>
+      <BaseCheckbox.Indicator render={<CheckboxIndeterminateIndicator />}>
         <Minus aria-hidden />
-      </CheckboxIndeterminateIndicator>
-    </CheckboxElement>
+      </BaseCheckbox.Indicator>
+    </BaseCheckbox.Root>
   );
 
   if (label == null) return box;
@@ -52,8 +53,10 @@ export function Checkbox({ label, inlineStartNode, id, ...props }: CheckboxProps
   return (
     <CheckboxLabel htmlFor={checkboxId}>
       {box}
-      {inlineStartNode ? (
-        <CheckboxInlineStartNode>{inlineStartNode}</CheckboxInlineStartNode>
+      {icon ? (
+        <Icon tint="secondary" magnitude="sm">
+          {icon}
+        </Icon>
       ) : null}
       {label}
     </CheckboxLabel>

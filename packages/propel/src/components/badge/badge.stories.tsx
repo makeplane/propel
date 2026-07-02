@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, Sparkles } from "lucide-react";
 
 import { iconControl } from "../../storybook/icon-control";
-import { Badge, BadgeIcon, BadgeLabel, type BadgeMagnitude, type BadgeTone } from "./index";
+import { Badge, BadgeLabel, type BadgeMagnitude, type BadgeTone } from "./index";
 
 const TONES: BadgeTone[] = [
   "neutral",
@@ -24,12 +24,12 @@ const MAGNITUDES: BadgeMagnitude[] = ["sm", "md", "lg"];
 // Badge is static — no interaction-state styling — so it gets no pseudo-states story;
 // its variation is fully covered by Tones + Magnitudes. This is the ready-made
 // composition: the `Badge` pill plus optional leading/trailing icon nodes
-// (`inlineStartNode` / `inlineEndNode`), wired to the atomic `ui/badge` parts.
+// (`startIcon` / `endIcon`), wired to the atomic `elements/badge` parts.
 const meta = {
   title: "Components/Badge",
   component: Badge,
-  subcomponents: { BadgeIcon, BadgeLabel },
-  argTypes: { inlineStartNode: iconControl, inlineEndNode: iconControl },
+  subcomponents: { BadgeLabel },
+  argTypes: { startIcon: iconControl, endIcon: iconControl },
   args: {
     children: "Badge",
     tone: "neutral",
@@ -76,19 +76,13 @@ export const Magnitudes: Story = {
   ),
 };
 
-/** A leading icon node (`inlineStartNode`), sized to the magnitude and tinted to the tone. */
+/** A leading icon node (`startIcon`), sized to the magnitude and tinted to the tone. */
 export const WithLeadingIcon: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <Badge
-          key={magnitude}
-          {...args}
-          tone="success"
-          magnitude={magnitude}
-          inlineStartNode={<Check />}
-        >
+        <Badge key={magnitude} {...args} tone="success" magnitude={magnitude} startIcon={<Check />}>
           Done
         </Badge>
       ))}
@@ -96,19 +90,13 @@ export const WithLeadingIcon: Story = {
   ),
 };
 
-/** A trailing icon node (`inlineEndNode`), sized + tinted the same as the leading slot. */
+/** A trailing icon node (`endIcon`), sized + tinted the same as the leading slot. */
 export const WithTrailingIcon: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <Badge
-          key={magnitude}
-          {...args}
-          tone="brand"
-          magnitude={magnitude}
-          inlineEndNode={<Sparkles />}
-        >
+        <Badge key={magnitude} {...args} tone="brand" magnitude={magnitude} endIcon={<Sparkles />}>
           Pro
         </Badge>
       ))}

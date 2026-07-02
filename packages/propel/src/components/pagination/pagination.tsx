@@ -1,7 +1,7 @@
+import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { ArrowLeft, ArrowRight, ChevronDown, LoaderCircle, MoreHorizontal } from "lucide-react";
 import * as React from "react";
 
-import { Menu, MenuTrigger } from "../../ui/menu/index";
 import {
   Pagination as PaginationElement,
   PaginationArrowButton,
@@ -16,8 +16,8 @@ import {
   PaginationRange,
   PaginationRangeCurrent,
   PaginationSpinner,
-} from "../../ui/pagination/index";
-import { MenuContent, MenuItem } from "../menu/index";
+} from "../../elements/pagination/index";
+import { Menu, MenuContent, MenuItem } from "../menu/index";
 
 // Pagination is a single composite navigation control rather than a variant matrix:
 // the Figma "variant" axis (All pages visible / Near start / Middle / Near end) is
@@ -25,7 +25,7 @@ import { MenuContent, MenuItem } from "../menu/index";
 // at render time from `page`/`pageCount` — never a prop. What designers can toggle is
 // genuinely additive: an optional per-page selector and an optional range label.
 //
-// This components tier only COMPOSES the `ui/pagination` parts (each a single styled
+// This components tier only COMPOSES the `elements/pagination` parts (each a single styled
 // element); all chrome lives in their cva — there is no className/cva/cx here.
 
 // Builds the sequence of visible page tokens. Always shows the first and last page;
@@ -176,7 +176,7 @@ export function Pagination({
             works via the Menu (Enter/ArrowDown opens, arrows move, Enter selects).
           */}
           <Menu>
-            <MenuTrigger
+            <BaseMenu.Trigger
               render={<PaginationPerPageTrigger />}
               aria-label={`${pageSize.value} ${l.perPage}`}
             >
@@ -184,8 +184,8 @@ export function Pagination({
               <PaginationPerPageIndicator>
                 <ChevronDown />
               </PaginationPerPageIndicator>
-            </MenuTrigger>
-            <MenuContent width="anchor" align="center">
+            </BaseMenu.Trigger>
+            <MenuContent sizing="anchor" align="center">
               {pageSize.options.map((option) => (
                 <MenuItem
                   key={option}

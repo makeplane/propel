@@ -1,0 +1,71 @@
+import { cva, cx, type VariantProps } from "class-variance-authority";
+
+import {
+  modalViewportClass,
+  overlayActionsClass,
+  overlayHeadingClass,
+} from "../../internal/overlay-frame";
+import { type StrictVariantProps } from "../../internal/variant-props";
+
+// Dialog is a structural overlay primitive. Base UI drives every interactive
+// state (open/closed, starting/ending transition styles) as data attributes.
+// Width (magnitude) is an adjustable axis per the design spec; every other
+// structural chrome is baked in. The cva pairings below hold all static
+// and variant-driven styling so each part is styled in one place, with no
+// `className` at the boundary. The Backdrop, Title, and Description are shared
+// overlay chrome adopted from `internal/` (rule 4a), so they carry no cva here.
+
+export const dialogViewportVariants = cva(modalViewportClass);
+
+export const dialogPopupVariants = cva(
+  cx(
+    // chrome — no padding; per-section parts (Header/Body/Actions) own their
+    // own padding so each region can scroll or space correctly.
+    "flex flex-col gap-4 rounded-lg border-sm border-subtle bg-layer-1 shadow-overlay-100 outline-none",
+    // max-height: cap the popup at the viewport (minus gutter) so the body scrolls
+    // rather than the whole dialog overflowing.
+    "max-h-[calc(100dvh-2rem)]",
+    // open/close animation
+    "origin-(--transform-origin) transition-[opacity,transform] duration-200",
+    "data-starting-style:scale-95 data-starting-style:opacity-0",
+    "data-ending-style:scale-95 data-ending-style:opacity-0",
+  ),
+  {
+    variants: {
+      // Width axis — "always adjustable" per the design spec. sm/md/lg are
+      // the Figma widths; required so each call-site is explicit.
+      magnitude: {
+        sm: "w-80", // 320px
+        md: "w-96", // 384px
+        lg: "w-128",
+      },
+    },
+  },
+);
+
+// DialogHeader: the row that holds the heading block (title + optional
+// description) at the inline-start alongside the inline-end close button. Padding
+// matches the popup's top/side gutter; there is no bottom padding — the gap on the
+// popup provides spacing. `items-start` keeps the close aligned to the first line
+// of a multi-line title.
+export const dialogHeaderVariants = cva("flex items-start justify-between gap-4 px-4 pt-4");
+
+// DialogHeading: the title-over-description block at the header's inline-start.
+// Stacks the two with a tight gap so they read as one heading group opposite the
+// close button.
+export const dialogHeadingVariants = cva(overlayHeadingClass);
+
+// DialogBody: the scrollable main content region. `min-h-0 flex-1 overflow-y-auto`
+// lets it shrink inside the flex popup so the actions stay pinned at the bottom;
+// `overscroll-contain` prevents the page from scrolling when the body hits its limit.
+export const dialogBodyVariants = cva("min-h-0 flex-1 overflow-y-auto overscroll-contain px-4");
+
+// DialogActions: the right-aligned footer row for action buttons. Padding mirrors
+// the header gutter. Sticks to the bottom via the flex popup layout.
+export const dialogActionsVariants = cva(cx(overlayActionsClass, "px-4 pb-4"));
+
+export type DialogPopupVariantProps = StrictVariantProps<typeof dialogPopupVariants>;
+
+export type DialogPopupMagnitude = NonNullable<
+  VariantProps<typeof dialogPopupVariants>["magnitude"]
+>;

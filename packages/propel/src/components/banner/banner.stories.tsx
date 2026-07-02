@@ -9,10 +9,12 @@ import { Banner, type BannerTone } from "./index";
 
 const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
 
+const dismissSpy = fn();
+
 const meta = {
   title: "Components/Banner",
   component: Banner,
-  argTypes: { inlineStartNode: iconControl },
+  argTypes: { icon: iconControl },
   args: {
     title: "There is something that needs your attention",
     placement: "page",
@@ -108,6 +110,35 @@ export const Dismissible: Story = {
 };
 
 /**
+ * Hidden interaction twin of `Dismissible`: clicking the dismiss `IconButton` rendered in `actions`
+ * invokes its handler. Tagged out of the sidebar/docs/manifest but still run under the default
+ * `test` tag.
+ */
+export const DismissibleInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: {
+    placement: "inline",
+    tone: "info",
+    actions: (
+      <IconButton
+        prominence="ghost"
+        tone="neutral"
+        magnitude="md"
+        aria-label="Dismiss"
+        onClick={dismissSpy}
+      >
+        <X />
+      </IconButton>
+    ),
+  },
+  play: async ({ canvas, userEvent }) => {
+    dismissSpy.mockClear();
+    await userEvent.click(canvas.getByRole("button", { name: "Dismiss" }));
+    await expect(dismissSpy).toHaveBeenCalledTimes(1);
+  },
+};
+
+/**
  * Optional content branches: consumers can hide the icon, pass a custom icon, render body-only
  * content, and warning/danger tones use assertive `alert` semantics.
  */
@@ -115,14 +146,14 @@ export const OptionalContentSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <div className="flex w-160 flex-col gap-3">
-      <Banner placement="inline" tone="warning" inlineStartNode={null}>
+      <Banner placement="inline" tone="warning" icon={null}>
         Maintenance starts at 6 PM.
       </Banner>
       <Banner
         placement="inline"
         tone="info"
         title="Custom icon"
-        inlineStartNode={<Info data-testid="custom-banner-icon" />}
+        icon={<Info data-testid="custom-banner-icon" />}
       />
     </div>
   ),

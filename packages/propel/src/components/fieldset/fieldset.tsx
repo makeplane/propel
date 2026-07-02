@@ -1,3 +1,4 @@
+import { Fieldset as BaseFieldset } from "@base-ui/react/fieldset";
 import type * as React from "react";
 
 import {
@@ -7,7 +8,7 @@ import {
   FieldsetDescription,
   FieldsetLegend,
   type FieldsetLegendProps,
-} from "../../ui/fieldset";
+} from "../../elements/fieldset";
 
 export type FieldsetProps = FieldsetElementProps & {
   /** Supporting text shown below the legend. */
@@ -21,11 +22,13 @@ export type FieldsetProps = FieldsetElementProps & {
 };
 
 /**
- * The ready-made fieldset: groups a `legend` with its related controls for the 90% case. Pass the
- * legend text, `legendMagnitude`, and whether the group is `bordered`; everything else flows
- * through to the underlying fieldset root.
+ * The ready-made fieldset: groups a `legend` with its related controls for the 90% case. Grafts
+ * Base UI's `Fieldset` behavior onto propel's styled parts — pass the legend text,
+ * `legendMagnitude`, and whether the group is `bordered`; everything else flows through to the
+ * underlying fieldset root.
  */
 export function Fieldset({
+  bordered,
   description,
   legend,
   legendMagnitude,
@@ -33,10 +36,12 @@ export function Fieldset({
   ...props
 }: FieldsetProps) {
   return (
-    <FieldsetElement {...props}>
-      <FieldsetLegend magnitude={legendMagnitude}>{legend}</FieldsetLegend>
+    <BaseFieldset.Root {...props} render={<FieldsetElement bordered={bordered} />}>
+      <BaseFieldset.Legend render={<FieldsetLegend magnitude={legendMagnitude} />}>
+        {legend}
+      </BaseFieldset.Legend>
       {description != null ? <FieldsetDescription>{description}</FieldsetDescription> : null}
       <FieldsetBody>{children}</FieldsetBody>
-    </FieldsetElement>
+    </BaseFieldset.Root>
   );
 }

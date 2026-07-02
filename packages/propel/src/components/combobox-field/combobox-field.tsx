@@ -1,28 +1,21 @@
+import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import type * as React from "react";
 
-import {
-  Combobox,
-  ComboboxClear,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxInputGroup,
-  ComboboxItem,
-  ComboboxList,
-  ComboboxPopup,
-  ComboboxPortal,
-  ComboboxPositioner,
-  type ComboboxProps,
-  ComboboxTrigger,
-} from "../../ui/combobox/index";
-import { Field } from "../../ui/field/field";
-import { FieldDescription } from "../../ui/field/field-description";
-import { FieldLabel } from "../../ui/field/field-label";
-import type { FieldMagnitude } from "../../ui/field/variants";
+import { ComboboxEmpty, ComboboxInput, ComboboxInputGroup } from "../../elements/combobox/index";
+import type { FieldMagnitude } from "../../elements/field/variants";
+import { ListboxItem } from "../../internal/listbox-item";
+import { ListboxPopup } from "../../internal/listbox-popup";
+import { Positioner } from "../../internal/positioner";
+import { Combobox, type ComboboxProps } from "../combobox";
 // Ready-made part that supplies a default icon when no children are given (defaults are a `components` concern).
 import { ComboboxItemIndicator } from "../combobox/combobox-item-indicator";
+import { Field, FieldDescription, FieldLabel } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 
-export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items"> & {
+export type ComboboxFieldProps<Value = string> = Omit<
+  ComboboxProps<Value>,
+  "children" | "items"
+> & {
   /** Supporting text shown below the input. */
   description?: React.ReactNode;
   /**
@@ -42,7 +35,7 @@ export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items
   /** Helper text shown below the control. Replaced by `error` when an error is set. */
   hint?: React.ReactNode;
   /** Items rendered in the popup. */
-  items: readonly string[];
+  items: readonly Value[];
   /** Visible field label. */
   label: React.ReactNode;
   /** Label and helper text size. */
@@ -52,7 +45,7 @@ export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items
 };
 
 /** Ready-to-use combobox field with label, filter input, popup items, and helper/error text. */
-export function ComboboxField({
+export function ComboboxField<Value = string>({
   description,
   clear,
   trigger,
@@ -66,36 +59,43 @@ export function ComboboxField({
   name,
   placeholder,
   ...comboboxProps
-}: ComboboxFieldProps) {
+}: ComboboxFieldProps<Value>) {
+  // Base UI's itemToStringLabel names an object item; the rows display the same string.
+  const display = (item: Value) =>
+    comboboxProps.itemToStringLabel ? comboboxProps.itemToStringLabel(item) : String(item);
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Combobox disabled={disabled} items={items} {...comboboxProps}>
         <FieldLabel magnitude={magnitude} inset={false}>
           {label}
         </FieldLabel>
-        <ComboboxInputGroup>
-          <ComboboxInput placeholder={placeholder} />
-          <ComboboxClear render={clear} />
-          <ComboboxTrigger render={trigger} />
-        </ComboboxInputGroup>
+        <BaseCombobox.InputGroup render={<ComboboxInputGroup magnitude={magnitude} />}>
+          <BaseCombobox.Input render={<ComboboxInput />} placeholder={placeholder} />
+          <BaseCombobox.Clear render={clear} />
+          <BaseCombobox.Trigger render={trigger} />
+        </BaseCombobox.InputGroup>
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
         ) : null}
-        <ComboboxPortal>
-          <ComboboxPositioner>
-            <ComboboxPopup>
-              <ComboboxEmpty>{empty}</ComboboxEmpty>
-              <ComboboxList>
-                {items.map((item) => (
-                  <ComboboxItem key={item} value={item}>
+        <BaseCombobox.Portal>
+          <BaseCombobox.Positioner render={<Positioner />}>
+            <BaseCombobox.Popup render={<ListboxPopup />}>
+              <BaseCombobox.Empty render={<ComboboxEmpty />}>{empty}</BaseCombobox.Empty>
+              <BaseCombobox.List>
+                {(item: Value) => (
+                  <BaseCombobox.Item
+                    key={display(item)}
+                    value={item}
+                    render={<ListboxItem layout="indicator" magnitude="md" />}
+                  >
                     <ComboboxItemIndicator />
-                    {item}
-                  </ComboboxItem>
-                ))}
-              </ComboboxList>
-            </ComboboxPopup>
-          </ComboboxPositioner>
-        </ComboboxPortal>
+                    {display(item)}
+                  </BaseCombobox.Item>
+                )}
+              </BaseCombobox.List>
+            </BaseCombobox.Popup>
+          </BaseCombobox.Positioner>
+        </BaseCombobox.Portal>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </Combobox>
     </Field>

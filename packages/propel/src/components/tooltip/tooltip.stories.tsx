@@ -1,8 +1,8 @@
-import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { DirectionProvider } from "../direction-provider";
 import { Tooltip, TooltipProvider } from "./index";
 
 const sidesGridStyle = {
@@ -19,6 +19,7 @@ const ALL_SIDES = ["top", "bottom", "left", "right", "inline-start", "inline-end
 const meta = {
   title: "Components/Tooltip",
   component: Tooltip,
+  subcomponents: { TooltipProvider },
   args: {
     content: "Tooltip text",
     children: <button type="button">Hover or focus me</button>,
@@ -91,8 +92,10 @@ export const SidesRtl: Story = {
   // wouldn't reach it. Mirror a real RTL app: set it on the root, restore on unmount.
   // `DirectionProvider` (below) is what tells Base UI's Positioner to resolve the
   // logical sides; it crosses the portal via React context.
+  // Decorators are components too, so the hooks rule (2c) applies: a named function, not an
+  // arrow, carries the `useLayoutEffect`.
   decorators: [
-    (Story) => {
+    function RtlDocumentDir(Story) {
       useLayoutEffect(() => {
         const html = document.documentElement;
         const prev = html.getAttribute("dir");
@@ -126,6 +129,54 @@ export const WithShortcut: Story = {
   args: {
     content: "Open command menu",
     shortcut: "⌘ K",
+  },
+};
+
+/**
+ * `TooltipProvider` groups the tooltips beneath it, so a row of adjacent triggers feels like one
+ * surface: once any tooltip in the group is open, moving to a neighboring trigger shows its tooltip
+ * immediately instead of restarting the hover delay, and the shared `closeDelay` keeps the swap
+ * smooth. This mirrors the classic formatting-toolbar hint pattern.
+ */
+export const WithProvider: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <TooltipProvider closeDelay={100}>
+      <div style={{ display: "flex", gap: "0.5rem" }}>
+        <Tooltip content="Bold the selection">
+          <button type="button">Bold</button>
+        </Tooltip>
+        <Tooltip content="Italicize the selection">
+          <button type="button">Italic</button>
+        </Tooltip>
+        <Tooltip content="Underline the selection">
+          <button type="button">Underline</button>
+        </Tooltip>
+      </div>
+    </TooltipProvider>
+  ),
+};
+
+/**
+ * The open state can be owned externally: `open` and `onOpenChange` pass through to Base UI's root,
+ * so product code can point the tooltip at its own UI programmatically — here the "Show hint"
+ * button opens it — while hover, focus, blur, and **Escape** still request state changes through
+ * `onOpenChange`, so the tooltip never gets stuck open.
+ */
+export const Controlled: Story = {
+  parameters: { controls: { disable: true } },
+  render: function Render() {
+    const [open, setOpen] = useState(false);
+    return (
+      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <Tooltip content="Copies the invite link" open={open} onOpenChange={setOpen}>
+          <button type="button">Copy link</button>
+        </Tooltip>
+        <button type="button" onClick={() => setOpen(true)}>
+          Show hint
+        </button>
+      </div>
+    );
   },
 };
 
@@ -190,34 +241,74 @@ export const EscapeCloses: Story = {
 };
 
 /**
- * The provider shares open/close timing across tooltips in a group. This exercises the exported
- * provider wrapper and keeps the accessibility assertion on the real portaled tooltip.
+ * Hidden behavior twin of `WithProvider`: the provider shares open/close timing across the group,
+ * so moving from one trigger to the next swaps the visible tooltip. Focus (not hover) keeps the
+ * open/close deterministic regardless of Base UI's hover delays, and the accessibility assertion
+ * stays on the real portaled `role="tooltip"` popup.
  */
-export const SharedProviderTiming: Story = {
+export const WithProviderInteraction: Story = {
+  ...WithProvider,
   tags: ["!dev", "!autodocs", "!manifest"],
-  parameters: { controls: { disable: true } },
-  render: () => (
-    <TooltipProvider delay={0} closeDelay={0}>
-      <div className="flex gap-2">
-        <Tooltip content="First tooltip">
-          <button type="button">First trigger</button>
-        </Tooltip>
-        <Tooltip content="Second tooltip">
-          <button type="button">Second trigger</button>
-        </Tooltip>
-      </div>
-    </TooltipProvider>
-  ),
   play: async ({ canvas }) => {
     const body = within(document.body);
 
     await userEvent.tab();
-    await expect(canvas.getByRole("button", { name: "First trigger" })).toHaveFocus();
+    await expect(canvas.getByRole("button", { name: "Bold" })).toHaveFocus();
     const firstTooltip = await body.findByRole("tooltip");
-    await expect(firstTooltip).toHaveTextContent("First tooltip");
+    await expect(firstTooltip).toHaveTextContent("Bold the selection");
 
+    // Moving focus to the next trigger swaps to its tooltip. The first one may
+    // linger for the provider's shared closeDelay, so retry until exactly one
+    // tooltip remains and it carries the new label.
     await userEvent.tab();
-    await expect(canvas.getByRole("button", { name: "Second trigger" })).toHaveFocus();
-    await waitFor(() => expect(body.getByRole("tooltip")).toHaveTextContent("Second tooltip"));
+    await expect(canvas.getByRole("button", { name: "Italic" })).toHaveFocus();
+    await waitFor(() =>
+      expect(body.getByRole("tooltip")).toHaveTextContent("Italicize the selection"),
+    );
+  },
+};
+
+/**
+ * Hidden behavior twin of `WithShortcut` (relocated from the old elements-tier story, rule 2b): the
+ * open tooltip is one `role="tooltip"` popup carrying both the label and the `shortcut` hint, so
+ * assistive tech announces them together. Focus (not hover) keeps the open deterministic regardless
+ * of Base UI's hover delays.
+ */
+export const WithShortcutInteraction: Story = {
+  ...WithShortcut,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { ...WithShortcut.args, delay: 0 },
+  play: async ({ canvas }) => {
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "Hover or focus me" })).toHaveFocus();
+    const tooltip = await within(document.body).findByRole("tooltip");
+    await expect(tooltip).toHaveTextContent("Open command menu");
+    await expect(tooltip).toHaveTextContent("⌘ K");
+  },
+};
+
+/**
+ * Hidden behavior twin of `Controlled`: the external "Show hint" button opens the tooltip through
+ * state (`open`), and **Escape** routes a close request back through `onOpenChange`, proving the
+ * controlled loop is wired both ways. Escape is asserted with focus still on the external button —
+ * Base UI listens at the document level while the tooltip is open.
+ */
+export const ControlledInteraction: Story = {
+  ...Controlled,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    const screen = within(document.body);
+
+    // Closed until opened programmatically.
+    await expect(screen.queryByRole("tooltip")).toBeNull();
+
+    // The external button opens the tooltip via state.
+    await userEvent.click(canvas.getByRole("button", { name: "Show hint" }));
+    await expect(await screen.findByRole("tooltip")).toHaveTextContent("Copies the invite link");
+
+    // Escape requests a close through `onOpenChange`, which updates the
+    // controlled state and dismisses the tooltip (it leaves asynchronously).
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(screen.queryByRole("tooltip")).toBeNull());
   },
 };

@@ -1,4 +1,7 @@
-// Ready-made 1:1 re-export of the ui primitive. Drop down to `@plane/propel/ui/text-area` only
-// when you need the lower-level parts. The `TextAreaGroup` frame ships here too, so a consumer can
-// wrap a bare `TextArea` without dropping to `ui/field`.
-export * from "../../ui/text-area";
+// The ready-made `TextArea` grafts Base UI's `Field.Control` behavior onto the styled `elements` element.
+// Drop down to `@plane/propel/elements/text-area` for the bare styled parts, or reach for the ready-made
+// `TextAreaField` in `@plane/propel/components/text-area-field`.
+export * from "./text-area";
+// The bordered frame is a pure styled element (no Base UI behavior to graft), so re-export it
+// straight from `elements/text-area`.
+export { TextAreaGroup, type TextAreaGroupProps } from "../../elements/text-area";

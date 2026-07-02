@@ -1,16 +1,17 @@
+import { NumberField as BaseNumberField } from "@base-ui/react/number-field";
 import type * as React from "react";
 
 import {
   NumberField as NumberFieldElement,
-  NumberFieldDecrement,
   NumberFieldGroup,
-  NumberFieldIncrement,
   NumberFieldInput,
   type NumberFieldMagnitude,
-  type NumberFieldProps as NumberFieldElementProps,
-} from "../../ui/number-field";
+} from "../../elements/number-field";
 
-export type NumberFieldProps = NumberFieldElementProps & {
+export type NumberFieldProps = Omit<
+  BaseNumberField.Root.Props,
+  "className" | "style" | "render"
+> & {
   /** Visual size of the field: controls the input height. Required. */
   magnitude: NumberFieldMagnitude;
   /**
@@ -30,10 +31,10 @@ export type NumberFieldProps = NumberFieldElementProps & {
  * with `value`/`defaultValue` + `onValueChange`, bound it with `min`/`max`/`step`, and pass
  * `format` (an `Intl.NumberFormatOptions`) to format the displayed value.
  *
- * Composed from the `ui/number-field` parts (`NumberField` root + `NumberFieldGroup` +
- * `NumberFieldDecrement` + `NumberFieldInput` + `NumberFieldIncrement`), which are built on Base UI
- * `NumberField`. The `decrement`/`increment` steppers are consumer-provided controls, grafted onto
- * the behavior wrappers via `render`.
+ * Grafts Base UI `NumberField` behavior onto the `elements/number-field` styled parts
+ * (`NumberField` root + `NumberFieldGroup` + `NumberFieldInput`) via `render`. The
+ * `decrement`/`increment` steppers are consumer-provided controls, grafted onto Base UI's
+ * `Decrement`/`Increment` behavior.
  */
 export function NumberField({
   "aria-label": ariaLabel,
@@ -44,17 +45,21 @@ export function NumberField({
   ...props
 }: NumberFieldProps) {
   return (
-    <NumberFieldElement {...props}>
-      <NumberFieldGroup>
-        <NumberFieldDecrement render={decrement} />
+    <BaseNumberField.Root {...props} render={<NumberFieldElement />}>
+      <BaseNumberField.Group render={<NumberFieldGroup />}>
+        <BaseNumberField.Decrement render={decrement} />
         {/* The accessible name belongs on the input, not the root div. */}
-        <NumberFieldInput
-          magnitude={magnitude}
-          aria-label={ariaLabel}
-          aria-labelledby={ariaLabelledby}
+        <BaseNumberField.Input
+          render={
+            <NumberFieldInput
+              magnitude={magnitude}
+              aria-label={ariaLabel}
+              aria-labelledby={ariaLabelledby}
+            />
+          }
         />
-        <NumberFieldIncrement render={increment} />
-      </NumberFieldGroup>
-    </NumberFieldElement>
+        <BaseNumberField.Increment render={increment} />
+      </BaseNumberField.Group>
+    </BaseNumberField.Root>
   );
 }

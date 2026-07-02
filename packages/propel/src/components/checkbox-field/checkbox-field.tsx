@@ -1,18 +1,18 @@
 import type * as React from "react";
 
+import type { FieldMagnitude } from "../../elements/field/variants";
 import {
   CheckboxFieldControl,
   type CheckboxFieldControlProps,
 } from "../../internal/checkbox-field-control";
-import { Field } from "../../ui/field/field";
-import { FieldItem } from "../../ui/field/field-item";
-import type { FieldMagnitude } from "../../ui/field/variants";
-import { FieldItemContent } from "../field";
+import { Field, FieldItem, FieldItemContent } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
+
+export type { FieldMagnitude } from "../../elements/field/variants";
 
 export type CheckboxFieldProps = Omit<
   CheckboxFieldControlProps,
-  "aria-label" | "label" | "inlineStartNode"
+  "aria-label" | "label" | "icon"
 > & {
   /** Helper text shown below the control. Replaced by `error` when an error is set. */
   hint?: React.ReactNode;

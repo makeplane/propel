@@ -1,23 +1,26 @@
+import { Collapsible as BaseCollapsible } from "@base-ui/react/collapsible";
 import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import {
-  Collapsible as CollapsibleElement,
-  type CollapsibleProps as CollapsibleElementProps,
   CollapsiblePanel,
   CollapsiblePanelContent,
   CollapsibleTrigger,
-  CollapsibleTriggerIndicator,
   CollapsibleTriggerTitle,
-} from "../../ui/collapsible";
+} from "../../elements/collapsible";
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
 
-export type CollapsibleProps = CollapsibleElementProps & {
+export type CollapsibleProps = Omit<BaseCollapsible.Root.Props, "className" | "style"> & {
   /** The button content that opens and closes the panel. */
   trigger: React.ReactNode;
   /** The collapsible content region. */
   children: React.ReactNode;
   /** Whether to show the rotating chevron indicator at the trigger's inline-end. */
   indicator: boolean;
+  /** Keep the panel in the DOM while closed — Base UI's `Panel.keepMounted`. */
+  keepMounted?: boolean;
+  /** Reveal on the browser's find-in-page — Base UI's `Panel.hiddenUntilFound`. */
+  hiddenUntilFound?: boolean;
 };
 
 /**
@@ -26,20 +29,31 @@ export type CollapsibleProps = CollapsibleElementProps & {
  * `defaultOpen` (uncontrolled) or `open` + `onOpenChange` (controlled) to drive it. Set
  * `indicator={false}` to omit the rotating chevron from the trigger.
  */
-export function Collapsible({ trigger, children, indicator, ...props }: CollapsibleProps) {
+export function Collapsible({
+  trigger,
+  children,
+  indicator,
+  keepMounted,
+  hiddenUntilFound,
+  ...props
+}: CollapsibleProps) {
   return (
-    <CollapsibleElement {...props}>
-      <CollapsibleTrigger>
+    <BaseCollapsible.Root {...props}>
+      <BaseCollapsible.Trigger render={<CollapsibleTrigger />}>
         <CollapsibleTriggerTitle>{trigger}</CollapsibleTriggerTitle>
         {indicator ? (
-          <CollapsibleTriggerIndicator>
+          <DisclosureIndicator motion="disclose" tint="secondary" magnitude="inherit">
             <ChevronDown />
-          </CollapsibleTriggerIndicator>
+          </DisclosureIndicator>
         ) : null}
-      </CollapsibleTrigger>
-      <CollapsiblePanel>
+      </BaseCollapsible.Trigger>
+      <BaseCollapsible.Panel
+        keepMounted={keepMounted}
+        hiddenUntilFound={hiddenUntilFound}
+        render={<CollapsiblePanel />}
+      >
         <CollapsiblePanelContent>{children}</CollapsiblePanelContent>
-      </CollapsiblePanel>
-    </CollapsibleElement>
+      </BaseCollapsible.Panel>
+    </BaseCollapsible.Root>
   );
 }

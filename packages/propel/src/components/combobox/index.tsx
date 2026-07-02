@@ -1,25 +1,21 @@
+export * from "./combobox";
+export * from "./combobox-chips";
+export * from "./combobox-collection";
 export * from "./combobox-content";
-// Ready-made parts that supply a default icon — these replace the bare `ui` slots for consumers.
+export * from "./combobox-empty";
+export * from "./combobox-group";
+export * from "./combobox-group-label";
+export * from "./combobox-input-group";
+export * from "./combobox-item";
+// Ready-made part that supplies a default icon — replaces the bare `elements` slot for consumers.
 export * from "./combobox-item-indicator";
-// Re-export the atomic combobox parts so a full combobox can be assembled from one entry.
-// `ComboboxClear`/`ComboboxTrigger` are behavior-only ui parts now — composed under an
-// `IconButton` via `render` at the call site (see `combobox-field`).
-export {
-  Combobox,
-  type ComboboxProps,
-  ComboboxClear,
-  type ComboboxClearProps,
-  ComboboxEmpty,
-  type ComboboxEmptyProps,
-  ComboboxInput,
-  type ComboboxInputProps,
-  ComboboxInputGroup,
-  type ComboboxInputGroupProps,
-  ComboboxItem,
-  type ComboboxItemProps,
-  ComboboxLabel,
-  type ComboboxLabelProps,
-  ComboboxList,
-  ComboboxTrigger,
-  type ComboboxTriggerProps,
-} from "../../ui/combobox";
+export * from "./combobox-list";
+export * from "./combobox-row";
+export * from "./combobox-status";
+// The ready-mades above bundle every Base UI behavior part (`Clear`/`Trigger` as node props on
+// `ComboboxInputGroup`; `Portal`/`Positioner`/`Popup` inside `ComboboxContent`;
+// `Value`/`Chip`/`ChipRemove` inside `ComboboxChips`; `List` as a passthrough), so a full combobox
+// composes from this entry without importing `@base-ui/react`. `ComboboxLabel` stays a styled
+// `elements` part — graft it onto `BaseCombobox.Label` at the call site for the advanced anatomy.
+export { ComboboxLabel, type ComboboxLabelProps } from "../../elements/combobox";
+export * from "./use-filter";

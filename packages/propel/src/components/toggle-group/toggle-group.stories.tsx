@@ -1,17 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { List, ListOrdered } from "lucide-react";
+import { Bold, Italic, List, ListOrdered, Underline } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
-import { Toggle, ToggleIcon } from "../toggle/index";
+import { Toggle, type ToggleMagnitude } from "../toggle/index";
 import { ToggleGroup } from "./index";
 
-// Components-tier story: the ready-made `ToggleGroup` (a 1:1 re-export of the ui
+const MAGNITUDES: ToggleMagnitude[] = ["sm", "md", "lg"];
+
+// Components-tier story: the ready-made `ToggleGroup` (a 1:1 re-export of the elements
 // primitive) holding ready-made `Toggle` items. The group sizes each toggle via
-// `magnitude` and tracks selection. The UI-tier story documents the same parts.
+// `magnitude` and tracks selection. The elements-tier story documents the same parts.
 const meta = {
   title: "Components/ToggleGroup",
   component: ToggleGroup,
-  subcomponents: { Toggle, ToggleIcon },
+  subcomponents: { Toggle },
   args: { magnitude: "md" },
   parameters: {
     a11y: {
@@ -34,14 +36,10 @@ export const Default: Story = {
   render: (args) => (
     <ToggleGroup {...args} aria-label="List style">
       <Toggle value="bulleted" aria-label="Bulleted list">
-        <ToggleIcon>
-          <List />
-        </ToggleIcon>
+        <List />
       </Toggle>
       <Toggle value="numbered" aria-label="Numbered list">
-        <ToggleIcon>
-          <ListOrdered />
-        </ToggleIcon>
+        <ListOrdered />
       </Toggle>
     </ToggleGroup>
   ),
@@ -64,5 +62,74 @@ export const DefaultInteraction: Story = {
     await expect(numbered).toHaveAttribute("aria-pressed", "true");
     await expect(bulleted).toHaveAttribute("aria-pressed", "false");
     await expect(args.onValueChange).toHaveBeenCalled();
+  },
+};
+
+/**
+ * Every size side by side — the group's `magnitude` sizes each `Toggle` inside via context, and
+ * each magnitude also scales the `ToggleIcon` glyph via `--node-size`.
+ */
+export const Magnitudes: Story = {
+  // Iterates `magnitude` and gives each group its own accessible name, so disable just
+  // that control; the rest stay live and update every group at once.
+  argTypes: { magnitude: { control: false } },
+  render: (args) => (
+    <div className="flex items-center gap-6">
+      {MAGNITUDES.map((magnitude) => (
+        <ToggleGroup
+          key={magnitude}
+          {...args}
+          magnitude={magnitude}
+          multiple
+          defaultValue={["bold"]}
+          aria-label={`Text formatting (${magnitude})`}
+        >
+          <Toggle value="bold" aria-label={`Bold (${magnitude})`}>
+            <Bold />
+          </Toggle>
+          <Toggle value="italic" aria-label={`Italic (${magnitude})`}>
+            <Italic />
+          </Toggle>
+          <Toggle value="underline" aria-label={`Underline (${magnitude})`}>
+            <Underline />
+          </Toggle>
+        </ToggleGroup>
+      ))}
+    </div>
+  ),
+};
+
+/** `multiple` lets more than one toggle stay pressed at once. */
+export const Multiple: Story = {
+  args: { magnitude: "md", multiple: true, defaultValue: ["bold", "italic"] },
+  render: (args) => (
+    <ToggleGroup {...args} aria-label="Text formatting">
+      <Toggle value="bold" aria-label="Bold">
+        <Bold />
+      </Toggle>
+      <Toggle value="italic" aria-label="Italic">
+        <Italic />
+      </Toggle>
+      <Toggle value="underline" aria-label="Underline">
+        <Underline />
+      </Toggle>
+    </ToggleGroup>
+  ),
+};
+
+/**
+ * Interaction test: in a `multiple` group, pressing another toggle keeps the current ones pressed.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const MultipleInteraction: Story = {
+  ...Multiple,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const bold = canvas.getByRole("button", { name: "Bold" });
+    const underline = canvas.getByRole("button", { name: "Underline" });
+    await expect(bold).toHaveAttribute("aria-pressed", "true");
+    await userEvent.click(underline);
+    await expect(underline).toHaveAttribute("aria-pressed", "true");
+    await expect(bold).toHaveAttribute("aria-pressed", "true");
   },
 };

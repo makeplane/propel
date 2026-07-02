@@ -1,13 +1,11 @@
-import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Ellipsis, Layers } from "lucide-react";
+import { Layers } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { BreadcrumbTrigger, BreadcrumbTriggerIcon } from "../../ui/breadcrumb";
-import { Menu } from "../../ui/menu";
-import { MenuContent, MenuItem } from "../menu";
+import { Menu, MenuContent, MenuItem } from "../menu";
 import {
   Breadcrumb,
+  BreadcrumbEllipsisTrigger,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
@@ -30,6 +28,7 @@ const meta = {
     BreadcrumbPage,
     Menu,
     BreadcrumbMenuTrigger,
+    BreadcrumbEllipsisTrigger,
     MenuContent,
     MenuItem,
   },
@@ -97,9 +96,9 @@ export const DefaultInteraction: Story = {
 };
 
 /**
- * When the trail is too long, collapse the middle crumbs behind a menu. The ellipsis crumb opens a
- * `Menu` of the hidden crumbs — there is no separate "dropdown": it is the same Menu composition,
- * with an ellipsis `BreadcrumbTriggerIcon` standing in for a label.
+ * When the trail is too long, collapse the middle crumbs behind a menu. The
+ * `BreadcrumbEllipsisTrigger` crumb opens a `Menu` of the hidden crumbs — there is no separate
+ * "dropdown": it is the same Menu composition, with an ellipsis glyph standing in for a label.
  */
 export const WithCollapsedCrumbs: Story = {
   render: () => (
@@ -113,12 +112,8 @@ export const WithCollapsedCrumbs: Story = {
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <Menu>
-            <BaseMenu.Trigger aria-label="Show more breadcrumbs" render={<BreadcrumbTrigger />}>
-              <BreadcrumbTriggerIcon>
-                <Ellipsis />
-              </BreadcrumbTriggerIcon>
-            </BaseMenu.Trigger>
-            <MenuContent width="auto">
+            <BreadcrumbEllipsisTrigger aria-label="Show more breadcrumbs" />
+            <MenuContent sizing="auto">
               <MenuItem render={inertAnchor()}>Projects</MenuItem>
               <MenuItem render={inertAnchor()}>Design</MenuItem>
             </MenuContent>

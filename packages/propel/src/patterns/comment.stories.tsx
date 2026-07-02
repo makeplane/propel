@@ -15,7 +15,9 @@ import {
 import * as React from "react";
 import { expect, fn, userEvent } from "storybook/test";
 
+import { Field } from "../components/field";
 import { IconButton } from "../components/icon-button/index";
+import { TextArea } from "../components/text-area";
 import {
   Toolbar,
   ToolbarButton,
@@ -23,9 +25,7 @@ import {
   ToolbarSeparator,
   ToolbarToggle,
 } from "../components/toolbar/index";
-import { Button } from "../ui/button/index";
-import { Field } from "../ui/field/index";
-import { TextArea } from "../ui/text-area/index";
+import { Button } from "../elements/button/index";
 
 // A comment composer is a compositional (application-level) component, not a propel
 // primitive: it is assembled entirely from propel building blocks (Toolbar, Button,
@@ -60,34 +60,34 @@ function FormattingToolbar() {
     <Toolbar elevation="flat" density="compact" aria-label="Comment formatting">
       <ToolbarGroup aria-label="Insert">
         <ToolbarButton aria-label="Mention someone">
-          <AtSign aria-hidden />
+          <AtSign />
         </ToolbarButton>
         <ToolbarButton aria-label="Add reaction">
-          <SmilePlus aria-hidden />
+          <SmilePlus />
         </ToolbarButton>
         <ToolbarButton aria-label="Add link">
-          <Link aria-hidden />
+          <Link />
         </ToolbarButton>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
         <ToolbarToggle aria-label="Bold">
-          <Bold aria-hidden />
+          <Bold />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Italic">
-          <Italic aria-hidden />
+          <Italic />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Underline">
-          <Underline aria-hidden />
+          <Underline />
         </ToolbarToggle>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Lists">
         <ToolbarButton aria-label="Bulleted list">
-          <List aria-hidden />
+          <List />
         </ToolbarButton>
         <ToolbarButton aria-label="More formatting">
-          <MoreHorizontal aria-hidden />
+          <MoreHorizontal />
         </ToolbarButton>
       </ToolbarGroup>
     </Toolbar>
@@ -258,25 +258,25 @@ const RECIPE_SOURCE = `function CommentComposer() {
           <Toolbar elevation="flat" density="compact" aria-label="Comment formatting">
             <ToolbarGroup aria-label="Insert">
               <ToolbarButton aria-label="Mention someone">
-                <AtSign aria-hidden />
+                <AtSign />
               </ToolbarButton>
               <ToolbarButton aria-label="Add reaction">
-                <SmilePlus aria-hidden />
+                <SmilePlus />
               </ToolbarButton>
               <ToolbarButton aria-label="Add link">
-                <Link aria-hidden />
+                <Link />
               </ToolbarButton>
             </ToolbarGroup>
             <ToolbarSeparator />
             <ToolbarGroup aria-label="Text formatting">
               <ToolbarToggle aria-label="Bold">
-                <Bold aria-hidden />
+                <Bold />
               </ToolbarToggle>
               <ToolbarToggle aria-label="Italic">
-                <Italic aria-hidden />
+                <Italic />
               </ToolbarToggle>
               <ToolbarToggle aria-label="Underline">
-                <Underline aria-hidden />
+                <Underline />
               </ToolbarToggle>
             </ToolbarGroup>
           </Toolbar>

@@ -39,7 +39,7 @@ const overlayPanelVariants = cva(
     variants: {
       // `anchor` matches the trigger width; `sm`/`md`/`lg` are the fixed Figma picker
       // widths; `auto` hugs its content with a small floor for compact menus.
-      width: {
+      sizing: {
         anchor: "min-w-(--anchor-width)",
         auto: "min-w-36",
         sm: "w-64", // 256px
@@ -50,7 +50,7 @@ const overlayPanelVariants = cva(
   },
 );
 
-export type OverlayPanelWidth = NonNullable<VariantProps<typeof overlayPanelVariants>["width"]>;
+export type OverlayPanelSizing = NonNullable<VariantProps<typeof overlayPanelVariants>["sizing"]>;
 
 export type OverlayPanelProps = {
   /** Surface shadow depth (see `internal/surface`). */
@@ -61,7 +61,7 @@ export type OverlayPanelProps = {
    * Panel width. `anchor` matches the trigger, `sm`/`md`/`lg` are the fixed picker widths, `auto`
    * hugs content with a floor. Omit for content width with no floor.
    */
-  width?: OverlayPanelWidth;
+  sizing?: OverlayPanelSizing;
   /** Sticky content pinned above the scroll body (e.g. a `DropdownSearch`). */
   header?: React.ReactNode;
   /** Sticky content pinned below the scroll body (e.g. a `DropdownFooter`). */
@@ -73,13 +73,13 @@ export type OverlayPanelProps = {
 export function OverlayPanel({
   elevation,
   radius,
-  width,
+  sizing,
   header,
   footer,
   children,
 }: OverlayPanelProps) {
   return (
-    <div className={cx(surfaceVariants({ elevation, radius }), overlayPanelVariants({ width }))}>
+    <div className={cx(surfaceVariants({ elevation, radius }), overlayPanelVariants({ sizing }))}>
       {header}
       <ScrollArea orientation="vertical" visibility="auto" magnitude="thin">
         {children}
