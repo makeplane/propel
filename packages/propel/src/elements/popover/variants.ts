@@ -1,5 +1,6 @@
 import { cva, cx } from "class-variance-authority";
 
+import { overlayActionsClass } from "../../internal/overlay-frame";
 import { popupSurfaceClass } from "../../internal/popup-surface";
 
 // Spec "always the same": shadow/elevation, border-radius, max-width constraint, and
@@ -15,7 +16,7 @@ export const popoverBodyVariants = cva("flex flex-col gap-2 p-2");
 export const popoverIntroVariants = cva("flex flex-col gap-1");
 // The popup's trailing controls row (e.g. a `PopoverClose` styled as a button):
 // pushes its children to the inline-end and spaces them by a gap.
-export const popoverActionsVariants = cva("flex justify-end gap-2");
+export const popoverActionsVariants = cva(overlayActionsClass);
 // The bare scroll-body popup used inside an elevated panel surface (see the
 // components-tier `PopoverContent`, which supplies the surface chrome via the shared
 // overlay panel). Carries only the inner padding + focus outline reset — never the

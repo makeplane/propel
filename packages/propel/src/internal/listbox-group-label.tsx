@@ -7,7 +7,8 @@ import { cva } from "class-variance-authority";
  * `components` (`<BaseCombobox.GroupLabel render={<ListboxGroupLabel/>} />`). Matches the menu
  * group label's type treatment so grouped pickers and menus read the same.
  */
-export const listboxGroupLabelVariants = cva("px-2 py-1.5 text-12 text-tertiary");
+export const listboxGroupLabelVariants = cva("px-2 py-1.5 text-12 font-medium text-tertiary");
+export const groupLabelClass = "px-2 py-1.5 text-12 font-medium text-tertiary";
 
 export type ListboxGroupLabelProps = Omit<useRender.ComponentProps<"div">, "className" | "style">;
 

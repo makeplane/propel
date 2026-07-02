@@ -70,7 +70,7 @@ export const Tones: Story = {
   ),
 };
 
-/** The three fallback states: image, initials, and the anonymous person icon (`tone="none"`). */
+/** The three fallback states: image, initials, and the anonymous person icon (the icon slot). */
 export const States: Story = {
   render: () => (
     <div className="flex items-center gap-3">
@@ -82,10 +82,8 @@ export const States: Story = {
         <BaseAvatar.Fallback render={<AvatarFallback tone="emerald" />}>GH</BaseAvatar.Fallback>
       </BaseAvatar.Root>
       <BaseAvatar.Root render={<Avatar magnitude="lg" />} role="img" aria-label="Anonymous">
-        <BaseAvatar.Fallback render={<AvatarFallback tone="none" />}>
-          <AvatarIcon magnitude="lg">
-            <User />
-          </AvatarIcon>
+        <BaseAvatar.Fallback render={<AvatarIcon magnitude="lg" />}>
+          <User />
         </BaseAvatar.Fallback>
       </BaseAvatar.Root>
     </div>

@@ -1,24 +1,22 @@
 import { cva, cx } from "class-variance-authority";
 
+import {
+  disclosureTriggerClass,
+  disclosureTriggerTitleClass,
+} from "../../internal/disclosure-trigger";
+
 // Collapsible is a structural disclosure primitive (the single-item form that
 // Accordion generalizes). The Figma spec only defines collapsed/hover/expanded
 // states, which Base UI drives as state — so there are no styling axes
 // (variant/tone/magnitude) to expose. The cva pairings below hold the static
 // chrome so every part is styled in one place, with no `className` at the boundary.
 
-export const collapsibleTriggerVariants = cva(
-  cx(
-    "group flex w-full items-center gap-2 text-start [--node-size:1rem]",
-    "text-14 font-medium text-primary",
-    "cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
-    "disabled:cursor-not-allowed disabled:opacity-60",
-  ),
-);
+export const collapsibleTriggerVariants = cva(cx(disclosureTriggerClass, "w-full"));
 
 // The trigger's growing label. `flex-1` fills the row so a trailing
 // `CollapsibleTriggerIndicator` sits at the inline-end edge; `min-w-0` lets a long
 // label wrap/shrink instead of overflowing.
-export const collapsibleTriggerTitleVariants = cva("min-w-0 flex-1 text-start");
+export const collapsibleTriggerTitleVariants = cva(disclosureTriggerTitleClass);
 
 export const collapsiblePanelVariants = cva(
   cx(

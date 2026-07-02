@@ -1,5 +1,10 @@
 import { cva, cx } from "class-variance-authority";
 
+import {
+  modalViewportClass,
+  overlayActionsClass,
+  overlayHeadingClass,
+} from "../../internal/overlay-frame";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Dialog is a structural overlay primitive. Base UI drives every interactive
@@ -10,9 +15,7 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 // `className` at the boundary. The Backdrop, Title, and Description are shared
 // overlay chrome adopted from `internal/` (rule 4a), so they carry no cva here.
 
-export const dialogViewportVariants = cva(
-  "fixed inset-0 z-50 flex items-center justify-center p-4",
-);
+export const dialogViewportVariants = cva(modalViewportClass);
 
 export const dialogPopupVariants = cva(
   cx(
@@ -50,7 +53,7 @@ export const dialogHeaderVariants = cva("flex items-start justify-between gap-4 
 // DialogHeading: the title-over-description block at the header's inline-start.
 // Stacks the two with a tight gap so they read as one heading group opposite the
 // close button.
-export const dialogHeadingVariants = cva("flex min-w-0 flex-col gap-2");
+export const dialogHeadingVariants = cva(overlayHeadingClass);
 
 // DialogBody: the scrollable main content region. `min-h-0 flex-1 overflow-y-auto`
 // lets it shrink inside the flex popup so the actions stay pinned at the bottom;
@@ -59,6 +62,6 @@ export const dialogBodyVariants = cva("min-h-0 flex-1 overflow-y-auto overscroll
 
 // DialogActions: the right-aligned footer row for action buttons. Padding mirrors
 // the header gutter. Sticks to the bottom via the flex popup layout.
-export const dialogActionsVariants = cva("flex justify-end gap-2 px-4 pb-4");
+export const dialogActionsVariants = cva(cx(overlayActionsClass, "px-4 pb-4"));
 
 export type DialogPopupVariantProps = StrictVariantProps<typeof dialogPopupVariants>;

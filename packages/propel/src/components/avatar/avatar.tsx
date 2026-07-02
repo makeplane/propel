@@ -36,7 +36,8 @@ export type AvatarProps = Omit<AvatarElementProps, "magnitude"> & {
 export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: AvatarProps) {
   // Base UI shows the fallback whenever the image is absent, loading, or failed, so the
   // colored-initials styling lives on the Fallback element itself. Initials = a label tone
-  // color; the anonymous person icon = the neutral `none` tone.
+  // color; the anonymous person icon renders in the icon slot over the root's neutral backdrop
+  // (there is no "none" tone).
   const hasInitials = fallback != null;
   const groupMagnitude = React.useContext(AvatarGroupContext);
   const effectiveMagnitude = magnitude ?? groupMagnitude ?? "md";
@@ -54,13 +55,15 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
       render={<AvatarElement magnitude={effectiveMagnitude} />}
     >
       {src ? <BaseAvatar.Image render={<AvatarImage />} src={src} alt="" /> : null}
-      <BaseAvatar.Fallback render={<AvatarFallback tone={hasInitials ? resolvedTone : "none"} />}>
-        {fallback ?? (
-          <AvatarIcon magnitude={effectiveMagnitude}>
-            <User />
-          </AvatarIcon>
-        )}
-      </BaseAvatar.Fallback>
+      {hasInitials ? (
+        <BaseAvatar.Fallback render={<AvatarFallback tone={resolvedTone} />}>
+          {fallback}
+        </BaseAvatar.Fallback>
+      ) : (
+        <BaseAvatar.Fallback render={<AvatarIcon magnitude={effectiveMagnitude} />}>
+          <User />
+        </BaseAvatar.Fallback>
+      )}
     </BaseAvatar.Root>
   );
 }

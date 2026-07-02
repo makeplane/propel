@@ -1,5 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
+import { avatarFallbackClass, avatarImageClass, avatarTones } from "../../internal/avatar-shared";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Magnitudes follow the same scale as Avatar (Figma "Workspace avatar"): 2xs 16
@@ -28,28 +29,17 @@ export const workspaceAvatarVariants = cva(
 
 // The workspace logo image. Fills and crops to the square frame so non-square
 // logos never stretch.
-export const workspaceAvatarImageVariants = cva("size-full object-cover");
+export const workspaceAvatarImageVariants = cva(avatarImageClass);
 
 // The fallback's `tone` colors the initials surface. `none` (the default) is the
 // anonymous/icon state — neutral layer + muted text. The named tones are the Figma
 // avatar label colors (initials on a solid tone, white text). The same palette as
 // `avatarFallbackVariants` in `elements/avatar`, specialised for workspace avatars.
-export const workspaceAvatarFallbackVariants = cva(
-  "flex size-full items-center justify-center leading-none",
-  {
-    variants: {
-      tone: {
-        none: "bg-layer-1 text-primary",
-        orange: "bg-label-orange-bg-strong text-on-color",
-        indigo: "bg-label-indigo-bg-strong text-on-color",
-        emerald: "bg-label-emerald-bg-strong text-on-color",
-        crimson: "bg-label-crimson-bg-strong text-on-color",
-        pink: "bg-label-pink-bg-strong text-on-color",
-        purple: "bg-label-purple-bg-strong text-on-color",
-      },
-    },
+export const workspaceAvatarFallbackVariants = cva(avatarFallbackClass, {
+  variants: {
+    tone: avatarTones,
   },
-);
+});
 
 export type WorkspaceAvatarMagnitude = NonNullable<
   VariantProps<typeof workspaceAvatarVariants>["magnitude"]

@@ -52,11 +52,11 @@ export function WorkspaceAvatar({
       aria-label={alt}
     >
       {src ? <BaseAvatar.Image render={<WorkspaceAvatarImage />} src={src} alt="" /> : null}
-      <BaseAvatar.Fallback
-        render={<WorkspaceAvatarFallback tone={hasInitials ? resolvedTone : "none"} />}
-      >
-        {fallback}
-      </BaseAvatar.Fallback>
+      {hasInitials ? (
+        <BaseAvatar.Fallback render={<WorkspaceAvatarFallback tone={resolvedTone} />}>
+          {fallback}
+        </BaseAvatar.Fallback>
+      ) : null}
     </BaseAvatar.Root>
   );
 }
