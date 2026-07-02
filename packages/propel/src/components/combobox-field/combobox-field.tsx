@@ -80,7 +80,7 @@ export function ComboboxField({
                   <BaseCombobox.Item
                     key={item}
                     value={item}
-                    render={<ListboxItem magnitude="md" />}
+                    render={<ListboxItem layout="indicator" magnitude="md" />}
                   >
                     <ComboboxItemIndicator />
                     {item}

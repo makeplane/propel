@@ -67,9 +67,9 @@ export const Default: Story = {
                   <BaseCombobox.Item
                     key={region}
                     value={region}
-                    render={<ListboxItem magnitude="md" />}
+                    render={<ListboxItem layout="indicator" magnitude="md" />}
                   >
-                    <BaseCombobox.ItemIndicator render={<ComboboxItemIndicator />}>
+                    <BaseCombobox.ItemIndicator keepMounted render={<ComboboxItemIndicator />}>
                       <Check aria-hidden />
                     </BaseCombobox.ItemIndicator>
                     <span>{region}</span>

@@ -81,7 +81,7 @@ export function AutocompleteField({
                   <BaseAutocomplete.Item
                     key={item}
                     value={item}
-                    render={<ListboxItem magnitude="md" />}
+                    render={<ListboxItem layout="plain" magnitude="md" />}
                   >
                     {item}
                   </BaseAutocomplete.Item>

@@ -74,7 +74,7 @@ export const Default: Story = {
                   <BaseAutocomplete.Item
                     key={image}
                     value={image}
-                    render={<ListboxItem magnitude="md" />}
+                    render={<ListboxItem layout="plain" magnitude="md" />}
                   >
                     {image}
                   </BaseAutocomplete.Item>

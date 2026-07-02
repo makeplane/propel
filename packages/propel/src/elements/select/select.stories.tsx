@@ -65,9 +65,9 @@ export const Default: Story = {
                   <BaseSelect.Item
                     key={value}
                     value={value}
-                    render={<ListboxItem magnitude="md" />}
+                    render={<ListboxItem layout="indicator" magnitude="md" />}
                   >
-                    <BaseSelect.ItemIndicator render={<SelectItemIndicator />}>
+                    <BaseSelect.ItemIndicator keepMounted render={<SelectItemIndicator />}>
                       <Check />
                     </BaseSelect.ItemIndicator>
                     <BaseSelect.ItemText>{label}</BaseSelect.ItemText>

@@ -41,7 +41,7 @@ export const selectIconVariants = cva(cx(nodeSlotClass, "text-icon-secondary"));
 // Always left-aligned per the Figma spec; the 1rem grid column in the shared listbox
 // item (`internal/listbox-item`) reserves the space whether the indicator shows or not.
 export const selectItemIndicatorVariants = cva(
-  cx(nodeSlotClass, "text-icon-accent-primary [--node-size:1rem]"),
+  cx(nodeSlotClass, "text-icon-accent-primary [--node-size:1rem] not-data-selected:invisible"),
 );
 
 export type SelectTriggerMagnitude = NonNullable<

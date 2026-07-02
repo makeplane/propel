@@ -74,7 +74,7 @@ export const Default: Story = {
               <BaseCombobox.Item
                 key={region}
                 value={region}
-                render={<ListboxItem magnitude="md" />}
+                render={<ListboxItem layout="indicator" magnitude="md" />}
               >
                 <ComboboxItemIndicator />
                 <span>{region}</span>
