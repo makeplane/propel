@@ -22,6 +22,7 @@ import {
   Toolbar,
   ToolbarButton,
   ToolbarGroup,
+  ToolbarItemIcon,
   ToolbarSeparator,
   ToolbarToggle,
 } from "../components/toolbar/index";
@@ -60,34 +61,50 @@ function FormattingToolbar() {
     <Toolbar elevation="flat" density="compact" aria-label="Comment formatting">
       <ToolbarGroup aria-label="Insert">
         <ToolbarButton aria-label="Mention someone">
-          <AtSign aria-hidden />
+          <ToolbarItemIcon>
+            <AtSign />
+          </ToolbarItemIcon>
         </ToolbarButton>
         <ToolbarButton aria-label="Add reaction">
-          <SmilePlus aria-hidden />
+          <ToolbarItemIcon>
+            <SmilePlus />
+          </ToolbarItemIcon>
         </ToolbarButton>
         <ToolbarButton aria-label="Add link">
-          <Link aria-hidden />
+          <ToolbarItemIcon>
+            <Link />
+          </ToolbarItemIcon>
         </ToolbarButton>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
         <ToolbarToggle aria-label="Bold">
-          <Bold aria-hidden />
+          <ToolbarItemIcon>
+            <Bold />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle aria-label="Italic">
-          <Italic aria-hidden />
+          <ToolbarItemIcon>
+            <Italic />
+          </ToolbarItemIcon>
         </ToolbarToggle>
         <ToolbarToggle aria-label="Underline">
-          <Underline aria-hidden />
+          <ToolbarItemIcon>
+            <Underline />
+          </ToolbarItemIcon>
         </ToolbarToggle>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Lists">
         <ToolbarButton aria-label="Bulleted list">
-          <List aria-hidden />
+          <ToolbarItemIcon>
+            <List />
+          </ToolbarItemIcon>
         </ToolbarButton>
         <ToolbarButton aria-label="More formatting">
-          <MoreHorizontal aria-hidden />
+          <ToolbarItemIcon>
+            <MoreHorizontal />
+          </ToolbarItemIcon>
         </ToolbarButton>
       </ToolbarGroup>
     </Toolbar>
@@ -258,25 +275,37 @@ const RECIPE_SOURCE = `function CommentComposer() {
           <Toolbar elevation="flat" density="compact" aria-label="Comment formatting">
             <ToolbarGroup aria-label="Insert">
               <ToolbarButton aria-label="Mention someone">
-                <AtSign aria-hidden />
+                <ToolbarItemIcon>
+                  <AtSign />
+                </ToolbarItemIcon>
               </ToolbarButton>
               <ToolbarButton aria-label="Add reaction">
-                <SmilePlus aria-hidden />
+                <ToolbarItemIcon>
+                  <SmilePlus />
+                </ToolbarItemIcon>
               </ToolbarButton>
               <ToolbarButton aria-label="Add link">
-                <Link aria-hidden />
+                <ToolbarItemIcon>
+                  <Link />
+                </ToolbarItemIcon>
               </ToolbarButton>
             </ToolbarGroup>
             <ToolbarSeparator />
             <ToolbarGroup aria-label="Text formatting">
               <ToolbarToggle aria-label="Bold">
-                <Bold aria-hidden />
+                <ToolbarItemIcon>
+                  <Bold />
+                </ToolbarItemIcon>
               </ToolbarToggle>
               <ToolbarToggle aria-label="Italic">
-                <Italic aria-hidden />
+                <ToolbarItemIcon>
+                  <Italic />
+                </ToolbarItemIcon>
               </ToolbarToggle>
               <ToolbarToggle aria-label="Underline">
-                <Underline aria-hidden />
+                <ToolbarItemIcon>
+                  <Underline />
+                </ToolbarItemIcon>
               </ToolbarToggle>
             </ToolbarGroup>
           </Toolbar>
