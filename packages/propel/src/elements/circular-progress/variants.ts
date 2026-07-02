@@ -6,14 +6,20 @@ import { type StrictVariantProps } from "../../internal/variant-props";
  * Circular ring root variants. `magnitude` sets the diameter of the ring box. The arc and track
  * circles fill the box; geometry (radius, dash) is passed to those parts as SVG attributes.
  */
-export const circularProgressVariants = cva("shrink-0", {
+export const circularProgressVariants = cva("group/ring shrink-0", {
   variants: {
     magnitude: { sm: "size-4", md: "size-5" },
   },
 });
 
-/** The circular ring's SVG viewport. Fills its `CircularProgress` box. */
-export const circularProgressSvgVariants = cva("block size-full");
+/**
+ * The circular ring's SVG viewport. Fills its `CircularProgress` box; while the root (which carries
+ * `group/ring`) is `data-indeterminate`, the whole ring spins so the fixed partial arc reads as
+ * activity.
+ */
+export const circularProgressSvgVariants = cva(
+  "block size-full group-data-indeterminate/ring:animate-spin",
+);
 
 /**
  * The full subtle ring behind the arc. Strokes with the same `layer-3-selected` surface token the

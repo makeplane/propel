@@ -65,3 +65,26 @@ export const HasProgressbarRole: Story = {
     await expect(ring).toHaveAttribute("aria-valuenow", "42");
   },
 };
+
+/** `value={null}` is indeterminate: a fixed quarter arc spins with no `aria-valuenow`. */
+export const Indeterminate: Story = {
+  args: { value: null, magnitude: "md", tone: "brand", "aria-label": "Syncing" },
+};
+
+/**
+ * Interaction test: the indeterminate ring exposes the `progressbar` role with no `aria-valuenow`,
+ * and the spin animation runs. Tagged out of the sidebar/docs/manifest while still running under
+ * the default `test` tag.
+ */
+export const IndeterminateInteraction: Story = {
+  ...Indeterminate,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    const ring = canvas.getByRole("progressbar", { name: "Syncing" });
+    await expect(ring).not.toHaveAttribute("aria-valuenow");
+    await expect(ring).toHaveAttribute("data-indeterminate");
+    const svg = ring.querySelector("svg");
+    if (svg == null) throw new Error("expected the ring svg");
+    await expect(getComputedStyle(svg).animationName).toBe("spin");
+  },
+};
