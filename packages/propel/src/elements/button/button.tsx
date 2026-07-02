@@ -13,8 +13,9 @@ export type ButtonProps = Omit<useRender.ComponentProps<"button">, "className" |
  * with `prominence` (Figma Type: primary·secondary·tertiary·ghost), the error palette with `tone`,
  * the size with `magnitude`, and full-width with `sizing` — all required, so consumers choose
  * explicitly. Base-UI-agnostic — graft Base UI's `Button` behavior in `components` via `<BaseButton
- * render={<Button/>} />`. For navigation use `AnchorButton` (button look) or `Anchor` (inline
- * link), not a button. `children` is passed through; it is not a variant.
+ * render={<Button/>} />`. For a navigation link wearing this chrome, render it as an `<a>`
+ * (`nativeButton={false}` + `render={<a href=… />}` on the ready-made). `children` is passed
+ * through; it is not a variant.
  */
 export function Button({ prominence, tone, magnitude, sizing, render, ...props }: ButtonProps) {
   const defaultProps: useRender.ElementProps<"button"> = {

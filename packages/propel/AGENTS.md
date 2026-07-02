@@ -170,28 +170,24 @@ the SUFFIX).** This one is error-prone — apply it literally:
 - A part _of_ a component takes the component as a **prefix**: `ButtonIcon`, `ButtonLabel`,
   `AccordionTrigger`, `MenuItem` (mirrors Base UI anatomy, 6a).
 - A standalone component is named **`<qualifier><family>`** where the **suffix = the visual family it
-  presents as** (what it _looks like_) and the **prefix = what distinguishes it** — a content trait
-  (`IconButton` = icon-only Button) or, when the element differs from the look, **the real element**.
+  presents as** (what it _looks like_) and the **prefix = a distinguishing content trait**
+  (`IconButton` = icon-only Button, `AnchorButton` = link-styled Button).
 
-Two-step decision (do them in this order):
+**The element is NOT part of the name — it is a `render` concern.** Everything interactive here is
+a Base UI `Button` graft; ONE component exists per LOOK, defaulting to `<button>`, and real
+navigation renders an `<a>` through the same API (`nativeButton={false}` +
+`render={<a href=… />}`):
 
-1. **What does it look like?** → that is the **suffix** (the family). _Never_ put the element in the suffix.
-2. **What distinguishes it** (a content trait, or its real element when that differs)? → the **prefix**.
+| Look                    | Component                             | As a nav link                         |
+| ----------------------- | ------------------------------------- | ------------------------------------- |
+| button chrome           | `Button`                              | `nativeButton={false} render={<a />}` |
+| icon-only button chrome | `IconButton`                          | same                                  |
+| inline text-link look   | `AnchorButton` (a link-styled Button) | same                                  |
 
-For element×look families it reduces to **`<element><look>`** — prefix = the element it IS, suffix =
-the look it wears; when they coincide it collapses to one word:
-
-| it IS a…                | looks like a **Button** | looks like a **link** |
-| ----------------------- | ----------------------- | --------------------- |
-| **`<button>`** (action) | `Button`                | `ButtonAnchor`        |
-| **`<a>`** (navigation)  | `AnchorButton`          | `Anchor`              |
-
-**The trap I kept falling into:** a navigation `<a>` dressed as a button is **`AnchorButton`** —
-`Anchor` (its real `<a>` element) + `Button` (the look) — **not** `ButtonAnchor`. Conversely a
-`<button>` dressed as an inline link is **`ButtonAnchor`** — `Button` (real `<button>`) + `Anchor`
-(the look). Picking the suffix from the _look_, not the element, is what makes it consistent with
-`IconButton`. A specialization has its own parts, prefixed with its full name: `AnchorButton` →
-`AnchorButtonIcon`, `AnchorButtonSpinner`.
+There is no `Anchor`, no `ButtonAnchor`, and no per-element twin family — those were collapsed
+(2026-07): the old `<a>`-element variants are the `render` form of the look-named component. A
+specialization still has its own parts, prefixed with its full name (`AnchorButtonLabel` if one
+existed).
 
 6e. **Slot parts use Base UI's suffix vocabulary — `Icon`, `Indicator`, `Group`, `Spinner`; never
 `Slot` or `Node`.** Name the part for its slot _usage_, the way Base UI does:

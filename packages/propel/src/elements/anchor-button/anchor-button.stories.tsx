@@ -1,56 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ArrowRight, LoaderCircle, Plus } from "lucide-react";
 
-import { Icon } from "../../internal/icon";
-import { Spinner } from "../../internal/spinner";
-import {
-  AnchorButton,
-  AnchorButtonLabel,
-  type AnchorButtonMagnitude,
-  type AnchorButtonProminence,
-  type AnchorButtonTone,
-} from "./index";
+import { AnchorButton, type AnchorButtonMagnitude, type AnchorButtonProminence } from "./index";
 
-const PROMINENCES: AnchorButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
+const PROMINENCES: AnchorButtonProminence[] = ["primary", "secondary"];
 const MAGNITUDES: AnchorButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
-// The prominence×tone pairings the control chrome defines a palette for (danger skips
-// tertiary/ghost).
-const PALETTES: { prominence: AnchorButtonProminence; tone: AnchorButtonTone }[] = [
-  { prominence: "primary", tone: "neutral" },
-  { prominence: "secondary", tone: "neutral" },
-  { prominence: "tertiary", tone: "neutral" },
-  { prominence: "ghost", tone: "neutral" },
-  { prominence: "primary", tone: "danger" },
-  { prominence: "secondary", tone: "danger" },
-];
-
-// elements-tier story (rule 2b): a pure UI-configuration showcase. `AnchorButton` is a
-// Base-UI-agnostic styled `<a>` wearing the shared control chrome — rendered DIRECTLY, with every
-// visual axis (`prominence`/`tone`/`magnitude`/`sizing`) shown and every visual state pinned
-// statically: hover/active/focus-visible via the pseudo-states addon, busy via the `aria-busy` the
-// chrome keys off (`aria-busy:cursor-default`). A link is never `disabled` — that palette exists
-// only on `<button>` surfaces. Behavior (href passthrough, `loading`) is demonstrated AND tested in
-// the ready-made AnchorButton (Components/AnchorButton), which lays out its icon/label slots.
+// elements-tier story (rule 2b): a pure UI-configuration showcase of the styled `<button>` wearing
+// the inline-link look, rendered directly. Its interaction states are CSS (`hover:`/
+// `focus-visible:`) plus the `disabled`/`aria-disabled` attributes Base UI's `Button` sets, so
+// `States` pins them statically (pseudo-states addon + the attributes). The Base UI `Button` graft
+// (clicks, `disabled`, keyboard) is demonstrated and tested in Components/AnchorButton. For a nav
+// `<a>` styled as a button see `AnchorButton`; for a real inline link, `Anchor`.
 const meta = {
   title: "Elements/AnchorButton",
   component: AnchorButton,
-  // The anchor-button's anatomy parts; the ready-made AnchorButton (Components/AnchorButton)
-  // composes them.
-  subcomponents: { AnchorButtonLabel },
-  args: {
-    children: "Link",
-    href: "#",
-    prominence: "primary",
-    tone: "neutral",
-    magnitude: "md",
-    sizing: "hug",
-  },
-  render: ({ children, ...props }) => (
-    <AnchorButton {...props}>
-      <AnchorButtonLabel>{children}</AnchorButtonLabel>
-    </AnchorButton>
-  ),
+  args: { children: "Show more", prominence: "primary", magnitude: "md" },
 } satisfies Meta<typeof AnchorButton>;
 
 export default meta;
@@ -58,244 +22,78 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** Every prominence (Figma "Type") side by side at the default magnitude. */
+/** `prominence`: `primary` is the blue link; `secondary` is the muted gray inline link. */
 export const Prominences: Story = {
   argTypes: { prominence: { control: false }, children: { control: false } },
-  render: ({ href, tone, magnitude, sizing }) => (
-    <div className="flex items-center gap-3">
+  render: (args) => (
+    <div className="flex items-center gap-4">
       {PROMINENCES.map((prominence) => (
-        <AnchorButton
-          key={prominence}
-          href={href}
-          prominence={prominence}
-          tone={tone}
-          magnitude={magnitude}
-          sizing={sizing}
-        >
-          <AnchorButtonLabel>{prominence}</AnchorButtonLabel>
+        <AnchorButton key={prominence} {...args} prominence={prominence}>
+          {prominence} action
         </AnchorButton>
       ))}
     </div>
   ),
 };
 
-/**
- * Tone selects the palette: `neutral` (default) or `danger` (Figma "Error"). Danger shows as a
- * solid fill and a bordered outline.
- */
-export const Tones: Story = {
-  parameters: { controls: { disable: true } },
-  render: ({ href, magnitude, sizing }) => (
-    <div className="flex items-center gap-3">
-      <AnchorButton
-        href={href}
-        tone="neutral"
-        prominence="primary"
-        magnitude={magnitude}
-        sizing={sizing}
-      >
-        <AnchorButtonLabel>Neutral</AnchorButtonLabel>
-      </AnchorButton>
-      <AnchorButton
-        href={href}
-        tone="danger"
-        prominence="primary"
-        magnitude={magnitude}
-        sizing={sizing}
-      >
-        <AnchorButtonLabel>Danger fill</AnchorButtonLabel>
-      </AnchorButton>
-      <AnchorButton
-        href={href}
-        tone="danger"
-        prominence="secondary"
-        magnitude={magnitude}
-        sizing={sizing}
-      >
-        <AnchorButtonLabel>Danger outline</AnchorButtonLabel>
-      </AnchorButton>
-    </div>
-  ),
-};
-
-/** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl). */
+/** Text sizes (Figma S/Base/L/XL map to sm/md/lg/xl). */
 export const Magnitudes: Story = {
   argTypes: { magnitude: { control: false }, children: { control: false } },
-  render: ({ href, prominence, tone, sizing }) => (
-    <div className="flex items-center gap-3">
+  render: (args) => (
+    <div className="flex items-center gap-4">
       {MAGNITUDES.map((magnitude) => (
-        <AnchorButton
-          key={magnitude}
-          href={href}
-          prominence={prominence}
-          tone={tone}
-          magnitude={magnitude}
-          sizing={sizing}
-        >
-          <AnchorButtonLabel>{magnitude}</AnchorButtonLabel>
+        <AnchorButton key={magnitude} {...args} magnitude={magnitude}>
+          {magnitude}
         </AnchorButton>
       ))}
     </div>
   ),
 };
 
-/** `sizing="fill"` fills the container (e.g. a form row or mobile CTA). */
-export const Stretch: Story = {
-  argTypes: { sizing: { control: false }, children: { control: false } },
-  render: ({ href, prominence, tone, magnitude }) => (
-    <div className="flex w-64 flex-col gap-2">
-      <AnchorButton
-        href={href}
-        prominence={prominence}
-        tone={tone}
-        magnitude={magnitude}
-        sizing="hug"
-      >
-        <AnchorButtonLabel>Auto width</AnchorButtonLabel>
-      </AnchorButton>
-      <AnchorButton
-        href={href}
-        prominence={prominence}
-        tone={tone}
-        magnitude={magnitude}
-        sizing="fill"
-      >
-        <AnchorButtonLabel>Full width</AnchorButtonLabel>
-      </AnchorButton>
-    </div>
-  ),
-};
-
 /**
- * Every visual state of every palette, pinned statically — one row per prominence×tone pairing the
- * chrome defines. Hover / active / focus-visible are CSS pseudo-classes, forced by the
- * pseudo-states addon; busy pins the `aria-busy` the ready-made AnchorButton sets while `loading`
- * (the chrome keys `aria-busy:cursor-default` off it; the label stays at full contrast — a pending
- * link is not disabled, the spinner is the cue). There is no disabled row: `<a>` has no native
- * `disabled`, so the chrome's `disabled:` palette never fires on a link.
+ * Every visual state of the link chrome, per prominence, pinned statically: hover recolors the text
+ * (forced via the pseudo-states addon), focus-visible draws the accent ring (also forced), native
+ * `disabled` — what Base UI's `Button` sets by default — and `aria-disabled="true"` — the
+ * soft-disabled state it sets under `focusableWhenDisabled` — both drop the underline and dim to
+ * the disabled text color with `cursor-not-allowed`.
  */
 export const States: Story = {
   parameters: {
     controls: { disable: true },
     pseudo: {
-      hover: PALETTES.map(({ prominence, tone }) => `#anchor-button-${prominence}-${tone}-hover`),
-      active: PALETTES.map(({ prominence, tone }) => `#anchor-button-${prominence}-${tone}-active`),
-      focusVisible: PALETTES.map(
-        ({ prominence, tone }) => `#anchor-button-${prominence}-${tone}-focus`,
-      ),
+      hover: PROMINENCES.map((prominence) => `#button-anchor-${prominence}-hover`),
+      focusVisible: PROMINENCES.map((prominence) => `#button-anchor-${prominence}-focus`),
     },
   },
-  render: ({ href, magnitude, sizing }) => (
-    <div className="flex flex-col gap-3">
-      {PALETTES.map(({ prominence, tone }) => (
-        <div key={`${prominence}-${tone}`} className="flex items-center gap-3">
-          <AnchorButton
-            href={href}
-            prominence={prominence}
-            tone={tone}
-            magnitude={magnitude}
-            sizing={sizing}
-          >
-            <AnchorButtonLabel>Default</AnchorButtonLabel>
+  render: () => (
+    <div className="flex flex-col gap-4">
+      {PROMINENCES.map((prominence) => (
+        <div key={prominence} className="flex items-center gap-4">
+          <AnchorButton prominence={prominence} magnitude="md">
+            Default
           </AnchorButton>
           <AnchorButton
-            id={`anchor-button-${prominence}-${tone}-hover`}
-            href={href}
+            id={`button-anchor-${prominence}-hover`}
             prominence={prominence}
-            tone={tone}
-            magnitude={magnitude}
-            sizing={sizing}
+            magnitude="md"
           >
-            <AnchorButtonLabel>Hover</AnchorButtonLabel>
+            Hover
           </AnchorButton>
           <AnchorButton
-            id={`anchor-button-${prominence}-${tone}-active`}
-            href={href}
+            id={`button-anchor-${prominence}-focus`}
             prominence={prominence}
-            tone={tone}
-            magnitude={magnitude}
-            sizing={sizing}
+            magnitude="md"
           >
-            <AnchorButtonLabel>Active</AnchorButtonLabel>
+            Focus visible
           </AnchorButton>
-          <AnchorButton
-            id={`anchor-button-${prominence}-${tone}-focus`}
-            href={href}
-            prominence={prominence}
-            tone={tone}
-            magnitude={magnitude}
-            sizing={sizing}
-          >
-            <AnchorButtonLabel>Focus</AnchorButtonLabel>
+          <AnchorButton prominence={prominence} magnitude="md" disabled>
+            Disabled
           </AnchorButton>
-          <AnchorButton
-            href={href}
-            prominence={prominence}
-            tone={tone}
-            magnitude={magnitude}
-            sizing={sizing}
-            aria-busy
-          >
-            <Spinner>
-              <LoaderCircle />
-            </Spinner>
-            <AnchorButtonLabel>Busy</AnchorButtonLabel>
+          <AnchorButton prominence={prominence} magnitude="md" aria-disabled="true">
+            Soft-disabled
           </AnchorButton>
         </div>
       ))}
-    </div>
-  ),
-};
-
-/**
- * Composed by hand from named parts: the internal `Icon` sizes a decorative node to `--node-size`,
- * `AnchorButtonLabel` holds the text, and the internal `Spinner` is the pending-navigation cue. The
- * busy link pins `aria-busy` statically — the attribute the chrome keys off
- * (`aria-busy:cursor-default`); a link is never disabled, the spinner is the pending cue. The
- * ready-made AnchorButton (Components/AnchorButton) lays these out for you.
- */
-export const Anatomy: Story = {
-  args: { children: undefined },
-  argTypes: { children: { control: false } },
-  render: ({ href, prominence, tone, magnitude, sizing }) => (
-    <div className="flex items-center gap-3">
-      <AnchorButton
-        href={href}
-        prominence={prominence}
-        tone={tone}
-        magnitude={magnitude}
-        sizing={sizing}
-      >
-        <Icon>
-          <Plus />
-        </Icon>
-        <AnchorButtonLabel>With icon</AnchorButtonLabel>
-      </AnchorButton>
-      <AnchorButton
-        href={href}
-        prominence="secondary"
-        tone={tone}
-        magnitude={magnitude}
-        sizing={sizing}
-      >
-        <AnchorButtonLabel>Learn more</AnchorButtonLabel>
-        <Icon>
-          <ArrowRight />
-        </Icon>
-      </AnchorButton>
-      <AnchorButton
-        href={href}
-        prominence={prominence}
-        tone={tone}
-        magnitude={magnitude}
-        sizing={sizing}
-        aria-busy
-      >
-        <Spinner>
-          <LoaderCircle />
-        </Spinner>
-        <AnchorButtonLabel>Loading</AnchorButtonLabel>
-      </AnchorButton>
     </div>
   ),
 };
