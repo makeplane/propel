@@ -6,3 +6,4 @@ export * from "./toolbar-menu-trigger-label";
 export * from "./toolbar-group";
 export * from "./toolbar-separator";
 export * from "./toolbar-toggle-group";
+export * from "./toolbar-input";

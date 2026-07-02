@@ -1,5 +1,6 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { surfaceVariants } from "../../internal/surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
@@ -88,3 +89,23 @@ export type ToolbarItemVariantProps = StrictVariantProps<typeof toolbarItemVaria
 export type ToolbarMenuTriggerButtonVariantProps = StrictVariantProps<
   typeof toolbarMenuTriggerButtonVariants
 >;
+
+// An inline text input sitting among toolbar items (e.g. a filter box): a miniature field —
+// the shared control surface at `self` focus — whose height tracks the toolbar's density like
+// every other item. Invented pending a Figma spec; flagged for design polish.
+export const toolbarInputVariants = cva(
+  cx(
+    fieldControlSurfaceVariants({ focus: "self" }),
+    "rounded-md px-2 text-13 text-primary outline-none placeholder:text-placeholder",
+    "disabled:cursor-not-allowed disabled:text-disabled",
+  ),
+  {
+    variants: {
+      density: {
+        compact: "h-6",
+        comfortable: "h-7",
+      },
+    },
+  },
+);
+export type ToolbarInputVariantProps = StrictVariantProps<typeof toolbarInputVariants>;
