@@ -4,6 +4,7 @@ export * from "./alert-dialog-content";
 export * from "./alert-dialog-description";
 export * from "./alert-dialog-title";
 export * from "./alert-dialog-trigger";
+export * from "./create-handle";
 // Re-export propel's STYLED alert-dialog parts so a full alert dialog can be assembled from one
 // entry. The Popup/Viewport boilerplate is composed by `AlertDialogContent`, and the styled
 // `elements` Close is shadowed by this family's behavior `AlertDialogClose`, so those parts are

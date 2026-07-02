@@ -9,6 +9,7 @@ export * from "./drawer-backdrop";
 export * from "./drawer-title";
 export * from "./drawer-description";
 export * from "./drawer-panel";
+export * from "./create-handle";
 // Re-export the styled `elements` parts so a full drawer can be assembled from one entry. The
 // behavior-only roles need no Base UI at the call site: `DrawerTrigger`/`DrawerClose` above are
 // the passthroughs, and `DrawerPanel` composes the `Portal`. The styled bare close control stays

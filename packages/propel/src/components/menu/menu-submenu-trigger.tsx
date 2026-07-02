@@ -12,10 +12,7 @@ import {
 import { DisclosureIndicator } from "../../internal/disclosure-indicator";
 import { Icon } from "../../internal/icon";
 
-export type MenuSubmenuTriggerProps = Omit<
-  BaseMenu.SubmenuTrigger.Props,
-  "className" | "style" | "label"
-> & {
+export type MenuSubmenuTriggerProps = Omit<BaseMenu.SubmenuTrigger.Props, "className" | "style"> & {
   /** Leading content before the label. */
   icon?: React.ReactNode;
   /** Trailing content before the chevron. */
