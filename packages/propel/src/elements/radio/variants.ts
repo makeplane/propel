@@ -1,5 +1,6 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { optionGroupVariants } from "../../internal/option-group";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const radioVariants = cva(
@@ -16,14 +17,7 @@ export const radioVariants = cva(
 // (Base UI mounts the Indicator when checked).
 export const radioIndicatorVariants = cva("size-2 rounded-full bg-current");
 
-export const radioGroupVariants = cva("flex flex-col", {
-  variants: {
-    density: {
-      comfortable: "gap-2",
-      compact: "gap-0",
-    },
-  },
-});
+export const radioGroupVariants = optionGroupVariants;
 
 export type RadioGroupDensity = NonNullable<VariantProps<typeof radioGroupVariants>["density"]>;
 

@@ -45,3 +45,6 @@ export const controlMagnitude = {
   lg: "min-h-9 text-14 [--node-size:1rem]",
   xl: "min-h-11 text-16 [--node-size:1.25rem]",
 } as const;
+
+/** The visible label beside/above a bordered control — one type treatment for every picker. */
+export const controlLabelClass = "text-14 font-medium text-primary";

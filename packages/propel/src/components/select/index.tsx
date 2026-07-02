@@ -4,6 +4,8 @@ export * from "./select-item";
 export * from "./select-label";
 export * from "./select-list";
 export * from "./select-trigger";
+export * from "./select-group";
+export * from "./select-group-label";
 // Re-export propel's STYLED select parts that stay styling-only, so a full select can be assembled
 // from one entry. The ready-mades above graft Base UI's `Trigger`/`Value`/`Label`/`List`/`Item`
 // behavior onto the styled parts, so consumers never compose `@base-ui/react/select` directly. The

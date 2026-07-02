@@ -2,6 +2,8 @@ import { cva, cx } from "class-variance-authority";
 
 import { checkboxBoxVariants } from "../../internal/checkbox-box";
 import { itemIndicatorClass } from "../../internal/item-indicator";
+import { groupLabelClass } from "../../internal/listbox-group-label";
+import { menuSeparatorClass, rowMetaClass } from "../../internal/menu-row-parts";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { popupSurfaceClass } from "../../internal/popup-surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
@@ -90,7 +92,7 @@ export const menuItemDescriptionVariants = cva(
 );
 
 /** Trailing muted metadata shown after the title column (e.g. a keyboard shortcut). */
-export const menuItemMetaVariants = cva("shrink-0 text-12 text-tertiary");
+export const menuItemMetaVariants = cva(rowMetaClass);
 
 /** A trailing slot for arbitrary content. Sizes an icon child to `--node-size`; adds no tint. */
 export const menuItemTrailingVariants = cva(nodeSlotClass);
@@ -120,10 +122,10 @@ export const menuCheckboxItemIndicatorVariants = cva(
 );
 
 /** Separator: a thin divider spanning the popup padding. */
-export const menuSeparatorVariants = cva("-mx-1 my-1 border-t border-subtle");
+export const menuSeparatorVariants = cva(menuSeparatorClass);
 
 /** GroupLabel: a non-interactive section heading. */
-export const menuGroupLabelVariants = cva("px-2 py-1 text-12 font-medium text-tertiary");
+export const menuGroupLabelVariants = cva(groupLabelClass);
 
 /**
  * Label: a non-interactive section heading row that can carry inline-end metadata. Lays out a

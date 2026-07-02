@@ -1,6 +1,12 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import {
+  modalViewportClass,
+  overlayActionsClass,
+  overlayHeadingClass,
+} from "../../internal/overlay-frame";
+import { overlayCloseClass } from "../../internal/overlay-frame";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // AlertDialog is a structural overlay primitive. It is always modal and
@@ -12,9 +18,7 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 // backdrop, title, and description reuse the shared `internal/` overlay primitives
 // (grafted in `components`), so they carry no per-family cva here.
 
-export const alertDialogViewportVariants = cva(
-  "fixed inset-0 z-50 flex items-center justify-center p-4",
-);
+export const alertDialogViewportVariants = cva(modalViewportClass);
 
 export const alertDialogPopupVariants = cva(
   cx(
@@ -52,19 +56,13 @@ export const alertDialogIconVariants = cva(cx(nodeSlotClass, "mt-0.5 [--node-siz
 // Intro: groups the title and description with consistent vertical spacing.
 // Always the same per spec (spacing between title and description). `min-w-0` lets
 // long copy wrap instead of pushing the icon out of the header row.
-export const alertDialogIntroVariants = cva("flex min-w-0 flex-col gap-2");
+export const alertDialogIntroVariants = cva(overlayHeadingClass);
 
 // Actions: right-aligns action buttons with consistent horizontal spacing.
 // Always the same per spec (action button placement, right-aligned in footer).
-export const alertDialogActionsVariants = cva("flex justify-end gap-2");
+export const alertDialogActionsVariants = cva(overlayActionsClass);
 
-export const alertDialogCloseVariants = cva(
-  cx(
-    "inline-flex items-center justify-center rounded-md text-icon-secondary outline-none",
-    "hover:bg-layer-transparent-hover",
-    "focus-visible:ring-2 focus-visible:ring-accent-strong",
-  ),
-);
+export const alertDialogCloseVariants = cva(overlayCloseClass);
 
 export type AlertDialogIconTone = NonNullable<VariantProps<typeof alertDialogIconVariants>["tone"]>;
 export type AlertDialogIconVariantProps = StrictVariantProps<typeof alertDialogIconVariants>;

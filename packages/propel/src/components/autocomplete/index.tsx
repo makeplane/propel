@@ -4,6 +4,11 @@ export * from "./autocomplete-empty";
 export * from "./autocomplete-input-group";
 export * from "./autocomplete-item";
 export * from "./autocomplete-list";
+export * from "./autocomplete-collection";
+export * from "./autocomplete-group";
+export * from "./autocomplete-group-label";
+export * from "./autocomplete-row";
+export * from "./autocomplete-status";
 // Re-export the STYLED `elements` parts the ready-mades above do NOT replace, so a custom input
 // row can still be assembled from one entry. Cross-tier re-exports stay explicit — never
 // `export *` — because the ready-made `AutocompleteInputGroup` and `AutocompleteEmpty` replace
@@ -15,3 +20,4 @@ export {
   type AutocompleteInputProps,
   type AutocompleteMagnitude,
 } from "../../elements/autocomplete";
+export * from "./use-filter";

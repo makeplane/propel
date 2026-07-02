@@ -1,12 +1,14 @@
 import { cva, cx } from "class-variance-authority";
 
 import { controlGroupClass, controlMagnitude } from "../../internal/control-group";
+import { controlLabelClass } from "../../internal/control-group";
 import { controlInputClass } from "../../internal/control-input";
 import { itemIndicatorClass } from "../../internal/item-indicator";
+import { listboxEmptyClass } from "../../internal/listbox-empty";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
-export const comboboxLabelVariants = cva("text-14 font-medium text-primary");
+export const comboboxLabelVariants = cva(controlLabelClass);
 export const comboboxInputGroupVariants = cva(
   cx(
     // Wraps a separate focusable input → the shared `focus: within` group chrome.
@@ -26,10 +28,7 @@ export const comboboxInputGroupVariants = cva(
 );
 export const comboboxInputVariants = cva(cx(controlInputClass, "flex-1"));
 export const comboboxItemIndicatorVariants = cva(cx(itemIndicatorClass, "size-4"));
-// Base UI keeps the Empty element mounted as an aria-live region and renders children only when
-// the filtered list is empty — so the box may only take up space when it has content
-// (:not(:empty)), or every popup shows a dead padded strip.
-export const comboboxEmptyVariants = cva("text-13 text-tertiary not-empty:px-2 not-empty:py-1.5");
+export const comboboxEmptyVariants = cva(listboxEmptyClass);
 
 // The multiselect variant of the input frame: chips wrap onto new rows ahead of the inline input.
 // Tighter padding than `ComboboxInputGroup` so the h-6 chips sit inset like text would.

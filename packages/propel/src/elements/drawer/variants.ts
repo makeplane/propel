@@ -1,5 +1,6 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { overlayActionsClass, overlayCloseClass } from "../../internal/overlay-frame";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Drawer styles its edge-anchored parts here, one place, with no `className` at
@@ -62,12 +63,6 @@ export const drawerBodyVariants = cva(
 );
 
 // The drawer's footer actions region (Figma "footer"). Actions sit at the inline-end.
-export const drawerFooterVariants = cva("flex items-center justify-end gap-2");
+export const drawerFooterVariants = cva(cx(overlayActionsClass, "items-center"));
 
-export const drawerCloseVariants = cva(
-  cx(
-    "inline-flex items-center justify-center rounded-md text-icon-secondary outline-none",
-    "hover:bg-layer-transparent-hover",
-    "focus-visible:ring-2 focus-visible:ring-accent-strong",
-  ),
-);
+export const drawerCloseVariants = cva(overlayCloseClass);

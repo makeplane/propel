@@ -1,5 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
+import { controlLabelClass } from "../../internal/control-group";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // The root only stacks the (optional) header row over the control; the label/value layout
@@ -45,7 +46,7 @@ export const sliderThumbVariants = cva(
   },
 );
 
-export const sliderLabelVariants = cva("text-14 font-medium text-primary");
+export const sliderLabelVariants = cva(controlLabelClass);
 
 export type SliderMagnitude = NonNullable<VariantProps<typeof sliderControlVariants>["magnitude"]>;
 export type SliderControlVariantProps = StrictVariantProps<typeof sliderControlVariants>;

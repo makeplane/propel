@@ -2,6 +2,7 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { controlGroupClass, controlMagnitude } from "../../internal/control-group";
 import { controlInputClass } from "../../internal/control-input";
+import { listboxEmptyClass } from "../../internal/listbox-empty";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const autocompleteInputGroupVariants = cva(
@@ -36,9 +37,4 @@ export const autocompleteInputVariants = cva(cx(controlInputClass, "flex-1"), {
   },
 });
 export type AutocompleteInputVariantProps = StrictVariantProps<typeof autocompleteInputVariants>;
-// Base UI keeps the Empty element mounted as an aria-live region and renders children only when
-// the filtered list is empty — so the box may only take up space when it has content
-// (:not(:empty)), or every popup shows a dead padded strip.
-export const autocompleteEmptyVariants = cva(
-  "text-13 text-tertiary not-empty:px-2 not-empty:py-1.5",
-);
+export const autocompleteEmptyVariants = cva(listboxEmptyClass);
