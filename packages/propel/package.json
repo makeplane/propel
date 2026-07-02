@@ -55,7 +55,7 @@
     "provenance": true
   },
   "scripts": {
-    "build": "vp pack || vp pack",
+    "build": "node ./scripts/pack-retry.mjs",
     "check": "vp check",
     "dev": "vp pack --watch",
     "prepublishOnly": "vp run build",
