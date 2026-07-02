@@ -76,7 +76,7 @@ export function ComboboxField({
             <BaseCombobox.Popup render={<ListboxPopup />}>
               <BaseCombobox.Empty render={<ComboboxEmpty />}>{empty}</BaseCombobox.Empty>
               <BaseCombobox.List>
-                {items.map((item) => (
+                {(item: string) => (
                   <BaseCombobox.Item
                     key={item}
                     value={item}
@@ -85,7 +85,7 @@ export function ComboboxField({
                     <ComboboxItemIndicator />
                     {item}
                   </BaseCombobox.Item>
-                ))}
+                )}
               </BaseCombobox.List>
             </BaseCombobox.Popup>
           </BaseCombobox.Positioner>

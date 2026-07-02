@@ -75,7 +75,7 @@ export const Default: Story = {
             <BaseCombobox.Popup render={<ListboxPopup />}>
               <BaseCombobox.Empty render={<ComboboxEmpty />}>No matches</BaseCombobox.Empty>
               <BaseCombobox.List>
-                {REGIONS.map((region) => (
+                {(region: string) => (
                   <BaseCombobox.Item
                     key={region}
                     value={region}
@@ -86,7 +86,7 @@ export const Default: Story = {
                     </BaseCombobox.ItemIndicator>
                     <span>{region}</span>
                   </BaseCombobox.Item>
-                ))}
+                )}
               </BaseCombobox.List>
             </BaseCombobox.Popup>
           </BaseCombobox.Positioner>
@@ -176,7 +176,7 @@ export const Multiple: Story = {
             <BaseCombobox.Popup render={<ListboxPopup />}>
               <BaseCombobox.Empty render={<ComboboxEmpty />}>No matches</BaseCombobox.Empty>
               <BaseCombobox.List>
-                {REGIONS.map((region) => (
+                {(region: string) => (
                   <BaseCombobox.Item
                     key={region}
                     value={region}
@@ -187,7 +187,7 @@ export const Multiple: Story = {
                     </BaseCombobox.ItemIndicator>
                     <span>{region}</span>
                   </BaseCombobox.Item>
-                ))}
+                )}
               </BaseCombobox.List>
             </BaseCombobox.Popup>
           </BaseCombobox.Positioner>

@@ -68,11 +68,11 @@ export const Default: Story = {
         <ComboboxContent>
           <ComboboxEmpty>No matches</ComboboxEmpty>
           <ComboboxList>
-            {REGIONS.map((region) => (
+            {(region: string) => (
               <ComboboxItem key={region} value={region} magnitude="md">
                 {region}
               </ComboboxItem>
-            ))}
+            )}
           </ComboboxList>
         </ComboboxContent>
         <FieldError magnitude="md" />
@@ -90,7 +90,9 @@ export const DefaultInteraction: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     await userEvent.type(canvas.getByRole("combobox", { name: "Region" }), "eu");
+    // Base UI filters the list to the query: matches stay, everything else drops out.
     await expect(within(document.body).getByText("eu-central-1")).toBeInTheDocument();
+    await expect(within(document.body).queryByText("us-east-1")).not.toBeInTheDocument();
   },
 };
 
@@ -115,11 +117,11 @@ export const Multiple: Story = {
         <ComboboxContent>
           <ComboboxEmpty>No matches</ComboboxEmpty>
           <ComboboxList>
-            {REGIONS.map((region) => (
+            {(region: string) => (
               <ComboboxItem key={region} value={region} magnitude="md">
                 {region}
               </ComboboxItem>
-            ))}
+            )}
           </ComboboxList>
         </ComboboxContent>
       </Combobox>

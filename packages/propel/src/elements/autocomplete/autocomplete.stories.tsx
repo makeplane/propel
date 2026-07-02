@@ -71,7 +71,7 @@ export const Default: Story = {
                 No matches
               </BaseAutocomplete.Empty>
               <BaseAutocomplete.List>
-                {IMAGES.map((image) => (
+                {(image: string) => (
                   <BaseAutocomplete.Item
                     key={image}
                     value={image}
@@ -79,7 +79,7 @@ export const Default: Story = {
                   >
                     {image}
                   </BaseAutocomplete.Item>
-                ))}
+                )}
               </BaseAutocomplete.List>
             </BaseAutocomplete.Popup>
           </BaseAutocomplete.Positioner>
