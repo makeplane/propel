@@ -1,13 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import * as React from "react";
 import { expect } from "storybook/test";
 
-import { Switch, type SwitchMagnitude } from "./index";
+import { Button } from "../button/index";
+import { Form, FormActions, FormBody } from "../form/index";
+import { SwitchField } from "../switch-field/index";
+import { Switch, type SwitchMagnitude, SwitchThumb, SwitchTrack } from "./index";
 
 const MAGNITUDES: SwitchMagnitude[] = ["lg", "md", "sm"];
 
 const meta = {
   title: "Components/Switch",
   component: Switch,
+  // The ready-made Switch composes the styled SwitchTrack + SwitchThumb; SwitchField is the
+  // field-row composition (adds their tabs to the args table + records the relationships in the
+  // manifest).
+  subcomponents: { SwitchField, SwitchThumb, SwitchTrack },
   parameters: {
     design: {
       type: "figma",
@@ -103,5 +111,140 @@ export const DisabledDoesNotToggle: Story = {
     await expect(sw).toHaveAttribute("aria-checked", "false");
     await userEvent.click(sw);
     await expect(sw).toHaveAttribute("aria-checked", "false");
+  },
+};
+
+/**
+ * The simplest labeling approach: the switch renders as a `<span>` by default, so an enclosing
+ * `<label>` stays valid HTML — the label names the switch and clicking its text toggles it. For a
+ * full field row with description and helper text, use `SwitchField`.
+ */
+export const Labeled: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <label className="inline-flex cursor-pointer items-center gap-2 text-13 text-secondary">
+      <Switch magnitude="md" defaultChecked={false} />
+      Notifications
+    </label>
+  ),
+};
+
+/**
+ * Interaction test: the wrapping `<label>` names the switch and clicking the label toggles it, like
+ * any labelled native control. Tagged out of the sidebar/docs/manifest while still running under
+ * the default `test` tag.
+ */
+export const LabeledInteraction: Story = {
+  ...Labeled,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    // The wrapping label names the switch.
+    const sw = canvas.getByRole("switch", { name: "Notifications" });
+    await expect(sw).toHaveAttribute("aria-checked", "false");
+
+    // Clicking the label toggles it.
+    await userEvent.click(canvas.getByText("Notifications"));
+    await expect(sw).toHaveAttribute("aria-checked", "true");
+  },
+};
+
+/**
+ * When the label is a sibling wired up with `htmlFor`/`id` instead of a wrapper, render the track
+ * as a real `<button>`: pass `nativeButton` and graft the styled `SwitchTrack` onto a `<button>`
+ * via `render`. The look is unchanged, and clicking the sibling label still toggles the switch.
+ */
+export const NativeButton: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex items-center gap-2">
+      <Switch
+        magnitude="md"
+        defaultChecked
+        id="notifications-switch"
+        nativeButton
+        render={<SwitchTrack magnitude="md" render={<button type="button" />} />}
+      />
+      <label htmlFor="notifications-switch" className="text-13 text-secondary">
+        Notifications
+      </label>
+    </div>
+  ),
+};
+
+/**
+ * Interaction test: the native-button pattern keeps the switch semantics — the track IS a
+ * `<button>` with `role="switch"`, the sibling `htmlFor` label names it, and clicking the label
+ * toggles it. Tagged out of the sidebar/docs/manifest while still running under the default `test`
+ * tag.
+ */
+export const NativeButtonInteraction: Story = {
+  ...NativeButton,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const sw = canvas.getByRole("switch", { name: "Notifications" });
+
+    // A real <button>, named by its sibling label.
+    await expect(sw.tagName).toBe("BUTTON");
+    await expect(sw).toHaveAttribute("aria-checked", "true");
+
+    // Clicking the sibling label toggles it, like any labelled native button.
+    await userEvent.click(canvas.getByText("Notifications"));
+    await expect(sw).toHaveAttribute("aria-checked", "false");
+  },
+};
+
+/**
+ * Form integration: `SwitchField` already owns the `Field` name and label association, so inside a
+ * `Form` the switch's checked state serializes with the submission — `onFormSubmit` receives it
+ * under the field's `name`, with no extra wiring on the switch. Submit to see the captured value.
+ */
+export const FormIntegration: Story = {
+  parameters: { controls: { disable: true } },
+  render: function Render() {
+    const [submitted, setSubmitted] = React.useState<{ restartOnFailure: boolean } | null>(null);
+    return (
+      <div className="flex w-80 flex-col gap-3">
+        <Form<{ restartOnFailure: boolean }> onFormSubmit={(values) => setSubmitted(values)}>
+          <FormBody layout="single">
+            <SwitchField
+              name="restartOnFailure"
+              label="Restart on failure"
+              magnitude="md"
+              defaultChecked
+            />
+          </FormBody>
+          <FormActions layout="inline">
+            <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
+              Save
+            </Button>
+          </FormActions>
+        </Form>
+        <output className="text-13 text-secondary">
+          {submitted ? `Restart on failure: ${submitted.restartOnFailure ? "on" : "off"}` : null}
+        </output>
+      </div>
+    );
+  },
+};
+
+/**
+ * Interaction test: the `Field` name serializes the switch's checked state into `Form`'s
+ * `onFormSubmit` — the default state first, then the flipped state after toggling and resubmitting.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const FormIntegrationInteraction: Story = {
+  ...FormIntegration,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const save = canvas.getByRole("button", { name: "Save" });
+
+    // Submitting with the default state serializes the checked switch.
+    await userEvent.click(save);
+    await expect(canvas.getByText("Restart on failure: on")).toBeInTheDocument();
+
+    // Toggling off and resubmitting serializes the new state.
+    await userEvent.click(canvas.getByRole("switch", { name: "Restart on failure" }));
+    await userEvent.click(save);
+    await expect(canvas.getByText("Restart on failure: off")).toBeInTheDocument();
   },
 };

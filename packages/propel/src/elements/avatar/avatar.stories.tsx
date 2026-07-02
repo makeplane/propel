@@ -1,7 +1,8 @@
 import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { User } from "lucide-react";
-import { expect } from "storybook/test";
+import * as React from "react";
+import { expect, waitFor } from "storybook/test";
 
 import {
   Avatar,
@@ -88,6 +89,57 @@ export const States: Story = {
       </BaseAvatar.Root>
     </div>
   ),
+};
+
+// An inline-SVG "photo" so the delayed-fallback demo loads deterministically with no network.
+const PHOTO_SRC = `data:image/svg+xml,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#7dd3fc"/><circle cx="44" cy="18" r="8" fill="#fde047"/><path d="M0 64 24 34l14 16 10-10 16 24Z" fill="#16a34a"/></svg>',
+)}`;
+
+/**
+ * Base UI's `Fallback` takes a `delay` (here 300ms) so initials never flash on fast connections:
+ * nothing renders during the delay, the initials appear only while the image is still missing past
+ * it, and the photo takes over once it loads (the slow connection is simulated at 900ms).
+ */
+export const DelayedFallback: Story = {
+  render: () => {
+    function SlowImageExample() {
+      const [src, setSrc] = React.useState<string>();
+      React.useEffect(() => {
+        const timer = window.setTimeout(() => setSrc(PHOTO_SRC), 900);
+        return () => window.clearTimeout(timer);
+      }, []);
+      return (
+        <BaseAvatar.Root render={<Avatar magnitude="lg" />} role="img" aria-label="Ada Lovelace">
+          {src ? <BaseAvatar.Image render={<AvatarImage />} src={src} alt="" /> : null}
+          <BaseAvatar.Fallback render={<AvatarFallback tone="orange" />} delay={300}>
+            AL
+          </BaseAvatar.Fallback>
+        </BaseAvatar.Root>
+      );
+    }
+    return <SlowImageExample />;
+  },
+};
+
+/**
+ * Interaction twin for `DelayedFallback`: no initials inside the delay window, initials once the
+ * delay elapses with the image still missing, and the loaded photo replaces them. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DelayedFallbackInteraction: Story = {
+  ...DelayedFallback,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, canvasElement }) => {
+    // Inside the 300ms delay window the fallback must not render — no initials flash.
+    await expect(canvas.queryByText("AL")).not.toBeInTheDocument();
+    // Past the delay, with the image still missing, the initials appear…
+    await waitFor(() => expect(canvas.getByText("AL")).toBeInTheDocument());
+    // …until the photo loads (simulated at 900ms) and replaces them. The `<img>` is decorative
+    // (`alt=""`, the root owns the accessible name), so query the element directly.
+    await waitFor(() => expect(canvasElement.querySelector("img")).toBeInTheDocument());
+    await expect(canvas.queryByText("AL")).not.toBeInTheDocument();
+  },
 };
 
 /**

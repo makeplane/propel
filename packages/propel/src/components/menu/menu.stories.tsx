@@ -25,6 +25,7 @@ import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Avatar } from "../avatar/index";
 import { Badge } from "../badge/index";
 import {
+  createMenuHandle,
   Menu,
   MenuCheckboxItem,
   MenuContent,
@@ -38,6 +39,7 @@ import {
   MenuSubmenuContent,
   MenuSubmenuTrigger,
   MenuTrigger,
+  MenuViewport,
 } from "./index";
 
 const meta = {
@@ -65,6 +67,7 @@ const meta = {
     MenuSubmenu,
     MenuSubmenuTrigger,
     MenuSubmenuContent,
+    MenuViewport,
   },
 } satisfies Meta<typeof Menu>;
 
@@ -1030,6 +1033,311 @@ export const SubmenuInteraction: Story = {
         expect(document.body.querySelectorAll('[role="menu"]').length).toBeGreaterThan(1),
       );
       await waitFor(() => expect(findItem("menuitem", "Urgent")).toBeDefined());
+    });
+  },
+};
+
+/**
+ * **OpenOnHover**. The trigger's `openOnHover` prop (with an optional hover `delay`) opens the menu
+ * from pointer hover as well as click/keyboard — for browse-style menus such as a quick-add.
+ */
+export const OpenOnHover: Story = {
+  parameters: {
+    a11y: {
+      // While the hover-opened popup is up, axe flags Base UI's focus guards (aria-hidden spans
+      // with tabindex=0 — floating-ui's standard focus-trap sentinels) as aria-hidden-focus
+      // violations. Intentional library markup, so suppress just this rule (same precedent as
+      // the menubar's aria-required-children suppression).
+      config: { rules: [{ id: "aria-hidden-focus", enabled: false }] },
+    },
+  },
+  render: () => (
+    <Menu>
+      <MenuTrigger
+        openOnHover
+        delay={100}
+        render={<button type="button" className={triggerClass} />}
+      >
+        Quick add
+      </MenuTrigger>
+      <MenuContent sizing="sm">
+        <MenuItem>Work item</MenuItem>
+        <MenuItem>Page</MenuItem>
+        <MenuItem>Cycle</MenuItem>
+        <MenuItem>Module</MenuItem>
+      </MenuContent>
+    </Menu>
+  ),
+};
+
+export const OpenOnHoverInteraction: Story = {
+  ...OpenOnHover,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    await step("hovering the trigger opens the menu", async () => {
+      await userEvent.hover(canvas.getByRole("button", { name: "Quick add" }));
+      await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
+      await waitFor(() => expect(findItem("menuitem", "Page")).toBeDefined());
+    });
+  },
+};
+
+/**
+ * **GroupLabels**. `MenuGroup` + `MenuLabel` title related items as non-interactive section
+ * headings (each group is labelled by its heading for assistive tech); a `MenuSeparator` divides
+ * the sections.
+ */
+export const GroupLabels: Story = {
+  render: function Render() {
+    const [sort, setSort] = React.useState("date");
+    const [workspace, setWorkspace] = React.useState<Record<string, boolean>>({ sidebar: true });
+    const sorts = [
+      { key: "date", label: "Date created" },
+      { key: "name", label: "Name" },
+      { key: "type", label: "Type" },
+    ];
+    const panels = [
+      { key: "minimap", label: "Minimap" },
+      { key: "search", label: "Search" },
+      { key: "sidebar", label: "Sidebar" },
+    ];
+    return (
+      <Menu>
+        <MenuTrigger render={<button type="button" className={triggerClass} />}>View</MenuTrigger>
+        <MenuContent sizing="sm">
+          <MenuGroup>
+            <MenuLabel>Sort</MenuLabel>
+            {sorts.map((s) => (
+              <MenuItem
+                key={s.key}
+                selected={sort === s.key}
+                closeOnClick={false}
+                onClick={() => setSort(s.key)}
+              >
+                {s.label}
+              </MenuItem>
+            ))}
+          </MenuGroup>
+          <MenuSeparator />
+          <MenuGroup>
+            <MenuLabel>Workspace</MenuLabel>
+            {panels.map((p) => (
+              <MenuCheckboxItem
+                key={p.key}
+                checked={Boolean(workspace[p.key])}
+                onCheckedChange={(next) => setWorkspace((w) => ({ ...w, [p.key]: next }))}
+              >
+                {p.label}
+              </MenuCheckboxItem>
+            ))}
+          </MenuGroup>
+        </MenuContent>
+      </Menu>
+    );
+  },
+};
+
+export const GroupLabelsInteraction: Story = {
+  ...GroupLabels,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    await step("each group is labelled by its heading", async () => {
+      await openMenu(canvas, "View");
+      const groups = await waitFor(() => {
+        const found = Array.from(document.body.querySelectorAll('[role="group"]'));
+        if (found.length < 2) throw new Error("groups not mounted yet");
+        return found;
+      });
+      const headings = groups.map((group) => {
+        const labelId = group.getAttribute("aria-labelledby");
+        return labelId != null ? document.getElementById(labelId)?.textContent : null;
+      });
+      await expect(headings).toContain("Sort");
+      await expect(headings).toContain("Workspace");
+    });
+  },
+};
+
+// A handle created outside the React tree links a detached `MenuTrigger` to its `Menu` — the
+// trigger can live anywhere in the DOM, no shared ancestor required.
+const workItemActionsHandle = createMenuHandle();
+
+/**
+ * **DetachedTrigger**. `createMenuHandle` detaches the trigger from the menu tree: pass the same
+ * handle to a `MenuTrigger` and to a `Menu` declared elsewhere, and the trigger drives it as if
+ * they were nested.
+ */
+export const DetachedTrigger: Story = {
+  render: () => (
+    <>
+      <MenuTrigger
+        handle={workItemActionsHandle}
+        render={<button type="button" className={triggerClass} />}
+      >
+        Work item actions
+      </MenuTrigger>
+      <Menu handle={workItemActionsHandle}>
+        <MenuContent sizing="sm">
+          <MenuItem icon={<Pencil />}>Edit</MenuItem>
+          <MenuItem icon={<Copy />}>Make a copy</MenuItem>
+          <MenuSeparator />
+          <MenuItem icon={<Trash2 className="text-danger-primary" />}>
+            {<span className="text-danger-primary">Delete</span>}
+          </MenuItem>
+        </MenuContent>
+      </Menu>
+    </>
+  ),
+};
+
+export const DetachedTriggerInteraction: Story = {
+  ...DetachedTrigger,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    await step("the detached trigger opens the handle's menu", async () => {
+      await openMenu(canvas, "Work item actions");
+      await waitFor(() => expect(findItem("menuitem", "Edit")).toBeDefined());
+    });
+    await step("Escape closes it again", async () => {
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(document.body.querySelector('[role="menu"]')).not.toBeInTheDocument(),
+      );
+    });
+  },
+};
+
+// One shared handle: several triggers open the same menu surface, each passing its own typed
+// payload; the `Menu`'s function-children receive the active trigger's payload.
+const commandMenuHandle = createMenuHandle<ReadonlyArray<string>>();
+
+const COMMAND_SECTIONS = {
+  file: ["New work item", "New page", "Import"],
+  edit: ["Undo", "Redo", "Duplicate"],
+} as const;
+
+/**
+ * **MultipleTriggers**. Several `MenuTrigger`s share one `Menu` through a typed handle; each
+ * trigger passes a `payload`, and the menu's function-children render whichever trigger opened it.
+ * `MenuViewport` lets the popup morph its size when the payload swaps while open.
+ */
+export const MultipleTriggers: Story = {
+  render: () => (
+    <div className="flex items-center gap-2">
+      <MenuTrigger
+        handle={commandMenuHandle}
+        payload={COMMAND_SECTIONS.file}
+        render={<button type="button" className={triggerClass} />}
+      >
+        File
+      </MenuTrigger>
+      <MenuTrigger
+        handle={commandMenuHandle}
+        payload={COMMAND_SECTIONS.edit}
+        render={<button type="button" className={triggerClass} />}
+      >
+        Edit
+      </MenuTrigger>
+      <Menu handle={commandMenuHandle}>
+        {({ payload }) => (
+          <MenuContent sizing="sm">
+            <MenuViewport>
+              {(payload ?? []).map((command) => (
+                <MenuItem key={command}>{command}</MenuItem>
+              ))}
+            </MenuViewport>
+          </MenuContent>
+        )}
+      </Menu>
+    </div>
+  ),
+};
+
+export const MultipleTriggersInteraction: Story = {
+  ...MultipleTriggers,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    await step("the File trigger opens the menu with its payload", async () => {
+      await openMenu(canvas, "File");
+      await waitFor(() => expect(findItem("menuitem", "New work item")).toBeDefined());
+      await expect(findItem("menuitem", "Undo")).toBeUndefined();
+    });
+    await step("the Edit trigger swaps the payload", async () => {
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(document.body.querySelector('[role="menu"]')).not.toBeInTheDocument(),
+      );
+      await openMenu(canvas, "Edit");
+      await waitFor(() => expect(findItem("menuitem", "Undo")).toBeDefined());
+      await expect(findItem("menuitem", "New work item")).toBeUndefined();
+    });
+  },
+};
+
+// Controlled mode across multiple detached triggers (test-only fixture — the visible payload demo
+// is `MultipleTriggers`): `open` + `onOpenChange` hold the state outside the menu, and `triggerId`
+// tells it which trigger owns the surface; `eventDetails.trigger` identifies the trigger that
+// asked to open.
+const controlledMenuHandle = createMenuHandle<string>();
+
+/**
+ * Controlled `open`/`onOpenChange` with `triggerId` routing across multiple triggers. Not a
+ * documented demo; this is a test-only fixture.
+ */
+export const ControlledMultipleTriggers: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: function Render() {
+    const [open, setOpen] = React.useState(false);
+    const [activeTriggerId, setActiveTriggerId] = React.useState<string | null>(null);
+    return (
+      <div className="flex items-center gap-2">
+        <MenuTrigger
+          handle={controlledMenuHandle}
+          id="controlled-menu-file"
+          payload="File"
+          render={<button type="button" className={triggerClass} />}
+        >
+          File
+        </MenuTrigger>
+        <MenuTrigger
+          handle={controlledMenuHandle}
+          id="controlled-menu-edit"
+          payload="Edit"
+          render={<button type="button" className={triggerClass} />}
+        >
+          Edit
+        </MenuTrigger>
+        <Menu
+          handle={controlledMenuHandle}
+          open={open}
+          triggerId={activeTriggerId}
+          onOpenChange={(nextOpen, eventDetails) => {
+            setOpen(nextOpen);
+            setActiveTriggerId(nextOpen ? (eventDetails.trigger?.id ?? null) : null);
+          }}
+        >
+          {({ payload }) => (
+            <MenuContent sizing="sm">
+              <MenuItem>{`${payload ?? ""} action`}</MenuItem>
+            </MenuContent>
+          )}
+        </Menu>
+      </div>
+    );
+  },
+  play: async ({ canvas, step }) => {
+    await step("clicking a trigger routes controlled open state through it", async () => {
+      await openMenu(canvas, "Edit");
+      // The handle routes the pressed trigger's payload into the popup — the menu shows the
+      // Edit actions, not the File ones.
+      await waitFor(() => expect(findItem("menuitem", "Edit action")).toBeDefined());
+      await expect(findItem("menuitem", "File action")).toBeUndefined();
+    });
+    await step("Escape closes through onOpenChange", async () => {
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(document.body.querySelector('[role="menu"]')).not.toBeInTheDocument(),
+      );
     });
   },
 };

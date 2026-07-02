@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, userEvent } from "storybook/test";
+import { expect, userEvent, waitFor } from "storybook/test";
 
 import { Input } from "../input/index";
 import {
@@ -74,6 +74,60 @@ export const Invalid: Story = {
       </FieldError>
     </Field>
   ),
+};
+
+/**
+ * Constraint validation: the control's native `required` validity drives `FieldError` through
+ * `match="valueMissing"` — with `validationMode="onBlur"` the message appears when the user leaves
+ * the field empty and clears once a value is committed. The description stays as the resting hint.
+ */
+export const RequiredValidation: Story = {
+  render: () => (
+    <Field name="fullName" validationMode="onBlur">
+      <FieldLabel magnitude="md" required inset={false}>
+        Full name
+      </FieldLabel>
+      <Input magnitude="md" required placeholder="Ada Lovelace" />
+      <FieldError magnitude="md" match="valueMissing">
+        Enter your full name.
+      </FieldError>
+      <FieldDescription magnitude="md">Visible on your profile.</FieldDescription>
+    </Field>
+  ),
+};
+
+/**
+ * Interaction test: blurring the empty required field surfaces the `valueMissing` error and marks
+ * the control invalid; committing a value clears both. Tagged out of the sidebar/docs/manifest
+ * while still running under the default `test` tag.
+ */
+export const RequiredValidationInteraction: Story = {
+  ...RequiredValidation,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    const input = canvas.getByRole<HTMLInputElement>("textbox", { name: "Full name" });
+    await step("tabbing through untouched does not flag the field", async () => {
+      await userEvent.click(input);
+      await userEvent.tab();
+      await expect(input).not.toHaveAttribute("aria-invalid");
+    });
+    await step("emptying a dirty required field shows the valueMissing error on blur", async () => {
+      await userEvent.type(input, "A");
+      await userEvent.clear(input);
+      await userEvent.tab();
+      const error = await canvas.findByText("Enter your full name.");
+      await expect(error).toBeVisible();
+      await expect(input).toHaveAttribute("aria-invalid", "true");
+    });
+    await step("committing a value clears the error", async () => {
+      await userEvent.type(input, "Ada Lovelace");
+      await userEvent.tab();
+      await waitFor(() =>
+        expect(canvas.queryByText("Enter your full name.")).not.toBeInTheDocument(),
+      );
+      await expect(input).not.toHaveAttribute("aria-invalid", "true");
+    });
+  },
 };
 
 export const LabelAndDescription: Story = {

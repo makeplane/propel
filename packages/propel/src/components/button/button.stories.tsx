@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus, Search, Settings } from "lucide-react";
-import { expect, fn, userEvent as baseUserEvent } from "storybook/test";
+import * as React from "react";
+import { expect, fn, userEvent as baseUserEvent, waitFor } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
 import { Button, ButtonLabel, type ButtonMagnitude, type ButtonProminence } from "./index";
@@ -122,6 +123,33 @@ export const Loading: Story = {
       </Button>
     </div>
   ),
+};
+
+/**
+ * A submit that enters `loading` after being clicked: the click starts the work (a deterministic
+ * 300 ms delay here), the button shows the spinner, announces `aria-busy`, and blocks re-submits —
+ * yet keeps keyboard focus while soft-disabled — then settles back once the work resolves.
+ */
+export const AsyncSubmit: Story = {
+  parameters: { controls: { disable: true } },
+  render: (args) => {
+    function SubmitExample() {
+      const [submitting, setSubmitting] = React.useState(false);
+      return (
+        <Button
+          {...args}
+          loading={submitting}
+          onClick={() => {
+            setSubmitting(true);
+            window.setTimeout(() => setSubmitting(false), 300);
+          }}
+        >
+          {submitting ? "Submitting" : "Submit"}
+        </Button>
+      );
+    }
+    return <SubmitExample />;
+  },
 };
 
 /** `sizing="fill"` fills the container (e.g. a form row or mobile CTA). */
@@ -252,5 +280,30 @@ export const LoadingBlocksClick: Story = {
     await expect(button).toHaveFocus();
     await userEvent.click(button);
     await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+/**
+ * The async-submit cycle keeps focus on the button the whole time: activating it flips the button
+ * into `loading` (`aria-busy`, soft-disabled) WITHOUT dropping focus, and once the work settles the
+ * button is enabled again with focus still in place — a keyboard user never loses their spot.
+ */
+export const AsyncSubmitKeepsFocus: Story = {
+  ...AsyncSubmit,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Submit" });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    // The work is in flight: busy + soft-disabled, but focus never left the button.
+    await expect(button).toHaveAttribute("aria-busy", "true");
+    await expect(button).toHaveAccessibleName("Submitting");
+    await expect(button).toHaveFocus();
+    // The work settles: interactive again, focus still on the button.
+    await waitFor(() => expect(button).not.toHaveAttribute("aria-busy"));
+    await expect(button).not.toBeDisabled();
+    await expect(button).toHaveAccessibleName("Submit");
+    await expect(button).toHaveFocus();
   },
 };

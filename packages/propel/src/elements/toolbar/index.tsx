@@ -7,3 +7,4 @@ export * from "./toolbar-group";
 export * from "./toolbar-separator";
 export * from "./toolbar-toggle-group";
 export * from "./toolbar-input";
+export * from "./toolbar-link";

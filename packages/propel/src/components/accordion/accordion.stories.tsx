@@ -197,6 +197,38 @@ export const Interaction: Story = {
 };
 
 /**
+ * Behavior twin of `MultipleItems`: with `multiple`, both `defaultValue` items start expanded at
+ * once, opening a third keeps the first two open (single-open mode would collapse them), and each
+ * item still collapses independently.
+ */
+export const MultipleItemsInteraction: Story = {
+  ...MultipleItems,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const what = canvas.getByRole("button", { name: "What is Plane?" });
+    const pricing = canvas.getByRole("button", { name: "How does pricing work?" });
+    const importData = canvas.getByRole("button", { name: "Can I import my existing data?" });
+
+    // Both defaultValue items start expanded simultaneously.
+    await expect(what).toHaveAttribute("aria-expanded", "true");
+    await expect(pricing).toHaveAttribute("aria-expanded", "true");
+    await expect(importData).toHaveAttribute("aria-expanded", "false");
+
+    // Opening the third item leaves the other two open.
+    await userEvent.click(importData);
+    await expect(importData).toHaveAttribute("aria-expanded", "true");
+    await expect(what).toHaveAttribute("aria-expanded", "true");
+    await expect(pricing).toHaveAttribute("aria-expanded", "true");
+
+    // Each item collapses independently without affecting its siblings.
+    await userEvent.click(what);
+    await expect(what).toHaveAttribute("aria-expanded", "false");
+    await expect(pricing).toHaveAttribute("aria-expanded", "true");
+    await expect(importData).toHaveAttribute("aria-expanded", "true");
+  },
+};
+
+/**
  * Keyboard ARIA pattern (WAI-ARIA accordion): Tab moves focus to the trigger and both **Enter** and
  * **Space** toggle `aria-expanded`, showing/hiding the panel region. Tagged out of the
  * sidebar/docs/manifest while still running under the default `test` tag.

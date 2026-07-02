@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect } from "storybook/test";
+import * as React from "react";
+import { expect, waitFor } from "storybook/test";
 
+import { Form } from "../form";
 import { OTPField, type OTPFieldInputMagnitude } from "./index";
 
 const MAGNITUDES: OTPFieldInputMagnitude[] = ["md", "lg", "xl"];
@@ -64,6 +66,116 @@ export const TypingFillsSlots: Story = {
     await userEvent.keyboard("12");
     await expect(inputs[0]).toHaveDisplayValue("1");
     await expect(inputs[1]).toHaveDisplayValue("2");
+  },
+};
+
+/** `validationType="alphanumeric"` accepts recovery codes that mix letters and numbers. */
+export const Alphanumeric: Story = {
+  args: { validationType: "alphanumeric", defaultValue: "A7C9XZ", "aria-label": "Recovery code" },
+};
+
+/**
+ * Interaction test: an alphanumeric field accepts letters that the default numeric validation would
+ * reject. Tagged out of the sidebar/docs/manifest while still running under the default `test`
+ * tag.
+ */
+export const AlphanumericInteraction: Story = {
+  ...Alphanumeric,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { ...Alphanumeric.args, defaultValue: "" },
+  play: async ({ canvas, userEvent }) => {
+    const inputs = canvas.getAllByRole("textbox");
+    await userEvent.click(inputs[0]);
+    await userEvent.keyboard("X7");
+    await expect(inputs[0]).toHaveDisplayValue("X");
+    await expect(inputs[1]).toHaveDisplayValue("7");
+  },
+};
+
+/**
+ * `normalizeValue` rewrites accepted characters (here uppercasing a recovery code), while
+ * characters the validation rejects surface through `onValueInvalid` — fed back to the user via the
+ * `error` line until the next valid keystroke clears it.
+ */
+export const Normalized: Story = {
+  args: { validationType: "alphanumeric", "aria-label": "Recovery code" },
+  render: (args) => {
+    function UppercasedRecoveryCode() {
+      const [error, setError] = React.useState<React.ReactNode>(null);
+      return (
+        <OTPField
+          {...args}
+          normalizeValue={(value) => value.toUpperCase()}
+          onValueChange={() => setError(null)}
+          onValueInvalid={() => setError("Only letters and numbers are allowed")}
+          error={error}
+        />
+      );
+    }
+    return <UppercasedRecoveryCode />;
+  },
+};
+
+/**
+ * Interaction test: typed characters are normalized to uppercase, and a rejected character raises
+ * the invalid feedback while leaving the value unchanged. Tagged out of the sidebar/docs/manifest
+ * while still running under the default `test` tag.
+ */
+export const NormalizedInteraction: Story = {
+  ...Normalized,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const inputs = canvas.getAllByRole("textbox");
+    await userEvent.click(inputs[0]);
+    await userEvent.keyboard("a7");
+    await expect(inputs[0]).toHaveDisplayValue("A");
+    await expect(inputs[1]).toHaveDisplayValue("7");
+    await userEvent.keyboard("!");
+    await expect(canvas.getByText("Only letters and numbers are allowed")).toBeInTheDocument();
+    await expect(inputs[2]).toHaveDisplayValue("");
+  },
+};
+
+/**
+ * Inside a `Form`, `autoSubmit` submits the owning form the moment the last slot is filled — no
+ * separate confirm button needed. (`onValueComplete` is the alternative for reacting to completion
+ * without a form.)
+ */
+export const FormIntegration: Story = {
+  args: { autoSubmit: true, name: "code" },
+  render: (args) => {
+    function SignInCodeForm() {
+      const [submitted, setSubmitted] = React.useState(false);
+      return (
+        <div className="flex flex-col items-start gap-3">
+          <Form onFormSubmit={() => setSubmitted(true)}>
+            <OTPField {...args} />
+          </Form>
+          <output className="text-13 text-secondary">
+            {submitted ? "Code submitted — signing you in…" : null}
+          </output>
+        </div>
+      );
+    }
+    return <SignInCodeForm />;
+  },
+};
+
+/**
+ * Interaction test: filling the last slot auto-submits the owning `Form`, which reports through
+ * `onFormSubmit`. Tagged out of the sidebar/docs/manifest while still running under the default
+ * `test` tag.
+ */
+export const FormIntegrationInteraction: Story = {
+  ...FormIntegration,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const inputs = canvas.getAllByRole("textbox");
+    await userEvent.click(inputs[0]);
+    await userEvent.keyboard("123456");
+    await waitFor(async () => {
+      await expect(canvas.getByText("Code submitted — signing you in…")).toBeInTheDocument();
+    });
   },
 };
 

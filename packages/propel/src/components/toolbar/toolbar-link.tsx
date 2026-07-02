@@ -1,7 +1,7 @@
 import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import * as React from "react";
 
-import { ToolbarButton as ToolbarButtonElement, type ToolbarDensity } from "../../elements/toolbar";
+import { ToolbarLink as ToolbarLinkElement, type ToolbarDensity } from "../../elements/toolbar";
 import { Icon } from "../../internal/icon";
 import { ToolbarDensityContext } from "./toolbar-context";
 
@@ -19,7 +19,7 @@ export function ToolbarLink({ density, children, ...props }: ToolbarLinkProps) {
   const toolbarDensity = React.useContext(ToolbarDensityContext);
   return (
     <BaseToolbar.Link
-      render={<ToolbarButtonElement density={density ?? toolbarDensity} />}
+      render={<ToolbarLinkElement density={density ?? toolbarDensity} />}
       {...props}
     >
       <Icon>{children}</Icon>
