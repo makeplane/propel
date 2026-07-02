@@ -1,4 +1,4 @@
-import { OTPFieldPreview as BaseOTPField } from "@base-ui/react/otp-field";
+import { OTPField as BaseOTPField } from "@base-ui/react/otp-field";
 import * as React from "react";
 
 import type { FieldMagnitude } from "../../elements/field/variants";
@@ -38,10 +38,10 @@ export type OTPFieldProps = Omit<BaseOTPField.Root.Props, "className" | "style">
  * `data-invalid` to every slot, which recolors its border (and focus ring) to danger off that
  * state.
  *
- * Grafts Base UI `OTPFieldPreview` behavior onto the `elements/otp-field` styled parts (`OTPField`
- * root + `OTPFieldInput`). Each slot resolves its index from the root context, so the ready-made
- * simply renders one per slot; `groups` splits the run with separators (e.g. `groups={[3, 3]}`
- * renders `123-456`).
+ * Grafts Base UI `OTPField` behavior onto the `elements/otp-field` styled parts (`OTPField` root +
+ * `OTPFieldInput`). Each slot resolves its index from the root context, so the ready-made simply
+ * renders one per slot; `groups` splits the run with separators (e.g. `groups={[3, 3]}` renders
+ * `123-456`).
  */
 export function OTPField({ length, magnitude, error, groups, ...props }: OTPFieldProps) {
   if (groups != null && groups.reduce((sum, count) => sum + count, 0) !== length) {
