@@ -2,11 +2,11 @@ import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import type * as React from "react";
 
 import {
-  ComboboxIcon,
   type ComboboxMagnitude,
   ComboboxInput as ComboboxInputElement,
   ComboboxInputGroup as ComboboxInputGroupElement,
 } from "../../elements/combobox";
+import { ControlIcon } from "../../internal/control-icon";
 
 export type ComboboxInputGroupProps = Omit<
   BaseCombobox.Input.Props,
@@ -48,7 +48,7 @@ export function ComboboxInputGroup({
 }: ComboboxInputGroupProps) {
   return (
     <BaseCombobox.InputGroup render={<ComboboxInputGroupElement magnitude={magnitude} />}>
-      {icon != null ? <ComboboxIcon>{icon}</ComboboxIcon> : null}
+      {icon != null ? <ControlIcon>{icon}</ControlIcon> : null}
       <BaseCombobox.Input {...props} render={<ComboboxInputElement />} />
       {clear != null ? <BaseCombobox.Clear render={clear} /> : null}
       {trigger != null ? <BaseCombobox.Trigger render={trigger} /> : null}

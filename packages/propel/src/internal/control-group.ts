@@ -19,7 +19,7 @@ import { fieldControlSurfaceVariants } from "./field-control-surface";
  */
 export const controlGroupClass = cx(
   fieldControlSurfaceVariants({ focus: "within" }),
-  "flex transition-[color,background-color,border-color,box-shadow]",
+  "group/control flex transition-[color,background-color,border-color,box-shadow]",
   "hover:border-subtle-1 hover:bg-layer-2-hover",
   "focus-within:bg-layer-2 focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
   "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",

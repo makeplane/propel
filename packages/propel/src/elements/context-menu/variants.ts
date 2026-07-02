@@ -1,17 +1,11 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
-import { nodeSlotClass } from "../../internal/node-slot";
+import { itemIndicatorClass } from "../../internal/item-indicator";
+import { popupSurfaceClass } from "../../internal/popup-surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 /** Popup: the menu surface, animated from its pointer-anchored transform origin. */
-export const contextMenuPopupVariants = cva(
-  cx(
-    "min-w-40 rounded-lg border-sm border-subtle bg-layer-1 p-1 shadow-overlay-100 outline-none",
-    "origin-(--transform-origin) transition-[opacity,transform] duration-150",
-    "data-starting-style:scale-95 data-starting-style:opacity-0",
-    "data-ending-style:scale-95 data-ending-style:opacity-0",
-  ),
-);
+export const contextMenuPopupVariants = cva(cx(popupSurfaceClass, "min-w-40 p-1"));
 
 /**
  * Item rows: shared styling for Item, LinkItem, CheckboxItem and RadioItem. `--node-size` sizes the
@@ -69,7 +63,7 @@ export const contextMenuItemShortcutVariants = cva("shrink-0 text-12 text-tertia
  * single-select `ContextMenuItem`. Sizes its single child to the row's `--node-size` and tints it
  * accent.
  */
-export const contextMenuItemIndicatorVariants = cva(cx(nodeSlotClass, "text-icon-accent-primary"));
+export const contextMenuItemIndicatorVariants = cva(itemIndicatorClass);
 
 /** Separator: a thin divider spanning the popup padding. */
 export const contextMenuSeparatorVariants = cva("-mx-1 my-1 border-t border-subtle");

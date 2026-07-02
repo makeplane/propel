@@ -2,7 +2,7 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { controlMagnitude } from "../../internal/control-group";
 import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
-import { nodeSlotClass } from "../../internal/node-slot";
+import { itemIndicatorClass } from "../../internal/item-indicator";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // The field region that stacks the label over the trigger as a column. Holds the
@@ -37,9 +37,7 @@ export const selectTriggerVariants = cva(
 // The selection checkmark slot inside an item: a node-slot tinted to the accent.
 // Always left-aligned per the Figma spec; the 1rem grid column in the shared listbox
 // item (`internal/listbox-item`) reserves the space whether the indicator shows or not.
-export const selectItemIndicatorVariants = cva(
-  cx(nodeSlotClass, "text-icon-accent-primary [--node-size:1rem] not-data-selected:invisible"),
-);
+export const selectItemIndicatorVariants = cva(itemIndicatorClass);
 
 export type SelectTriggerMagnitude = NonNullable<
   VariantProps<typeof selectTriggerVariants>["magnitude"]

@@ -11,8 +11,6 @@ export * from "./autocomplete-list";
 // node props on `AutocompleteInputGroup`; `Portal`/`Positioner`/`Popup` are `AutocompleteContent`;
 // `List`/`Item` are `AutocompleteList`/`AutocompleteItem` — no Base UI import needed at call sites.
 export {
-  AutocompleteIcon,
-  type AutocompleteIconProps,
   AutocompleteInput,
   type AutocompleteInputProps,
   type AutocompleteMagnitude,

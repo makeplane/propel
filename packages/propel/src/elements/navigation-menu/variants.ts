@@ -1,6 +1,7 @@
 import { cva, cx } from "class-variance-authority";
 
 import { nodeSlotClass } from "../../internal/node-slot";
+import { popupSurfaceClass } from "../../internal/popup-surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Navigation Menu wraps Base UI's parts and extends the anatomy with the styled regions
@@ -69,13 +70,7 @@ export const navigationMenuIconVariants = cva(
   ),
 );
 
-export const navigationMenuPopupVariants = cva(
-  cx(
-    "origin-(--transform-origin) rounded-lg border-sm border-subtle bg-layer-1 p-2 shadow-overlay-100 outline-none",
-    "transition-[opacity,transform] duration-150",
-    "data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0",
-  ),
-);
+export const navigationMenuPopupVariants = cva(cx(popupSurfaceClass, "p-2"));
 
 // Content morph container: Base UI exposes the active panel's size as
 // `--popup-width`/`--popup-height`, transitioned for a smooth resize between items.

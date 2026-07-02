@@ -1,13 +1,10 @@
-import { cva } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
+
+import { popupSurfaceClass } from "../../internal/popup-surface";
 
 // Spec "always the same": shadow/elevation, border-radius, max-width constraint, and
 // the open/close scale-fade. `max-w-xs` caps the popup at a readable column width.
-export const popoverPopupVariants = cva(
-  "max-w-xs rounded-lg border-sm border-subtle bg-layer-1 p-1 shadow-overlay-100 outline-none" +
-    " origin-(--transform-origin) transition-[opacity,transform] duration-150" +
-    " data-starting-style:scale-95 data-starting-style:opacity-0" +
-    " data-ending-style:scale-95 data-ending-style:opacity-0",
-);
+export const popoverPopupVariants = cva(cx(popupSurfaceClass, "max-w-xs p-1"));
 // The padded content column inside the popup: stacks its children vertically and
 // supplies the internal padding (the bare popup carries only the surface chrome).
 // The gap spaces sibling layout regions — e.g. an intro from an actions row — so

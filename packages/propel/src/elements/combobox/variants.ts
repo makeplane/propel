@@ -2,6 +2,7 @@ import { cva, cx } from "class-variance-authority";
 
 import { controlGroupClass, controlMagnitude } from "../../internal/control-group";
 import { controlInputClass } from "../../internal/control-input";
+import { itemIndicatorClass } from "../../internal/item-indicator";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
@@ -10,7 +11,7 @@ export const comboboxInputGroupVariants = cva(
   cx(
     // Wraps a separate focusable input → the shared `focus: within` group chrome.
     controlGroupClass,
-    "group/combobox min-w-64 items-center gap-2 rounded-md px-3",
+    "min-w-64 items-center gap-2 rounded-md px-3",
   ),
   {
     variants: {
@@ -24,17 +25,7 @@ export const comboboxInputGroupVariants = cva(
   },
 );
 export const comboboxInputVariants = cva(cx(controlInputClass, "flex-1"));
-export const comboboxItemIndicatorVariants = cva(
-  cx(nodeSlotClass, "size-4 [--node-size:1rem] not-data-selected:invisible"),
-);
-// The decorative leading icon at the input group's inline-start. Sizes its single child to the
-// group's `--node-size` and tints toward the placeholder, brightening on focus.
-export const comboboxIconVariants = cva(
-  cx(
-    nodeSlotClass,
-    "text-icon-placeholder transition-colors group-focus-within/combobox:text-icon-secondary",
-  ),
-);
+export const comboboxItemIndicatorVariants = cva(cx(itemIndicatorClass, "size-4"));
 export const comboboxEmptyVariants = cva("px-2 py-1.5 text-13 text-tertiary");
 
 // The multiselect variant of the input frame: chips wrap onto new rows ahead of the inline input.
