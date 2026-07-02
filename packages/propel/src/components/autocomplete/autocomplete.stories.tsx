@@ -90,6 +90,25 @@ export const DefaultInteraction: Story = {
     // Base UI filters the list to the query: matches stay, everything else drops out.
     await expect(within(document.body).getByText("node:22-slim")).toBeInTheDocument();
     await expect(within(document.body).queryByText("postgres:18")).not.toBeInTheDocument();
+    // The Empty live region stays mounted for screen readers but holds no content (and takes no
+    // space) while there are matches.
+    await expect(within(document.body).getByRole("status")).toBeEmptyDOMElement();
+  },
+};
+
+/**
+ * Interaction test: a query with no matches empties the list and shows the polite "No matches"
+ * status. Tagged out of the sidebar/docs/manifest while still running under the default `test`
+ * tag.
+ */
+export const EmptyInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.type(canvas.getByRole("combobox", { name: "Container image" }), "zzz");
+    const popup = within(document.body);
+    await expect(popup.queryAllByRole("option")).toHaveLength(0);
+    await expect(popup.getByRole("status")).toHaveTextContent("No matches");
   },
 };
 

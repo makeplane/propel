@@ -26,7 +26,10 @@ export const comboboxInputGroupVariants = cva(
 );
 export const comboboxInputVariants = cva(cx(controlInputClass, "flex-1"));
 export const comboboxItemIndicatorVariants = cva(cx(itemIndicatorClass, "size-4"));
-export const comboboxEmptyVariants = cva("px-2 py-1.5 text-13 text-tertiary");
+// Base UI keeps the Empty element mounted as an aria-live region and renders children only when
+// the filtered list is empty — so the box may only take up space when it has content
+// (:not(:empty)), or every popup shows a dead padded strip.
+export const comboboxEmptyVariants = cva("text-13 text-tertiary not-empty:px-2 not-empty:py-1.5");
 
 // The multiselect variant of the input frame: chips wrap onto new rows ahead of the inline input.
 // Tighter padding than `ComboboxInputGroup` so the h-6 chips sit inset like text would.

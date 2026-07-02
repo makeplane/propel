@@ -36,4 +36,9 @@ export const autocompleteInputVariants = cva(cx(controlInputClass, "flex-1"), {
   },
 });
 export type AutocompleteInputVariantProps = StrictVariantProps<typeof autocompleteInputVariants>;
-export const autocompleteEmptyVariants = cva("px-2 py-1.5 text-13 text-tertiary");
+// Base UI keeps the Empty element mounted as an aria-live region and renders children only when
+// the filtered list is empty — so the box may only take up space when it has content
+// (:not(:empty)), or every popup shows a dead padded strip.
+export const autocompleteEmptyVariants = cva(
+  "text-13 text-tertiary not-empty:px-2 not-empty:py-1.5",
+);
