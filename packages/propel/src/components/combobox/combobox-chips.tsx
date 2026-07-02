@@ -9,18 +9,21 @@ import {
   ComboboxInput as ComboboxInputElement,
 } from "../../elements/combobox";
 
-export type ComboboxChipsProps = {
+export type ComboboxChipsProps<Value = string> = {
   /** Visual size of the chips frame: height, text, and glyph sizing. Required. */
   magnitude: ComboboxMagnitude;
   /** Input placeholder shown while typing to add another value. */
   placeholder?: string;
   /**
-   * Accessible name for a value's chip-remove button (e.g. `` (value) => `Remove ${value}` ``).
+   * Accessible name for a value's chip-remove button (e.g. `` (item) => `Remove ${item.label}` ``).
    * Localizable, so it is required — the frame bakes no label text.
    */
-  removeLabel: (value: string) => string;
-  /** Display text for a selected value's chip. Defaults to the value itself. */
-  itemLabel?: (value: string) => string;
+  removeLabel: (item: Value) => string;
+  /**
+   * A selected item's display text — Base UI's `itemToStringLabel`. For object values, pass the
+   * same function you give the `Combobox` root; defaults to `String(item)`.
+   */
+  itemToStringLabel?: (item: Value) => string;
 };
 
 /**
@@ -30,22 +33,27 @@ export type ComboboxChipsProps = {
  * wrapping onto new rows as the selection grows. Arrow keys move focus across chips; Backspace
  * removes.
  */
-export function ComboboxChips({
+export function ComboboxChips<Value = string>({
   magnitude,
   placeholder,
   removeLabel,
-  itemLabel = (value) => value,
-}: ComboboxChipsProps) {
+  itemToStringLabel,
+}: ComboboxChipsProps<Value>) {
+  const label = (item: Value) => (itemToStringLabel ? itemToStringLabel(item) : String(item));
   return (
     <BaseCombobox.Chips render={<ComboboxChipsElement magnitude={magnitude} />}>
       <BaseCombobox.Value>
-        {(values: string[]) => (
+        {(values: Value[]) => (
           <>
             {values.map((value) => {
-              const label = itemLabel(value);
+              const chipLabel = label(value);
               return (
-                <BaseCombobox.Chip key={value} render={<ComboboxChipElement />} aria-label={label}>
-                  {label}
+                <BaseCombobox.Chip
+                  key={chipLabel}
+                  render={<ComboboxChipElement />}
+                  aria-label={chipLabel}
+                >
+                  {chipLabel}
                   <BaseCombobox.ChipRemove
                     render={<ComboboxChipRemoveElement />}
                     aria-label={removeLabel(value)}

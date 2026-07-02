@@ -16,7 +16,10 @@ import { FieldHelperText } from "../field/field-helper-text";
 
 export type { FieldMagnitude };
 
-export type AutocompleteFieldProps = Omit<AutocompleteProps<string>, "children" | "items"> & {
+export type AutocompleteFieldProps<Value = string> = Omit<
+  AutocompleteProps<Value>,
+  "children" | "items"
+> & {
   /** Supporting text shown below the input. */
   description?: React.ReactNode;
   /** The clear control (e.g. an `IconButton`) carrying its own localizable `aria-label`. */
@@ -30,7 +33,7 @@ export type AutocompleteFieldProps = Omit<AutocompleteProps<string>, "children" 
   /** Helper text shown below the control. Replaced by `error` when an error is set. */
   hint?: React.ReactNode;
   /** Items rendered in the popup. */
-  items: readonly string[];
+  items: readonly Value[];
   /** Visible field label. */
   label: React.ReactNode;
   /** Label and helper text size. */
@@ -40,7 +43,7 @@ export type AutocompleteFieldProps = Omit<AutocompleteProps<string>, "children" 
 };
 
 /** Ready-to-use autocomplete field with label, input, popup items, and helper/error text. */
-export function AutocompleteField({
+export function AutocompleteField<Value = string>({
   description,
   clear,
   trigger,
@@ -54,7 +57,11 @@ export function AutocompleteField({
   name,
   placeholder,
   ...autocompleteProps
-}: AutocompleteFieldProps) {
+}: AutocompleteFieldProps<Value>) {
+  // Base UI's itemToStringValue turns an object item into the input's string; the suggestion rows
+  // display the same string.
+  const display = (item: Value) =>
+    autocompleteProps.itemToStringValue ? autocompleteProps.itemToStringValue(item) : String(item);
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Autocomplete disabled={disabled} items={items} {...autocompleteProps}>
@@ -79,13 +86,13 @@ export function AutocompleteField({
                 {empty}
               </BaseAutocomplete.Empty>
               <BaseAutocomplete.List>
-                {(item: string) => (
+                {(item: Value) => (
                   <BaseAutocomplete.Item
-                    key={item}
+                    key={display(item)}
                     value={item}
                     render={<ListboxItem layout="plain" magnitude="md" />}
                   >
-                    {item}
+                    {display(item)}
                   </BaseAutocomplete.Item>
                 )}
               </BaseAutocomplete.List>

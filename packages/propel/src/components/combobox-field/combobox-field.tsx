@@ -12,7 +12,10 @@ import { ComboboxItemIndicator } from "../combobox/combobox-item-indicator";
 import { Field, FieldDescription, FieldLabel } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 
-export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items"> & {
+export type ComboboxFieldProps<Value = string> = Omit<
+  ComboboxProps<Value>,
+  "children" | "items"
+> & {
   /** Supporting text shown below the input. */
   description?: React.ReactNode;
   /**
@@ -32,7 +35,7 @@ export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items
   /** Helper text shown below the control. Replaced by `error` when an error is set. */
   hint?: React.ReactNode;
   /** Items rendered in the popup. */
-  items: readonly string[];
+  items: readonly Value[];
   /** Visible field label. */
   label: React.ReactNode;
   /** Label and helper text size. */
@@ -42,7 +45,7 @@ export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items
 };
 
 /** Ready-to-use combobox field with label, filter input, popup items, and helper/error text. */
-export function ComboboxField({
+export function ComboboxField<Value = string>({
   description,
   clear,
   trigger,
@@ -56,7 +59,10 @@ export function ComboboxField({
   name,
   placeholder,
   ...comboboxProps
-}: ComboboxFieldProps) {
+}: ComboboxFieldProps<Value>) {
+  // Base UI's itemToStringLabel names an object item; the rows display the same string.
+  const display = (item: Value) =>
+    comboboxProps.itemToStringLabel ? comboboxProps.itemToStringLabel(item) : String(item);
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Combobox disabled={disabled} items={items} {...comboboxProps}>
@@ -76,14 +82,14 @@ export function ComboboxField({
             <BaseCombobox.Popup render={<ListboxPopup />}>
               <BaseCombobox.Empty render={<ComboboxEmpty />}>{empty}</BaseCombobox.Empty>
               <BaseCombobox.List>
-                {(item: string) => (
+                {(item: Value) => (
                   <BaseCombobox.Item
-                    key={item}
+                    key={display(item)}
                     value={item}
                     render={<ListboxItem layout="indicator" magnitude="md" />}
                   >
                     <ComboboxItemIndicator />
-                    {item}
+                    {display(item)}
                   </BaseCombobox.Item>
                 )}
               </BaseCombobox.List>
