@@ -1,8 +1,7 @@
-import { NavigationMenu as BaseNavigationMenu } from "@base-ui/react/navigation-menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown } from "lucide-react";
 import type * as React from "react";
-import { expect, waitFor } from "storybook/test";
+import { expect } from "storybook/test";
 
 import {
   NavigationMenuContentList,
@@ -17,26 +16,31 @@ import {
   NavigationMenuViewport,
 } from "./index";
 
-// elements-tier story (rule 2b): the styled parts are Base-UI-agnostic `useRender` elements; Base UI's
-// behavior parts graft them via `render`. The Root, portal, positioner, item, and content are
-// behavior/structural roles (they live in `components` or are Base UI's directly), so this in-tier
-// story wires them straight from `@base-ui/react`. The components-tier story uses the ready-made
-// `NavigationMenuPanel` to collapse the portal chain into one part.
+// elements-tier story (rule 2b): a pure UI-configuration showcase. The styled parts render
+// DIRECTLY — no Base UI grafts — with the anchored popup laid out inline (Base UI only portals and
+// positions it; the surface is just a styled <nav>) and every visual state pinned statically via
+// the `data-*`/aria attributes Base UI's navigation menu would set (`data-popup-open=""` +
+// `aria-expanded` on a trigger, `data-starting-style=""`/`data-ending-style=""` on the popup).
+// Hover/focus are CSS pseudo-classes, forced by the pseudo-states addon. The Root, Item, Portal,
+// Positioner, and Content are behavior/structural roles with no styled element, so they have no
+// part here — grafting, keyboard, and aria behavior are demonstrated AND tested in
+// Components/NavigationMenu. `meta.component` is a no-variant, no-required-prop part so Storybook
+// forces nothing into `args`.
 const meta = {
   title: "Elements/NavigationMenu",
-  component: NavigationMenuPopup,
+  component: NavigationMenuList,
   subcomponents: {
-    NavigationMenuList,
     NavigationMenuTrigger,
     NavigationMenuTriggerLabel,
     NavigationMenuIcon,
-    NavigationMenuContentList,
     NavigationMenuLink,
     NavigationMenuLinkTitle,
     NavigationMenuLinkDescription,
+    NavigationMenuContentList,
+    NavigationMenuPopup,
     NavigationMenuViewport,
   },
-} satisfies Meta<typeof NavigationMenuPopup>;
+} satisfies Meta<typeof NavigationMenuList>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -82,147 +86,252 @@ const RESOURCE_LINKS = [
 // navigates the page, tears down the iframe, and fails unrelated stories.
 const cancelNavigation = (event: React.MouseEvent) => event.preventDefault();
 
-/** A rich content link pairing a title with a description, wrapped in its list item. */
-function ContentLink({ href, title, description }: (typeof PRODUCT_LINKS)[number]) {
-  return (
-    <li>
-      <BaseNavigationMenu.Link
-        href={href}
-        onClick={cancelNavigation}
-        render={<NavigationMenuLink presentation="card" />}
-      >
-        <NavigationMenuLinkTitle>{title}</NavigationMenuLinkTitle>
-        <NavigationMenuLinkDescription>{description}</NavigationMenuLinkDescription>
-      </BaseNavigationMenu.Link>
-    </li>
-  );
-}
-
-/** A trigger row that pairs the label with the rotating disclosure caret. */
-function TriggerRow({ children }: { children: React.ReactNode }) {
-  return (
-    <BaseNavigationMenu.Trigger render={<NavigationMenuTrigger />}>
-      <NavigationMenuTriggerLabel>{children}</NavigationMenuTriggerLabel>
-      <BaseNavigationMenu.Icon render={<NavigationMenuIcon />}>
-        <ChevronDown aria-hidden />
-      </BaseNavigationMenu.Icon>
-    </BaseNavigationMenu.Trigger>
-  );
-}
-
-/** A menu with two menu items and a bare top-level link. */
+/**
+ * The full anatomy assembled statically: the `NavigationMenuList` row of top-level entries — two
+ * triggers (each a `NavigationMenuTriggerLabel` beside the `NavigationMenuIcon` caret slot) and an
+ * `item`-presentation link — above the `NavigationMenuPopup` surface rendered inline (Base UI would
+ * portal and anchor it). The first trigger pins the `data-popup-open=""` + `aria-expanded` Base UI
+ * sets while its content shows, which swaps the pill to the selected fill and rotates the caret via
+ * the trigger's `group` state. Inside the popup, the `NavigationMenuViewport` morph container holds
+ * a `NavigationMenuContentList` of `card` links; Base UI measures the active content into
+ * `--popup-width`/`--popup-height`, stood in for by the wrapper's pinned width and an `auto` height
+ * so the static content sizes itself.
+ */
 export const Default: Story = {
   render: () => (
-    <BaseNavigationMenu.Root>
-      <BaseNavigationMenu.List render={<NavigationMenuList />}>
-        <BaseNavigationMenu.Item>
-          <TriggerRow>Product</TriggerRow>
-          <BaseNavigationMenu.Content>
-            <ul className="grid w-md grid-cols-2 gap-1 p-2">
-              {PRODUCT_LINKS.map((item) => (
-                <ContentLink key={item.href} {...item} />
-              ))}
-            </ul>
-          </BaseNavigationMenu.Content>
-        </BaseNavigationMenu.Item>
-
-        <BaseNavigationMenu.Item>
-          <TriggerRow>Resources</TriggerRow>
-          <BaseNavigationMenu.Content>
-            <NavigationMenuContentList>
-              {RESOURCE_LINKS.map((item) => (
-                <ContentLink key={item.href} {...item} />
-              ))}
-            </NavigationMenuContentList>
-          </BaseNavigationMenu.Content>
-        </BaseNavigationMenu.Item>
-
-        <BaseNavigationMenu.Item>
-          <BaseNavigationMenu.Link
-            href="#pricing"
-            onClick={cancelNavigation}
-            render={<NavigationMenuLink presentation="item" />}
-          >
+    <div className="flex w-max flex-col items-start gap-2 [--popup-height:auto] [--popup-width:18rem]">
+      <NavigationMenuList>
+        <li>
+          <NavigationMenuTrigger aria-expanded data-popup-open="">
+            <NavigationMenuTriggerLabel>Product</NavigationMenuTriggerLabel>
+            <NavigationMenuIcon>
+              <ChevronDown aria-hidden />
+            </NavigationMenuIcon>
+          </NavigationMenuTrigger>
+        </li>
+        <li>
+          <NavigationMenuTrigger aria-expanded={false}>
+            <NavigationMenuTriggerLabel>Resources</NavigationMenuTriggerLabel>
+            <NavigationMenuIcon>
+              <ChevronDown aria-hidden />
+            </NavigationMenuIcon>
+          </NavigationMenuTrigger>
+        </li>
+        <li>
+          <NavigationMenuLink href="#pricing" presentation="item" onClick={cancelNavigation}>
             Pricing
-          </BaseNavigationMenu.Link>
-        </BaseNavigationMenu.Item>
-      </BaseNavigationMenu.List>
+          </NavigationMenuLink>
+        </li>
+      </NavigationMenuList>
 
-      <BaseNavigationMenu.Portal>
-        <BaseNavigationMenu.Positioner sideOffset={6}>
-          <BaseNavigationMenu.Popup render={<NavigationMenuPopup />}>
-            <BaseNavigationMenu.Viewport render={<NavigationMenuViewport />} />
-          </BaseNavigationMenu.Popup>
-        </BaseNavigationMenu.Positioner>
-      </BaseNavigationMenu.Portal>
-    </BaseNavigationMenu.Root>
+      <NavigationMenuPopup>
+        <NavigationMenuViewport>
+          <NavigationMenuContentList>
+            {PRODUCT_LINKS.map((item) => (
+              <li key={item.href}>
+                <NavigationMenuLink href={item.href} presentation="card" onClick={cancelNavigation}>
+                  <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
+                  <NavigationMenuLinkDescription>{item.description}</NavigationMenuLinkDescription>
+                </NavigationMenuLink>
+              </li>
+            ))}
+          </NavigationMenuContentList>
+        </NavigationMenuViewport>
+      </NavigationMenuPopup>
+    </div>
   ),
 };
 
 /**
- * Behavior test: hovering/clicking a trigger opens its content in the shared popup; the content's
- * links are reachable by their unique text once open.
+ * The link's `presentation` axis — its only variant: `item` is a top-level pill sharing the
+ * trigger's chrome, and `card` stacks a `NavigationMenuLinkTitle` over an optional
+ * `NavigationMenuLinkDescription` inside a content panel. The description-less card keeps the same
+ * padding and simply hugs its title.
  */
-export const OpenContent: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
+export const Presentations: Story = {
+  render: () => (
+    <div className="flex flex-col items-start gap-4">
+      <NavigationMenuLink href="#pricing" presentation="item" onClick={cancelNavigation}>
+        Pricing
+      </NavigationMenuLink>
+      <NavigationMenuLink href="#docs" presentation="card" onClick={cancelNavigation}>
+        <NavigationMenuLinkTitle>Documentation</NavigationMenuLinkTitle>
+        <NavigationMenuLinkDescription>Guides and API references.</NavigationMenuLinkDescription>
+      </NavigationMenuLink>
+      <NavigationMenuLink href="#changelog" presentation="card" onClick={cancelNavigation}>
+        <NavigationMenuLinkTitle>Changelog</NavigationMenuLinkTitle>
+      </NavigationMenuLink>
+    </div>
+  ),
+};
+
+/**
+ * Every pinnable state of the interactive parts. Trigger row: rest, hover and focus-visible (CSS
+ * pseudo-classes forced by the pseudo-states addon), and open — the `data-popup-open=""` +
+ * `aria-expanded` Base UI sets while the item's content shows, shifting the pill to the selected
+ * fill and rotating the caret through the trigger's `group` state. Link row: the shared pill chrome
+ * on the `item` presentation — rest, hover, and the focus-visible accent ring (`card` links carry
+ * the identical selectors).
+ */
+export const States: Story = {
   parameters: {
-    a11y: {
-      // While the popup is open Base UI's NavigationMenu emits two internal patterns that axe flags
-      // as static-analysis false-positives:
-      //   * `aria-hidden-focus`: the visually-hidden focus-guard `<span tabindex="0" aria-hidden>`
-      //     sentinels that bracket the popup to wrap focus — intentional, not author markup.
-      //   * `landmark-unique`: the portaled popup renders a second `<nav>` landmark alongside the
-      //     root menu's `<nav>`; both are Base UI internals with no author-supplied label.
-      // Suppress just these two rules for this open-popup story.
-      config: {
-        rules: [
-          { id: "aria-hidden-focus", enabled: false },
-          { id: "landmark-unique", enabled: false },
-        ],
-      },
+    controls: { disable: true },
+    pseudo: {
+      hover: ["#navigation-menu-trigger-hover", "#navigation-menu-link-hover"],
+      focusVisible: ["#navigation-menu-trigger-focus", "#navigation-menu-link-focus"],
     },
   },
   render: () => (
-    <BaseNavigationMenu.Root>
-      <BaseNavigationMenu.List render={<NavigationMenuList />}>
-        <BaseNavigationMenu.Item>
-          <TriggerRow>Product</TriggerRow>
-          <BaseNavigationMenu.Content>
-            <NavigationMenuContentList>
-              {PRODUCT_LINKS.map((item) => (
-                <li key={item.href}>
-                  <BaseNavigationMenu.Link
-                    href={item.href}
-                    onClick={cancelNavigation}
-                    render={<NavigationMenuLink presentation="card" />}
-                  >
-                    <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
-                  </BaseNavigationMenu.Link>
-                </li>
-              ))}
-            </NavigationMenuContentList>
-          </BaseNavigationMenu.Content>
-        </BaseNavigationMenu.Item>
-      </BaseNavigationMenu.List>
-
-      <BaseNavigationMenu.Portal>
-        <BaseNavigationMenu.Positioner sideOffset={6}>
-          <BaseNavigationMenu.Popup render={<NavigationMenuPopup />}>
-            <BaseNavigationMenu.Viewport render={<NavigationMenuViewport />} />
-          </BaseNavigationMenu.Popup>
-        </BaseNavigationMenu.Positioner>
-      </BaseNavigationMenu.Portal>
-    </BaseNavigationMenu.Root>
+    <div className="flex flex-col items-start gap-4">
+      <div className="flex items-center gap-3">
+        <NavigationMenuTrigger id="navigation-menu-trigger-rest" aria-expanded={false}>
+          <NavigationMenuTriggerLabel>Rest</NavigationMenuTriggerLabel>
+          <NavigationMenuIcon>
+            <ChevronDown aria-hidden />
+          </NavigationMenuIcon>
+        </NavigationMenuTrigger>
+        <NavigationMenuTrigger id="navigation-menu-trigger-hover" aria-expanded={false}>
+          <NavigationMenuTriggerLabel>Hover</NavigationMenuTriggerLabel>
+          <NavigationMenuIcon>
+            <ChevronDown aria-hidden />
+          </NavigationMenuIcon>
+        </NavigationMenuTrigger>
+        <NavigationMenuTrigger id="navigation-menu-trigger-focus" aria-expanded={false}>
+          <NavigationMenuTriggerLabel>Focus-visible</NavigationMenuTriggerLabel>
+          <NavigationMenuIcon>
+            <ChevronDown aria-hidden />
+          </NavigationMenuIcon>
+        </NavigationMenuTrigger>
+        <NavigationMenuTrigger id="navigation-menu-trigger-open" aria-expanded data-popup-open="">
+          <NavigationMenuTriggerLabel>Open</NavigationMenuTriggerLabel>
+          <NavigationMenuIcon>
+            <ChevronDown aria-hidden />
+          </NavigationMenuIcon>
+        </NavigationMenuTrigger>
+      </div>
+      <div className="flex items-center gap-3">
+        <NavigationMenuLink href="#rest" presentation="item" onClick={cancelNavigation}>
+          Rest
+        </NavigationMenuLink>
+        <NavigationMenuLink
+          id="navigation-menu-link-hover"
+          href="#hover"
+          presentation="item"
+          onClick={cancelNavigation}
+        >
+          Hover
+        </NavigationMenuLink>
+        <NavigationMenuLink
+          id="navigation-menu-link-focus"
+          href="#focus"
+          presentation="item"
+          onClick={cancelNavigation}
+        >
+          Focus-visible
+        </NavigationMenuLink>
+      </div>
+    </div>
   ),
-  play: async ({ canvas, userEvent }) => {
-    const trigger = canvas.getByRole("button", { name: /Product/ });
-    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+};
 
-    // Clicking the trigger opens its content; the popup is portaled, so query the document body.
-    await userEvent.click(trigger);
-    await expect(trigger).toHaveAttribute("aria-expanded", "true");
-    await waitFor(async () => {
-      await expect(document.body).toHaveTextContent("Cycles");
-    });
+/**
+ * CSS canary (rule 2b): asserts the pinned `data-popup-open` selectors actually compiled — the open
+ * trigger's background computes away from the resting trigger's, and its caret picks up the
+ * `group-data-popup-open` 180° rotation the resting caret lacks. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const StatesCanary: Story = {
+  ...States,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvasElement }) => {
+    const triggerBackground = (id: string) => {
+      const trigger = canvasElement.querySelector(`#${id}`);
+      if (!(trigger instanceof HTMLElement)) throw new Error(`missing #${id}`);
+      return getComputedStyle(trigger).backgroundColor;
+    };
+    const caretTransform = (id: string) => {
+      const caret = canvasElement.querySelector(`#${id} [aria-hidden="true"]`);
+      if (!(caret instanceof HTMLElement)) throw new Error(`missing caret in #${id}`);
+      // Tailwind v4's rotate-* compiles to the standalone CSS `rotate` property.
+      return getComputedStyle(caret).rotate;
+    };
+    await expect(triggerBackground("navigation-menu-trigger-open")).not.toBe(
+      triggerBackground("navigation-menu-trigger-rest"),
+    );
+    await expect(caretTransform("navigation-menu-trigger-open")).not.toBe(
+      caretTransform("navigation-menu-trigger-rest"),
+    );
+  },
+};
+
+/**
+ * The popup surface's transition poses, rendered inline (Base UI would portal and anchor it):
+ *
+ * - **Resting** — the open pose: the shared raised popup card with the navigation menu's `p-2`
+ *   padding, holding the `NavigationMenuViewport` and a `NavigationMenuContentList` of `card`
+ *   links.
+ * - **Entering** — `data-starting-style=""` pins the pre-open endpoint of the transition (`opacity-0
+ *   scale-95`), so the card is intentionally invisible while holding its layout
+ *   (`data-ending-style` mirrors it on the way closed).
+ *
+ * The popups render `<nav>` landmarks, so each carries an `aria-label` to keep the two distinct.
+ */
+export const Popup: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex items-start gap-6 [--popup-height:auto] [--popup-width:18rem]">
+      <NavigationMenuPopup id="navigation-menu-popup-resting" aria-label="Resources">
+        <NavigationMenuViewport>
+          <NavigationMenuContentList>
+            {RESOURCE_LINKS.map((item) => (
+              <li key={item.href}>
+                <NavigationMenuLink href={item.href} presentation="card" onClick={cancelNavigation}>
+                  <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
+                  <NavigationMenuLinkDescription>{item.description}</NavigationMenuLinkDescription>
+                </NavigationMenuLink>
+              </li>
+            ))}
+          </NavigationMenuContentList>
+        </NavigationMenuViewport>
+      </NavigationMenuPopup>
+
+      <NavigationMenuPopup
+        id="navigation-menu-popup-entering"
+        aria-label="Resources entering"
+        data-starting-style=""
+      >
+        <NavigationMenuViewport>
+          <NavigationMenuContentList>
+            {RESOURCE_LINKS.map((item) => (
+              <li key={item.href}>
+                <NavigationMenuLink href={item.href} presentation="card" onClick={cancelNavigation}>
+                  <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
+                  <NavigationMenuLinkDescription>{item.description}</NavigationMenuLinkDescription>
+                </NavigationMenuLink>
+              </li>
+            ))}
+          </NavigationMenuContentList>
+        </NavigationMenuViewport>
+      </NavigationMenuPopup>
+    </div>
+  ),
+};
+
+/**
+ * CSS canary (rule 2b): asserts the pinned transition-endpoint selector actually compiled — the
+ * `data-starting-style` popup computes to opacity 0 while the resting popup stays fully opaque.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const PopupCanary: Story = {
+  ...Popup,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvasElement }) => {
+    const popupOpacity = (id: string) => {
+      const popup = canvasElement.querySelector(`#${id}`);
+      if (!(popup instanceof HTMLElement)) throw new Error(`missing #${id}`);
+      return getComputedStyle(popup).opacity;
+    };
+    await expect(popupOpacity("navigation-menu-popup-resting")).toBe("1");
+    await expect(popupOpacity("navigation-menu-popup-entering")).toBe("0");
   },
 };

@@ -44,7 +44,7 @@ export function ContextMenuItem({
       <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
       {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
       {selected ? (
-        <ContextMenuItemIndicator>
+        <ContextMenuItemIndicator data-selected="">
           <Check />
         </ContextMenuItemIndicator>
       ) : null}

@@ -1,4 +1,3 @@
-import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, Minus, Repeat } from "lucide-react";
 import { expect } from "storybook/test";
@@ -11,13 +10,14 @@ import {
   CheckboxLabel,
 } from "./index";
 
-// elements-tier story (rule 2b): the styled parts are Base-UI-agnostic `useRender` elements; Base UI's
-// checkbox behavior grafts them via `render`. `Checkbox` is the bare box (styled `Checkbox.Root`);
-// the tick/dash only show when you nest a `CheckboxIndicator` (check) and a
-// `CheckboxIndeterminateIndicator` (dash), each grafted onto a Base UI `Checkbox.Indicator`. A
-// labeled row is the `CheckboxLabel` chip wrapping the box, an optional `CheckboxIcon`
-// icon slot, and the text. The components-tier `Checkbox` story shows the ready-made version — here
-// you assemble the raw parts and own the accessible name.
+// elements-tier story (rule 2b): a pure UI-configuration showcase. The styled parts render
+// DIRECTLY — no Base UI import, no graft — with every visual state pinned statically via the
+// `data-*`/aria attributes Base UI's Checkbox would set (`data-checked`, `data-indeterminate`,
+// `data-disabled`, `data-invalid`, `aria-checked`). `Checkbox` is the bare box (the styled
+// `Checkbox.Root` target); the tick and dash are the `CheckboxIndicator` (check, hidden while
+// `data-indeterminate`) and `CheckboxIndeterminateIndicator` (dash, shown only while
+// `data-indeterminate`); `CheckboxLabel` is the clickable row chip. Toggling, `Field` wiring,
+// keyboard, and label-click behavior are demonstrated and tested in Components/Checkbox.
 const meta = {
   title: "Elements/Checkbox",
   component: Checkbox,
@@ -31,114 +31,204 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// A box grafted with its check + dash indicators. Kept in-story so the `elements` tier stays behavior-free
-// (rule 2b) — the components-tier ready-made does this graft for consumers.
-function CheckboxBox(props: BaseCheckbox.Root.Props) {
-  return (
-    <BaseCheckbox.Root render={<Checkbox />} {...props}>
-      <BaseCheckbox.Indicator render={<CheckboxIndicator />}>
-        <Check aria-hidden />
-      </BaseCheckbox.Indicator>
-      <BaseCheckbox.Indicator render={<CheckboxIndeterminateIndicator />}>
-        <Minus aria-hidden />
-      </BaseCheckbox.Indicator>
-    </BaseCheckbox.Root>
-  );
-}
-
-/** Root box with its check + indeterminate indicators. Toggling mounts/unmounts the tick. */
-export const Default: Story = {
-  render: () => <CheckboxBox aria-label="Example" />,
-};
-
 /**
- * Interaction test: clicking the box toggles the tick on and off. Tagged out of the
- * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
- * sees the tick flip on its own.
+ * The box with both indicators, pinned checked via `data-checked` (Base UI mounts both indicator
+ * parts while checked; the dash keeps itself hidden until `data-indeterminate`). The pinned
+ * `role`/`aria-checked`/`aria-label` mirror what Base UI would set on the rendered box.
  */
-export const DefaultInteraction: Story = {
-  ...Default,
-  tags: ["!dev", "!autodocs", "!manifest"],
-  play: async ({ canvas, userEvent }) => {
-    const box = canvas.getByRole("checkbox");
-    await expect(box).toHaveAttribute("aria-checked", "false");
-    await userEvent.click(box);
-    await expect(box).toHaveAttribute("aria-checked", "true");
-    await userEvent.click(box);
-    await expect(box).toHaveAttribute("aria-checked", "false");
-  },
+export const Default: Story = {
+  render: () => (
+    <Checkbox role="checkbox" aria-checked="true" aria-label="Example" data-checked="">
+      <CheckboxIndicator data-checked="">
+        <Check aria-hidden />
+      </CheckboxIndicator>
+      <CheckboxIndeterminateIndicator data-checked="">
+        <Minus aria-hidden />
+      </CheckboxIndeterminateIndicator>
+    </Checkbox>
+  ),
 };
 
 /**
- * Resting, checked, indeterminate (dash only), disabled, and the danger look. The error look isn't
- * a prop — it's the `data-invalid` STATE: inside an invalid `Field.Root` Base UI sets it on the
- * box, and any host can set it directly (as the last box does here) to get the danger border.
+ * Every visual state, pinned statically. Resting is the bare box (Base UI mounts no indicator while
+ * unchecked); `data-checked` fills the accent and shows the check; `data-indeterminate` hides the
+ * check and reveals the dash; focus-visible (forced via pseudo-states) draws the accent ring;
+ * `data-disabled` dims the border, fill, and glyph; `data-invalid` is the error look — a STATE, not
+ * a prop: inside an invalid `Field.Root` Base UI sets it on the box (any host can set it directly,
+ * as here) to recolor the resting border to danger. Once checked, the invalid box keeps the same
+ * accent fill as every other checked state.
  */
 export const States: Story = {
-  parameters: { controls: { disable: true } },
+  parameters: {
+    controls: { disable: true },
+    pseudo: { focusVisible: ["#elements-checkbox-focus-visible"] },
+  },
   render: () => (
     <div className="flex items-center gap-4">
-      <CheckboxBox aria-label="Unchecked" />
-      <CheckboxBox aria-label="Checked" defaultChecked />
-      <CheckboxBox aria-label="Indeterminate" indeterminate />
-      <CheckboxBox aria-label="Disabled" disabled />
-      <CheckboxBox aria-label="Error" data-invalid="" />
+      <Checkbox role="checkbox" aria-checked="false" aria-label="Unchecked" />
+      <Checkbox role="checkbox" aria-checked="true" aria-label="Checked" data-checked="">
+        <CheckboxIndicator data-checked="">
+          <Check aria-hidden />
+        </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator data-checked="">
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
+      </Checkbox>
+      <Checkbox
+        role="checkbox"
+        aria-checked="mixed"
+        aria-label="Indeterminate"
+        data-indeterminate=""
+      >
+        <CheckboxIndicator data-indeterminate="">
+          <Check aria-hidden />
+        </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator data-indeterminate="">
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
+      </Checkbox>
+      <Checkbox
+        id="elements-checkbox-focus-visible"
+        role="checkbox"
+        aria-checked="false"
+        aria-label="Focus-visible"
+      />
+      <Checkbox
+        role="checkbox"
+        aria-checked="false"
+        aria-disabled="true"
+        aria-label="Disabled"
+        data-disabled=""
+      />
+      <Checkbox
+        role="checkbox"
+        aria-checked="true"
+        aria-disabled="true"
+        aria-label="Disabled checked"
+        data-disabled=""
+        data-checked=""
+      >
+        <CheckboxIndicator data-disabled="" data-checked="">
+          <Check aria-hidden />
+        </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator data-disabled="" data-checked="">
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
+      </Checkbox>
+      <Checkbox
+        role="checkbox"
+        aria-checked="mixed"
+        aria-disabled="true"
+        aria-label="Disabled indeterminate"
+        data-disabled=""
+        data-indeterminate=""
+      >
+        <CheckboxIndicator data-disabled="" data-indeterminate="">
+          <Check aria-hidden />
+        </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator data-disabled="" data-indeterminate="">
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
+      </Checkbox>
+      <Checkbox role="checkbox" aria-checked="false" aria-label="Invalid" data-invalid="" />
+      <Checkbox
+        role="checkbox"
+        aria-checked="true"
+        aria-label="Invalid checked"
+        data-invalid=""
+        data-checked=""
+      >
+        <CheckboxIndicator data-invalid="" data-checked="">
+          <Check aria-hidden />
+        </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator data-invalid="" data-checked="">
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
+      </Checkbox>
     </div>
   ),
 };
 
 /**
- * Interaction test: the resting box is empty, the checked box mounts its indicator, and the
- * `data-invalid` box recolors its border to danger. Tagged out of the sidebar/docs/manifest while
- * still running under the default `test` tag.
+ * Hidden CSS canary: asserts the pinned `data-*` states compile to real styling — the
+ * `data-invalid` border and `data-checked` fill differ from resting, the invalid+checked box keeps
+ * the same accent fill as the plain checked box, and inside the indeterminate box the check
+ * computes `display: none` while the dash computes `inline-flex`. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
  */
-export const StatesInteraction: Story = {
+export const StatesCssCanary: Story = {
   ...States,
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
-    const [unchecked, checked, , , error] = canvas.getAllByRole("checkbox");
-    // The indicator is only mounted while checked/indeterminate, so the resting box is empty.
-    await expect(unchecked).toBeEmptyDOMElement();
-    await expect(checked).not.toBeEmptyDOMElement();
-    // The `data-invalid` host state recolors the box border to danger (differs from resting).
-    await expect(error).toHaveAttribute("data-invalid");
-    await expect(getComputedStyle(error).borderColor).not.toBe(
-      getComputedStyle(unchecked).borderColor,
+    const resting = canvas.getByRole("checkbox", { name: "Unchecked" });
+    const checked = canvas.getByRole("checkbox", { name: "Checked" });
+    const invalid = canvas.getByRole("checkbox", { name: "Invalid" });
+    // `data-invalid` recolors the resting border to danger.
+    await expect(getComputedStyle(invalid).borderColor).not.toBe(
+      getComputedStyle(resting).borderColor,
     );
+    // `data-checked` swaps the bordered box for the accent fill.
+    await expect(getComputedStyle(checked).backgroundColor).not.toBe(
+      getComputedStyle(resting).backgroundColor,
+    );
+    // Once checked, the invalid box keeps the same accent fill as the plain checked box.
+    const invalidChecked = canvas.getByRole("checkbox", { name: "Invalid checked" });
+    await expect(getComputedStyle(invalidChecked).backgroundColor).toBe(
+      getComputedStyle(checked).backgroundColor,
+    );
+    // In the mixed state the check hides itself and the dash reveals itself off `data-indeterminate`.
+    const indeterminate = canvas.getByRole("checkbox", { name: "Indeterminate" });
+    const [check, dash] = Array.from(indeterminate.children) as HTMLElement[];
+    await expect(getComputedStyle(check).display).toBe("none");
+    await expect(getComputedStyle(dash).display).not.toBe("none");
   },
 };
 
 /**
- * A labeled row assembled from the atomic parts: a `CheckboxLabel` chip wrapping the box, an
- * optional `CheckboxIcon` icon slot, and the text. The label is associated with the box via
- * `htmlFor`, so clicking anywhere in the row toggles the box.
+ * The labeled row assembled from the atomic parts: a `CheckboxLabel` chip wrapping the box, an
+ * optional `Icon` slot, and the text. The hovered row (forced via pseudo-states) shows the row's
+ * hover wash; the disabled row shows the label reading its look off the wrapped box — `:has()` on
+ * the box's `data-disabled` cancels the hover wash and switches to the not-allowed cursor, no
+ * `disabled` prop needed. In the ready-made (Components/Checkbox) the row is associated via
+ * `htmlFor`/`id`, so clicking anywhere in it toggles the box.
  */
 export const Labeled: Story = {
-  parameters: { controls: { disable: true } },
-  render: () => (
-    <CheckboxLabel htmlFor="elements-checkbox-labeled">
-      <CheckboxBox id="elements-checkbox-labeled" />
-      <Icon tint="secondary" magnitude="sm">
-        <Repeat aria-hidden />
-      </Icon>
-      Sync automatically
-    </CheckboxLabel>
-  ),
-};
-
-/**
- * Interaction test: clicking the label text toggles the associated box. Tagged out of the
- * sidebar/docs/manifest while still running under the default `test` tag — so a browsing user never
- * sees the tick flip on its own.
- */
-export const LabeledInteraction: Story = {
-  ...Labeled,
-  tags: ["!dev", "!autodocs", "!manifest"],
-  play: async ({ canvas, userEvent }) => {
-    const box = canvas.getByRole("checkbox");
-    await expect(box).toHaveAttribute("aria-checked", "false");
-    // Clicking the label text toggles the associated box.
-    await userEvent.click(canvas.getByText("Sync automatically"));
-    await expect(box).toHaveAttribute("aria-checked", "true");
+  parameters: {
+    controls: { disable: true },
+    pseudo: { hover: ["#elements-checkbox-label-hover"] },
   },
+  render: () => (
+    <div className="flex flex-col items-start gap-2">
+      <CheckboxLabel>
+        <Checkbox
+          role="checkbox"
+          aria-checked="true"
+          aria-label="Sync automatically"
+          data-checked=""
+        >
+          <CheckboxIndicator data-checked="">
+            <Check aria-hidden />
+          </CheckboxIndicator>
+        </Checkbox>
+        <Icon tint="secondary" magnitude="sm">
+          <Repeat aria-hidden />
+        </Icon>
+        Sync automatically
+      </CheckboxLabel>
+      <CheckboxLabel id="elements-checkbox-label-hover">
+        <Checkbox role="checkbox" aria-checked="false" aria-label="Hovered row" />
+        Hovered row
+      </CheckboxLabel>
+      <CheckboxLabel>
+        <Checkbox
+          role="checkbox"
+          aria-checked="false"
+          aria-disabled="true"
+          aria-label="Disabled row"
+          data-disabled=""
+        />
+        Disabled row
+      </CheckboxLabel>
+    </div>
+  ),
 };

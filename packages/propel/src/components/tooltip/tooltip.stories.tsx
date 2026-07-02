@@ -92,8 +92,10 @@ export const SidesRtl: Story = {
   // wouldn't reach it. Mirror a real RTL app: set it on the root, restore on unmount.
   // `DirectionProvider` (below) is what tells Base UI's Positioner to resolve the
   // logical sides; it crosses the portal via React context.
+  // Decorators are components too, so the hooks rule (2c) applies: a named function, not an
+  // arrow, carries the `useLayoutEffect`.
   decorators: [
-    (Story) => {
+    function RtlDocumentDir(Story) {
       useLayoutEffect(() => {
         const html = document.documentElement;
         const prev = html.getAttribute("dir");
@@ -263,6 +265,25 @@ export const WithProviderInteraction: Story = {
     await waitFor(() =>
       expect(body.getByRole("tooltip")).toHaveTextContent("Italicize the selection"),
     );
+  },
+};
+
+/**
+ * Hidden behavior twin of `WithShortcut` (relocated from the old elements-tier story, rule 2b): the
+ * open tooltip is one `role="tooltip"` popup carrying both the label and the `shortcut` hint, so
+ * assistive tech announces them together. Focus (not hover) keeps the open deterministic regardless
+ * of Base UI's hover delays.
+ */
+export const WithShortcutInteraction: Story = {
+  ...WithShortcut,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { ...WithShortcut.args, delay: 0 },
+  play: async ({ canvas }) => {
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "Hover or focus me" })).toHaveFocus();
+    const tooltip = await within(document.body).findByRole("tooltip");
+    await expect(tooltip).toHaveTextContent("Open command menu");
+    await expect(tooltip).toHaveTextContent("⌘ K");
   },
 };
 

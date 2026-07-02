@@ -191,37 +191,34 @@ export const NativeButtonInteraction: Story = {
 export const FormIntegration: Story = {
   args: { density: "comfortable" },
   parameters: { controls: { disable: true } },
-  render: () => {
-    function StorageTypeForm() {
-      const [submitted, setSubmitted] = React.useState<{ storageType: string } | null>(null);
-      return (
-        <div className="flex w-80 flex-col gap-3">
-          <Form<{ storageType: string }> onFormSubmit={(values) => setSubmitted(values)}>
-            <FormBody layout="single">
-              <RadioGroupField
-                name="storageType"
-                label="Storage type"
-                magnitude="md"
-                density="comfortable"
-                defaultValue="ssd"
-              >
-                <RadioGroupFieldOption value="ssd" label="SSD" />
-                <RadioGroupFieldOption value="hdd" label="HDD" />
-              </RadioGroupField>
-            </FormBody>
-            <FormActions layout="inline">
-              <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
-                Save
-              </Button>
-            </FormActions>
-          </Form>
-          <output className="text-13 text-secondary">
-            {submitted ? `Storage type: ${submitted.storageType}` : null}
-          </output>
-        </div>
-      );
-    }
-    return <StorageTypeForm />;
+  render: function Render() {
+    const [submitted, setSubmitted] = React.useState<{ storageType: string } | null>(null);
+    return (
+      <div className="flex w-80 flex-col gap-3">
+        <Form<{ storageType: string }> onFormSubmit={(values) => setSubmitted(values)}>
+          <FormBody layout="single">
+            <RadioGroupField
+              name="storageType"
+              label="Storage type"
+              magnitude="md"
+              density="comfortable"
+              defaultValue="ssd"
+            >
+              <RadioGroupFieldOption value="ssd" label="SSD" />
+              <RadioGroupFieldOption value="hdd" label="HDD" />
+            </RadioGroupField>
+          </FormBody>
+          <FormActions layout="inline">
+            <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
+              Save
+            </Button>
+          </FormActions>
+        </Form>
+        <output className="text-13 text-secondary">
+          {submitted ? `Storage type: ${submitted.storageType}` : null}
+        </output>
+      </div>
+    );
   },
 };
 

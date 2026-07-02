@@ -1,11 +1,8 @@
-import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ChevronRight, Layers, ChevronDown } from "lucide-react";
-import { expect } from "storybook/test";
+import { ChevronDown, ChevronRight, Ellipsis, Layers } from "lucide-react";
 
 import { DisclosureIndicator } from "../../internal/disclosure-indicator";
 import { Icon } from "../../internal/icon";
-import { MenuItem, MenuItemContent, MenuItemTitle, MenuItemTitleRow, MenuPopup } from "../menu";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,12 +13,13 @@ import {
   BreadcrumbTrigger,
 } from "./index";
 
-// elements-tier story (rule 2b): composes the ATOMIC breadcrumb parts (each is a Base-UI-agnostic
-// `useRender` element that renders a single element). The components-tier `Breadcrumb` story shows
-// the ready-made menu crumbs. Here you assemble the raw crumb chrome from `elements` atoms: the landmark +
-// list, links, the current page, separators, and a menu-trigger crumb wired straight to Base UI's
-// `Menu` behavior (its own leading icon and trailing indicator). `meta.component` is a no-variant,
-// no-required-prop part so Storybook forces nothing into `args`.
+// elements-tier story (rule 2b): a pure UI-configuration showcase of the atomic breadcrumb parts
+// (each a Base-UI-agnostic `useRender` element rendering a single element). Nothing from Base UI is
+// wired here — the state Base UI would set is pinned statically (`data-popup-open=""` on the
+// trigger; `aria-current="page"` is baked into `BreadcrumbPage`) and hover is forced via the
+// pseudo-states addon. Menu grafting, keyboard, and aria behavior are demonstrated AND tested in
+// Components/Breadcrumb. `meta.component` is a no-variant, no-required-prop part so Storybook
+// forces nothing into `args`.
 const meta = {
   title: "Elements/Breadcrumb",
   component: BreadcrumbList,
@@ -32,15 +30,17 @@ const meta = {
     BreadcrumbPage,
     BreadcrumbSeparator,
     BreadcrumbTrigger,
-    MenuPopup,
-    MenuItem,
   },
 } satisfies Meta<typeof BreadcrumbList>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Root › List › Item › (Link | Page), with Separator between crumbs. */
+/**
+ * Root › List › Item › (Link | Page), with Separator between crumbs. The `elements` separator is a
+ * bare slot, so the divider glyph is passed as `children`; `BreadcrumbPage` bakes
+ * `aria-current="page"` onto the last, non-navigable crumb.
+ */
 export const Default: Story = {
   render: () => (
     <Breadcrumb aria-label="Breadcrumb">
@@ -78,71 +78,89 @@ export const Default: Story = {
 };
 
 /**
- * Interaction test: the trail exposes its accessible landmark name and marks the last crumb as the
- * current page. Tagged out of the sidebar/docs/manifest while still running under the default
- * `test` tag.
+ * The menu-crumb chrome assembled from atoms: `BreadcrumbTrigger` (`group` adds the `group/trigger`
+ * marker) holding an internal `Icon`, the label, and a `DisclosureIndicator` chevron. In the app,
+ * Base UI's `Menu.Trigger` grafts onto it and sets `data-popup-open` while its menu is open — here
+ * that attribute is pinned statically, which both shifts the pill to the open palette and rotates
+ * the chevron down. The icon-only form (no `group`, no indicator) is the collapsed-crumbs ellipsis
+ * crumb; being icon-only it requires an `aria-label`.
  */
-export const DefaultInteraction: Story = {
-  ...Default,
-  tags: ["!dev", "!autodocs", "!manifest"],
-  play: async ({ canvas }) => {
-    // The trail exposes its accessible landmark name, and the last crumb is the current page.
-    await expect(canvas.getByRole("navigation", { name: "Breadcrumb" })).toBeInTheDocument();
-    await expect(canvas.getByText("Work items")).toHaveAttribute("aria-current", "page");
-  },
+export const Trigger: Story = {
+  render: () => (
+    <div className="flex items-center gap-3">
+      <BreadcrumbTrigger group>
+        <Icon tint="tertiary" magnitude="md">
+          <Layers />
+        </Icon>
+        Plane Design
+        <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+          <ChevronDown />
+        </DisclosureIndicator>
+      </BreadcrumbTrigger>
+      <BreadcrumbTrigger group data-popup-open="">
+        <Icon tint="tertiary" magnitude="md">
+          <Layers />
+        </Icon>
+        Plane Design
+        <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+          <ChevronDown />
+        </DisclosureIndicator>
+      </BreadcrumbTrigger>
+      <BreadcrumbTrigger aria-label="Show more breadcrumbs">
+        <Icon tint="tertiary" magnitude="md">
+          <Ellipsis />
+        </Icon>
+      </BreadcrumbTrigger>
+    </div>
+  ),
 };
 
 /**
- * A menu-style crumb built from the raw `BreadcrumbTrigger` (`group` adds the open-state marker so
- * the indicator can rotate), composing the atomic `BreadcrumbTriggerIcon` and
- * `BreadcrumbTriggerIndicator` parts. The trigger is projected onto a Base UI `Menu`'s trigger via
- * `render`, with the menu surface assembled from the `elements` menu atoms. The menu crumb owns its
- * own chevron, so no separator follows it.
+ * Every interaction state of the interactive crumbs, side by side. Hover on the link and trigger is
+ * forced via the pseudo-states addon; the trigger's open state is pinned with the
+ * `data-popup-open=""` attribute Base UI's `Menu.Trigger` would set; the current page is the static
+ * `BreadcrumbPage` (non-interactive, `aria-current="page"` baked in).
  */
-export const MenuTrigger: Story = {
+export const States: Story = {
+  parameters: {
+    controls: { disable: true },
+    pseudo: { hover: ["#breadcrumb-link-hover", "#breadcrumb-trigger-hover"] },
+  },
   render: () => (
-    <Breadcrumb aria-label="Breadcrumb">
-      <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Plane
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator>
-          <ChevronRight />
-        </BreadcrumbSeparator>
-        <BreadcrumbItem>
-          <BaseMenu.Root>
-            <BaseMenu.Trigger render={<BreadcrumbTrigger group />}>
-              <Icon tint="tertiary" magnitude="md">
-                <Layers />
-              </Icon>
-              Plane Design
-              <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
-                <ChevronDown />
-              </DisclosureIndicator>
-            </BaseMenu.Trigger>
-            <BaseMenu.Portal>
-              <BaseMenu.Positioner sideOffset={4}>
-                <BaseMenu.Popup render={<MenuPopup elevation="raised" />}>
-                  {["Plane Web", "Plane Mobile", "Plane Server"].map((label) => (
-                    <BaseMenu.Item key={label} render={<MenuItem layout="default" />}>
-                      <MenuItemContent>
-                        <MenuItemTitleRow>
-                          <MenuItemTitle>{label}</MenuItemTitle>
-                        </MenuItemTitleRow>
-                      </MenuItemContent>
-                    </BaseMenu.Item>
-                  ))}
-                </BaseMenu.Popup>
-              </BaseMenu.Positioner>
-            </BaseMenu.Portal>
-          </BaseMenu.Root>
-        </BreadcrumbItem>
-        <BreadcrumbItem>
-          <BreadcrumbPage>Components</BreadcrumbPage>
-        </BreadcrumbItem>
-      </BreadcrumbList>
-    </Breadcrumb>
+    <div className="flex flex-col items-start gap-4">
+      <div className="flex items-center gap-3">
+        <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
+          Link
+        </BreadcrumbLink>
+        <BreadcrumbLink
+          id="breadcrumb-link-hover"
+          href="#"
+          onClick={(event) => event.preventDefault()}
+        >
+          Link hover
+        </BreadcrumbLink>
+        <BreadcrumbPage>Current page</BreadcrumbPage>
+      </div>
+      <div className="flex items-center gap-3">
+        <BreadcrumbTrigger group>
+          Trigger
+          <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+            <ChevronDown />
+          </DisclosureIndicator>
+        </BreadcrumbTrigger>
+        <BreadcrumbTrigger id="breadcrumb-trigger-hover" group>
+          Trigger hover
+          <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+            <ChevronDown />
+          </DisclosureIndicator>
+        </BreadcrumbTrigger>
+        <BreadcrumbTrigger group data-popup-open="">
+          Trigger open
+          <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+            <ChevronDown />
+          </DisclosureIndicator>
+        </BreadcrumbTrigger>
+      </div>
+    </div>
   ),
 };

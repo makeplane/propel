@@ -1,24 +1,40 @@
-import { Button as BaseButton } from "@base-ui/react/button";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { LoaderCircle, Plus } from "lucide-react";
-import { expect } from "storybook/test";
 
 import { Icon } from "../../internal/icon";
-import { Spinner as SpinnerSlot } from "../../internal/spinner";
+import { Spinner } from "../../internal/spinner";
 import { iconControl } from "../../storybook/icon-control";
-import { IconButton, type IconButtonMagnitude, type IconButtonProminence } from "./index";
+import {
+  IconButton,
+  type IconButtonMagnitude,
+  type IconButtonProminence,
+  type IconButtonTone,
+} from "./index";
 
-// elements-tier story (rule 2b): the styled parts are Base-UI-agnostic `useRender` elements — the square
-// `IconButton` box, the shared internal `Icon` glyph slot, and the internal `Spinner` loading indicator.
-// Base UI's `Button` behavior grafts onto the styled box via `render`. The components-tier
-// `IconButton` story shows the ready-made that swaps the slot for the spinner while `loading`.
 const PROMINENCES: IconButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
+// The prominence×tone pairings the control chrome defines a palette for (danger skips
+// tertiary/ghost).
+const PALETTES: { prominence: IconButtonProminence; tone: IconButtonTone }[] = [
+  { prominence: "primary", tone: "neutral" },
+  { prominence: "secondary", tone: "neutral" },
+  { prominence: "tertiary", tone: "neutral" },
+  { prominence: "ghost", tone: "neutral" },
+  { prominence: "primary", tone: "danger" },
+  { prominence: "secondary", tone: "danger" },
+];
+
+// elements-tier story (rule 2b): a pure UI-configuration showcase. `IconButton` is a Base-UI-agnostic
+// styled square `<button>` rendered DIRECTLY — no Base UI graft — wrapping the shared internal `Icon`
+// glyph slot, with every visual axis shown and every visual state pinned statically via the
+// attributes its cva keys off (`disabled`, `aria-busy`) or forced by the pseudo-states addon
+// (hover/active/focus-visible are CSS pseudo-classes). Grafting, keyboard, and aria behavior are
+// demonstrated AND tested in the ready-made IconButton (Components/IconButton), which composes this
+// primitive.
 const meta = {
   title: "Elements/IconButton",
   component: IconButton,
-  subcomponents: { IconButton },
   // Icon picker control for the single glyph rendered inside the slot.
   argTypes: { children: iconControl },
   parameters: {
@@ -32,26 +48,19 @@ const meta = {
     tone: "neutral",
     magnitude: "md",
     children: <Plus />,
+    "aria-label": "Add item",
   },
+  render: ({ children, ...props }) => (
+    <IconButton {...props}>
+      <Icon>{children}</Icon>
+    </IconButton>
+  ),
 } satisfies Meta<typeof IconButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/**
- * Graft Base UI `Button` behavior onto the styled `IconButton` box wrapping the shared `Icon` glyph
- * slot.
- */
-export const Default: Story = {
-  render: (args) => (
-    <BaseButton
-      render={<IconButton prominence="primary" tone="neutral" magnitude="md" />}
-      aria-label="Add item"
-    >
-      <Icon>{args.children}</Icon>
-    </BaseButton>
-  ),
-};
+export const Default: Story = {};
 
 /**
  * Every Figma "Type" side by side. The neutral fills are `primary`/`secondary`/ `tertiary`/`ghost`;
@@ -59,19 +68,19 @@ export const Default: Story = {
  * outline) — see {@link Tones}.
  */
 export const Prominences: Story = {
-  parameters: { controls: { disable: true } },
-  render: () => (
+  argTypes: { prominence: { control: false }, "aria-label": { control: false } },
+  render: ({ children, tone, magnitude }) => (
     <div className="flex items-center gap-3">
       {PROMINENCES.map((prominence) => (
-        <BaseButton
+        <IconButton
           key={prominence}
-          render={<IconButton prominence={prominence} tone="neutral" magnitude="md" />}
+          prominence={prominence}
+          tone={tone}
+          magnitude={magnitude}
           aria-label={`${prominence} action`}
         >
-          <Icon>
-            <Plus />
-          </Icon>
-        </BaseButton>
+          <Icon>{children}</Icon>
+        </IconButton>
       ))}
     </div>
   ),
@@ -83,110 +92,156 @@ export const Prominences: Story = {
  */
 export const Tones: Story = {
   parameters: { controls: { disable: true } },
-  render: () => (
+  render: ({ children, magnitude }) => (
     <div className="flex items-center gap-3">
-      <BaseButton
-        render={<IconButton prominence="primary" tone="neutral" magnitude="md" />}
-        aria-label="Neutral"
-      >
-        <Icon>
-          <Plus />
-        </Icon>
-      </BaseButton>
-      <BaseButton
-        render={<IconButton prominence="primary" tone="danger" magnitude="md" />}
-        aria-label="Danger fill"
-      >
-        <Icon>
-          <Plus />
-        </Icon>
-      </BaseButton>
-      <BaseButton
-        render={<IconButton prominence="secondary" tone="danger" magnitude="md" />}
+      <IconButton prominence="primary" tone="neutral" magnitude={magnitude} aria-label="Neutral">
+        <Icon>{children}</Icon>
+      </IconButton>
+      <IconButton prominence="primary" tone="danger" magnitude={magnitude} aria-label="Danger fill">
+        <Icon>{children}</Icon>
+      </IconButton>
+      <IconButton
+        prominence="secondary"
+        tone="danger"
+        magnitude={magnitude}
         aria-label="Danger outline"
       >
-        <Icon>
-          <Plus />
-        </Icon>
-      </BaseButton>
+        <Icon>{children}</Icon>
+      </IconButton>
     </div>
   ),
 };
 
 /** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl). */
 export const Magnitudes: Story = {
-  parameters: { controls: { disable: true } },
-  render: () => (
+  argTypes: { magnitude: { control: false }, "aria-label": { control: false } },
+  render: ({ children, prominence, tone }) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <BaseButton
+        <IconButton
           key={magnitude}
-          render={<IconButton prominence="primary" tone="neutral" magnitude={magnitude} />}
+          prominence={prominence}
+          tone={tone}
+          magnitude={magnitude}
           aria-label={`${magnitude} add`}
         >
-          <Icon>
-            <Plus />
-          </Icon>
-        </BaseButton>
+          <Icon>{children}</Icon>
+        </IconButton>
       ))}
     </div>
   ),
 };
 
-/** Swap the `Icon` slot for a `Spinner` to show the busy indicator. */
-export const Spinner: Story = {
-  parameters: { controls: { disable: true } },
-  render: () => (
-    <div className="flex items-center gap-3">
-      <BaseButton
-        render={<IconButton prominence="primary" tone="neutral" magnitude="md" />}
-        aria-label="Saving"
-        aria-busy
-      >
-        <SpinnerSlot>
-          <LoaderCircle />
-        </SpinnerSlot>
-      </BaseButton>
-      <BaseButton
-        render={<IconButton prominence="secondary" tone="neutral" magnitude="md" />}
-        aria-label="Loading"
-        aria-busy
-      >
-        <SpinnerSlot>
-          <LoaderCircle />
-        </SpinnerSlot>
-      </BaseButton>
-      <BaseButton
-        render={<IconButton prominence="tertiary" tone="neutral" magnitude="md" />}
-        aria-label="Refreshing"
-        aria-busy
-      >
-        <SpinnerSlot>
-          <LoaderCircle />
-        </SpinnerSlot>
-      </BaseButton>
+/**
+ * Every visual state of every palette, pinned statically — one row per prominence×tone pairing the
+ * chrome defines. Hover / active / focus-visible are CSS pseudo-classes, forced by the
+ * pseudo-states addon; `disabled` is the native attribute the `disabled:` palette keys off; busy
+ * pins the `aria-busy`/`aria-disabled` the ready-made IconButton sets while `loading` (the shared
+ * `Spinner` swaps in for the glyph slot).
+ */
+export const States: Story = {
+  parameters: {
+    controls: { disable: true },
+    pseudo: {
+      hover: PALETTES.map(({ prominence, tone }) => `#icon-button-${prominence}-${tone}-hover`),
+      active: PALETTES.map(({ prominence, tone }) => `#icon-button-${prominence}-${tone}-active`),
+      focusVisible: PALETTES.map(
+        ({ prominence, tone }) => `#icon-button-${prominence}-${tone}-focus`,
+      ),
+    },
+  },
+  render: ({ children, magnitude }) => (
+    <div className="flex flex-col gap-3">
+      {PALETTES.map(({ prominence, tone }) => (
+        <div key={`${prominence}-${tone}`} className="flex items-center gap-3">
+          <IconButton
+            prominence={prominence}
+            tone={tone}
+            magnitude={magnitude}
+            aria-label={`${prominence} ${tone} default`}
+          >
+            <Icon>{children}</Icon>
+          </IconButton>
+          <IconButton
+            id={`icon-button-${prominence}-${tone}-hover`}
+            prominence={prominence}
+            tone={tone}
+            magnitude={magnitude}
+            aria-label={`${prominence} ${tone} hover`}
+          >
+            <Icon>{children}</Icon>
+          </IconButton>
+          <IconButton
+            id={`icon-button-${prominence}-${tone}-active`}
+            prominence={prominence}
+            tone={tone}
+            magnitude={magnitude}
+            aria-label={`${prominence} ${tone} active`}
+          >
+            <Icon>{children}</Icon>
+          </IconButton>
+          <IconButton
+            id={`icon-button-${prominence}-${tone}-focus`}
+            prominence={prominence}
+            tone={tone}
+            magnitude={magnitude}
+            aria-label={`${prominence} ${tone} focus`}
+          >
+            <Icon>{children}</Icon>
+          </IconButton>
+          <IconButton
+            prominence={prominence}
+            tone={tone}
+            magnitude={magnitude}
+            aria-label={`${prominence} ${tone} disabled`}
+            disabled
+          >
+            <Icon>{children}</Icon>
+          </IconButton>
+          <IconButton
+            prominence={prominence}
+            tone={tone}
+            magnitude={magnitude}
+            aria-label={`${prominence} ${tone} busy`}
+            aria-busy
+            aria-disabled
+          >
+            <Spinner>
+              <LoaderCircle />
+            </Spinner>
+          </IconButton>
+        </div>
+      ))}
     </div>
   ),
 };
 
 /**
- * The grafted `Button` exposes its `aria-label` as the accessible name. Tagged
- * `!dev`/`!autodocs`/`!manifest` so it's hidden from the sidebar, docs, and AI manifest — it's a
- * behavior test, not an example — but still runs under `test`.
+ * The icon button is composed from named parts: the square `IconButton` box holding ONE glyph slot
+ * — the internal `Icon` sizing the decorative glyph to the box's `--node-size`, or the internal
+ * `Spinner` swapped in while loading. The busy state is pinned here via the
+ * `aria-busy`/`aria-disabled` the ready-made IconButton (Components/IconButton) sets while
+ * `loading` — that ready-made also does the swap for you.
  */
-export const HasAccessibleName: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => (
-    <BaseButton
-      render={<IconButton prominence="primary" tone="neutral" magnitude="md" />}
-      aria-label="Add item"
-    >
-      <Icon>
-        <Plus />
-      </Icon>
-    </BaseButton>
+export const Anatomy: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ children, prominence, tone, magnitude }) => (
+    <div className="flex items-center gap-3">
+      <IconButton prominence={prominence} tone={tone} magnitude={magnitude} aria-label="Add item">
+        <Icon>{children}</Icon>
+      </IconButton>
+      <IconButton
+        prominence={prominence}
+        tone={tone}
+        magnitude={magnitude}
+        aria-label="Saving"
+        aria-busy
+        aria-disabled
+      >
+        <Spinner>
+          <LoaderCircle />
+        </Spinner>
+      </IconButton>
+    </div>
   ),
-  play: async ({ canvas }) => {
-    await expect(canvas.getByRole("button", { name: "Add item" })).toBeInTheDocument();
-  },
 };

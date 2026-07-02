@@ -1,18 +1,19 @@
-import { Menu as BaseMenu } from "@base-ui/react/menu";
-import { Menubar as BaseMenubar } from "@base-ui/react/menubar";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, userEvent, waitFor } from "storybook/test";
+import { FilePen, Pencil } from "lucide-react";
+import { expect } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import { MenuItem, MenuPopup, MenuSeparator } from "../menu/index";
 import { Menubar, MenubarTrigger, MenubarTriggerLabel } from "./index";
 
-// elements-tier story (rule 2b): the styled parts are Base-UI-agnostic `useRender` elements; Base UI's
-// behavior grafts onto them via `render`. The `Menubar` container's menu-bar behavior (arrow-key
-// navigation, single-open) is behavior-only (it lives in `components`), so this in-tier story
-// grafts it straight from `@base-ui/react` — `<BaseMenubar render={<Menubar/>}>` — around a row of
-// atomic `Menu` roots (Trigger › Portal › Positioner › Popup › Item). Each trigger composes its own
-// anatomy (`MenubarTriggerLabel`, plus an optional `MenubarTriggerIcon`). The components-tier story
-// swaps the popup assembly for the ready-made `MenuContent`.
+// elements-tier story (rule 2b): a pure UI-configuration showcase. The styled parts render
+// DIRECTLY — no Base UI grafts — with the menu popup laid out inline (it is just a styled div;
+// Base UI only positions it) and every visual state pinned statically via the `data-*` attributes
+// Base UI's menubar/menu would set (`data-popup-open=""`, `data-highlighted=""`,
+// `data-disabled=""`). The family exposes no cva axes (per the designer's spec the bar chrome is
+// "always the same"); its configuration surface is composition — whether a trigger carries a
+// leading glyph. Menu-bar behavior (arrow-key navigation, single-open, click-to-open, whole-menu
+// disabling) is demonstrated AND tested in the components-tier story (Components/Menubar).
 const meta = {
   title: "Elements/Menubar",
   component: Menubar,
@@ -21,61 +22,123 @@ const meta = {
     MenubarTriggerLabel,
     MenuPopup,
     MenuItem,
+    MenuSeparator,
   },
 } satisfies Meta<typeof Menubar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** A row of menus sharing arrow-key navigation and single-open behavior. */
+/**
+ * The full anatomy assembled statically: the `Menubar` container laying out its `MenubarTrigger`s,
+ * each composing an optional leading glyph (the internal `Icon` — the designer's "whether items
+ * have icons" axis is served by composing or omitting it) and a `MenubarTriggerLabel`. The File
+ * trigger pins `data-popup-open=""` — the attribute Base UI sets while its menu is open — and its
+ * `MenuPopup` renders inline below the bar (a styled div; Base UI only positions it) with the
+ * active row pinning `data-highlighted=""`.
+ */
 export const Default: Story = {
-  parameters: {
-    a11y: {
-      // With a menu open, Base UI's Menubar treats each menu as a submenu and emits a
-      // visually-hidden `aria-owns` owner `<span>` to reparent the portaled popup into
-      // the correct place in the accessibility tree. In the DOM that span lands inside
-      // the `role="menubar"`, which axe's aria-required-children flags as a disallowed
-      // child — a static-analysis false-positive (same as the Menu Submenu story; see
-      // dequelabs/axe-core#4048 and floating-ui/floating-ui#3424). Suppress just this rule.
-      config: { rules: [{ id: "aria-required-children", enabled: false }] },
-    },
-  },
   render: () => (
-    <BaseMenubar render={<Menubar />}>
-      <BaseMenu.Root>
-        <MenubarTrigger render={<BaseMenu.Trigger />}>
+    <div className="flex flex-col items-start gap-1">
+      <Menubar>
+        <MenubarTrigger data-popup-open="" aria-expanded>
+          <Icon tint="secondary">
+            <FilePen />
+          </Icon>
           <MenubarTriggerLabel>File</MenubarTriggerLabel>
         </MenubarTrigger>
-        <BaseMenu.Portal>
-          <BaseMenu.Positioner sideOffset={4}>
-            <BaseMenu.Popup render={<MenuPopup elevation="raised" />}>
-              <BaseMenu.Item render={<MenuItem layout="default" />}>New file</BaseMenu.Item>
-              <BaseMenu.Item render={<MenuItem layout="default" />}>Open…</BaseMenu.Item>
-              <BaseMenu.Separator render={<MenuSeparator />} />
-              <BaseMenu.Item render={<MenuItem layout="default" />}>Save</BaseMenu.Item>
-            </BaseMenu.Popup>
-          </BaseMenu.Positioner>
-        </BaseMenu.Portal>
-      </BaseMenu.Root>
-      <BaseMenu.Root>
-        <MenubarTrigger render={<BaseMenu.Trigger />}>
+        <MenubarTrigger aria-expanded={false}>
+          <Icon tint="secondary">
+            <Pencil />
+          </Icon>
           <MenubarTriggerLabel>Edit</MenubarTriggerLabel>
         </MenubarTrigger>
-        <BaseMenu.Portal>
-          <BaseMenu.Positioner sideOffset={4}>
-            <BaseMenu.Popup render={<MenuPopup elevation="raised" />}>
-              <BaseMenu.Item render={<MenuItem layout="default" />}>Undo</BaseMenu.Item>
-              <BaseMenu.Item render={<MenuItem layout="default" />}>Redo</BaseMenu.Item>
-            </BaseMenu.Popup>
-          </BaseMenu.Positioner>
-        </BaseMenu.Portal>
-      </BaseMenu.Root>
-    </BaseMenubar>
+        <MenubarTrigger aria-expanded={false}>
+          <MenubarTriggerLabel>Help</MenubarTriggerLabel>
+        </MenubarTrigger>
+      </Menubar>
+      <MenuPopup elevation="raised">
+        <MenuItem layout="default" data-highlighted="">
+          New file
+        </MenuItem>
+        <MenuItem layout="default">Open…</MenuItem>
+        <MenuSeparator />
+        <MenuItem layout="default">Save</MenuItem>
+      </MenuPopup>
+    </div>
   ),
-  play: async ({ canvas }) => {
-    // Inside a Menubar, each menu trigger is a `role="menuitem"` (not a plain button).
-    await userEvent.click(canvas.getByRole("menuitem", { name: "File" }));
-    await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
-    await expect(document.body).toHaveTextContent("New file");
+};
+
+/**
+ * Every pinnable state of a trigger in the bar:
+ *
+ * - **Rest** — the quiet secondary-text row.
+ * - **Focused** — the accent focus ring (`:focus-visible`, forced by the pseudo-states addon).
+ * - **Open** — pins the `data-popup-open=""` Base UI sets while the trigger's menu is open: the
+ *   hover-layer highlight plus primary text.
+ * - **Disabled** — pins the `data-disabled=""` Base UI mirrors from a disabled `Menu` root (plus the
+ *   native `disabled`): inert and dimmed, while the trigger keeps its slot in the bar.
+ */
+export const States: Story = {
+  parameters: {
+    controls: { disable: true },
+    pseudo: { focusVisible: ["#menubar-trigger-focus"] },
   },
+  render: () => (
+    <Menubar>
+      <MenubarTrigger id="menubar-trigger-rest">
+        <MenubarTriggerLabel>Rest</MenubarTriggerLabel>
+      </MenubarTrigger>
+      <MenubarTrigger id="menubar-trigger-focus">
+        <MenubarTriggerLabel>Focused</MenubarTriggerLabel>
+      </MenubarTrigger>
+      <MenubarTrigger id="menubar-trigger-open" data-popup-open="">
+        <MenubarTriggerLabel>Open</MenubarTriggerLabel>
+      </MenubarTrigger>
+      <MenubarTrigger data-disabled="" disabled>
+        <MenubarTriggerLabel>Disabled</MenubarTriggerLabel>
+      </MenubarTrigger>
+    </Menubar>
+  ),
+};
+
+/**
+ * CSS canary (rule 2b): asserts the pinned attribute selectors actually compiled — the
+ * `data-popup-open` trigger's background (`data-popup-open:bg-layer-transparent-hover`) computes
+ * away from the resting trigger's. Tagged out of the sidebar/docs/manifest while still running
+ * under the default `test` tag.
+ */
+export const StatesCanary: Story = {
+  ...States,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvasElement }) => {
+    const backgroundColor = (id: string) => {
+      const trigger = canvasElement.querySelector(`#${id}`);
+      if (!(trigger instanceof HTMLElement)) throw new Error(`missing #${id}`);
+      return getComputedStyle(trigger).backgroundColor;
+    };
+    await expect(backgroundColor("menubar-trigger-open")).not.toBe(
+      backgroundColor("menubar-trigger-rest"),
+    );
+  },
+};
+
+/**
+ * `MenubarTriggerLabel` is a `min-w-0 truncate` text element: when the bar is constrained, a long
+ * label truncates with an ellipsis instead of overflowing the bar.
+ */
+export const LabelTruncation: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="w-56">
+      <Menubar>
+        <MenubarTrigger>
+          <MenubarTriggerLabel>A very long menu that would overflow the bar</MenubarTriggerLabel>
+        </MenubarTrigger>
+        <MenubarTrigger>
+          <MenubarTriggerLabel>Edit</MenubarTriggerLabel>
+        </MenubarTrigger>
+      </Menubar>
+    </div>
+  ),
 };

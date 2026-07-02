@@ -72,17 +72,14 @@ export const Indeterminate: Story = { args: { value: null, showValue: false } };
  */
 export const SimulatedTask: Story = {
   parameters: { controls: { disable: true } },
-  render: (args) => {
-    function ExportExample() {
-      const [value, setValue] = React.useState(0);
-      React.useEffect(() => {
-        if (value >= 100) return;
-        const timer = window.setTimeout(() => setValue((current) => current + 25), 300);
-        return () => window.clearTimeout(timer);
-      }, [value]);
-      return <LinearProgress {...args} value={value} aria-label="Export progress" />;
-    }
-    return <ExportExample />;
+  render: function Render(args) {
+    const [value, setValue] = React.useState(0);
+    React.useEffect(() => {
+      if (value >= 100) return;
+      const timer = window.setTimeout(() => setValue((current) => current + 25), 300);
+      return () => window.clearTimeout(timer);
+    }, [value]);
+    return <LinearProgress {...args} value={value} aria-label="Export progress" />;
   },
 };
 

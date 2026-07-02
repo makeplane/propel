@@ -139,6 +139,35 @@ export const EmptyInteraction: Story = {
 };
 
 /**
+ * Interaction test: `Field invalid` propagates validity through the ready-mades — the input carries
+ * `aria-invalid`/`data-invalid` (which the input group's danger border keys off) and the matched
+ * `FieldError` message renders. Tagged out of the sidebar/docs/manifest while still running under
+ * the default `test` tag.
+ */
+export const InvalidInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <Field name="region" invalid>
+      <Combobox items={REGIONS} required>
+        <FieldLabel magnitude="md" inset={false}>
+          Region
+        </FieldLabel>
+        <ComboboxInputGroup magnitude="md" placeholder="e.g. eu-central-1" />
+        <FieldError match={true} magnitude="md">
+          Choose a deployment region.
+        </FieldError>
+      </Combobox>
+    </Field>
+  ),
+  play: async ({ canvas }) => {
+    const input = canvas.getByRole("combobox", { name: "Region" });
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(input).toHaveAttribute("data-invalid");
+    await expect(canvas.getByText("Choose a deployment region.")).toBeInTheDocument();
+  },
+};
+
+/**
  * `multiple` swaps the input frame for `ComboboxChips`: each selected value renders as a removable
  * chip ahead of the inline input, wrapping onto new rows as the selection grows. `removeLabel`
  * names each chip's remove button (localizable, required). Arrow keys move focus across chips;

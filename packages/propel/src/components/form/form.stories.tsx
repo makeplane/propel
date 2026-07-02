@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
-import { expect, fn, userEvent, waitFor } from "storybook/test";
+import { expect, userEvent, waitFor } from "storybook/test";
 
 import { Button } from "../button/index";
 import { CheckboxGroupField, CheckboxGroupFieldOption } from "../checkbox-group-field/index";
@@ -35,91 +35,6 @@ type LaunchServerValues = {
   storageType: string;
 };
 
-type ExampleFormProps = {
-  onFormSubmit?: (values: LaunchServerValues) => void;
-};
-
-function ExampleForm({ onFormSubmit }: ExampleFormProps) {
-  const [homepage, setHomepage] = React.useState("https://example.com");
-  const [errors, setErrors] = React.useState<Record<string, string | string[]>>({});
-
-  return (
-    <Form<LaunchServerValues>
-      errors={errors}
-      onFormSubmit={(values) => {
-        if (values.homepage.includes("example.com")) {
-          setErrors({ homepage: "The example domain is not allowed." });
-          return;
-        }
-
-        setErrors({});
-        onFormSubmit?.(values);
-      }}
-    >
-      <FormBody layout="single">
-        <InputField
-          magnitude="md"
-          orientation="vertical"
-          name="homepage"
-          label="Homepage"
-          type="url"
-          required
-          placeholder="https://plane.so"
-          value={homepage}
-          onValueChange={(nextHomepage) => {
-            setHomepage(nextHomepage);
-            if (errors.homepage) {
-              setErrors({});
-            }
-          }}
-        />
-        <SelectField
-          name="serverType"
-          label="Server type"
-          magnitude="md"
-          options={SERVER_TYPES}
-          defaultValue="general"
-          required
-          description="Select the resource profile for this server."
-        />
-        <RadioGroupField
-          name="storageType"
-          label="Storage type"
-          magnitude="md"
-          density="comfortable"
-          defaultValue="ssd"
-          required
-        >
-          <RadioGroupFieldOption value="ssd" label="SSD" />
-          <RadioGroupFieldOption value="hdd" label="HDD" />
-        </RadioGroupField>
-        <CheckboxGroupField
-          name="allowedProtocols"
-          label="Allowed protocols"
-          magnitude="md"
-          density="comfortable"
-          defaultValue={["https"]}
-        >
-          <CheckboxGroupFieldOption value="http" label="HTTP" />
-          <CheckboxGroupFieldOption value="https" label="HTTPS" />
-          <CheckboxGroupFieldOption value="ssh" label="SSH" />
-        </CheckboxGroupField>
-        <SwitchField
-          name="restartOnFailure"
-          label="Restart on failure"
-          magnitude="md"
-          defaultChecked
-        />
-      </FormBody>
-      <FormActions layout="inline">
-        <Button sizing="hug" type="submit" prominence="secondary" tone="neutral" magnitude="md">
-          Submit
-        </Button>
-      </FormActions>
-    </Form>
-  );
-}
-
 type CreateAccountValues = {
   username: string;
 };
@@ -131,58 +46,6 @@ function checkUsernameAvailability(username: string): Promise<{ error?: string }
       resolve(username === "admin" ? { error: "This username is already taken." } : {});
     }, 300);
   });
-}
-
-type AsyncValidationFormProps = {
-  onFormSubmit?: (values: CreateAccountValues) => void;
-};
-
-function AsyncValidationForm({ onFormSubmit }: AsyncValidationFormProps) {
-  const [pending, setPending] = React.useState(false);
-  const [errors, setErrors] = React.useState<Record<string, string | string[]>>({});
-
-  return (
-    <Form<CreateAccountValues>
-      errors={errors}
-      onFormSubmit={async (values) => {
-        setPending(true);
-        const { error } = await checkUsernameAvailability(values.username);
-        setPending(false);
-
-        if (error) {
-          setErrors({ username: error });
-          return;
-        }
-
-        setErrors({});
-        onFormSubmit?.(values);
-      }}
-    >
-      <FormBody layout="single">
-        <InputField
-          magnitude="md"
-          orientation="vertical"
-          name="username"
-          label="Username"
-          required
-          defaultValue="admin"
-          placeholder="e.g. alice"
-        />
-      </FormBody>
-      <FormActions layout="inline">
-        <Button
-          sizing="hug"
-          type="submit"
-          prominence="primary"
-          tone="neutral"
-          magnitude="md"
-          loading={pending}
-        >
-          Create account
-        </Button>
-      </FormActions>
-    </Form>
-  );
 }
 
 type ReserveUsernameState = {
@@ -204,38 +67,6 @@ async function reserveUsername(
   }
 
   return {};
-}
-
-function ServerFunctionForm() {
-  const [state, formAction, pending] = React.useActionState(reserveUsername, {});
-
-  return (
-    <Form action={formAction} errors={state.serverErrors}>
-      <FormBody layout="single">
-        <InputField
-          magnitude="md"
-          orientation="vertical"
-          name="username"
-          label="Username"
-          required
-          defaultValue="admin"
-          placeholder="e.g. alice"
-        />
-      </FormBody>
-      <FormActions layout="inline">
-        <Button
-          sizing="hug"
-          type="submit"
-          prominence="primary"
-          tone="neutral"
-          magnitude="md"
-          loading={pending}
-        >
-          Reserve username
-        </Button>
-      </FormActions>
-    </Form>
-  );
 }
 
 type ProfileValues = {
@@ -263,62 +94,93 @@ function parseProfile(values: ProfileValues): Record<string, string[]> {
   return fieldErrors;
 }
 
-type SchemaValidationFormProps = {
-  onFormSubmit?: (values: ProfileValues) => void;
-};
-
-function SchemaValidationForm({ onFormSubmit }: SchemaValidationFormProps) {
-  const [errors, setErrors] = React.useState<Record<string, string | string[]>>({});
-
-  return (
-    <Form<ProfileValues>
-      errors={errors}
-      onFormSubmit={(values) => {
-        const fieldErrors = parseProfile(values);
-
-        if (Object.keys(fieldErrors).length > 0) {
-          setErrors(fieldErrors);
-          return;
-        }
-
-        setErrors({});
-        onFormSubmit?.(values);
-      }}
-    >
-      <FormBody layout="single">
-        <InputField
-          magnitude="md"
-          orientation="vertical"
-          name="name"
-          label="Name"
-          placeholder="Enter name"
-        />
-        <InputField
-          magnitude="md"
-          orientation="vertical"
-          name="age"
-          label="Age"
-          placeholder="Enter age"
-        />
-      </FormBody>
-      <FormActions layout="inline">
-        <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
-          Submit
-        </Button>
-      </FormActions>
-    </Form>
-  );
-}
-
 /** Form coordinates field values and server-style field errors. */
 export const Default: Story = {
-  render: () => <ExampleForm />,
+  render: function Render() {
+    const [homepage, setHomepage] = React.useState("https://example.com");
+    const [errors, setErrors] = React.useState<Record<string, string | string[]>>({});
+
+    return (
+      <Form<LaunchServerValues>
+        errors={errors}
+        onFormSubmit={(values) => {
+          if (values.homepage.includes("example.com")) {
+            setErrors({ homepage: "The example domain is not allowed." });
+            return;
+          }
+
+          setErrors({});
+        }}
+      >
+        <FormBody layout="single">
+          <InputField
+            magnitude="md"
+            orientation="vertical"
+            name="homepage"
+            label="Homepage"
+            type="url"
+            required
+            placeholder="https://plane.so"
+            value={homepage}
+            onValueChange={(nextHomepage) => {
+              setHomepage(nextHomepage);
+              if (errors.homepage) {
+                setErrors({});
+              }
+            }}
+          />
+          <SelectField
+            name="serverType"
+            label="Server type"
+            magnitude="md"
+            options={SERVER_TYPES}
+            defaultValue="general"
+            required
+            description="Select the resource profile for this server."
+          />
+          <RadioGroupField
+            name="storageType"
+            label="Storage type"
+            magnitude="md"
+            density="comfortable"
+            defaultValue="ssd"
+            required
+          >
+            <RadioGroupFieldOption value="ssd" label="SSD" />
+            <RadioGroupFieldOption value="hdd" label="HDD" />
+          </RadioGroupField>
+          <CheckboxGroupField
+            name="allowedProtocols"
+            label="Allowed protocols"
+            magnitude="md"
+            density="comfortable"
+            defaultValue={["https"]}
+          >
+            <CheckboxGroupFieldOption value="http" label="HTTP" />
+            <CheckboxGroupFieldOption value="https" label="HTTPS" />
+            <CheckboxGroupFieldOption value="ssh" label="SSH" />
+          </CheckboxGroupField>
+          <SwitchField
+            name="restartOnFailure"
+            label="Restart on failure"
+            magnitude="md"
+            defaultChecked
+          />
+        </FormBody>
+        <FormActions layout="inline">
+          <Button sizing="hug" type="submit" prominence="secondary" tone="neutral" magnitude="md">
+            Submit
+          </Button>
+        </FormActions>
+      </Form>
+    );
+  },
 };
 
 /** Submitting with the disallowed domain surfaces the server error on the homepage field. */
 export const SubmitWithErrors: Story = {
+  ...Default,
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => <ExampleForm onFormSubmit={fn()} />,
   play: async ({ canvas }) => {
     const input = canvas.getByRole<HTMLInputElement>("textbox", { name: "Homepage" });
     const hdd = canvas.getByRole("radio", { name: "HDD" });
@@ -340,15 +202,96 @@ export const SubmitWithErrors: Story = {
   },
 };
 
+/**
+ * Native constraint validation: submitting an empty required field marks it invalid — no custom
+ * `errors` wiring needed.
+ */
+export const ConstraintValidationInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <Form
+      onSubmit={(event) => {
+        event.preventDefault();
+      }}
+    >
+      <FormBody layout="single">
+        <InputField
+          magnitude="md"
+          orientation="vertical"
+          name="email"
+          label="Email"
+          type="email"
+          required
+          placeholder="you@example.com"
+        />
+      </FormBody>
+      <FormActions layout="inline">
+        <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
+          Submit
+        </Button>
+      </FormActions>
+    </Form>
+  ),
+  play: async ({ canvas }) => {
+    await userEvent.click(canvas.getByRole("button", { name: "Submit" }));
+    await expect(canvas.getByRole("textbox", { name: "Email" })).toBeInvalid();
+  },
+};
+
 /** Async submission: the submit button shows its pending state while a server-style check resolves. */
 export const AsyncValidation: Story = {
-  render: () => <AsyncValidationForm />,
+  render: function Render() {
+    const [pending, setPending] = React.useState(false);
+    const [errors, setErrors] = React.useState<Record<string, string | string[]>>({});
+
+    return (
+      <Form<CreateAccountValues>
+        errors={errors}
+        onFormSubmit={async (values) => {
+          setPending(true);
+          const { error } = await checkUsernameAvailability(values.username);
+          setPending(false);
+
+          if (error) {
+            setErrors({ username: error });
+            return;
+          }
+
+          setErrors({});
+        }}
+      >
+        <FormBody layout="single">
+          <InputField
+            magnitude="md"
+            orientation="vertical"
+            name="username"
+            label="Username"
+            required
+            defaultValue="admin"
+            placeholder="e.g. alice"
+          />
+        </FormBody>
+        <FormActions layout="inline">
+          <Button
+            sizing="hug"
+            type="submit"
+            prominence="primary"
+            tone="neutral"
+            magnitude="md"
+            loading={pending}
+          >
+            Create account
+          </Button>
+        </FormActions>
+      </Form>
+    );
+  },
 };
 
 /** Submitting a taken username surfaces the async server error; a free one clears it. */
 export const AsyncValidationInteraction: Story = {
+  ...AsyncValidation,
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => <AsyncValidationForm onFormSubmit={fn()} />,
   play: async ({ canvas }) => {
     const input = canvas.getByRole<HTMLInputElement>("textbox", { name: "Username" });
     const submit = canvas.getByRole("button", { name: "Create account" });
@@ -371,13 +314,43 @@ export const AsyncValidationInteraction: Story = {
 
 /** Submission through the form `action` with `React.useActionState`, as with a Server Function. */
 export const ServerFunction: Story = {
-  render: () => <ServerFunctionForm />,
+  render: function Render() {
+    const [state, formAction, pending] = React.useActionState(reserveUsername, {});
+
+    return (
+      <Form action={formAction} errors={state.serverErrors}>
+        <FormBody layout="single">
+          <InputField
+            magnitude="md"
+            orientation="vertical"
+            name="username"
+            label="Username"
+            required
+            defaultValue="admin"
+            placeholder="e.g. alice"
+          />
+        </FormBody>
+        <FormActions layout="inline">
+          <Button
+            sizing="hug"
+            type="submit"
+            prominence="primary"
+            tone="neutral"
+            magnitude="md"
+            loading={pending}
+          >
+            Reserve username
+          </Button>
+        </FormActions>
+      </Form>
+    );
+  },
 };
 
 /** The action's returned errors surface on the matching field; a free username clears them. */
 export const ServerFunctionInteraction: Story = {
+  ...ServerFunction,
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => <ServerFunctionForm />,
   play: async ({ canvas }) => {
     const input = canvas.getByRole<HTMLInputElement>("textbox", { name: "Username" });
     const submit = canvas.getByRole("button", { name: "Reserve username" });
@@ -399,13 +372,53 @@ export const ServerFunctionInteraction: Story = {
 
 /** One schema-style parse maps consolidated `fieldErrors` onto every field by `name`. */
 export const SchemaValidation: Story = {
-  render: () => <SchemaValidationForm />,
+  render: function Render() {
+    const [errors, setErrors] = React.useState<Record<string, string | string[]>>({});
+
+    return (
+      <Form<ProfileValues>
+        errors={errors}
+        onFormSubmit={(values) => {
+          const fieldErrors = parseProfile(values);
+
+          if (Object.keys(fieldErrors).length > 0) {
+            setErrors(fieldErrors);
+            return;
+          }
+
+          setErrors({});
+        }}
+      >
+        <FormBody layout="single">
+          <InputField
+            magnitude="md"
+            orientation="vertical"
+            name="name"
+            label="Name"
+            placeholder="Enter name"
+          />
+          <InputField
+            magnitude="md"
+            orientation="vertical"
+            name="age"
+            label="Age"
+            placeholder="Enter age"
+          />
+        </FormBody>
+        <FormActions layout="inline">
+          <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
+            Submit
+          </Button>
+        </FormActions>
+      </Form>
+    );
+  },
 };
 
 /** An invalid submit errors both fields at once; valid values clear them on the next submit. */
 export const SchemaValidationInteraction: Story = {
+  ...SchemaValidation,
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => <SchemaValidationForm onFormSubmit={fn()} />,
   play: async ({ canvas }) => {
     const name = canvas.getByRole<HTMLInputElement>("textbox", { name: "Name" });
     const age = canvas.getByRole<HTMLInputElement>("textbox", { name: "Age" });

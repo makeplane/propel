@@ -1,19 +1,35 @@
-import { Button as BaseButton } from "@base-ui/react/button";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { LoaderCircle, Plus } from "lucide-react";
-import { expect, fn, userEvent as baseUserEvent } from "storybook/test";
 
 import { Icon } from "../../internal/icon";
 import { Spinner } from "../../internal/spinner";
-import { Button, ButtonLabel, type ButtonMagnitude, type ButtonProminence } from "./index";
+import {
+  Button,
+  ButtonLabel,
+  type ButtonMagnitude,
+  type ButtonProminence,
+  type ButtonTone,
+} from "./index";
 
 const PROMINENCES: ButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: ButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
-// elements-tier story (rule 2b): `Button` is a Base-UI-agnostic styled `<button>`; Base UI's `Button`
-// grafts the action behavior onto it via `render` (behavior part outer, styled part the render
-// target) — the same wiring the `components` ready-made composes. The atomic button has no
-// inline-node slots or `loading` spinner; for those, see the ready-made `Button`
+// The prominence×tone pairings the control chrome defines a palette for (danger skips
+// tertiary/ghost).
+const PALETTES: { prominence: ButtonProminence; tone: ButtonTone }[] = [
+  { prominence: "primary", tone: "neutral" },
+  { prominence: "secondary", tone: "neutral" },
+  { prominence: "tertiary", tone: "neutral" },
+  { prominence: "ghost", tone: "neutral" },
+  { prominence: "primary", tone: "danger" },
+  { prominence: "secondary", tone: "danger" },
+];
+
+// elements-tier story (rule 2b): a pure UI-configuration showcase. `Button` is a Base-UI-agnostic
+// styled `<button>` rendered DIRECTLY — no Base UI graft — with every visual axis shown and every
+// visual state pinned statically via the attributes its cva keys off (`disabled`, `aria-busy`) or
+// forced by the pseudo-states addon (hover/active/focus-visible are CSS pseudo-classes). Grafting,
+// keyboard, and aria behavior are demonstrated AND tested in the ready-made Button
 // (Components/Button), which composes this primitive.
 const meta = {
   title: "Elements/Button",
@@ -27,14 +43,10 @@ const meta = {
     magnitude: "md",
     sizing: "hug",
   },
-  render: ({ prominence, tone, magnitude, sizing, children, onClick, disabled }) => (
-    <BaseButton
-      onClick={onClick}
-      disabled={disabled}
-      render={<Button prominence={prominence} tone={tone} magnitude={magnitude} sizing={sizing} />}
-    >
+  render: ({ children, ...props }) => (
+    <Button {...props}>
       <ButtonLabel>{children}</ButtonLabel>
-    </BaseButton>
+    </Button>
   ),
 } satisfies Meta<typeof Button>;
 
@@ -49,14 +61,15 @@ export const Prominences: Story = {
   render: ({ tone, magnitude, sizing }) => (
     <div className="flex items-center gap-3">
       {PROMINENCES.map((prominence) => (
-        <BaseButton
+        <Button
           key={prominence}
-          render={
-            <Button prominence={prominence} tone={tone} magnitude={magnitude} sizing={sizing} />
-          }
+          prominence={prominence}
+          tone={tone}
+          magnitude={magnitude}
+          sizing={sizing}
         >
           <ButtonLabel>{prominence}</ButtonLabel>
-        </BaseButton>
+        </Button>
       ))}
     </div>
   ),
@@ -70,25 +83,15 @@ export const Tones: Story = {
   parameters: { controls: { disable: true } },
   render: ({ magnitude, sizing }) => (
     <div className="flex items-center gap-3">
-      <BaseButton
-        render={
-          <Button tone="neutral" prominence="primary" magnitude={magnitude} sizing={sizing} />
-        }
-      >
+      <Button tone="neutral" prominence="primary" magnitude={magnitude} sizing={sizing}>
         <ButtonLabel>Neutral</ButtonLabel>
-      </BaseButton>
-      <BaseButton
-        render={<Button tone="danger" prominence="primary" magnitude={magnitude} sizing={sizing} />}
-      >
+      </Button>
+      <Button tone="danger" prominence="primary" magnitude={magnitude} sizing={sizing}>
         <ButtonLabel>Danger fill</ButtonLabel>
-      </BaseButton>
-      <BaseButton
-        render={
-          <Button tone="danger" prominence="secondary" magnitude={magnitude} sizing={sizing} />
-        }
-      >
+      </Button>
+      <Button tone="danger" prominence="secondary" magnitude={magnitude} sizing={sizing}>
         <ButtonLabel>Danger outline</ButtonLabel>
-      </BaseButton>
+      </Button>
     </div>
   ),
 };
@@ -99,14 +102,15 @@ export const Magnitudes: Story = {
   render: ({ prominence, tone, sizing }) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <BaseButton
+        <Button
           key={magnitude}
-          render={
-            <Button prominence={prominence} tone={tone} magnitude={magnitude} sizing={sizing} />
-          }
+          prominence={prominence}
+          tone={tone}
+          magnitude={magnitude}
+          sizing={sizing}
         >
           <ButtonLabel>{magnitude}</ButtonLabel>
-        </BaseButton>
+        </Button>
       ))}
     </div>
   ),
@@ -117,141 +121,126 @@ export const Stretch: Story = {
   argTypes: { sizing: { control: false }, children: { control: false } },
   render: ({ prominence, tone, magnitude }) => (
     <div className="flex w-64 flex-col gap-2">
-      <BaseButton
-        render={<Button prominence={prominence} tone={tone} magnitude={magnitude} sizing="hug" />}
-      >
+      <Button prominence={prominence} tone={tone} magnitude={magnitude} sizing="hug">
         <ButtonLabel>Auto width</ButtonLabel>
-      </BaseButton>
-      <BaseButton
-        render={<Button prominence={prominence} tone={tone} magnitude={magnitude} sizing="fill" />}
-      >
+      </Button>
+      <Button prominence={prominence} tone={tone} magnitude={magnitude} sizing="fill">
         <ButtonLabel>Full width</ButtonLabel>
-      </BaseButton>
+      </Button>
     </div>
   ),
 };
 
 /**
- * The atomic button is composed from named parts: `ButtonIcon` sizes a decorative leading/trailing
- * node to the button's `--node-size`, `ButtonLabel` holds the text (and dims under `aria-busy`),
- * and `ButtonSpinner` is the loading indicator. The ready-made `Button` (Components/Button) lays
- * these out for you; here they are composed by hand onto Base UI's `Button` behavior.
+ * Every visual state of every palette, pinned statically — one row per prominence×tone pairing the
+ * chrome defines. Hover / active / focus-visible are CSS pseudo-classes, forced by the
+ * pseudo-states addon; `disabled` is the native attribute the `disabled:` palette keys off; busy
+ * pins the `aria-busy` the ready-made Button sets while `loading` (the `ButtonLabel` dims via
+ * `group-aria-busy:` and the spinner reads as the active affordance).
+ */
+export const States: Story = {
+  parameters: {
+    controls: { disable: true },
+    pseudo: {
+      hover: PALETTES.map(({ prominence, tone }) => `#button-${prominence}-${tone}-hover`),
+      active: PALETTES.map(({ prominence, tone }) => `#button-${prominence}-${tone}-active`),
+      focusVisible: PALETTES.map(({ prominence, tone }) => `#button-${prominence}-${tone}-focus`),
+    },
+  },
+  render: ({ magnitude, sizing }) => (
+    <div className="flex flex-col gap-3">
+      {PALETTES.map(({ prominence, tone }) => (
+        <div key={`${prominence}-${tone}`} className="flex items-center gap-3">
+          <Button prominence={prominence} tone={tone} magnitude={magnitude} sizing={sizing}>
+            <ButtonLabel>Default</ButtonLabel>
+          </Button>
+          <Button
+            id={`button-${prominence}-${tone}-hover`}
+            prominence={prominence}
+            tone={tone}
+            magnitude={magnitude}
+            sizing={sizing}
+          >
+            <ButtonLabel>Hover</ButtonLabel>
+          </Button>
+          <Button
+            id={`button-${prominence}-${tone}-active`}
+            prominence={prominence}
+            tone={tone}
+            magnitude={magnitude}
+            sizing={sizing}
+          >
+            <ButtonLabel>Active</ButtonLabel>
+          </Button>
+          <Button
+            id={`button-${prominence}-${tone}-focus`}
+            prominence={prominence}
+            tone={tone}
+            magnitude={magnitude}
+            sizing={sizing}
+          >
+            <ButtonLabel>Focus</ButtonLabel>
+          </Button>
+          <Button
+            prominence={prominence}
+            tone={tone}
+            magnitude={magnitude}
+            sizing={sizing}
+            disabled
+          >
+            <ButtonLabel>Disabled</ButtonLabel>
+          </Button>
+          <Button
+            prominence={prominence}
+            tone={tone}
+            magnitude={magnitude}
+            sizing={sizing}
+            aria-busy
+            aria-disabled
+          >
+            <Spinner>
+              <LoaderCircle />
+            </Spinner>
+            <ButtonLabel>Busy</ButtonLabel>
+          </Button>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+/**
+ * The atomic button is composed from named parts: the internal `Icon` sizes a decorative
+ * leading/trailing node to the button's `--node-size`, `ButtonLabel` holds the text (and dims under
+ * `aria-busy`), and the internal `Spinner` is the loading indicator. The busy state is pinned here
+ * via the `aria-busy`/`aria-disabled` the ready-made Button (Components/Button) sets while
+ * `loading` — that ready-made also lays these parts out for you and adds the soft-disabled
+ * behavior.
  */
 export const Anatomy: Story = {
   args: { children: undefined },
   argTypes: { children: { control: false } },
   render: ({ prominence, tone, magnitude, sizing }) => (
     <div className="flex items-center gap-3">
-      <BaseButton
-        render={
-          <Button prominence={prominence} tone={tone} magnitude={magnitude} sizing={sizing} />
-        }
-      >
+      <Button prominence={prominence} tone={tone} magnitude={magnitude} sizing={sizing}>
         <Icon>
           <Plus />
         </Icon>
         <ButtonLabel>With icon</ButtonLabel>
-      </BaseButton>
-      {/* The busy state mirrors the ready-made Button: it is `aria-busy` AND soft-disabled
-          (Base UI `disabled` + `focusableWhenDisabled`), so the disabled palette applies while the
-          button stays focusable. */}
-      <BaseButton
+      </Button>
+      <Button
+        prominence={prominence}
+        tone={tone}
+        magnitude={magnitude}
+        sizing={sizing}
         aria-busy
-        disabled
-        focusableWhenDisabled
-        render={
-          <Button prominence={prominence} tone={tone} magnitude={magnitude} sizing={sizing} />
-        }
+        aria-disabled
       >
         <Spinner>
           <LoaderCircle />
         </Spinner>
         <ButtonLabel>Loading</ButtonLabel>
-      </BaseButton>
+      </Button>
     </div>
   ),
-};
-
-/**
- * The styled button element is render-capable: Base UI's `Button` can present another tag — here a
- * `<div>` that may host complex children — while keeping button semantics. `nativeButton={false}`
- * tells Base UI the rendered tag is not a `<button>`, so it supplies `role="button"`, tab focus,
- * and Enter/Space activation itself. (Navigation stays a real link — use `AnchorButton`, never a
- * button dressed as one.)
- */
-export const CustomTag: Story = {
-  args: { children: undefined },
-  argTypes: { children: { control: false } },
-  render: ({ prominence, tone, magnitude, sizing, onClick, disabled }) => (
-    <BaseButton
-      nativeButton={false}
-      onClick={onClick}
-      disabled={disabled}
-      render={
-        <Button
-          prominence={prominence}
-          tone={tone}
-          magnitude={magnitude}
-          sizing={sizing}
-          render={<div />}
-        />
-      }
-    >
-      <ButtonLabel>Rendered as a div</ButtonLabel>
-    </BaseButton>
-  ),
-};
-
-/**
- * Clicking the button fires `onClick`. Tagged out of the sidebar/docs/manifest but still runs under
- * the default `test` tag.
- */
-export const ClickFiresOnClick: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
-  args: { onClick: fn() },
-  play: async ({ args, canvas, userEvent }) => {
-    const button = canvas.getByRole("button", { name: "Button" });
-    await userEvent.click(button);
-    await expect(args.onClick).toHaveBeenCalledOnce();
-  },
-};
-
-/** A `disabled` button does not fire `onClick` and is removed from the tab order. */
-export const DisabledBlocksClick: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
-  args: { onClick: fn(), disabled: true },
-  play: async ({ args, canvas }) => {
-    const button = canvas.getByRole("button", { name: "Button" });
-    await expect(button).toBeDisabled();
-    // A disabled button sets `pointer-events: none`, so the default user-event guard
-    // refuses to click it. Disable that guard so the click is dispatched at the element;
-    // the native disabled button must still ignore it and never fire `onClick`.
-    const user = baseUserEvent.setup({ pointerEventsCheck: 0 });
-    await user.click(button);
-    await expect(args.onClick).not.toHaveBeenCalled();
-  },
-};
-
-/**
- * `nativeButton={false}` keeps the custom tag accessible: no `<button>` is rendered, yet the
- * `<div>` exposes `role="button"`, joins the tab order, and both Enter and Space activate it —
- * pointer clicks too.
- */
-export const CustomTagKeyboardAccessible: Story = {
-  ...CustomTag,
-  tags: ["!dev", "!autodocs", "!manifest"],
-  args: { ...CustomTag.args, onClick: fn() },
-  play: async ({ args, canvas, userEvent }) => {
-    const button = canvas.getByRole("button", { name: "Rendered as a div" });
-    // Another tag, not a native <button>.
-    await expect(button.tagName).toBe("DIV");
-    await userEvent.tab();
-    await expect(button).toHaveFocus();
-    await userEvent.keyboard("{Enter}");
-    await expect(args.onClick).toHaveBeenCalledOnce();
-    await userEvent.keyboard("[Space]");
-    await expect(args.onClick).toHaveBeenCalledTimes(2);
-    await userEvent.click(button);
-    await expect(args.onClick).toHaveBeenCalledTimes(3);
-  },
 };
