@@ -5,14 +5,14 @@ import {
   type ToastStatusIconProps as ToastStatusIconElementProps,
   type ToastTone,
 } from "../../elements/toast";
-import { SolidCircleAlert } from "./solid-circle-alert";
-import { SolidCircleCheck } from "./solid-circle-check";
-import { SolidCircleX } from "./solid-circle-x";
-import type { StatusIconProps } from "./solid-icon";
-import { SolidInfo } from "./solid-info";
-import { SolidTriangleAlert } from "./solid-triangle-alert";
+import { SolidCircleAlert } from "../../internal/solid-icons/solid-circle-alert";
+import { SolidCircleCheck } from "../../internal/solid-icons/solid-circle-check";
+import { SolidCircleX } from "../../internal/solid-icons/solid-circle-x";
+import type { SolidIconProps } from "../../internal/solid-icons/solid-icon";
+import { SolidInfo } from "../../internal/solid-icons/solid-info";
+import { SolidTriangleAlert } from "../../internal/solid-icons/solid-triangle-alert";
 
-type StatusGlyph = (props: StatusIconProps) => React.JSX.Element;
+type StatusGlyph = (props: SolidIconProps) => React.JSX.Element;
 
 // Each tone auto-selects a filled status glyph (see the solid-* assets) — the caller never
 // passes an icon. Filled glyphs match Figma's toast (node 1144-3158); lucide ships no filled

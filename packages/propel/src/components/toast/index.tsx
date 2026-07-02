@@ -20,7 +20,7 @@ export {
   ToastActions,
   type ToastActionsProps,
   ToastCloseGroup,
-  type ToastCloseSlotProps,
+  type ToastCloseGroupProps,
   ToastContent,
   type ToastContentProps,
   ToastDescription,

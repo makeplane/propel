@@ -23,6 +23,10 @@ from tiers below it, never above. `internal/` is shared implementation usable by
 - A component-dir `index.tsx` does **`export * from "./<file>"`** for each local public file — never
   a hand-enumerated `export { A, type B } from "./file"`. Every file in a component dir is public;
   if something must NOT be public, it lives in `src/internal` (or stays unexported in `variants.ts`).
+  Two blessed private exceptions the index deliberately does not export: a family's React context
+  module (`<name>-context.ts`, rule 7) and an intra-family shared composition marked by a `.shared`
+  suffix (`menu-content.shared.tsx`). Anything else unexported is a bug — either export it or move
+  it.
 - **A file exports only its own symbol(s)** — don't have one file re-export a sibling part (e.g.
   `button.tsx` must not `export { ButtonIcon } from "./button-icon"`); the index stars each file.
 - **Never `export *` from `elements` inside a `components` index** — it would re-export the `elements` element

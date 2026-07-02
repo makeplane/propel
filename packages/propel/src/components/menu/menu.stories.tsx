@@ -206,7 +206,7 @@ export const Status: Story = {
           {STATUSES.find((s) => s.key === selected)?.label ?? "Status"}
         </BaseMenu.Trigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {visible.map((s) => (
@@ -262,7 +262,7 @@ export const Labels: Story = {
           Labels
         </BaseMenu.Trigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {canAdd ? (
@@ -323,7 +323,7 @@ export const ActionMenu: Story = {
       <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
         Actions
       </BaseMenu.Trigger>
-      <MenuContent width="sm">
+      <MenuContent sizing="sm">
         <MenuItem icon={<Pencil />}>Edit</MenuItem>
         <MenuItem icon={<Copy />}>Make a copy</MenuItem>
         <MenuItem icon={<ExternalLink />}>Open in new tab</MenuItem>
@@ -409,7 +409,7 @@ export const Description: Story = {
         <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
           Visibility
         </BaseMenu.Trigger>
-        <MenuContent width="lg">
+        <MenuContent sizing="lg">
           <MenuItem
             icon={<Lock />}
             description="Accessible only by invite"
@@ -460,7 +460,7 @@ export const LabelAndFooterSemantics: Story = {
       <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
         Grouped menu
       </BaseMenu.Trigger>
-      <MenuContent width="sm" footer={<MenuFooter>Type to add another item.</MenuFooter>}>
+      <MenuContent sizing="sm" footer={<MenuFooter>Type to add another item.</MenuFooter>}>
         <BaseMenu.Group>
           <MenuLabel meta={<span>3</span>}>Section</MenuLabel>
           <MenuItem>First item</MenuItem>
@@ -492,7 +492,7 @@ export const Assignees: Story = {
           Assignees
         </BaseMenu.Trigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {visible.map((a) => (
@@ -548,7 +548,7 @@ export const LanguagePicker: Story = {
           {LANGUAGES.find((l) => l.key === selected)?.label ?? "Language"}
         </BaseMenu.Trigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {visible.map((l) => (
@@ -602,7 +602,7 @@ export const Priority: Story = {
           Priority
         </BaseMenu.Trigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {visible.map((p) => (
@@ -655,7 +655,7 @@ export const CheckedFillVisible: Story = {
         <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
           Priority
         </BaseMenu.Trigger>
-        <MenuContent width="sm">
+        <MenuContent sizing="sm">
           {PRIORITIES.map((p) => (
             <MenuCheckboxItem
               key={p.key}
@@ -749,7 +749,7 @@ export const Filters: Story = {
           Filters
         </BaseMenu.Trigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {sections.map((section, index) => {
@@ -895,7 +895,7 @@ export const EmptyState: Story = {
           Status
         </BaseMenu.Trigger>
         <MenuContent
-          width="sm"
+          sizing="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {visible.length > 0 ? (
@@ -956,7 +956,7 @@ export const Submenu: Story = {
       <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
         Filter by
       </BaseMenu.Trigger>
-      <MenuContent width="sm">
+      <MenuContent sizing="sm">
         <MenuSubmenu>
           <MenuSubmenuTrigger
             trailing={
@@ -967,7 +967,7 @@ export const Submenu: Story = {
           >
             Priority
           </MenuSubmenuTrigger>
-          <MenuSubmenuContent width="sm">
+          <MenuSubmenuContent sizing="sm">
             {PRIORITIES.map((p) => (
               <MenuItem key={p.key} icon={p.icon} closeOnClick={false}>
                 {p.label}
@@ -985,7 +985,7 @@ export const Submenu: Story = {
           >
             State
           </MenuSubmenuTrigger>
-          <MenuSubmenuContent width="sm">
+          <MenuSubmenuContent sizing="sm">
             {STATUSES.map((s) => (
               <MenuItem key={s.key} icon={s.icon} closeOnClick={false}>
                 {s.label}
@@ -1003,7 +1003,7 @@ export const Submenu: Story = {
           >
             Assignee
           </MenuSubmenuTrigger>
-          <MenuSubmenuContent width="sm">
+          <MenuSubmenuContent sizing="sm">
             {ASSIGNEES.map((a) => (
               <MenuItem
                 key={a.key}

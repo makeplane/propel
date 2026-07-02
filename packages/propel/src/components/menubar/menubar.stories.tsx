@@ -59,7 +59,7 @@ export const Default: Story = {
           </MenubarTriggerIcon>
           <MenubarTriggerLabel>File</MenubarTriggerLabel>
         </MenubarTrigger>
-        <MenuContent width="sm">
+        <MenuContent sizing="sm">
           <MenuItem icon={<FilePlus />}>New file</MenuItem>
           <MenuItem icon={<FolderOpen />}>Open…</MenuItem>
           <MenuSeparator />
@@ -73,7 +73,7 @@ export const Default: Story = {
           </MenubarTriggerIcon>
           <MenubarTriggerLabel>Edit</MenubarTriggerLabel>
         </MenubarTrigger>
-        <MenuContent width="sm">
+        <MenuContent sizing="sm">
           <MenuItem icon={<Undo2 />}>Undo</MenuItem>
           <MenuItem icon={<Redo2 />}>Redo</MenuItem>
           <MenuSeparator />

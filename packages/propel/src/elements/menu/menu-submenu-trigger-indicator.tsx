@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { menuSubmenuTriggerIndicatorVariants } from "./variants";
 
-export type MenuItemSubmenuIndicatorProps = Omit<
+export type MenuSubmenuTriggerIndicatorProps = Omit<
   useRender.ComponentProps<"span">,
   "className" | "style"
 >;
@@ -13,7 +13,10 @@ export type MenuItemSubmenuIndicatorProps = Omit<
  * RTL. Decorative (the trigger carries `aria-haspopup`), so it is `aria-hidden`. Renders and sizes
  * its single child; pass the glyph as `children`.
  */
-export function MenuSubmenuTriggerIndicator({ render, ...props }: MenuItemSubmenuIndicatorProps) {
+export function MenuSubmenuTriggerIndicator({
+  render,
+  ...props
+}: MenuSubmenuTriggerIndicatorProps) {
   const defaultProps: useRender.ElementProps<"span"> = {
     "aria-hidden": true,
     className: menuSubmenuTriggerIndicatorVariants(),

@@ -3,17 +3,14 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { checkboxIconVariants } from "./variants";
 
-export type CheckboxInlineStartNodeProps = Omit<
-  useRender.ComponentProps<"span">,
-  "className" | "style"
->;
+export type CheckboxIconProps = Omit<useRender.ComponentProps<"span">, "className" | "style">;
 
 /**
  * The decorative icon slot between the box and the label text (Figma "checkbox with label" icon
  * slot). Sizes its single child to `--node-size` (14px); pass a bare icon. Decorative — the box and
  * label carry the accessible name — so it is `aria-hidden`.
  */
-export function CheckboxIcon({ render, ...props }: CheckboxInlineStartNodeProps) {
+export function CheckboxIcon({ render, ...props }: CheckboxIconProps) {
   const defaultProps: useRender.ElementProps<"span"> = {
     "aria-hidden": true,
     className: checkboxIconVariants(),

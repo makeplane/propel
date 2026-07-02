@@ -1,18 +1,18 @@
 import { Popover as BasePopover } from "@base-ui/react/popover";
 
 import { PopoverPanelPopup } from "../../elements/popover";
-import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
+import { OverlayPanel, type OverlayPanelSizing } from "../../internal/overlay-panel";
 import { Positioner } from "../../internal/positioner";
 
-type PopoverContentWidth = OverlayPanelWidth;
+type PopoverContentSizing = OverlayPanelSizing;
 
 export type PopoverContentProps = Omit<BasePopover.Popup.Props, "className" | "style"> & {
   /** Which side of the trigger the panel opens toward. The spec's adjustable placement axis. */
   side: BasePopover.Positioner.Props["side"];
   /** Alignment of the panel relative to the trigger along `side`. The spec's alignment axis. */
   align: BasePopover.Positioner.Props["align"];
-  /** Fixed panel width. The spec's adjustable width axis. */
-  width: PopoverContentWidth;
+  /** How the panel sizes itself. The spec's adjustable width axis. */
+  sizing: PopoverContentSizing;
   /** Distance in px between the trigger and the panel. @default 4 */
   sideOffset?: BasePopover.Positioner.Props["sideOffset"];
 };
@@ -25,7 +25,7 @@ export type PopoverContentProps = Omit<BasePopover.Popup.Props, "className" | "s
 export function PopoverContent({
   side,
   align,
-  width,
+  sizing,
   sideOffset = 4,
   ...props
 }: PopoverContentProps) {
@@ -37,7 +37,7 @@ export function PopoverContent({
         align={align}
         render={<Positioner />}
       >
-        <OverlayPanel elevation="overlay" radius="lg" width={width}>
+        <OverlayPanel elevation="overlay" radius="lg" sizing={sizing}>
           <BasePopover.Popup {...props} render={<PopoverPanelPopup />} />
         </OverlayPanel>
       </BasePopover.Positioner>

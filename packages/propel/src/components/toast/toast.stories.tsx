@@ -7,7 +7,9 @@ import { IconButton } from "../icon-button";
 import {
   Toast,
   type ToastData,
+  ToastList,
   type ToastProps,
+  ToastStatusIcon,
   type ToastTone,
   ToastProvider,
   useToast,
@@ -85,6 +87,7 @@ class ToastErrorBoundary extends React.Component<
 const meta = {
   title: "Components/Toast",
   component: ToastProvider,
+  subcomponents: { Toast, ToastList, ToastStatusIcon },
   args: { close: closeButton },
   // Every story renders inside a single ToastProvider so its trigger can queue
   // toasts and the viewport can display them.

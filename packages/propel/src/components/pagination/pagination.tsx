@@ -185,7 +185,7 @@ export function Pagination({
                 <ChevronDown />
               </PaginationPerPageIndicator>
             </BaseMenu.Trigger>
-            <MenuContent width="anchor" align="center">
+            <MenuContent sizing="anchor" align="center">
               {pageSize.options.map((option) => (
                 <MenuItem
                   key={option}

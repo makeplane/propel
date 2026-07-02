@@ -8,5 +8,5 @@ export {
   InputGroup,
   type InputGroupProps,
   InputIcon,
-  type InputIconSlotProps,
+  type InputIconProps,
 } from "../../elements/input";

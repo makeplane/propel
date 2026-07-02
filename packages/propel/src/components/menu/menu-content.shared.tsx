@@ -2,10 +2,10 @@ import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type * as React from "react";
 
 import { MenuPopup } from "../../elements/menu";
-import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
+import { OverlayPanel, type OverlayPanelSizing } from "../../internal/overlay-panel";
 import { Positioner } from "../../internal/positioner";
 
-export type MenuContentWidth = OverlayPanelWidth;
+export type MenuContentSizing = OverlayPanelSizing;
 
 export type MenuContentProps = Omit<BaseMenu.Popup.Props, "className" | "style"> & {
   /** Which side of the trigger the menu opens toward. @default "bottom" */
@@ -14,8 +14,8 @@ export type MenuContentProps = Omit<BaseMenu.Popup.Props, "className" | "style">
   sideOffset?: BaseMenu.Positioner.Props["sideOffset"];
   /** Alignment of the menu relative to the trigger along `side`. @default "start" */
   align?: BaseMenu.Positioner.Props["align"];
-  /** Fixed menu width. @default "anchor" */
-  width?: MenuContentWidth;
+  /** How the menu popup sizes itself. @default "anchor" */
+  sizing?: MenuContentSizing;
   /** Sticky chrome pinned above the role="menu" popup. */
   search?: React.ReactNode;
   /** Sticky chrome pinned below the role="menu" popup. */
@@ -26,7 +26,7 @@ export function MenuContentSurface({
   side,
   sideOffset,
   align,
-  width,
+  sizing,
   search,
   footer,
   ...props
@@ -43,7 +43,13 @@ export function MenuContentSurface({
         align={align}
         render={<Positioner />}
       >
-        <OverlayPanel elevation="overlay" radius="lg" width={width} header={search} footer={footer}>
+        <OverlayPanel
+          elevation="overlay"
+          radius="lg"
+          sizing={sizing}
+          header={search}
+          footer={footer}
+        >
           <BaseMenu.Popup {...props} render={<MenuPopup elevation="flat" />} />
         </OverlayPanel>
       </BaseMenu.Positioner>
