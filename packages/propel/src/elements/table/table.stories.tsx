@@ -3,6 +3,7 @@ import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
+import { NodeSlot } from "../../internal/node-slot";
 import { Avatar, AvatarFallback } from "../avatar/index";
 import {
   Table,
@@ -10,7 +11,6 @@ import {
   TableCell,
   TableCellContent,
   TableCellLayout,
-  TableCellSlot,
   TableHead,
   TableHeader,
   TableHeadSortIndicator,
@@ -38,7 +38,6 @@ const meta = {
     TableCell,
     TableCellLayout,
     TableCellContent,
-    TableCellSlot,
   },
 } satisfies Meta<typeof Table>;
 
@@ -73,11 +72,11 @@ export const Default: Story = {
           <TableRow key={person.email}>
             <TableCell mode="table" pinned="none" padding="cell">
               <TableCellLayout>
-                <TableCellSlot>
+                <NodeSlot>
                   <Avatar magnitude="xs" role="img" aria-label={person.name}>
                     <AvatarFallback tone="indigo">{person.name.charAt(0)}</AvatarFallback>
                   </Avatar>
-                </TableCellSlot>
+                </NodeSlot>
                 <TableCellContent>{person.name}</TableCellContent>
               </TableCellLayout>
             </TableCell>
@@ -264,11 +263,11 @@ export const PinnedColumn: Story = {
             <TableRow key={person.email}>
               <TableCell mode="table" pinned="start" padding="cell">
                 <TableCellLayout>
-                  <TableCellSlot>
+                  <NodeSlot>
                     <Avatar magnitude="xs" role="img" aria-label={person.name}>
                       <AvatarFallback tone="indigo">{person.name.charAt(0)}</AvatarFallback>
                     </Avatar>
-                  </TableCellSlot>
+                  </NodeSlot>
                   <TableCellContent>{person.name}</TableCellContent>
                 </TableCellLayout>
               </TableCell>

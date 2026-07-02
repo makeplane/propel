@@ -105,16 +105,14 @@ export const menuItemTrailingVariants = cva(nodeSlotClass);
  * The single-select check shown at a row's inline-end. Sizes its single child to `--node-size` and
  * tints it with the accent. Decorative — the row carries the selected state.
  */
-export const menuItemSelectedIndicatorVariants = cva(
-  cx(nodeSlotClass, "h-5 w-4 text-icon-accent-primary"),
-);
+export const menuItemIndicatorVariants = cva(cx(nodeSlotClass, "h-5 w-4 text-icon-accent-primary"));
 
 /**
  * The chevron that marks a submenu trigger, pinned at the row's inline-end. Sizes its single child
  * to `--node-size`, tints it, and mirrors under RTL. Decorative; renders the glyph passed as its
  * child.
  */
-export const menuItemSubmenuIndicatorVariants = cva(
+export const menuSubmenuTriggerIndicatorVariants = cva(
   cx(
     nodeSlotClass,
     "text-icon-tertiary group-data-disabled/item:text-icon-disabled rtl:-scale-x-100",

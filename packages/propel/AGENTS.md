@@ -178,6 +178,30 @@ the look it wears; when they coincide it collapses to one word:
 `IconButton`. A specialization has its own parts, prefixed with its full name: `AnchorButton` →
 `AnchorButtonIcon`, `AnchorButtonSpinner`.
 
+6e. **Slot parts use Base UI's suffix vocabulary — `Icon`, `Indicator`, `Group`, `Spinner`; never
+`Slot` or `Node`.** Name the part for its slot _usage_, the way Base UI does:
+
+- **`<Part>Icon`** — a decorative single-glyph slot. Bakes `aria-hidden` and sizes its child via
+  the shared `nodeSlotClass` + inherited `--node-size` (`internal/node-slot`) — never an ad-hoc
+  `[&>svg]:size-*`.
+- **`<Part>Indicator`** — a state-reflecting part. Keep Base UI's own names where they exist
+  (`ItemIndicator` for a selected marker, `Tabs`/`Progress`/`Meter`/`Slider` `Indicator` for
+  geometry). A propel-extension caret on a trigger part is `<TriggerPart>Indicator`
+  (`AccordionTriggerIndicator`, `MenuSubmenuTriggerIndicator`).
+- **`<Part>Group`** — a wrapper element holding consumer-provided node(s) or controls
+  (`ToastActionGroup`, `ToastCloseGroup`, `ComboboxInputGroup`). Never `aria-hidden` (its content
+  may be interactive or meaningful).
+- **`<Part>Spinner`** — the pending-state glyph slot.
+
+A wrapper whose styling is _exactly_ `nodeSlotClass` (no positioning, tint, or size of its own) is
+not a part at all — compose the internal `NodeSlot` in `components` instead (`Tab`, `TableCell`).
+Consumer-provided node **props** follow the same convention: name the prop for the slot it fills,
+Base UI style (`placeholder`, `title`, `description`), never a `Node` suffix — `icon` fills the
+family's single `Icon` slot; `startIcon`/`endIcon` fill dual `Icon` slots (bare `start`/`end` is
+the logical-direction vocabulary, like Drawer's `side`); `trailing` fills `MenuItemTrailing`;
+`meta` fills `MenuLabelMeta`; a consumer-provided control is named for its role (`decrement`,
+`increment`).
+
 7. **React context is a `components` concern — definition, provider, AND consumption.** An `elements`
    part never calls `useContext`; it takes the shared value (`variant`/`magnitude`/`density`/…) as
    a **prop**. The context's `createContext` + `Provider` + the `useContext` read all live in

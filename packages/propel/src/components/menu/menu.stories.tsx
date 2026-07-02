@@ -212,7 +212,7 @@ export const Status: Story = {
           {visible.map((s) => (
             <MenuItem
               key={s.key}
-              inlineStartNode={s.icon}
+              icon={s.icon}
               selected={selected === s.key}
               closeOnClick={false}
               onClick={() => setSelected(s.key)}
@@ -270,14 +270,14 @@ export const Labels: Story = {
             // (Figma 64-626): the sticky MenuSearch already draws its own bottom
             // rule, so the "Add label" row mounts directly beneath it with no extra line.
             <MenuItem
-              inlineStartNode={<Plus className="text-icon-secondary" />}
+              icon={<Plus className="text-icon-secondary" />}
               closeOnClick={false}
             >{`Add label "${trimmed}"`}</MenuItem>
           ) : null}
           {visible.map((l) => (
             <MenuCheckboxItem
               key={l.key}
-              inlineStartNode={<ColorSwatch className={l.color} />}
+              icon={<ColorSwatch className={l.color} />}
               checked={Boolean(checked[l.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [l.key]: next }))}
             >
@@ -324,25 +324,22 @@ export const ActionMenu: Story = {
         Actions
       </BaseMenu.Trigger>
       <MenuContent width="sm">
-        <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
-        <MenuItem inlineStartNode={<Copy />}>Make a copy</MenuItem>
-        <MenuItem inlineStartNode={<ExternalLink />}>Open in new tab</MenuItem>
-        <MenuItem
-          inlineStartNode={<Link2 />}
-          inlineEndNode={<span className="text-12 text-tertiary">⌘L</span>}
-        >
+        <MenuItem icon={<Pencil />}>Edit</MenuItem>
+        <MenuItem icon={<Copy />}>Make a copy</MenuItem>
+        <MenuItem icon={<ExternalLink />}>Open in new tab</MenuItem>
+        <MenuItem icon={<Link2 />} trailing={<span className="text-12 text-tertiary">⌘L</span>}>
           Copy link
         </MenuItem>
         <BaseMenu.Separator render={<MenuSeparator />} />
         <MenuItem
-          inlineStartNode={<Trash2 />}
+          icon={<Trash2 />}
           description="Only completed or cancelled work items can be archived"
           disabled
         >
           Archive
         </MenuItem>
         <BaseMenu.Separator render={<MenuSeparator />} />
-        <MenuItem inlineStartNode={<Trash2 className="text-danger-primary" />}>
+        <MenuItem icon={<Trash2 className="text-danger-primary" />}>
           {<span className="text-danger-primary">Delete</span>}
         </MenuItem>
       </MenuContent>
@@ -414,7 +411,7 @@ export const Description: Story = {
         </BaseMenu.Trigger>
         <MenuContent width="lg">
           <MenuItem
-            inlineStartNode={<Lock />}
+            icon={<Lock />}
             description="Accessible only by invite"
             selected={selected === "private"}
             closeOnClick={false}
@@ -423,7 +420,7 @@ export const Description: Story = {
             Private
           </MenuItem>
           <MenuItem
-            inlineStartNode={<Globe />}
+            icon={<Globe />}
             description="Anyone in the workspace except Guests can join"
             selected={selected === "public"}
             closeOnClick={false}
@@ -465,7 +462,7 @@ export const LabelAndFooterSemantics: Story = {
       </BaseMenu.Trigger>
       <MenuContent width="sm" footer={<MenuFooter>Type to add another item.</MenuFooter>}>
         <BaseMenu.Group>
-          <MenuLabel inlineEndNode={<span>3</span>}>Section</MenuLabel>
+          <MenuLabel meta={<span>3</span>}>Section</MenuLabel>
           <MenuItem>First item</MenuItem>
         </BaseMenu.Group>
       </MenuContent>
@@ -501,7 +498,7 @@ export const Assignees: Story = {
           {visible.map((a) => (
             <MenuCheckboxItem
               key={a.key}
-              inlineStartNode={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
+              icon={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
               checked={Boolean(checked[a.key])}
               disabled={a.disabled}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [a.key]: next }))}
@@ -611,7 +608,7 @@ export const Priority: Story = {
           {visible.map((p) => (
             <MenuCheckboxItem
               key={p.key}
-              inlineStartNode={p.icon}
+              icon={p.icon}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
             >
@@ -662,7 +659,7 @@ export const CheckedFillVisible: Story = {
           {PRIORITIES.map((p) => (
             <MenuCheckboxItem
               key={p.key}
-              inlineStartNode={p.icon}
+              icon={p.icon}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
             >
@@ -773,10 +770,10 @@ export const Filters: Story = {
                   {/* The category heading is itself a menuitem (valid `role="menu"`
                       child) so its collapse chevron stays interactive without breaking
                       ARIA. The label is the section title; the chevron is the
-                      inlineEndNode. */}
+                      trailing. */}
                   <MenuItem
                     aria-expanded={!isCollapsed}
-                    inlineEndNode={
+                    trailing={
                       isCollapsed ? (
                         <ChevronRight aria-hidden="true" />
                       ) : (
@@ -792,7 +789,7 @@ export const Filters: Story = {
                     ? visibleItems.map((i) => (
                         <MenuCheckboxItem
                           key={i.key}
-                          inlineStartNode={i.icon}
+                          icon={i.icon}
                           checked={Boolean(checked[i.key])}
                           onCheckedChange={toggle(i.key)}
                         >
@@ -903,7 +900,7 @@ export const EmptyState: Story = {
         >
           {visible.length > 0 ? (
             visible.map((s) => (
-              <MenuItem key={s.key} inlineStartNode={s.icon}>
+              <MenuItem key={s.key} icon={s.icon}>
                 {s.label}
               </MenuItem>
             ))
@@ -962,7 +959,7 @@ export const Submenu: Story = {
       <MenuContent width="sm">
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            inlineEndNode={
+            trailing={
               <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
@@ -972,7 +969,7 @@ export const Submenu: Story = {
           </MenuSubmenuTrigger>
           <MenuSubmenuContent width="sm">
             {PRIORITIES.map((p) => (
-              <MenuItem key={p.key} inlineStartNode={p.icon} closeOnClick={false}>
+              <MenuItem key={p.key} icon={p.icon} closeOnClick={false}>
                 {p.label}
               </MenuItem>
             ))}
@@ -980,7 +977,7 @@ export const Submenu: Story = {
         </MenuSubmenu>
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            inlineEndNode={
+            trailing={
               <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
@@ -990,7 +987,7 @@ export const Submenu: Story = {
           </MenuSubmenuTrigger>
           <MenuSubmenuContent width="sm">
             {STATUSES.map((s) => (
-              <MenuItem key={s.key} inlineStartNode={s.icon} closeOnClick={false}>
+              <MenuItem key={s.key} icon={s.icon} closeOnClick={false}>
                 {s.label}
               </MenuItem>
             ))}
@@ -998,7 +995,7 @@ export const Submenu: Story = {
         </MenuSubmenu>
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            inlineEndNode={
+            trailing={
               <Badge magnitude="sm" tone="neutral">
                 5
               </Badge>
@@ -1010,9 +1007,7 @@ export const Submenu: Story = {
             {ASSIGNEES.map((a) => (
               <MenuItem
                 key={a.key}
-                inlineStartNode={
-                  <Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />
-                }
+                icon={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
                 closeOnClick={false}
               >
                 {a.name}

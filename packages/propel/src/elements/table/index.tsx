@@ -5,7 +5,6 @@ export * from "./table-body";
 export * from "./table-cell";
 export * from "./table-cell-content";
 export * from "./table-cell-layout";
-export * from "./table-cell-slot";
 export * from "./table-cell-trigger";
 export * from "./table-cell-trigger-indicator";
 export * from "./table-cell-trigger-label";

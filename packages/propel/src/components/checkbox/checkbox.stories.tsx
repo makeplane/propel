@@ -8,7 +8,7 @@ import {
   Checkbox,
   CheckboxIndeterminateIndicator,
   CheckboxIndicator,
-  CheckboxInlineStartNode,
+  CheckboxIcon,
   CheckboxLabel,
 } from "./index";
 
@@ -17,7 +17,7 @@ const meta = {
   component: Checkbox,
   subcomponents: {
     CheckboxLabel,
-    CheckboxInlineStartNode,
+    CheckboxIcon,
     CheckboxIndicator,
     CheckboxIndeterminateIndicator,
   },
@@ -109,14 +109,14 @@ export const WithLabel: Story = {
 };
 
 /**
- * An optional `inlineStartNode` sits between the box and the label, matching the Figma "checkbox
- * with label" icon slot.
+ * An optional `icon` sits between the box and the label, matching the Figma "checkbox with label"
+ * icon slot.
  */
 export const WithIcon: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <Checkbox
-      inlineStartNode={<Repeat aria-hidden className="size-3.5" />}
+      icon={<Repeat aria-hidden className="size-3.5" />}
       label="Sync automatically"
       defaultChecked
     />

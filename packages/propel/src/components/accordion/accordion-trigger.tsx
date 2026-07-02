@@ -14,18 +14,18 @@ export type AccordionTriggerProps = Omit<BaseAccordion.Trigger.Props, "className
    * Node rendered before the label (inline-start), matching the Figma header icon. Sized to the
    * trigger's `--node-size`. Decorative, kept out of the name.
    */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
 };
 
 /**
  * The ready-made accordion trigger: grafts Base UI's trigger behavior onto the styled
- * `AccordionTrigger`, composing an optional `inlineStartNode`, the `AccordionTriggerTitle`, and the
+ * `AccordionTrigger`, composing an optional `icon`, the `AccordionTriggerTitle`, and the
  * `AccordionTriggerIndicator` chevron that rotates when the panel opens.
  */
-export function AccordionTrigger({ inlineStartNode, children, ...props }: AccordionTriggerProps) {
+export function AccordionTrigger({ icon, children, ...props }: AccordionTriggerProps) {
   return (
     <BaseAccordion.Trigger {...props} render={<AccordionTriggerElement />}>
-      {inlineStartNode ? <AccordionTriggerIcon>{inlineStartNode}</AccordionTriggerIcon> : null}
+      {icon ? <AccordionTriggerIcon>{icon}</AccordionTriggerIcon> : null}
       <AccordionTriggerTitle>{children}</AccordionTriggerTitle>
       <AccordionTriggerIndicator>
         <ChevronDown />

@@ -10,7 +10,7 @@ import { FieldHelperText } from "../field/field-helper-text";
 
 export type CheckboxFieldProps = Omit<
   CheckboxFieldControlProps,
-  "aria-label" | "label" | "inlineStartNode"
+  "aria-label" | "label" | "icon"
 > & {
   /** Helper text shown below the control. Replaced by `error` when an error is set. */
   hint?: React.ReactNode;

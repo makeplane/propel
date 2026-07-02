@@ -11,6 +11,9 @@ export type NavigationMenuIconProps = Omit<useRender.ComponentProps<"span">, "cl
  * `components` via `<BaseNavigationMenu.Icon render={<NavigationMenuIcon />} />`.
  */
 export function NavigationMenuIcon({ render, ...props }: NavigationMenuIconProps) {
-  const defaultProps: useRender.ElementProps<"span"> = { className: navigationMenuIconVariants() };
+  const defaultProps: useRender.ElementProps<"span"> = {
+    "aria-hidden": true,
+    className: navigationMenuIconVariants(),
+  };
   return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }

@@ -12,7 +12,7 @@ import {
   MenuItemContent,
   MenuItemIcon,
   MenuItemMeta,
-  MenuItemSelectedIndicator,
+  MenuItemIndicator,
   MenuItemTitle,
   MenuItemTitleRow,
   MenuPopup,
@@ -35,7 +35,7 @@ const meta = {
     MenuItemTitleRow,
     MenuItemTitle,
     MenuItemMeta,
-    MenuItemSelectedIndicator,
+    MenuItemIndicator,
     MenuCheckboxItem,
     MenuCheckboxItemIndicator,
     MenuGroupLabel,
@@ -80,9 +80,9 @@ export const Default: Story = {
                   <MenuItemTitle>Duplicate</MenuItemTitle>
                 </MenuItemTitleRow>
               </MenuItemContent>
-              <MenuItemSelectedIndicator>
+              <MenuItemIndicator>
                 <Check />
-              </MenuItemSelectedIndicator>
+              </MenuItemIndicator>
             </BaseMenu.Item>
             <BaseMenu.Separator render={<MenuSeparator />} />
             <BaseMenu.Item render={<MenuItem layout="default" />}>

@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { toastCloseSlotVariants } from "./variants";
+import { toastCloseGroupVariants } from "./variants";
 
 export type ToastCloseSlotProps = Omit<useRender.ComponentProps<"div">, "className" | "style">;
 
@@ -10,7 +10,7 @@ export type ToastCloseSlotProps = Omit<useRender.ComponentProps<"div">, "classNa
  * 4px corner offset against the `relative` toast popup; the button's chrome comes from the composed
  * `IconButton`.
  */
-export function ToastCloseSlot({ render, ...props }: ToastCloseSlotProps) {
-  const defaultProps: useRender.ElementProps<"div"> = { className: toastCloseSlotVariants() };
+export function ToastCloseGroup({ render, ...props }: ToastCloseSlotProps) {
+  const defaultProps: useRender.ElementProps<"div"> = { className: toastCloseGroupVariants() };
   return useRender({ defaultTagName: "div", render, props: mergeProps(defaultProps, props) });
 }

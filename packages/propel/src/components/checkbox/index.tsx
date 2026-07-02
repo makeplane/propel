@@ -7,7 +7,7 @@ export {
   CheckboxIndicator,
   CheckboxIndeterminateIndicator,
   type CheckboxIndeterminateIndicatorProps,
-  CheckboxInlineStartNode,
+  CheckboxIcon,
   type CheckboxInlineStartNodeProps,
   CheckboxLabel,
   type CheckboxLabelProps,

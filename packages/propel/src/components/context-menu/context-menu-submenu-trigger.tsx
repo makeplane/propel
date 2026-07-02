@@ -18,9 +18,9 @@ export type ContextMenuSubmenuTriggerProps = Omit<
   /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
   tone: ContextMenuSubmenuTriggerTone;
   /** Leading icon before the label. */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
   /** Trailing hint before the submenu caret. */
-  inlineEndNode?: React.ReactNode;
+  trailing?: React.ReactNode;
 };
 
 /**
@@ -30,8 +30,8 @@ export type ContextMenuSubmenuTriggerProps = Omit<
  */
 export function ContextMenuSubmenuTrigger({
   tone,
-  inlineStartNode,
-  inlineEndNode,
+  icon,
+  trailing,
   children,
   ...props
 }: ContextMenuSubmenuTriggerProps) {
@@ -40,13 +40,9 @@ export function ContextMenuSubmenuTrigger({
       {...props}
       render={<ContextMenuSubmenuTriggerElement tone={tone} />}
     >
-      {inlineStartNode != null ? (
-        <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
-      ) : null}
+      {icon != null ? <ContextMenuItemIcon>{icon}</ContextMenuItemIcon> : null}
       <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
-      {inlineEndNode != null ? (
-        <ContextMenuItemShortcut>{inlineEndNode}</ContextMenuItemShortcut>
-      ) : null}
+      {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
       <ContextMenuSubmenuTriggerIndicator>
         <ChevronRight />
       </ContextMenuSubmenuTriggerIndicator>

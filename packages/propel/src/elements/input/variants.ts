@@ -51,6 +51,4 @@ export const inputGroupVariants = cva(
 export type InputGroupVariantProps = StrictVariantProps<typeof inputGroupVariants>;
 
 // The decorative 16px node at the input's inline start/end (sizes its child to `--node-size`).
-export const inputIconSlotVariants = cva(
-  cx(nodeSlotClass, "text-icon-secondary [--node-size:1rem]"),
-);
+export const inputIconVariants = cva(cx(nodeSlotClass, "text-icon-secondary [--node-size:1rem]"));

@@ -16,9 +16,9 @@ export type ContextMenuLinkItemProps = Omit<
   /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
   tone: ContextMenuItemTone;
   /** Leading icon before the label. */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
   /** Trailing hint after the label. */
-  inlineEndNode?: React.ReactNode;
+  trailing?: React.ReactNode;
 };
 
 /**
@@ -28,20 +28,16 @@ export type ContextMenuLinkItemProps = Omit<
  */
 export function ContextMenuLinkItem({
   tone,
-  inlineStartNode,
-  inlineEndNode,
+  icon,
+  trailing,
   children,
   ...props
 }: ContextMenuLinkItemProps) {
   return (
     <BaseContextMenu.LinkItem {...props} render={<ContextMenuLinkItemElement tone={tone} />}>
-      {inlineStartNode != null ? (
-        <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
-      ) : null}
+      {icon != null ? <ContextMenuItemIcon>{icon}</ContextMenuItemIcon> : null}
       <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
-      {inlineEndNode != null ? (
-        <ContextMenuItemShortcut>{inlineEndNode}</ContextMenuItemShortcut>
-      ) : null}
+      {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
     </BaseContextMenu.LinkItem>
   );
 }

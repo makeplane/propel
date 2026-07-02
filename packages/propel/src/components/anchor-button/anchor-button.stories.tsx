@@ -12,7 +12,7 @@ const meta = {
   title: "Components/AnchorButton",
   component: AnchorButton,
   subcomponents: { AnchorButtonIcon, AnchorButtonLabel, AnchorButtonSpinner },
-  argTypes: { inlineStartNode: iconControl, inlineEndNode: iconControl },
+  argTypes: { startIcon: iconControl, endIcon: iconControl },
   args: {
     children: "Link",
     href: "#",
@@ -33,10 +33,10 @@ export const WithIcons: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <AnchorButton {...args} inlineStartNode={<Plus />}>
+      <AnchorButton {...args} startIcon={<Plus />}>
         New page
       </AnchorButton>
-      <AnchorButton {...args} prominence="secondary" inlineEndNode={<ArrowRight />}>
+      <AnchorButton {...args} prominence="secondary" endIcon={<ArrowRight />}>
         Learn more
       </AnchorButton>
     </div>

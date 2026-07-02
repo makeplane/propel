@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { checkboxInlineStartNodeVariants } from "./variants";
+import { checkboxIconVariants } from "./variants";
 
 export type CheckboxInlineStartNodeProps = Omit<
   useRender.ComponentProps<"span">,
@@ -13,10 +13,10 @@ export type CheckboxInlineStartNodeProps = Omit<
  * slot). Sizes its single child to `--node-size` (14px); pass a bare icon. Decorative — the box and
  * label carry the accessible name — so it is `aria-hidden`.
  */
-export function CheckboxInlineStartNode({ render, ...props }: CheckboxInlineStartNodeProps) {
+export function CheckboxIcon({ render, ...props }: CheckboxInlineStartNodeProps) {
   const defaultProps: useRender.ElementProps<"span"> = {
     "aria-hidden": true,
-    className: checkboxInlineStartNodeVariants(),
+    className: checkboxIconVariants(),
   };
   return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }

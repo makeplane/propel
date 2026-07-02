@@ -16,9 +16,9 @@ export type PillSwitchProps<Value extends string = string> = Omit<
   /** Size of the pill. */
   magnitude: PillMagnitude;
   /** A node before the label (inline-start), sized to the pill's `--node-size`. */
-  inlineStartNode?: React.ReactNode;
+  startIcon?: React.ReactNode;
   /** A node after the label (inline-end), sized to the pill's `--node-size`. */
-  inlineEndNode?: React.ReactNode;
+  endIcon?: React.ReactNode;
 };
 
 /**
@@ -29,16 +29,16 @@ export type PillSwitchProps<Value extends string = string> = Omit<
  */
 export function PillSwitch<Value extends string = string>({
   magnitude,
-  inlineStartNode,
-  inlineEndNode,
+  startIcon,
+  endIcon,
   children,
   ...toggleProps
 }: PillSwitchProps<Value>) {
   return (
     <Toggle {...toggleProps} render={<PillSwitchElement magnitude={magnitude} />}>
-      {inlineStartNode ? <PillIcon>{inlineStartNode}</PillIcon> : null}
+      {startIcon ? <PillIcon>{startIcon}</PillIcon> : null}
       <PillLabel>{children}</PillLabel>
-      {inlineEndNode ? <PillIcon>{inlineEndNode}</PillIcon> : null}
+      {endIcon ? <PillIcon>{endIcon}</PillIcon> : null}
     </Toggle>
   );
 }

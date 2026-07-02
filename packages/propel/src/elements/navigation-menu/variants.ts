@@ -1,5 +1,6 @@
 import { cva, cx } from "class-variance-authority";
 
+import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Navigation Menu wraps Base UI's parts and extends the anatomy with the styled regions
@@ -62,8 +63,8 @@ export const navigationMenuContentListVariants = cva("flex w-72 flex-col gap-1")
 // open; reads the parent Trigger's `group-data-popup-open` state.
 export const navigationMenuIconVariants = cva(
   cx(
-    "inline-flex shrink-0 items-center justify-center [--node-size:1rem]",
-    "[&>svg]:size-(--node-size)",
+    nodeSlotClass,
+    "[--node-size:1rem]",
     "text-icon-secondary transition-transform group-data-popup-open:rotate-180",
   ),
 );

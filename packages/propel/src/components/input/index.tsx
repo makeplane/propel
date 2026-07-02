@@ -7,6 +7,6 @@ export * from "./input";
 export {
   InputGroup,
   type InputGroupProps,
-  InputIconSlot,
+  InputIcon,
   type InputIconSlotProps,
 } from "../../elements/input";

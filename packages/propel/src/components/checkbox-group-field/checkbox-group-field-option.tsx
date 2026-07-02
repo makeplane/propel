@@ -10,7 +10,7 @@ import { FieldItem, FieldItemContent } from "../field";
 
 export type CheckboxGroupFieldOptionProps = Omit<
   CheckboxFieldControlProps,
-  "aria-label" | "label" | "inlineStartNode"
+  "aria-label" | "label" | "icon"
 > & {
   /** Visible option label. */
   label: React.ReactNode;

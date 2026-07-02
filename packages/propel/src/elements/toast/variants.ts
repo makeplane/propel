@@ -1,5 +1,6 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { nodeSlotClass } from "../../internal/node-slot";
 import { surfaceVariants } from "../../internal/surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
@@ -62,14 +63,14 @@ export const toastActionVariants = cva(
 // The positioned slot that pins the dismiss `IconButton` to the toast's inline-end corner. Holds
 // only the 4px corner offset (`absolute inset-e-1 top-1`) against the `relative` toast popup; the
 // button's chrome (size/radius/hover) comes from the composed `IconButton`.
-export const toastCloseSlotVariants = cva("absolute inset-e-1 top-1");
+export const toastCloseGroupVariants = cva("absolute inset-e-1 top-1");
 
-// Status-icon slot: a single styled `<span>` that sizes and tone-colors a bare `<svg>`
-// glyph child (`[&>svg]:size-full` makes the glyph fill the 16px box; `fill="currentColor"`
-// inherits the per-tone color). The slot is the only tone-colored element; surface/border/
-// text stay neutral, matching Figma. `mt-0.5` nudges it 2px down so it aligns with the title
-// baseline when the toast root uses `items-start` — eliminates the need for a wrapper span.
-export const toastStatusIconVariants = cva("mt-0.5 size-4 shrink-0 [&>svg]:size-full", {
+// Status-icon slot: a single styled `<span>` that sizes and tone-colors a bare `<svg>` glyph
+// child via the shared node-slot class (`fill="currentColor"` inherits the per-tone color). The
+// slot is the only tone-colored element; surface/border/text stay neutral, matching Figma.
+// `mt-0.5` nudges it 2px down so it aligns with the title baseline when the toast root uses
+// `items-start` — eliminates the need for a wrapper span.
+export const toastStatusIconVariants = cva(cx(nodeSlotClass, "mt-0.5 size-4 [--node-size:1rem]"), {
   variants: {
     tone: {
       success: "text-icon-success-primary",

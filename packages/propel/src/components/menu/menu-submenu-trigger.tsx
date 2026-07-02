@@ -5,7 +5,7 @@ import type * as React from "react";
 import {
   MenuItemContent,
   MenuItemIcon,
-  MenuItemSubmenuIndicator,
+  MenuSubmenuTriggerIndicator,
   MenuItemTitle,
   MenuItemTitleRow,
   MenuItemTrailing,
@@ -17,9 +17,9 @@ export type MenuSubmenuTriggerProps = Omit<
   "className" | "style" | "label"
 > & {
   /** Leading content before the label. */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
   /** Trailing content before the chevron. */
-  inlineEndNode?: React.ReactNode;
+  trailing?: React.ReactNode;
 };
 
 /**
@@ -28,23 +28,23 @@ export type MenuSubmenuTriggerProps = Omit<
  * submenu chevron indicator.
  */
 export function MenuSubmenuTrigger({
-  inlineStartNode,
-  inlineEndNode,
+  icon,
+  trailing,
   children,
   ...props
 }: MenuSubmenuTriggerProps) {
   return (
     <BaseMenu.SubmenuTrigger {...props} render={<MenuSubmenuTriggerElement />}>
-      {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
+      {icon != null ? <MenuItemIcon>{icon}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
           <MenuItemTitle>{children}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
-      {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}
-      <MenuItemSubmenuIndicator>
+      {trailing != null ? <MenuItemTrailing>{trailing}</MenuItemTrailing> : null}
+      <MenuSubmenuTriggerIndicator>
         <ChevronRight />
-      </MenuItemSubmenuIndicator>
+      </MenuSubmenuTriggerIndicator>
     </BaseMenu.SubmenuTrigger>
   );
 }

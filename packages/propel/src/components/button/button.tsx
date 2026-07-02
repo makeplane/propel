@@ -15,28 +15,28 @@ export type ButtonProps = ButtonElementProps & {
    * Node rendered before the label (inline-start). An icon, avatar, or any node; it is sized to the
    * button's `--node-size`. Decorative, kept out of the name.
    */
-  inlineStartNode?: React.ReactNode;
+  startIcon?: React.ReactNode;
   /**
    * Node rendered after the label (inline-end). An icon, avatar, or any node; it is sized to the
    * button's `--node-size`. Decorative, kept out of the name.
    */
-  inlineEndNode?: React.ReactNode;
+  endIcon?: React.ReactNode;
   /** Shows a spinner, sets `aria-busy`, and makes the button non-interactive. */
   loading?: boolean;
 };
 
 /**
  * The ready-made `Button`: grafts Base UI's `Button` behavior onto the styled `Button` element and
- * lays out an optional `inlineStartNode`/`inlineEndNode` beside the label plus a `loading` spinner.
- * Content — `children`, the inline nodes, `loading` — is not a variant.
+ * lays out an optional `startIcon`/`endIcon` beside the label plus a `loading` spinner. Content —
+ * `children`, the inline nodes, `loading` — is not a variant.
  */
 export function Button({
   prominence,
   tone,
   magnitude,
   sizing,
-  inlineStartNode,
-  inlineEndNode,
+  startIcon,
+  endIcon,
   loading = false,
   disabled,
   children,
@@ -59,11 +59,11 @@ export function Button({
         <ButtonSpinner>
           <LoaderCircle />
         </ButtonSpinner>
-      ) : inlineStartNode ? (
-        <ButtonIcon>{inlineStartNode}</ButtonIcon>
+      ) : startIcon ? (
+        <ButtonIcon>{startIcon}</ButtonIcon>
       ) : null}
       <ButtonLabel>{children}</ButtonLabel>
-      {!loading && inlineEndNode ? <ButtonIcon>{inlineEndNode}</ButtonIcon> : null}
+      {!loading && endIcon ? <ButtonIcon>{endIcon}</ButtonIcon> : null}
     </BaseButton>
   );
 }
