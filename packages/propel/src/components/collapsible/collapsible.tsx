@@ -17,6 +17,10 @@ export type CollapsibleProps = Omit<BaseCollapsible.Root.Props, "className" | "s
   children: React.ReactNode;
   /** Whether to show the rotating chevron indicator at the trigger's inline-end. */
   indicator: boolean;
+  /** Keep the panel in the DOM while closed — Base UI's `Panel.keepMounted`. */
+  keepMounted?: boolean;
+  /** Reveal on the browser's find-in-page — Base UI's `Panel.hiddenUntilFound`. */
+  hiddenUntilFound?: boolean;
 };
 
 /**
@@ -25,7 +29,14 @@ export type CollapsibleProps = Omit<BaseCollapsible.Root.Props, "className" | "s
  * `defaultOpen` (uncontrolled) or `open` + `onOpenChange` (controlled) to drive it. Set
  * `indicator={false}` to omit the rotating chevron from the trigger.
  */
-export function Collapsible({ trigger, children, indicator, ...props }: CollapsibleProps) {
+export function Collapsible({
+  trigger,
+  children,
+  indicator,
+  keepMounted,
+  hiddenUntilFound,
+  ...props
+}: CollapsibleProps) {
   return (
     <BaseCollapsible.Root {...props}>
       <BaseCollapsible.Trigger render={<CollapsibleTrigger />}>
@@ -36,7 +47,11 @@ export function Collapsible({ trigger, children, indicator, ...props }: Collapsi
           </DisclosureIndicator>
         ) : null}
       </BaseCollapsible.Trigger>
-      <BaseCollapsible.Panel render={<CollapsiblePanel />}>
+      <BaseCollapsible.Panel
+        keepMounted={keepMounted}
+        hiddenUntilFound={hiddenUntilFound}
+        render={<CollapsiblePanel />}
+      >
         <CollapsiblePanelContent>{children}</CollapsiblePanelContent>
       </BaseCollapsible.Panel>
     </BaseCollapsible.Root>

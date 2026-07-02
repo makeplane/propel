@@ -3,7 +3,9 @@ import { Repeat } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
+import { Button } from "../button";
 import { Field } from "../field";
+import { Form, FormActions, FormBody } from "../form";
 import {
   Checkbox,
   CheckboxIndeterminateIndicator,
@@ -182,6 +184,66 @@ export const InvalidInteraction: Story = {
     // Checked invalid box: accent-blue fill, like every other state.
     await expect(checked).toHaveAttribute("aria-checked", "true");
     await expect(checked).toHaveClass("data-checked:bg-accent-primary");
+  },
+};
+
+/**
+ * Form integration: wrap the checkbox in a `Field` with a `name` and Base UI wires the rest — the
+ * field name flows onto the box, a hidden input serializes it with the form, and `Form`'s
+ * `onFormSubmit` receives the checked state as a boolean. The checkbox itself needs no extra
+ * wiring. Submit to see the captured value.
+ */
+export const FormIntegration: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    function SessionPreferencesForm() {
+      const [submitted, setSubmitted] = React.useState<{ stayLoggedIn: boolean } | null>(null);
+      return (
+        <div className="flex w-80 flex-col gap-3">
+          <Form<{ stayLoggedIn: boolean }> onFormSubmit={(values) => setSubmitted(values)}>
+            <FormBody layout="single">
+              <Field name="stayLoggedIn">
+                <Checkbox label="Stay logged in for 7 days" />
+              </Field>
+            </FormBody>
+            <FormActions layout="inline">
+              <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
+                Save
+              </Button>
+            </FormActions>
+          </Form>
+          <output className="text-13 text-secondary">
+            {submitted ? `Stay logged in: ${submitted.stayLoggedIn ? "yes" : "no"}` : null}
+          </output>
+        </div>
+      );
+    }
+    return <SessionPreferencesForm />;
+  },
+};
+
+/**
+ * Interaction test: the `Field` name serializes the checkbox into `Form`'s `onFormSubmit` values as
+ * a boolean — `false` while unchecked, `true` once checked. Tagged out of the sidebar/docs/manifest
+ * while still running under the default `test` tag.
+ */
+export const FormIntegrationInteraction: Story = {
+  ...FormIntegration,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const checkbox = canvas.getByRole("checkbox", { name: "Stay logged in for 7 days" });
+    const save = canvas.getByRole("button", { name: "Save" });
+
+    // Submitting while unchecked serializes the field as `false`.
+    await expect(checkbox).toHaveAttribute("aria-checked", "false");
+    await userEvent.click(save);
+    await expect(canvas.getByText("Stay logged in: no")).toBeInTheDocument();
+
+    // Checking the box and resubmitting serializes it as `true`.
+    await userEvent.click(checkbox);
+    await expect(checkbox).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(save);
+    await expect(canvas.getByText("Stay logged in: yes")).toBeInTheDocument();
   },
 };
 

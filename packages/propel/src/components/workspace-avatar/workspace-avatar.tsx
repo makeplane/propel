@@ -18,6 +18,8 @@ export type WorkspaceAvatarProps = WorkspaceAvatarElementProps & {
   fallback?: React.ReactNode;
   /** Initials background color. Defaults to a stable color derived from `alt`. */
   tone?: AvatarTone;
+  /** Milliseconds before the fallback shows, to avoid a flash while `src` loads quickly. */
+  delay?: number;
 };
 
 /**
@@ -32,6 +34,7 @@ export function WorkspaceAvatar({
   alt,
   fallback,
   tone,
+  delay,
   ...props
 }: WorkspaceAvatarProps) {
   // Base UI shows the fallback whenever the logo is absent, loading, or failed, so the
@@ -53,7 +56,7 @@ export function WorkspaceAvatar({
     >
       {src ? <BaseAvatar.Image render={<WorkspaceAvatarImage />} src={src} alt="" /> : null}
       {hasInitials ? (
-        <BaseAvatar.Fallback render={<WorkspaceAvatarFallback tone={resolvedTone} />}>
+        <BaseAvatar.Fallback delay={delay} render={<WorkspaceAvatarFallback tone={resolvedTone} />}>
           {fallback}
         </BaseAvatar.Fallback>
       ) : null}

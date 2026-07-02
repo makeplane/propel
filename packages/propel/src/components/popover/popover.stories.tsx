@@ -9,7 +9,7 @@ import { Checkbox } from "../checkbox/index";
 import { DirectionProvider } from "../direction-provider";
 import { PillSwitch } from "../pill/index";
 import { Radio, RadioGroup } from "../radio/index";
-import { Popover, PopoverContent, PopoverTrigger } from "./index";
+import { createPopoverHandle, Popover, PopoverContent, PopoverTrigger } from "./index";
 
 const meta = {
   title: "Components/Popover",
@@ -303,6 +303,310 @@ export const DisplayAccordionInteraction: Story = {
       await waitFor(() => expect(panel.textContent?.includes("Last created")).toBe(false));
       await userEvent.click(findHeader(panel, "Order by"));
       await waitFor(() => expect(panel.textContent?.includes("Last created")).toBe(true));
+    });
+  },
+};
+
+/**
+ * **OpenOnHover** — `PopoverTrigger`'s `openOnHover` (with a tuned `delay`) opens the panel on
+ * hover for glanceable, read-mostly surfaces, like peeking at the filters currently applied to a
+ * view. Clicking the trigger still toggles the panel, so keyboard and touch users are not locked
+ * out.
+ */
+export const OpenOnHover: Story = {
+  render: () => (
+    <Popover>
+      <Button
+        sizing="hug"
+        prominence="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<PopoverTrigger openOnHover delay={100} />}
+      >
+        Filters
+      </Button>
+      <PopoverContent side="bottom" align="start" sizing="md" aria-label="Active filters">
+        <PanelLabel>Applied filters</PanelLabel>
+        <div className="flex flex-col gap-1 px-2 py-1.5 text-13 text-secondary">
+          <div>State: In progress</div>
+          <div>Assignee: You</div>
+          <div>Due date: This week</div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  ),
+};
+
+export const OpenOnHoverInteraction: Story = {
+  ...OpenOnHover,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    await step("hovering the trigger opens the panel after the delay", async () => {
+      await userEvent.hover(canvas.getByRole("button", { name: "Filters" }));
+      await waitFor(() =>
+        expect(document.body.querySelector('[aria-label="Active filters"]')).toBeInTheDocument(),
+      );
+    });
+    await step("Escape dismisses the hover-opened panel", async () => {
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(
+          document.body.querySelector('[aria-label="Active filters"]'),
+        ).not.toBeInTheDocument(),
+      );
+    });
+  },
+};
+
+// A handle created outside the React tree links a detached `PopoverTrigger` to its `Popover` —
+// the trigger can live anywhere in the DOM, no shared ancestor required.
+const displayPopoverHandle = createPopoverHandle();
+
+/**
+ * **DetachedTrigger** — `createPopoverHandle()` links a `PopoverTrigger` that lives OUTSIDE the
+ * `Popover` to it via the `handle` prop, so a toolbar button can open a panel that is declared
+ * elsewhere in the tree (the panel still anchors to the trigger that opened it).
+ */
+export const DetachedTrigger: Story = {
+  render: () => (
+    <div className="flex w-80 flex-col gap-6">
+      <div className="flex items-center justify-between rounded-md border border-subtle px-3 py-2">
+        <span className="text-13 font-medium text-primary">Work items</span>
+        {/* The trigger: outside the `Popover`, linked through the shared handle. */}
+        <Button
+          sizing="hug"
+          prominence="secondary"
+          tone="neutral"
+          magnitude="xl"
+          render={<PopoverTrigger handle={displayPopoverHandle} />}
+        >
+          Display
+        </Button>
+      </div>
+      {/* The popover: declared elsewhere, associated by `handle`. */}
+      <Popover handle={displayPopoverHandle}>
+        <PopoverContent side="bottom" align="end" sizing="md" aria-label="Display options">
+          <ToggleFooter defaultToggles={{ sub: true }} />
+        </PopoverContent>
+      </Popover>
+    </div>
+  ),
+};
+
+export const DetachedTriggerInteraction: Story = {
+  ...DetachedTrigger,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    await step("the detached trigger opens the handle-linked popover", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Display" }));
+      const panel = await waitFor(() => {
+        const el = document.body.querySelector('[aria-label="Display options"]');
+        if (!el) throw new Error("panel not open");
+        return el as HTMLElement;
+      });
+      await expect(
+        within(panel).getByRole("checkbox", { name: "Show sub-work items" }),
+      ).toBeChecked();
+    });
+    await step("Escape closes it and returns focus to the detached trigger", async () => {
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(
+          document.body.querySelector('[aria-label="Display options"]'),
+        ).not.toBeInTheDocument(),
+      );
+      await expect(canvas.getByRole("button", { name: "Display" })).toHaveFocus();
+    });
+  },
+};
+
+/**
+ * **MultipleTriggers** — one popover shared by several triggers. Each `PopoverTrigger` carries a
+ * `payload`, and the `Popover`'s render-function children receive the active trigger's payload, so
+ * the shared panel shows the details of whichever member chip opened it (and anchors to that
+ * chip).
+ */
+export const MultipleTriggers: Story = {
+  render: function Render() {
+    type Member = { name: string; role: string };
+    const members: Member[] = [
+      { name: "Aaliyah Chen", role: "Product designer" },
+      { name: "Marco Ruiz", role: "Frontend engineer" },
+    ];
+    return (
+      <Popover<Member>>
+        {({ payload }) => (
+          <>
+            <div className="flex items-center gap-2">
+              {members.map((member) => (
+                <Button
+                  key={member.name}
+                  sizing="hug"
+                  prominence="secondary"
+                  tone="neutral"
+                  magnitude="xl"
+                  render={<PopoverTrigger payload={member} />}
+                >
+                  {member.name}
+                </Button>
+              ))}
+            </div>
+            <PopoverContent side="bottom" align="start" sizing="md" aria-label="Member details">
+              {payload ? (
+                <div className="flex flex-col gap-0.5 px-2 py-1.5">
+                  <div className="text-13 font-medium text-primary">{payload.name}</div>
+                  <div className="text-12 text-tertiary">{payload.role}</div>
+                </div>
+              ) : null}
+            </PopoverContent>
+          </>
+        )}
+      </Popover>
+    );
+  },
+};
+
+export const MultipleTriggersInteraction: Story = {
+  ...MultipleTriggers,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    const findPanel = () =>
+      waitFor(() => {
+        const el = document.body.querySelector('[aria-label="Member details"]');
+        if (!el) throw new Error("panel not open");
+        return el as HTMLElement;
+      });
+
+    await step("the first trigger opens the shared panel with its payload", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Aaliyah Chen" }));
+      const panel = await findPanel();
+      await expect(within(panel).getByText("Product designer")).toBeInTheDocument();
+    });
+    await step("the second trigger reopens it with its own payload", async () => {
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() =>
+        expect(
+          document.body.querySelector('[aria-label="Member details"]'),
+        ).not.toBeInTheDocument(),
+      );
+      await userEvent.click(canvas.getByRole("button", { name: "Marco Ruiz" }));
+      const panel = await findPanel();
+      await expect(within(panel).getByText("Frontend engineer")).toBeInTheDocument();
+    });
+  },
+};
+
+/**
+ * **Controlled** — external state drives the popover via `open` + `onOpenChange`, with `triggerId`
+ * naming the active trigger among several (each `PopoverTrigger` gets an `id`; the change event's
+ * `trigger` element reports which one fired). The panel content follows the active trigger, and a
+ * plain button outside the popover reopens the Filter panel programmatically.
+ */
+export const Controlled: Story = {
+  render: function Render() {
+    const [open, setOpen] = React.useState(false);
+    const [triggerId, setTriggerId] = React.useState<string | null>(null);
+    return (
+      <div className="flex items-center gap-2">
+        <Popover
+          open={open}
+          triggerId={triggerId}
+          onOpenChange={(nextOpen, eventDetails) => {
+            setOpen(nextOpen);
+            setTriggerId(eventDetails.trigger?.id ?? null);
+          }}
+        >
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="xl"
+            render={<PopoverTrigger id="view-sort-trigger" />}
+          >
+            Sort
+          </Button>
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="xl"
+            render={<PopoverTrigger id="view-filter-trigger" />}
+          >
+            Filter
+          </Button>
+          <PopoverContent side="bottom" align="start" sizing="md" aria-label="View options">
+            {triggerId === "view-filter-trigger" ? (
+              <>
+                <PanelLabel>Filter by</PanelLabel>
+                <ToggleFooter />
+              </>
+            ) : (
+              <>
+                <PanelLabel>Sort by</PanelLabel>
+                <RadioGroup density="compact" defaultValue="priority">
+                  <PanelRadioRow value="priority" label="Priority" />
+                  <PanelRadioRow value="created" label="Last created" />
+                  <PanelRadioRow value="updated" label="Last updated" />
+                </RadioGroup>
+              </>
+            )}
+          </PopoverContent>
+        </Popover>
+        {/* Programmatic opening: any control can set the state (and the target trigger). */}
+        <Button
+          sizing="hug"
+          prominence="tertiary"
+          tone="neutral"
+          magnitude="xl"
+          onClick={() => {
+            setTriggerId("view-filter-trigger");
+            setOpen(true);
+          }}
+        >
+          Reopen filters
+        </Button>
+      </div>
+    );
+  },
+};
+
+export const ControlledInteraction: Story = {
+  ...Controlled,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    const findPanel = () =>
+      waitFor(() => {
+        const el = document.body.querySelector('[aria-label="View options"]');
+        if (!el) throw new Error("panel not open");
+        return el as HTMLElement;
+      });
+    const waitForClosed = () =>
+      waitFor(() =>
+        expect(document.body.querySelector('[aria-label="View options"]')).not.toBeInTheDocument(),
+      );
+
+    await step("the Sort trigger opens the panel with the sort section", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Sort" }));
+      const panel = await findPanel();
+      await expect(within(panel).getByText("Sort by")).toBeInTheDocument();
+    });
+    await step("Escape closes through the controlled state", async () => {
+      await userEvent.keyboard("{Escape}");
+      await waitForClosed();
+    });
+    await step("the Filter trigger swaps the panel content", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Filter" }));
+      const panel = await findPanel();
+      await expect(within(panel).getByText("Filter by")).toBeInTheDocument();
+      await userEvent.keyboard("{Escape}");
+      await waitForClosed();
+    });
+    await step("an outside button reopens the Filter panel programmatically", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Reopen filters" }));
+      const panel = await findPanel();
+      await expect(within(panel).getByText("Filter by")).toBeInTheDocument();
+      await userEvent.keyboard("{Escape}");
+      await waitForClosed();
     });
   },
 };

@@ -25,6 +25,8 @@ export type AvatarProps = Omit<AvatarElementProps, "magnitude"> & {
   fallback?: React.ReactNode;
   /** Initials background color. Defaults to a stable color derived from `alt`. */
   tone?: AvatarTone;
+  /** Milliseconds before the fallback shows, to avoid a flash while `src` loads quickly. */
+  delay?: number;
 };
 
 /**
@@ -33,7 +35,7 @@ export type AvatarProps = Omit<AvatarElementProps, "magnitude"> & {
  * Pass `src` for the photo, `fallback` for initials, and optionally `tone` (otherwise derived from
  * `alt`).
  */
-export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: AvatarProps) {
+export function Avatar({ magnitude, src, alt, fallback, tone, delay, ...props }: AvatarProps) {
   // Base UI shows the fallback whenever the image is absent, loading, or failed, so the
   // colored-initials styling lives on the Fallback element itself. Initials = a label tone
   // color; the anonymous person icon renders in the icon slot over the root's neutral backdrop
@@ -56,11 +58,11 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
     >
       {src ? <BaseAvatar.Image render={<AvatarImage />} src={src} alt="" /> : null}
       {hasInitials ? (
-        <BaseAvatar.Fallback render={<AvatarFallback tone={resolvedTone} />}>
+        <BaseAvatar.Fallback delay={delay} render={<AvatarFallback tone={resolvedTone} />}>
           {fallback}
         </BaseAvatar.Fallback>
       ) : (
-        <BaseAvatar.Fallback render={<AvatarIcon magnitude={effectiveMagnitude} />}>
+        <BaseAvatar.Fallback delay={delay} render={<AvatarIcon magnitude={effectiveMagnitude} />}>
           <User />
         </BaseAvatar.Fallback>
       )}

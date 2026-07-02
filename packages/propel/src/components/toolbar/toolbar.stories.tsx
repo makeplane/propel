@@ -8,6 +8,7 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  History,
   Image,
   Italic,
   Link,
@@ -22,13 +23,15 @@ import {
   Underline,
 } from "lucide-react";
 import type * as React from "react";
-import { expect } from "storybook/test";
+import { expect, waitFor, within } from "storybook/test";
 
 import { Menu, MenuContent, MenuItem, MenuSeparator } from "../menu";
+import { Tooltip, TooltipProvider } from "../tooltip";
 import {
   Toolbar,
   ToolbarInput,
   ToolbarButton,
+  ToolbarLink,
   ToolbarMenuTrigger,
   ToolbarGroup,
   ToolbarSeparator,
@@ -134,6 +137,7 @@ const meta = {
     ToolbarInput,
     ToolbarGroup,
     ToolbarButton,
+    ToolbarLink,
     ToolbarToggle,
     ToolbarToggleGroup,
     ToolbarSeparator,
@@ -142,6 +146,8 @@ const meta = {
     MenuContent,
     MenuItem,
     MenuSeparator,
+    Tooltip,
+    TooltipProvider,
   },
   args: { elevation: "raised", density: "compact" },
   render: (args) => <FormattingToolbar {...args} />,
@@ -369,5 +375,113 @@ export const WithFilterInteraction: Story = {
     const input = canvas.getByRole("textbox", { name: "Filter issues" });
     await userEvent.type(input, "bug");
     await expect(input).toHaveValue("bug");
+  },
+};
+
+/**
+ * A toolbar item that navigates instead of acting: `ToolbarLink` is an `<a>` sharing the same
+ * roving tab order and icon chrome as the buttons around it — here linking to the document's edit
+ * history. Like the icon buttons it wraps a bare glyph in the shared slot, so its accessible name
+ * comes from `aria-label`.
+ */
+export const WithLink: Story = {
+  render: (args) => (
+    <Toolbar {...args} aria-label="Document actions">
+      <ToolbarGroup aria-label="Text formatting">
+        <ToolbarToggle aria-label="Bold">
+          <Bold />
+        </ToolbarToggle>
+        <ToolbarToggle aria-label="Italic">
+          <Italic />
+        </ToolbarToggle>
+      </ToolbarGroup>
+      <ToolbarSeparator />
+      <ToolbarLink href="#history" aria-label="View edit history">
+        <History />
+      </ToolbarLink>
+    </Toolbar>
+  ),
+};
+
+/**
+ * Interaction test: the link is a named `<a>` that participates in the toolbar's roving tab order —
+ * the separator is skipped, Arrow Right reaches the link, and the roving `tabindex=0` follows.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const WithLinkInteraction: Story = {
+  ...WithLink,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const link = canvas.getByRole("link", { name: "View edit history" });
+    await expect(link).toHaveAttribute("href", "#history");
+
+    // The link starts out of the tab order — the toolbar is a single tab stop.
+    await expect(link).toHaveAttribute("tabindex", "-1");
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "Bold" })).toHaveFocus();
+
+    // Arrow Right roams past the toggles (skipping the separator) onto the link,
+    // and the roving tabindex follows it.
+    await userEvent.keyboard("{ArrowRight}{ArrowRight}");
+    await expect(link).toHaveFocus();
+    await expect(link).toHaveAttribute("tabindex", "0");
+  },
+};
+
+/**
+ * Toolbar controls are icon-only, so pair each with a `Tooltip` naming it (plus a dimmed shortcut
+ * hint). The control goes in as the tooltip's trigger child — the tooltip grafts its hover/focus
+ * behavior onto the control without disturbing the toolbar's roving focus — and a shared
+ * `TooltipProvider` keeps open/close timing consistent while sweeping across the bar.
+ */
+export const WithTooltips: Story = {
+  render: (args) => (
+    <TooltipProvider>
+      <Toolbar {...args} aria-label="Text formatting">
+        <Tooltip content="Bold" shortcut="⌘ B">
+          <ToolbarToggle aria-label="Bold">
+            <Bold />
+          </ToolbarToggle>
+        </Tooltip>
+        <Tooltip content="Italic" shortcut="⌘ I">
+          <ToolbarToggle aria-label="Italic">
+            <Italic />
+          </ToolbarToggle>
+        </Tooltip>
+        <Tooltip content="Underline" shortcut="⌘ U">
+          <ToolbarToggle aria-label="Underline">
+            <Underline />
+          </ToolbarToggle>
+        </Tooltip>
+      </Toolbar>
+    </TooltipProvider>
+  ),
+};
+
+/**
+ * Interaction test: focusing a toolbar item opens its tooltip (focus opens immediately, no hover
+ * delay), and the toolbar's roving focus keeps working with the tooltip grafted on — Arrow Right
+ * moves to the next control and the tooltip follows. Tagged out of the sidebar/docs/manifest while
+ * still running under the default `test` tag.
+ */
+export const WithTooltipsInteraction: Story = {
+  ...WithTooltips,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    // The tooltip popup portals outside the story canvas, so query the document.
+    const body = within(document.body);
+
+    // Tab enters the toolbar; the focused control's tooltip opens.
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "Bold" })).toHaveFocus();
+    const tooltip = await body.findByRole("tooltip");
+    await expect(tooltip).toHaveTextContent("Bold");
+
+    // Roving focus still works with the tooltip grafted on: Arrow Right moves to the
+    // next control and the tooltip swaps (the old one leaves asynchronously, so retry
+    // until only the new one remains).
+    await userEvent.keyboard("{ArrowRight}");
+    await expect(canvas.getByRole("button", { name: "Italic" })).toHaveFocus();
+    await waitFor(() => expect(body.getByRole("tooltip")).toHaveTextContent("Italic"));
   },
 };

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect } from "storybook/test";
+import * as React from "react";
+import { expect, waitFor } from "storybook/test";
 
 import {
   LinearProgressIndicator,
@@ -63,6 +64,38 @@ export const Magnitudes: Story = {
 
 /** `value={null}` is indeterminate: an animated fill with no `aria-valuenow`. */
 export const Indeterminate: Story = { args: { value: null, showValue: false } };
+
+/**
+ * Drive `value` from task state — an export advancing in deterministic 300 ms steps here. The fill,
+ * the trailing `%`, and `aria-valuenow` follow each update, and the bar marks itself
+ * `data-complete` when the value reaches `max`.
+ */
+export const SimulatedTask: Story = {
+  parameters: { controls: { disable: true } },
+  render: (args) => {
+    function ExportExample() {
+      const [value, setValue] = React.useState(0);
+      React.useEffect(() => {
+        if (value >= 100) return;
+        const timer = window.setTimeout(() => setValue((current) => current + 25), 300);
+        return () => window.clearTimeout(timer);
+      }, [value]);
+      return <LinearProgress {...args} value={value} aria-label="Export progress" />;
+    }
+    return <ExportExample />;
+  },
+};
+
+/** Hidden twin of `SimulatedTask`: the bar settles at 100% and reports completion. */
+export const SimulatedTaskInteraction: Story = {
+  ...SimulatedTask,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    const bar = canvas.getByRole("progressbar", { name: "Export progress" });
+    await waitFor(() => expect(bar).toHaveAttribute("aria-valuenow", "100"), { timeout: 3000 });
+    await expect(bar).toHaveAttribute("data-complete");
+  },
+};
 
 /** It exposes the `progressbar` role and reflects the value as `aria-valuenow`. */
 export const HasProgressbarRole: Story = {

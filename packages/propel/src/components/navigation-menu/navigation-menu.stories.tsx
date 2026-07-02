@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type * as React from "react";
-import { expect, waitFor } from "storybook/test";
+import { expect, waitFor, within } from "storybook/test";
 
+import { ScrollArea } from "../scroll-area";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -86,6 +87,12 @@ const RESOURCE_LINKS = [
     description: "What shipped recently.",
   },
 ];
+
+// Enough entries to overflow the height-capped panel in the `LargeContent` story.
+const PROJECT_LINKS = Array.from({ length: 24 }, (_, index) => ({
+  href: `#project-${index + 1}`,
+  title: `Project ${index + 1}`,
+}));
 
 // The demo links carry real hrefs for correct anchor semantics, but cancel navigation:
 // the Vitest browser runner shares one page across story files, so an activated link
@@ -220,5 +227,97 @@ export const PresentationsInteraction: Story = {
     const card = canvas.getByRole("link", { name: /Documentation/ });
     await expect(card).toHaveAttribute("href", "#docs");
     await expect(card).toHaveTextContent("Guides and API references.");
+  },
+};
+
+/**
+ * A menu whose content outgrows the panel: the story caps the content region's height and wraps the
+ * link list in a `ScrollArea`, so the panel keeps a stable size while the links scroll — the
+ * recommended composition for large menus instead of native popup scrollbars.
+ */
+export const LargeContent: Story = {
+  render: () => (
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <div className="flex h-72 flex-col">
+              <ScrollArea orientation="vertical" visibility="auto" magnitude="thin">
+                <NavigationMenuContentList>
+                  {PROJECT_LINKS.map((item) => (
+                    <li key={item.href}>
+                      <NavigationMenuLink
+                        href={item.href}
+                        presentation="card"
+                        onClick={cancelNavigation}
+                      >
+                        <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
+                      </NavigationMenuLink>
+                    </li>
+                  ))}
+                </NavigationMenuContentList>
+              </ScrollArea>
+            </div>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink href="#pricing" presentation="item" onClick={cancelNavigation}>
+            Pricing
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+
+      <NavigationMenuPanel>
+        <NavigationMenuViewport />
+      </NavigationMenuPanel>
+    </NavigationMenu>
+  ),
+};
+
+/**
+ * Behavior test: opening the trigger renders every link into the portaled panel, and the capped
+ * content region overflows so the list actually scrolls.
+ */
+export const LargeContentInteraction: Story = {
+  ...LargeContent,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: {
+    a11y: {
+      // Same two Base UI internals as `DefaultInteraction` (the focus-guard sentinels and the
+      // portaled second `<nav>` landmark) — static-analysis false positives while the popup is
+      // open, so suppress just those two rules here as well.
+      config: {
+        rules: [
+          { id: "aria-hidden-focus", enabled: false },
+          { id: "landmark-unique", enabled: false },
+        ],
+      },
+    },
+  },
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByRole("button", { name: /Projects/ });
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    // The popup is portaled, so query the document body once open. The last link exists in the
+    // DOM even though it starts scrolled out of view.
+    const lastLink = await within(document.body).findByRole("link", { name: "Project 24" });
+
+    // The height-capped wrapper + `ScrollArea` leave an ancestor of the link overflowing its box
+    // (the scrollable viewport); wait for layout to settle before measuring.
+    await waitFor(() => {
+      let node = lastLink.parentElement;
+      let scroller: HTMLElement | null = null;
+      while (node && node !== document.body) {
+        if (node.scrollHeight > node.clientHeight) {
+          scroller = node;
+          break;
+        }
+        node = node.parentElement;
+      }
+      void expect(scroller).not.toBeNull();
+    });
   },
 };

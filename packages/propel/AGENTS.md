@@ -87,10 +87,21 @@ imports `lucide-react`, rendering an icon as `{children}` (a slot) and sizing it
 carries no `className`, so its size comes from the `elements` cva). `lucide-react` may be imported
 **only** in `components` source and in stories — never in `elements`, `base`, or `internal` source.
 
-2b. **`elements`/`base` stories stay in-tier.** An `elements` (or `base`) story imports only from `elements`/`base`
-(+ Base UI and external libs like `lucide-react`) — NEVER from `components`. To show what a
-`components` ready-made composes (e.g. a toolbar toggle = `ToolbarButton` + Base UI `Toggle`), build
-it from the `elements` atoms inline in the story.
+2b. **`elements` stories are pure UI-configuration showcases; behavior stories live in
+`components`.** An `elements` story renders the styled parts DIRECTLY — every visual axis
+(`magnitude`/`tone`/…) and every visual state, the states pinned statically via the `data-*`/aria
+attributes Base UI would set (`data-pressed=""`, `data-highlighted=""`, `data-panel-open=""`,
+`data-invalid=""`, `aria-current="page"`, …). It imports **nothing** from `@base-ui/react` and
+never from `components`, and it carries **no behavior `play` tests** (a hidden CSS canary asserting
+compiled styling is fine) — grafting, keyboard, and aria behavior are demonstrated AND tested in
+the family's `components` story. A `base` story is the exception: `base` parts ARE behavior, so
+their stories exercise it in-tier.
+
+2c. **A story that needs hooks uses the named-function render pattern.** Hooks belong in a render
+that is itself a component — write
+`render: function Render(args) { const [x, setX] = React.useState(…); return …; }` directly on the
+story. Never hoist a local example component above the meta and render `<SomeExample />` (it hides
+the composition from the Docs "Show code" panel), and never call hooks from an arrow render.
 
 3. **`cva`/`cx` live only in `elements`; `className`/`style` exposure stops at `base`.** `base` follows
    Base UI exactly and **exposes `className`/`style`** (it is unstyled — `elements` is what styles it).

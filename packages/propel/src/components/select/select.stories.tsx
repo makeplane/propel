@@ -6,6 +6,8 @@ import {
   Select,
   SelectContent,
   SelectField,
+  SelectGroup,
+  SelectGroupLabel,
   SelectItem,
   SelectLabel,
   SelectList,
@@ -34,6 +36,8 @@ const meta = {
     SelectContent,
     SelectList,
     SelectItem,
+    SelectGroup,
+    SelectGroupLabel,
   },
 } satisfies Meta<typeof Select>;
 
@@ -78,6 +82,50 @@ export const DefaultInteraction: Story = {
     await expect(
       await popup.findByRole("option", { name: "Compute optimized" }),
     ).toBeInTheDocument();
+  },
+};
+
+/**
+ * Without a `defaultValue`, the trigger shows the `placeholder` until an option is picked — Base
+ * UI's `Select.Value` placeholder, surfaced as a `SelectTrigger` prop.
+ */
+export const Placeholder: Story = {
+  render: () => (
+    <Field name="serverType">
+      <Select items={SERVER_TYPES}>
+        <SelectField>
+          <SelectLabel>Server type</SelectLabel>
+          <SelectTrigger magnitude="md" placeholder="Choose a server type" />
+        </SelectField>
+        <SelectContent>
+          <SelectList>
+            {SERVER_TYPES.map(({ label, value }) => (
+              <SelectItem key={value} value={value} magnitude="md">
+                {label}
+              </SelectItem>
+            ))}
+          </SelectList>
+        </SelectContent>
+      </Select>
+    </Field>
+  ),
+};
+
+/**
+ * Interaction test: the trigger shows the placeholder while empty and swaps to the picked option's
+ * label after selection.
+ */
+export const PlaceholderInteraction: Story = {
+  ...Placeholder,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByRole("combobox", { name: "Server type" });
+    await expect(trigger).toHaveTextContent("Choose a server type");
+
+    await userEvent.click(trigger);
+    const popup = within(document.body);
+    await userEvent.click(await popup.findByRole("option", { name: "Compute optimized" }));
+    await expect(trigger).toHaveTextContent("Compute optimized");
   },
 };
 
@@ -130,6 +178,126 @@ export const MultipleInteraction: Story = {
       "true",
     );
     await expect(trigger).toHaveTextContent("General purpose, Compute optimized, Memory optimized");
+  },
+};
+
+const ASSIGNEES = [
+  { id: "u_01", name: "Aaditya Kapoor" },
+  { id: "u_02", name: "Bianca Ferreira" },
+  { id: "u_03", name: "Marcus Chen" },
+];
+
+/**
+ * Items can carry object values instead of primitives: the root's `items` pairs each object with
+ * the label the trigger displays, and `itemToStringValue` converts the selected object to a string
+ * for form submission.
+ */
+export const ObjectValues: Story = {
+  render: () => (
+    <Field name="assignee">
+      <Select
+        items={ASSIGNEES.map((member) => ({ label: member.name, value: member }))}
+        defaultValue={ASSIGNEES[0]}
+        itemToStringValue={(member) => member.id}
+      >
+        <SelectField>
+          <SelectLabel>Assignee</SelectLabel>
+          <SelectTrigger magnitude="md" />
+        </SelectField>
+        <SelectContent>
+          <SelectList>
+            {ASSIGNEES.map((member) => (
+              <SelectItem key={member.id} value={member} magnitude="md">
+                {member.name}
+              </SelectItem>
+            ))}
+          </SelectList>
+        </SelectContent>
+      </Select>
+    </Field>
+  ),
+};
+
+/**
+ * Interaction test: the trigger resolves the preselected object to its label, and picking another
+ * row swaps the displayed label to the newly selected object's.
+ */
+export const ObjectValuesInteraction: Story = {
+  ...ObjectValues,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByRole("combobox", { name: "Assignee" });
+    await expect(trigger).toHaveTextContent("Aaditya Kapoor");
+
+    await userEvent.click(trigger);
+    const popup = within(document.body);
+    await userEvent.click(await popup.findByRole("option", { name: "Marcus Chen" }));
+    await expect(trigger).toHaveTextContent("Marcus Chen");
+  },
+};
+
+const REGION_GROUPS = [
+  {
+    label: "Americas",
+    items: [
+      { label: "US Central 1", value: "us-central-1" },
+      { label: "US East 1", value: "us-east-1" },
+    ],
+  },
+  {
+    label: "Europe",
+    items: [
+      { label: "EU Central 1", value: "eu-central-1" },
+      { label: "EU West 1", value: "eu-west-1" },
+    ],
+  },
+];
+
+/**
+ * Related options sit under `SelectGroup` + `SelectGroupLabel` section headings inside the popup;
+ * the flattened `items` on the root keep the trigger's label lookup working.
+ */
+export const Grouped: Story = {
+  render: () => (
+    <Field name="region">
+      <Select items={REGION_GROUPS.flatMap((group) => group.items)} defaultValue="us-central-1">
+        <SelectField>
+          <SelectLabel>Region</SelectLabel>
+          <SelectTrigger magnitude="md" />
+        </SelectField>
+        <SelectContent>
+          <SelectList>
+            {REGION_GROUPS.map((group) => (
+              <SelectGroup key={group.label}>
+                <SelectGroupLabel>{group.label}</SelectGroupLabel>
+                {group.items.map(({ label, value }) => (
+                  <SelectItem key={value} value={value} magnitude="md">
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            ))}
+          </SelectList>
+        </SelectContent>
+      </Select>
+    </Field>
+  ),
+};
+
+/**
+ * Interaction test: each group is labeled by its `SelectGroupLabel` (aria-labelledby wiring), and
+ * the options render inside their own group.
+ */
+export const GroupedInteraction: Story = {
+  ...Grouped,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole("combobox", { name: "Region" }));
+    const popup = within(document.body);
+    const europe = await popup.findByRole("group", { name: "Europe" });
+    await expect(within(europe).getByRole("option", { name: "EU West 1" })).toBeInTheDocument();
+    const americas = popup.getByRole("group", { name: "Americas" });
+    await expect(within(americas).getByRole("option", { name: "US East 1" })).toBeInTheDocument();
   },
 };
 

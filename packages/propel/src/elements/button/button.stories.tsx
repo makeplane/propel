@@ -173,6 +173,36 @@ export const Anatomy: Story = {
 };
 
 /**
+ * The styled button element is render-capable: Base UI's `Button` can present another tag — here a
+ * `<div>` that may host complex children — while keeping button semantics. `nativeButton={false}`
+ * tells Base UI the rendered tag is not a `<button>`, so it supplies `role="button"`, tab focus,
+ * and Enter/Space activation itself. (Navigation stays a real link — use `AnchorButton`, never a
+ * button dressed as one.)
+ */
+export const CustomTag: Story = {
+  args: { children: undefined },
+  argTypes: { children: { control: false } },
+  render: ({ prominence, tone, magnitude, sizing, onClick, disabled }) => (
+    <BaseButton
+      nativeButton={false}
+      onClick={onClick}
+      disabled={disabled}
+      render={
+        <Button
+          prominence={prominence}
+          tone={tone}
+          magnitude={magnitude}
+          sizing={sizing}
+          render={<div />}
+        />
+      }
+    >
+      <ButtonLabel>Rendered as a div</ButtonLabel>
+    </BaseButton>
+  ),
+};
+
+/**
  * Clicking the button fires `onClick`. Tagged out of the sidebar/docs/manifest but still runs under
  * the default `test` tag.
  */
@@ -199,5 +229,29 @@ export const DisabledBlocksClick: Story = {
     const user = baseUserEvent.setup({ pointerEventsCheck: 0 });
     await user.click(button);
     await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+/**
+ * `nativeButton={false}` keeps the custom tag accessible: no `<button>` is rendered, yet the
+ * `<div>` exposes `role="button"`, joins the tab order, and both Enter and Space activate it —
+ * pointer clicks too.
+ */
+export const CustomTagKeyboardAccessible: Story = {
+  ...CustomTag,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { ...CustomTag.args, onClick: fn() },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Rendered as a div" });
+    // Another tag, not a native <button>.
+    await expect(button.tagName).toBe("DIV");
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await expect(args.onClick).toHaveBeenCalledOnce();
+    await userEvent.keyboard("[Space]");
+    await expect(args.onClick).toHaveBeenCalledTimes(2);
+    await userEvent.click(button);
+    await expect(args.onClick).toHaveBeenCalledTimes(3);
   },
 };

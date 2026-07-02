@@ -1,9 +1,23 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronsUpDown, X } from "lucide-react";
-import { expect, within } from "storybook/test";
+import * as React from "react";
+import { expect, waitFor, within } from "storybook/test";
 
+import { Button } from "../button/index";
+import {
+  Dialog,
+  DialogActions,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogHeading,
+  DialogTitle,
+} from "../dialog/index";
 import { Field, FieldError, FieldLabel } from "../field/index";
 import { IconButton } from "../icon-button";
+import { InputField } from "../input-field/index";
 import {
   Combobox,
   ComboboxChips,
@@ -16,6 +30,8 @@ import {
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxList,
+  ComboboxStatus,
+  useFilter,
 } from "./index";
 
 const REGIONS = ["us-central-1", "us-east-1", "eu-central-1", "ap-west-1"];
@@ -35,6 +51,10 @@ const meta = {
     ComboboxItem,
     ComboboxItemIndicator,
     ComboboxEmpty,
+    ComboboxGroup,
+    ComboboxGroupLabel,
+    ComboboxCollection,
+    ComboboxStatus,
   },
 } satisfies Meta<typeof Combobox>;
 
@@ -229,5 +249,296 @@ export const GroupedInteraction: Story = {
     await expect(popup.getByText("eu-central-1")).toBeInTheDocument();
     await expect(popup.queryByText("Americas")).not.toBeInTheDocument();
     await expect(popup.queryByText("us-east-1")).not.toBeInTheDocument();
+  },
+};
+
+const MEMBERS = ["Aaditya Kapoor", "Bianca Ferreira", "Marcus Chen", "Priya Nair", "Rohan Sharma"];
+
+/**
+ * Items loaded from a remote source: `filter={null}` turns the built-in filtering off, the root's
+ * `onInputValueChange` drives the (deterministic, 300 ms) search, and `ComboboxStatus` — a polite
+ * live region inside the popup — carries the "Searching…" / "Start typing" hints while
+ * `ComboboxEmpty` keeps the settled no-matches message.
+ */
+export const AsyncSearch: Story = {
+  render: function Render() {
+    const [query, setQuery] = React.useState("");
+    const [results, setResults] = React.useState<string[]>([]);
+    const [pending, setPending] = React.useState(false);
+    const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+    const { contains } = useFilter();
+
+    React.useEffect(() => () => clearTimeout(timeoutRef.current), []);
+
+    const trimmed = query.trim();
+    const status = pending
+      ? "Searching…"
+      : trimmed === ""
+        ? "Start typing to search members"
+        : null;
+
+    return (
+      <Field name="reviewer">
+        <Combobox
+          items={results}
+          // Built-in filtering is off: the (fake) server already returns only the matches.
+          filter={null}
+          onInputValueChange={(nextQuery, { reason }) => {
+            setQuery(nextQuery);
+            if (reason === "item-press") {
+              return;
+            }
+            clearTimeout(timeoutRef.current);
+            const trimmedQuery = nextQuery.trim();
+            if (trimmedQuery === "") {
+              setResults([]);
+              setPending(false);
+              return;
+            }
+            setPending(true);
+            // Deterministic stand-in for a server search: resolves after a short in-story delay.
+            timeoutRef.current = setTimeout(() => {
+              setResults(MEMBERS.filter((member) => contains(member, trimmedQuery)));
+              setPending(false);
+            }, 300);
+          }}
+        >
+          <FieldLabel magnitude="md" inset={false}>
+            Reviewer
+          </FieldLabel>
+          <ComboboxInputGroup
+            magnitude="md"
+            placeholder="e.g. Priya"
+            clear={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label="Clear reviewer"
+              >
+                <X />
+              </IconButton>
+            }
+            trigger={
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="md"
+                aria-label="Open reviewer"
+              >
+                <ChevronsUpDown />
+              </IconButton>
+            }
+          />
+          <ComboboxContent>
+            <ComboboxStatus>{status}</ComboboxStatus>
+            <ComboboxEmpty>{!pending && trimmed !== "" ? "No members match" : null}</ComboboxEmpty>
+            <ComboboxList>
+              {(member: string) => (
+                <ComboboxItem key={member} value={member} magnitude="md">
+                  {member}
+                </ComboboxItem>
+              )}
+            </ComboboxList>
+          </ComboboxContent>
+        </Combobox>
+      </Field>
+    );
+  },
+};
+
+/**
+ * Interaction test: typing shows the pending Status hint, then the settled results replace it —
+ * only the matching member is listed. Tagged out of the sidebar/docs/manifest while still running
+ * under the default `test` tag.
+ */
+export const AsyncSearchInteraction: Story = {
+  ...AsyncSearch,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.type(canvas.getByRole("combobox", { name: "Reviewer" }), "ro");
+    const popup = within(document.body);
+    // The polite Status live region announces the in-flight search…
+    await expect(await popup.findByText("Searching…")).toBeInTheDocument();
+    // …then the settled results replace it.
+    await expect(await popup.findByRole("option", { name: "Rohan Sharma" })).toBeInTheDocument();
+    await waitFor(() => expect(popup.queryByText("Searching…")).not.toBeInTheDocument());
+    await expect(popup.queryByRole("option", { name: "Marcus Chen" })).not.toBeInTheDocument();
+  },
+};
+
+type ProjectLabel = {
+  id: string;
+  value: string;
+  /** The raw query this row would create — present only on the synthetic "Create …" row. */
+  creatable?: string;
+};
+
+const INITIAL_LABELS: ProjectLabel[] = [
+  { id: "bug", value: "bug" },
+  { id: "documentation", value: "documentation" },
+  { id: "enhancement", value: "enhancement" },
+  { id: "help-wanted", value: "help wanted" },
+];
+
+/**
+ * Creating a new item when the query matches nothing: a synthetic `Create "…"` row is appended to
+ * `items`, and picking it opens a creation `Dialog` (intercepted in the root's `onValueChange`)
+ * instead of selecting. Confirming adds the new label to the list and selects it as a chip.
+ */
+export const Creatable: Story = {
+  render: function Render() {
+    const [labels, setLabels] = React.useState(INITIAL_LABELS);
+    const [selected, setSelected] = React.useState<ProjectLabel[]>([]);
+    const [query, setQuery] = React.useState("");
+    // The label name being drafted in the dialog; non-null while the dialog is open.
+    const [draft, setDraft] = React.useState<string | null>(null);
+
+    const trimmed = query.trim();
+    const exists = labels.some(
+      (label) => label.value.toLocaleLowerCase() === trimmed.toLocaleLowerCase(),
+    );
+    // When the query matches no existing label exactly, append a synthetic "Create …" row. Its
+    // display text contains the query, so it survives the built-in filter alongside partial
+    // matches.
+    const items =
+      trimmed === "" || exists
+        ? labels
+        : [
+            ...labels,
+            { id: `create:${trimmed}`, value: `Create "${trimmed}"`, creatable: trimmed },
+          ];
+
+    function createLabel() {
+      const value = draft?.trim();
+      if (!value) {
+        return;
+      }
+      const newLabel: ProjectLabel = {
+        id: value.toLocaleLowerCase().replace(/\s+/g, "-"),
+        value,
+      };
+      setLabels((prev) => [...prev, newLabel]);
+      setSelected((prev) => [...prev, newLabel]);
+      setDraft(null);
+      setQuery("");
+    }
+
+    return (
+      <>
+        <Field name="labels">
+          <Combobox
+            multiple
+            items={items}
+            value={selected}
+            inputValue={query}
+            onInputValueChange={setQuery}
+            itemToStringLabel={(label: ProjectLabel) => label.value}
+            onValueChange={(next) => {
+              // Picking the synthetic row opens the creation dialog instead of selecting it.
+              const created = next.find((label) => label.creatable != null);
+              if (created?.creatable != null) {
+                setDraft(created.creatable);
+                return;
+              }
+              setSelected(next);
+              setQuery("");
+            }}
+          >
+            <FieldLabel magnitude="md" inset={false}>
+              Labels
+            </FieldLabel>
+            <ComboboxChips
+              magnitude="md"
+              placeholder="Add a label"
+              removeLabel={(label: ProjectLabel) => `Remove ${label.value}`}
+              itemToStringLabel={(label: ProjectLabel) => label.value}
+            />
+            <ComboboxContent>
+              <ComboboxEmpty>No labels found</ComboboxEmpty>
+              <ComboboxList>
+                {(label: ProjectLabel) => (
+                  <ComboboxItem key={label.id} value={label} magnitude="md">
+                    {label.value}
+                  </ComboboxItem>
+                )}
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
+        </Field>
+
+        <Dialog
+          open={draft != null}
+          onOpenChange={(open) => {
+            if (!open) {
+              setDraft(null);
+            }
+          }}
+        >
+          <DialogContent magnitude="sm">
+            <DialogHeader>
+              <DialogHeading>
+                <DialogTitle>Create new label</DialogTitle>
+              </DialogHeading>
+            </DialogHeader>
+            <DialogBody>
+              <DialogDescription>Add a new label to select.</DialogDescription>
+              <InputField
+                magnitude="md"
+                orientation="vertical"
+                label="Label name"
+                value={draft ?? ""}
+                onValueChange={(value) => setDraft(value)}
+              />
+            </DialogBody>
+            <DialogActions>
+              <Button
+                sizing="hug"
+                prominence="secondary"
+                tone="neutral"
+                magnitude="xl"
+                render={<DialogClose />}
+              >
+                Cancel
+              </Button>
+              <Button
+                sizing="hug"
+                prominence="primary"
+                tone="neutral"
+                magnitude="xl"
+                onClick={createLabel}
+              >
+                Create
+              </Button>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
+      </>
+    );
+  },
+};
+
+/**
+ * Interaction test: an unknown query offers the `Create "…"` row, picking it opens the dialog
+ * seeded with the query, and confirming closes the dialog and selects the created label as a chip.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const CreatableInteraction: Story = {
+  ...Creatable,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.type(canvas.getByRole("combobox", { name: "Labels" }), "triage");
+    const popup = within(document.body);
+    await userEvent.click(await popup.findByRole("option", { name: 'Create "triage"' }));
+
+    const dialog = await within(document.body).findByRole("dialog");
+    await expect(within(dialog).getByRole("textbox", { name: "Label name" })).toHaveValue("triage");
+    await userEvent.click(within(dialog).getByRole("button", { name: "Create" }));
+
+    await waitFor(() =>
+      expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument(),
+    );
+    // The created label is now selected as a removable chip.
+    await expect(canvas.getByText("triage")).toBeInTheDocument();
   },
 };

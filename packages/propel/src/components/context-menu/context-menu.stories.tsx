@@ -1,12 +1,25 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ClipboardPaste, Copy, PencilLine, Scissors, Trash2 } from "lucide-react";
-import { expect, fireEvent, waitFor } from "storybook/test";
+import {
+  ClipboardPaste,
+  Copy,
+  ExternalLink,
+  FolderInput,
+  Link2,
+  PencilLine,
+  Scissors,
+  Trash2,
+} from "lucide-react";
+import * as React from "react";
+import { expect, fireEvent, userEvent, waitFor } from "storybook/test";
 
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuLinkItem,
   ContextMenuSeparator,
+  ContextMenuSubmenu,
+  ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
 } from "./index";
 
@@ -22,7 +35,10 @@ const meta = {
     ContextMenuTrigger,
     ContextMenuContent,
     ContextMenuItem,
+    ContextMenuLinkItem,
     ContextMenuSeparator,
+    ContextMenuSubmenu,
+    ContextMenuSubmenuTrigger,
   },
 } satisfies Meta<typeof ContextMenu>;
 
@@ -108,5 +124,195 @@ export const TonesInteraction: Story = {
     await expect(document.body).toHaveTextContent("Rename");
     await expect(document.body).toHaveTextContent("Duplicate");
     await expect(document.body).toHaveTextContent("Delete");
+  },
+};
+
+/**
+ * A nested menu: `ContextMenuSubmenu` groups a `ContextMenuSubmenuTrigger` row (label + caret) with
+ * its own `ContextMenuContent`, so hovering or clicking "Move to" reveals the destinations beside
+ * the parent menu. Right-click the area to open it.
+ */
+export const Submenu: Story = {
+  parameters: {
+    controls: { disable: true },
+    a11y: {
+      // When a submenu is open, Base UI's FloatingPortal emits a visually-hidden `aria-owns`
+      // owner `<span>` next to the trigger. It reparents the portaled submenu to the correct
+      // place in the accessibility tree (next to its trigger), but in the DOM that span lands
+      // as a child of the parent `role="menu"`. axe's aria-required-children reads the DOM tree
+      // rather than the a11y tree, so it flags the span as a disallowed menu child. This is a
+      // static-analysis false-positive on axe's side, not invalid markup (tracked at
+      // dequelabs/axe-core#4048; the floating-ui maintainer confirmed the span is doing correct
+      // a11y-tree placement in floating-ui/floating-ui#3424). Suppress just this rule here.
+      config: { rules: [{ id: "aria-required-children", enabled: false }] },
+    },
+  },
+  render: () => (
+    <ContextMenu>
+      <ContextMenuTrigger render={<div className={triggerClass} />}>
+        Right-click here
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem tone="neutral" icon={<PencilLine />}>
+          Rename
+        </ContextMenuItem>
+        <ContextMenuItem tone="neutral" icon={<Copy />}>
+          Duplicate
+        </ContextMenuItem>
+        <ContextMenuSubmenu>
+          <ContextMenuSubmenuTrigger tone="neutral" icon={<FolderInput />}>
+            Move to
+          </ContextMenuSubmenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem tone="neutral">Mobile app</ContextMenuItem>
+            <ContextMenuItem tone="neutral">Web app</ContextMenuItem>
+            <ContextMenuItem tone="neutral">Design system</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenuSubmenu>
+        <ContextMenuSeparator />
+        <ContextMenuItem tone="danger" icon={<Trash2 />}>
+          Delete
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  ),
+};
+
+export const SubmenuInteraction: Story = {
+  ...Submenu,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    await fireEvent.contextMenu(canvas.getByText("Right-click here"));
+    await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
+    const moveTo = (await waitFor(() => {
+      const item = Array.from(document.body.querySelectorAll('[role="menuitem"]')).find((el) =>
+        el.textContent?.includes("Move to"),
+      );
+      void expect(item).toBeDefined();
+      return item;
+    })) as HTMLElement;
+    await expect(moveTo).toHaveAttribute("aria-haspopup", "menu");
+    await userEvent.click(moveTo);
+    await waitFor(() =>
+      expect(document.body.querySelectorAll('[role="menu"]').length).toBeGreaterThan(1),
+    );
+    await expect(document.body).toHaveTextContent("Design system");
+  },
+};
+
+/**
+ * Navigation rows: `ContextMenuLinkItem` renders a real `<a>` element with menu-item behavior, so a
+ * right-click menu can send you to another page — here alongside a plain action row, the way a
+ * work-item card mixes "open" destinations with clipboard actions. Right-click the area to open
+ * it.
+ */
+export const LinkItems: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <ContextMenu>
+      <ContextMenuTrigger render={<div className={triggerClass} />}>
+        Right-click here
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuLinkItem
+          tone="neutral"
+          icon={<ExternalLink />}
+          href="#work-item"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open in new tab
+        </ContextMenuLinkItem>
+        <ContextMenuLinkItem tone="neutral" icon={<Link2 />} href="#activity">
+          Go to activity
+        </ContextMenuLinkItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem tone="neutral" icon={<Copy />} trailing="⌘C">
+          Copy link
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  ),
+};
+
+// Asserts the link rows are real anchors (href/target survive) that still participate in the menu
+// as `menuitem`s — the surface is portaled and mount-on-open, so the twin also feeds the a11y gate.
+export const LinkItemsInteraction: Story = {
+  ...LinkItems,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    await fireEvent.contextMenu(canvas.getByText("Right-click here"));
+    await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
+    const link = (await waitFor(() => {
+      const item = Array.from(document.body.querySelectorAll('[role="menuitem"]')).find((el) =>
+        el.textContent?.includes("Open in new tab"),
+      );
+      void expect(item).toBeDefined();
+      return item;
+    })) as HTMLElement;
+    await expect(link.tagName).toBe("A");
+    await expect(link).toHaveAttribute("href", "#work-item");
+    await expect(link).toHaveAttribute("target", "_blank");
+  },
+};
+
+const SORT_OPTIONS = [
+  { key: "manual", label: "Manual" },
+  { key: "created", label: "Created date" },
+  { key: "due", label: "Due date" },
+  { key: "priority", label: "Priority" },
+];
+
+/**
+ * Single-select rows: the chosen row shows a trailing check via `selected`, and each row forwards
+ * Base UI's `closeOnClick={false}` so picking a sort key moves the check without dismissing the
+ * menu. Right-click the area, then click rows to move the selection.
+ */
+export const SingleSelect: Story = {
+  parameters: { controls: { disable: true } },
+  render: function Render() {
+    const [sortBy, setSortBy] = React.useState("manual");
+    return (
+      <ContextMenu>
+        <ContextMenuTrigger render={<div className={triggerClass} />}>
+          Right-click here
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          {SORT_OPTIONS.map((option) => (
+            <ContextMenuItem
+              key={option.key}
+              tone="neutral"
+              selected={sortBy === option.key}
+              closeOnClick={false}
+              onClick={() => setSortBy(option.key)}
+            >
+              {option.label}
+            </ContextMenuItem>
+          ))}
+        </ContextMenuContent>
+      </ContextMenu>
+    );
+  },
+};
+
+// Clicks a row and asserts the menu stays open (`closeOnClick={false}`) while the trailing check
+// (the row's only svg — these rows have no leading icon) moves to the newly selected row.
+export const SingleSelectInteraction: Story = {
+  ...SingleSelect,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    const findItem = (label: string) =>
+      Array.from(document.body.querySelectorAll('[role="menuitem"]')).find((el) =>
+        el.textContent?.includes(label),
+      ) as HTMLElement | undefined;
+    await fireEvent.contextMenu(canvas.getByText("Right-click here"));
+    await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
+    await waitFor(() => expect(findItem("Manual")).toBeDefined());
+    await expect(findItem("Manual")?.querySelector("svg")).not.toBeNull();
+    await expect(findItem("Due date")?.querySelector("svg")).toBeNull();
+    await userEvent.click(findItem("Due date") as HTMLElement);
+    await waitFor(() => expect(findItem("Due date")?.querySelector("svg")).not.toBeNull());
+    await expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument();
+    await expect(findItem("Manual")?.querySelector("svg")).toBeNull();
   },
 };

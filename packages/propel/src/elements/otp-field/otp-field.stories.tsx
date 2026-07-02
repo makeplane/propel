@@ -89,6 +89,22 @@ export const GroupedInteraction: Story = {
   },
 };
 
+/** Native `placeholder` hints (e.g. `•`) mark the empty slots until characters fill them. */
+export const Placeholders: Story = {
+  render: () => (
+    <OTPField>
+      {Array.from({ length: 6 }, (_, index) => (
+        <OTPFieldInput
+          key={index}
+          magnitude="lg"
+          placeholder="•"
+          aria-label={`Character ${index + 1}`}
+        />
+      ))}
+    </OTPField>
+  ),
+};
+
 /** All boxes show the danger border when the code is invalid. */
 export const Invalid: Story = {
   render: () => (
