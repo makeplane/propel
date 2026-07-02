@@ -17,6 +17,8 @@ export type SelectTriggerProps = Omit<
   magnitude: SelectTriggerMagnitude;
   /** Glyph for the trailing `SelectIcon` slot. Defaults to a chevrons-up-down. */
   icon?: React.ReactNode;
+  /** Shown in the trigger while nothing is selected — Base UI's `Select.Value` placeholder. */
+  placeholder?: React.ReactNode;
 };
 
 /**
@@ -25,10 +27,10 @@ export type SelectTriggerProps = Omit<
  * `SelectValue`) plus the trailing `SelectIcon`, whose default glyph is overridable via `icon`
  * (defaults are a `components` concern). Children are baked, so the prop is omitted.
  */
-export function SelectTrigger({ icon, magnitude, ...props }: SelectTriggerProps) {
+export function SelectTrigger({ icon, magnitude, placeholder, ...props }: SelectTriggerProps) {
   return (
     <BaseSelect.Trigger {...props} render={<SelectTriggerElement magnitude={magnitude} />}>
-      <BaseSelect.Value render={<SelectValue />} />
+      <BaseSelect.Value render={<SelectValue />} placeholder={placeholder} />
       <Icon tint="secondary">{icon ?? <ChevronsUpDown aria-hidden />}</Icon>
     </BaseSelect.Trigger>
   );

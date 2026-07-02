@@ -13,6 +13,7 @@ export * from "./menu-submenu-content";
 export * from "./menu-submenu-trigger";
 export * from "./menu-trigger";
 export * from "./menu-radio-group";
+export * from "./create-handle";
 // Re-export propel's STYLED menu parts so a full menu can be assembled from one entry. The
 // remaining behavior/structural roles (`RadioGroup`, `Portal`, `Positioner`, `Arrow`, `Viewport`,
 // `Backdrop`) are Base UI's — no propel API yet — so compose them from `@base-ui/react/menu` (and

@@ -13,10 +13,7 @@ import {
 } from "../../elements/menu";
 import { Icon } from "../../internal/icon";
 
-export type MenuCheckboxItemProps = Omit<
-  BaseMenu.CheckboxItem.Props,
-  "className" | "style" | "label"
-> & {
+export type MenuCheckboxItemProps = Omit<BaseMenu.CheckboxItem.Props, "className" | "style"> & {
   /** Leading content shown after the checkbox. */
   icon?: React.ReactNode;
   /** Trailing content. */
