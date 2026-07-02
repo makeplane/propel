@@ -7,7 +7,7 @@ import type { InputMagnitude } from "../../elements/field/variants";
 import { InputField as InputFieldElement } from "../../elements/input-field/input-field";
 import { Input as InputElement } from "../../elements/input/input";
 import { InputGroup } from "../../elements/input/input-group";
-import { InputIconSlot } from "../../elements/input/input-icon-slot";
+import { InputIcon } from "../../elements/input/input-icon";
 import { FieldHelperText } from "../field/field-helper-text";
 import { FieldLabelGroup } from "../field/field-label-group";
 
@@ -35,9 +35,9 @@ export type InputFieldProps = Omit<
   /** Label placement: `vertical` (label above) | `horizontal` (label beside). */
   orientation: "vertical" | "horizontal";
   /** A 16px node rendered at the inline start of the control. */
-  inlineStartNode?: React.ReactNode;
+  startIcon?: React.ReactNode;
   /** A 16px node rendered at the inline end of the control. */
-  inlineEndNode?: React.ReactNode;
+  endIcon?: React.ReactNode;
 };
 
 /**
@@ -53,8 +53,8 @@ export function InputField({
   description,
   hint,
   error,
-  inlineStartNode,
-  inlineEndNode,
+  startIcon,
+  endIcon,
   disabled,
   ...controlProps
 }: InputFieldProps) {
@@ -74,13 +74,13 @@ export function InputField({
       />
       <FieldControlContent orientation={orientation}>
         <InputGroup magnitude={magnitude}>
-          {inlineStartNode ? <InputIconSlot>{inlineStartNode}</InputIconSlot> : null}
+          {startIcon ? <InputIcon>{startIcon}</InputIcon> : null}
           <BaseInput
             required={required}
             {...controlProps}
             render={<InputElement magnitude={magnitude} />}
           />
-          {inlineEndNode ? <InputIconSlot>{inlineEndNode}</InputIconSlot> : null}
+          {endIcon ? <InputIcon>{endIcon}</InputIcon> : null}
         </InputGroup>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </FieldControlContent>

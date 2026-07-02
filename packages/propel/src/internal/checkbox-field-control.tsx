@@ -1,9 +1,6 @@
 import { Checkbox, type CheckboxProps } from "../components/checkbox";
 
-export type CheckboxFieldControlProps = Omit<
-  CheckboxProps,
-  "children" | "label" | "inlineStartNode"
->;
+export type CheckboxFieldControlProps = Omit<CheckboxProps, "children" | "label" | "icon">;
 
 /**
  * The bare checkbox box (Root + check + indeterminate indicators) used inside a field row — the

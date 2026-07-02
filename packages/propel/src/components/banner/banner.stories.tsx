@@ -12,7 +12,7 @@ const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
 const meta = {
   title: "Components/Banner",
   component: Banner,
-  argTypes: { inlineStartNode: iconControl },
+  argTypes: { icon: iconControl },
   args: {
     title: "There is something that needs your attention",
     placement: "page",
@@ -115,14 +115,14 @@ export const OptionalContentSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <div className="flex w-160 flex-col gap-3">
-      <Banner placement="inline" tone="warning" inlineStartNode={null}>
+      <Banner placement="inline" tone="warning" icon={null}>
         Maintenance starts at 6 PM.
       </Banner>
       <Banner
         placement="inline"
         tone="info"
         title="Custom icon"
-        inlineStartNode={<Info data-testid="custom-banner-icon" />}
+        icon={<Info data-testid="custom-banner-icon" />}
       />
     </div>
   ),

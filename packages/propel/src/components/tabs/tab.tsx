@@ -15,18 +15,18 @@ export type TabProps = Omit<BaseTabs.Tab.Props, "className" | "style"> & {
    * Node rendered before the label (inline-start). Sized to the tab's `--node-size` (16px) and
    * tinted to the tab's text color. Decorative, kept out of the name.
    */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
 };
 
 /**
  * The ready-made tab button: grafts the Base UI `Tabs.Tab` behavior onto the styled `elements/tabs`
  * tab (taking the set's `appearance` from context, so you don't pass it) and lays out an optional
- * `inlineStartNode` with the label. The `underline` appearance additionally renders the sliding bar
- * track beneath the label.
+ * `icon` with the label. The `underline` appearance additionally renders the sliding bar track
+ * beneath the label.
  */
-export function Tab({ inlineStartNode, children, ...props }: TabProps) {
+export function Tab({ icon, children, ...props }: TabProps) {
   const appearance = React.useContext(TabsAppearanceContext);
-  const iconNode = inlineStartNode ? <NodeSlot aria-hidden>{inlineStartNode}</NodeSlot> : null;
+  const iconNode = icon ? <NodeSlot aria-hidden>{icon}</NodeSlot> : null;
 
   if (appearance === "underline") {
     return (

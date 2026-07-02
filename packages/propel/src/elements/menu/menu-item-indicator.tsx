@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { menuItemSelectedIndicatorVariants } from "./variants";
+import { menuItemIndicatorVariants } from "./variants";
 
 export type MenuItemSelectedIndicatorProps = Omit<
   useRender.ComponentProps<"span">,
@@ -13,10 +13,10 @@ export type MenuItemSelectedIndicatorProps = Omit<
  * selected state), so it is `aria-hidden`. Renders and sizes its single child; pass the glyph as
  * `children`.
  */
-export function MenuItemSelectedIndicator({ render, ...props }: MenuItemSelectedIndicatorProps) {
+export function MenuItemIndicator({ render, ...props }: MenuItemSelectedIndicatorProps) {
   const defaultProps: useRender.ElementProps<"span"> = {
     "aria-hidden": true,
-    className: menuItemSelectedIndicatorVariants(),
+    className: menuItemIndicatorVariants(),
   };
   return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }

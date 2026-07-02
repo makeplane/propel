@@ -9,4 +9,4 @@ export * from "./toast-actions";
 export * from "./toast-action-group";
 export * from "./toast-action-button";
 export * from "./toast-action";
-export * from "./toast-close-slot";
+export * from "./toast-close-group";

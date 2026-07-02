@@ -18,9 +18,9 @@ export type ContextMenuItemProps = Omit<
   /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
   tone: ContextMenuItemTone;
   /** Leading icon before the label. */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
   /** Trailing keyboard-shortcut hint after the label. */
-  inlineEndNode?: React.ReactNode;
+  trailing?: React.ReactNode;
   /** Single-select selected state. */
   selected?: boolean;
 };
@@ -32,21 +32,17 @@ export type ContextMenuItemProps = Omit<
  */
 export function ContextMenuItem({
   tone,
-  inlineStartNode,
-  inlineEndNode,
+  icon,
+  trailing,
   selected,
   children,
   ...props
 }: ContextMenuItemProps) {
   return (
     <BaseContextMenu.Item {...props} render={<ContextMenuItemElement tone={tone} />}>
-      {inlineStartNode != null ? (
-        <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
-      ) : null}
+      {icon != null ? <ContextMenuItemIcon>{icon}</ContextMenuItemIcon> : null}
       <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
-      {inlineEndNode != null ? (
-        <ContextMenuItemShortcut>{inlineEndNode}</ContextMenuItemShortcut>
-      ) : null}
+      {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
       {selected ? (
         <ContextMenuItemIndicator>
           <Check />

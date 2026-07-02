@@ -7,7 +7,7 @@ import {
   ToastActionButton,
   ToastActionGroup,
   ToastActions,
-  ToastCloseSlot,
+  ToastCloseGroup,
   ToastContent,
   ToastDescription,
   type ToastTone,
@@ -150,9 +150,9 @@ export function Toast({ toast, close, ...props }: ToastProps) {
           </ToastActions>
         ) : null}
       </BaseToast.Content>
-      <ToastCloseSlot>
+      <ToastCloseGroup>
         <BaseToast.Close render={close} />
-      </ToastCloseSlot>
+      </ToastCloseGroup>
     </BaseToast.Root>
   );
 }

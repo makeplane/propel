@@ -40,9 +40,4 @@ export const iconButtonIconVariants = cva(nodeSlotClass);
 
 // The loading indicator shown in place of the icon: a single spinning glyph sized to `--node-size`.
 // Decorative (the root carries `aria-busy`), so it is `aria-hidden`. A pure slot that bakes no glyph.
-export const iconButtonSpinnerVariants = cva(
-  cx(
-    "inline-flex shrink-0 items-center justify-center",
-    "[&>svg]:size-(--node-size) [&>svg]:animate-spin",
-  ),
-);
+export const iconButtonSpinnerVariants = cva(cx(nodeSlotClass, "animate-spin"));

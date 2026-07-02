@@ -12,30 +12,25 @@ import {
 
 export type MenuLinkItemProps = Omit<BaseMenu.LinkItem.Props, "className" | "style"> & {
   /** Leading content before the label. */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
   /** Trailing content after the label. */
-  inlineEndNode?: React.ReactNode;
+  trailing?: React.ReactNode;
 };
 
 /**
  * The ready-made navigational `<a>` menu row: grafts Base UI's `Menu.LinkItem` behavior onto the
  * styled `MenuLinkItem` and lays out optional leading/trailing nodes and the label.
  */
-export function MenuLinkItem({
-  inlineStartNode,
-  inlineEndNode,
-  children,
-  ...props
-}: MenuLinkItemProps) {
+export function MenuLinkItem({ icon, trailing, children, ...props }: MenuLinkItemProps) {
   return (
     <BaseMenu.LinkItem {...props} render={<MenuLinkItemElement />}>
-      {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
+      {icon != null ? <MenuItemIcon>{icon}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
           <MenuItemTitle>{children}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
-      {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}
+      {trailing != null ? <MenuItemTrailing>{trailing}</MenuItemTrailing> : null}
     </BaseMenu.LinkItem>
   );
 }

@@ -3,7 +3,7 @@ import { Mail, Search } from "lucide-react";
 import type * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
-import { InputGroup, InputIconSlot } from "../../elements/input/index";
+import { InputGroup, InputIcon } from "../../elements/input/index";
 import { Field, FieldError, FieldLabel } from "../field/index";
 import { type InputMagnitude } from "./index";
 import { Input } from "./index";
@@ -13,7 +13,7 @@ const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
 const meta = {
   title: "Components/Input",
   component: Input,
-  subcomponents: { InputGroup, InputIconSlot },
+  subcomponents: { InputGroup, InputIcon },
 } satisfies Meta<typeof Input>;
 
 export default meta;
@@ -66,7 +66,7 @@ export const Magnitudes: Story = {
   ),
 };
 
-/** Leading and trailing icon addons frame the control via `InputIconSlot`. */
+/** Leading and trailing icon addons frame the control via `InputIcon`. */
 export const WithIconSlots: Story = {
   args: {
     magnitude: "md",
@@ -76,13 +76,13 @@ export const WithIconSlots: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <InputSurface>
-      <InputIconSlot>
+      <InputIcon>
         <Search />
-      </InputIconSlot>
+      </InputIcon>
       <Input {...args} />
-      <InputIconSlot>
+      <InputIcon>
         <Mail />
-      </InputIconSlot>
+      </InputIcon>
     </InputSurface>
   ),
 };

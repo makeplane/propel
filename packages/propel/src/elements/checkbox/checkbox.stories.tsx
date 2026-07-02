@@ -7,7 +7,7 @@ import {
   Checkbox,
   CheckboxIndeterminateIndicator,
   CheckboxIndicator,
-  CheckboxInlineStartNode,
+  CheckboxIcon,
   CheckboxLabel,
 } from "./index";
 
@@ -15,7 +15,7 @@ import {
 // checkbox behavior grafts them via `render`. `Checkbox` is the bare box (styled `Checkbox.Root`);
 // the tick/dash only show when you nest a `CheckboxIndicator` (check) and a
 // `CheckboxIndeterminateIndicator` (dash), each grafted onto a Base UI `Checkbox.Indicator`. A
-// labeled row is the `CheckboxLabel` chip wrapping the box, an optional `CheckboxInlineStartNode`
+// labeled row is the `CheckboxLabel` chip wrapping the box, an optional `CheckboxIcon`
 // icon slot, and the text. The components-tier `Checkbox` story shows the ready-made version — here
 // you assemble the raw parts and own the accessible name.
 const meta = {
@@ -25,7 +25,7 @@ const meta = {
     CheckboxIndicator,
     CheckboxIndeterminateIndicator,
     CheckboxLabel,
-    CheckboxInlineStartNode,
+    CheckboxIcon,
   },
 } satisfies Meta<typeof Checkbox>;
 
@@ -111,17 +111,17 @@ export const StatesInteraction: Story = {
 
 /**
  * A labeled row assembled from the atomic parts: a `CheckboxLabel` chip wrapping the box, an
- * optional `CheckboxInlineStartNode` icon slot, and the text. The label is associated with the box
- * via `htmlFor`, so clicking anywhere in the row toggles the box.
+ * optional `CheckboxIcon` icon slot, and the text. The label is associated with the box via
+ * `htmlFor`, so clicking anywhere in the row toggles the box.
  */
 export const Labeled: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <CheckboxLabel htmlFor="elements-checkbox-labeled">
       <CheckboxBox id="elements-checkbox-labeled" />
-      <CheckboxInlineStartNode>
+      <CheckboxIcon>
         <Repeat aria-hidden />
-      </CheckboxInlineStartNode>
+      </CheckboxIcon>
       Sync automatically
     </CheckboxLabel>
   ),

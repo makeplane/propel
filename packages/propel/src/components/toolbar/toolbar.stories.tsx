@@ -278,14 +278,14 @@ export const ComposableMenu: Story = {
       <Menu defaultOpen>
         <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
         <MenuContent>
-          <MenuItem inlineStartNode={<Pilcrow />} selected>
+          <MenuItem icon={<Pilcrow />} selected>
             Paragraph
           </MenuItem>
-          <MenuItem inlineStartNode={<Heading1 />}>Heading 1</MenuItem>
-          <MenuItem inlineStartNode={<Heading2 />}>Heading 2</MenuItem>
-          <MenuItem inlineStartNode={<Heading3 />}>Heading 3</MenuItem>
+          <MenuItem icon={<Heading1 />}>Heading 1</MenuItem>
+          <MenuItem icon={<Heading2 />}>Heading 2</MenuItem>
+          <MenuItem icon={<Heading3 />}>Heading 3</MenuItem>
           <MenuSeparator />
-          <MenuItem inlineStartNode={<Code />} disabled>
+          <MenuItem icon={<Code />} disabled>
             Code block
           </MenuItem>
         </MenuContent>

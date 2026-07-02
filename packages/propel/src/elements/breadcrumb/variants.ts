@@ -33,12 +33,12 @@ export const breadcrumbTriggerVariants = cva(
 export const breadcrumbItemVariants = cva("inline-flex items-center");
 
 /**
- * The visual divider between crumbs. Sets `--node-size` and uses `[&>svg]` / `[&>img]` to size any
- * child icon, so callers pass raw SVGs without extra wrappers. Chevron icons are RTL-mirrored via
+ * The visual divider between crumbs. Sizes any child icon to `--node-size` via the shared node-slot
+ * class, so callers pass raw SVGs without extra wrappers. Chevron icons are RTL-mirrored via
  * `rtl:[&>svg]:-scale-x-100`.
  */
 export const breadcrumbSeparatorVariants = cva(
-  "flex items-center px-1 text-icon-tertiary [--node-size:0.875rem] [&>img]:size-(--node-size) [&>svg]:size-(--node-size) rtl:[&>svg]:-scale-x-100",
+  cx(nodeSlotClass, "px-1 text-icon-tertiary [--node-size:0.875rem] rtl:[&>svg]:-scale-x-100"),
 );
 
 /** The `<ol>` that carries the ordered trail of crumbs. */
@@ -59,7 +59,8 @@ export const breadcrumbTriggerIconVariants = cva(
  */
 export const breadcrumbTriggerIndicatorVariants = cva(
   cx(
-    "inline-flex shrink-0 items-center justify-center text-icon-tertiary [&>svg]:size-3.5",
+    nodeSlotClass,
+    "text-icon-tertiary [--node-size:0.875rem]",
     "transition-transform group-data-popup-open/trigger:rotate-90",
     "rtl:not-group-data-popup-open/trigger:-scale-x-100",
   ),

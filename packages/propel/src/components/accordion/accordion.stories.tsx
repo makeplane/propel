@@ -84,14 +84,14 @@ export const Default: Story = {
   ),
 };
 
-/** Each trigger can carry a `inlineStartNode`, matching the Figma header icon. */
+/** Each trigger can carry a `icon`, matching the Figma header icon. */
 export const WithIcon: Story = {
   render: (args) => (
     <Accordion {...args} defaultValue={["what"]}>
       {ITEMS.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
           <AccordionHeader>
-            <AccordionTrigger inlineStartNode={<CircleHelp />}>{item.label}</AccordionTrigger>
+            <AccordionTrigger icon={<CircleHelp />}>{item.label}</AccordionTrigger>
           </AccordionHeader>
           <AccordionPanel>{item.body}</AccordionPanel>
         </AccordionItem>

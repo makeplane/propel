@@ -18,9 +18,9 @@ export type MenuCheckboxItemProps = Omit<
   "className" | "style" | "label"
 > & {
   /** Leading content shown after the checkbox. */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
   /** Trailing content. */
-  inlineEndNode?: React.ReactNode;
+  trailing?: React.ReactNode;
 };
 
 /**
@@ -31,12 +31,7 @@ export type MenuCheckboxItemProps = Omit<
  * state, so `checked` / `defaultChecked` / `onCheckedChange` forward straight to it and the
  * indicator reads it from context.
  */
-export function MenuCheckboxItem({
-  inlineStartNode,
-  inlineEndNode,
-  children,
-  ...props
-}: MenuCheckboxItemProps) {
+export function MenuCheckboxItem({ icon, trailing, children, ...props }: MenuCheckboxItemProps) {
   return (
     <BaseMenu.CheckboxItem {...props} render={<MenuCheckboxItemElement />}>
       <MenuItemControl>
@@ -44,13 +39,13 @@ export function MenuCheckboxItem({
           <Check aria-hidden />
         </BaseMenu.CheckboxItemIndicator>
       </MenuItemControl>
-      {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
+      {icon != null ? <MenuItemIcon>{icon}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
           <MenuItemTitle>{children}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
-      {inlineEndNode != null ? <MenuItemMeta>{inlineEndNode}</MenuItemMeta> : null}
+      {trailing != null ? <MenuItemMeta>{trailing}</MenuItemMeta> : null}
     </BaseMenu.CheckboxItem>
   );
 }

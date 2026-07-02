@@ -6,7 +6,7 @@ import {
   Checkbox as CheckboxElement,
   CheckboxIndeterminateIndicator,
   CheckboxIndicator,
-  CheckboxInlineStartNode,
+  CheckboxIcon,
   CheckboxLabel,
 } from "../../elements/checkbox";
 
@@ -22,7 +22,7 @@ export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" 
    * label" icon slot. Only rendered when `label` is present. Sized to `--node-size` (14px).
    * Decorative, kept out of the name.
    */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
 };
 
 /**
@@ -30,7 +30,7 @@ export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" 
  * check and indeterminate indicators, and optionally wraps the row in a clickable `CheckboxLabel`
  * with an icon slot.
  */
-export function Checkbox({ label, inlineStartNode, id, ...props }: CheckboxProps) {
+export function Checkbox({ label, icon, id, ...props }: CheckboxProps) {
   // Generate a stable id so an explicit `label` can be associated with the box.
   const generatedId = React.useId();
   const checkboxId = id ?? generatedId;
@@ -53,9 +53,7 @@ export function Checkbox({ label, inlineStartNode, id, ...props }: CheckboxProps
   return (
     <CheckboxLabel htmlFor={checkboxId}>
       {box}
-      {inlineStartNode ? (
-        <CheckboxInlineStartNode>{inlineStartNode}</CheckboxInlineStartNode>
-      ) : null}
+      {icon ? <CheckboxIcon>{icon}</CheckboxIcon> : null}
       {label}
     </CheckboxLabel>
   );

@@ -10,7 +10,7 @@ import {
   ToastActionButton,
   ToastActionGroup,
   ToastActions,
-  ToastCloseSlot,
+  ToastCloseGroup,
   ToastContent,
   ToastDescription,
   ToastStatusIcon,
@@ -51,7 +51,7 @@ function ToastList() {
             <BaseToast.Action render={<ToastAction />}>View</BaseToast.Action>
           </ToastActions>
         </BaseToast.Content>
-        <ToastCloseSlot>
+        <ToastCloseGroup>
           {/* Managed-visibility control: `Toast.Close` stays outer so its hidden/unfocusable
               state lands on the real rendered `IconButton` (a11y-correct). */}
           <BaseToast.Close
@@ -63,7 +63,7 @@ function ToastList() {
               </IconButton>
             }
           />
-        </ToastCloseSlot>
+        </ToastCloseGroup>
       </BaseToast.Root>
     );
   });
@@ -82,7 +82,7 @@ const meta = {
     ToastActionGroup,
     ToastActionButton,
     ToastAction,
-    ToastCloseSlot,
+    ToastCloseGroup,
     ToastStatusIcon,
   },
 } satisfies Meta<typeof Toast>;

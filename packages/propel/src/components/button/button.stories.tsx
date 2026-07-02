@@ -21,7 +21,7 @@ const meta = {
   // Anatomy parts the ready-made Button composes (UI tier).
   subcomponents: { ButtonIcon, ButtonLabel, ButtonSpinner },
   // Icon picker controls for the two icon slots.
-  argTypes: { inlineStartNode: iconControl, inlineEndNode: iconControl },
+  argTypes: { startIcon: iconControl, endIcon: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -100,13 +100,13 @@ export const WithIcons: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <Button {...args} inlineStartNode={<Plus />}>
+      <Button {...args} startIcon={<Plus />}>
         New
       </Button>
-      <Button {...args} prominence="secondary" inlineEndNode={<Settings />}>
+      <Button {...args} prominence="secondary" endIcon={<Settings />}>
         Settings
       </Button>
-      <Button {...args} prominence="tertiary" inlineStartNode={<Search />} inlineEndNode={<Plus />}>
+      <Button {...args} prominence="tertiary" startIcon={<Search />} endIcon={<Plus />}>
         Search
       </Button>
     </div>

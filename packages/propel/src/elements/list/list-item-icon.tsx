@@ -8,12 +8,12 @@ export type ListItemIconProps = Omit<useRender.ComponentProps<"span">, "classNam
 
 /**
  * The row's icon slot — pass an icon or an `Avatar` as `children`; the slot sizes it. Renders a
- * `<span>` by default. Decorative: the row's label names it, so keep the glyph `aria-hidden`.
+ * `<span>` by default. Decorative — the row's label names it — so it is `aria-hidden`.
  */
 export function ListItemIcon({ render, ...props }: ListItemIconProps) {
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps({ className: listItemIconVariants() }, props),
-  });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    "aria-hidden": true,
+    className: listItemIconVariants(),
+  };
+  return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }

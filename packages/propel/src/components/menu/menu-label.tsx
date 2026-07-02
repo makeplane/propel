@@ -5,7 +5,7 @@ import { MenuLabel as MenuLabelElement, MenuLabelMeta, MenuLabelTitle } from "..
 
 export type MenuLabelProps = Omit<BaseMenu.GroupLabel.Props, "className" | "style"> & {
   /** Optional inline-end content on the heading row. */
-  inlineEndNode?: React.ReactNode;
+  meta?: React.ReactNode;
   children?: React.ReactNode;
 };
 
@@ -13,11 +13,11 @@ export type MenuLabelProps = Omit<BaseMenu.GroupLabel.Props, "className" | "styl
  * A non-interactive section heading for a group of menu items: grafts Base UI's `Menu.GroupLabel`
  * behavior onto the styled `MenuLabel`.
  */
-export function MenuLabel({ inlineEndNode, children, ...props }: MenuLabelProps) {
+export function MenuLabel({ meta, children, ...props }: MenuLabelProps) {
   return (
     <BaseMenu.GroupLabel {...props} render={<MenuLabelElement />}>
       <MenuLabelTitle>{children}</MenuLabelTitle>
-      {inlineEndNode != null ? <MenuLabelMeta>{inlineEndNode}</MenuLabelMeta> : null}
+      {meta != null ? <MenuLabelMeta>{meta}</MenuLabelMeta> : null}
     </BaseMenu.GroupLabel>
   );
 }

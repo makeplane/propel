@@ -72,7 +72,7 @@ export const WorkspaceSidebar: Story = {
         tone="neutral"
         magnitude="xl"
         sizing="fill"
-        inlineStartNode={<AddWorkItemIcon aria-hidden />}
+        startIcon={<AddWorkItemIcon aria-hidden />}
       >
         New work item
       </Button>

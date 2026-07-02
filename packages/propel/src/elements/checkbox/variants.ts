@@ -34,6 +34,6 @@ export const checkboxLabelVariants = cva(
 );
 
 // The inline-start icon slot between the box and the label text.
-export const checkboxInlineStartNodeVariants = cva(
+export const checkboxIconVariants = cva(
   cx(nodeSlotClass, "text-icon-secondary [--node-size:0.875rem]"),
 );

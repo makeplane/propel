@@ -12,9 +12,9 @@ import {
 
 export type PillButtonProps = PillButtonElementProps & {
   /** A node before the label (inline-start), sized to the pill's `--node-size`. */
-  inlineStartNode?: React.ReactNode;
+  startIcon?: React.ReactNode;
   /** A node after the label (inline-end), sized to the pill's `--node-size`. */
-  inlineEndNode?: React.ReactNode;
+  endIcon?: React.ReactNode;
   /** Busy state: swaps the inline-start node for a spinner and blocks clicks. */
   loading?: boolean;
 };
@@ -27,8 +27,8 @@ export type PillButtonProps = PillButtonElementProps & {
  */
 export function PillButton({
   magnitude,
-  inlineStartNode,
-  inlineEndNode,
+  startIcon,
+  endIcon,
   loading = false,
   disabled,
   children,
@@ -46,11 +46,11 @@ export function PillButton({
         <PillSpinner>
           <LoaderCircle />
         </PillSpinner>
-      ) : inlineStartNode ? (
-        <PillIcon>{inlineStartNode}</PillIcon>
+      ) : startIcon ? (
+        <PillIcon>{startIcon}</PillIcon>
       ) : null}
       <PillLabel>{children}</PillLabel>
-      {!loading && inlineEndNode ? <PillIcon>{inlineEndNode}</PillIcon> : null}
+      {!loading && endIcon ? <PillIcon>{endIcon}</PillIcon> : null}
     </BaseButton>
   );
 }

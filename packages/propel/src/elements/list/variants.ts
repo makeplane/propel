@@ -34,9 +34,7 @@ export const listItemButtonVariants = listItemPrimaryVariants;
 export type ListItemButtonVariantProps = StrictVariantProps<typeof listItemButtonVariants>;
 
 /** The row's icon slot — holds an icon or an Avatar, sized to `--node-size`. */
-export const listItemIconVariants = cva(
-  "inline-flex shrink-0 items-center justify-center [--node-size:1rem] [&>svg]:size-4",
-);
+export const listItemIconVariants = cva(cx(nodeSlotClass, "[--node-size:1rem]"));
 export type ListItemIconVariantProps = StrictVariantProps<typeof listItemIconVariants>;
 
 /** The row label — fills the remaining width and truncates. */

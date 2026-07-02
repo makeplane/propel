@@ -31,7 +31,7 @@ function TabsFixture({
     <Tabs {...props}>
       <TabsList>
         {TAB_ITEMS.map((t) => (
-          <Tab key={t.value} value={t.value} inlineStartNode={withIcons ? t.icon : undefined}>
+          <Tab key={t.value} value={t.value} icon={withIcons ? t.icon : undefined}>
             {t.label}
           </Tab>
         ))}
@@ -76,13 +76,13 @@ export const Underline: Story = {
   render: (args) => <TabsFixture {...args} />,
 };
 
-/** Both variants accept an optional `inlineStartNode` (a 16px slot tinted to the tab's text color). */
+/** Both variants accept an optional `icon` (a 16px slot tinted to the tab's text color). */
 export const WithIcons: Story = {
   args: { appearance: "contained" },
   render: (args) => <TabsFixture {...args} withIcons />,
 };
 
-/** The `inlineStartNode` slot on the underline appearance. */
+/** The `icon` slot on the underline appearance. */
 export const UnderlineWithIcons: Story = {
   args: { appearance: "underline" },
   render: (args) => <TabsFixture {...args} withIcons />,

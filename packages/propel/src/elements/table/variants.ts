@@ -109,10 +109,6 @@ export const tableCellLayoutVariants = cva("flex items-center gap-2 [--node-size
 // The growing text region of a cell; truncates instead of overflowing.
 export const tableCellContentVariants = cva("min-w-0 flex-1 truncate");
 
-// A leading/trailing slot beside cell content (icon or Avatar). Sizes its single child
-// via the shared node-slot class; never bakes a size onto the child.
-export const tableCellSlotVariants = cva(nodeSlotClass);
-
 // The label region inside a `TableHead`: truncates the column title.
 export const tableHeadTitleVariants = cva("truncate");
 

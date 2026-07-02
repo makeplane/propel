@@ -11,9 +11,9 @@ import {
 
 export type AnchorButtonProps = AnchorButtonElementProps & {
   /** Node before the label (inline-start), sized to `--node-size`. Decorative. */
-  inlineStartNode?: React.ReactNode;
+  startIcon?: React.ReactNode;
   /** Node after the label (inline-end), sized to `--node-size`. Decorative. */
-  inlineEndNode?: React.ReactNode;
+  endIcon?: React.ReactNode;
   /**
    * Shows a spinner in place of the inline-start node and sets `aria-busy` while a navigation is
    * pending — drive it from your router's pending state (e.g. React Router's `useNavigation`),
@@ -24,12 +24,12 @@ export type AnchorButtonProps = AnchorButtonElementProps & {
 
 /**
  * The ready-made `AnchorButton`: a button-looking navigation link that composes the atomic
- * `AnchorButton` with an optional `inlineStartNode`/`inlineEndNode` and a `loading` spinner for
- * pending navigations. Content — `children`, the inline nodes, `loading` — is not a variant.
+ * `AnchorButton` with an optional `startIcon`/`endIcon` and a `loading` spinner for pending
+ * navigations. Content — `children`, the inline nodes, `loading` — is not a variant.
  */
 export function AnchorButton({
-  inlineStartNode,
-  inlineEndNode,
+  startIcon,
+  endIcon,
   loading = false,
   children,
   ...props
@@ -40,11 +40,11 @@ export function AnchorButton({
         <AnchorButtonSpinner>
           <LoaderCircle />
         </AnchorButtonSpinner>
-      ) : inlineStartNode ? (
-        <AnchorButtonIcon>{inlineStartNode}</AnchorButtonIcon>
+      ) : startIcon ? (
+        <AnchorButtonIcon>{startIcon}</AnchorButtonIcon>
       ) : null}
       <AnchorButtonLabel>{children}</AnchorButtonLabel>
-      {!loading && inlineEndNode ? <AnchorButtonIcon>{inlineEndNode}</AnchorButtonIcon> : null}
+      {!loading && endIcon ? <AnchorButtonIcon>{endIcon}</AnchorButtonIcon> : null}
     </AnchorButtonElement>
   );
 }

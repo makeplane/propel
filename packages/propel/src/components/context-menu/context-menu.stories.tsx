@@ -33,17 +33,17 @@ export const Default: Story = {
         Right-click here
       </BaseContextMenu.Trigger>
       <ContextMenuContent>
-        <ContextMenuItem tone="neutral" inlineStartNode={<Scissors />} inlineEndNode="⌘X">
+        <ContextMenuItem tone="neutral" icon={<Scissors />} trailing="⌘X">
           Cut
         </ContextMenuItem>
-        <ContextMenuItem tone="neutral" inlineStartNode={<Copy />} inlineEndNode="⌘C">
+        <ContextMenuItem tone="neutral" icon={<Copy />} trailing="⌘C">
           Copy
         </ContextMenuItem>
-        <ContextMenuItem tone="neutral" inlineStartNode={<ClipboardPaste />} inlineEndNode="⌘V">
+        <ContextMenuItem tone="neutral" icon={<ClipboardPaste />} trailing="⌘V">
           Paste
         </ContextMenuItem>
         <BaseContextMenu.Separator render={<ContextMenuSeparator />} />
-        <ContextMenuItem tone="danger" inlineStartNode={<Trash2 />}>
+        <ContextMenuItem tone="danger" icon={<Trash2 />}>
           Delete
         </ContextMenuItem>
       </ContextMenuContent>

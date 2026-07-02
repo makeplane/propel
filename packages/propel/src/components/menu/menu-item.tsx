@@ -8,7 +8,7 @@ import {
   MenuItemDescription,
   MenuItemIcon,
   MenuItemSecondaryText,
-  MenuItemSelectedIndicator,
+  MenuItemIndicator,
   MenuItemTitle,
   MenuItemTitleRow,
   MenuItemTrailing,
@@ -16,13 +16,13 @@ import {
 
 export type MenuItemProps = Omit<BaseMenu.Item.Props, "className" | "style"> & {
   /** Leading content before the label. */
-  inlineStartNode?: React.ReactNode;
+  icon?: React.ReactNode;
   /** Muted secondary line under the label. */
   description?: React.ReactNode;
   /** Muted text shown inline after the label. */
   secondaryText?: React.ReactNode;
   /** Trailing content after the label. */
-  inlineEndNode?: React.ReactNode;
+  trailing?: React.ReactNode;
   /** Single-select selected state. */
   selected?: boolean;
 };
@@ -33,10 +33,10 @@ export type MenuItemProps = Omit<BaseMenu.Item.Props, "className" | "style"> & {
  * single-select check indicator.
  */
 export function MenuItem({
-  inlineStartNode,
+  icon,
   description,
   secondaryText,
-  inlineEndNode,
+  trailing,
   selected,
   children,
   ...props
@@ -45,7 +45,7 @@ export function MenuItem({
   const layout = description != null ? "with-description" : "default";
   return (
     <BaseMenu.Item {...props} render={<MenuItemElement layout={layout} />}>
-      {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
+      {icon != null ? <MenuItemIcon>{icon}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
           <MenuItemTitle>{children}</MenuItemTitle>
@@ -55,11 +55,11 @@ export function MenuItem({
         </MenuItemTitleRow>
         {description != null ? <MenuItemDescription>{description}</MenuItemDescription> : null}
       </MenuItemContent>
-      {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}
+      {trailing != null ? <MenuItemTrailing>{trailing}</MenuItemTrailing> : null}
       {selected ? (
-        <MenuItemSelectedIndicator>
+        <MenuItemIndicator>
           <Check />
-        </MenuItemSelectedIndicator>
+        </MenuItemIndicator>
       ) : null}
     </BaseMenu.Item>
   );
