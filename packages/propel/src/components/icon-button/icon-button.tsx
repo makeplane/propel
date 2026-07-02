@@ -11,6 +11,11 @@ import { Spinner } from "../../internal/spinner";
 
 export type IconButtonProps = IconButtonElementProps & {
   /**
+   * Set `false` when `render` swaps the underlying tag away from `<button>` (e.g. an `<a>`): Base
+   * UI then adds `role`, tab focus, and Enter/Space activation as appropriate.
+   */
+  nativeButton?: boolean;
+  /**
    * The single node to render (an icon, an avatar, ...), sized to the button's `--node-size`. It is
    * the button's only content; decorative, the accessible name comes from `aria-label`.
    */
@@ -29,6 +34,8 @@ export type IconButtonProps = IconButtonElementProps & {
  * name.
  */
 export function IconButton({
+  render,
+  nativeButton,
   children,
   loading = false,
   disabled,
@@ -42,7 +49,17 @@ export function IconButton({
   return (
     <BaseButton
       {...props}
-      render={<IconButtonElement prominence={prominence} tone={tone} magnitude={magnitude} />}
+      nativeButton={nativeButton}
+      render={
+        <IconButtonElement
+          prominence={prominence}
+          tone={tone}
+          magnitude={magnitude}
+          // The consumer's render swaps the underlying element; the styled part stays the
+          // className owner (behavior part outer, styled part as the render target, rule 1a).
+          render={render}
+        />
+      }
       disabled={disabled || loading}
       focusableWhenDisabled={loading ? true : undefined}
       aria-busy={loading ? true : undefined}

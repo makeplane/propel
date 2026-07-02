@@ -3,32 +3,21 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type AnchorButtonVariantProps, anchorButtonVariants } from "./variants";
 
-export type {
-  AnchorButtonMagnitude,
-  AnchorButtonProminence,
-  AnchorButtonSizing,
-  AnchorButtonTone,
-} from "./variants";
+export type { AnchorButtonMagnitude, AnchorButtonProminence } from "./variants";
 
-export type AnchorButtonProps = Omit<useRender.ComponentProps<"a">, "className" | "style"> &
+export type AnchorButtonProps = Omit<useRender.ComponentProps<"button">, "className" | "style"> &
   AnchorButtonVariantProps;
 
 /**
- * A link that looks like a button (`<a>` wearing the shared control chrome) — for navigation that
- * should read as a button. Same surface as `Button` (`prominence`/`tone`/`magnitude`/`sizing`, all
- * required) but it renders an `<a>` and takes `href`. Compose a
- * `AnchorButtonIcon`/`AnchorButtonLabel` inside.
+ * The styled `<button>` that reads as an inline text link — the "action that looks like a link" (a
+ * "Show more" toggle, an inline "Edit"). Base-UI-agnostic: pick the link palette (`prominence`,
+ * shared with `Anchor`) and text size (`magnitude`); the action behavior grafts in `components` via
+ * `<BaseButton render={<AnchorButton/>} />`. For a nav `<a>` styled as a button use `AnchorButton`;
+ * for a real inline link, `Anchor`.
  */
-export function AnchorButton({
-  prominence,
-  tone,
-  magnitude,
-  sizing,
-  render,
-  ...props
-}: AnchorButtonProps) {
-  const defaultProps: useRender.ElementProps<"a"> = {
-    className: anchorButtonVariants({ prominence, tone, magnitude, sizing }),
+export function AnchorButton({ prominence, magnitude, render, ...props }: AnchorButtonProps) {
+  const defaultProps: useRender.ElementProps<"button"> = {
+    className: anchorButtonVariants({ prominence, magnitude }),
   };
-  return useRender({ defaultTagName: "a", render, props: mergeProps(defaultProps, props) });
+  return useRender({ defaultTagName: "button", render, props: mergeProps(defaultProps, props) });
 }

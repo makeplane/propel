@@ -1,25 +1,18 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { buttonGeometryVariants } from "../../internal/button-geometry";
-import { composeVariants } from "../../internal/compose-variants";
-import { controlChromeVariants } from "../../internal/control-chrome";
+import { linkChromeVariants } from "../../internal/link-chrome";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
-/**
- * The full AnchorButton className: the shared control chrome composed with the label-button
- * geometry.
- */
-export const anchorButtonVariants = composeVariants(controlChromeVariants, buttonGeometryVariants);
+// `AnchorButton` presents as a link (the shared link chrome) but is a `<button>` (an action). Same
+// look as `Anchor`, button behavior. For a navigation `<a>` that looks like a button, use `AnchorButton`.
+export const anchorButtonVariants = linkChromeVariants;
 
 type AnchorButtonVariantConfig = VariantProps<typeof anchorButtonVariants>;
 export type AnchorButtonProminence = NonNullable<AnchorButtonVariantConfig["prominence"]>;
-export type AnchorButtonTone = NonNullable<AnchorButtonVariantConfig["tone"]>;
 export type AnchorButtonMagnitude = NonNullable<AnchorButtonVariantConfig["magnitude"]>;
-export type AnchorButtonSizing = NonNullable<AnchorButtonVariantConfig["sizing"]>;
 
-// No `defaultVariants` today, so every axis is required.
 export type AnchorButtonVariantProps = StrictVariantProps<typeof anchorButtonVariants>;
 
-// The anchor-button's text label. It stays at full contrast while a navigation is pending — the link
-// is not disabled, the spinner is the pending cue — so it is not dimmed (unlike the disabled Button).
-export const anchorButtonLabelVariants = cva("");
+// The text label inside an AnchorButton. When the parent is `aria-busy` (loading) it dims via the
+// `group-aria-busy:` sibling of the `group` class on the root (mirrors ButtonLabel).
+export const anchorButtonLabelVariants = cva("group-aria-busy:opacity-50");

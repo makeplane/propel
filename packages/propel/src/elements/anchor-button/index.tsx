@@ -1,2 +1,2 @@
-export * from "./anchor-button";
 export * from "./anchor-button-label";
+export * from "./anchor-button";

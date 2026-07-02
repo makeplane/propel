@@ -7,7 +7,7 @@ import { nodeSlotClass } from "./node-slot";
 /**
  * The shared pending-state glyph slot (rule 4a): an `aria-hidden` spinning `<span>` sizing its
  * single svg child (pass a `LoaderCircle`) to the inherited `--node-size`. Replaces the
- * byte-identical Button/AnchorButton/IconButton/Pill spinner parts.
+ * byte-identical Button/IconButton/Pill spinner parts.
  */
 export const spinnerVariants = cva(cx(nodeSlotClass, "animate-spin"));
 

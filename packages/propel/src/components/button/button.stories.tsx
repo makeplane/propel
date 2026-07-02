@@ -358,3 +358,39 @@ export const CustomTagInteraction: Story = {
     await expect(canvas.getByRole("button", { name: "Activated 3" })).toBeInTheDocument();
   },
 };
+
+/**
+ * A navigation link: `render={<a href=… />}` swaps the element and `nativeButton={false}` applies
+ * Base UI's non-native button semantics — announced as a button, while the `<a>` keeps native
+ * navigation (Enter follows the href, open-in-new-tab works).
+ */
+export const AsLink: Story = {
+  args: {
+    prominence: "secondary",
+    tone: "neutral",
+    magnitude: "md",
+    sizing: "hug",
+  },
+  render: (args) => (
+    <Button {...args} nativeButton={false} render={<a href="#reports" />}>
+      Open reports
+    </Button>
+  ),
+};
+
+/**
+ * Interaction test: the rendered element is an `<a>` exposing the link role with its href, in the
+ * tab order without a button role. Tagged out of the sidebar/docs/manifest while still running
+ * under the default `test` tag.
+ */
+export const AsLinkInteraction: Story = {
+  ...AsLink,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    // Base UI's contract for nativeButton={false}: the control is ANNOUNCED as a button
+    // (role="button") while the <a> keeps native navigation (Enter follows the href).
+    const link = canvas.getByRole("button", { name: "Open reports" });
+    await expect(link.tagName).toBe("A");
+    await expect(link).toHaveAttribute("href", "#reports");
+  },
+};
