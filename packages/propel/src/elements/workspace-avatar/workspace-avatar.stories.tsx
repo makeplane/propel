@@ -1,4 +1,3 @@
-import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
@@ -12,11 +11,16 @@ import {
 
 const MAGNITUDES: WorkspaceAvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
-// elements-tier story (rule 2b): the styled parts are Base-UI-agnostic `useRender` elements; Base UI's
-// `Avatar` behavior grafts them via `render` (behavior part outer, styled part as the render
-// target). The components-tier story uses the ready-made avatar (`src` → initials), which
-// assembles these parts. `meta.component` is `WorkspaceAvatarImage` — the only part with no
-// required variant props.
+// An inline-SVG "logo" so the image state renders deterministically with no network.
+const LOGO_SRC = `data:image/svg+xml,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#4338ca"/><path d="M22 48V16h14a11 11 0 0 1 0 22h-7v10Z" fill="#fff"/></svg>',
+)}`;
+
+// elements-tier story (rule 2b): a pure UI-configuration showcase — the styled parts render
+// DIRECTLY, with no Base UI grafts. The workspace-avatar cvas key off no `data-*`/aria state, so
+// each visual state is simply which child renders (logo image / initials fallback). Image-load
+// fallback behavior is demonstrated in Components/WorkspaceAvatar. `meta.component` is the
+// no-variant `WorkspaceAvatarImage` so no props are forced into story args.
 const meta = {
   title: "Elements/WorkspaceAvatar",
   component: WorkspaceAvatarImage,
@@ -26,23 +30,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Root holding a logo, with initials as the fallback while the logo loads/fails. */
+/** Root holding a loaded logo. `role="img"` + `aria-label` give the avatar its accessible name. */
 export const Default: Story = {
   render: () => (
-    <BaseAvatar.Root
-      render={<WorkspaceAvatar magnitude="md" />}
-      role="img"
-      aria-label="Plane workspace"
-    >
-      <BaseAvatar.Image
-        render={<WorkspaceAvatarImage />}
-        src="https://avatars.githubusercontent.com/u/73642778?s=128"
-        alt=""
-      />
-      <BaseAvatar.Fallback render={<WorkspaceAvatarFallback tone="orange" />}>
-        PV
-      </BaseAvatar.Fallback>
-    </BaseAvatar.Root>
+    <WorkspaceAvatar magnitude="md" role="img" aria-label="Plane workspace">
+      <WorkspaceAvatarImage src={LOGO_SRC} alt="" />
+    </WorkspaceAvatar>
   ),
 };
 
@@ -51,16 +44,9 @@ export const Magnitudes: Story = {
   render: () => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <BaseAvatar.Root
-          key={magnitude}
-          render={<WorkspaceAvatar magnitude={magnitude} />}
-          role="img"
-          aria-label={magnitude}
-        >
-          <BaseAvatar.Fallback render={<WorkspaceAvatarFallback tone="indigo" />}>
-            PV
-          </BaseAvatar.Fallback>
-        </BaseAvatar.Root>
+        <WorkspaceAvatar key={magnitude} magnitude={magnitude} role="img" aria-label={magnitude}>
+          <WorkspaceAvatarFallback tone="indigo">PV</WorkspaceAvatarFallback>
+        </WorkspaceAvatar>
       ))}
     </div>
   ),
@@ -68,66 +54,42 @@ export const Magnitudes: Story = {
 
 /** The fallback's `tone` colors the initials surface — one swatch per Figma avatar tone. */
 export const Tones: Story = {
-  parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-3">
       {AVATAR_TONES.map((tone) => (
-        <BaseAvatar.Root
-          key={tone}
-          render={<WorkspaceAvatar magnitude="lg" />}
-          role="img"
-          aria-label={tone}
-        >
-          <BaseAvatar.Fallback render={<WorkspaceAvatarFallback tone={tone} />}>
-            {tone[0]?.toUpperCase()}
-          </BaseAvatar.Fallback>
-        </BaseAvatar.Root>
+        <WorkspaceAvatar key={tone} magnitude="lg" role="img" aria-label={tone}>
+          <WorkspaceAvatarFallback tone={tone}>{tone[0]?.toUpperCase()}</WorkspaceAvatarFallback>
+        </WorkspaceAvatar>
       ))}
     </div>
   ),
 };
 
-/** The two states side by side: logo and the initial fallback. */
+/** The two content states side by side: the logo image and the initials fallback. */
 export const States: Story = {
-  parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-3">
-      <BaseAvatar.Root render={<WorkspaceAvatar magnitude="lg" />} role="img" aria-label="Logo">
-        <BaseAvatar.Image
-          render={<WorkspaceAvatarImage />}
-          src="https://avatars.githubusercontent.com/u/73642778?s=128"
-          alt=""
-        />
-        <BaseAvatar.Fallback render={<WorkspaceAvatarFallback tone="orange" />}>
-          PV
-        </BaseAvatar.Fallback>
-      </BaseAvatar.Root>
-      <BaseAvatar.Root render={<WorkspaceAvatar magnitude="lg" />} role="img" aria-label="Initials">
-        <BaseAvatar.Fallback render={<WorkspaceAvatarFallback tone="emerald" />}>
-          PV
-        </BaseAvatar.Fallback>
-      </BaseAvatar.Root>
+      <WorkspaceAvatar magnitude="lg" role="img" aria-label="Logo">
+        <WorkspaceAvatarImage src={LOGO_SRC} alt="" />
+      </WorkspaceAvatar>
+      <WorkspaceAvatar magnitude="lg" role="img" aria-label="Initials">
+        <WorkspaceAvatarFallback tone="emerald">PV</WorkspaceAvatarFallback>
+      </WorkspaceAvatar>
     </div>
   ),
 };
 
 /**
- * The single project-wide CSS check: an `md` workspace avatar is `size-7` (28px) and the tone
- * utility resolves to a real color. Tagged out of the sidebar/docs/manifest but still runs under
- * `test`.
+ * The single project-wide CSS check (the allowed rule-2b canary): an `md` workspace avatar is
+ * `size-7` (28px) and the tone utility resolves to a real color. Tagged out of the sidebar/docs/
+ * manifest but still runs under `test`.
  */
 export const CssCheck: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <BaseAvatar.Root
-      render={<WorkspaceAvatar magnitude="md" />}
-      role="img"
-      aria-label="Plane workspace"
-    >
-      <BaseAvatar.Fallback render={<WorkspaceAvatarFallback tone="indigo" />}>
-        PV
-      </BaseAvatar.Fallback>
-    </BaseAvatar.Root>
+    <WorkspaceAvatar magnitude="md" role="img" aria-label="Plane workspace">
+      <WorkspaceAvatarFallback tone="indigo">PV</WorkspaceAvatarFallback>
+    </WorkspaceAvatar>
   ),
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("img", { name: "Plane workspace" })).toHaveStyle({

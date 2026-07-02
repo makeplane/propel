@@ -1,15 +1,14 @@
-import { Field as BaseField } from "@base-ui/react/field";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { FieldLabel } from "../field/index";
-import { Input } from "../input/index";
+import { Input, InputGroup } from "../input/index";
 import { InputField } from "./index";
 
-// elements-tier story (rule 2b): `InputField` is a Base-UI-agnostic `useRender` layout frame; Base UI's
-// `Field.Root` grafts its behavior via `render`. `Field.Root` is behavior-only (it lives in
-// `components`), so this in-tier story wires it straight from `@base-ui/react`. The ready-made
-// `InputField` (Components/InputField) composes this frame with the box, control, and helper text;
-// here it just frames a label + control to show the `vertical` / `horizontal` layout.
+// elements-tier story (rule 2b): a pure UI-configuration showcase. `InputField` is the
+// Base-UI-agnostic layout frame for a labeled control — rendered DIRECTLY with a label + boxed
+// input, no Base UI graft. The showcase covers its one axis: `orientation` (label above vs
+// beside). Field behavior (name registration, validation, error wiring) is grafted AND tested in
+// the ready-made `InputField` (Components/InputField).
 const meta = {
   title: "Elements/InputField",
   component: InputField,
@@ -19,18 +18,35 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/** `orientation="vertical"`: the label stacks above the control. */
 export const Default: Story = {
   render: ({ orientation }) => (
-    <BaseField.Root name="displayName" render={<InputField orientation={orientation} />}>
-      <FieldLabel magnitude="md" inset={false}>
-        Display name
-      </FieldLabel>
-      <Input magnitude="md" placeholder="Ada Lovelace" />
-    </BaseField.Root>
+    <div className="w-80">
+      <InputField orientation={orientation}>
+        <FieldLabel magnitude="md" inset={false} htmlFor="input-field-vertical">
+          Display name
+        </FieldLabel>
+        <InputGroup magnitude="md">
+          <Input id="input-field-vertical" magnitude="md" placeholder="Ada Lovelace" />
+        </InputGroup>
+      </InputField>
+    </div>
   ),
 };
 
+/** `orientation="horizontal"`: the label sits beside the control. */
 export const Horizontal: Story = {
   args: { orientation: "horizontal" },
-  render: Default.render,
+  render: ({ orientation }) => (
+    <div className="w-96">
+      <InputField orientation={orientation}>
+        <FieldLabel magnitude="md" inset htmlFor="input-field-horizontal">
+          Display name
+        </FieldLabel>
+        <InputGroup magnitude="md">
+          <Input id="input-field-horizontal" magnitude="md" placeholder="Ada Lovelace" />
+        </InputGroup>
+      </InputField>
+    </div>
+  ),
 };

@@ -30,9 +30,11 @@ const MAGNITUDES: BadgeMagnitude[] = ["sm", "md", "lg"];
 //      is static — it has no interaction-state styling — so it gets NO pseudo-states
 //      story; its variation is fully covered by Tones + Magnitudes.
 //
-// These elements stories show the atomic anatomy: each part (`Badge`, `BadgeIcon`,
-// `BadgeLabel`) is a single styled element, composed by hand. The ready-made
-// `Components/Badge` composition wraps the same parts behind convenience props.
+// elements-tier story (rule 2b): a pure UI-configuration showcase. Each part (`Badge`,
+// `BadgeLabel`) is a single styled element, composed by hand, with the internal `Icon`
+// filling the decorative glyph slot. The badge cva keys off no `data-*`/aria state, so
+// there are no pinned states to show. The ready-made `Components/Badge` composition
+// wraps the same parts behind convenience props.
 const meta = {
   title: "Elements/Badge",
   component: Badge,
@@ -90,7 +92,10 @@ export const Magnitudes: Story = {
   ),
 };
 
-/** A leading `BadgeIcon`, sized to the magnitude and tinted to the tone. */
+/**
+ * A leading decorative glyph in the shared `Icon` slot, sized to the magnitude and tinted to the
+ * tone.
+ */
 export const WithIcon: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (

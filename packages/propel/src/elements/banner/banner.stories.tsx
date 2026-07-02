@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Info, X } from "lucide-react";
-import { expect, fn } from "storybook/test";
 
 import { Icon } from "../../internal/icon";
-import { Button } from "../button/index";
+import { Button, ButtonLabel } from "../button/index";
 import { IconButton } from "../icon-button";
 import {
   Banner,
@@ -15,13 +14,13 @@ import {
   BannerTitle,
 } from "./index";
 
-// elements-tier story: composes the ATOMIC banner parts (each renders a single element) — the
-// leading icon, the message body (title + description), the trailing actions, and the
-// dismiss control. The components-tier `Banner` story shows the ready-made banner that
-// takes content via convenience props instead of assembling the parts.
+// elements-tier story (rule 2b): a pure UI-configuration showcase of the atomic banner parts,
+// rendered directly — the strip/card root, the leading icon, the message body (title +
+// description), and the trailing actions. The banner cvas key off no `data-*`/aria state
+// attributes, so `placement` × `tone` is the entire configuration space and nothing needs
+// pinning. Behavior (e.g. a dismiss action's click) is demonstrated and tested in
+// Components/Banner, which composes these parts behind convenience props.
 const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
-
-const dismissSpy = fn();
 
 const meta = {
   title: "Elements/Banner",
@@ -44,7 +43,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Assemble the atomic parts: Root › Icon › Body (Title + Description). */
+/** Assemble the atomic parts: Root › Icon › Body (Title). */
 export const Default: Story = {
   args: { placement: "page", tone: "neutral" },
   render: (args) => (
@@ -100,12 +99,12 @@ export const Placements: Story = {
 };
 
 /**
- * The full page banner from Figma (see the meta's design link): a message with trailing actions and
- * a dismiss control, assembled from the atomic parts. `BannerActions` takes any nodes, so the
- * banner composes propel `Button`s — a ghost, a secondary, and a primary, plus a ghost `IconButton`
- * close.
+ * The full anatomy from Figma (see the meta's design link): Icon › Body (Title + Description) ›
+ * Actions. `BannerActions` takes any nodes, so the banner composes the styled `Button` and
+ * `IconButton` elements — a ghost, a secondary, and a primary, plus a ghost dismiss control. Pure
+ * chrome here; the dismiss click behavior lives in Components/Banner.
  */
-export const WithActions: Story = {
+export const Anatomy: Story = {
   args: { placement: "page", tone: "neutral" },
   parameters: { controls: { disable: true } },
   render: (args) => (
@@ -115,24 +114,19 @@ export const WithActions: Story = {
       </BannerIcon>
       <BannerBody placement={args.placement} tone={args.tone}>
         <BannerTitle>There is something that needs your attention</BannerTitle>
+        <BannerDescription>Review the details and pick an action to continue.</BannerDescription>
       </BannerBody>
       <BannerActions>
         <Button sizing="hug" prominence="ghost" tone="neutral" magnitude="sm">
-          Remind me later
+          <ButtonLabel>Remind me later</ButtonLabel>
         </Button>
         <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="sm">
-          Learn more
+          <ButtonLabel>Learn more</ButtonLabel>
         </Button>
         <Button sizing="hug" prominence="primary" tone="neutral" magnitude="sm">
-          Update now
+          <ButtonLabel>Update now</ButtonLabel>
         </Button>
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="md"
-          aria-label="Dismiss"
-          onClick={fn()}
-        >
+        <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Dismiss">
           <Icon>
             <X />
           </Icon>
@@ -140,41 +134,4 @@ export const WithActions: Story = {
       </BannerActions>
     </Banner>
   ),
-};
-
-/**
- * Real interaction test: clicking the dismiss button invokes its handler. The spy comes from a
- * Storybook `fn()`; the button is queried by its `aria-label`. Tagged out of the
- * sidebar/docs/manifest but still run under the default `test` tag.
- */
-export const DismissCallsHandler: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
-  args: { placement: "inline", tone: "info" },
-  render: (args) => (
-    <Banner {...args}>
-      <BannerIcon placement={args.placement} tone={args.tone}>
-        <Info />
-      </BannerIcon>
-      <BannerBody placement={args.placement} tone={args.tone}>
-        <BannerTitle>There is something that needs your attention</BannerTitle>
-      </BannerBody>
-      <IconButton
-        prominence="ghost"
-        tone="neutral"
-        magnitude="md"
-        aria-label="Dismiss"
-        onClick={dismissSpy}
-      >
-        <Icon>
-          <X />
-        </Icon>
-      </IconButton>
-    </Banner>
-  ),
-  play: async ({ canvas, userEvent }) => {
-    dismissSpy.mockClear();
-    const button = canvas.getByRole("button", { name: "Dismiss" });
-    await userEvent.click(button);
-    await expect(dismissSpy).toHaveBeenCalledTimes(1);
-  },
 };

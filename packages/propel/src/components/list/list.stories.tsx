@@ -148,3 +148,21 @@ export const Section: Story = {
     </ListSection>
   ),
 };
+
+/**
+ * Disclosure: the `ListSection` trigger exposes `aria-expanded` and toggles the section body on
+ * click.
+ */
+export const SectionInteraction: Story = {
+  ...Section,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByRole("button", { name: "Workspace" });
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    trigger.blur();
+  },
+};

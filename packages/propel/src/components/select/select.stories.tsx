@@ -126,6 +126,8 @@ export const PlaceholderInteraction: Story = {
     const popup = within(document.body);
     await userEvent.click(await popup.findByRole("option", { name: "Compute optimized" }));
     await expect(trigger).toHaveTextContent("Compute optimized");
+    // Close the popup so the trailing axe pass does not flag Base UI's focus guards.
+    await userEvent.keyboard("{Escape}");
   },
 };
 
@@ -233,6 +235,8 @@ export const ObjectValuesInteraction: Story = {
     const popup = within(document.body);
     await userEvent.click(await popup.findByRole("option", { name: "Marcus Chen" }));
     await expect(trigger).toHaveTextContent("Marcus Chen");
+    // Close the popup so the trailing axe pass does not flag Base UI's focus guards.
+    await userEvent.keyboard("{Escape}");
   },
 };
 

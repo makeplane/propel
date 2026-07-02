@@ -117,67 +117,64 @@ const MANAGEMENT_PERMISSIONS = ["create-user", "edit-user", "delete-user", "assi
  */
 export const NestedParentCheckbox: Story = {
   args: { density: "comfortable", allValues: MAIN_PERMISSIONS },
-  render: (args) => {
-    function Harness() {
-      const [mainValue, setMainValue] = React.useState<string[]>([]);
-      const [managementValue, setManagementValue] = React.useState<string[]>([]);
-      return (
-        <CheckboxGroup
-          {...args}
-          aria-label="User permissions"
-          value={mainValue}
-          onValueChange={(value) => {
-            if (value.includes("manage-users")) {
-              setManagementValue(MANAGEMENT_PERMISSIONS);
-            } else if (managementValue.length === MANAGEMENT_PERMISSIONS.length) {
-              setManagementValue([]);
-            }
-            setMainValue(value);
-          }}
-        >
-          <Checkbox
-            parent
-            label="User permissions"
-            aria-controls={MAIN_PERMISSIONS.join(" ")}
-            indeterminate={
-              managementValue.length > 0 && managementValue.length !== MANAGEMENT_PERMISSIONS.length
-            }
-          />
-          <Checkbox id="view-dashboard" value="view-dashboard" label="View dashboard" />
-          <Checkbox id="access-reports" value="access-reports" label="Access reports" />
-          <div className="ps-6">
-            <CheckboxGroup
-              density={args.density}
-              aria-label="Manage users"
-              allValues={MANAGEMENT_PERMISSIONS}
-              value={managementValue}
-              onValueChange={(value) => {
-                if (value.length === MANAGEMENT_PERMISSIONS.length) {
-                  setMainValue((prev) =>
-                    prev.includes("manage-users") ? prev : [...prev, "manage-users"],
-                  );
-                } else {
-                  setMainValue((prev) => prev.filter((v) => v !== "manage-users"));
-                }
-                setManagementValue(value);
-              }}
-            >
-              <Checkbox
-                parent
-                id="manage-users"
-                label="Manage users"
-                aria-controls={MANAGEMENT_PERMISSIONS.join(" ")}
-              />
-              <Checkbox id="create-user" value="create-user" label="Create user" />
-              <Checkbox id="edit-user" value="edit-user" label="Edit user" />
-              <Checkbox id="delete-user" value="delete-user" label="Delete user" />
-              <Checkbox id="assign-roles" value="assign-roles" label="Assign roles" />
-            </CheckboxGroup>
-          </div>
-        </CheckboxGroup>
-      );
-    }
-    return <Harness />;
+  render: function Render(args) {
+    const [mainValue, setMainValue] = React.useState<string[]>([]);
+    const [managementValue, setManagementValue] = React.useState<string[]>([]);
+    return (
+      <CheckboxGroup
+        {...args}
+        aria-label="User permissions"
+        value={mainValue}
+        onValueChange={(value) => {
+          if (value.includes("manage-users")) {
+            setManagementValue(MANAGEMENT_PERMISSIONS);
+          } else if (managementValue.length === MANAGEMENT_PERMISSIONS.length) {
+            setManagementValue([]);
+          }
+          setMainValue(value);
+        }}
+      >
+        <Checkbox
+          parent
+          label="User permissions"
+          aria-controls={MAIN_PERMISSIONS.join(" ")}
+          indeterminate={
+            managementValue.length > 0 && managementValue.length !== MANAGEMENT_PERMISSIONS.length
+          }
+        />
+        <Checkbox id="view-dashboard" value="view-dashboard" label="View dashboard" />
+        <Checkbox id="access-reports" value="access-reports" label="Access reports" />
+        <div className="ps-6">
+          <CheckboxGroup
+            density={args.density}
+            aria-label="Manage users"
+            allValues={MANAGEMENT_PERMISSIONS}
+            value={managementValue}
+            onValueChange={(value) => {
+              if (value.length === MANAGEMENT_PERMISSIONS.length) {
+                setMainValue((prev) =>
+                  prev.includes("manage-users") ? prev : [...prev, "manage-users"],
+                );
+              } else {
+                setMainValue((prev) => prev.filter((v) => v !== "manage-users"));
+              }
+              setManagementValue(value);
+            }}
+          >
+            <Checkbox
+              parent
+              id="manage-users"
+              label="Manage users"
+              aria-controls={MANAGEMENT_PERMISSIONS.join(" ")}
+            />
+            <Checkbox id="create-user" value="create-user" label="Create user" />
+            <Checkbox id="edit-user" value="edit-user" label="Edit user" />
+            <Checkbox id="delete-user" value="delete-user" label="Delete user" />
+            <Checkbox id="assign-roles" value="assign-roles" label="Assign roles" />
+          </CheckboxGroup>
+        </div>
+      </CheckboxGroup>
+    );
   },
 };
 

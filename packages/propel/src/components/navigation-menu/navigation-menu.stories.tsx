@@ -99,18 +99,6 @@ const PROJECT_LINKS = Array.from({ length: 24 }, (_, index) => ({
 // navigates the page, tears down the iframe, and fails unrelated stories.
 const cancelNavigation = (event: React.MouseEvent) => event.preventDefault();
 
-/** A rich content link pairing a title with a description, wrapped in its list item. */
-function ContentLink({ href, title, description }: (typeof PRODUCT_LINKS)[number]) {
-  return (
-    <li>
-      <NavigationMenuLink href={href} presentation="card" onClick={cancelNavigation}>
-        <NavigationMenuLinkTitle>{title}</NavigationMenuLinkTitle>
-        <NavigationMenuLinkDescription>{description}</NavigationMenuLinkDescription>
-      </NavigationMenuLink>
-    </li>
-  );
-}
-
 /** Two menu items plus a bare top-level link, opening into the shared `NavigationMenuPanel`. */
 export const Default: Story = {
   render: () => (
@@ -121,7 +109,18 @@ export const Default: Story = {
           <NavigationMenuContent>
             <NavigationMenuContentList>
               {PRODUCT_LINKS.map((item) => (
-                <ContentLink key={item.href} {...item} />
+                <li key={item.href}>
+                  <NavigationMenuLink
+                    href={item.href}
+                    presentation="card"
+                    onClick={cancelNavigation}
+                  >
+                    <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
+                    <NavigationMenuLinkDescription>
+                      {item.description}
+                    </NavigationMenuLinkDescription>
+                  </NavigationMenuLink>
+                </li>
               ))}
             </NavigationMenuContentList>
           </NavigationMenuContent>
@@ -132,7 +131,18 @@ export const Default: Story = {
           <NavigationMenuContent>
             <NavigationMenuContentList>
               {RESOURCE_LINKS.map((item) => (
-                <ContentLink key={item.href} {...item} />
+                <li key={item.href}>
+                  <NavigationMenuLink
+                    href={item.href}
+                    presentation="card"
+                    onClick={cancelNavigation}
+                  >
+                    <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
+                    <NavigationMenuLinkDescription>
+                      {item.description}
+                    </NavigationMenuLinkDescription>
+                  </NavigationMenuLink>
+                </li>
               ))}
             </NavigationMenuContentList>
           </NavigationMenuContent>

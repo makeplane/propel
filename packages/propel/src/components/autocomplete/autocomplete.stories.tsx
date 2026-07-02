@@ -124,6 +124,37 @@ export const EmptyInteraction: Story = {
   },
 };
 
+/**
+ * Interaction test: an invalid `Field` propagates Base UI's validity to the autocomplete input as
+ * `aria-invalid`/`data-invalid` (the input group's frame recolors to danger off
+ * `:has([data-invalid])` — pinned and asserted in the Elements/Autocomplete `States` canary), and
+ * the matching `FieldError` renders. Tagged out of the sidebar/docs/manifest while still running
+ * under the default `test` tag.
+ */
+export const InvalidInteraction: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { items: IMAGES, mode: "both", required: true },
+  render: (args) => (
+    <Field name="containerImage" invalid>
+      <Autocomplete {...args}>
+        <FieldLabel magnitude="md" inset={false}>
+          Container image
+        </FieldLabel>
+        <AutocompleteInputGroup magnitude="md" placeholder="e.g. docker.io/library/node:latest" />
+        <FieldError match={true} magnitude="md">
+          Enter a container image.
+        </FieldError>
+      </Autocomplete>
+    </Field>
+  ),
+  play: async ({ canvas }) => {
+    const input = canvas.getByRole("combobox", { name: "Container image" });
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(input).toHaveAttribute("data-invalid");
+    await expect(canvas.getByText("Enter a container image.")).toBeInTheDocument();
+  },
+};
+
 /** The autocomplete dressed as a search box: a leading magnifier `icon` + input + clear. */
 export const Search: Story = {
   args: { items: IMAGES, mode: "both" },

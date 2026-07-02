@@ -132,23 +132,21 @@ export const Loading: Story = {
  */
 export const AsyncSubmit: Story = {
   parameters: { controls: { disable: true } },
-  render: (args) => {
-    function SubmitExample() {
-      const [submitting, setSubmitting] = React.useState(false);
-      return (
-        <Button
-          {...args}
-          loading={submitting}
-          onClick={() => {
-            setSubmitting(true);
-            window.setTimeout(() => setSubmitting(false), 300);
-          }}
-        >
-          {submitting ? "Submitting" : "Submit"}
-        </Button>
-      );
-    }
-    return <SubmitExample />;
+  // Rule 2c: hooks live in a named-function render, not a local example component.
+  render: function Render(args) {
+    const [submitting, setSubmitting] = React.useState(false);
+    return (
+      <Button
+        {...args}
+        loading={submitting}
+        onClick={() => {
+          setSubmitting(true);
+          window.setTimeout(() => setSubmitting(false), 300);
+        }}
+      >
+        {submitting ? "Submitting" : "Submit"}
+      </Button>
+    );
   },
 };
 

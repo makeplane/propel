@@ -1,13 +1,10 @@
-import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
-import { Field as BaseField } from "@base-ui/react/field";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, ChevronsUpDown, X } from "lucide-react";
-import { expect, within } from "storybook/test";
+import { expect } from "storybook/test";
 
 import { Icon } from "../../internal/icon";
 import { ListboxItem } from "../../internal/listbox-item";
 import { ListboxPopup } from "../../internal/listbox-popup";
-import { Field, FieldError, FieldLabel } from "../field/index";
 import { IconButton } from "../icon-button";
 import {
   ComboboxChip,
@@ -17,205 +14,299 @@ import {
   ComboboxInput,
   ComboboxInputGroup,
   ComboboxItemIndicator,
+  ComboboxLabel,
+  type ComboboxMagnitude,
 } from "./index";
 
-const REGIONS = ["us-central-1", "us-east-1", "eu-central-1", "ap-west-1"];
+const MAGNITUDES: ComboboxMagnitude[] = ["sm", "md", "lg", "xl"];
 
-// elements-tier story (rule 2b): the styled parts are Base-UI-agnostic `useRender` elements; Base UI's
-// behavior parts graft them via `render`. The Root, portal, and positioner are behavior-only (they
-// live in `components`), so this in-tier story wires them straight from `@base-ui/react`.
+// One popup row per pinnable option state: rest, `data-highlighted` (the active option), selected
+// (the indicator carries `data-selected`), and `data-disabled`.
+const REGION_OPTIONS: {
+  value: string;
+  highlighted?: boolean;
+  selected?: boolean;
+  disabled?: boolean;
+}[] = [
+  { value: "us-central-1" },
+  { value: "us-east-1", highlighted: true },
+  { value: "eu-central-1", selected: true },
+  { value: "ap-west-1", disabled: true },
+];
+
+// elements-tier story (rule 2b): a pure UI-configuration showcase. The styled parts render
+// DIRECTLY — no Base UI grafts — with the popup laid out inline (it is just a styled div; Base UI
+// only positions it) and every visual state pinned statically via the `data-*`/aria attributes
+// Base UI's combobox and field would set (`data-highlighted=""`/`data-disabled=""` on a row,
+// `data-selected=""` on the item indicator, `data-invalid=""` on the input) or the native
+// `disabled` attribute. Hover/focus are CSS pseudo-classes, forced by the pseudo-states addon.
+// Grafting, filtering, keyboard, and aria behavior are demonstrated AND tested in the
+// components-tier story (Components/Combobox).
 const meta = {
   title: "Elements/Combobox",
-  component: ListboxPopup,
+  component: ComboboxInputGroup,
   subcomponents: {
-    ComboboxInputGroup,
+    ComboboxLabel,
     ComboboxInput,
     ComboboxChips,
     ComboboxChip,
     ComboboxChipRemove,
     ComboboxItemIndicator,
-    ListboxItem,
     ComboboxEmpty,
+    ListboxPopup,
+    ListboxItem,
   },
-} satisfies Meta<typeof ListboxPopup>;
+  args: { magnitude: "md" },
+} satisfies Meta<typeof ComboboxInputGroup>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const clearButton = (
-  <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear region">
-    <Icon>
-      <X />
-    </Icon>
-  </IconButton>
-);
-const triggerButton = (
-  <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
-    <Icon>
-      <ChevronsUpDown />
-    </Icon>
-  </IconButton>
-);
-
-/** Combobox owns the input and popup composition for choosing from filterable items. */
+/**
+ * The full single-select anatomy assembled statically: `ComboboxLabel`, then `ComboboxInputGroup`
+ * (the bordered frame) holding the `ComboboxInput` plus the consumer-provided clear/trigger
+ * `IconButton` controls; below it, the internal `ListboxPopup` surface with the `ComboboxEmpty`
+ * live region (mounted but content-less while there are matches — its padding applies via
+ * `:not(:empty)`) and one `ListboxItem` row per pinnable state. `layout="indicator"` reserves the
+ * leading 1rem column, so every row keeps a `ComboboxItemIndicator` — only the selected row's
+ * indicator carries `data-selected` and shows its check. The popup's anchor-derived sizing vars
+ * (`--anchor-width`, `--available-height`) are supplied by the wrapper, standing in for Base UI's
+ * positioner.
+ */
 export const Default: Story = {
-  render: () => (
-    <BaseField.Root name="region" render={<Field />}>
-      <BaseCombobox.Root items={REGIONS} required>
-        <BaseField.Label render={<FieldLabel magnitude="md" inset={false} />}>
-          Region
-        </BaseField.Label>
-        <BaseCombobox.InputGroup render={<ComboboxInputGroup magnitude="md" />}>
-          <BaseCombobox.Input render={<ComboboxInput />} placeholder="e.g. eu-central-1" />
-          <BaseCombobox.Clear render={clearButton} />
-          <BaseCombobox.Trigger render={triggerButton} />
-        </BaseCombobox.InputGroup>
-        <BaseCombobox.Portal>
-          <BaseCombobox.Positioner>
-            <BaseCombobox.Popup render={<ListboxPopup />}>
-              <BaseCombobox.Empty render={<ComboboxEmpty />}>No matches</BaseCombobox.Empty>
-              <BaseCombobox.List>
-                {(region: string) => (
-                  <BaseCombobox.Item
-                    key={region}
-                    value={region}
-                    render={<ListboxItem layout="indicator" magnitude="md" />}
-                  >
-                    <BaseCombobox.ItemIndicator keepMounted render={<ComboboxItemIndicator />}>
-                      <Check aria-hidden />
-                    </BaseCombobox.ItemIndicator>
-                    <span>{region}</span>
-                  </BaseCombobox.Item>
-                )}
-              </BaseCombobox.List>
-            </BaseCombobox.Popup>
-          </BaseCombobox.Positioner>
-        </BaseCombobox.Portal>
-        <BaseField.Error render={<FieldError magnitude="md" />} />
-      </BaseCombobox.Root>
-    </BaseField.Root>
+  parameters: {
+    controls: { disable: true },
+    a11y: {
+      // Pinning hover/disabled state attributes makes axe evaluate visuals it never sees live
+      // (it does not test :hover, and WCAG 1.4.3 exempts disabled controls). The tertiary-text-
+      // on-hover-fill contrast is a design-token question flagged for the design pass, not a
+      // story bug.
+      config: { rules: [{ id: "color-contrast", enabled: false }] },
+    },
+  },
+  render: ({ magnitude }) => (
+    <div className="flex w-72 flex-col gap-1.5 [--anchor-width:18rem] [--available-height:18rem]">
+      <ComboboxLabel id="combobox-region-label">Region</ComboboxLabel>
+      <ComboboxInputGroup magnitude={magnitude}>
+        <ComboboxInput aria-labelledby="combobox-region-label" placeholder="e.g. eu-central-1" />
+        <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear region">
+          <Icon>
+            <X />
+          </Icon>
+        </IconButton>
+        <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
+          <Icon>
+            <ChevronsUpDown />
+          </Icon>
+        </IconButton>
+      </ComboboxInputGroup>
+      <ListboxPopup>
+        <ComboboxEmpty />
+        {REGION_OPTIONS.map(({ value, highlighted, selected, disabled }) => (
+          <ListboxItem
+            key={value}
+            layout="indicator"
+            magnitude="md"
+            data-highlighted={highlighted ? "" : undefined}
+            data-disabled={disabled ? "" : undefined}
+          >
+            <ComboboxItemIndicator
+              id={selected ? "combobox-indicator-selected" : undefined}
+              data-selected={selected ? "" : undefined}
+            >
+              <Check aria-hidden />
+            </ComboboxItemIndicator>
+            <span>{value}</span>
+          </ListboxItem>
+        ))}
+      </ListboxPopup>
+    </div>
   ),
 };
 
-export const DefaultInteraction: Story = {
+/**
+ * CSS canary (rule 2b): asserts the indicator's `not-data-selected:invisible` selector compiled —
+ * the selected row's pinned `data-selected` indicator computes visible while an unselected row's
+ * stays hidden (the reserved column holds either way). Tagged out of the sidebar/docs/manifest
+ * while still running under the default `test` tag.
+ */
+export const DefaultCanary: Story = {
   ...Default,
   tags: ["!dev", "!autodocs", "!manifest"],
-  play: async ({ canvas, userEvent }) => {
-    await userEvent.type(canvas.getByRole("combobox", { name: "Region" }), "eu");
-    await expect(within(document.body).getByText("eu-central-1")).toBeInTheDocument();
+  play: async ({ canvasElement }) => {
+    const visibility = (selector: string) => {
+      const indicator = canvasElement.querySelector(selector);
+      if (!(indicator instanceof HTMLElement)) throw new Error(`missing ${selector}`);
+      return getComputedStyle(indicator).visibility;
+    };
+    await expect(visibility("#combobox-indicator-selected")).toBe("visible");
+    await expect(visibility("[data-highlighted] > :first-child")).toBe("hidden");
   },
 };
 
 /**
- * An invalid field: `Field.Root invalid` propagates `data-invalid` to the input, and the input
- * group recolors its border to `danger` off `:has([data-invalid])` — no `tone` prop required.
+ * The full `magnitude` axis of both input frames, one row per step: the single-select
+ * `ComboboxInputGroup` beside the multiselect `ComboboxChips` frame. A step sets the frame's
+ * min-height, text size, and glyph `--node-size` (the shared control scale: sm 28px · md 32px · lg
+ * 36px · xl 44px); the chips keep their fixed height and sit inset like text would.
  */
-export const Invalid: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
+export const Magnitudes: Story = {
+  argTypes: { magnitude: { control: false } },
   render: () => (
-    <BaseField.Root name="region" invalid render={<Field />}>
-      <BaseCombobox.Root items={REGIONS} required>
-        <BaseField.Label render={<FieldLabel magnitude="md" inset={false} />}>
-          Region
-        </BaseField.Label>
-        <BaseCombobox.InputGroup render={<ComboboxInputGroup magnitude="md" />}>
-          <BaseCombobox.Input render={<ComboboxInput />} placeholder="e.g. eu-central-1" />
-          <BaseCombobox.Clear render={clearButton} />
-          <BaseCombobox.Trigger render={triggerButton} />
-        </BaseCombobox.InputGroup>
-        <BaseField.Error match={true} render={<FieldError magnitude="md" />}>
-          Choose a deployment region.
-        </BaseField.Error>
-      </BaseCombobox.Root>
-    </BaseField.Root>
-  ),
-  play: async ({ canvas }) => {
-    const input = canvas.getByRole("combobox", { name: "Region" });
-    await expect(input).toHaveAttribute("aria-invalid", "true");
-    await expect(input).toHaveAttribute("data-invalid");
-    // The wrapping input group recolors its border off `:has([data-invalid])`.
-    const group = input.closest<HTMLElement>(":has([data-invalid])");
-    await expect(group).toHaveClass("has-[[data-invalid]]:border-danger-strong");
-  },
-};
-
-/**
- * `multiple` swaps the input frame for `ComboboxChips`: each selected value renders as a
- * `ComboboxChip` (label + `ComboboxChipRemove`) ahead of the inline input, wrapping onto new rows
- * as the selection grows. Arrow keys move focus across chips; Backspace removes.
- */
-export const Multiple: Story = {
-  render: () => (
-    <BaseField.Root name="regions" render={<Field />}>
-      <BaseCombobox.Root multiple items={REGIONS} defaultValue={["us-east-1", "eu-central-1"]}>
-        <BaseField.Label render={<FieldLabel magnitude="md" inset={false} />}>
-          Regions
-        </BaseField.Label>
-        <BaseCombobox.Chips render={<ComboboxChips magnitude="md" />}>
-          <BaseCombobox.Value>
-            {(regions: string[]) => (
-              <>
-                {regions.map((region) => (
-                  <BaseCombobox.Chip key={region} render={<ComboboxChip />} aria-label={region}>
-                    {region}
-                    <BaseCombobox.ChipRemove
-                      render={<ComboboxChipRemove />}
-                      aria-label={`Remove ${region}`}
-                    >
-                      <X aria-hidden />
-                    </BaseCombobox.ChipRemove>
-                  </BaseCombobox.Chip>
-                ))}
-                <BaseCombobox.Input render={<ComboboxInput />} placeholder="Add a region" />
-              </>
-            )}
-          </BaseCombobox.Value>
-        </BaseCombobox.Chips>
-        <BaseCombobox.Portal>
-          <BaseCombobox.Positioner>
-            <BaseCombobox.Popup render={<ListboxPopup />}>
-              <BaseCombobox.Empty render={<ComboboxEmpty />}>No matches</BaseCombobox.Empty>
-              <BaseCombobox.List>
-                {(region: string) => (
-                  <BaseCombobox.Item
-                    key={region}
-                    value={region}
-                    render={<ListboxItem layout="indicator" magnitude="md" />}
-                  >
-                    <BaseCombobox.ItemIndicator keepMounted render={<ComboboxItemIndicator />}>
-                      <Check aria-hidden />
-                    </BaseCombobox.ItemIndicator>
-                    <span>{region}</span>
-                  </BaseCombobox.Item>
-                )}
-              </BaseCombobox.List>
-            </BaseCombobox.Popup>
-          </BaseCombobox.Positioner>
-        </BaseCombobox.Portal>
-      </BaseCombobox.Root>
-    </BaseField.Root>
+    <div className="flex flex-col gap-3">
+      {MAGNITUDES.map((magnitude) => (
+        <div key={magnitude} className="flex items-start gap-4">
+          <ComboboxInputGroup magnitude={magnitude}>
+            <ComboboxInput aria-label={`Region (${magnitude})`} placeholder={magnitude} />
+          </ComboboxInputGroup>
+          <ComboboxChips magnitude={magnitude}>
+            <ComboboxChip>
+              us-east-1
+              <ComboboxChipRemove aria-label={`Remove us-east-1 (${magnitude})`}>
+                <X aria-hidden />
+              </ComboboxChipRemove>
+            </ComboboxChip>
+            <ComboboxInput aria-label={`Regions (${magnitude})`} placeholder="Add a region" />
+          </ComboboxChips>
+        </div>
+      ))}
+    </div>
   ),
 };
 
 /**
- * Interaction test: both preselected values render as chips, a chip's remove button drops just that
- * value, and picking another item appends a chip. Tagged out of the sidebar/docs/manifest while
- * still running under the default `test` tag.
+ * Every pinnable state of the input frame, one group per row:
+ *
+ * - **Rest** — the subtle border over the `layer-2` fill.
+ * - **Hover** / **Focused** — CSS pseudo-classes (`:hover`, `:focus-within`), forced by the
+ *   pseudo-states addon: the hover border/fill shift, and the accent border + soft ring while the
+ *   inner input has focus.
+ * - **Invalid** — pins the `data-invalid=""` (and `aria-invalid`) Base UI's `Field.Root` would
+ *   propagate to the input; the frame recolors to danger via `:has([data-invalid])` — no `tone`
+ *   prop.
+ * - **Invalid focused** — danger wins on focus: the danger border stays and the soft ring turns
+ *   danger instead of accent.
+ * - **Disabled** — the native `disabled` on the input plus the `data-disabled=""` Base UI mirrors
+ *   onto the group: not-allowed cursor, flattened fill, dimmed text — both selector forms the
+ *   shared chrome defines.
  */
-export const MultipleInteraction: Story = {
-  ...Multiple,
-  tags: ["!dev", "!autodocs", "!manifest"],
-  play: async ({ canvas, userEvent }) => {
-    await expect(canvas.getByText("us-east-1")).toBeInTheDocument();
-    await expect(canvas.getByText("eu-central-1")).toBeInTheDocument();
-
-    await userEvent.click(canvas.getByRole("button", { name: "Remove us-east-1" }));
-    await expect(canvas.queryByText("us-east-1")).not.toBeInTheDocument();
-
-    await userEvent.click(canvas.getByRole("combobox", { name: "Regions" }));
-    const popup = within(document.body);
-    await userEvent.click(await popup.findByRole("option", { name: "ap-west-1" }));
-    await expect(canvas.getByText("ap-west-1")).toBeInTheDocument();
-    await expect(canvas.getByText("eu-central-1")).toBeInTheDocument();
+export const States: Story = {
+  parameters: {
+    controls: { disable: true },
+    pseudo: {
+      hover: "#combobox-group-hover",
+      focusWithin: ["#combobox-group-focus", "#combobox-group-invalid-focus"],
+    },
   },
+  render: ({ magnitude }) => (
+    <div className="flex w-72 flex-col gap-3">
+      <ComboboxInputGroup magnitude={magnitude} id="combobox-group-rest">
+        <ComboboxInput aria-label="Rest" placeholder="Rest" />
+      </ComboboxInputGroup>
+      <ComboboxInputGroup magnitude={magnitude} id="combobox-group-hover">
+        <ComboboxInput aria-label="Hover" placeholder="Hover" />
+      </ComboboxInputGroup>
+      <ComboboxInputGroup magnitude={magnitude} id="combobox-group-focus">
+        <ComboboxInput aria-label="Focused" placeholder="Focused" />
+      </ComboboxInputGroup>
+      <ComboboxInputGroup magnitude={magnitude} id="combobox-group-invalid">
+        <ComboboxInput aria-label="Invalid" placeholder="Invalid" aria-invalid data-invalid="" />
+      </ComboboxInputGroup>
+      <ComboboxInputGroup magnitude={magnitude} id="combobox-group-invalid-focus">
+        <ComboboxInput
+          aria-label="Invalid focused"
+          placeholder="Invalid focused"
+          aria-invalid
+          data-invalid=""
+        />
+      </ComboboxInputGroup>
+      <ComboboxInputGroup magnitude={magnitude} data-disabled="">
+        <ComboboxInput aria-label="Disabled" placeholder="Disabled" disabled />
+      </ComboboxInputGroup>
+    </div>
+  ),
+};
+
+/**
+ * CSS canary (rule 2b): asserts the pinned attribute selectors actually compiled — the
+ * `data-invalid` input recolors its wrapping frame's border (`has-[[data-invalid]]:
+ * border-danger-strong`) away from the resting frame's. Tagged out of the sidebar/docs/manifest
+ * while still running under the default `test` tag.
+ */
+export const StatesCanary: Story = {
+  ...States,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvasElement }) => {
+    const borderColor = (id: string) => {
+      const group = canvasElement.querySelector(`#${id}`);
+      if (!(group instanceof HTMLElement)) throw new Error(`missing #${id}`);
+      return getComputedStyle(group).borderColor;
+    };
+    await expect(borderColor("combobox-group-invalid")).not.toBe(
+      borderColor("combobox-group-rest"),
+    );
+  },
+};
+
+/**
+ * The multiselect anatomy: `ComboboxChips` replaces the input frame, wrapping one `ComboboxChip`
+ * per selected value (its label plus a `ComboboxChipRemove` — pass an X-style svg and an
+ * `aria-label` naming the value) ahead of the inline `ComboboxInput`. Chip states pinned: the
+ * second chip wears the focus ring arrow-key navigation would give it (forced by the pseudo-states
+ * addon, as is the first chip's remove hover), and the third pins the `data-disabled` a disabled
+ * root would mirror onto it, with its remove natively disabled.
+ */
+export const Chips: Story = {
+  parameters: {
+    controls: { disable: true },
+    a11y: {
+      // Pinning hover/disabled state attributes makes axe evaluate visuals it never sees live
+      // (it does not test :hover, and WCAG 1.4.3 exempts disabled controls). The tertiary-text-
+      // on-hover-fill contrast is a design-token question flagged for the design pass, not a
+      // story bug.
+      config: { rules: [{ id: "color-contrast", enabled: false }] },
+    },
+  },
+  render: () => (
+    <div className="flex w-96 flex-col gap-1.5">
+      <ComboboxLabel id="combobox-regions-label">Regions</ComboboxLabel>
+      <ComboboxChips magnitude="md">
+        <ComboboxChip>
+          us-east-1
+          <ComboboxChipRemove id="combobox-chip-remove-hover" aria-label="Remove us-east-1">
+            <X aria-hidden />
+          </ComboboxChipRemove>
+        </ComboboxChip>
+        <ComboboxChip id="combobox-chip-focus">
+          eu-central-1
+          <ComboboxChipRemove aria-label="Remove eu-central-1">
+            <X aria-hidden />
+          </ComboboxChipRemove>
+        </ComboboxChip>
+        <ComboboxChip data-disabled="">
+          ap-west-1
+          <ComboboxChipRemove aria-label="Remove ap-west-1" disabled>
+            <X aria-hidden />
+          </ComboboxChipRemove>
+        </ComboboxChip>
+        <ComboboxInput aria-labelledby="combobox-regions-label" placeholder="Add a region" />
+      </ComboboxChips>
+    </div>
+  ),
+};
+
+/**
+ * The no-matches popup: `ComboboxEmpty` is the live region Base UI keeps mounted inside the popup,
+ * and its padding applies via `:not(:empty)` only once it holds the message — while there are
+ * matches it renders collapsed (see the Default story's popup), never a dead padded strip.
+ */
+export const Empty: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex w-72 flex-col [--anchor-width:18rem] [--available-height:18rem]">
+      <ListboxPopup>
+        <ComboboxEmpty>No matches</ComboboxEmpty>
+      </ListboxPopup>
+    </div>
+  ),
 };

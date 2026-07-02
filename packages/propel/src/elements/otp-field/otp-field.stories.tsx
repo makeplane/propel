@@ -1,13 +1,22 @@
-import { OTPFieldPreview as BaseOTPField } from "@base-ui/react/otp-field";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { OTPField, OTPFieldInput, OTPFieldLabel, OTPFieldSeparator } from "./index";
+import {
+  OTPField,
+  OTPFieldInput,
+  type OTPFieldInputMagnitude,
+  OTPFieldLabel,
+  OTPFieldSeparator,
+} from "./index";
 
-// elements-tier story (rule 2b): the styled parts are Base-UI-agnostic `useRender` elements; Base UI's
-// OTPField behavior parts graft them via `render`. The root is a styled container, so it grafts
-// onto `OTPFieldPreview.Root`; each slot grafts onto `OTPFieldPreview.Input`. The components-tier
-// story shows the ready-made `OTPField` that emits `length` inputs for you.
+const MAGNITUDES: OTPFieldInputMagnitude[] = ["md", "lg", "xl"];
+const CODE = "731428";
+
+// elements-tier story (rule 2b): a pure UI-configuration showcase. The styled parts render
+// DIRECTLY — no Base UI grafts — with every visual state pinned statically via the `data-*`/aria
+// attributes Base UI's OTP field would set (`data-invalid=""`, `data-disabled=""`) or the native
+// `disabled`/`defaultValue` attributes. Grafting, focus movement, paste, and completion behavior
+// are demonstrated AND tested in the components-tier story (Components/OTPField).
 const meta = {
   title: "Elements/OTPField",
   component: OTPField,
@@ -17,76 +26,73 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Base UI ignores `aria-label` on the first OTP slot and names it from `aria-labelledby` instead,
-// so a visually-hidden label backs the first slot while the rest carry an `aria-label`. Without
-// this the slot inputs fail axe's "Form elements must have labels".
-const FIRST_SLOT_LABEL_ID = "otp-first-slot-label";
-
-/** A six-slot code, each slot an atomic input. */
+/**
+ * The full anatomy assembled statically: the `OTPField` row holding six `OTPFieldInput` character
+ * cells, a half-entered code pinning the filled and empty looks side by side. The visually-hidden
+ * `OTPFieldLabel` names the first slot via `aria-labelledby` — mirroring the graft, where Base UI
+ * ignores `aria-label` on the first slot — while the rest carry an `aria-label`.
+ */
 export const Default: Story = {
   render: () => (
-    <BaseOTPField.Root length={6} render={<OTPField />} aria-label="Verification code">
-      <OTPFieldLabel id={FIRST_SLOT_LABEL_ID}>Character 1</OTPFieldLabel>
+    <OTPField>
+      <OTPFieldLabel id="otp-first-slot-label">Character 1</OTPFieldLabel>
       {Array.from({ length: 6 }, (_, index) =>
         index === 0 ? (
-          <BaseOTPField.Input
+          <OTPFieldInput
             key={index}
-            render={<OTPFieldInput magnitude="lg" />}
-            aria-labelledby={FIRST_SLOT_LABEL_ID}
+            magnitude="lg"
+            defaultValue={CODE[index]}
+            aria-labelledby="otp-first-slot-label"
           />
         ) : (
-          <BaseOTPField.Input
+          <OTPFieldInput
             key={index}
-            render={<OTPFieldInput magnitude="lg" />}
+            magnitude="lg"
+            defaultValue={index < 3 ? CODE[index] : undefined}
             aria-label={`Character ${index + 1}`}
           />
         ),
       )}
-    </BaseOTPField.Root>
+    </OTPField>
   ),
 };
 
 /**
- * Interaction test: the six slots each expose a textbox. Tagged out of the sidebar/docs/manifest
- * while still running under the default `test` tag.
+ * The slot box scale — square cells stepping md (32px) · lg (36px) · xl (44px) on the shared
+ * control heights, each with a matching width and text size.
  */
-export const DefaultInteraction: Story = {
-  ...Default,
-  tags: ["!dev", "!autodocs", "!manifest"],
-  play: async ({ canvas }) => {
-    await expect(canvas.getAllByRole("textbox")).toHaveLength(6);
-  },
+export const Magnitudes: Story = {
+  render: () => (
+    <div className="flex flex-col items-start gap-4">
+      {MAGNITUDES.map((magnitude) => (
+        <OTPField key={magnitude}>
+          {Array.from({ length: 6 }, (_, index) => (
+            <OTPFieldInput
+              key={index}
+              magnitude={magnitude}
+              defaultValue={CODE[index]}
+              aria-label={`Character ${index + 1} (${magnitude})`}
+            />
+          ))}
+        </OTPField>
+      ))}
+    </div>
+  ),
 };
 
-/** A separator splits the slots into groups, e.g. `123-456`. */
+/** An `OTPFieldSeparator` splits the slots into groups, e.g. `123-456`. */
 export const Grouped: Story = {
   render: () => (
-    <BaseOTPField.Root length={6} render={<OTPField />} aria-label="Verification code">
-      <OTPFieldLabel id={FIRST_SLOT_LABEL_ID}>Character 1</OTPFieldLabel>
-      <BaseOTPField.Input
-        render={<OTPFieldInput magnitude="lg" />}
-        aria-labelledby={FIRST_SLOT_LABEL_ID}
-      />
-      <BaseOTPField.Input render={<OTPFieldInput magnitude="lg" />} aria-label="Character 2" />
-      <BaseOTPField.Input render={<OTPFieldInput magnitude="lg" />} aria-label="Character 3" />
-      <BaseOTPField.Separator render={<OTPFieldSeparator />}>-</BaseOTPField.Separator>
-      <BaseOTPField.Input render={<OTPFieldInput magnitude="lg" />} aria-label="Character 4" />
-      <BaseOTPField.Input render={<OTPFieldInput magnitude="lg" />} aria-label="Character 5" />
-      <BaseOTPField.Input render={<OTPFieldInput magnitude="lg" />} aria-label="Character 6" />
-    </BaseOTPField.Root>
+    <OTPField>
+      <OTPFieldInput magnitude="lg" defaultValue="1" aria-label="Character 1" />
+      <OTPFieldInput magnitude="lg" defaultValue="2" aria-label="Character 2" />
+      <OTPFieldInput magnitude="lg" defaultValue="3" aria-label="Character 3" />
+      <OTPFieldSeparator>-</OTPFieldSeparator>
+      <OTPFieldInput magnitude="lg" defaultValue="4" aria-label="Character 4" />
+      <OTPFieldInput magnitude="lg" defaultValue="5" aria-label="Character 5" />
+      <OTPFieldInput magnitude="lg" defaultValue="6" aria-label="Character 6" />
+    </OTPField>
   ),
-};
-
-/**
- * Interaction test: the grouped slots each expose a textbox. Tagged out of the
- * sidebar/docs/manifest while still running under the default `test` tag.
- */
-export const GroupedInteraction: Story = {
-  ...Grouped,
-  tags: ["!dev", "!autodocs", "!manifest"],
-  play: async ({ canvas }) => {
-    await expect(canvas.getAllByRole("textbox")).toHaveLength(6);
-  },
 };
 
 /** Native `placeholder` hints (e.g. `•`) mark the empty slots until characters fill them. */
@@ -105,38 +111,71 @@ export const Placeholders: Story = {
   ),
 };
 
-/** All boxes show the danger border when the code is invalid. */
-export const Invalid: Story = {
+/**
+ * Every pinnable slot state:
+ *
+ * - **Rest / Filled / Focused** — the subtle border over the `layer-2` fill; the focused cell (a CSS
+ *   `:focus`, forced by the pseudo-states addon) lights to the accent border + soft ring.
+ * - **Invalid** — pins the `data-invalid=""` (and `aria-invalid`) Base UI's `Field.Root` would
+ *   propagate to every slot; the cell recolors its border to danger — no `tone` prop.
+ * - **Disabled** — the native `disabled` plus the `data-disabled=""` Base UI mirrors onto the slot:
+ *   not-allowed cursor and dimmed text.
+ */
+export const States: Story = {
+  parameters: {
+    pseudo: { focus: "#otp-slot-focus" },
+  },
   render: () => (
-    <BaseOTPField.Root length={6} render={<OTPField />} aria-label="Verification code">
-      <OTPFieldLabel id={FIRST_SLOT_LABEL_ID}>Character 1</OTPFieldLabel>
-      {Array.from({ length: 6 }, (_, index) =>
-        index === 0 ? (
-          <BaseOTPField.Input
+    <div className="flex flex-col items-start gap-4">
+      <OTPField>
+        <OTPFieldInput id="otp-slot-rest" magnitude="lg" aria-label="Rest slot" />
+        <OTPFieldInput magnitude="lg" defaultValue="7" aria-label="Filled slot" />
+        <OTPFieldInput id="otp-slot-focus" magnitude="lg" aria-label="Focused slot" />
+      </OTPField>
+      <OTPField>
+        {Array.from({ length: 3 }, (_, index) => (
+          <OTPFieldInput
             key={index}
-            render={<OTPFieldInput magnitude="lg" data-invalid />}
-            aria-labelledby={FIRST_SLOT_LABEL_ID}
+            id={index === 0 ? "otp-slot-invalid" : undefined}
+            magnitude="lg"
+            defaultValue={CODE[index]}
+            aria-invalid
+            data-invalid=""
+            aria-label={`Invalid character ${index + 1}`}
           />
-        ) : (
-          <BaseOTPField.Input
+        ))}
+      </OTPField>
+      <OTPField>
+        {Array.from({ length: 3 }, (_, index) => (
+          <OTPFieldInput
             key={index}
-            render={<OTPFieldInput magnitude="lg" data-invalid />}
-            aria-label={`Character ${index + 1}`}
+            magnitude="lg"
+            defaultValue={CODE[index]}
+            disabled
+            data-disabled=""
+            aria-label={`Disabled character ${index + 1}`}
           />
-        ),
-      )}
-    </BaseOTPField.Root>
+        ))}
+      </OTPField>
+    </div>
   ),
 };
 
 /**
- * Interaction test: the invalid slots each expose a textbox. Tagged out of the
- * sidebar/docs/manifest while still running under the default `test` tag.
+ * CSS canary (rule 2b): asserts the pinned attribute selectors actually compiled — the
+ * `data-invalid` slot recolors its border (`data-invalid:border-danger-strong`) away from the
+ * resting slot's. Tagged out of the sidebar/docs/manifest while still running under the default
+ * `test` tag.
  */
-export const InvalidInteraction: Story = {
-  ...Invalid,
+export const StatesCanary: Story = {
+  ...States,
   tags: ["!dev", "!autodocs", "!manifest"],
-  play: async ({ canvas }) => {
-    await expect(canvas.getAllByRole("textbox")).toHaveLength(6);
+  play: async ({ canvasElement }) => {
+    const borderColor = (id: string) => {
+      const slot = canvasElement.querySelector(`#${id}`);
+      if (!(slot instanceof HTMLElement)) throw new Error(`missing #${id}`);
+      return getComputedStyle(slot).borderColor;
+    };
+    await expect(borderColor("otp-slot-invalid")).not.toBe(borderColor("otp-slot-rest"));
   },
 };

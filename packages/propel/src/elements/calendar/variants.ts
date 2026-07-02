@@ -20,9 +20,9 @@ export const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"
   nav: "absolute inset-e-4 top-4 flex items-center gap-1",
   // 28px transparent icon buttons that tint on hover (Figma "Icon buttons").
   button_previous:
-    "inline-flex size-7 items-center justify-center rounded-md text-icon-tertiary hover:bg-layer-transparent-hover disabled:opacity-50",
+    "inline-flex size-7 items-center justify-center rounded-md text-icon-tertiary hover:bg-layer-transparent-hover aria-disabled:opacity-50",
   button_next:
-    "inline-flex size-7 items-center justify-center rounded-md text-icon-tertiary hover:bg-layer-transparent-hover disabled:opacity-50",
+    "inline-flex size-7 items-center justify-center rounded-md text-icon-tertiary hover:bg-layer-transparent-hover aria-disabled:opacity-50",
   // The nav chevron: 16px, mirrored in RTL. react-day-picker passes this class to its `Chevron`
   // component (default or a custom one), so the icon needs no className of its own.
   chevron: "size-4 rtl:-scale-x-100",

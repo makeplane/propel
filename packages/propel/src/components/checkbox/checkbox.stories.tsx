@@ -195,30 +195,27 @@ export const InvalidInteraction: Story = {
  */
 export const FormIntegration: Story = {
   parameters: { controls: { disable: true } },
-  render: () => {
-    function SessionPreferencesForm() {
-      const [submitted, setSubmitted] = React.useState<{ stayLoggedIn: boolean } | null>(null);
-      return (
-        <div className="flex w-80 flex-col gap-3">
-          <Form<{ stayLoggedIn: boolean }> onFormSubmit={(values) => setSubmitted(values)}>
-            <FormBody layout="single">
-              <Field name="stayLoggedIn">
-                <Checkbox label="Stay logged in for 7 days" />
-              </Field>
-            </FormBody>
-            <FormActions layout="inline">
-              <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
-                Save
-              </Button>
-            </FormActions>
-          </Form>
-          <output className="text-13 text-secondary">
-            {submitted ? `Stay logged in: ${submitted.stayLoggedIn ? "yes" : "no"}` : null}
-          </output>
-        </div>
-      );
-    }
-    return <SessionPreferencesForm />;
+  render: function Render() {
+    const [submitted, setSubmitted] = React.useState<{ stayLoggedIn: boolean } | null>(null);
+    return (
+      <div className="flex w-80 flex-col gap-3">
+        <Form<{ stayLoggedIn: boolean }> onFormSubmit={(values) => setSubmitted(values)}>
+          <FormBody layout="single">
+            <Field name="stayLoggedIn">
+              <Checkbox label="Stay logged in for 7 days" />
+            </Field>
+          </FormBody>
+          <FormActions layout="inline">
+            <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
+              Save
+            </Button>
+          </FormActions>
+        </Form>
+        <output className="text-13 text-secondary">
+          {submitted ? `Stay logged in: ${submitted.stayLoggedIn ? "yes" : "no"}` : null}
+        </output>
+      </div>
+    );
   },
 };
 
@@ -293,22 +290,19 @@ export const BoxDoesNotShiftOnToggle: Story = {
   ...Interaction,
   tags: ["!dev", "!autodocs", "!manifest"],
   parameters: { controls: { disable: true } },
-  // A controlled wrapper so a single, stable box element can be driven through
+  // A controlled render so a single, stable box element can be driven through
   // unchecked -> checked -> indeterminate without remounting (so we measure the
   // very same DOM node across all three states).
-  render: () => {
-    function Harness() {
-      const [indeterminate, setIndeterminate] = React.useState(false);
-      return (
-        <div>
-          <Checkbox aria-label="Shift target" indeterminate={indeterminate} />
-          <button type="button" onClick={() => setIndeterminate(true)}>
-            make indeterminate
-          </button>
-        </div>
-      );
-    }
-    return <Harness />;
+  render: function Render() {
+    const [indeterminate, setIndeterminate] = React.useState(false);
+    return (
+      <div>
+        <Checkbox aria-label="Shift target" indeterminate={indeterminate} />
+        <button type="button" onClick={() => setIndeterminate(true)}>
+          make indeterminate
+        </button>
+      </div>
+    );
   },
   play: async ({ canvas }) => {
     const box = canvas.getByRole("checkbox");

@@ -27,7 +27,7 @@ type Story = StoryObj<typeof meta>;
  * selection.
  */
 export const Default: Story = {
-  render: () => {
+  render: function Render() {
     const [selected, setSelected] = React.useState<Date | undefined>(new Date(2025, 0, 24));
     return (
       <Calendar
@@ -45,7 +45,7 @@ export const Default: Story = {
  * between them get the soft in-range background.
  */
 export const RangeSelection: Story = {
-  render: () => {
+  render: function Render() {
     const [range, setRange] = React.useState<DateRange | undefined>({
       from: new Date(2025, 0, 13),
       to: new Date(2025, 0, 20),
@@ -61,7 +61,7 @@ export const RangeSelection: Story = {
  * text.
  */
 export const WithDisabledDays: Story = {
-  render: () => {
+  render: function Render() {
     const [selected, setSelected] = React.useState<Date | undefined>();
     return (
       <Calendar
@@ -82,7 +82,7 @@ export const WithDisabledDays: Story = {
  */
 export const Behavior: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => {
+  render: function Render() {
     const [selected, setSelected] = React.useState<Date | undefined>();
     return (
       <Calendar
@@ -121,7 +121,7 @@ export const Behavior: Story = {
  */
 export const KeyboardNavigation: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => {
+  render: function Render() {
     const [selected, setSelected] = React.useState<Date | undefined>(new Date(2025, 0, 15));
     return (
       <Calendar

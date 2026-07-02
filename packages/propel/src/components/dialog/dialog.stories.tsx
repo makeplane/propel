@@ -181,6 +181,77 @@ export const EscapeCloses: Story = {
   },
 };
 
+/**
+ * `disablePointerDismissal` on the root keeps the dialog open when the backdrop is clicked, so it
+ * only closes via an explicit `DialogClose` (or Escape).
+ */
+export const NonDismissable: Story = {
+  render: () => (
+    <Dialog disablePointerDismissal>
+      <Button
+        sizing="hug"
+        prominence="secondary"
+        tone="neutral"
+        magnitude="xl"
+        render={<DialogTrigger />}
+      >
+        Open locked dialog
+      </Button>
+      <DialogContent magnitude="sm">
+        <DialogHeader>
+          <DialogHeading>
+            <DialogTitle>Unsaved changes</DialogTitle>
+          </DialogHeading>
+        </DialogHeader>
+        <DialogBody>
+          <DialogDescription>
+            Choose an action — clicking outside won&apos;t dismiss.
+          </DialogDescription>
+        </DialogBody>
+        <DialogActions>
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="xl"
+            render={<DialogClose />}
+          >
+            Discard
+          </Button>
+        </DialogActions>
+      </DialogContent>
+    </Dialog>
+  ),
+};
+
+/**
+ * Interaction test: with `disablePointerDismissal`, a backdrop click leaves the dialog open and
+ * only the explicit close dismisses it. Tagged out of the sidebar/docs/manifest while still running
+ * under the default `test` tag.
+ */
+export const NonDismissableInteraction: Story = {
+  ...NonDismissable,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, step }) => {
+    await step("a backdrop click does not dismiss", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: "Open locked dialog" }));
+      const dialog = await within(document.body).findByRole("dialog");
+      // The shared internal Backdrop renders no role; its cva class is the stable hook.
+      const backdrop = document.body.querySelector(".bg-backdrop");
+      if (!(backdrop instanceof HTMLElement)) throw new Error("missing dialog backdrop");
+      await userEvent.click(backdrop);
+      await expect(dialog).toHaveAttribute("data-open");
+    });
+    await step("the explicit close still dismisses", async () => {
+      const dialog = within(document.body).getByRole("dialog");
+      await userEvent.click(within(dialog).getByRole("button", { name: "Discard" }));
+      await waitFor(() =>
+        expect(within(document.body).queryByRole("dialog")).not.toBeInTheDocument(),
+      );
+    });
+  },
+};
+
 // Deterministic long-form content for the scrolling-body demo — enough entries to overflow the
 // popup's max height at any reasonable viewport.
 const RELEASE_NOTES = Array.from({ length: 12 }, (_, index) => ({

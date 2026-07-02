@@ -23,7 +23,7 @@ type Story = StoryObj<typeof meta>;
 /** A six-digit verification code. */
 export const Default: Story = {};
 
-/** All box sizes (sm/md/lg) side by side, filled with a realistic code. */
+/** All box sizes (md/lg/xl) side by side, filled with a realistic code. */
 export const Magnitudes: Story = {
   // Iterates `magnitude`, so disable just that control; the rest stay live and
   // update every field at once.
@@ -99,20 +99,17 @@ export const AlphanumericInteraction: Story = {
  */
 export const Normalized: Story = {
   args: { validationType: "alphanumeric", "aria-label": "Recovery code" },
-  render: (args) => {
-    function UppercasedRecoveryCode() {
-      const [error, setError] = React.useState<React.ReactNode>(null);
-      return (
-        <OTPField
-          {...args}
-          normalizeValue={(value) => value.toUpperCase()}
-          onValueChange={() => setError(null)}
-          onValueInvalid={() => setError("Only letters and numbers are allowed")}
-          error={error}
-        />
-      );
-    }
-    return <UppercasedRecoveryCode />;
+  render: function Render(args) {
+    const [error, setError] = React.useState<React.ReactNode>(null);
+    return (
+      <OTPField
+        {...args}
+        normalizeValue={(value) => value.toUpperCase()}
+        onValueChange={() => setError(null)}
+        onValueInvalid={() => setError("Only letters and numbers are allowed")}
+        error={error}
+      />
+    );
   },
 };
 
@@ -143,21 +140,18 @@ export const NormalizedInteraction: Story = {
  */
 export const FormIntegration: Story = {
   args: { autoSubmit: true, name: "code" },
-  render: (args) => {
-    function SignInCodeForm() {
-      const [submitted, setSubmitted] = React.useState(false);
-      return (
-        <div className="flex flex-col items-start gap-3">
-          <Form onFormSubmit={() => setSubmitted(true)}>
-            <OTPField {...args} />
-          </Form>
-          <output className="text-13 text-secondary">
-            {submitted ? "Code submitted — signing you in…" : null}
-          </output>
-        </div>
-      );
-    }
-    return <SignInCodeForm />;
+  render: function Render(args) {
+    const [submitted, setSubmitted] = React.useState(false);
+    return (
+      <div className="flex flex-col items-start gap-3">
+        <Form onFormSubmit={() => setSubmitted(true)}>
+          <OTPField {...args} />
+        </Form>
+        <output className="text-13 text-secondary">
+          {submitted ? "Code submitted — signing you in…" : null}
+        </output>
+      </div>
+    );
   },
 };
 
@@ -188,4 +182,22 @@ export const Masked: Story = {
 /** An invalid field shows danger borders on all boxes. */
 export const Invalid: Story = {
   args: { error: "Code is invalid", defaultValue: "12" },
+};
+
+/**
+ * Interaction test: `error` renders the message and flips every slot to the invalid state —
+ * `Field.Root invalid` propagates `data-invalid` to each of the six textboxes. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const InvalidInteraction: Story = {
+  ...Invalid,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    const inputs = canvas.getAllByRole("textbox");
+    await expect(inputs).toHaveLength(6);
+    for (const input of inputs) {
+      await expect(input).toHaveAttribute("data-invalid");
+    }
+    await expect(canvas.getByText("Code is invalid")).toBeInTheDocument();
+  },
 };

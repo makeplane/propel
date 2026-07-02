@@ -1,19 +1,27 @@
-import { Field as BaseField } from "@base-ui/react/field";
-import { Fieldset as BaseFieldset } from "@base-ui/react/fieldset";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect } from "storybook/test";
 
 import { Field, FieldLabel } from "../field/index";
-import { Input } from "../input/index";
-import { Fieldset, FieldsetBody, FieldsetDescription, FieldsetLegend } from "./index";
+import { Input, InputGroup } from "../input/index";
+import {
+  Fieldset,
+  FieldsetBody,
+  FieldsetDescription,
+  FieldsetLegend,
+  type FieldsetLegendProps,
+} from "./index";
 
-// elements-tier story (rule 2b): the styled parts are Base-UI-agnostic `useRender` elements; Base UI's
-// Fieldset behavior parts graft them via `render`. The Root and Legend behavior come straight from
-// `@base-ui/react/fieldset`, wired with raw `Field` primitives for the contained controls.
+// elements-tier story (rule 2b): a pure UI-configuration showcase. The styled parts render
+// DIRECTLY — no Base UI grafts — with the wiring Base UI's fieldset would add pinned statically
+// (`aria-labelledby` on the `<fieldset>` pointing at the legend's `id`; `htmlFor`/`id` pairs on
+// the filler fields). The fieldset cvas key off no `data-*`/aria state, so the configuration
+// space is exactly the two variant axes: `bordered` on the root and `magnitude` on the legend.
+// Grafting and aria behavior are demonstrated and tested in the components-tier story
+// (Components/Fieldset).
 const meta = {
   title: "Elements/Fieldset",
-  component: FieldsetBody,
-  subcomponents: { Fieldset, FieldsetLegend, FieldsetDescription },
+  component: Fieldset,
+  args: { bordered: false },
+  subcomponents: { FieldsetLegend, FieldsetDescription, FieldsetBody },
   decorators: [
     (Story) => (
       <div className="w-80">
@@ -21,67 +29,90 @@ const meta = {
       </div>
     ),
   ],
-} satisfies Meta<typeof FieldsetBody>;
+} satisfies Meta<typeof Fieldset>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-function TextField({ name, label }: { name: string; label: string }) {
-  return (
-    <BaseField.Root name={name} render={<Field />}>
-      <BaseField.Label render={<FieldLabel magnitude="md" inset={false} />}>
-        {label}
-      </BaseField.Label>
-      <BaseField.Control placeholder={label} render={<Input magnitude="md" />} />
-    </BaseField.Root>
-  );
-}
+const LEGEND_MAGNITUDES: FieldsetLegendProps["magnitude"][] = ["md", "lg", "xl"];
 
-/** Fieldset groups related fields under one accessible legend. */
+/**
+ * The full anatomy assembled statically: `Fieldset` › `FieldsetLegend`, then `FieldsetBody`
+ * stacking the grouped fields with the spec's consistent gap. `aria-labelledby` pins the group name
+ * Base UI's `Fieldset.Root` would wire to the legend.
+ */
 export const Default: Story = {
-  render: () => (
-    <BaseFieldset.Root render={<Fieldset bordered={false} />}>
-      <BaseFieldset.Legend render={<FieldsetLegend magnitude="md" />}>
+  render: (args) => (
+    <Fieldset {...args} aria-labelledby="fieldset-default-legend">
+      <FieldsetLegend id="fieldset-default-legend" magnitude="md">
         Billing details
-      </BaseFieldset.Legend>
+      </FieldsetLegend>
       <FieldsetBody>
-        <TextField name="company" label="Company" />
-        <TextField name="taxId" label="Tax ID" />
+        <Field>
+          <FieldLabel magnitude="md" inset={false} htmlFor="fieldset-default-company">
+            Company
+          </FieldLabel>
+          <InputGroup magnitude="md">
+            <Input magnitude="md" id="fieldset-default-company" placeholder="Acme Inc." />
+          </InputGroup>
+        </Field>
+        <Field>
+          <FieldLabel magnitude="md" inset={false} htmlFor="fieldset-default-tax-id">
+            Tax ID
+          </FieldLabel>
+          <InputGroup magnitude="md">
+            <Input magnitude="md" id="fieldset-default-tax-id" placeholder="US-123" />
+          </InputGroup>
+        </Field>
       </FieldsetBody>
-    </BaseFieldset.Root>
+    </Fieldset>
   ),
 };
 
-/** A bordered fieldset draws a visible boundary around the grouped controls. */
+/**
+ * `bordered` draws the subtle rounded boundary around the group, and `FieldsetDescription` slots
+ * between the legend and the body.
+ */
 export const Bordered: Story = {
-  render: () => (
-    <BaseFieldset.Root render={<Fieldset bordered={true} />}>
-      <BaseFieldset.Legend render={<FieldsetLegend magnitude="md" />}>
+  args: { bordered: true },
+  render: (args) => (
+    <Fieldset {...args} aria-labelledby="fieldset-bordered-legend">
+      <FieldsetLegend id="fieldset-bordered-legend" magnitude="md">
         Billing details
-      </BaseFieldset.Legend>
+      </FieldsetLegend>
       <FieldsetDescription>Enter your billing information below.</FieldsetDescription>
       <FieldsetBody>
-        <TextField name="company" label="Company" />
-        <TextField name="taxId" label="Tax ID" />
+        <Field>
+          <FieldLabel magnitude="md" inset={false} htmlFor="fieldset-bordered-company">
+            Company
+          </FieldLabel>
+          <InputGroup magnitude="md">
+            <Input magnitude="md" id="fieldset-bordered-company" placeholder="Acme Inc." />
+          </InputGroup>
+        </Field>
+        <Field>
+          <FieldLabel magnitude="md" inset={false} htmlFor="fieldset-bordered-tax-id">
+            Tax ID
+          </FieldLabel>
+          <InputGroup magnitude="md">
+            <Input magnitude="md" id="fieldset-bordered-tax-id" placeholder="US-123" />
+          </InputGroup>
+        </Field>
       </FieldsetBody>
-    </BaseFieldset.Root>
+    </Fieldset>
   ),
 };
 
-export const GroupSemantics: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
+/** Every `FieldsetLegend` magnitude side by side. */
+export const LegendMagnitudes: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
-    <BaseFieldset.Root render={<Fieldset bordered={false} />}>
-      <BaseFieldset.Legend render={<FieldsetLegend magnitude="md" />}>
-        Shipping address
-      </BaseFieldset.Legend>
-      <FieldsetBody>
-        <TextField name="city" label="City" />
-      </FieldsetBody>
-    </BaseFieldset.Root>
+    <div className="flex flex-col gap-3">
+      {LEGEND_MAGNITUDES.map((magnitude) => (
+        <FieldsetLegend key={magnitude} magnitude={magnitude}>
+          Billing details ({magnitude})
+        </FieldsetLegend>
+      ))}
+    </div>
   ),
-  play: async ({ canvas }) => {
-    await expect(canvas.getByRole("group", { name: "Shipping address" })).toBeInTheDocument();
-    await expect(canvas.getByRole("textbox", { name: "City" })).toHaveAttribute("name", "city");
-  },
 };
