@@ -2,7 +2,16 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent } from "storybook/test";
 
 import { Input } from "../input/index";
-import { Field, FieldDescription, FieldError, FieldItem, FieldLabel } from "./index";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldItem,
+  FieldLabel,
+  type FieldMagnitude,
+} from "./index";
+
+const MAGNITUDES: FieldMagnitude[] = ["md", "lg", "xl"];
 
 // Components-tier story: the GENERIC field shell — `Field` (Base UI labeling/validation) wrapping a
 // control. The ready-made per-control fields each live in their own folder (Components/InputField,
@@ -26,6 +35,29 @@ export const Default: Story = {
       <Input magnitude="md" required placeholder="Ada Lovelace" />
       <FieldDescription magnitude="md">Shown anywhere your profile is visible.</FieldDescription>
     </Field>
+  ),
+};
+
+/**
+ * Every field text magnitude side by side: the label, control, and description scale together
+ * (md/lg/xl). Pass the same `magnitude` to each part of a field.
+ */
+export const Magnitudes: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex items-start gap-8">
+      {MAGNITUDES.map((magnitude) => (
+        <Field key={magnitude} name={`displayName-${magnitude}`}>
+          <FieldLabel magnitude={magnitude} required inset={false}>
+            Display name ({magnitude})
+          </FieldLabel>
+          <Input magnitude={magnitude} required placeholder="Ada Lovelace" />
+          <FieldDescription magnitude={magnitude}>
+            Shown anywhere your profile is visible.
+          </FieldDescription>
+        </Field>
+      ))}
+    </div>
   ),
 };
 

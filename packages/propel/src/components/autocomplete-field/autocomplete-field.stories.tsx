@@ -3,7 +3,9 @@ import { ChevronsUpDown, X } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { IconButton } from "../icon-button";
-import { AutocompleteField } from "./index";
+import { AutocompleteField, type FieldMagnitude } from "./index";
+
+const MAGNITUDES: FieldMagnitude[] = ["md", "lg", "xl"];
 
 const IMAGES = ["nginx:1.29-alpine", "node:22-slim", "postgres:18", "redis:8.2.2-alpine"];
 
@@ -54,6 +56,23 @@ export const RendersInput: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("combobox", { name: "Container image" })).toBeInTheDocument();
   },
+};
+
+/**
+ * Every magnitude (`md` / `lg` / `xl`) stacked. Magnitude steps the label, description, and
+ * helper-text size; the input group keeps its own fixed scale.
+ */
+export const Magnitudes: Story = {
+  // Iterates `magnitude` and labels each field with the magnitude name, so disable
+  // just those two controls; the rest stay live and update every field at once.
+  argTypes: { magnitude: { control: false }, label: { control: false } },
+  render: (args) => (
+    <div className="flex w-72 flex-col gap-4">
+      {MAGNITUDES.map((magnitude) => (
+        <AutocompleteField key={magnitude} {...args} magnitude={magnitude} label={magnitude} />
+      ))}
+    </div>
+  ),
 };
 
 /** Setting `error` marks the field invalid, which recolors the input group border to danger. */

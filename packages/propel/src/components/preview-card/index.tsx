@@ -3,9 +3,10 @@ export * from "./preview-card-arrow";
 export * from "./preview-card-content";
 export * from "./preview-card-description";
 export * from "./preview-card-title";
+export * from "./preview-card-trigger";
 // Re-export propel's STYLED preview-card parts so a full card can be assembled from one entry. The
-// behavior/structural parts (`Trigger`, `Portal`, `Viewport`) are Base UI's — no propel styling —
-// so compose them from `@base-ui/react/preview-card` directly at the call site.
+// remaining behavior/structural parts (`Portal`, `Backdrop`, `Positioner`) are composed inside
+// `PreviewCardContent`, so consumers never wire Base UI directly.
 export {
   PreviewCardBody,
   type PreviewCardBodyProps,

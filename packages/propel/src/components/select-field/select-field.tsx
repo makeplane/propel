@@ -18,6 +18,8 @@ import { Field, FieldDescription } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 import { Select, type SelectProps } from "../select";
 
+export type { FieldMagnitude } from "../../elements/field/variants";
+
 // The field magnitude axis (md/lg/xl) drives label and helper-text size; the select
 // trigger/item axis is sm/md/lg, so xl maps onto the largest trigger (lg).
 const SELECT_MAGNITUDE: Record<FieldMagnitude, SelectTriggerMagnitude> = {

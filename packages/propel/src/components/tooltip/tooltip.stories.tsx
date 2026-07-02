@@ -1,8 +1,8 @@
-import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useLayoutEffect } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { DirectionProvider } from "../direction-provider";
 import { Tooltip, TooltipProvider } from "./index";
 
 const sidesGridStyle = {

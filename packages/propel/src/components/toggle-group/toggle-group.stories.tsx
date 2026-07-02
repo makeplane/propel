@@ -2,8 +2,10 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Bold, Italic, List, ListOrdered, Underline } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
-import { Toggle, ToggleIcon } from "../toggle/index";
+import { Toggle, ToggleIcon, type ToggleMagnitude } from "../toggle/index";
 import { ToggleGroup } from "./index";
+
+const MAGNITUDES: ToggleMagnitude[] = ["sm", "md", "lg"];
 
 // Components-tier story: the ready-made `ToggleGroup` (a 1:1 re-export of the elements
 // primitive) holding ready-made `Toggle` items. The group sizes each toggle via
@@ -65,6 +67,46 @@ export const DefaultInteraction: Story = {
     await expect(bulleted).toHaveAttribute("aria-pressed", "false");
     await expect(args.onValueChange).toHaveBeenCalled();
   },
+};
+
+/**
+ * Every size side by side — the group's `magnitude` sizes each `Toggle` inside via context, and
+ * each magnitude also scales the `ToggleIcon` glyph via `--node-size`.
+ */
+export const Magnitudes: Story = {
+  // Iterates `magnitude` and gives each group its own accessible name, so disable just
+  // that control; the rest stay live and update every group at once.
+  argTypes: { magnitude: { control: false } },
+  render: (args) => (
+    <div className="flex items-center gap-6">
+      {MAGNITUDES.map((magnitude) => (
+        <ToggleGroup
+          key={magnitude}
+          {...args}
+          magnitude={magnitude}
+          multiple
+          defaultValue={["bold"]}
+          aria-label={`Text formatting (${magnitude})`}
+        >
+          <Toggle value="bold" aria-label={`Bold (${magnitude})`}>
+            <ToggleIcon>
+              <Bold />
+            </ToggleIcon>
+          </Toggle>
+          <Toggle value="italic" aria-label={`Italic (${magnitude})`}>
+            <ToggleIcon>
+              <Italic />
+            </ToggleIcon>
+          </Toggle>
+          <Toggle value="underline" aria-label={`Underline (${magnitude})`}>
+            <ToggleIcon>
+              <Underline />
+            </ToggleIcon>
+          </Toggle>
+        </ToggleGroup>
+      ))}
+    </div>
+  ),
 };
 
 /** `multiple` lets more than one toggle stay pressed at once. */

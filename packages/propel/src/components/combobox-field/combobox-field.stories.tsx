@@ -3,9 +3,10 @@ import { ChevronsUpDown, X } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { IconButton } from "../icon-button";
-import { ComboboxField } from "./index";
+import { ComboboxField, type ComboboxFieldProps } from "./index";
 
 const REGIONS = ["us-central-1", "us-east-1", "eu-central-1", "ap-west-1"];
+const MAGNITUDES: ComboboxFieldProps["magnitude"][] = ["md", "lg", "xl"];
 
 // A Combobox laid out as a field (Field + Combobox + label/helper). The clear/trigger controls are
 // consumer-provided nodes carrying their own (localizable) aria-labels.
@@ -44,6 +45,23 @@ export const RendersInput: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("combobox", { name: "Region" })).toBeInTheDocument();
   },
+};
+
+/**
+ * Every magnitude (`md` / `lg` / `xl`) stacked. Magnitude steps the label, description, and
+ * helper-text sizes; the input group itself stays fixed.
+ */
+export const Magnitudes: Story = {
+  // Iterates `magnitude` and labels each field with the magnitude name, so disable just those
+  // two controls; the rest stay live and update every field at once.
+  argTypes: { magnitude: { control: false }, label: { control: false } },
+  render: (args) => (
+    <div className="flex w-72 flex-col gap-4">
+      {MAGNITUDES.map((magnitude) => (
+        <ComboboxField key={magnitude} {...args} magnitude={magnitude} label={magnitude} />
+      ))}
+    </div>
+  ),
 };
 
 /** Setting `error` marks the field invalid, which recolors the input group border to danger. */

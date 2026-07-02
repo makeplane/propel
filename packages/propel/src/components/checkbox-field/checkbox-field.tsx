@@ -8,6 +8,8 @@ import {
 import { Field, FieldItem, FieldItemContent } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 
+export type { FieldMagnitude } from "../../elements/field/variants";
+
 export type CheckboxFieldProps = Omit<
   CheckboxFieldControlProps,
   "aria-label" | "label" | "icon"

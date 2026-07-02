@@ -1,18 +1,25 @@
-import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ClipboardPaste, Copy, Scissors, Trash2 } from "lucide-react";
+import { ClipboardPaste, Copy, PencilLine, Scissors, Trash2 } from "lucide-react";
 import { expect, fireEvent, waitFor } from "storybook/test";
 
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator } from "./index";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "./index";
 
 // Components-tier story: the ready-made `ContextMenu` root and `ContextMenuContent` surface graft
 // Base UI's portal/positioner/popup, and the rich `ContextMenuItem` lays out an icon + label + a
-// trailing shortcut. The Trigger and Separator are Base UI behavior parts grafted onto propel
-// styling via `render`. The elements-tier story composes the raw `ContextMenuItem` rows by hand.
+// trailing shortcut. `ContextMenuTrigger` is the behavior surface that opens the menu, and
+// `ContextMenuSeparator` is the ready-made divider. The elements-tier story composes the raw
+// `ContextMenuItem` rows by hand.
 const meta = {
   title: "Components/ContextMenu",
   component: ContextMenu,
   subcomponents: {
+    ContextMenuTrigger,
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuSeparator,
@@ -29,9 +36,9 @@ const triggerClass =
 export const Default: Story = {
   render: () => (
     <ContextMenu>
-      <BaseContextMenu.Trigger render={<div className={triggerClass} />}>
+      <ContextMenuTrigger render={<div className={triggerClass} />}>
         Right-click here
-      </BaseContextMenu.Trigger>
+      </ContextMenuTrigger>
       <ContextMenuContent>
         <ContextMenuItem tone="neutral" icon={<Scissors />} trailing="⌘X">
           Cut
@@ -42,7 +49,7 @@ export const Default: Story = {
         <ContextMenuItem tone="neutral" icon={<ClipboardPaste />} trailing="⌘V">
           Paste
         </ContextMenuItem>
-        <BaseContextMenu.Separator render={<ContextMenuSeparator />} />
+        <ContextMenuSeparator />
         <ContextMenuItem tone="danger" icon={<Trash2 />}>
           Delete
         </ContextMenuItem>
@@ -58,6 +65,48 @@ export const DefaultInteraction: Story = {
     await fireEvent.contextMenu(canvas.getByText("Right-click here"));
     await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
     await expect(document.body).toHaveTextContent("Copy");
+    await expect(document.body).toHaveTextContent("Delete");
+  },
+};
+
+/**
+ * Tone selects the row palette: `neutral` rows use the standard text hierarchy and `danger` rows
+ * use the error palette — both inside one menu, with the destructive action set off by a separator
+ * the way a real product menu groups it. Right-click the area to open it.
+ */
+export const Tones: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <ContextMenu>
+      <ContextMenuTrigger render={<div className={triggerClass} />}>
+        Right-click here
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem tone="neutral" icon={<PencilLine />}>
+          Rename
+        </ContextMenuItem>
+        <ContextMenuItem tone="neutral" icon={<Copy />}>
+          Duplicate
+        </ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem tone="danger" icon={<Trash2 />}>
+          Delete
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  ),
+};
+
+// The menu surface is portaled and only mounts on open, so without this twin the Tones menu (and
+// its danger-tone row) would never render under the test/a11y gate.
+export const TonesInteraction: Story = {
+  ...Tones,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    await fireEvent.contextMenu(canvas.getByText("Right-click here"));
+    await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
+    await expect(document.body).toHaveTextContent("Rename");
+    await expect(document.body).toHaveTextContent("Duplicate");
     await expect(document.body).toHaveTextContent("Delete");
   },
 };

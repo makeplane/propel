@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { OTPField } from "./index";
+import { OTPField, type OTPFieldInputMagnitude } from "./index";
+
+const MAGNITUDES: OTPFieldInputMagnitude[] = ["sm", "md", "lg"];
 
 // Components-tier story: the ready-made `OTPField` — pass `length`, `magnitude`, and
 // `tone`; it renders that many slots, owning focus movement, paste, and completion.
@@ -18,6 +20,21 @@ type Story = StoryObj<typeof meta>;
 
 /** A six-digit verification code. */
 export const Default: Story = {};
+
+/** All box sizes (sm/md/lg) side by side, filled with a realistic code. */
+export const Magnitudes: Story = {
+  // Iterates `magnitude`, so disable just that control; the rest stay live and
+  // update every field at once.
+  argTypes: { magnitude: { control: false } },
+  args: { defaultValue: "123456" },
+  render: (args) => (
+    <div className="flex flex-col items-start gap-4">
+      {MAGNITUDES.map((magnitude) => (
+        <OTPField key={magnitude} {...args} magnitude={magnitude} />
+      ))}
+    </div>
+  ),
+};
 
 const Interaction: Story = {
   ...Default,

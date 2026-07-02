@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
 import { Avatar } from "../avatar/index";
-import { AvatarGroup } from "./index";
+import { AvatarGroup, type AvatarGroupMagnitude } from "./index";
+
+const MAGNITUDES: AvatarGroupMagnitude[] = ["2xs", "xs", "sm"];
 
 const meta = {
   title: "Components/AvatarGroup",
@@ -57,6 +59,26 @@ export const ThreeMembersInteraction: Story = {
     // none set it themselves.
     await expect(avatars[0]).toHaveStyle({ width: "24px" });
   },
+};
+
+/**
+ * All group sizes side by side (Figma Small/Base/Large map to 2xs/xs/sm — 16/20/24px). The group's
+ * `magnitude` sizes every member at once.
+ */
+export const Magnitudes: Story = {
+  // Iterates `magnitude`, the group's only arg, so disable its control.
+  argTypes: { magnitude: { control: false } },
+  render: (args) => (
+    <div className="flex items-center gap-4">
+      {MAGNITUDES.map((magnitude) => (
+        <AvatarGroup key={magnitude} {...args} magnitude={magnitude}>
+          <Avatar alt="Ada" fallback="AL" src="https://i.pravatar.cc/64?img=47" />
+          <Avatar alt="Grace" fallback="GH" src="https://i.pravatar.cc/64?img=32" />
+          <Avatar alt="Linus" fallback="LT" />
+        </AvatarGroup>
+      ))}
+    </div>
+  ),
 };
 
 /**

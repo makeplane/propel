@@ -14,6 +14,8 @@ import { Autocomplete, type AutocompleteProps } from "../autocomplete";
 import { Field, FieldDescription, FieldLabel } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 
+export type { FieldMagnitude };
+
 export type AutocompleteFieldProps = Omit<AutocompleteProps<string>, "children" | "items"> & {
   /** Supporting text shown below the input. */
   description?: React.ReactNode;
