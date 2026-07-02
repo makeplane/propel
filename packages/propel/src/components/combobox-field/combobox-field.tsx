@@ -63,7 +63,7 @@ export function ComboboxField({
         <FieldLabel magnitude={magnitude} inset={false}>
           {label}
         </FieldLabel>
-        <BaseCombobox.InputGroup render={<ComboboxInputGroup />}>
+        <BaseCombobox.InputGroup render={<ComboboxInputGroup magnitude={magnitude} />}>
           <BaseCombobox.Input render={<ComboboxInput />} placeholder={placeholder} />
           <BaseCombobox.Clear render={clear} />
           <BaseCombobox.Trigger render={trigger} />

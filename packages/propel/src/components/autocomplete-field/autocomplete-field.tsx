@@ -61,9 +61,9 @@ export function AutocompleteField({
         <FieldLabel magnitude={magnitude} inset={false}>
           {label}
         </FieldLabel>
-        <BaseAutocomplete.InputGroup render={<AutocompleteInputGroup magnitude="lg" />}>
+        <BaseAutocomplete.InputGroup render={<AutocompleteInputGroup magnitude={magnitude} />}>
           <BaseAutocomplete.Input
-            render={<AutocompleteInput magnitude="lg" />}
+            render={<AutocompleteInput magnitude={magnitude} />}
             placeholder={placeholder}
           />
           <BaseAutocomplete.Clear render={clear} />

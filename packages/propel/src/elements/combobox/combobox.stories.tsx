@@ -65,7 +65,7 @@ export const Default: Story = {
         <BaseField.Label render={<FieldLabel magnitude="md" inset={false} />}>
           Region
         </BaseField.Label>
-        <BaseCombobox.InputGroup render={<ComboboxInputGroup />}>
+        <BaseCombobox.InputGroup render={<ComboboxInputGroup magnitude="md" />}>
           <BaseCombobox.Input render={<ComboboxInput />} placeholder="e.g. eu-central-1" />
           <BaseCombobox.Clear render={clearButton} />
           <BaseCombobox.Trigger render={triggerButton} />
@@ -118,7 +118,7 @@ export const Invalid: Story = {
         <BaseField.Label render={<FieldLabel magnitude="md" inset={false} />}>
           Region
         </BaseField.Label>
-        <BaseCombobox.InputGroup render={<ComboboxInputGroup />}>
+        <BaseCombobox.InputGroup render={<ComboboxInputGroup magnitude="md" />}>
           <BaseCombobox.Input render={<ComboboxInput />} placeholder="e.g. eu-central-1" />
           <BaseCombobox.Clear render={clearButton} />
           <BaseCombobox.Trigger render={triggerButton} />
@@ -151,7 +151,7 @@ export const Multiple: Story = {
         <BaseField.Label render={<FieldLabel magnitude="md" inset={false} />}>
           Regions
         </BaseField.Label>
-        <BaseCombobox.Chips render={<ComboboxChips />}>
+        <BaseCombobox.Chips render={<ComboboxChips magnitude="md" />}>
           <BaseCombobox.Value>
             {(regions: string[]) => (
               <>

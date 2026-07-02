@@ -3,6 +3,7 @@ import type * as React from "react";
 
 import {
   ComboboxIcon,
+  type ComboboxMagnitude,
   ComboboxInput as ComboboxInputElement,
   ComboboxInputGroup as ComboboxInputGroupElement,
 } from "../../elements/combobox";
@@ -11,6 +12,8 @@ export type ComboboxInputGroupProps = Omit<
   BaseCombobox.Input.Props,
   "className" | "style" | "render"
 > & {
+  /** Visual size of the input row: height, text, and glyph sizing. Required. */
+  magnitude: ComboboxMagnitude;
   /** Input placeholder. */
   placeholder?: string;
   /**
@@ -36,9 +39,15 @@ export type ComboboxInputGroupProps = Omit<
  * slot and the consumer-provided `clear`/`trigger` controls. All remaining props pass through to
  * the input (the element that carries the combobox behavior and accessible name).
  */
-export function ComboboxInputGroup({ icon, clear, trigger, ...props }: ComboboxInputGroupProps) {
+export function ComboboxInputGroup({
+  magnitude,
+  icon,
+  clear,
+  trigger,
+  ...props
+}: ComboboxInputGroupProps) {
   return (
-    <BaseCombobox.InputGroup render={<ComboboxInputGroupElement />}>
+    <BaseCombobox.InputGroup render={<ComboboxInputGroupElement magnitude={magnitude} />}>
       {icon != null ? <ComboboxIcon>{icon}</ComboboxIcon> : null}
       <BaseCombobox.Input {...props} render={<ComboboxInputElement />} />
       {clear != null ? <BaseCombobox.Clear render={clear} /> : null}

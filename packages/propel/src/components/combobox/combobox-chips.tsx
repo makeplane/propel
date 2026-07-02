@@ -2,6 +2,7 @@ import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { X } from "lucide-react";
 
 import {
+  type ComboboxMagnitude,
   ComboboxChip as ComboboxChipElement,
   ComboboxChipRemove as ComboboxChipRemoveElement,
   ComboboxChips as ComboboxChipsElement,
@@ -9,6 +10,8 @@ import {
 } from "../../elements/combobox";
 
 export type ComboboxChipsProps = {
+  /** Visual size of the chips frame: height, text, and glyph sizing. Required. */
+  magnitude: ComboboxMagnitude;
   /** Input placeholder shown while typing to add another value. */
   placeholder?: string;
   /**
@@ -28,12 +31,13 @@ export type ComboboxChipsProps = {
  * removes.
  */
 export function ComboboxChips({
+  magnitude,
   placeholder,
   removeLabel,
   itemLabel = (value) => value,
 }: ComboboxChipsProps) {
   return (
-    <BaseCombobox.Chips render={<ComboboxChipsElement />}>
+    <BaseCombobox.Chips render={<ComboboxChipsElement magnitude={magnitude} />}>
       <BaseCombobox.Value>
         {(values: string[]) => (
           <>

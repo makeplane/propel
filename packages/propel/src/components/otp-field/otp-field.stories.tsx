@@ -3,7 +3,7 @@ import { expect } from "storybook/test";
 
 import { OTPField, type OTPFieldInputMagnitude } from "./index";
 
-const MAGNITUDES: OTPFieldInputMagnitude[] = ["sm", "md", "lg"];
+const MAGNITUDES: OTPFieldInputMagnitude[] = ["md", "lg", "xl"];
 
 // Components-tier story: the ready-made `OTPField` — pass `length`, `magnitude`, and
 // `tone`; it renders that many slots, owning focus movement, paste, and completion.
