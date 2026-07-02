@@ -6,6 +6,12 @@ export * from "./combobox-item-indicator";
 // behavior/structural parts (`Clear`, `Trigger`, `Portal`, `List`, `Positioner`) are Base UI's — no
 // propel styling — so compose them from `@base-ui/react/combobox` directly at the call site.
 export {
+  ComboboxChip,
+  type ComboboxChipProps,
+  ComboboxChipRemove,
+  type ComboboxChipRemoveProps,
+  ComboboxChips,
+  type ComboboxChipsProps,
   ComboboxEmpty,
   type ComboboxEmptyProps,
   ComboboxInput,

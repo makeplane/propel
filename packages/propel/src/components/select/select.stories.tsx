@@ -90,3 +90,68 @@ export const DefaultInteraction: Story = {
     ).toBeInTheDocument();
   },
 };
+
+/**
+ * `multiple` keeps the popup open across picks and checks every selected row; the trigger joins the
+ * selected labels. Selection state lives on the root — the anatomy is unchanged.
+ */
+export const Multiple: Story = {
+  render: () => (
+    <Field name="regions">
+      <Select multiple items={SERVER_TYPES} defaultValue={["general", "compute"]}>
+        <SelectField>
+          <BaseSelect.Label render={<SelectLabel />}>Server types</BaseSelect.Label>
+          <BaseSelect.Trigger render={<SelectTrigger magnitude="md" />}>
+            <BaseSelect.Value render={<SelectValue />} />
+            <SelectIcon>
+              <ChevronsUpDown />
+            </SelectIcon>
+          </BaseSelect.Trigger>
+        </SelectField>
+        <SelectContent>
+          <BaseSelect.List>
+            {SERVER_TYPES.map(({ label, value }) => (
+              <BaseSelect.Item
+                key={value}
+                value={value}
+                render={<ListboxItem layout="indicator" magnitude="md" />}
+              >
+                <BaseSelect.ItemIndicator keepMounted render={<SelectItemIndicator />}>
+                  <Check />
+                </BaseSelect.ItemIndicator>
+                <BaseSelect.ItemText>{label}</BaseSelect.ItemText>
+              </BaseSelect.Item>
+            ))}
+          </BaseSelect.List>
+        </SelectContent>
+      </Select>
+    </Field>
+  ),
+};
+
+/**
+ * Interaction test: the trigger joins both preselected labels, and picking a third keeps the first
+ * two selected. Tagged out of the sidebar/docs/manifest while still running under the default
+ * `test` tag.
+ */
+export const MultipleInteraction: Story = {
+  ...Multiple,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const trigger = canvas.getByRole("combobox", { name: "Server types" });
+    await expect(trigger).toHaveTextContent("General purpose, Compute optimized");
+
+    await userEvent.click(trigger);
+    const popup = within(document.body);
+    await userEvent.click(await popup.findByRole("option", { name: "Memory optimized" }));
+    await expect(popup.getByRole("option", { name: "General purpose" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await expect(popup.getByRole("option", { name: "Memory optimized" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await expect(trigger).toHaveTextContent("General purpose, Compute optimized, Memory optimized");
+  },
+};

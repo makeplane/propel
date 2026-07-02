@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { List, ListOrdered } from "lucide-react";
+import { Bold, Italic, List, ListOrdered, Underline } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { Toggle, ToggleIcon } from "../toggle/index";
@@ -64,5 +64,46 @@ export const DefaultInteraction: Story = {
     await expect(numbered).toHaveAttribute("aria-pressed", "true");
     await expect(bulleted).toHaveAttribute("aria-pressed", "false");
     await expect(args.onValueChange).toHaveBeenCalled();
+  },
+};
+
+/** `multiple` lets more than one toggle stay pressed at once. */
+export const Multiple: Story = {
+  args: { magnitude: "md", multiple: true, defaultValue: ["bold", "italic"] },
+  render: (args) => (
+    <ToggleGroup {...args} aria-label="Text formatting">
+      <Toggle value="bold" aria-label="Bold">
+        <ToggleIcon>
+          <Bold />
+        </ToggleIcon>
+      </Toggle>
+      <Toggle value="italic" aria-label="Italic">
+        <ToggleIcon>
+          <Italic />
+        </ToggleIcon>
+      </Toggle>
+      <Toggle value="underline" aria-label="Underline">
+        <ToggleIcon>
+          <Underline />
+        </ToggleIcon>
+      </Toggle>
+    </ToggleGroup>
+  ),
+};
+
+/**
+ * Interaction test: in a `multiple` group, pressing another toggle keeps the current ones pressed.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const MultipleInteraction: Story = {
+  ...Multiple,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const bold = canvas.getByRole("button", { name: "Bold" });
+    const underline = canvas.getByRole("button", { name: "Underline" });
+    await expect(bold).toHaveAttribute("aria-pressed", "true");
+    await userEvent.click(underline);
+    await expect(underline).toHaveAttribute("aria-pressed", "true");
+    await expect(bold).toHaveAttribute("aria-pressed", "true");
   },
 };

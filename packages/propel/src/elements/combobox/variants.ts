@@ -18,3 +18,32 @@ export const comboboxItemIndicatorVariants = cva(
   cx("flex size-4 items-center justify-center not-data-selected:invisible [&>svg]:size-4"),
 );
 export const comboboxEmptyVariants = cva("px-2 py-1.5 text-13 text-tertiary");
+
+// The multiselect variant of the input frame: chips wrap onto new rows ahead of the inline input.
+// Tighter padding than `ComboboxInputGroup` so the h-6 chips sit inset like text would.
+export const comboboxChipsVariants = cva(
+  cx(
+    // Wraps a separate focusable input → `focus: within`.
+    fieldControlSurfaceVariants({ focus: "within" }),
+    "flex min-h-9 min-w-64 flex-wrap items-center gap-1 rounded-md px-1.5 py-1",
+    "data-disabled:cursor-not-allowed data-disabled:text-disabled",
+  ),
+);
+// One selected value, rendered as a removable tag (the neutral badge chrome). Arrow keys move
+// focus onto a chip, so it carries the standard focus ring.
+export const comboboxChipVariants = cva(
+  cx(
+    "flex h-6 shrink-0 cursor-default items-center gap-1 rounded-sm bg-layer-3 ps-1.5 pe-0.5 text-13 text-secondary",
+    "outline-none focus-visible:ring-2 focus-visible:ring-accent-strong",
+    "data-disabled:cursor-not-allowed data-disabled:text-disabled",
+  ),
+);
+// The chip's remove affordance; pass an X-style svg.
+export const comboboxChipRemoveVariants = cva(
+  cx(
+    "flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-sm text-icon-secondary",
+    "outline-none hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong",
+    "disabled:cursor-not-allowed disabled:text-icon-disabled",
+    "[&>svg]:size-3",
+  ),
+);

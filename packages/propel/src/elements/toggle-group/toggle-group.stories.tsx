@@ -1,7 +1,7 @@
 import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { ToggleGroup as BaseToggleGroup } from "@base-ui/react/toggle-group";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
+import { AlignCenter, AlignLeft, AlignRight, Bold, Italic } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { Toggle, ToggleIcon } from "../toggle/index";
@@ -79,32 +79,40 @@ export const DefaultInteraction: Story = {
 
 /** `multiple` lets more than one toggle stay pressed. */
 export const Multiple: Story = {
-  tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <BaseToggleGroup
       multiple
-      defaultValue={[]}
+      defaultValue={["bold"]}
       render={<ToggleGroup />}
       aria-label="Text formatting"
     >
       <BaseToggle value="bold" aria-label="Bold" render={<Toggle magnitude="md" />}>
         <ToggleIcon>
-          <AlignLeft />
+          <Bold />
         </ToggleIcon>
       </BaseToggle>
       <BaseToggle value="italic" aria-label="Italic" render={<Toggle magnitude="md" />}>
         <ToggleIcon>
-          <AlignCenter />
+          <Italic />
         </ToggleIcon>
       </BaseToggle>
     </BaseToggleGroup>
   ),
+};
+
+/**
+ * Interaction test: in a `multiple` group, pressing a second toggle keeps the first pressed. Tagged
+ * out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const MultipleInteraction: Story = {
+  ...Multiple,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     const bold = canvas.getByRole("button", { name: "Bold" });
     const italic = canvas.getByRole("button", { name: "Italic" });
-    await userEvent.click(bold);
-    await userEvent.click(italic);
     await expect(bold).toHaveAttribute("aria-pressed", "true");
+    await userEvent.click(italic);
     await expect(italic).toHaveAttribute("aria-pressed", "true");
+    await expect(bold).toHaveAttribute("aria-pressed", "true");
   },
 };
