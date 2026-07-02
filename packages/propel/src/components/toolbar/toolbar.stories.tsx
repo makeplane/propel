@@ -27,6 +27,7 @@ import { expect } from "storybook/test";
 import { Menu, MenuContent, MenuItem, MenuSeparator } from "../menu";
 import {
   Toolbar,
+  ToolbarInput,
   ToolbarButton,
   ToolbarMenuTrigger,
   ToolbarGroup,
@@ -130,6 +131,7 @@ const meta = {
   // Toolbar is a compound component: document its parts alongside it so the args
   // table gets a tab per part and the manifest records the relationship.
   subcomponents: {
+    ToolbarInput,
     ToolbarGroup,
     ToolbarButton,
     ToolbarToggle,
@@ -332,5 +334,40 @@ export const KeyboardRovingFocus: Story = {
     await expect(italic).toHaveAttribute("aria-pressed", "true");
     await userEvent.keyboard(" ");
     await expect(italic).toHaveAttribute("aria-pressed", "false");
+  },
+};
+
+/**
+ * An inline filter input in the roving tab order — a miniature field whose height tracks the
+ * toolbar's density. Invented pending a Figma spec (flagged for design polish).
+ */
+export const WithFilter: Story = {
+  render: (args) => (
+    <Toolbar {...args} aria-label="Issue actions">
+      <ToolbarInput aria-label="Filter issues" placeholder="Filter…" />
+      <ToolbarSeparator />
+      <ToolbarGroup aria-label="Text formatting">
+        <ToolbarToggle aria-label="Bold">
+          <Bold />
+        </ToolbarToggle>
+        <ToolbarToggle aria-label="Italic">
+          <Italic />
+        </ToolbarToggle>
+      </ToolbarGroup>
+    </Toolbar>
+  ),
+};
+
+/**
+ * Interaction test: the input participates in the toolbar and takes text. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const WithFilterInteraction: Story = {
+  ...WithFilter,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const input = canvas.getByRole("textbox", { name: "Filter issues" });
+    await userEvent.type(input, "bug");
+    await expect(input).toHaveValue("bug");
   },
 };

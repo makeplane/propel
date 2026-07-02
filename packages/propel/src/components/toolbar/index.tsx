@@ -7,6 +7,7 @@ export * from "./toolbar-group";
 export * from "./toolbar-separator";
 export * from "./toolbar-toggle-group";
 export * from "./toolbar-link";
+export * from "./toolbar-input";
 // Re-export propel's STYLING-ONLY toolbar parts (no Base UI behavior of their own) so a full
 // toolbar can be assembled from one entry.
 export {
