@@ -7,11 +7,11 @@ import {
   MenuCheckboxItemIndicator,
   MenuItemContent,
   MenuItemControl,
-  MenuItemIcon,
   MenuItemMeta,
   MenuItemTitle,
   MenuItemTitleRow,
 } from "../../elements/menu";
+import { Icon } from "../../internal/icon";
 
 export type MenuCheckboxItemProps = Omit<
   BaseMenu.CheckboxItem.Props,
@@ -39,7 +39,7 @@ export function MenuCheckboxItem({ icon, trailing, children, ...props }: MenuChe
           <Check aria-hidden />
         </BaseMenu.CheckboxItemIndicator>
       </MenuItemControl>
-      {icon != null ? <MenuItemIcon>{icon}</MenuItemIcon> : null}
+      {icon != null ? <Icon tint="secondary">{icon}</Icon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
           <MenuItemTitle>{children}</MenuItemTitle>

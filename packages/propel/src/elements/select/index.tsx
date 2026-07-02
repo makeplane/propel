@@ -1,5 +1,4 @@
 export * from "./select-field";
-export * from "./select-icon";
 export * from "./select-item-indicator";
 export * from "./select-label";
 export * from "./select-scroll-down-arrow";

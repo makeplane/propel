@@ -2,7 +2,6 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { controlGroupClass } from "../../internal/control-group";
 import { controlInputClass } from "../../internal/control-input";
-import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const inputVariants = cva(cx(controlInputClass, "flex-1 disabled:opacity-60"), {
@@ -35,6 +34,3 @@ export const inputGroupVariants = cva(
 );
 
 export type InputGroupVariantProps = StrictVariantProps<typeof inputGroupVariants>;
-
-// The decorative 16px node at the input's inline start/end (sizes its child to `--node-size`).
-export const inputIconVariants = cva(cx(nodeSlotClass, "text-icon-secondary [--node-size:1rem]"));

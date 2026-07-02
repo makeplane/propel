@@ -3,7 +3,8 @@ import { Mail, Search } from "lucide-react";
 import type * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
-import { InputGroup, InputIcon } from "../../elements/input/index";
+import { InputGroup } from "../../elements/input/index";
+import { Icon } from "../../internal/icon";
 import { Field, FieldError, FieldLabel } from "../field/index";
 import { type InputMagnitude } from "./index";
 import { Input } from "./index";
@@ -13,7 +14,7 @@ const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
 const meta = {
   title: "Components/Input",
   component: Input,
-  subcomponents: { InputGroup, InputIcon },
+  subcomponents: { InputGroup },
 } satisfies Meta<typeof Input>;
 
 export default meta;
@@ -76,13 +77,13 @@ export const WithIcons: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <InputSurface>
-      <InputIcon>
+      <Icon tint="secondary" magnitude="md">
         <Search />
-      </InputIcon>
+      </Icon>
       <Input {...args} />
-      <InputIcon>
+      <Icon tint="secondary" magnitude="md">
         <Mail />
-      </InputIcon>
+      </Icon>
     </InputSurface>
   ),
 };

@@ -6,6 +6,7 @@ import {
   type ToolbarButtonProps as ToolbarButtonElementProps,
   type ToolbarDensity,
 } from "../../elements/toolbar";
+import { Icon } from "../../internal/icon";
 import { ToolbarDensityContext } from "./toolbar-context";
 
 export type ToolbarButtonProps = Omit<ToolbarButtonElementProps, "density"> & {
@@ -19,11 +20,13 @@ export type ToolbarButtonProps = Omit<ToolbarButtonElementProps, "density"> & {
  * A toolbar action button: grafts Base UI's `Toolbar.Button` (roving-focus item) behavior onto the
  * styled `ToolbarButton`, taking its `density` from the surrounding `Toolbar` via context.
  */
-export function ToolbarButton({ density, ...props }: ToolbarButtonProps) {
+export function ToolbarButton({ density, children, ...props }: ToolbarButtonProps) {
   const toolbarDensity = React.useContext(ToolbarDensityContext);
   return (
     <BaseToolbar.Button
       render={<ToolbarButtonElement density={density ?? toolbarDensity} {...props} />}
-    />
+    >
+      <Icon>{children}</Icon>
+    </BaseToolbar.Button>
   );
 }

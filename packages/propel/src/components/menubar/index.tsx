@@ -4,9 +4,4 @@ export * from "./menubar-trigger";
 // one entry. The ready-made `MenubarTrigger` above replaces the same-named elements element (its
 // `Menu.Trigger` behavior is already grafted); the slot parts carry no behavior of their own and
 // compose as the trigger's children.
-export {
-  MenubarTriggerIcon,
-  type MenubarTriggerIconProps,
-  MenubarTriggerLabel,
-  type MenubarTriggerLabelProps,
-} from "../../elements/menubar";
+export { MenubarTriggerLabel, type MenubarTriggerLabelProps } from "../../elements/menubar";

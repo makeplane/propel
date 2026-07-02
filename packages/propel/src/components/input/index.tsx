@@ -4,9 +4,4 @@
 export * from "./input";
 // The bordered frame and inline icon slot are pure styled elements (no Base UI behavior to graft),
 // so re-export them straight from `elements/input`.
-export {
-  InputGroup,
-  type InputGroupProps,
-  InputIcon,
-  type InputIconProps,
-} from "../../elements/input";
+export { InputGroup, type InputGroupProps } from "../../elements/input";

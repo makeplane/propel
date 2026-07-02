@@ -3,6 +3,7 @@ import type { Toggle as BaseToggleTypes } from "@base-ui/react/toggle";
 import * as React from "react";
 
 import { Toggle as ToggleElement, type ToggleMagnitude } from "../../elements/toggle";
+import { Icon } from "../../internal/icon";
 import { ToggleGroupContext } from "./toggle-group-context";
 
 export type ToggleProps<Value extends string = string> = Omit<
@@ -23,6 +24,7 @@ export type ToggleProps<Value extends string = string> = Omit<
  */
 export function Toggle<Value extends string = string>({
   magnitude,
+  children,
   ...toggleProps
 }: ToggleProps<Value>) {
   const groupMagnitude = React.useContext(ToggleGroupContext);
@@ -30,6 +32,8 @@ export function Toggle<Value extends string = string>({
     <BaseToggle
       {...toggleProps}
       render={<ToggleElement magnitude={magnitude ?? groupMagnitude ?? "md"} />}
-    />
+    >
+      <Icon>{children}</Icon>
+    </BaseToggle>
   );
 }

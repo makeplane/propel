@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check } from "lucide-react";
 
-import { Badge, BadgeIcon, BadgeLabel, type BadgeMagnitude, type BadgeTone } from "./index";
+import { Icon } from "../../internal/icon";
+import { Badge, BadgeLabel, type BadgeMagnitude, type BadgeTone } from "./index";
 
 const TONES: BadgeTone[] = [
   "neutral",
@@ -35,7 +36,7 @@ const MAGNITUDES: BadgeMagnitude[] = ["sm", "md", "lg"];
 const meta = {
   title: "Elements/Badge",
   component: Badge,
-  subcomponents: { BadgeIcon, BadgeLabel },
+  subcomponents: { BadgeLabel },
   args: {
     tone: "neutral",
     magnitude: "md",
@@ -96,9 +97,9 @@ export const WithIcon: Story = {
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
         <Badge key={magnitude} {...args} tone="success" magnitude={magnitude}>
-          <BadgeIcon>
+          <Icon>
             <Check />
-          </BadgeIcon>
+          </Icon>
           <BadgeLabel>Done</BadgeLabel>
         </Badge>
       ))}

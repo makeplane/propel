@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Bold, Italic, List, ListOrdered, Underline } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
-import { Toggle, ToggleIcon, type ToggleMagnitude } from "../toggle/index";
+import { Toggle, type ToggleMagnitude } from "../toggle/index";
 import { ToggleGroup } from "./index";
 
 const MAGNITUDES: ToggleMagnitude[] = ["sm", "md", "lg"];
@@ -13,7 +13,7 @@ const MAGNITUDES: ToggleMagnitude[] = ["sm", "md", "lg"];
 const meta = {
   title: "Components/ToggleGroup",
   component: ToggleGroup,
-  subcomponents: { Toggle, ToggleIcon },
+  subcomponents: { Toggle },
   args: { magnitude: "md" },
   parameters: {
     a11y: {
@@ -36,14 +36,10 @@ export const Default: Story = {
   render: (args) => (
     <ToggleGroup {...args} aria-label="List style">
       <Toggle value="bulleted" aria-label="Bulleted list">
-        <ToggleIcon>
-          <List />
-        </ToggleIcon>
+        <List />
       </Toggle>
       <Toggle value="numbered" aria-label="Numbered list">
-        <ToggleIcon>
-          <ListOrdered />
-        </ToggleIcon>
+        <ListOrdered />
       </Toggle>
     </ToggleGroup>
   ),
@@ -89,19 +85,13 @@ export const Magnitudes: Story = {
           aria-label={`Text formatting (${magnitude})`}
         >
           <Toggle value="bold" aria-label={`Bold (${magnitude})`}>
-            <ToggleIcon>
-              <Bold />
-            </ToggleIcon>
+            <Bold />
           </Toggle>
           <Toggle value="italic" aria-label={`Italic (${magnitude})`}>
-            <ToggleIcon>
-              <Italic />
-            </ToggleIcon>
+            <Italic />
           </Toggle>
           <Toggle value="underline" aria-label={`Underline (${magnitude})`}>
-            <ToggleIcon>
-              <Underline />
-            </ToggleIcon>
+            <Underline />
           </Toggle>
         </ToggleGroup>
       ))}
@@ -115,19 +105,13 @@ export const Multiple: Story = {
   render: (args) => (
     <ToggleGroup {...args} aria-label="Text formatting">
       <Toggle value="bold" aria-label="Bold">
-        <ToggleIcon>
-          <Bold />
-        </ToggleIcon>
+        <Bold />
       </Toggle>
       <Toggle value="italic" aria-label="Italic">
-        <ToggleIcon>
-          <Italic />
-        </ToggleIcon>
+        <Italic />
       </Toggle>
       <Toggle value="underline" aria-label="Underline">
-        <ToggleIcon>
-          <Underline />
-        </ToggleIcon>
+        <Underline />
       </Toggle>
     </ToggleGroup>
   ),

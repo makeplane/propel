@@ -3,8 +3,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { X } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import { Button } from "../button";
-import { IconButton, IconButtonIcon } from "../icon-button";
+import { IconButton } from "../icon-button";
 import {
   DialogActions,
   DialogBody,
@@ -63,9 +64,9 @@ export const Anatomy: Story = {
                 aria-label="Close"
                 render={<BaseDialog.Close />}
               >
-                <IconButtonIcon>
+                <Icon>
                   <X />
-                </IconButtonIcon>
+                </Icon>
               </IconButton>
             </DialogHeader>
             <DialogBody>

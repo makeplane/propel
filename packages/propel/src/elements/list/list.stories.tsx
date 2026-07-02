@@ -4,15 +4,15 @@ import { ChevronDown, Ellipsis, Inbox, LayoutGrid, Settings } from "lucide-react
 import { expect } from "storybook/test";
 
 import { Composite, CompositeItem } from "../../base/composite";
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
+import { Icon } from "../../internal/icon";
 import {
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemLabel,
   ListItemLink,
   ListSectionTrigger,
-  ListSectionTriggerIndicator,
 } from "./index";
 
 // elements-tier story (rule 2b): the styled `List`/`ListItemLink`/`ListItemButton` are Base-UI-agnostic
@@ -27,10 +27,8 @@ const meta = {
     ListItem,
     ListItemLink,
     ListItemButton,
-    ListItemIcon,
     ListItemLabel,
     ListSectionTrigger,
-    ListSectionTriggerIndicator,
   },
   decorators: [
     (Story) => (
@@ -50,34 +48,34 @@ export const Navigation: Story = {
     <Composite role="toolbar" aria-label="Workspace" render={<List />}>
       <ListItem>
         <CompositeItem tag="a" href="#inbox" render={<ListItemLink />}>
-          <ListItemIcon>
+          <Icon magnitude="md">
             <Inbox aria-hidden />
-          </ListItemIcon>
+          </Icon>
           <ListItemLabel>Inbox</ListItemLabel>
         </CompositeItem>
       </ListItem>
       <ListItem>
         <CompositeItem tag="a" href="#projects" aria-current="page" render={<ListItemLink />}>
-          <ListItemIcon>
+          <Icon magnitude="md">
             <LayoutGrid aria-hidden />
-          </ListItemIcon>
+          </Icon>
           <ListItemLabel>Projects</ListItemLabel>
         </CompositeItem>
       </ListItem>
       <ListItem>
         <CompositeItem tag="a" href="#settings" render={<ListItemLink />}>
-          <ListItemIcon>
+          <Icon magnitude="md">
             <Settings aria-hidden />
-          </ListItemIcon>
+          </Icon>
           <ListItemLabel>Settings</ListItemLabel>
         </CompositeItem>
       </ListItem>
       <ListItem>
         {/* An action row (not navigation) — a button that shares the row chrome. */}
         <CompositeItem tag="button" render={<ListItemButton />}>
-          <ListItemIcon>
+          <Icon magnitude="md">
             <Ellipsis aria-hidden />
-          </ListItemIcon>
+          </Icon>
           <ListItemLabel>More</ListItemLabel>
         </CompositeItem>
       </ListItem>
@@ -117,25 +115,25 @@ export const Section: Story = {
     <Collapsible.Root defaultOpen>
       <ListSectionTrigger render={<Collapsible.Trigger />}>
         Workspace
-        <ListSectionTriggerIndicator>
+        <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
           <ChevronDown aria-hidden />
-        </ListSectionTriggerIndicator>
+        </DisclosureIndicator>
       </ListSectionTrigger>
       <Collapsible.Panel>
         <Composite role="toolbar" aria-label="Workspace" render={<List />}>
           <ListItem>
             <CompositeItem tag="a" href="#projects" aria-current="page" render={<ListItemLink />}>
-              <ListItemIcon>
+              <Icon magnitude="md">
                 <LayoutGrid aria-hidden />
-              </ListItemIcon>
+              </Icon>
               <ListItemLabel>Projects</ListItemLabel>
             </CompositeItem>
           </ListItem>
           <ListItem>
             <CompositeItem tag="a" href="#settings" render={<ListItemLink />}>
-              <ListItemIcon>
+              <Icon magnitude="md">
                 <Settings aria-hidden />
-              </ListItemIcon>
+              </Icon>
               <ListItemLabel>Settings</ListItemLabel>
             </CompositeItem>
           </ListItem>

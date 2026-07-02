@@ -12,8 +12,9 @@ import {
 } from "lucide-react";
 import { expect, userEvent, waitFor } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import { Menu, MenuContent, MenuItem, MenuSeparator } from "../menu/index";
-import { Menubar, MenubarTrigger, MenubarTriggerIcon, MenubarTriggerLabel } from "./index";
+import { Menubar, MenubarTrigger, MenubarTriggerLabel } from "./index";
 
 // Components-tier story: the `Menubar` container hosts a row of `Menu` roots, each
 // using the ready-made `MenubarTrigger` (Base UI's `Menu.Trigger` behavior already
@@ -26,7 +27,6 @@ const meta = {
   component: Menubar,
   subcomponents: {
     MenubarTrigger,
-    MenubarTriggerIcon,
     MenubarTriggerLabel,
     Menu,
     MenuContent,
@@ -55,9 +55,9 @@ export const Default: Story = {
     <Menubar>
       <Menu>
         <MenubarTrigger>
-          <MenubarTriggerIcon>
+          <Icon tint="secondary">
             <FilePen />
-          </MenubarTriggerIcon>
+          </Icon>
           <MenubarTriggerLabel>File</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent sizing="sm">
@@ -69,9 +69,9 @@ export const Default: Story = {
       </Menu>
       <Menu>
         <MenubarTrigger>
-          <MenubarTriggerIcon>
+          <Icon tint="secondary">
             <Pencil />
-          </MenubarTriggerIcon>
+          </Icon>
           <MenubarTriggerLabel>Edit</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent sizing="sm">

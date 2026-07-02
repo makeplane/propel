@@ -3,11 +3,11 @@ import { ChevronsUpDown } from "lucide-react";
 import type * as React from "react";
 
 import {
-  SelectIcon,
   SelectTrigger as SelectTriggerElement,
   type SelectTriggerMagnitude,
   SelectValue,
 } from "../../elements/select";
+import { Icon } from "../../internal/icon";
 
 export type SelectTriggerProps = Omit<
   BaseSelect.Trigger.Props,
@@ -29,7 +29,7 @@ export function SelectTrigger({ icon, magnitude, ...props }: SelectTriggerProps)
   return (
     <BaseSelect.Trigger {...props} render={<SelectTriggerElement magnitude={magnitude} />}>
       <BaseSelect.Value render={<SelectValue />} />
-      <SelectIcon>{icon ?? <ChevronsUpDown aria-hidden />}</SelectIcon>
+      <Icon tint="secondary">{icon ?? <ChevronsUpDown aria-hidden />}</Icon>
     </BaseSelect.Trigger>
   );
 }

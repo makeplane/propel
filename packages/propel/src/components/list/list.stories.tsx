@@ -2,17 +2,16 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Ellipsis, Inbox, LayoutGrid, Settings } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import {
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemLabel,
   ListItemLink,
   ListSection,
   ListSectionHeading,
   ListSectionTrigger,
-  ListSectionTriggerIndicator,
 } from "./index";
 
 // Components-tier story: the ready-made `List`/`ListItemLink`/`ListItemButton` already carry the
@@ -26,12 +25,10 @@ const meta = {
     ListItem,
     ListItemLink,
     ListItemButton,
-    ListItemIcon,
     ListItemLabel,
     ListSection,
     ListSectionHeading,
     ListSectionTrigger,
-    ListSectionTriggerIndicator,
   },
   decorators: [
     (Story) => (
@@ -54,34 +51,34 @@ export const Default: Story = {
     <List role="toolbar" aria-label="Workspace">
       <ListItem>
         <ListItemLink href="#inbox">
-          <ListItemIcon>
+          <Icon magnitude="md">
             <Inbox aria-hidden />
-          </ListItemIcon>
+          </Icon>
           <ListItemLabel>Inbox</ListItemLabel>
         </ListItemLink>
       </ListItem>
       <ListItem>
         <ListItemLink href="#projects" aria-current="page">
-          <ListItemIcon>
+          <Icon magnitude="md">
             <LayoutGrid aria-hidden />
-          </ListItemIcon>
+          </Icon>
           <ListItemLabel>Projects</ListItemLabel>
         </ListItemLink>
       </ListItem>
       <ListItem>
         <ListItemLink href="#settings">
-          <ListItemIcon>
+          <Icon magnitude="md">
             <Settings aria-hidden />
-          </ListItemIcon>
+          </Icon>
           <ListItemLabel>Settings</ListItemLabel>
         </ListItemLink>
       </ListItem>
       <ListItem>
         {/* An action row (not navigation) — a button that shares the row chrome. */}
         <ListItemButton>
-          <ListItemIcon>
+          <Icon magnitude="md">
             <Ellipsis aria-hidden />
-          </ListItemIcon>
+          </Icon>
           <ListItemLabel>More</ListItemLabel>
         </ListItemButton>
       </ListItem>
@@ -133,17 +130,17 @@ export const Section: Story = {
       <List role="toolbar" aria-label="Workspace">
         <ListItem>
           <ListItemLink href="#projects" aria-current="page">
-            <ListItemIcon>
+            <Icon magnitude="md">
               <LayoutGrid aria-hidden />
-            </ListItemIcon>
+            </Icon>
             <ListItemLabel>Projects</ListItemLabel>
           </ListItemLink>
         </ListItem>
         <ListItem>
           <ListItemLink href="#settings">
-            <ListItemIcon>
+            <Icon magnitude="md">
               <Settings aria-hidden />
-            </ListItemIcon>
+            </Icon>
             <ListItemLabel>Settings</ListItemLabel>
           </ListItemLink>
         </ListItem>

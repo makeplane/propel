@@ -6,9 +6,9 @@ import {
   CollapsiblePanel,
   CollapsiblePanelContent,
   CollapsibleTrigger,
-  CollapsibleTriggerIndicator,
   CollapsibleTriggerTitle,
 } from "../../elements/collapsible";
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
 
 export type CollapsibleProps = Omit<BaseCollapsible.Root.Props, "className" | "style"> & {
   /** The button content that opens and closes the panel. */
@@ -31,9 +31,9 @@ export function Collapsible({ trigger, children, indicator, ...props }: Collapsi
       <BaseCollapsible.Trigger render={<CollapsibleTrigger />}>
         <CollapsibleTriggerTitle>{trigger}</CollapsibleTriggerTitle>
         {indicator ? (
-          <CollapsibleTriggerIndicator>
+          <DisclosureIndicator motion="disclose" tint="secondary" magnitude="inherit">
             <ChevronDown />
-          </CollapsibleTriggerIndicator>
+          </DisclosureIndicator>
         ) : null}
       </BaseCollapsible.Trigger>
       <BaseCollapsible.Panel render={<CollapsiblePanel />}>

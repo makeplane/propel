@@ -4,10 +4,11 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, ChevronsUpDown, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import { ListboxItem } from "../../internal/listbox-item";
 import { ListboxPopup } from "../../internal/listbox-popup";
 import { Field, FieldError, FieldLabel } from "../field/index";
-import { IconButton, IconButtonIcon } from "../icon-button";
+import { IconButton } from "../icon-button";
 import {
   ComboboxChip,
   ComboboxChipRemove,
@@ -43,16 +44,16 @@ type Story = StoryObj<typeof meta>;
 
 const clearButton = (
   <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear region">
-    <IconButtonIcon>
+    <Icon>
       <X />
-    </IconButtonIcon>
+    </Icon>
   </IconButton>
 );
 const triggerButton = (
   <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
-    <IconButtonIcon>
+    <Icon>
       <ChevronsUpDown />
-    </IconButtonIcon>
+    </Icon>
   </IconButton>
 );
 

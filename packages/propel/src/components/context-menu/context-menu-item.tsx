@@ -3,13 +3,13 @@ import { Check } from "lucide-react";
 import type * as React from "react";
 
 import {
-  ContextMenuItemIcon,
   ContextMenuItemIndicator,
   ContextMenuItemLabel,
   ContextMenuItem as ContextMenuItemElement,
   type ContextMenuItemTone,
   ContextMenuItemShortcut,
 } from "../../elements/context-menu";
+import { Icon } from "../../internal/icon";
 
 export type ContextMenuItemProps = Omit<
   BaseContextMenu.Item.Props,
@@ -40,7 +40,7 @@ export function ContextMenuItem({
 }: ContextMenuItemProps) {
   return (
     <BaseContextMenu.Item {...props} render={<ContextMenuItemElement tone={tone} />}>
-      {icon != null ? <ContextMenuItemIcon>{icon}</ContextMenuItemIcon> : null}
+      {icon != null ? <Icon>{icon}</Icon> : null}
       <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
       {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
       {selected ? (

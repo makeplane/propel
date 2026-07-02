@@ -45,11 +45,6 @@ export const toolbarItemVariants = cva(
   },
 );
 
-// The decorative glyph inside an icon control. Sizes its single child to the item's
-// `--node-size` (via the shared node-slot class) and tints it. A slot — bakes no size
-// or className onto the child.
-export const toolbarItemIconVariants = cva(cx(nodeSlotClass, "text-current"));
-
 // The styled chrome for a toolbar menu trigger: a horizontal control that pairs a
 // text label with a disclosure indicator. The label's typography lives on the label
 // part, not here.

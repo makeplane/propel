@@ -3,7 +3,8 @@ import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import { CollapsiblePanel, CollapsiblePanelContent } from "../../elements/collapsible";
-import { ListSectionTrigger, ListSectionTriggerIndicator } from "../../elements/list";
+import { ListSectionTrigger } from "../../elements/list";
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
 
 export type ListSectionProps = Omit<BaseCollapsible.Root.Props, "className" | "style"> & {
   /** The section heading shown in the toggle. */
@@ -26,9 +27,9 @@ export function ListSection({ label, children, indicator, ...props }: ListSectio
       <ListSectionTrigger render={<BaseCollapsible.Trigger />}>
         {label}
         {indicator ? (
-          <ListSectionTriggerIndicator>
+          <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
             <ChevronDown />
-          </ListSectionTriggerIndicator>
+          </DisclosureIndicator>
         ) : null}
       </ListSectionTrigger>
       <BaseCollapsible.Panel render={<CollapsiblePanel />}>

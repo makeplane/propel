@@ -16,13 +16,13 @@ import {
 } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import {
   Toolbar,
   ToolbarButton,
   type ToolbarDensity,
   type ToolbarElevation,
   ToolbarGroup,
-  ToolbarItemIcon,
   ToolbarMenuTriggerButton,
   ToolbarMenuTriggerIndicator,
   ToolbarMenuTriggerLabel,
@@ -41,7 +41,6 @@ const meta = {
   subcomponents: {
     Toolbar,
     ToolbarButton,
-    ToolbarItemIcon,
     ToolbarToggleGroup,
     ToolbarSeparator,
     ToolbarMenuTriggerButton,
@@ -82,33 +81,33 @@ function DemoToolbar({
           render={<Toggle render={<ToolbarButton density={density} />} />}
           aria-label="Bold"
         >
-          <ToolbarItemIcon>
+          <Icon>
             <Bold />
-          </ToolbarItemIcon>
+          </Icon>
         </BaseToolbar.Button>
         <BaseToolbar.Button
           render={<Toggle render={<ToolbarButton density={density} />} />}
           aria-label="Italic"
         >
-          <ToolbarItemIcon>
+          <Icon>
             <Italic />
-          </ToolbarItemIcon>
+          </Icon>
         </BaseToolbar.Button>
         <BaseToolbar.Button
           render={<Toggle render={<ToolbarButton density={density} />} />}
           aria-label="Underline"
         >
-          <ToolbarItemIcon>
+          <Icon>
             <Underline />
-          </ToolbarItemIcon>
+          </Icon>
         </BaseToolbar.Button>
         <BaseToolbar.Button
           render={<Toggle render={<ToolbarButton density={density} />} />}
           aria-label="Strikethrough"
         >
-          <ToolbarItemIcon>
+          <Icon>
             <Strikethrough />
-          </ToolbarItemIcon>
+          </Icon>
         </BaseToolbar.Button>
       </BaseToolbar.Group>
       <BaseToolbar.Separator render={<ToolbarSeparator />} />
@@ -121,37 +120,37 @@ function DemoToolbar({
           render={<Toggle value="left" render={<ToolbarButton density={density} />} />}
           aria-label="Align left"
         >
-          <ToolbarItemIcon>
+          <Icon>
             <AlignLeft />
-          </ToolbarItemIcon>
+          </Icon>
         </BaseToolbar.Button>
         <BaseToolbar.Button
           render={<Toggle value="center" render={<ToolbarButton density={density} />} />}
           aria-label="Align center"
         >
-          <ToolbarItemIcon>
+          <Icon>
             <AlignCenter />
-          </ToolbarItemIcon>
+          </Icon>
         </BaseToolbar.Button>
         <BaseToolbar.Button
           render={<Toggle value="right" render={<ToolbarButton density={density} />} />}
           aria-label="Align right"
         >
-          <ToolbarItemIcon>
+          <Icon>
             <AlignRight />
-          </ToolbarItemIcon>
+          </Icon>
         </BaseToolbar.Button>
       </ToggleGroup>
       <BaseToolbar.Separator render={<ToolbarSeparator />} />
       <BaseToolbar.Button render={<ToolbarButton density={density} />} aria-label="Insert link">
-        <ToolbarItemIcon>
+        <Icon>
           <Link />
-        </ToolbarItemIcon>
+        </Icon>
       </BaseToolbar.Button>
       <BaseToolbar.Button render={<ToolbarButton density={density} />} aria-label="Insert image">
-        <ToolbarItemIcon>
+        <Icon>
           <Image />
-        </ToolbarItemIcon>
+        </Icon>
       </BaseToolbar.Button>
     </BaseToolbar.Root>
   );

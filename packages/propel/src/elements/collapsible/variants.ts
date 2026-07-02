@@ -1,7 +1,5 @@
 import { cva, cx } from "class-variance-authority";
 
-import { nodeSlotClass } from "../../internal/node-slot";
-
 // Collapsible is a structural disclosure primitive (the single-item form that
 // Accordion generalizes). The Figma spec only defines collapsed/hover/expanded
 // states, which Base UI drives as state — so there are no styling axes
@@ -37,18 +35,3 @@ export const collapsiblePanelVariants = cva(
 // height-animating `CollapsiblePanel` (padding there would offset the measured
 // open/close height and jump the transition).
 export const collapsiblePanelContentVariants = cva("pt-2");
-
-// The disclosure caret at the trigger's inline-end. The caret (a chevron-down)
-// points inline-end while collapsed and rotates down when the panel opens —
-// mirrored in RTL so it keeps pointing into the reading direction. Base UI
-// sets `data-panel-open` on the trigger which carries the `group` class. Single-
-// element slot — callers pass any svg and it is sized to `--node-size`.
-export const collapsibleTriggerIndicatorVariants = cva(
-  cx(
-    nodeSlotClass,
-    "text-icon-secondary",
-    "transition-transform duration-200",
-    "-rotate-90 group-data-panel-open:rotate-0",
-    "rtl:rotate-90 rtl:group-data-panel-open:rotate-0",
-  ),
-);

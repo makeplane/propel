@@ -22,7 +22,7 @@ export const breadcrumbTriggerVariants = cva(
     variants: {
       /** Adds `group/trigger` so descendant elements can use `group-data-popup-open/trigger:*`. */
       group: {
-        true: "group/trigger",
+        true: "group group/trigger",
         false: "",
       },
     },
@@ -43,25 +43,3 @@ export const breadcrumbSeparatorVariants = cva(
 
 /** The `<ol>` that carries the ordered trail of crumbs. */
 export const breadcrumbListVariants = cva("flex items-center gap-0.5");
-
-/**
- * A decorative leading icon inside a `BreadcrumbTrigger`. Sizes its single child to 16 px via
- * `--node-size` (the shared node-slot class) and tints it, so callers pass a bare icon.
- */
-export const breadcrumbTriggerIconVariants = cva(
-  cx(nodeSlotClass, "text-icon-tertiary [--node-size:1rem]"),
-);
-
-/**
- * The trailing chevron inside a `BreadcrumbTrigger`. Fixed 14 px, points toward the inline-end at
- * rest and rotates down (90°) while the menu is open; mirrored in RTL. The trigger carries
- * `group/trigger`, so the rotation keys off `group-data-popup-open/trigger`.
- */
-export const breadcrumbTriggerIndicatorVariants = cva(
-  cx(
-    nodeSlotClass,
-    "text-icon-tertiary [--node-size:0.875rem]",
-    "transition-transform group-data-popup-open/trigger:rotate-90",
-    "rtl:not-group-data-popup-open/trigger:-scale-x-100",
-  ),
-);

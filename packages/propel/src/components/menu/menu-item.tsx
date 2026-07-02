@@ -6,13 +6,13 @@ import {
   MenuItem as MenuItemElement,
   MenuItemContent,
   MenuItemDescription,
-  MenuItemIcon,
   MenuItemSecondaryText,
   MenuItemIndicator,
   MenuItemTitle,
   MenuItemTitleRow,
   MenuItemTrailing,
 } from "../../elements/menu";
+import { Icon } from "../../internal/icon";
 
 export type MenuItemProps = Omit<BaseMenu.Item.Props, "className" | "style"> & {
   /** Leading content before the label. */
@@ -45,7 +45,7 @@ export function MenuItem({
   const layout = description != null ? "with-description" : "default";
   return (
     <BaseMenu.Item {...props} render={<MenuItemElement layout={layout} />}>
-      {icon != null ? <MenuItemIcon>{icon}</MenuItemIcon> : null}
+      {icon != null ? <Icon tint="secondary">{icon}</Icon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
           <MenuItemTitle>{children}</MenuItemTitle>

@@ -4,13 +4,13 @@ import type * as React from "react";
 
 import type { FieldMagnitude } from "../../elements/field/variants";
 import {
-  SelectIcon,
   SelectItemIndicator,
   SelectLabel,
   SelectTrigger,
   type SelectTriggerMagnitude,
   SelectValue,
 } from "../../elements/select/index";
+import { Icon } from "../../internal/icon";
 import { ListboxItem } from "../../internal/listbox-item";
 import { ListboxPopup } from "../../internal/listbox-popup";
 import { Positioner } from "../../internal/positioner";
@@ -67,9 +67,9 @@ export function SelectField({
         <BaseSelect.Label render={<SelectLabel />}>{label}</BaseSelect.Label>
         <BaseSelect.Trigger render={<SelectTrigger magnitude={selectMagnitude} />}>
           <BaseSelect.Value render={<SelectValue />} />
-          <SelectIcon>
+          <Icon tint="secondary">
             <ChevronsUpDown />
-          </SelectIcon>
+          </Icon>
         </BaseSelect.Trigger>
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>

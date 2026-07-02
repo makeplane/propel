@@ -1,8 +1,7 @@
-import { cva, cx, type VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { composeVariants } from "../../internal/compose-variants";
 import { controlChromeVariants } from "../../internal/control-chrome";
-import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // IconButton's local styling: the square geometry only. The chrome (behavior base + neutral/danger
@@ -33,11 +32,3 @@ export type IconButtonMagnitude = NonNullable<IconButtonVariantConfig["magnitude
 
 // No `defaultVariants` today, so every axis is required.
 export type IconButtonVariantProps = StrictVariantProps<typeof iconButtonVariants>;
-
-// The icon slot: the button's single glyph, sized to the root's `--node-size` (shared node-slot
-// class). Decorative (the accessible name lives on the root's `aria-label`), so it is `aria-hidden`.
-export const iconButtonIconVariants = cva(nodeSlotClass);
-
-// The loading indicator shown in place of the icon: a single spinning glyph sized to `--node-size`.
-// Decorative (the root carries `aria-busy`), so it is `aria-hidden`. A pure slot that bakes no glyph.
-export const iconButtonSpinnerVariants = cva(cx(nodeSlotClass, "animate-spin"));

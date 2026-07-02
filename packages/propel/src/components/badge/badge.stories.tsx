@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, Sparkles } from "lucide-react";
 
 import { iconControl } from "../../storybook/icon-control";
-import { Badge, BadgeIcon, BadgeLabel, type BadgeMagnitude, type BadgeTone } from "./index";
+import { Badge, BadgeLabel, type BadgeMagnitude, type BadgeTone } from "./index";
 
 const TONES: BadgeTone[] = [
   "neutral",
@@ -28,7 +28,7 @@ const MAGNITUDES: BadgeMagnitude[] = ["sm", "md", "lg"];
 const meta = {
   title: "Components/Badge",
   component: Badge,
-  subcomponents: { BadgeIcon, BadgeLabel },
+  subcomponents: { BadgeLabel },
   argTypes: { startIcon: iconControl, endIcon: iconControl },
   args: {
     children: "Badge",

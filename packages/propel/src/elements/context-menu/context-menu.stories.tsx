@@ -3,16 +3,15 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, Copy, Scissors, Trash2 } from "lucide-react";
 import { expect, fireEvent, waitFor } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import {
   ContextMenuGroupLabel,
   ContextMenuItem,
-  ContextMenuItemIcon,
   ContextMenuItemIndicator,
   ContextMenuItemLabel,
   ContextMenuItemShortcut,
   ContextMenuPopup,
   ContextMenuSeparator,
-  ContextMenuSubmenuTriggerIndicator,
 } from "./index";
 
 // elements-tier story (rule 2b): the styled parts are Base-UI-agnostic `useRender` elements; Base UI's
@@ -24,11 +23,9 @@ const meta = {
   component: ContextMenuPopup,
   subcomponents: {
     ContextMenuItem,
-    ContextMenuItemIcon,
     ContextMenuItemLabel,
     ContextMenuItemShortcut,
     ContextMenuItemIndicator,
-    ContextMenuSubmenuTriggerIndicator,
     ContextMenuSeparator,
     ContextMenuGroupLabel,
   },
@@ -55,16 +52,16 @@ export const Default: Story = {
                 Actions
               </BaseContextMenu.GroupLabel>
               <BaseContextMenu.Item render={<ContextMenuItem tone="neutral" />}>
-                <ContextMenuItemIcon>
+                <Icon>
                   <Scissors />
-                </ContextMenuItemIcon>
+                </Icon>
                 <ContextMenuItemLabel>Cut</ContextMenuItemLabel>
                 <ContextMenuItemShortcut>⌘X</ContextMenuItemShortcut>
               </BaseContextMenu.Item>
               <BaseContextMenu.Item render={<ContextMenuItem tone="neutral" />}>
-                <ContextMenuItemIcon>
+                <Icon>
                   <Copy />
-                </ContextMenuItemIcon>
+                </Icon>
                 <ContextMenuItemLabel>Copy</ContextMenuItemLabel>
                 <ContextMenuItemShortcut>⌘C</ContextMenuItemShortcut>
                 <ContextMenuItemIndicator>
@@ -74,9 +71,9 @@ export const Default: Story = {
             </BaseContextMenu.Group>
             <BaseContextMenu.Separator render={<ContextMenuSeparator />} />
             <BaseContextMenu.Item render={<ContextMenuItem tone="danger" />}>
-              <ContextMenuItemIcon>
+              <Icon>
                 <Trash2 />
-              </ContextMenuItemIcon>
+              </Icon>
               <ContextMenuItemLabel>Delete</ContextMenuItemLabel>
             </BaseContextMenu.Item>
           </BaseContextMenu.Popup>

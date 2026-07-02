@@ -19,8 +19,6 @@ export {
   type ContextMenuCheckboxItemIndicatorProps,
   ContextMenuGroupLabel,
   type ContextMenuGroupLabelProps,
-  ContextMenuItemIcon,
-  type ContextMenuItemIconProps,
   ContextMenuItemIndicator,
   type ContextMenuItemIndicatorProps,
   ContextMenuItemLabel,
@@ -32,6 +30,4 @@ export {
   type ContextMenuRadioItemProps,
   ContextMenuRadioItemIndicator,
   type ContextMenuRadioItemIndicatorProps,
-  ContextMenuSubmenuTriggerIndicator,
-  type ContextMenuSubmenuTriggerIndicatorProps,
 } from "../../elements/context-menu";

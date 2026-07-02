@@ -7,8 +7,6 @@ export {
   type CollapsiblePanelContentProps,
   CollapsibleTrigger,
   type CollapsibleTriggerProps,
-  CollapsibleTriggerIndicator,
-  type CollapsibleTriggerIndicatorProps,
   CollapsibleTriggerTitle,
   type CollapsibleTriggerTitleProps,
 } from "../../elements/collapsible";

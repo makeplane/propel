@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Minus, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { IconButton, IconButtonIcon } from "../icon-button";
+import { Icon } from "../../internal/icon";
+import { IconButton } from "../icon-button";
 import { NumberField, NumberFieldGroup, NumberFieldInput } from "./index";
 
 // elements-tier story (rule 2b): the styled parts are Base-UI-agnostic `useRender` elements; Base UI's
@@ -41,9 +42,9 @@ export const Default: Story = {
               magnitude="xl"
               aria-label="Decrease instances"
             >
-              <IconButtonIcon>
+              <Icon>
                 <Minus />
-              </IconButtonIcon>
+              </Icon>
             </IconButton>
           }
         />
@@ -59,9 +60,9 @@ export const Default: Story = {
               magnitude="xl"
               aria-label="Increase instances"
             >
-              <IconButtonIcon>
+              <Icon>
                 <Plus />
-              </IconButtonIcon>
+              </Icon>
             </IconButton>
           }
         />

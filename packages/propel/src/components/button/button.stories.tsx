@@ -3,14 +3,7 @@ import { Plus, Search, Settings } from "lucide-react";
 import { expect, fn, userEvent as baseUserEvent } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
-import {
-  Button,
-  ButtonIcon,
-  ButtonLabel,
-  type ButtonMagnitude,
-  ButtonSpinner,
-  type ButtonProminence,
-} from "./index";
+import { Button, ButtonLabel, type ButtonMagnitude, type ButtonProminence } from "./index";
 
 const PROMINENCES: ButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: ButtonMagnitude[] = ["sm", "md", "lg", "xl"];
@@ -19,7 +12,7 @@ const meta = {
   title: "Components/Button",
   component: Button,
   // Anatomy parts the ready-made Button composes (UI tier).
-  subcomponents: { ButtonIcon, ButtonLabel, ButtonSpinner },
+  subcomponents: { ButtonLabel },
   // Icon picker controls for the two icon slots.
   argTypes: { startIcon: iconControl, endIcon: iconControl },
   parameters: {

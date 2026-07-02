@@ -3,7 +3,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, LoaderCircle, Tag, X } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
 
-import { IconPill, PillButton, PillIcon, PillLabel, PillSpinner, PillSwitch } from "./index";
+import { Icon } from "../../internal/icon";
+import { Spinner as SpinnerSlot } from "../../internal/spinner";
+import { IconPill, PillButton, PillLabel, PillSwitch } from "./index";
 
 const MAGNITUDES = ["sm", "md", "lg"] as const;
 
@@ -14,7 +16,7 @@ const MAGNITUDES = ["sm", "md", "lg"] as const;
 const meta = {
   title: "Elements/Pill",
   component: PillButton,
-  subcomponents: { PillSwitch, IconPill, PillIcon, PillLabel, PillSpinner },
+  subcomponents: { PillSwitch, IconPill, PillLabel },
   args: { magnitude: "md" },
   parameters: {
     design: {
@@ -32,9 +34,9 @@ export const Button: Story = {
   args: { magnitude: "md" },
   render: (args) => (
     <PillButton {...args}>
-      <PillIcon>
+      <Icon>
         <Tag />
-      </PillIcon>
+      </Icon>
       <PillLabel>Add label</PillLabel>
     </PillButton>
   ),
@@ -47,9 +49,9 @@ export const Magnitudes: Story = {
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
         <PillButton key={magnitude} magnitude={magnitude}>
-          <PillIcon>
+          <Icon>
             <Tag />
-          </PillIcon>
+          </Icon>
           <PillLabel>{magnitude}</PillLabel>
         </PillButton>
       ))}
@@ -62,9 +64,9 @@ export const Spinner: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <PillButton magnitude="md" disabled aria-busy>
-      <PillSpinner>
+      <SpinnerSlot>
         <LoaderCircle />
-      </PillSpinner>
+      </SpinnerSlot>
       <PillLabel>Loading</PillLabel>
     </PillButton>
   ),
@@ -80,15 +82,15 @@ export const Switch: Story = {
   render: () => (
     <div className="flex items-center gap-3">
       <Toggle render={<PillSwitch magnitude="md" />}>
-        <PillIcon>
+        <Icon>
           <Tag />
-        </PillIcon>
+        </Icon>
         <PillLabel>Off</PillLabel>
       </Toggle>
       <Toggle defaultPressed render={<PillSwitch magnitude="md" />}>
-        <PillIcon>
+        <Icon>
           <Check />
-        </PillIcon>
+        </Icon>
         <PillLabel>On</PillLabel>
       </Toggle>
     </div>
@@ -102,9 +104,9 @@ export const Icons: Story = {
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
         <IconPill key={magnitude} magnitude={magnitude} aria-label={`Close ${magnitude}`}>
-          <PillIcon>
+          <Icon>
             <X />
-          </PillIcon>
+          </Icon>
         </IconPill>
       ))}
     </div>
@@ -119,9 +121,9 @@ export const SwitchToggles: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Toggle render={<PillSwitch magnitude="md" />}>
-      <PillIcon>
+      <Icon>
         <Tag />
-      </PillIcon>
+      </Icon>
       <PillLabel>Toggle me</PillLabel>
     </Toggle>
   ),

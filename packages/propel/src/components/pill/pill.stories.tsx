@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, Plus, Tag, X } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
 
-import { IconPill, PillButton, PillIcon, PillLabel, PillSpinner, PillSwitch } from "./index";
+import { IconPill, PillButton, PillLabel, PillSwitch } from "./index";
 
 const MAGNITUDES = ["sm", "md", "lg"] as const;
 
@@ -13,7 +13,7 @@ const clickSpies = { onClick: fn(), onLoadingClick: fn() };
 const meta = {
   title: "Components/Pill",
   component: PillButton,
-  subcomponents: { PillSwitch, IconPill, PillIcon, PillLabel, PillSpinner },
+  subcomponents: { PillSwitch, IconPill, PillLabel },
   args: { magnitude: "md", children: "Label" },
   parameters: {
     design: {

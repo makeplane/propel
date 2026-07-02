@@ -4,11 +4,11 @@ import type * as React from "react";
 
 import {
   Button as ButtonElement,
-  ButtonIcon,
   ButtonLabel,
   type ButtonProps as ButtonElementProps,
-  ButtonSpinner,
 } from "../../elements/button";
+import { Icon } from "../../internal/icon";
+import { Spinner } from "../../internal/spinner";
 
 export type ButtonProps = ButtonElementProps & {
   /**
@@ -56,14 +56,14 @@ export function Button({
       aria-busy={loading ? true : undefined}
     >
       {loading ? (
-        <ButtonSpinner>
+        <Spinner>
           <LoaderCircle />
-        </ButtonSpinner>
+        </Spinner>
       ) : startIcon ? (
-        <ButtonIcon>{startIcon}</ButtonIcon>
+        <Icon>{startIcon}</Icon>
       ) : null}
       <ButtonLabel>{children}</ButtonLabel>
-      {!loading && endIcon ? <ButtonIcon>{endIcon}</ButtonIcon> : null}
+      {!loading && endIcon ? <Icon>{endIcon}</Icon> : null}
     </BaseButton>
   );
 }
