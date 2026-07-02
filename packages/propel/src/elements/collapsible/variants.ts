@@ -38,8 +38,9 @@ export const collapsiblePanelVariants = cva(
 // open/close height and jump the transition).
 export const collapsiblePanelContentVariants = cva("pt-2");
 
-// The disclosure caret at the trigger's inline-end. Per Figma the caret (a
-// chevron-down) points down at rest and flips up when the panel opens. Base UI
+// The disclosure caret at the trigger's inline-end. The caret (a chevron-down)
+// points inline-end while collapsed and rotates down when the panel opens —
+// mirrored in RTL so it keeps pointing into the reading direction. Base UI
 // sets `data-panel-open` on the trigger which carries the `group` class. Single-
 // element slot — callers pass any svg and it is sized to `--node-size`.
 export const collapsibleTriggerIndicatorVariants = cva(
@@ -47,6 +48,7 @@ export const collapsibleTriggerIndicatorVariants = cva(
     nodeSlotClass,
     "text-icon-secondary",
     "transition-transform duration-200",
-    "group-data-panel-open:rotate-180",
+    "-rotate-90 group-data-panel-open:rotate-0",
+    "rtl:rotate-90 rtl:group-data-panel-open:rotate-0",
   ),
 );
