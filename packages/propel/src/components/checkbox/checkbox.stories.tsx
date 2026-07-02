@@ -8,7 +8,6 @@ import {
   Checkbox,
   CheckboxIndeterminateIndicator,
   CheckboxIndicator,
-  CheckboxIcon,
   CheckboxLabel,
 } from "./index";
 
@@ -17,7 +16,6 @@ const meta = {
   component: Checkbox,
   subcomponents: {
     CheckboxLabel,
-    CheckboxIcon,
     CheckboxIndicator,
     CheckboxIndeterminateIndicator,
   },

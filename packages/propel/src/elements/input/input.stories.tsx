@@ -5,20 +5,22 @@ import { Mail, Search } from "lucide-react";
 import type * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import { Field, FieldError, FieldLabel } from "../field/index";
-import { Input, InputGroup, InputIcon, type InputMagnitude } from "./index";
+import { Input, InputGroup, type InputMagnitude } from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
 
 // elements-tier story (rule 2b): `Input` is a Base-UI-agnostic styled `<input>`; Base UI's `Input`
 // grafts the Field-control behavior onto it via `render`. `InputGroup` frames the control and
-// `InputIcon` adds inline adornments — all composed from `elements/input` + `elements/field`, with no raw
+// the shared internal `Icon` slot adds inline adornments — all composed from `elements/input` + `elements/field`, with no raw
 // box styling of the story's own.
 const meta = {
   title: "Elements/Input",
-  component: InputIcon,
+  component: Input,
+  args: { magnitude: "md" },
   subcomponents: { Input, InputGroup },
-} satisfies Meta<typeof InputIcon>;
+} satisfies Meta<typeof Input>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -63,21 +65,21 @@ export const Magnitudes: Story = {
   ),
 };
 
-/** Leading and trailing icon addons frame the control via `InputIcon`. */
+/** Leading and trailing icon addons frame the control via the shared `Icon` slot. */
 export const WithIcons: Story = {
   render: () => (
     <InputSurface>
-      <InputIcon>
+      <Icon tint="secondary" magnitude="md">
         <Search />
-      </InputIcon>
+      </Icon>
       <BaseInput
         render={<Input magnitude="md" />}
         aria-label="Search"
         placeholder="Search people"
       />
-      <InputIcon>
+      <Icon tint="secondary" magnitude="md">
         <Mail />
-      </InputIcon>
+      </Icon>
     </InputSurface>
   ),
 };

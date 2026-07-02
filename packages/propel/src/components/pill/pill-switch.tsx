@@ -3,11 +3,11 @@ import type { Toggle as BaseToggleTypes } from "@base-ui/react/toggle";
 import type * as React from "react";
 
 import {
-  PillIcon,
   PillLabel,
   type PillMagnitude,
   PillSwitch as PillSwitchElement,
 } from "../../elements/pill";
+import { Icon } from "../../internal/icon";
 
 export type PillSwitchProps<Value extends string = string> = Omit<
   BaseToggleTypes.Props<Value>,
@@ -36,9 +36,9 @@ export function PillSwitch<Value extends string = string>({
 }: PillSwitchProps<Value>) {
   return (
     <Toggle {...toggleProps} render={<PillSwitchElement magnitude={magnitude} />}>
-      {startIcon ? <PillIcon>{startIcon}</PillIcon> : null}
+      {startIcon ? <Icon>{startIcon}</Icon> : null}
       <PillLabel>{children}</PillLabel>
-      {endIcon ? <PillIcon>{endIcon}</PillIcon> : null}
+      {endIcon ? <Icon>{endIcon}</Icon> : null}
     </Toggle>
   );
 }

@@ -2,12 +2,12 @@ import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
 import type * as React from "react";
 
 import {
-  ContextMenuItemIcon,
   ContextMenuItemLabel,
   ContextMenuLinkItem as ContextMenuLinkItemElement,
   type ContextMenuItemTone,
   ContextMenuItemShortcut,
 } from "../../elements/context-menu";
+import { Icon } from "../../internal/icon";
 
 export type ContextMenuLinkItemProps = Omit<
   BaseContextMenu.LinkItem.Props,
@@ -35,7 +35,7 @@ export function ContextMenuLinkItem({
 }: ContextMenuLinkItemProps) {
   return (
     <BaseContextMenu.LinkItem {...props} render={<ContextMenuLinkItemElement tone={tone} />}>
-      {icon != null ? <ContextMenuItemIcon>{icon}</ContextMenuItemIcon> : null}
+      {icon != null ? <Icon>{icon}</Icon> : null}
       <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
       {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
     </BaseContextMenu.LinkItem>

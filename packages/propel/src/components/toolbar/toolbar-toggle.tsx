@@ -8,6 +8,7 @@ import {
   type ToolbarButtonProps,
   type ToolbarDensity,
 } from "../../elements/toolbar";
+import { Icon } from "../../internal/icon";
 import { ToolbarDensityContext } from "./toolbar-context";
 
 export type ToolbarToggleProps<Value extends string = string> = Omit<
@@ -30,6 +31,7 @@ export type ToolbarToggleProps<Value extends string = string> = Omit<
 export function ToolbarToggle<Value extends string = string>({
   render,
   density,
+  children,
   "aria-label": ariaLabel,
   ...toggleProps
 }: ToolbarToggleProps<Value>) {
@@ -48,6 +50,8 @@ export function ToolbarToggle<Value extends string = string>({
           }
         />
       }
-    />
+    >
+      <Icon>{children}</Icon>
+    </BaseToolbar.Button>
   );
 }

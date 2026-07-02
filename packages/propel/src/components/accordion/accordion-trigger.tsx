@@ -4,10 +4,10 @@ import type * as React from "react";
 
 import {
   AccordionTrigger as AccordionTriggerElement,
-  AccordionTriggerIcon,
-  AccordionTriggerIndicator,
   AccordionTriggerTitle,
 } from "../../elements/accordion";
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
+import { Icon } from "../../internal/icon";
 
 export type AccordionTriggerProps = Omit<BaseAccordion.Trigger.Props, "className" | "style"> & {
   /**
@@ -25,11 +25,11 @@ export type AccordionTriggerProps = Omit<BaseAccordion.Trigger.Props, "className
 export function AccordionTrigger({ icon, children, ...props }: AccordionTriggerProps) {
   return (
     <BaseAccordion.Trigger {...props} render={<AccordionTriggerElement />}>
-      {icon ? <AccordionTriggerIcon>{icon}</AccordionTriggerIcon> : null}
+      {icon ? <Icon tint="secondary">{icon}</Icon> : null}
       <AccordionTriggerTitle>{children}</AccordionTriggerTitle>
-      <AccordionTriggerIndicator>
+      <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
         <ChevronDown />
-      </AccordionTriggerIndicator>
+      </DisclosureIndicator>
     </BaseAccordion.Trigger>
   );
 }

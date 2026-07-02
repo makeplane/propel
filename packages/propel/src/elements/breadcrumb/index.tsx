@@ -5,5 +5,3 @@ export * from "./breadcrumb-list";
 export * from "./breadcrumb-page";
 export * from "./breadcrumb-separator";
 export * from "./breadcrumb-trigger";
-export * from "./breadcrumb-trigger-icon";
-export * from "./breadcrumb-trigger-indicator";

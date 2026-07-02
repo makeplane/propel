@@ -3,12 +3,12 @@ import type * as React from "react";
 
 import {
   MenuItemContent,
-  MenuItemIcon,
   MenuItemTitle,
   MenuItemTitleRow,
   MenuItemTrailing,
   MenuLinkItem as MenuLinkItemElement,
 } from "../../elements/menu";
+import { Icon } from "../../internal/icon";
 
 export type MenuLinkItemProps = Omit<BaseMenu.LinkItem.Props, "className" | "style"> & {
   /** Leading content before the label. */
@@ -24,7 +24,7 @@ export type MenuLinkItemProps = Omit<BaseMenu.LinkItem.Props, "className" | "sty
 export function MenuLinkItem({ icon, trailing, children, ...props }: MenuLinkItemProps) {
   return (
     <BaseMenu.LinkItem {...props} render={<MenuLinkItemElement />}>
-      {icon != null ? <MenuItemIcon>{icon}</MenuItemIcon> : null}
+      {icon != null ? <Icon tint="secondary">{icon}</Icon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
           <MenuItemTitle>{children}</MenuItemTitle>

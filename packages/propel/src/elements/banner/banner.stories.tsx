@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Info, X } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import { Button } from "../button/index";
-import { IconButton, IconButtonIcon } from "../icon-button";
+import { IconButton } from "../icon-button";
 import {
   Banner,
   BannerActions,
@@ -132,9 +133,9 @@ export const WithActions: Story = {
           aria-label="Dismiss"
           onClick={fn()}
         >
-          <IconButtonIcon>
+          <Icon>
             <X />
-          </IconButtonIcon>
+          </Icon>
         </IconButton>
       </BannerActions>
     </Banner>
@@ -164,9 +165,9 @@ export const DismissCallsHandler: Story = {
         aria-label="Dismiss"
         onClick={dismissSpy}
       >
-        <IconButtonIcon>
+        <Icon>
           <X />
-        </IconButtonIcon>
+        </Icon>
       </IconButton>
     </Banner>
   ),

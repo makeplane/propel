@@ -3,7 +3,7 @@ import { ArrowRight, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
-import { AnchorButton, AnchorButtonIcon, AnchorButtonLabel, AnchorButtonSpinner } from "./index";
+import { AnchorButton, AnchorButtonLabel } from "./index";
 
 // The ready-made button-looking link: a navigation `<a>` with the control chrome plus optional
 // inline-start/inline-end nodes beside the label. Same surface as the ready-made `Button`, but it
@@ -11,7 +11,7 @@ import { AnchorButton, AnchorButtonIcon, AnchorButtonLabel, AnchorButtonSpinner 
 const meta = {
   title: "Components/AnchorButton",
   component: AnchorButton,
-  subcomponents: { AnchorButtonIcon, AnchorButtonLabel, AnchorButtonSpinner },
+  subcomponents: { AnchorButtonLabel },
   argTypes: { startIcon: iconControl, endIcon: iconControl },
   args: {
     children: "Link",

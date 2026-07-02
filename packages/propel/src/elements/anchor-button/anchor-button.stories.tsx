@@ -2,11 +2,10 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ArrowRight, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import {
   AnchorButton,
-  AnchorButtonIcon,
   AnchorButtonLabel,
-  AnchorButtonSpinner,
   type AnchorButtonMagnitude,
   type AnchorButtonProminence,
 } from "./index";
@@ -20,7 +19,7 @@ const MAGNITUDES: AnchorButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 const meta = {
   title: "Elements/AnchorButton",
   component: AnchorButton,
-  subcomponents: { AnchorButtonIcon, AnchorButtonLabel, AnchorButtonSpinner },
+  subcomponents: { AnchorButtonLabel },
   args: {
     children: "Link",
     href: "#",
@@ -92,16 +91,16 @@ export const Anatomy: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       <AnchorButton {...args}>
-        <AnchorButtonIcon>
+        <Icon>
           <Plus />
-        </AnchorButtonIcon>
+        </Icon>
         <AnchorButtonLabel>With icon</AnchorButtonLabel>
       </AnchorButton>
       <AnchorButton {...args} prominence="secondary">
         <AnchorButtonLabel>Learn more</AnchorButtonLabel>
-        <AnchorButtonIcon>
+        <Icon>
           <ArrowRight />
-        </AnchorButtonIcon>
+        </Icon>
       </AnchorButton>
     </div>
   ),

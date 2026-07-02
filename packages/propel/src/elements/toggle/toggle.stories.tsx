@@ -3,19 +3,20 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Bold } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { Toggle, ToggleIcon, type ToggleMagnitude } from "./index";
+import { Icon } from "../../internal/icon";
+import { Toggle, type ToggleMagnitude } from "./index";
 
 const MAGNITUDES: ToggleMagnitude[] = ["sm", "md", "lg"];
 
 // elements-tier story (rule 2b): the styled `Toggle` button is Base-UI-agnostic; Base UI's `Toggle`
 // behavior grafts onto it via `render` (behavior outer, the styled button as the render target),
-// reflecting `[data-pressed]`/`[data-disabled]`. `ToggleIcon` sizes a bare glyph to the toggle's
+// reflecting `[data-pressed]`/`[data-disabled]`. the shared internal `Icon` slot sizes a bare glyph to the toggle's
 // `--node-size` (set by the toggle's `magnitude`). The components-tier story shows the ready-made.
 const meta = {
   title: "Elements/Toggle",
-  component: ToggleIcon,
-  subcomponents: { Toggle },
-} satisfies Meta<typeof ToggleIcon>;
+  component: Toggle,
+  args: { magnitude: "md" },
+} satisfies Meta<typeof Toggle>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -24,9 +25,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <BaseToggle render={<Toggle magnitude="md" />} aria-label="Bold">
-      <ToggleIcon>
+      <Icon>
         <Bold />
-      </ToggleIcon>
+      </Icon>
     </BaseToggle>
   ),
 };
@@ -58,9 +59,9 @@ export const Magnitudes: Story = {
           render={<Toggle magnitude={magnitude} />}
           aria-label={`Bold ${magnitude}`}
         >
-          <ToggleIcon>
+          <Icon>
             <Bold />
-          </ToggleIcon>
+          </Icon>
         </BaseToggle>
       ))}
     </div>

@@ -3,6 +3,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, CircleHelp } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
+import { Icon } from "../../internal/icon";
 import {
   Accordion,
   AccordionHeader,
@@ -10,8 +12,6 @@ import {
   AccordionPanel,
   AccordionPanelContent,
   AccordionTrigger,
-  AccordionTriggerIcon,
-  AccordionTriggerIndicator,
   AccordionTriggerTitle,
 } from "./index";
 
@@ -27,9 +27,7 @@ const meta = {
     AccordionItem,
     AccordionHeader,
     AccordionTrigger,
-    AccordionTriggerIcon,
     AccordionTriggerTitle,
-    AccordionTriggerIndicator,
     AccordionPanel,
     AccordionPanelContent,
   },
@@ -71,13 +69,13 @@ export const Default: Story = {
         <BaseAccordion.Item key={item.value} value={item.value} render={<AccordionItem />}>
           <BaseAccordion.Header render={<AccordionHeader />}>
             <BaseAccordion.Trigger render={<AccordionTrigger />}>
-              <AccordionTriggerIcon>
+              <Icon tint="secondary">
                 <CircleHelp />
-              </AccordionTriggerIcon>
+              </Icon>
               <AccordionTriggerTitle>{item.label}</AccordionTriggerTitle>
-              <AccordionTriggerIndicator>
+              <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
                 <ChevronDown />
-              </AccordionTriggerIndicator>
+              </DisclosureIndicator>
             </BaseAccordion.Trigger>
           </BaseAccordion.Header>
           <BaseAccordion.Panel render={<AccordionPanel />}>

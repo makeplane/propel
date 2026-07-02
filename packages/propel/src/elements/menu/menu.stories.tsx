@@ -4,13 +4,13 @@ import { Check, CircleDot, Copy, Pencil, Trash2 } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent, waitFor } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import {
   MenuCheckboxItem,
   MenuCheckboxItemIndicator,
   MenuGroupLabel,
   MenuItem,
   MenuItemContent,
-  MenuItemIcon,
   MenuItemMeta,
   MenuItemIndicator,
   MenuItemTitle,
@@ -30,7 +30,6 @@ const meta = {
   subcomponents: {
     MenuPopup,
     MenuItem,
-    MenuItemIcon,
     MenuItemContent,
     MenuItemTitleRow,
     MenuItemTitle,
@@ -61,9 +60,9 @@ export const Default: Story = {
         <BaseMenu.Positioner sideOffset={4}>
           <BaseMenu.Popup render={<MenuPopup elevation="raised" />}>
             <BaseMenu.Item render={<MenuItem layout="default" />}>
-              <MenuItemIcon>
+              <Icon tint="secondary">
                 <Pencil />
-              </MenuItemIcon>
+              </Icon>
               <MenuItemContent>
                 <MenuItemTitleRow>
                   <MenuItemTitle>Edit</MenuItemTitle>
@@ -72,9 +71,9 @@ export const Default: Story = {
               <MenuItemMeta>⌘E</MenuItemMeta>
             </BaseMenu.Item>
             <BaseMenu.Item render={<MenuItem layout="default" />}>
-              <MenuItemIcon>
+              <Icon tint="secondary">
                 <Copy />
-              </MenuItemIcon>
+              </Icon>
               <MenuItemContent>
                 <MenuItemTitleRow>
                   <MenuItemTitle>Duplicate</MenuItemTitle>
@@ -86,9 +85,9 @@ export const Default: Story = {
             </BaseMenu.Item>
             <BaseMenu.Separator render={<MenuSeparator />} />
             <BaseMenu.Item render={<MenuItem layout="default" />}>
-              <MenuItemIcon>
+              <Icon tint="secondary">
                 <Trash2 />
-              </MenuItemIcon>
+              </Icon>
               <MenuItemContent>
                 <MenuItemTitleRow>
                   <MenuItemTitle>Delete</MenuItemTitle>

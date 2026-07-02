@@ -3,9 +3,9 @@ import type * as React from "react";
 import {
   Badge as BadgeElement,
   type BadgeProps as BadgeElementProps,
-  BadgeIcon,
   BadgeLabel,
 } from "../../elements/badge";
+import { Icon } from "../../internal/icon";
 
 export type BadgeProps = BadgeElementProps & {
   /** The badge label — text, a count, or any inline content. */
@@ -29,9 +29,9 @@ export type BadgeProps = BadgeElementProps & {
 export function Badge({ children, startIcon, endIcon, ...props }: BadgeProps) {
   return (
     <BadgeElement {...props}>
-      {startIcon ? <BadgeIcon>{startIcon}</BadgeIcon> : null}
+      {startIcon ? <Icon>{startIcon}</Icon> : null}
       <BadgeLabel>{children}</BadgeLabel>
-      {endIcon ? <BadgeIcon>{endIcon}</BadgeIcon> : null}
+      {endIcon ? <Icon>{endIcon}</Icon> : null}
     </BadgeElement>
   );
 }

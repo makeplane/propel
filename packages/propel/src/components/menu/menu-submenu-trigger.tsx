@@ -1,16 +1,16 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import {
   MenuItemContent,
-  MenuItemIcon,
-  MenuSubmenuTriggerIndicator,
   MenuItemTitle,
   MenuItemTitleRow,
   MenuItemTrailing,
   MenuSubmenuTrigger as MenuSubmenuTriggerElement,
 } from "../../elements/menu";
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
+import { Icon } from "../../internal/icon";
 
 export type MenuSubmenuTriggerProps = Omit<
   BaseMenu.SubmenuTrigger.Props,
@@ -35,16 +35,16 @@ export function MenuSubmenuTrigger({
 }: MenuSubmenuTriggerProps) {
   return (
     <BaseMenu.SubmenuTrigger {...props} render={<MenuSubmenuTriggerElement />}>
-      {icon != null ? <MenuItemIcon>{icon}</MenuItemIcon> : null}
+      {icon != null ? <Icon tint="secondary">{icon}</Icon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
           <MenuItemTitle>{children}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
       {trailing != null ? <MenuItemTrailing>{trailing}</MenuItemTrailing> : null}
-      <MenuSubmenuTriggerIndicator>
-        <ChevronRight />
-      </MenuSubmenuTriggerIndicator>
+      <DisclosureIndicator motion="pointEnd" tint="tertiary" magnitude="inherit">
+        <ChevronDown />
+      </DisclosureIndicator>
     </BaseMenu.SubmenuTrigger>
   );
 }

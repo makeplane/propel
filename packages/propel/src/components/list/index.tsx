@@ -7,14 +7,10 @@ export * from "./list-item-link";
 export {
   ListItem,
   type ListItemProps,
-  ListItemIcon,
-  type ListItemIconProps,
   ListItemLabel,
   type ListItemLabelProps,
   ListSectionHeading,
   type ListSectionHeadingProps,
   ListSectionTrigger,
   type ListSectionTriggerProps,
-  ListSectionTriggerIndicator,
-  type ListSectionTriggerIndicatorProps,
 } from "../../elements/list";

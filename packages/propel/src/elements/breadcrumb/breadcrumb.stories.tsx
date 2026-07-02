@@ -1,8 +1,10 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ChevronRight, Layers } from "lucide-react";
+import { ChevronRight, Layers, ChevronDown } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
+import { Icon } from "../../internal/icon";
 import { MenuItem, MenuItemContent, MenuItemTitle, MenuItemTitleRow, MenuPopup } from "../menu";
 import {
   Breadcrumb,
@@ -12,8 +14,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbTrigger,
-  BreadcrumbTriggerIcon,
-  BreadcrumbTriggerIndicator,
 } from "./index";
 
 // elements-tier story (rule 2b): composes the ATOMIC breadcrumb parts (each is a Base-UI-agnostic
@@ -32,8 +32,6 @@ const meta = {
     BreadcrumbPage,
     BreadcrumbSeparator,
     BreadcrumbTrigger,
-    BreadcrumbTriggerIcon,
-    BreadcrumbTriggerIndicator,
     MenuPopup,
     MenuItem,
   },
@@ -116,13 +114,13 @@ export const MenuTrigger: Story = {
         <BreadcrumbItem>
           <BaseMenu.Root>
             <BaseMenu.Trigger render={<BreadcrumbTrigger group />}>
-              <BreadcrumbTriggerIcon>
+              <Icon tint="tertiary" magnitude="md">
                 <Layers />
-              </BreadcrumbTriggerIcon>
+              </Icon>
               Plane Design
-              <BreadcrumbTriggerIndicator>
-                <ChevronRight />
-              </BreadcrumbTriggerIndicator>
+              <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+                <ChevronDown />
+              </DisclosureIndicator>
             </BaseMenu.Trigger>
             <BaseMenu.Portal>
               <BaseMenu.Positioner sideOffset={4}>

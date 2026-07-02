@@ -1,7 +1,5 @@
 import { cva, cx } from "class-variance-authority";
 
-import { nodeSlotClass } from "../../internal/node-slot";
-
 // Menubar is a verbatim wrapping of Base UI's single `Menubar` container, which
 // hosts a row of `Menu.Root`s. Base UI drives all state through `data-*`
 // attributes, so there are no styling axes (variant/tone/magnitude) to expose.
@@ -32,10 +30,6 @@ export const menubarTriggerVariants = cva(
     "data-disabled:pointer-events-none data-disabled:text-disabled",
   ),
 );
-
-// The decorative leading icon at the trigger's inline-start. Sizes its single child
-// to the trigger's `--node-size` (via the shared node-slot class) and tints it.
-export const menubarTriggerIconVariants = cva(cx(nodeSlotClass, "text-icon-secondary"));
 
 // The trigger's label. A single text element; `min-w-0` lets long labels truncate
 // instead of overflowing the bar.

@@ -2,17 +2,16 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Star } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { Toggle, ToggleIcon, type ToggleMagnitude } from "./index";
+import { Toggle, type ToggleMagnitude } from "./index";
 
 const MAGNITUDES: ToggleMagnitude[] = ["sm", "md", "lg"];
 
 // Components-tier story: the ready-made `Toggle` (a 1:1 re-export of the elements primitive) —
-// a two-state icon button with its `ToggleIcon` glyph slot. The elements-tier story documents
+// a two-state icon button that wraps its bare svg child in the shared glyph slot. The elements-tier story documents
 // the same parts and magnitudes.
 const meta = {
   title: "Components/Toggle",
   component: Toggle,
-  subcomponents: { ToggleIcon },
   args: { magnitude: "md", "aria-label": "Favorite" },
 } satisfies Meta<typeof Toggle>;
 
@@ -24,9 +23,7 @@ export const Default: Story = {
   args: { magnitude: "md" },
   render: (args) => (
     <Toggle {...args}>
-      <ToggleIcon>
-        <Star />
-      </ToggleIcon>
+      <Star />
     </Toggle>
   ),
 };
@@ -47,7 +44,7 @@ export const DefaultInteraction: Story = {
   },
 };
 
-/** Every size side by side; each magnitude also scales the `ToggleIcon` glyph via `--node-size`. */
+/** Every size side by side; each magnitude also scales the glyph via `--node-size`. */
 export const Magnitudes: Story = {
   // Iterates `magnitude` and gives each toggle its own accessible name, so disable just
   // those two controls; the rest stay live and update every toggle at once.
@@ -61,9 +58,7 @@ export const Magnitudes: Story = {
           magnitude={magnitude}
           aria-label={`Favorite (${magnitude})`}
         >
-          <ToggleIcon>
-            <Star />
-          </ToggleIcon>
+          <Star />
         </Toggle>
       ))}
     </div>
@@ -76,19 +71,13 @@ export const States: Story = {
   render: () => (
     <div className="flex items-center gap-2">
       <Toggle magnitude="md" aria-label="Off">
-        <ToggleIcon>
-          <Star />
-        </ToggleIcon>
+        <Star />
       </Toggle>
       <Toggle magnitude="md" defaultPressed aria-label="On">
-        <ToggleIcon>
-          <Star />
-        </ToggleIcon>
+        <Star />
       </Toggle>
       <Toggle magnitude="md" disabled aria-label="Disabled">
-        <ToggleIcon>
-          <Star />
-        </ToggleIcon>
+        <Star />
       </Toggle>
     </div>
   ),

@@ -5,9 +5,9 @@ import type * as React from "react";
 import {
   IconPill as IconPillElement,
   type IconPillProps as IconPillElementProps,
-  PillIcon,
-  PillSpinner,
 } from "../../elements/pill";
+import { Icon } from "../../internal/icon";
+import { Spinner } from "../../internal/spinner";
 
 export type IconPillProps = IconPillElementProps & {
   /** The icon, sized and tinted by the pill. */
@@ -40,11 +40,11 @@ export function IconPill({
       aria-busy={loading ? true : undefined}
     >
       {loading ? (
-        <PillSpinner>
+        <Spinner>
           <LoaderCircle />
-        </PillSpinner>
+        </Spinner>
       ) : (
-        <PillIcon>{children}</PillIcon>
+        <Icon>{children}</Icon>
       )}
     </BaseButton>
   );

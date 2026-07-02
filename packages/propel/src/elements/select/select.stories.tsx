@@ -4,17 +4,11 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { expect, within } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import { ListboxItem } from "../../internal/listbox-item";
 import { ListboxPopup } from "../../internal/listbox-popup";
 import { Field, FieldError } from "../field/index";
-import {
-  SelectField,
-  SelectIcon,
-  SelectItemIndicator,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "./index";
+import { SelectField, SelectItemIndicator, SelectLabel, SelectTrigger, SelectValue } from "./index";
 
 const SERVER_TYPES = [
   { label: "General purpose", value: "general" },
@@ -34,7 +28,6 @@ const meta = {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-    SelectIcon,
     ListboxItem,
     SelectItemIndicator,
   },
@@ -52,9 +45,9 @@ export const Default: Story = {
           <BaseSelect.Label render={<SelectLabel />}>Server type</BaseSelect.Label>
           <BaseSelect.Trigger render={<SelectTrigger magnitude="md" />}>
             <BaseSelect.Value render={<SelectValue />} />
-            <SelectIcon>
+            <Icon tint="secondary">
               <ChevronsUpDown />
-            </SelectIcon>
+            </Icon>
           </BaseSelect.Trigger>
         </SelectField>
         <BaseSelect.Portal>

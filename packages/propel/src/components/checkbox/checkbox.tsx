@@ -6,9 +6,9 @@ import {
   Checkbox as CheckboxElement,
   CheckboxIndeterminateIndicator,
   CheckboxIndicator,
-  CheckboxIcon,
   CheckboxLabel,
 } from "../../elements/checkbox";
+import { Icon } from "../../internal/icon";
 
 export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" | "render"> & {
   /**
@@ -53,7 +53,11 @@ export function Checkbox({ label, icon, id, ...props }: CheckboxProps) {
   return (
     <CheckboxLabel htmlFor={checkboxId}>
       {box}
-      {icon ? <CheckboxIcon>{icon}</CheckboxIcon> : null}
+      {icon ? (
+        <Icon tint="secondary" magnitude="sm">
+          {icon}
+        </Icon>
+      ) : null}
       {label}
     </CheckboxLabel>
   );

@@ -70,9 +70,6 @@ export const menuSubmenuTriggerVariants = cva(
   ),
 );
 
-/** Leading icon slot inside a row: sizes its single child to the row's `--node-size` and tints it. */
-export const menuItemIconVariants = cva(cx(nodeSlotClass, "text-icon-secondary"));
-
 /**
  * The text column of a row. Grows to fill the row (so trailing nodes/indicators sit at the
  * inline-end), stacks the title row over an optional description, and clips overflow.
@@ -106,18 +103,6 @@ export const menuItemTrailingVariants = cva(nodeSlotClass);
  * tints it with the accent. Decorative — the row carries the selected state.
  */
 export const menuItemIndicatorVariants = cva(cx(nodeSlotClass, "h-5 w-4 text-icon-accent-primary"));
-
-/**
- * The chevron that marks a submenu trigger, pinned at the row's inline-end. Sizes its single child
- * to `--node-size`, tints it, and mirrors under RTL. Decorative; renders the glyph passed as its
- * child.
- */
-export const menuSubmenuTriggerIndicatorVariants = cva(
-  cx(
-    nodeSlotClass,
-    "text-icon-tertiary group-data-disabled/item:text-icon-disabled rtl:-scale-x-100",
-  ),
-);
 
 /** The leading control slot of a checkbox/radio row, holding the visual toggle. */
 export const menuItemControlVariants = cva("flex shrink-0 items-center");
@@ -158,11 +143,6 @@ export const menuLabelMetaVariants = cva("shrink-0");
 /** Search: the sticky search row pinned above the popup list. */
 export const menuSearchVariants = cva(
   "flex shrink-0 items-center gap-1.5 border-b border-subtle bg-surface-1 px-3 py-2",
-);
-
-/** Search icon: the leading magnifier glyph in `MenuSearch`. Sizes its child to `--node-size`. */
-export const menuSearchIconVariants = cva(
-  cx(nodeSlotClass, "text-icon-tertiary [--node-size:1rem]"),
 );
 
 /** Search input: the borderless text field in `MenuSearch`. */

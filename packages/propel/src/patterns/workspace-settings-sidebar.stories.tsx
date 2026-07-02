@@ -6,13 +6,13 @@ import { Badge } from "../components/badge/index";
 import {
   List,
   ListItem,
-  ListItemIcon,
   ListItemLabel,
   ListItemLink,
   ListSectionHeading,
 } from "../components/list/index";
 import { Separator } from "../components/separator/index";
 import { WorkspaceAvatar } from "../components/workspace-avatar/index";
+import { Icon } from "../internal/icon";
 import {
   AccessAndRolesIcon,
   BillingsIcon,
@@ -160,13 +160,13 @@ export const WorkspaceSettings: Story = {
             <ListSectionHeading>{section.label}</ListSectionHeading>
             <List role="toolbar" aria-label={section.label}>
               {section.rows.map((row) => {
-                const Icon = row.icon;
+                const RowIcon = row.icon;
                 return (
                   <ListItem key={row.href}>
                     <ListItemLink href={row.href}>
-                      <ListItemIcon>
-                        <Icon aria-hidden />
-                      </ListItemIcon>
+                      <Icon magnitude="md">
+                        <RowIcon aria-hidden />
+                      </Icon>
                       <ListItemLabel>{row.label}</ListItemLabel>
                     </ListItemLink>
                   </ListItem>

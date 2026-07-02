@@ -8,10 +8,6 @@ export * from "./accordion-trigger";
 export {
   AccordionPanelContent,
   type AccordionPanelContentProps,
-  AccordionTriggerIcon,
-  type AccordionTriggerIconProps,
-  AccordionTriggerIndicator,
-  type AccordionTriggerIndicatorProps,
   AccordionTriggerTitle,
   type AccordionTriggerTitleProps,
 } from "../../elements/accordion";

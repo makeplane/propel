@@ -33,10 +33,6 @@ export const selectTriggerVariants = cva(
   },
 );
 
-// The trailing chevron slot: a node-slot sized to `--node-size`. Always decorative;
-// the trigger carries the accessible state.
-export const selectIconVariants = cva(cx(nodeSlotClass, "text-icon-secondary"));
-
 // The selection checkmark slot inside an item: a node-slot tinted to the accent.
 // Always left-aligned per the Figma spec; the 1rem grid column in the shared listbox
 // item (`internal/listbox-item`) reserves the space whether the indicator shows or not.

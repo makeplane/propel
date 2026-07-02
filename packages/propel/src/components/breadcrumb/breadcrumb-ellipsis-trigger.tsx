@@ -2,7 +2,8 @@ import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { Ellipsis } from "lucide-react";
 import type * as React from "react";
 
-import { BreadcrumbTrigger, BreadcrumbTriggerIcon } from "../../elements/breadcrumb";
+import { BreadcrumbTrigger } from "../../elements/breadcrumb";
+import { Icon } from "../../internal/icon";
 
 export type BreadcrumbEllipsisTriggerProps = Omit<
   BaseMenu.Trigger.Props,
@@ -24,7 +25,9 @@ export type BreadcrumbEllipsisTriggerProps = Omit<
 export function BreadcrumbEllipsisTrigger({ icon, ...props }: BreadcrumbEllipsisTriggerProps) {
   return (
     <BaseMenu.Trigger render={<BreadcrumbTrigger />} {...props}>
-      <BreadcrumbTriggerIcon>{icon ?? <Ellipsis />}</BreadcrumbTriggerIcon>
+      <Icon tint="tertiary" magnitude="md">
+        {icon ?? <Ellipsis />}
+      </Icon>
     </BaseMenu.Trigger>
   );
 }

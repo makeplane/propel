@@ -1,6 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Badge is the small rounded pill of inline text (a status tag, a "Paid"/"Free"
@@ -59,8 +58,6 @@ type BadgeVariantConfig = VariantProps<typeof badgeVariants>;
 export type BadgeMagnitude = NonNullable<BadgeVariantConfig["magnitude"]>;
 export type BadgeTone = NonNullable<BadgeVariantConfig["tone"]>;
 export type BadgeVariantProps = StrictVariantProps<typeof badgeVariants>;
-
-export const badgeIconVariants = cva(nodeSlotClass);
 
 // The badge's text label. Single-line (the base already sets `whitespace-nowrap`); kept
 // as its own region so the label and leading/trailing icons compose as siblings.

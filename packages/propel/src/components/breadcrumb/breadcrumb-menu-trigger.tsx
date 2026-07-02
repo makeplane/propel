@@ -1,12 +1,10 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
-import {
-  BreadcrumbTrigger,
-  BreadcrumbTriggerIcon,
-  BreadcrumbTriggerIndicator,
-} from "../../elements/breadcrumb";
+import { BreadcrumbTrigger } from "../../elements/breadcrumb";
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
+import { Icon } from "../../internal/icon";
 
 export type BreadcrumbMenuTriggerProps = Omit<BaseMenu.Trigger.Props, "className" | "style"> & {
   /** Leading content, typically a work-item/page icon. */
@@ -19,11 +17,15 @@ export type BreadcrumbMenuTriggerProps = Omit<BaseMenu.Trigger.Props, "className
 export function BreadcrumbMenuTrigger({ icon, children, ...props }: BreadcrumbMenuTriggerProps) {
   return (
     <BaseMenu.Trigger render={<BreadcrumbTrigger group />} {...props}>
-      {icon != null ? <BreadcrumbTriggerIcon>{icon}</BreadcrumbTriggerIcon> : null}
+      {icon != null ? (
+        <Icon tint="tertiary" magnitude="md">
+          {icon}
+        </Icon>
+      ) : null}
       {children}
-      <BreadcrumbTriggerIndicator>
-        <ChevronRight />
-      </BreadcrumbTriggerIndicator>
+      <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+        <ChevronDown />
+      </DisclosureIndicator>
     </BaseMenu.Trigger>
   );
 }

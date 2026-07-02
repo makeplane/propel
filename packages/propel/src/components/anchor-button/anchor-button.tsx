@@ -3,11 +3,11 @@ import type * as React from "react";
 
 import {
   AnchorButton as AnchorButtonElement,
-  AnchorButtonIcon,
   AnchorButtonLabel,
   type AnchorButtonProps as AnchorButtonElementProps,
-  AnchorButtonSpinner,
 } from "../../elements/anchor-button";
+import { Icon } from "../../internal/icon";
+import { Spinner } from "../../internal/spinner";
 
 export type AnchorButtonProps = AnchorButtonElementProps & {
   /** Node before the label (inline-start), sized to `--node-size`. Decorative. */
@@ -37,14 +37,14 @@ export function AnchorButton({
   return (
     <AnchorButtonElement aria-busy={loading ? true : undefined} {...props}>
       {loading ? (
-        <AnchorButtonSpinner>
+        <Spinner>
           <LoaderCircle />
-        </AnchorButtonSpinner>
+        </Spinner>
       ) : startIcon ? (
-        <AnchorButtonIcon>{startIcon}</AnchorButtonIcon>
+        <Icon>{startIcon}</Icon>
       ) : null}
       <AnchorButtonLabel>{children}</AnchorButtonLabel>
-      {!loading && endIcon ? <AnchorButtonIcon>{endIcon}</AnchorButtonIcon> : null}
+      {!loading && endIcon ? <Icon>{endIcon}</Icon> : null}
     </AnchorButtonElement>
   );
 }

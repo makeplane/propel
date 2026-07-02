@@ -5,9 +5,9 @@ import type * as React from "react";
 import {
   IconButton as IconButtonElement,
   type IconButtonProps as IconButtonElementProps,
-  IconButtonIcon,
-  IconButtonSpinner,
 } from "../../elements/icon-button";
+import { Icon } from "../../internal/icon";
+import { Spinner } from "../../internal/spinner";
 
 export type IconButtonProps = IconButtonElementProps & {
   /**
@@ -48,11 +48,11 @@ export function IconButton({
       aria-busy={loading ? true : undefined}
     >
       {loading ? (
-        <IconButtonSpinner>
+        <Spinner>
           <LoaderCircle />
-        </IconButtonSpinner>
+        </Spinner>
       ) : (
-        <IconButtonIcon>{children}</IconButtonIcon>
+        <Icon>{children}</Icon>
       )}
     </BaseButton>
   );

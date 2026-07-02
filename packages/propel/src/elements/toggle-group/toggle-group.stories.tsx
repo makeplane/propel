@@ -4,7 +4,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { AlignCenter, AlignLeft, AlignRight, Bold, Italic } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
-import { Toggle, ToggleIcon } from "../toggle/index";
+import { Icon } from "../../internal/icon";
+import { Toggle } from "../toggle/index";
 import { ToggleGroup } from "./index";
 
 // elements-tier story (rule 2b): `ToggleGroup` is a Base-UI-agnostic styled container; Base UI's
@@ -15,7 +16,7 @@ import { ToggleGroup } from "./index";
 const meta = {
   title: "Elements/ToggleGroup",
   component: ToggleGroup,
-  subcomponents: { Toggle, ToggleIcon },
+  subcomponents: { Toggle },
   parameters: {
     a11y: {
       // Base UI's ToggleGroup renders `role="group"` with `aria-orientation`, which axe's
@@ -40,19 +41,19 @@ export const Default: Story = {
       aria-label="Text alignment"
     >
       <BaseToggle value="left" aria-label="Align left" render={<Toggle magnitude="md" />}>
-        <ToggleIcon>
+        <Icon>
           <AlignLeft />
-        </ToggleIcon>
+        </Icon>
       </BaseToggle>
       <BaseToggle value="center" aria-label="Align center" render={<Toggle magnitude="md" />}>
-        <ToggleIcon>
+        <Icon>
           <AlignCenter />
-        </ToggleIcon>
+        </Icon>
       </BaseToggle>
       <BaseToggle value="right" aria-label="Align right" render={<Toggle magnitude="md" />}>
-        <ToggleIcon>
+        <Icon>
           <AlignRight />
-        </ToggleIcon>
+        </Icon>
       </BaseToggle>
     </BaseToggleGroup>
   ),
@@ -87,14 +88,14 @@ export const Multiple: Story = {
       aria-label="Text formatting"
     >
       <BaseToggle value="bold" aria-label="Bold" render={<Toggle magnitude="md" />}>
-        <ToggleIcon>
+        <Icon>
           <Bold />
-        </ToggleIcon>
+        </Icon>
       </BaseToggle>
       <BaseToggle value="italic" aria-label="Italic" render={<Toggle magnitude="md" />}>
-        <ToggleIcon>
+        <Icon>
           <Italic />
-        </ToggleIcon>
+        </Icon>
       </BaseToggle>
     </BaseToggleGroup>
   ),

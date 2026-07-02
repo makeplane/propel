@@ -1,15 +1,15 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import {
-  ContextMenuItemIcon,
   ContextMenuItemLabel,
   ContextMenuItemShortcut,
   ContextMenuSubmenuTrigger as ContextMenuSubmenuTriggerElement,
   type ContextMenuSubmenuTriggerTone,
-  ContextMenuSubmenuTriggerIndicator,
 } from "../../elements/context-menu";
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
+import { Icon } from "../../internal/icon";
 
 export type ContextMenuSubmenuTriggerProps = Omit<
   BaseContextMenu.SubmenuTrigger.Props,
@@ -40,12 +40,12 @@ export function ContextMenuSubmenuTrigger({
       {...props}
       render={<ContextMenuSubmenuTriggerElement tone={tone} />}
     >
-      {icon != null ? <ContextMenuItemIcon>{icon}</ContextMenuItemIcon> : null}
+      {icon != null ? <Icon>{icon}</Icon> : null}
       <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
       {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
-      <ContextMenuSubmenuTriggerIndicator>
-        <ChevronRight />
-      </ContextMenuSubmenuTriggerIndicator>
+      <DisclosureIndicator motion="pointEnd" tint="tertiary" magnitude="inherit">
+        <ChevronDown />
+      </DisclosureIndicator>
     </BaseContextMenu.SubmenuTrigger>
   );
 }

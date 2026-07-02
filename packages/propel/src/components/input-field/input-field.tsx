@@ -7,7 +7,7 @@ import type { InputMagnitude } from "../../elements/field/variants";
 import { InputField as InputFieldElement } from "../../elements/input-field/input-field";
 import { Input as InputElement } from "../../elements/input/input";
 import { InputGroup } from "../../elements/input/input-group";
-import { InputIcon } from "../../elements/input/input-icon";
+import { Icon } from "../../internal/icon";
 import { FieldHelperText } from "../field/field-helper-text";
 import { FieldLabelGroup } from "../field/field-label-group";
 
@@ -74,13 +74,21 @@ export function InputField({
       />
       <FieldControlContent orientation={orientation}>
         <InputGroup magnitude={magnitude}>
-          {startIcon ? <InputIcon>{startIcon}</InputIcon> : null}
+          {startIcon ? (
+            <Icon tint="secondary" magnitude="md">
+              {startIcon}
+            </Icon>
+          ) : null}
           <BaseInput
             required={required}
             {...controlProps}
             render={<InputElement magnitude={magnitude} />}
           />
-          {endIcon ? <InputIcon>{endIcon}</InputIcon> : null}
+          {endIcon ? (
+            <Icon tint="secondary" magnitude="md">
+              {endIcon}
+            </Icon>
+          ) : null}
         </InputGroup>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </FieldControlContent>

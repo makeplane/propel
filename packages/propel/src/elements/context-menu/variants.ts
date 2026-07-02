@@ -58,9 +58,6 @@ export const contextMenuSubmenuTriggerVariants = cva(
   },
 );
 
-/** The leading icon region of an item row. Sizes its single child to the row's `--node-size`. */
-export const contextMenuItemIconVariants = cva(nodeSlotClass);
-
 /** The growing label region of an item row; fills the row so trailing regions sit at the inline-end. */
 export const contextMenuItemLabelVariants = cva("min-w-0 flex-1 truncate");
 
@@ -73,18 +70,6 @@ export const contextMenuItemShortcutVariants = cva("shrink-0 text-12 text-tertia
  * accent.
  */
 export const contextMenuItemIndicatorVariants = cva(cx(nodeSlotClass, "text-icon-accent-primary"));
-
-/**
- * The submenu caret region at a submenu trigger's inline-end. Sizes its single child to the row's
- * `--node-size`, tints it tertiary (disabled when the trigger is disabled), and mirrors under RTL
- * so it always points toward the submenu.
- */
-export const contextMenuSubmenuTriggerIndicatorVariants = cva(
-  cx(
-    nodeSlotClass,
-    "text-icon-tertiary group-data-disabled/item:text-icon-disabled rtl:-scale-x-100",
-  ),
-);
 
 /** Separator: a thin divider spanning the popup padding. */
 export const contextMenuSeparatorVariants = cva("-mx-1 my-1 border-t border-subtle");

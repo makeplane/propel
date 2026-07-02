@@ -30,7 +30,6 @@ import {
   ToolbarButton,
   ToolbarMenuTrigger,
   ToolbarGroup,
-  ToolbarItemIcon,
   ToolbarSeparator,
   ToolbarToggle,
   ToolbarToggleGroup,
@@ -61,97 +60,65 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
         </MenuContent>
       </Menu>
       <ToolbarButton aria-label="Comment">
-        <ToolbarItemIcon>
-          <MessageSquare />
-        </ToolbarItemIcon>
+        <MessageSquare />
       </ToolbarButton>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
         <ToolbarToggle aria-label="Bold">
-          <ToolbarItemIcon>
-            <Bold />
-          </ToolbarItemIcon>
+          <Bold />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Italic">
-          <ToolbarItemIcon>
-            <Italic />
-          </ToolbarItemIcon>
+          <Italic />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Underline">
-          <ToolbarItemIcon>
-            <Underline />
-          </ToolbarItemIcon>
+          <Underline />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Strikethrough">
-          <ToolbarItemIcon>
-            <Strikethrough />
-          </ToolbarItemIcon>
+          <Strikethrough />
         </ToolbarToggle>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarToggleGroup defaultValue={["left"]} aria-label="Text alignment">
         <ToolbarToggle value="left" aria-label="Align left">
-          <ToolbarItemIcon>
-            <AlignLeft />
-          </ToolbarItemIcon>
+          <AlignLeft />
         </ToolbarToggle>
         <ToolbarToggle value="center" aria-label="Align center">
-          <ToolbarItemIcon>
-            <AlignCenter />
-          </ToolbarItemIcon>
+          <AlignCenter />
         </ToolbarToggle>
         <ToolbarToggle value="right" aria-label="Align right">
-          <ToolbarItemIcon>
-            <AlignRight />
-          </ToolbarItemIcon>
+          <AlignRight />
         </ToolbarToggle>
       </ToolbarToggleGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Lists">
         <ToolbarToggle aria-label="Bullet list">
-          <ToolbarItemIcon>
-            <List />
-          </ToolbarItemIcon>
+          <List />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Numbered list">
-          <ToolbarItemIcon>
-            <ListOrdered />
-          </ToolbarItemIcon>
+          <ListOrdered />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Checklist">
-          <ToolbarItemIcon>
-            <ListChecks />
-          </ToolbarItemIcon>
+          <ListChecks />
         </ToolbarToggle>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Blocks">
         <ToolbarToggle aria-label="Quote">
-          <ToolbarItemIcon>
-            <Quote />
-          </ToolbarItemIcon>
+          <Quote />
         </ToolbarToggle>
         <ToolbarToggle aria-label="Code block">
-          <ToolbarItemIcon>
-            <Code />
-          </ToolbarItemIcon>
+          <Code />
         </ToolbarToggle>
         <ToolbarButton aria-label="Insert table">
-          <ToolbarItemIcon>
-            <Table />
-          </ToolbarItemIcon>
+          <Table />
         </ToolbarButton>
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarButton aria-label="Insert link">
-        <ToolbarItemIcon>
-          <Link />
-        </ToolbarItemIcon>
+        <Link />
       </ToolbarButton>
       <ToolbarButton aria-label="Insert image">
-        <ToolbarItemIcon>
-          <Image />
-        </ToolbarItemIcon>
+        <Image />
       </ToolbarButton>
     </Toolbar>
   );
@@ -165,7 +132,6 @@ const meta = {
   subcomponents: {
     ToolbarGroup,
     ToolbarButton,
-    ToolbarItemIcon,
     ToolbarToggle,
     ToolbarToggleGroup,
     ToolbarSeparator,
@@ -246,9 +212,7 @@ export const DensityDrivesControlSize: Story = {
   render: () => (
     <Toolbar elevation="flat" density="compact">
       <ToolbarToggle aria-label="Bold">
-        <ToolbarItemIcon>
-          <Bold />
-        </ToolbarItemIcon>
+        <Bold />
       </ToolbarToggle>
     </Toolbar>
   ),
@@ -324,19 +288,13 @@ export const KeyboardRovingFocus: Story = {
   render: () => (
     <Toolbar elevation="raised" density="compact">
       <ToolbarToggle aria-label="Bold">
-        <ToolbarItemIcon>
-          <Bold />
-        </ToolbarItemIcon>
+        <Bold />
       </ToolbarToggle>
       <ToolbarToggle aria-label="Italic">
-        <ToolbarItemIcon>
-          <Italic />
-        </ToolbarItemIcon>
+        <Italic />
       </ToolbarToggle>
       <ToolbarToggle aria-label="Underline">
-        <ToolbarItemIcon>
-          <Underline />
-        </ToolbarItemIcon>
+        <Underline />
       </ToolbarToggle>
     </Toolbar>
   ),

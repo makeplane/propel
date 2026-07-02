@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Info, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
-import { IconButton, IconButtonIcon } from "../icon-button";
+import { Icon } from "../../internal/icon";
+import { IconButton } from "../icon-button";
 import {
   Toast,
   ToastAction,
@@ -57,9 +58,9 @@ function ToastList() {
           <BaseToast.Close
             render={
               <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Dismiss">
-                <IconButtonIcon>
+                <Icon>
                   <X />
-                </IconButtonIcon>
+                </Icon>
               </IconButton>
             }
           />

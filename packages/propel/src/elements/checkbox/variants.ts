@@ -32,8 +32,3 @@ export const checkboxLabelVariants = cva(
     "cursor-pointer not-has-[[data-disabled]]:hover:bg-layer-transparent-hover has-[[data-disabled]]:cursor-not-allowed",
   ),
 );
-
-// The inline-start icon slot between the box and the label text.
-export const checkboxIconVariants = cva(
-  cx(nodeSlotClass, "text-icon-secondary [--node-size:0.875rem]"),
-);

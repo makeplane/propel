@@ -3,17 +3,13 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { LoaderCircle, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
+import { Spinner as SpinnerSlot } from "../../internal/spinner";
 import { iconControl } from "../../storybook/icon-control";
-import {
-  IconButton,
-  IconButtonIcon,
-  type IconButtonMagnitude,
-  IconButtonSpinner,
-  type IconButtonProminence,
-} from "./index";
+import { IconButton, type IconButtonMagnitude, type IconButtonProminence } from "./index";
 
 // elements-tier story (rule 2b): the styled parts are Base-UI-agnostic `useRender` elements — the square
-// `IconButton` box, the `IconButtonIcon` glyph slot, and the `IconButtonSpinner` loading indicator.
+// `IconButton` box, the shared internal `Icon` glyph slot, and the internal `Spinner` loading indicator.
 // Base UI's `Button` behavior grafts onto the styled box via `render`. The components-tier
 // `IconButton` story shows the ready-made that swaps the slot for the spinner while `loading`.
 const PROMINENCES: IconButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
@@ -21,8 +17,8 @@ const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
 const meta = {
   title: "Elements/IconButton",
-  component: IconButtonIcon,
-  subcomponents: { IconButton, IconButtonSpinner },
+  component: IconButton,
+  subcomponents: { IconButton },
   // Icon picker control for the single glyph rendered inside the slot.
   argTypes: { children: iconControl },
   parameters: {
@@ -32,16 +28,19 @@ const meta = {
     },
   },
   args: {
+    prominence: "primary",
+    tone: "neutral",
+    magnitude: "md",
     children: <Plus />,
   },
-} satisfies Meta<typeof IconButtonIcon>;
+} satisfies Meta<typeof IconButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Graft Base UI `Button` behavior onto the styled `IconButton` box wrapping an `IconButtonIcon`
- * glyph slot.
+ * Graft Base UI `Button` behavior onto the styled `IconButton` box wrapping the shared `Icon` glyph
+ * slot.
  */
 export const Default: Story = {
   render: (args) => (
@@ -49,7 +48,7 @@ export const Default: Story = {
       render={<IconButton prominence="primary" tone="neutral" magnitude="md" />}
       aria-label="Add item"
     >
-      <IconButtonIcon {...args} />
+      <Icon>{args.children}</Icon>
     </BaseButton>
   ),
 };
@@ -69,9 +68,9 @@ export const Prominences: Story = {
           render={<IconButton prominence={prominence} tone="neutral" magnitude="md" />}
           aria-label={`${prominence} action`}
         >
-          <IconButtonIcon>
+          <Icon>
             <Plus />
-          </IconButtonIcon>
+          </Icon>
         </BaseButton>
       ))}
     </div>
@@ -90,25 +89,25 @@ export const Tones: Story = {
         render={<IconButton prominence="primary" tone="neutral" magnitude="md" />}
         aria-label="Neutral"
       >
-        <IconButtonIcon>
+        <Icon>
           <Plus />
-        </IconButtonIcon>
+        </Icon>
       </BaseButton>
       <BaseButton
         render={<IconButton prominence="primary" tone="danger" magnitude="md" />}
         aria-label="Danger fill"
       >
-        <IconButtonIcon>
+        <Icon>
           <Plus />
-        </IconButtonIcon>
+        </Icon>
       </BaseButton>
       <BaseButton
         render={<IconButton prominence="secondary" tone="danger" magnitude="md" />}
         aria-label="Danger outline"
       >
-        <IconButtonIcon>
+        <Icon>
           <Plus />
-        </IconButtonIcon>
+        </Icon>
       </BaseButton>
     </div>
   ),
@@ -125,16 +124,16 @@ export const Magnitudes: Story = {
           render={<IconButton prominence="primary" tone="neutral" magnitude={magnitude} />}
           aria-label={`${magnitude} add`}
         >
-          <IconButtonIcon>
+          <Icon>
             <Plus />
-          </IconButtonIcon>
+          </Icon>
         </BaseButton>
       ))}
     </div>
   ),
 };
 
-/** Swap the `IconButtonIcon` slot for an `IconButtonSpinner` to show the busy indicator. */
+/** Swap the `Icon` slot for a `Spinner` to show the busy indicator. */
 export const Spinner: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
@@ -144,27 +143,27 @@ export const Spinner: Story = {
         aria-label="Saving"
         aria-busy
       >
-        <IconButtonSpinner>
+        <SpinnerSlot>
           <LoaderCircle />
-        </IconButtonSpinner>
+        </SpinnerSlot>
       </BaseButton>
       <BaseButton
         render={<IconButton prominence="secondary" tone="neutral" magnitude="md" />}
         aria-label="Loading"
         aria-busy
       >
-        <IconButtonSpinner>
+        <SpinnerSlot>
           <LoaderCircle />
-        </IconButtonSpinner>
+        </SpinnerSlot>
       </BaseButton>
       <BaseButton
         render={<IconButton prominence="tertiary" tone="neutral" magnitude="md" />}
         aria-label="Refreshing"
         aria-busy
       >
-        <IconButtonSpinner>
+        <SpinnerSlot>
           <LoaderCircle />
-        </IconButtonSpinner>
+        </SpinnerSlot>
       </BaseButton>
     </div>
   ),
@@ -182,9 +181,9 @@ export const HasAccessibleName: Story = {
       render={<IconButton prominence="primary" tone="neutral" magnitude="md" />}
       aria-label="Add item"
     >
-      <IconButtonIcon>
+      <Icon>
         <Plus />
-      </IconButtonIcon>
+      </Icon>
     </BaseButton>
   ),
   play: async ({ canvas }) => {

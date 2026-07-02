@@ -3,11 +3,11 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, Minus, Repeat } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import {
   Checkbox,
   CheckboxIndeterminateIndicator,
   CheckboxIndicator,
-  CheckboxIcon,
   CheckboxLabel,
 } from "./index";
 
@@ -25,7 +25,6 @@ const meta = {
     CheckboxIndicator,
     CheckboxIndeterminateIndicator,
     CheckboxLabel,
-    CheckboxIcon,
   },
 } satisfies Meta<typeof Checkbox>;
 
@@ -119,9 +118,9 @@ export const Labeled: Story = {
   render: () => (
     <CheckboxLabel htmlFor="elements-checkbox-labeled">
       <CheckboxBox id="elements-checkbox-labeled" />
-      <CheckboxIcon>
+      <Icon tint="secondary" magnitude="sm">
         <Repeat aria-hidden />
-      </CheckboxIcon>
+      </Icon>
       Sync automatically
     </CheckboxLabel>
   ),

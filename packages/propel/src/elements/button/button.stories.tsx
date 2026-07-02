@@ -3,14 +3,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { LoaderCircle, Plus } from "lucide-react";
 import { expect, fn, userEvent as baseUserEvent } from "storybook/test";
 
-import {
-  Button,
-  ButtonIcon,
-  ButtonLabel,
-  type ButtonMagnitude,
-  ButtonSpinner,
-  type ButtonProminence,
-} from "./index";
+import { Icon } from "../../internal/icon";
+import { Spinner } from "../../internal/spinner";
+import { Button, ButtonLabel, type ButtonMagnitude, type ButtonProminence } from "./index";
 
 const PROMINENCES: ButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: ButtonMagnitude[] = ["sm", "md", "lg", "xl"];
@@ -24,7 +19,7 @@ const meta = {
   title: "Elements/Button",
   component: Button,
   // The button's anatomy parts; the ready-made Button (Components/Button) composes them.
-  subcomponents: { ButtonIcon, ButtonLabel, ButtonSpinner },
+  subcomponents: { ButtonLabel },
   args: {
     children: "Button",
     prominence: "primary",
@@ -152,9 +147,9 @@ export const Anatomy: Story = {
           <Button prominence={prominence} tone={tone} magnitude={magnitude} sizing={sizing} />
         }
       >
-        <ButtonIcon>
+        <Icon>
           <Plus />
-        </ButtonIcon>
+        </Icon>
         <ButtonLabel>With icon</ButtonLabel>
       </BaseButton>
       {/* The busy state mirrors the ready-made Button: it is `aria-busy` AND soft-disabled
@@ -168,9 +163,9 @@ export const Anatomy: Story = {
           <Button prominence={prominence} tone={tone} magnitude={magnitude} sizing={sizing} />
         }
       >
-        <ButtonSpinner>
+        <Spinner>
           <LoaderCircle />
-        </ButtonSpinner>
+        </Spinner>
         <ButtonLabel>Loading</ButtonLabel>
       </BaseButton>
     </div>

@@ -3,11 +3,11 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { DisclosureIndicator } from "../../internal/disclosure-indicator";
 import {
   CollapsiblePanel,
   CollapsiblePanelContent,
   CollapsibleTrigger,
-  CollapsibleTriggerIndicator,
   CollapsibleTriggerTitle,
 } from "./index";
 
@@ -20,7 +20,6 @@ const meta = {
   component: CollapsibleTrigger,
   subcomponents: {
     CollapsibleTriggerTitle,
-    CollapsibleTriggerIndicator,
     CollapsiblePanel,
     CollapsiblePanelContent,
   },
@@ -42,9 +41,9 @@ export const Default: Story = {
     <BaseCollapsible.Root>
       <BaseCollapsible.Trigger render={<CollapsibleTrigger />}>
         <CollapsibleTriggerTitle>Recent activity</CollapsibleTriggerTitle>
-        <CollapsibleTriggerIndicator>
+        <DisclosureIndicator motion="disclose" tint="secondary" magnitude="inherit">
           <ChevronDown />
-        </CollapsibleTriggerIndicator>
+        </DisclosureIndicator>
       </BaseCollapsible.Trigger>
       <BaseCollapsible.Panel render={<CollapsiblePanel />}>
         <CollapsiblePanelContent>3 work items updated in the last hour.</CollapsiblePanelContent>
@@ -59,9 +58,9 @@ export const DefaultOpen: Story = {
     <BaseCollapsible.Root defaultOpen>
       <BaseCollapsible.Trigger render={<CollapsibleTrigger />}>
         <CollapsibleTriggerTitle>Description</CollapsibleTriggerTitle>
-        <CollapsibleTriggerIndicator>
+        <DisclosureIndicator motion="disclose" tint="secondary" magnitude="inherit">
           <ChevronDown />
-        </CollapsibleTriggerIndicator>
+        </DisclosureIndicator>
       </BaseCollapsible.Trigger>
       <BaseCollapsible.Panel render={<CollapsiblePanel />}>
         <CollapsiblePanelContent>

@@ -4,10 +4,11 @@ import { X } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Backdrop } from "../../internal/backdrop";
+import { Icon } from "../../internal/icon";
 import { OverlayDescription } from "../../internal/overlay-description";
 import { OverlayTitle } from "../../internal/overlay-title";
 import { Button } from "../button";
-import { IconButton, IconButtonIcon } from "../icon-button";
+import { IconButton } from "../icon-button";
 import {
   DrawerBody,
   DrawerClose,
@@ -69,9 +70,9 @@ export const Anatomy: Story = {
                 <BaseDrawer.Close
                   render={
                     <IconButton prominence="ghost" tone="neutral" magnitude="lg" aria-label="Close">
-                      <IconButtonIcon>
+                      <Icon>
                         <X />
-                      </IconButtonIcon>
+                      </Icon>
                     </IconButton>
                   }
                 />

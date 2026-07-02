@@ -5,10 +5,10 @@ import type * as React from "react";
 import {
   PillButton as PillButtonElement,
   type PillButtonProps as PillButtonElementProps,
-  PillIcon,
   PillLabel,
-  PillSpinner,
 } from "../../elements/pill";
+import { Icon } from "../../internal/icon";
+import { Spinner } from "../../internal/spinner";
 
 export type PillButtonProps = PillButtonElementProps & {
   /** A node before the label (inline-start), sized to the pill's `--node-size`. */
@@ -43,14 +43,14 @@ export function PillButton({
       aria-busy={loading ? true : undefined}
     >
       {loading ? (
-        <PillSpinner>
+        <Spinner>
           <LoaderCircle />
-        </PillSpinner>
+        </Spinner>
       ) : startIcon ? (
-        <PillIcon>{startIcon}</PillIcon>
+        <Icon>{startIcon}</Icon>
       ) : null}
       <PillLabel>{children}</PillLabel>
-      {!loading && endIcon ? <PillIcon>{endIcon}</PillIcon> : null}
+      {!loading && endIcon ? <Icon>{endIcon}</Icon> : null}
     </BaseButton>
   );
 }

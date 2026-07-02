@@ -13,8 +13,6 @@ export {
   type ToolbarMenuTriggerIndicatorProps,
   ToolbarMenuTriggerLabel,
   type ToolbarMenuTriggerLabelProps,
-  ToolbarItemIcon,
-  type ToolbarItemIconProps,
   type ToolbarDensity,
   type ToolbarElevation,
 } from "../../elements/toolbar/index";
