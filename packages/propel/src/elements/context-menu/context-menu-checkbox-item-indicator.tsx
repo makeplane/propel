@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { contextMenuItemIndicatorVariants } from "./variants";
+import { contextMenuCheckboxItemIndicatorVariants } from "./variants";
 
 export type ContextMenuCheckboxItemIndicatorProps = Omit<
   useRender.ComponentProps<"span">,
@@ -18,7 +18,7 @@ export function ContextMenuCheckboxItemIndicator({
   ...props
 }: ContextMenuCheckboxItemIndicatorProps) {
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: contextMenuItemIndicatorVariants(),
+    className: contextMenuCheckboxItemIndicatorVariants(),
   };
   return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }

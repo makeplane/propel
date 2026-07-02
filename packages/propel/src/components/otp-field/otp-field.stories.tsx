@@ -201,3 +201,22 @@ export const InvalidInteraction: Story = {
     await expect(canvas.getByText("Code is invalid")).toBeInTheDocument();
   },
 };
+
+/** `groups={[3, 3]}` splits the run with a separator — the 123-456 verification-code shape. */
+export const Grouped: Story = {
+  args: { length: 6, magnitude: "md", groups: [3, 3] },
+};
+
+/**
+ * Interaction test: grouped slots still expose all six textboxes with the separator between the
+ * halves. Tagged out of the sidebar/docs/manifest while still running under the default `test`
+ * tag.
+ */
+export const GroupedInteraction: Story = {
+  ...Grouped,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    await expect(canvas.getAllByRole("textbox")).toHaveLength(6);
+    await expect(canvas.getByText("-")).toBeInTheDocument();
+  },
+};

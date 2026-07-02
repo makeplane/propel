@@ -3,6 +3,7 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 import { itemIndicatorClass } from "../../internal/item-indicator";
 import { groupLabelClass } from "../../internal/listbox-group-label";
 import { menuSeparatorClass, rowMetaClass } from "../../internal/menu-row-parts";
+import { nodeSlotClass } from "../../internal/node-slot";
 import { popupSurfaceClass } from "../../internal/popup-surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
@@ -66,6 +67,24 @@ export const contextMenuItemShortcutVariants = cva(rowMetaClass);
  * accent.
  */
 export const contextMenuItemIndicatorVariants = cva(itemIndicatorClass);
+
+/**
+ * The tick region of a checkbox row. Kept mounted for a stable gutter; Base UI marks it
+ * `data-unchecked` while off, which hides the glyph (its own contract — `itemIndicatorClass` keys
+ * off `data-selected`, which checkbox/radio indicators never receive).
+ */
+export const contextMenuCheckboxItemIndicatorVariants = cva(
+  cx(nodeSlotClass, "text-icon-accent-primary [--node-size:1rem] data-unchecked:invisible"),
+);
+
+/** The dot region of a radio row: a small filled circle, hidden while `data-unchecked`. */
+export const contextMenuRadioItemIndicatorVariants = cva(
+  cx(
+    nodeSlotClass,
+    "text-icon-accent-primary [--node-size:1rem] data-unchecked:invisible",
+    "[&>svg]:size-2 [&>svg]:fill-current",
+  ),
+);
 
 /** Separator: a thin divider spanning the popup padding. */
 export const contextMenuSeparatorVariants = cva(menuSeparatorClass);

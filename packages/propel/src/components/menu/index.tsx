@@ -13,6 +13,7 @@ export * from "./menu-submenu-content";
 export * from "./menu-submenu-trigger";
 export * from "./menu-trigger";
 export * from "./menu-radio-group";
+export * from "./menu-radio-item";
 export * from "./create-handle";
 export * from "./menu-viewport";
 // Re-export propel's STYLED menu parts so a full menu can be assembled from one entry. The
@@ -50,8 +51,6 @@ export {
   type MenuLabelTitleProps,
   MenuPopup,
   type MenuPopupProps,
-  MenuRadioItem,
-  type MenuRadioItemProps,
   MenuRadioItemIndicator,
   type MenuRadioItemIndicatorProps,
   MenuSearchInput,

@@ -3,6 +3,8 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { fieldLabelVariants, type FieldLabelVariantProps } from "./variants";
 
+export type { FieldMagnitude } from "./variants";
+
 export type FieldLabelProps = Omit<useRender.ComponentProps<"label">, "className" | "style"> &
   FieldLabelVariantProps;
 

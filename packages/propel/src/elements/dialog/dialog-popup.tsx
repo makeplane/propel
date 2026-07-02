@@ -3,6 +3,8 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type DialogPopupVariantProps, dialogPopupVariants } from "./variants";
 
+export type { DialogPopupMagnitude } from "./variants";
+
 export type DialogPopupProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
   DialogPopupVariantProps;
 

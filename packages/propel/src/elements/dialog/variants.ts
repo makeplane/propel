@@ -1,4 +1,4 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import {
   modalViewportClass,
@@ -65,3 +65,7 @@ export const dialogBodyVariants = cva("min-h-0 flex-1 overflow-y-auto overscroll
 export const dialogActionsVariants = cva(cx(overlayActionsClass, "px-4 pb-4"));
 
 export type DialogPopupVariantProps = StrictVariantProps<typeof dialogPopupVariants>;
+
+export type DialogPopupMagnitude = NonNullable<
+  VariantProps<typeof dialogPopupVariants>["magnitude"]
+>;

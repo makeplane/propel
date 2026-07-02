@@ -40,6 +40,8 @@ import {
   MenuSubmenuTrigger,
   MenuTrigger,
   MenuViewport,
+  MenuRadioGroup,
+  MenuRadioItem,
 } from "./index";
 
 const meta = {
@@ -1339,5 +1341,54 @@ export const ControlledMultipleTriggers: Story = {
         expect(document.body.querySelector('[role="menu"]')).not.toBeInTheDocument(),
       );
     });
+  },
+};
+
+/**
+ * Single-select radio rows: `MenuRadioGroup` carries the `value`, and each `MenuRadioItem` shows a
+ * kept-mounted radio dot that follows the selection.
+ */
+export const RadioRows: Story = {
+  render: function Render(args) {
+    const [density, setDensity] = React.useState("comfortable");
+    void args;
+    return (
+      <Menu>
+        <MenuTrigger render={<button type="button" className={triggerClass} />}>
+          Density
+        </MenuTrigger>
+        <MenuContent sizing="sm">
+          <MenuRadioGroup value={density} onValueChange={setDensity}>
+            <MenuRadioItem value="comfortable" closeOnClick={false}>
+              Comfortable
+            </MenuRadioItem>
+            <MenuRadioItem value="compact" closeOnClick={false}>
+              Compact
+            </MenuRadioItem>
+          </MenuRadioGroup>
+        </MenuContent>
+      </Menu>
+    );
+  },
+};
+
+/**
+ * Interaction test: rows expose `menuitemradio`, and picking one moves `aria-checked`. Tagged out
+ * of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const RadioRowsInteraction: Story = {
+  ...RadioRows,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    await openMenu(canvas, "Density");
+    const comfortable = await within(document.body).findByRole("menuitemradio", {
+      name: "Comfortable",
+    });
+    await expect(comfortable).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(within(document.body).getByRole("menuitemradio", { name: "Compact" }));
+    await expect(
+      within(document.body).getByRole("menuitemradio", { name: "Compact" }),
+    ).toHaveAttribute("aria-checked", "true");
+    await expect(comfortable).toHaveAttribute("aria-checked", "false");
   },
 };

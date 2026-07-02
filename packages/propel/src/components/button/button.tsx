@@ -12,6 +12,11 @@ import { Spinner } from "../../internal/spinner";
 
 export type ButtonProps = ButtonElementProps & {
   /**
+   * Set `false` when `render` swaps the underlying tag away from `<button>` (e.g. a `<div>` or an
+   * `<a>`): Base UI then adds `role="button"`, tab focus, and Enter/Space activation.
+   */
+  nativeButton?: boolean;
+  /**
    * Node rendered before the label (inline-start). An icon, avatar, or any node; it is sized to the
    * button's `--node-size`. Decorative, kept out of the name.
    */
@@ -40,6 +45,8 @@ export function Button({
   loading = false,
   disabled,
   children,
+  render,
+  nativeButton,
   ...props
 }: ButtonProps) {
   // `loading` is a soft-disabled state: Base UI keeps it focusable via
@@ -48,8 +55,17 @@ export function Button({
   return (
     <BaseButton
       {...props}
+      nativeButton={nativeButton}
       render={
-        <ButtonElement prominence={prominence} tone={tone} magnitude={magnitude} sizing={sizing} />
+        <ButtonElement
+          prominence={prominence}
+          tone={tone}
+          magnitude={magnitude}
+          sizing={sizing}
+          // The consumer's render swaps the underlying element; the styled part stays the
+          // className owner (behavior part outer, styled part as the render target, rule 1a).
+          render={render}
+        />
       }
       disabled={disabled || loading}
       focusableWhenDisabled={loading ? true : undefined}

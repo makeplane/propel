@@ -305,3 +305,56 @@ export const AsyncSubmitKeepsFocus: Story = {
     await expect(button).toHaveFocus();
   },
 };
+
+/**
+ * Rendering as another tag: `render` swaps the underlying element and `nativeButton={false}` has
+ * Base UI add `role="button"`, tab focus, and Enter/Space activation to the non-button tag.
+ */
+export const CustomTag: Story = {
+  args: {
+    prominence: "secondary",
+    tone: "neutral",
+    magnitude: "md",
+    sizing: "hug",
+  },
+  render: (args) => (
+    <Button {...args} nativeButton={false} render={<div />}>
+      Add to favorites
+    </Button>
+  ),
+};
+
+/**
+ * Interaction test: the custom tag is a DIV exposing `role="button"`, joins the tab order, and
+ * activates from keyboard and pointer alike. Tagged out of the sidebar/docs/manifest while still
+ * running under the default `test` tag.
+ */
+export const CustomTagInteraction: Story = {
+  ...CustomTag,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: function Render(args) {
+    const [count, setCount] = React.useState(0);
+    return (
+      <Button
+        {...args}
+        nativeButton={false}
+        render={<div data-testid="custom-tag-button" />}
+        onClick={() => setCount((current) => current + 1)}
+      >
+        Activated {count}
+      </Button>
+    );
+  },
+  play: async ({ canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: /Activated/ });
+    await expect(button.tagName).toBe("DIV");
+    await expect(button).toHaveAttribute("tabindex", "0");
+    await userEvent.click(button);
+    await expect(canvas.getByRole("button", { name: "Activated 1" })).toBeInTheDocument();
+    button.focus();
+    await userEvent.keyboard("{Enter}");
+    await expect(canvas.getByRole("button", { name: "Activated 2" })).toBeInTheDocument();
+    await userEvent.keyboard(" ");
+    await expect(canvas.getByRole("button", { name: "Activated 3" })).toBeInTheDocument();
+  },
+};
