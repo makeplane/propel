@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { contextMenuItemIndicatorVariants } from "./variants";
+import { contextMenuRadioItemIndicatorVariants } from "./variants";
 
 export type ContextMenuRadioItemIndicatorProps = Omit<
   useRender.ComponentProps<"span">,
@@ -18,7 +18,7 @@ export function ContextMenuRadioItemIndicator({
   ...props
 }: ContextMenuRadioItemIndicatorProps) {
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: contextMenuItemIndicatorVariants(),
+    className: contextMenuRadioItemIndicatorVariants(),
   };
   return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }

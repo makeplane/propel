@@ -103,3 +103,8 @@ export const HasProgressbarRole: Story = {
     await expect(bar).toHaveAttribute("aria-valuenow", "42");
   },
 };
+
+/** A visible text label before the track — `label` also names the bar for assistive tech. */
+export const WithLabel: Story = {
+  args: { value: 60, magnitude: "md", tone: "brand", label: "Uploading attachments" },
+};

@@ -10,7 +10,7 @@ import {
   Trash2,
 } from "lucide-react";
 import * as React from "react";
-import { expect, fireEvent, userEvent, waitFor } from "storybook/test";
+import { expect, fireEvent, userEvent, waitFor, within } from "storybook/test";
 
 import {
   ContextMenu,
@@ -21,6 +21,9 @@ import {
   ContextMenuSubmenu,
   ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
+  ContextMenuCheckboxItem,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
 } from "./index";
 
 // Components-tier story: the ready-made `ContextMenu` root and `ContextMenuContent` surface graft
@@ -314,5 +317,75 @@ export const SingleSelectInteraction: Story = {
     await waitFor(() => expect(findItem("Due date")?.querySelector("svg")).not.toBeNull());
     await expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument();
     await expect(findItem("Manual")?.querySelector("svg")).toBeNull();
+  },
+};
+
+/**
+ * Selection rows: `ContextMenuCheckboxItem` toggles independently (a kept-mounted tick), and a
+ * `ContextMenuRadioGroup` of `ContextMenuRadioItem`s carries one selection (a kept-mounted dot).
+ */
+export const SelectionRows: Story = {
+  render: function Render() {
+    const [wrap, setWrap] = React.useState(true);
+    const [sort, setSort] = React.useState("manual");
+    return (
+      <ContextMenu>
+        <ContextMenuTrigger
+          render={
+            <div className="flex h-24 w-64 items-center justify-center rounded-lg border border-dashed border-subtle text-13 text-tertiary" />
+          }
+        >
+          Right-click for view options
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuCheckboxItem
+            tone="neutral"
+            checked={wrap}
+            onCheckedChange={setWrap}
+            closeOnClick={false}
+          >
+            Wrap titles
+          </ContextMenuCheckboxItem>
+          <ContextMenuSeparator />
+          <ContextMenuRadioGroup value={sort} onValueChange={setSort}>
+            <ContextMenuRadioItem tone="neutral" value="manual" closeOnClick={false}>
+              Manual order
+            </ContextMenuRadioItem>
+            <ContextMenuRadioItem tone="neutral" value="updated" closeOnClick={false}>
+              Last updated
+            </ContextMenuRadioItem>
+          </ContextMenuRadioGroup>
+        </ContextMenuContent>
+      </ContextMenu>
+    );
+  },
+};
+
+/**
+ * Interaction test: the checkbox row exposes `menuitemcheckbox` and toggles; the radio rows expose
+ * `menuitemradio` and move a single selection. Tagged out of the sidebar/docs/manifest while still
+ * running under the default `test` tag.
+ */
+export const SelectionRowsInteraction: Story = {
+  ...SelectionRows,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const surface = canvas.getByText("Right-click for view options");
+    await fireEvent.contextMenu(surface);
+    const body = within(document.body);
+    const wrap = await body.findByRole("menuitemcheckbox", { name: "Wrap titles" });
+    await expect(wrap).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(wrap);
+    await expect(wrap).toHaveAttribute("aria-checked", "false");
+
+    await expect(body.getByRole("menuitemradio", { name: "Manual order" })).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await userEvent.click(body.getByRole("menuitemradio", { name: "Last updated" }));
+    await expect(body.getByRole("menuitemradio", { name: "Last updated" })).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
   },
 };

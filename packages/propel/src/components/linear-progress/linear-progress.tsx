@@ -1,9 +1,11 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
+import type * as React from "react";
 
 import {
   LinearProgress as LinearProgressElement,
   LinearProgressIndicator,
   type LinearProgressIndicatorProps,
+  LinearProgressLabel,
   LinearProgressTrack,
   type LinearProgressTrackProps,
   LinearProgressValue,
@@ -24,6 +26,8 @@ export type LinearProgressProps = Omit<BaseProgress.Root.Props, "className" | "s
   tone: LinearProgressTone;
   /** Show the trailing percentage label. @default true */
   showValue?: boolean;
+  /** Visible text label before the track — Base UI's `Progress.Label` (also names the bar). */
+  label?: React.ReactNode;
   /** Accessible name (required — the visible % is not a substitute). */
   "aria-label": string;
 };
@@ -39,10 +43,14 @@ export function LinearProgress({
   magnitude,
   tone,
   showValue = true,
+  label,
   ...props
 }: LinearProgressProps) {
   return (
     <BaseProgress.Root value={value} {...props} render={<LinearProgressElement />}>
+      {label != null ? (
+        <BaseProgress.Label render={<LinearProgressLabel />}>{label}</BaseProgress.Label>
+      ) : null}
       <BaseProgress.Track render={<LinearProgressTrack magnitude={magnitude} />}>
         <BaseProgress.Indicator render={<LinearProgressIndicator tone={tone} />} />
       </BaseProgress.Track>

@@ -108,7 +108,12 @@ export const menuItemControlVariants = cva("flex shrink-0 items-center");
 
 /** Indicator slot inside a radio item: the accent dot shown when the row is selected. */
 export const menuRadioItemIndicatorVariants = cva(
-  "flex size-4 items-center justify-center text-icon-accent-primary",
+  cx(
+    "flex size-4 items-center justify-center text-icon-accent-primary",
+    // Kept mounted for a stable gutter; the dot (a small filled circle glyph) hides while
+    // Base UI marks the indicator data-unchecked.
+    "data-unchecked:invisible [&>svg]:size-2 [&>svg]:fill-current",
+  ),
 );
 
 /**
