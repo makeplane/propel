@@ -1,6 +1,6 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
-import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
+import { controlGroupClass } from "../../internal/control-group";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // The bordered frame around the textarea leaf. Per the Figma "Text area" spec the border
@@ -9,14 +9,7 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 // frames stay in lockstep; danger isn't a prop — the surface recolors its border off the
 // wrapped control's `data-invalid`.
 export const textAreaGroupVariants = cva(
-  cx(
-    fieldControlSurfaceVariants({ focus: "within" }),
-    "flex w-full items-stretch gap-1.5 transition-[color,background-color,border-color,box-shadow]",
-    "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
-    "rounded-lg py-2",
-    "hover:border-subtle-1 hover:bg-layer-2-hover",
-    "focus-within:bg-layer-2 focus-within:hover:border-accent-strong focus-within:hover:bg-layer-2",
-  ),
+  cx(controlGroupClass, "w-full items-stretch gap-1.5 rounded-lg py-2"),
 );
 
 export const textAreaVariants = cva(

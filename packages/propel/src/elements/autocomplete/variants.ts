@@ -1,15 +1,15 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
-import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
+import { controlGroupClass } from "../../internal/control-group";
+import { controlInputClass } from "../../internal/control-input";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const autocompleteInputGroupVariants = cva(
   cx(
-    // Wraps a separate focusable input → `focus: within`.
-    fieldControlSurfaceVariants({ focus: "within" }),
-    "group/autocomplete flex w-full items-center gap-2 rounded-lg",
-    "data-disabled:cursor-not-allowed data-disabled:text-disabled",
+    // Wraps a separate focusable input → the shared `focus: within` group chrome.
+    controlGroupClass,
+    "group/autocomplete w-full items-center gap-2 rounded-lg",
   ),
   {
     variants: {
@@ -38,13 +38,10 @@ export const autocompleteIconVariants = cva(
     "text-icon-placeholder transition-colors group-focus-within/autocomplete:text-icon-secondary",
   ),
 );
-export const autocompleteInputVariants = cva(
-  "min-w-0 flex-1 bg-transparent text-primary outline-none placeholder:text-placeholder disabled:text-disabled",
-  {
-    variants: {
-      magnitude: { sm: "text-13", md: "text-14", lg: "text-14" },
-    },
+export const autocompleteInputVariants = cva(cx(controlInputClass, "flex-1"), {
+  variants: {
+    magnitude: { sm: "text-13", md: "text-14", lg: "text-14" },
   },
-);
+});
 export type AutocompleteInputVariantProps = StrictVariantProps<typeof autocompleteInputVariants>;
 export const autocompleteEmptyVariants = cva("px-2 py-1.5 text-13 text-tertiary");
