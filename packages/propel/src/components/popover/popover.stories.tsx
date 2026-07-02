@@ -89,7 +89,7 @@ export const Default: Story = {
       >
         Options
       </Button>
-      <PopoverContent side="bottom" align="start" width="md" aria-label="Options">
+      <PopoverContent side="bottom" align="start" sizing="md" aria-label="Options">
         <ToggleFooter defaultToggles={{ sub: true }} />
       </PopoverContent>
     </Popover>
@@ -156,7 +156,7 @@ export const DisplayProperties: Story = {
         >
           Display
         </Button>
-        <PopoverContent side="bottom" align="start" width="md" aria-label="Display options">
+        <PopoverContent side="bottom" align="start" sizing="md" aria-label="Display options">
           <PanelLabel>Display Properties</PanelLabel>
           <div className="flex flex-wrap gap-1.5 px-2 py-1.5">
             {PILLS.map((p) => (
@@ -236,7 +236,7 @@ export const DisplayAccordion: Story = {
         >
           Display options
         </Button>
-        <PopoverContent side="bottom" align="start" width="md" aria-label="Display options">
+        <PopoverContent side="bottom" align="start" sizing="md" aria-label="Display options">
           {SECTIONS.map((title) => {
             const key = title.split(" ")[0].toLowerCase();
             const isOpen = open === key;
@@ -344,7 +344,7 @@ export const RTL: Story = {
           >
             خيارات
           </Button>
-          <PopoverContent side="bottom" align="start" width="md" aria-label="Options">
+          <PopoverContent side="bottom" align="start" sizing="md" aria-label="Options">
             <PanelLabel>الترتيب حسب</PanelLabel>
             <RadioGroup density="comfortable" defaultValue="priority">
               <PanelRadioRow value="priority" label="الأولوية" />

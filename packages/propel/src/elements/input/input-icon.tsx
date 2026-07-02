@@ -3,10 +3,10 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { inputIconVariants } from "./variants";
 
-export type InputIconSlotProps = Omit<useRender.ComponentProps<"span">, "className" | "style">;
+export type InputIconProps = Omit<useRender.ComponentProps<"span">, "className" | "style">;
 
 /** A 16px decorative slot rendered at the inline start/end of the the input control. */
-export function InputIcon({ render, ...props }: InputIconSlotProps) {
+export function InputIcon({ render, ...props }: InputIconProps) {
   const defaultProps: useRender.ElementProps<"span"> = {
     "aria-hidden": true,
     className: inputIconVariants(),

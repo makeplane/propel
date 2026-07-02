@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { underlineLabelVariants } from "./variants";
+import { tabUnderlineLabelVariants } from "./variants";
 
 export type TabUnderlineLabelProps = Omit<useRender.ComponentProps<"span">, "className" | "style">;
 
@@ -11,6 +11,6 @@ export type TabUnderlineLabelProps = Omit<useRender.ComponentProps<"span">, "cla
  * consumers never touch the underline cva directly.
  */
 export function TabUnderlineLabel({ render, ...props }: TabUnderlineLabelProps) {
-  const defaultProps: useRender.ElementProps<"span"> = { className: underlineLabelVariants() };
+  const defaultProps: useRender.ElementProps<"span"> = { className: tabUnderlineLabelVariants() };
   return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }

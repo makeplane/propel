@@ -117,7 +117,7 @@ export const WithCollapsedCrumbs: Story = {
                 <Ellipsis />
               </BreadcrumbTriggerIcon>
             </BaseMenu.Trigger>
-            <MenuContent width="auto">
+            <MenuContent sizing="auto">
               <MenuItem render={inertAnchor()}>Projects</MenuItem>
               <MenuItem render={inertAnchor()}>Design</MenuItem>
             </MenuContent>

@@ -8,7 +8,7 @@ export {
   CheckboxIndeterminateIndicator,
   type CheckboxIndeterminateIndicatorProps,
   CheckboxIcon,
-  type CheckboxInlineStartNodeProps,
+  type CheckboxIconProps,
   CheckboxLabel,
   type CheckboxLabelProps,
 } from "../../elements/checkbox";

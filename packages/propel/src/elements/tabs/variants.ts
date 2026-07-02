@@ -51,13 +51,13 @@ export const tabVariants = cva(
 
 export type TabVariantProps = StrictVariantProps<typeof tabVariants>;
 
-export const underlineLabelVariants = cva(
+export const tabUnderlineLabelVariants = cva(
   "flex h-7 items-center justify-center gap-1.5 rounded-md px-2 py-0.5 text-tertiary transition-colors group-hover/tab:bg-layer-transparent-hover group-hover/tab:text-secondary group-data-active/tab:bg-layer-transparent-selected group-data-active/tab:text-primary",
 );
 
-export const underlineBarTrackVariants = cva("flex px-2");
+export const tabUnderlineBarTrackVariants = cva("flex px-2");
 
-export const underlineBarVariants = cva(
+export const tabUnderlineBarVariants = cva(
   "h-[3px] w-full rounded-full bg-current text-transparent transition-colors group-hover/tab:text-icon-placeholder group-data-active/tab:text-transparent",
 );
 

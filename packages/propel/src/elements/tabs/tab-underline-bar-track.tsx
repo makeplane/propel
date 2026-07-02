@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { underlineBarTrackVariants } from "./variants";
+import { tabUnderlineBarTrackVariants } from "./variants";
 
 export type TabUnderlineBarTrackProps = Omit<
   useRender.ComponentProps<"span">,
@@ -14,6 +14,8 @@ export type TabUnderlineBarTrackProps = Omit<
  * internal.
  */
 export function TabUnderlineBarTrack({ render, ...props }: TabUnderlineBarTrackProps) {
-  const defaultProps: useRender.ElementProps<"span"> = { className: underlineBarTrackVariants() };
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: tabUnderlineBarTrackVariants(),
+  };
   return useRender({ defaultTagName: "span", render, props: mergeProps(defaultProps, props) });
 }

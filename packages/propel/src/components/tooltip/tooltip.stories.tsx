@@ -19,6 +19,7 @@ const ALL_SIDES = ["top", "bottom", "left", "right", "inline-start", "inline-end
 const meta = {
   title: "Components/Tooltip",
   component: Tooltip,
+  subcomponents: { TooltipProvider },
   args: {
     content: "Tooltip text",
     children: <button type="button">Hover or focus me</button>,

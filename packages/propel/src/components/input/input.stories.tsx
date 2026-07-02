@@ -67,7 +67,7 @@ export const Magnitudes: Story = {
 };
 
 /** Leading and trailing icon addons frame the control via `InputIcon`. */
-export const WithIconSlots: Story = {
+export const WithIcons: Story = {
   args: {
     magnitude: "md",
     "aria-label": "Search",
