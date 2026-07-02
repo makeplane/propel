@@ -1,7 +1,9 @@
 import { cva, cx } from "class-variance-authority";
 
 import { checkboxBoxVariants } from "../../internal/checkbox-box";
+import { itemIndicatorClass } from "../../internal/item-indicator";
 import { nodeSlotClass } from "../../internal/node-slot";
+import { popupSurfaceClass } from "../../internal/popup-surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 /**
@@ -16,12 +18,7 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 export const menuPopupVariants = cva("outline-none", {
   variants: {
     elevation: {
-      raised: cx(
-        "min-w-40 rounded-lg border-sm border-subtle bg-layer-1 p-1 shadow-overlay-100",
-        "origin-(--transform-origin) transition-[opacity,transform] duration-150",
-        "data-starting-style:scale-95 data-starting-style:opacity-0",
-        "data-ending-style:scale-95 data-ending-style:opacity-0",
-      ),
+      raised: cx(popupSurfaceClass, "min-w-40 p-1"),
       flat: "p-1",
     },
   },
@@ -102,7 +99,7 @@ export const menuItemTrailingVariants = cva(nodeSlotClass);
  * The single-select check shown at a row's inline-end. Sizes its single child to `--node-size` and
  * tints it with the accent. Decorative — the row carries the selected state.
  */
-export const menuItemIndicatorVariants = cva(cx(nodeSlotClass, "h-5 w-4 text-icon-accent-primary"));
+export const menuItemIndicatorVariants = cva(cx(itemIndicatorClass, "h-5 w-4"));
 
 /** The leading control slot of a checkbox/radio row, holding the visual toggle. */
 export const menuItemControlVariants = cva("flex shrink-0 items-center");

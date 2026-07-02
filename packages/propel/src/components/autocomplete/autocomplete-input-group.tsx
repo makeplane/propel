@@ -2,11 +2,11 @@ import { Autocomplete as BaseAutocomplete } from "@base-ui/react/autocomplete";
 import type * as React from "react";
 
 import {
-  AutocompleteIcon,
   AutocompleteInput,
   AutocompleteInputGroup as AutocompleteInputGroupElement,
   type AutocompleteMagnitude,
 } from "../../elements/autocomplete";
+import { ControlIcon } from "../../internal/control-icon";
 
 export type AutocompleteInputGroupProps = Omit<
   BaseAutocomplete.Input.Props,
@@ -48,7 +48,7 @@ export function AutocompleteInputGroup({
 }: AutocompleteInputGroupProps) {
   return (
     <BaseAutocomplete.InputGroup render={<AutocompleteInputGroupElement magnitude={magnitude} />}>
-      {icon != null ? <AutocompleteIcon>{icon}</AutocompleteIcon> : null}
+      {icon != null ? <ControlIcon>{icon}</ControlIcon> : null}
       <BaseAutocomplete.Input {...props} render={<AutocompleteInput magnitude={magnitude} />} />
       {clear != null ? <BaseAutocomplete.Clear render={clear} /> : null}
       {trigger != null ? <BaseAutocomplete.Trigger render={trigger} /> : null}
