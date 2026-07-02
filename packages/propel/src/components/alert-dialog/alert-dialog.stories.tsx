@@ -1,32 +1,30 @@
+import { AlertDialog as BaseAlertDialog } from "@base-ui/react/alert-dialog";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { TriangleAlert } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { Button } from "../../ui/button";
+import { Button } from "../../elements/button";
 import {
   AlertDialog,
   AlertDialogActions,
-  AlertDialogClose,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogIcon,
   AlertDialogIntro,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "./index";
 
-// Components-tier story: uses the ready-made `AlertDialogContent`, which composes
-// the portal/backdrop/centering-viewport/popup so a consumer only writes the
-// trigger and the popup body. Trigger and Close compose the `Button` primitive via
-// Base UI's `render` prop — Button is the outer element so its styling wins, while
-// the dialog part it renders supplies the open/close behavior.
+// Components-tier story: uses the ready-made `AlertDialogContent`, which composes the
+// portal/backdrop/centering-viewport/popup so a consumer only writes the trigger and the popup
+// body. Trigger and Close are behavior-only Base UI parts; the styled `Button` primitive composes
+// them via `render` (Button is the styled outer element so its styling wins, while the dialog part
+// it renders supplies the open/close behavior).
 
 const meta = {
   title: "Components/AlertDialog",
   component: AlertDialog,
   subcomponents: {
-    AlertDialogTrigger,
     AlertDialogContent,
     AlertDialogHeader,
     AlertDialogIcon,
@@ -34,7 +32,6 @@ const meta = {
     AlertDialogTitle,
     AlertDialogDescription,
     AlertDialogActions,
-    AlertDialogClose,
   },
 } satisfies Meta<typeof AlertDialog>;
 
@@ -50,7 +47,7 @@ export const Default: Story = {
         prominence="primary"
         tone="danger"
         magnitude="xl"
-        render={<AlertDialogTrigger />}
+        render={<BaseAlertDialog.Trigger />}
       >
         Delete project
       </Button>
@@ -73,7 +70,7 @@ export const Default: Story = {
             prominence="secondary"
             tone="neutral"
             magnitude="xl"
-            render={<AlertDialogClose />}
+            render={<BaseAlertDialog.Close />}
           >
             Cancel
           </Button>
@@ -82,7 +79,7 @@ export const Default: Story = {
             prominence="primary"
             tone="danger"
             magnitude="xl"
-            render={<AlertDialogClose />}
+            render={<BaseAlertDialog.Close />}
           >
             Delete
           </Button>

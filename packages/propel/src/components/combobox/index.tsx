@@ -1,25 +1,17 @@
+export * from "./combobox";
 export * from "./combobox-content";
-// Ready-made parts that supply a default icon — these replace the bare `ui` slots for consumers.
+// Ready-made part that supplies a default icon — replaces the bare `elements` slot for consumers.
 export * from "./combobox-item-indicator";
-// Re-export the atomic combobox parts so a full combobox can be assembled from one entry.
-// `ComboboxClear`/`ComboboxTrigger` are behavior-only ui parts now — composed under an
-// `IconButton` via `render` at the call site (see `combobox-field`).
+// Re-export propel's STYLED combobox parts so a full combobox can be assembled from one entry. The
+// behavior/structural parts (`Clear`, `Trigger`, `Portal`, `List`, `Positioner`) are Base UI's — no
+// propel styling — so compose them from `@base-ui/react/combobox` directly at the call site.
 export {
-  Combobox,
-  type ComboboxProps,
-  ComboboxClear,
-  type ComboboxClearProps,
   ComboboxEmpty,
   type ComboboxEmptyProps,
   ComboboxInput,
   type ComboboxInputProps,
   ComboboxInputGroup,
   type ComboboxInputGroupProps,
-  ComboboxItem,
-  type ComboboxItemProps,
   ComboboxLabel,
   type ComboboxLabelProps,
-  ComboboxList,
-  ComboboxTrigger,
-  type ComboboxTriggerProps,
-} from "../../ui/combobox";
+} from "../../elements/combobox";

@@ -1,3 +1,4 @@
+import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import { User } from "lucide-react";
 import * as React from "react";
 
@@ -10,7 +11,7 @@ import {
   type AvatarProps as AvatarElementProps,
   type AvatarTone,
   getAvatarTone,
-} from "../../ui/avatar";
+} from "../../elements/avatar";
 import { AvatarGroupContext } from "./avatar-group-context";
 
 export type AvatarProps = Omit<AvatarElementProps, "magnitude"> & {
@@ -28,8 +29,8 @@ export type AvatarProps = Omit<AvatarElementProps, "magnitude"> & {
 
 /**
  * The ready-made avatar: an image that falls back to initials (or an anonymous person icon),
- * composed from the `ui/avatar` parts (`Avatar` root + `AvatarImage` + `AvatarFallback`). Pass
- * `src` for the photo, `fallback` for initials, and optionally `tone` (otherwise derived from
+ * composed from the `elements/avatar` parts (`Avatar` root + `AvatarImage` + `AvatarFallback`).
+ * Pass `src` for the photo, `fallback` for initials, and optionally `tone` (otherwise derived from
  * `alt`).
  */
 export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: AvatarProps) {
@@ -44,16 +45,22 @@ export function Avatar({ magnitude, src, alt, fallback, tone, ...props }: Avatar
   const resolvedTone = tone ?? getAvatarTone(alt ?? "");
   return (
     // `role="img"` + `aria-label` give the avatar one accessible name in every state
-    // (image / initials / icon); the inner image is decorative.
-    <AvatarElement role="img" aria-label={alt} magnitude={effectiveMagnitude} {...props}>
-      {src ? <AvatarImage src={src} alt="" /> : null}
-      <AvatarFallback tone={hasInitials ? resolvedTone : "none"}>
+    // (image / initials / icon); the inner image is decorative. Base UI `Avatar` behavior/context
+    // grafts onto the styled `elements/avatar` parts via `render` (behavior part outer).
+    <BaseAvatar.Root
+      role="img"
+      aria-label={alt}
+      {...props}
+      render={<AvatarElement magnitude={effectiveMagnitude} />}
+    >
+      {src ? <BaseAvatar.Image render={<AvatarImage />} src={src} alt="" /> : null}
+      <BaseAvatar.Fallback render={<AvatarFallback tone={hasInitials ? resolvedTone : "none"} />}>
         {fallback ?? (
           <AvatarIcon magnitude={effectiveMagnitude}>
             <User />
           </AvatarIcon>
         )}
-      </AvatarFallback>
-    </AvatarElement>
+      </BaseAvatar.Fallback>
+    </BaseAvatar.Root>
   );
 }

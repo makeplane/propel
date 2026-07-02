@@ -7,4 +7,4 @@ export {
   type FieldsetDescriptionProps,
   FieldsetLegend,
   type FieldsetLegendProps,
-} from "../../ui/fieldset";
+} from "../../elements/fieldset";

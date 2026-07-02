@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import { type TableMode } from "../../ui/table";
+import { type TableMode } from "../../elements/table";
 
 /**
  * Carries the root `Table`'s `mode` down to each `TableHead`/`TableCell` so they pick the matching
  * borders. Lives in the components tier: a context is cross-tree coordination — composition — not a
- * single-element `ui` concern.
+ * single-element `elements` concern.
  */
 export const TableModeContext = React.createContext<TableMode>("table");
 

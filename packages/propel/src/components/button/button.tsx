@@ -1,3 +1,4 @@
+import { Button as BaseButton } from "@base-ui/react/button";
 import { LoaderCircle } from "lucide-react";
 import type * as React from "react";
 
@@ -7,7 +8,7 @@ import {
   ButtonLabel,
   type ButtonProps as ButtonElementProps,
   ButtonSpinner,
-} from "../../ui/button";
+} from "../../elements/button";
 
 export type ButtonProps = ButtonElementProps & {
   /**
@@ -25,11 +26,15 @@ export type ButtonProps = ButtonElementProps & {
 };
 
 /**
- * The ready-made `Button`: composes the atomic `Button` and lays out an optional
- * `inlineStartNode`/`inlineEndNode` beside the label plus a `loading` spinner. Content —
- * `children`, the inline nodes, `loading` — is not a variant.
+ * The ready-made `Button`: grafts Base UI's `Button` behavior onto the styled `Button` element and
+ * lays out an optional `inlineStartNode`/`inlineEndNode` beside the label plus a `loading` spinner.
+ * Content — `children`, the inline nodes, `loading` — is not a variant.
  */
 export function Button({
+  prominence,
+  tone,
+  magnitude,
+  sizing,
   inlineStartNode,
   inlineEndNode,
   loading = false,
@@ -41,8 +46,11 @@ export function Button({
   // `focusableWhenDisabled` while suppressing activation from pointer and keyboard.
   // A plain `disabled` prop remains the hard, non-focusable native disabled state.
   return (
-    <ButtonElement
+    <BaseButton
       {...props}
+      render={
+        <ButtonElement prominence={prominence} tone={tone} magnitude={magnitude} sizing={sizing} />
+      }
       disabled={disabled || loading}
       focusableWhenDisabled={loading ? true : undefined}
       aria-busy={loading ? true : undefined}
@@ -56,6 +64,6 @@ export function Button({
       ) : null}
       <ButtonLabel>{children}</ButtonLabel>
       {!loading && inlineEndNode ? <ButtonIcon>{inlineEndNode}</ButtonIcon> : null}
-    </ButtonElement>
+    </BaseButton>
   );
 }

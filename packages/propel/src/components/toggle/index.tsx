@@ -1,2 +1,2 @@
 export * from "./toggle";
-export { ToggleIcon, type ToggleIconProps, type ToggleMagnitude } from "../../ui/toggle";
+export { ToggleIcon, type ToggleIconProps, type ToggleMagnitude } from "../../elements/toggle";

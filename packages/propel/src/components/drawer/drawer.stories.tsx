@@ -1,35 +1,34 @@
+import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { X } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { Button } from "../../ui/button";
+import { Button } from "../../elements/button";
 import { IconButton } from "../icon-button";
 import {
   Drawer,
   DrawerBody,
-  DrawerClose,
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerHeaderContent,
   DrawerPanel,
   DrawerTitle,
-  DrawerTrigger,
 } from "./index";
 
 // Components-tier story: uses the ready-made `DrawerPanel`, which composes the
 // portal/backdrop/edge-viewport/sliding-popup/padded-content so a consumer only
 // writes the trigger and the panel body. The header/body/footer layout is supplied
-// by the `DrawerHeader`/`DrawerBody`/`DrawerFooter` anatomy parts — no layout
-// `className` lives here. Trigger/Close compose the `Button` (or `IconButton` for
-// the corner close) primitive via Base UI's `render` prop — the styled primitive is
-// the outer element so its look wins, the drawer part supplies the behavior.
+// by the `DrawerHeader`/`DrawerBody`/`DrawerFooter` anatomy parts, and the
+// `DrawerTitle`/`DrawerDescription` grafts wrap the shared overlay heading pair — no
+// layout `className` lives here. Trigger/Close are Base UI behavior parts grafted
+// onto the `Button` (or `IconButton` for the corner close) via `render` — the styled
+// primitive is the render target so its look wins, the drawer part supplies behavior.
 
 const meta = {
   title: "Components/Drawer",
   component: Drawer,
   subcomponents: {
-    DrawerTrigger,
     DrawerPanel,
     DrawerHeader,
     DrawerHeaderContent,
@@ -37,7 +36,6 @@ const meta = {
     DrawerFooter,
     DrawerTitle,
     DrawerDescription,
-    DrawerClose,
   },
 } satisfies Meta<typeof Drawer>;
 
@@ -48,42 +46,36 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Drawer>
-      <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
-        render={<DrawerTrigger />}
-      >
-        Open details
-      </Button>
+      <BaseDrawer.Trigger
+        render={
+          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
+            Open details
+          </Button>
+        }
+      />
       <DrawerPanel side="end">
         <DrawerHeader>
           <DrawerHeaderContent>
             <DrawerTitle>Work item details</DrawerTitle>
             <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
           </DrawerHeaderContent>
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
-            aria-label="Close"
-            render={<DrawerClose />}
-          >
-            <X />
-          </IconButton>
+          <BaseDrawer.Close
+            render={
+              <IconButton prominence="ghost" tone="neutral" magnitude="lg" aria-label="Close">
+                <X />
+              </IconButton>
+            }
+          />
         </DrawerHeader>
         <DrawerBody>Panel body content goes here.</DrawerBody>
         <DrawerFooter>
-          <Button
-            sizing="hug"
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
-            render={<DrawerClose />}
-          >
-            Cancel
-          </Button>
+          <BaseDrawer.Close
+            render={
+              <Button sizing="hug" prominence="ghost" tone="neutral" magnitude="lg">
+                Cancel
+              </Button>
+            }
+          />
           <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg">
             Save
           </Button>
@@ -121,29 +113,25 @@ export const CloseButtonDismisses: Story = {
 export const StartSide: Story = {
   render: () => (
     <Drawer>
-      <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
-        render={<DrawerTrigger />}
-      >
-        Open navigation
-      </Button>
+      <BaseDrawer.Trigger
+        render={
+          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
+            Open navigation
+          </Button>
+        }
+      />
       <DrawerPanel side="start">
         <DrawerHeader>
           <DrawerHeaderContent>
             <DrawerTitle>Navigation</DrawerTitle>
           </DrawerHeaderContent>
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
-            aria-label="Close"
-            render={<DrawerClose />}
-          >
-            <X />
-          </IconButton>
+          <BaseDrawer.Close
+            render={
+              <IconButton prominence="ghost" tone="neutral" magnitude="lg" aria-label="Close">
+                <X />
+              </IconButton>
+            }
+          />
         </DrawerHeader>
         <DrawerBody>Navigation links go here.</DrawerBody>
       </DrawerPanel>
@@ -183,15 +171,13 @@ export const EscapeCloses: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Drawer>
-      <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
-        render={<DrawerTrigger />}
-      >
-        Open filters
-      </Button>
+      <BaseDrawer.Trigger
+        render={
+          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
+            Open filters
+          </Button>
+        }
+      />
       <DrawerPanel side="end">
         <DrawerHeader>
           <DrawerHeaderContent>

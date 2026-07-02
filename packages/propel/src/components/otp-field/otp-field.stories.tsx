@@ -5,7 +5,7 @@ import { OTPField } from "./index";
 
 // Components-tier story: the ready-made `OTPField` — pass `length`, `magnitude`, and
 // `tone`; it renders that many slots, owning focus movement, paste, and completion.
-// The UI-tier story shows how to compose the parts (e.g. a grouped `123-456` layout
+// The elements-tier story shows how to compose the parts (e.g. a grouped `123-456` layout
 // with a separator).
 const meta = {
   title: "Components/OTPField",

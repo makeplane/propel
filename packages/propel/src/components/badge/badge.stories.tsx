@@ -24,7 +24,7 @@ const MAGNITUDES: BadgeMagnitude[] = ["sm", "md", "lg"];
 // Badge is static — no interaction-state styling — so it gets no pseudo-states story;
 // its variation is fully covered by Tones + Magnitudes. This is the ready-made
 // composition: the `Badge` pill plus optional leading/trailing icon nodes
-// (`inlineStartNode` / `inlineEndNode`), wired to the atomic `ui/badge` parts.
+// (`inlineStartNode` / `inlineEndNode`), wired to the atomic `elements/badge` parts.
 const meta = {
   title: "Components/Badge",
   component: Badge,

@@ -1,3 +1,4 @@
+export * from "./menu";
 export * from "./menu-checkbox-item";
 export * from "./menu-content";
 export * from "./menu-footer";
@@ -5,39 +6,56 @@ export * from "./menu-item";
 export * from "./menu-label";
 export * from "./menu-link-item";
 export * from "./menu-search";
+export * from "./menu-submenu";
 export * from "./menu-submenu-content";
 export * from "./menu-submenu-trigger";
-// Re-export the atomic menu parts so a full menu can be assembled from one entry.
+// Re-export propel's STYLED menu parts so a full menu can be assembled from one entry. The
+// behavior/structural roles (`Menu` Root, `Trigger`, `Group`, `RadioGroup`, `Portal`, `Positioner`,
+// `Arrow`, `Viewport`, `Backdrop`) are Base UI's — no propel styling — so compose them from
+// `@base-ui/react/menu` (and the shared `internal/` primitives) directly at the call site. Names
+// with a ready-made here (`MenuItem`, `MenuCheckboxItem`, `MenuLabel`, `MenuLinkItem`,
+// `MenuSubmenuTrigger`, `MenuSearch`, `MenuFooter`) are deliberately NOT re-exported from `elements`.
 export {
-  Menu,
-  type MenuProps,
-  MenuArrow,
-  type MenuArrowProps,
-  MenuBackdrop,
-  type MenuBackdropProps,
   MenuCheckboxItemIndicator,
   type MenuCheckboxItemIndicatorProps,
-  MenuGroup,
-  type MenuGroupProps,
   MenuGroupLabel,
   type MenuGroupLabelProps,
+  MenuItemContent,
+  type MenuItemContentProps,
+  MenuItemControl,
+  type MenuItemControlProps,
+  MenuItemDescription,
+  type MenuItemDescriptionProps,
+  MenuItemIcon,
+  type MenuItemIconProps,
+  MenuItemMeta,
+  type MenuItemMetaProps,
+  MenuItemSecondaryText,
+  type MenuItemSecondaryTextProps,
+  MenuItemSelectedIndicator,
+  type MenuItemSelectedIndicatorProps,
+  MenuItemSubmenuIndicator,
+  type MenuItemSubmenuIndicatorProps,
+  MenuItemTitle,
+  type MenuItemTitleProps,
+  MenuItemTitleRow,
+  type MenuItemTitleRowProps,
+  MenuItemTrailing,
+  type MenuItemTrailingProps,
+  MenuLabelMeta,
+  type MenuLabelMetaProps,
+  MenuLabelTitle,
+  type MenuLabelTitleProps,
   MenuPopup,
   type MenuPopupProps,
-  MenuPortal,
-  MenuPositioner,
-  type MenuPositionerProps,
-  MenuRadioGroup,
-  type MenuRadioGroupProps,
   MenuRadioItem,
   type MenuRadioItemProps,
   MenuRadioItemIndicator,
   type MenuRadioItemIndicatorProps,
+  MenuSearchIcon,
+  type MenuSearchIconProps,
+  MenuSearchInput,
+  type MenuSearchInputProps,
   MenuSeparator,
   type MenuSeparatorProps,
-  MenuSubmenu,
-  type MenuSubmenuProps,
-  MenuTrigger,
-  type MenuTriggerProps,
-  MenuViewport,
-  type MenuViewportProps,
-} from "../../ui/menu";
+} from "../../elements/menu";

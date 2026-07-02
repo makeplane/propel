@@ -7,8 +7,8 @@ type BaseCompositeItemProps = BaseCompositeItem.Props<unknown, Record<string, ne
  * The item half of Base UI's roving-tabindex `Composite`. Renders a `<div>` by default; pass
  * `render` (or `tag`) to make it the element the row needs — an `<a>` (like
  * `Toolbar.Link`/`Menu.LinkItem`) or a `<button>` (like `Toolbar.Button`/`Menu.Item`). It reads its
- * parent `Composite`'s context automatically, so it only works inside one. Unstyled — `ui` layers
- * the look on top.
+ * parent `Composite`'s context automatically, so it only works inside one. Unstyled — `elements`
+ * layers the look on top.
  *
  * See the `@internal` isolation note on `Composite`.
  */

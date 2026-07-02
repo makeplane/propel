@@ -1,12 +1,11 @@
 import type * as React from "react";
 
+import type { FieldMagnitude } from "../../elements/field/variants";
+import { Fieldset, FieldsetLegend } from "../../elements/fieldset/index";
 import { FieldOptionMagnitudeProvider } from "../../internal/field-option-magnitude";
-import { Field } from "../../ui/field/field";
-import { FieldDescription } from "../../ui/field/field-description";
-import type { FieldMagnitude } from "../../ui/field/variants";
-import { Fieldset, FieldsetLegend } from "../../ui/fieldset/index";
-import { RadioGroup, type RadioGroupProps } from "../../ui/radio/index";
+import { Field, FieldDescription } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
+import { RadioGroup, type RadioGroupProps } from "../radio/index";
 
 export type RadioGroupFieldProps<Value = string> = Omit<
   RadioGroupProps<Value>,

@@ -1,22 +1,19 @@
+export * from "./dialog";
+export * from "./dialog-close";
 export * from "./dialog-content";
-// Re-export the atomic parts so a full dialog can be assembled from one entry.
+export * from "./dialog-description";
+export * from "./dialog-title";
+export * from "./dialog-trigger";
+// Re-export propel's STYLED structural dialog parts so a full dialog can be assembled from one
+// entry. The Popup/Viewport/Backdrop boilerplate is composed by `DialogContent`, so those parts are
+// not re-exported here.
 export {
-  Dialog,
-  type DialogProps,
   DialogActions,
   type DialogActionsProps,
   DialogBody,
   type DialogBodyProps,
-  DialogClose,
-  type DialogCloseProps,
-  DialogDescription,
-  type DialogDescriptionProps,
   DialogHeader,
   type DialogHeaderProps,
   DialogHeading,
   type DialogHeadingProps,
-  DialogTitle,
-  type DialogTitleProps,
-  DialogTrigger,
-  type DialogTriggerProps,
-} from "../../ui/dialog";
+} from "../../elements/dialog";

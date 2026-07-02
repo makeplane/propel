@@ -2,9 +2,12 @@ export * from "./toast";
 export * from "./toast-status-icon";
 export * from "./toast-list";
 export * from "./toast-provider";
+export { useToastManager } from "./manager";
 
-// Re-export the atomic parts + manager hooks so consumers can compose a custom
-// toast from one entry point if the ready-made `Toast` doesn't fit.
+// Re-export propel's STYLED toast parts so a custom toast can be assembled from one entry point if
+// the ready-made `Toast` doesn't fit. The behavior-only roles (`Provider`, `Portal`, `Close`) are
+// Base UI's — no propel styling — so compose them from `@base-ui/react/toast` directly at the call
+// site.
 export {
   Toast as ToastElement,
   type ToastProps as ToastElementProps,
@@ -16,22 +19,16 @@ export {
   type ToastActionGroupProps,
   ToastActions,
   type ToastActionsProps,
-  ToastClose,
-  type ToastCloseProps,
   ToastCloseSlot,
   type ToastCloseSlotProps,
   ToastContent,
   type ToastContentProps,
   ToastDescription,
   type ToastDescriptionProps,
-  ToastPortal,
-  ToastProvider as ToastProviderElement,
-  type ToastProviderProps as ToastProviderElementProps,
   ToastTextGroup,
   type ToastTextGroupProps,
   ToastTitle,
   type ToastTitleProps,
   ToastViewport,
   type ToastViewportProps,
-  useToastManager,
-} from "../../ui/toast/index";
+} from "../../elements/toast/index";

@@ -1,5 +1,12 @@
-// Ready-made 1:1 re-export of the ui primitive. Drop down to `@plane/propel/ui/input` only
-// when you need the lower-level parts. To frame a bare `Input` with a border and inline
-// icon slots, compose the `InputGroup` / `InputIconSlot` parts from `@plane/propel/ui/input`
-// (or reach for the ready-made `InputField` in `@plane/propel/components/field`).
-export * from "../../ui/input";
+// The ready-made `Input` grafts Base UI's `Input` control behavior onto the styled `elements` element.
+// Drop down to `@plane/propel/elements/input` for the bare styled parts, or reach for the ready-made
+// `InputField` in `@plane/propel/components/input-field`.
+export * from "./input";
+// The bordered frame and inline icon slot are pure styled elements (no Base UI behavior to graft),
+// so re-export them straight from `elements/input`.
+export {
+  InputGroup,
+  type InputGroupProps,
+  InputIconSlot,
+  type InputIconSlotProps,
+} from "../../elements/input";

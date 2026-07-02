@@ -1,12 +1,9 @@
+export * from "./autocomplete";
 export * from "./autocomplete-content";
-// Re-export the atomic autocomplete parts so a full autocomplete can be assembled from one entry.
-// `AutocompleteClear`/`AutocompleteTrigger` are behavior-only ui parts now — composed under an
-// `IconButton` via `render` at the call site (see `autocomplete-field`).
+// Re-export propel's STYLED autocomplete parts so a full autocomplete can be assembled from one
+// entry. The behavior/structural parts (`Clear`, `Trigger`, `Portal`, `List`) are Base UI's — no
+// propel styling — so compose them from `@base-ui/react/autocomplete` directly at the call site.
 export {
-  Autocomplete,
-  type AutocompleteProps,
-  AutocompleteClear,
-  type AutocompleteClearProps,
   AutocompleteEmpty,
   type AutocompleteEmptyProps,
   AutocompleteInput,
@@ -15,9 +12,4 @@ export {
   type AutocompleteInputGroupProps,
   AutocompleteIcon,
   type AutocompleteIconProps,
-  AutocompleteItem,
-  type AutocompleteItemProps,
-  AutocompleteList,
-  AutocompleteTrigger,
-  type AutocompleteTriggerProps,
-} from "../../ui/autocomplete";
+} from "../../elements/autocomplete";

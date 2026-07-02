@@ -7,7 +7,7 @@ import {
   LinearProgressTrack,
   type LinearProgressTrackProps,
   LinearProgressValue,
-} from "../../ui/linear-progress";
+} from "../../elements/linear-progress";
 
 export type LinearProgressMagnitude = NonNullable<LinearProgressTrackProps["magnitude"]>;
 export type LinearProgressTone = NonNullable<LinearProgressIndicatorProps["tone"]>;
@@ -31,7 +31,8 @@ export type LinearProgressProps = Omit<BaseProgress.Root.Props, "className" | "s
 /**
  * A horizontal determinate/indeterminate progress bar with an optional trailing `%` label. Drive it
  * with `value` (0–`max`); the fill and `aria-valuenow` follow. For a ring, use `CircularProgress`.
- * Composes the `ui/linear-progress` primitives on Base UI `Progress` (which owns `progressbar`).
+ * Grafts Base UI `Progress` (which owns `progressbar`) onto the `elements/linear-progress` styled
+ * parts.
  */
 export function LinearProgress({
   value,
@@ -41,15 +42,15 @@ export function LinearProgress({
   ...props
 }: LinearProgressProps) {
   return (
-    <LinearProgressElement value={value} {...props}>
-      <LinearProgressTrack magnitude={magnitude}>
-        <LinearProgressIndicator tone={tone} />
-      </LinearProgressTrack>
+    <BaseProgress.Root value={value} {...props} render={<LinearProgressElement />}>
+      <BaseProgress.Track render={<LinearProgressTrack magnitude={magnitude} />}>
+        <BaseProgress.Indicator render={<LinearProgressIndicator tone={tone} />} />
+      </BaseProgress.Track>
       {showValue ? (
-        <LinearProgressValue>
+        <BaseProgress.Value render={<LinearProgressValue />}>
           {(_, currentValue) => (currentValue == null ? "" : `${Math.round(currentValue)}%`)}
-        </LinearProgressValue>
+        </BaseProgress.Value>
       ) : null}
-    </LinearProgressElement>
+    </BaseProgress.Root>
   );
 }

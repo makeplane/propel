@@ -7,7 +7,7 @@ import {
   type CircularProgressProps as CircularProgressElementProps,
   CircularProgressSvg,
   CircularProgressTrack,
-} from "../../ui/circular-progress";
+} from "../../elements/circular-progress";
 
 export type CircularProgressMagnitude = NonNullable<CircularProgressElementProps["magnitude"]>;
 export type CircularProgressTone = NonNullable<CircularProgressIndicatorProps["tone"]>;
@@ -37,7 +37,7 @@ export type CircularProgressProps = Omit<
 /**
  * A small determinate progress ring (no label — too small). Drive it with `value` (0–`max`); the
  * arc and `aria-valuenow` follow. For a bar with an optional label, use `LinearProgress`. Composes
- * the `ui/circular-progress` primitives on Base UI `Progress`.
+ * the `elements/circular-progress` primitives on Base UI `Progress`.
  */
 export function CircularProgress({ value, magnitude, tone, ...props }: CircularProgressProps) {
   const { box, radius } = RING_GEOMETRY[magnitude];
@@ -49,7 +49,11 @@ export function CircularProgress({ value, magnitude, tone, ...props }: CircularP
   const dashOffset = circumference * (1 - fraction);
   const center = box / 2;
   return (
-    <CircularProgressElement value={clampedValue} magnitude={magnitude} {...props}>
+    <BaseProgress.Root
+      value={clampedValue}
+      render={<CircularProgressElement magnitude={magnitude} />}
+      {...props}
+    >
       <CircularProgressSvg viewBox={`0 0 ${box} ${box}`}>
         <CircularProgressTrack cx={center} cy={center} r={radius} strokeWidth={RING_STROKE} />
         <CircularProgressIndicator
@@ -63,6 +67,6 @@ export function CircularProgress({ value, magnitude, tone, ...props }: CircularP
           strokeDashoffset={dashOffset}
         />
       </CircularProgressSvg>
-    </CircularProgressElement>
+    </BaseProgress.Root>
   );
 }

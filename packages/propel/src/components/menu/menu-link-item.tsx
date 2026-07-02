@@ -1,3 +1,4 @@
+import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type * as React from "react";
 
 import {
@@ -7,10 +8,9 @@ import {
   MenuItemTitleRow,
   MenuItemTrailing,
   MenuLinkItem as MenuLinkItemElement,
-  type MenuLinkItemProps as MenuLinkItemElementProps,
-} from "../../ui/menu";
+} from "../../elements/menu";
 
-export type MenuLinkItemProps = MenuLinkItemElementProps & {
+export type MenuLinkItemProps = Omit<BaseMenu.LinkItem.Props, "className" | "style"> & {
   /** Leading content before the label. */
   inlineStartNode?: React.ReactNode;
   /** Trailing content after the label. */
@@ -18,8 +18,8 @@ export type MenuLinkItemProps = MenuLinkItemElementProps & {
 };
 
 /**
- * The ready-made navigational `<a>` menu row: composes the atomic `MenuLinkItem` and lays out
- * optional leading/trailing nodes and the label.
+ * The ready-made navigational `<a>` menu row: grafts Base UI's `Menu.LinkItem` behavior onto the
+ * styled `MenuLinkItem` and lays out optional leading/trailing nodes and the label.
  */
 export function MenuLinkItem({
   inlineStartNode,
@@ -28,7 +28,7 @@ export function MenuLinkItem({
   ...props
 }: MenuLinkItemProps) {
   return (
-    <MenuLinkItemElement {...props}>
+    <BaseMenu.LinkItem {...props} render={<MenuLinkItemElement />}>
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
@@ -36,6 +36,6 @@ export function MenuLinkItem({
         </MenuItemTitleRow>
       </MenuItemContent>
       {inlineEndNode != null ? <MenuItemTrailing>{inlineEndNode}</MenuItemTrailing> : null}
-    </MenuLinkItemElement>
+    </BaseMenu.LinkItem>
   );
 }

@@ -5,7 +5,7 @@ import {
   type BadgeProps as BadgeElementProps,
   BadgeIcon,
   BadgeLabel,
-} from "../../ui/badge";
+} from "../../elements/badge";
 
 export type BadgeProps = BadgeElementProps & {
   /** The badge label — text, a count, or any inline content. */

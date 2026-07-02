@@ -1,20 +1,18 @@
-import { ComboboxPopup, type ComboboxPopupProps } from "../../ui/combobox/combobox-popup";
-import { ComboboxPortal } from "../../ui/combobox/combobox-portal";
-import {
-  ComboboxPositioner,
-  type ComboboxPositionerProps,
-} from "../../ui/combobox/combobox-positioner";
+import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 
-export type ComboboxContentProps = ComboboxPopupProps & {
+import { ListboxPopup, type ListboxPopupProps } from "../../internal/listbox-popup";
+import { Positioner } from "../../internal/positioner";
+
+export type ComboboxContentProps = ListboxPopupProps & {
   /** Which side of the input the list opens toward. @default "bottom" */
-  side?: ComboboxPositionerProps["side"];
+  side?: BaseCombobox.Positioner.Props["side"];
   /** Distance in px between the input and the list. @default 4 */
-  sideOffset?: ComboboxPositionerProps["sideOffset"];
+  sideOffset?: BaseCombobox.Positioner.Props["sideOffset"];
   /** Alignment of the list relative to the input along `side`. @default "start" */
-  align?: ComboboxPositionerProps["align"];
+  align?: BaseCombobox.Positioner.Props["align"];
 };
 
-/** The combobox list surface: portal + positioner + popup with Propel overlay styling. */
+/** The combobox list surface: Base UI portal + positioner + popup grafted onto Propel styling. */
 export function ComboboxContent({
   side = "bottom",
   sideOffset = 4,
@@ -22,10 +20,15 @@ export function ComboboxContent({
   ...props
 }: ComboboxContentProps) {
   return (
-    <ComboboxPortal>
-      <ComboboxPositioner side={side} sideOffset={sideOffset} align={align}>
-        <ComboboxPopup {...props} />
-      </ComboboxPositioner>
-    </ComboboxPortal>
+    <BaseCombobox.Portal>
+      <BaseCombobox.Positioner
+        side={side}
+        sideOffset={sideOffset}
+        align={align}
+        render={<Positioner />}
+      >
+        <BaseCombobox.Popup {...props} render={<ListboxPopup />} />
+      </BaseCombobox.Positioner>
+    </BaseCombobox.Portal>
   );
 }

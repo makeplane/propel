@@ -15,7 +15,7 @@ import {
   PaginationRange,
   PaginationRangeCurrent,
   PaginationSpinner,
-} from "../../ui/pagination/index";
+} from "../../elements/pagination/index";
 import { Pagination } from "./index";
 
 const meta = {

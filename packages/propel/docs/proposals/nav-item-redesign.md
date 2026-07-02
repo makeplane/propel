@@ -1,7 +1,7 @@
 # Proposal: introduce `List` / `ListItem`; absorb `nav-item`
 
 Status: draft for design + engineering review
-Affects: `@plane/propel` — new `ui/list` + `ui/list-item` (+ section label); removes/absorbs `ui/nav-item`
+Affects: `@plane/propel` — new `elements/list` + `elements/list-item` (+ section label); removes/absorbs `elements/nav-item`
 Author: (pending)
 
 ## Summary
@@ -59,7 +59,7 @@ So `List` builds on the same engine, and the link/button split (rule 6c) is Base
 **Tier placement.** `CompositeRoot`/`CompositeItem` live under `@base-ui/react/internals` (an exported
 but lower-level path — it's what Base UI's own `Toolbar`/`Menu` import). So the `Composite` wrapper
 belongs in propel's **`base`** tier (the slot for Base-UI-gap primitives, exposing `className`/
-`render`), mirroring how `Toolbar.Root` wraps `CompositeRoot`; `ui/list` then styles it. Tradeoff to
+`render`), mirroring how `Toolbar.Root` wraps `CompositeRoot`; `elements/list` then styles it. Tradeoff to
 flag: depending on `internals` is a less-stable surface than a top-level subpath.
 
 **Open a11y decision.** `Composite` is role-agnostic (`Toolbar` layers `role="toolbar"` on top). A
@@ -191,7 +191,7 @@ per rule 6c, sharing the stretched-row chrome, so that chrome goes to `internal/
 
 ## Next step
 
-On sign-off: build `ui/list`, `ui/list-item` (+ the link/section-label parts), then a
+On sign-off: build `elements/list`, `elements/list-item` (+ the link/section-label parts), then a
 `components` layer that composes the collapsible/static section shapes, and port the `nav-item`
 stories onto it. Chevron, count, groups, panels, and active/open all resolve to existing primitives
 

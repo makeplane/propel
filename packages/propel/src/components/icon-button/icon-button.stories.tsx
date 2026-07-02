@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
+import { IconButton as IconButtonElement } from "../../elements/icon-button";
 import { iconControl } from "../../storybook/icon-control";
-import { IconButton as IconButtonElement } from "../../ui/icon-button";
 import {
   IconButton,
   IconButtonIcon,

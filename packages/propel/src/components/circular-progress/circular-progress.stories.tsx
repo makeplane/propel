@@ -5,7 +5,7 @@ import {
   CircularProgressIndicator,
   CircularProgressSvg,
   CircularProgressTrack,
-} from "../../ui/circular-progress";
+} from "../../elements/circular-progress";
 import {
   CircularProgress,
   type CircularProgressMagnitude,

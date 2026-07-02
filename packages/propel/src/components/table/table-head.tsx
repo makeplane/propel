@@ -7,7 +7,7 @@ import {
   TableHeadSortIndicator,
   TableHeadSortTrigger,
   TableHeadTitle,
-} from "../../ui/table/index";
+} from "../../elements/table/index";
 import { useTableMode } from "./table-context";
 
 /** Sort direction of a sortable `TableHead`. `none` shows the neutral affordance. */

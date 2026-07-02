@@ -1,10 +1,5 @@
 export * from "./radio";
-// Re-export the group wrapper and atomic parts so the full radio surface is importable here.
-export {
-  Radio as RadioRing,
-  RadioGroup,
-  type RadioGroupDensity,
-  type RadioGroupProps,
-  RadioIndicator,
-  type RadioIndicatorProps,
-} from "../../ui/radio";
+export * from "./radio-group";
+// Re-export the atomic styled parts so the full radio surface is importable from this convenience
+// entry; they compose inside the ready-made `Radio` above.
+export { Radio as RadioRing, RadioIndicator, type RadioIndicatorProps } from "../../elements/radio";

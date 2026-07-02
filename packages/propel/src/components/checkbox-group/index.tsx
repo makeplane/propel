@@ -1,3 +1,4 @@
-// Ready-made 1:1 re-export of the ui primitive. Drop down to `@plane/propel/ui/checkbox-group` only
-// when you need the lower-level parts.
-export * from "../../ui/checkbox-group";
+// The per-axis `density` type stays public from this entry (an explicit cross-tier re-export — a
+// `components` index never `export *`s from `elements`, rule: index re-exports).
+export type { CheckboxGroupDensity } from "../../elements/checkbox-group/index";
+export * from "./checkbox-group";

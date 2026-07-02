@@ -3,9 +3,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Ellipsis, Layers } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { BreadcrumbTrigger, BreadcrumbTriggerIcon } from "../../ui/breadcrumb";
-import { Menu } from "../../ui/menu";
-import { MenuContent, MenuItem } from "../menu";
+import { BreadcrumbTrigger, BreadcrumbTriggerIcon } from "../../elements/breadcrumb";
+import { Menu, MenuContent, MenuItem } from "../menu";
 import {
   Breadcrumb,
   BreadcrumbItem,

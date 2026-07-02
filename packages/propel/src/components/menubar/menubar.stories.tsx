@@ -20,7 +20,7 @@ import { Menubar, MenubarTrigger, MenubarTriggerIcon, MenubarTriggerLabel } from
 // using the ready-made `MenuContent` surface plus the rich `MenuItem` rows
 // (icon + label). Each trigger composes its anatomy — a leading `MenubarTriggerIcon`
 // (the designer's "whether items have icons" axis) and a `MenubarTriggerLabel`. The
-// UI-tier story assembles the popup parts by hand.
+// elements-tier story assembles the popup parts by hand.
 const meta = {
   title: "Components/Menubar",
   component: Menubar,

@@ -1,3 +1,4 @@
+import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
@@ -8,18 +9,17 @@ import {
   PreviewCardContent,
   PreviewCardDescription,
   PreviewCardTitle,
-  PreviewCardTrigger,
 } from "./index";
 
 // Components-tier story: uses the ready-made `PreviewCardContent`, which composes
 // the portal/backdrop/positioner/popup so a consumer only writes the trigger and
-// the card body (and may drop in the re-exported `PreviewCardArrow`).
+// the card body (and may drop in the re-exported `PreviewCardArrow`). The trigger is
+// Base UI's `PreviewCard.Trigger` (no propel styling), wired straight from Base UI.
 
 const meta = {
   title: "Components/PreviewCard",
   component: PreviewCard,
   subcomponents: {
-    PreviewCardTrigger,
     PreviewCardContent,
     PreviewCardArrow,
     PreviewCardBody,
@@ -37,7 +37,7 @@ export const Default: Story = {
     <p className="max-w-prose text-14 text-secondary">
       The open-source project tracker{" "}
       <PreviewCard>
-        <PreviewCardTrigger
+        <BasePreviewCard.Trigger
           render={
             // Real external href for link semantics, but cancel navigation: the Vitest
             // browser runner shares one page across story files, so a real navigation
@@ -50,7 +50,7 @@ export const Default: Story = {
           }
         >
           Plane
-        </PreviewCardTrigger>
+        </BasePreviewCard.Trigger>
         <PreviewCardContent side="top">
           <PreviewCardBody>
             <PreviewCardTitle>Plane</PreviewCardTitle>

@@ -5,7 +5,7 @@ import {
   LinearProgressIndicator,
   LinearProgressTrack,
   LinearProgressValue,
-} from "../../ui/linear-progress";
+} from "../../elements/linear-progress";
 import { LinearProgress, type LinearProgressMagnitude, type LinearProgressTone } from "./index";
 
 const MAGNITUDES: LinearProgressMagnitude[] = ["sm", "md"];

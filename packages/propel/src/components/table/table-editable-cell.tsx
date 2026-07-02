@@ -1,14 +1,15 @@
+import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
-import { Menu, MenuTrigger, type MenuProps } from "../../ui/menu/index";
 import {
   TableCell,
   type TableCellProps,
   TableCellTrigger,
   TableCellTriggerIndicator,
   TableCellTriggerLabel,
-} from "../../ui/table/index";
+} from "../../elements/table/index";
+import { Menu, type MenuProps } from "../menu";
 import { useTableMode } from "./table-context";
 
 export type TableEditableCellProps = Omit<
@@ -49,7 +50,7 @@ export function TableEditableCell({
   return (
     <TableCell mode={mode} pinned="none" padding="trigger" {...props}>
       <Menu open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
-        <MenuTrigger
+        <BaseMenu.Trigger
           disabled={disabled}
           aria-label={ariaLabel}
           render={<TableCellTrigger layout="editable" selected={selected} />}
@@ -58,7 +59,7 @@ export function TableEditableCell({
           <TableCellTriggerIndicator>
             <ChevronDown />
           </TableCellTriggerIndicator>
-        </MenuTrigger>
+        </BaseMenu.Trigger>
         {children}
       </Menu>
     </TableCell>

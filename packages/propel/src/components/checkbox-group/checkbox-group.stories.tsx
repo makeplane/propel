@@ -6,7 +6,7 @@ import { CheckboxGroup } from "./index";
 
 // Components-tier story: the ready-made `CheckboxGroup` holding ready-made `Checkbox`
 // rows (each with its own label + box). The group owns spacing (`density`) and the
-// selected-values array. The UI-tier story composes the atomic boxes instead.
+// selected-values array. The elements-tier story composes the atomic boxes instead.
 const meta = {
   title: "Components/CheckboxGroup",
   component: CheckboxGroup,

@@ -2,9 +2,9 @@
 import { existsSync, readdirSync } from "node:fs";
 // Build one entry per primitive/component/hook so each is published as its own
 // subpath. The three component tiers each get a group: `base` (Base UI extensions),
-// `ui` (Base UI parts styled with Plane tokens), and `components` (ready-made
-// compositions of `ui`) — e.g. `@plane/propel/ui/<name>`, `@plane/propel/hooks/<name>`.
-// There is no root barrel.
+// `elements` (styled intrinsic elements via useRender), and `components` (ready-made
+// compositions of `elements`) — e.g. `@plane/propel/elements/<name>`,
+// `@plane/propel/hooks/<name>`. There is no root barrel.
 //
 // We read the folders directly and feed tsdown a *named* entry object. A bare
 // glob that matches a single file collapses to a root `index` output (and a `.`
@@ -24,7 +24,7 @@ const dirname =
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 function subpathEntries(): Record<string, string> {
   const entry: Record<string, string> = {};
-  for (const group of ["base", "ui", "components", "hooks"]) {
+  for (const group of ["base", "elements", "components", "hooks"]) {
     const dir = `src/${group}`;
     if (!existsSync(dir)) continue;
     for (const dirent of readdirSync(dir, {
@@ -44,8 +44,8 @@ function subpathEntries(): Record<string, string> {
 // Library build via `vp pack` (tsdown). tsdown auto-externalizes everything in
 // `dependencies` + `peerDependencies`, so there is no hand-maintained external
 // allowlist. The package.json `exports` map is static wildcards (see that file),
-// so adding `src/ui/button/index.ts` exposes
-// `@plane/propel/ui/button` with no config or manifest edits.
+// so adding `src/elements/button/index.ts` exposes
+// `@plane/propel/elements/button` with no config or manifest edits.
 export default defineConfig({
   pack: {
     entry: subpathEntries(),

@@ -1,3 +1,4 @@
+import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
 import { Check } from "lucide-react";
 import type * as React from "react";
 
@@ -6,11 +7,16 @@ import {
   ContextMenuItemIndicator,
   ContextMenuItemLabel,
   ContextMenuItem as ContextMenuItemElement,
-  type ContextMenuItemProps as ContextMenuItemElementProps,
+  type ContextMenuItemTone,
   ContextMenuItemShortcut,
-} from "../../ui/context-menu";
+} from "../../elements/context-menu";
 
-export type ContextMenuItemProps = ContextMenuItemElementProps & {
+export type ContextMenuItemProps = Omit<
+  BaseContextMenu.Item.Props,
+  "className" | "style" | "render"
+> & {
+  /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+  tone: ContextMenuItemTone;
   /** Leading icon before the label. */
   inlineStartNode?: React.ReactNode;
   /** Trailing keyboard-shortcut hint after the label. */
@@ -20,11 +26,12 @@ export type ContextMenuItemProps = ContextMenuItemElementProps & {
 };
 
 /**
- * The ready-made menu row: composes the atomic `ContextMenuItem` and its region parts — a leading
- * icon, the label, an optional trailing shortcut hint, and a trailing check for single-select
- * selected state. Pass `tone="danger"` for destructive actions.
+ * The ready-made menu row: grafts Base UI's `Item` behavior onto the styled `ContextMenuItem` and
+ * composes its region parts — a leading icon, the label, an optional trailing shortcut hint, and a
+ * trailing check for single-select selected state. Pass `tone="danger"` for destructive actions.
  */
 export function ContextMenuItem({
+  tone,
   inlineStartNode,
   inlineEndNode,
   selected,
@@ -32,7 +39,7 @@ export function ContextMenuItem({
   ...props
 }: ContextMenuItemProps) {
   return (
-    <ContextMenuItemElement {...props}>
+    <BaseContextMenu.Item {...props} render={<ContextMenuItemElement tone={tone} />}>
       {inlineStartNode != null ? (
         <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
       ) : null}
@@ -45,6 +52,6 @@ export function ContextMenuItem({
           <Check />
         </ContextMenuItemIndicator>
       ) : null}
-    </ContextMenuItemElement>
+    </BaseContextMenu.Item>
   );
 }

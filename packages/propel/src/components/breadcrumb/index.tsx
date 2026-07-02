@@ -9,6 +9,6 @@ export {
   type BreadcrumbListProps,
   BreadcrumbPage,
   type BreadcrumbPageProps,
-} from "../../ui/breadcrumb";
+} from "../../elements/breadcrumb";
 export * from "./breadcrumb-separator";
 export * from "./breadcrumb-menu-trigger";

@@ -1,5 +1,7 @@
 export * from "./checkbox";
-// Re-export the atomic parts so the full checkbox surface is importable from this convenience.
+// Re-export propel's STYLED checkbox parts so a full checkbox can be assembled from one entry. The
+// behavior part is Base UI's (`Checkbox.Root` for the box, `Checkbox.Indicator` for the tick/dash) —
+// no propel styling — so graft it from `@base-ui/react/checkbox` directly at the call site.
 export {
   type CheckboxIndicatorProps,
   CheckboxIndicator,
@@ -9,4 +11,4 @@ export {
   type CheckboxInlineStartNodeProps,
   CheckboxLabel,
   type CheckboxLabelProps,
-} from "../../ui/checkbox";
+} from "../../elements/checkbox";

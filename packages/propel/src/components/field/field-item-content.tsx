@@ -1,9 +1,9 @@
 import type * as React from "react";
 
-import { FieldDescription } from "../../ui/field/field-description";
-import { FieldItemContent as FieldItemContentElement } from "../../ui/field/field-item-content";
-import { FieldLabel } from "../../ui/field/field-label";
-import { type InputMagnitude } from "../../ui/field/variants";
+import { FieldItemContent as FieldItemContentElement } from "../../elements/field/field-item-content";
+import { type InputMagnitude } from "../../elements/field/variants";
+import { FieldDescription } from "./field-description";
+import { FieldLabel } from "./field-label";
 
 /** The label + description column for a single choice option (checkbox/radio/switch row). */
 export function FieldItemContent({

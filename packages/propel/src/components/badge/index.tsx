@@ -7,4 +7,4 @@ export {
   type BadgeLabelProps,
   type BadgeMagnitude,
   type BadgeTone,
-} from "../../ui/badge";
+} from "../../elements/badge";

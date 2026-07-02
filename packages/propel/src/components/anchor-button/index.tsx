@@ -10,4 +10,4 @@ export {
   type AnchorButtonProminence,
   type AnchorButtonSizing,
   type AnchorButtonTone,
-} from "../../ui/anchor-button";
+} from "../../elements/anchor-button";

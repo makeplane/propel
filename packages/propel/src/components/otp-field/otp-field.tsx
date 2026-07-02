@@ -1,15 +1,14 @@
+import { OTPFieldPreview as BaseOTPField } from "@base-ui/react/otp-field";
 import * as React from "react";
 
-import { Field } from "../../ui/field/field";
-import { FieldError } from "../../ui/field/field-error";
-import type { FieldMagnitude } from "../../ui/field/variants";
+import type { FieldMagnitude } from "../../elements/field/variants";
 import {
   OTPField as OTPFieldElement,
   OTPFieldInput,
   type OTPFieldInputMagnitude,
   OTPFieldLabel,
-  type OTPFieldProps as OTPFieldElementProps,
-} from "../../ui/otp-field";
+} from "../../elements/otp-field";
+import { Field, FieldError } from "../field";
 
 // OTP slots size sm/md/lg; the error line maps onto the field text scale (md/lg/xl).
 const OTP_HELPER_MAGNITUDE: Record<OTPFieldInputMagnitude, FieldMagnitude> = {
@@ -18,7 +17,7 @@ const OTP_HELPER_MAGNITUDE: Record<OTPFieldInputMagnitude, FieldMagnitude> = {
   lg: "lg",
 };
 
-export type OTPFieldProps = OTPFieldElementProps & {
+export type OTPFieldProps = Omit<BaseOTPField.Root.Props, "className" | "style"> & {
   /** Box size passed to every slot. */
   magnitude: OTPFieldInputMagnitude;
   /** Error text shown below the slots; its presence flips every slot to the danger state. */
@@ -33,10 +32,10 @@ export type OTPFieldProps = OTPFieldElementProps & {
  * `data-invalid` to every slot, which recolors its border (and focus ring) to danger off that
  * state.
  *
- * Composed from the `ui/otp-field` parts (`OTPField` root + `OTPFieldInput`), which are built on
- * Base UI `OTPFieldPreview`. Each `OTPFieldInput` resolves its slot index from the root context, so
- * the ready-made simply renders one per slot. For grouped layouts with separators (e.g. `123-456`),
- * compose the `ui/otp-field` parts directly.
+ * Grafts Base UI `OTPFieldPreview` behavior onto the `elements/otp-field` styled parts (`OTPField`
+ * root + `OTPFieldInput`). Each slot resolves its index from the root context, so the ready-made
+ * simply renders one per slot. For grouped layouts with separators (e.g. `123-456`), compose the
+ * `elements/otp-field` parts with Base UI `OTPFieldPreview` directly.
  */
 export function OTPField({ length, magnitude, error, ...props }: OTPFieldProps) {
   // Base UI ignores `aria-label` on the first slot and names it from the root's `aria-labelledby`
@@ -45,22 +44,26 @@ export function OTPField({ length, magnitude, error, ...props }: OTPFieldProps) 
   const firstSlotLabelId = React.useId();
   return (
     <Field invalid={error != null || undefined}>
-      <OTPFieldElement length={length} {...props}>
+      <BaseOTPField.Root length={length} {...props} render={<OTPFieldElement />}>
         <OTPFieldLabel id={firstSlotLabelId}>Character 1</OTPFieldLabel>
         {Array.from({ length }, (_, index) =>
           // Base UI ignores `aria-label` on the first slot, so name it via `aria-labelledby`
           // (pointing at the hidden label); the rest carry an `aria-label`.
           index === 0 ? (
-            <OTPFieldInput key={index} magnitude={magnitude} aria-labelledby={firstSlotLabelId} />
-          ) : (
-            <OTPFieldInput
+            <BaseOTPField.Input
               key={index}
-              magnitude={magnitude}
+              render={<OTPFieldInput magnitude={magnitude} />}
+              aria-labelledby={firstSlotLabelId}
+            />
+          ) : (
+            <BaseOTPField.Input
+              key={index}
+              render={<OTPFieldInput magnitude={magnitude} />}
               aria-label={`Character ${index + 1}`}
             />
           ),
         )}
-      </OTPFieldElement>
+      </BaseOTPField.Root>
       <FieldError magnitude={OTP_HELPER_MAGNITUDE[magnitude]} match={error != null}>
         {error}
       </FieldError>

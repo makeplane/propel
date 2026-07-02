@@ -1,37 +1,20 @@
+import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ClipboardPaste, Copy, Scissors, Trash2 } from "lucide-react";
 import { expect, fireEvent, waitFor } from "storybook/test";
 
-import {
-  ContextMenu,
-  ContextMenuItem,
-  ContextMenuItemIcon,
-  ContextMenuItemIndicator,
-  ContextMenuItemLabel,
-  ContextMenuItemShortcut,
-  ContextMenuPopup,
-  ContextMenuPortal,
-  ContextMenuPositioner,
-  ContextMenuSeparator,
-  ContextMenuTrigger,
-} from "./index";
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator } from "./index";
 
-// Components-tier story: the rich `ContextMenuItem` lays out an icon + label + a
-// trailing shortcut, plus a single-select check. The UI-tier story composes the
-// raw `ContextMenuItem` rows by hand.
+// Components-tier story: the ready-made `ContextMenu` root and `ContextMenuContent` surface graft
+// Base UI's portal/positioner/popup, and the rich `ContextMenuItem` lays out an icon + label + a
+// trailing shortcut. The Trigger and Separator are Base UI behavior parts grafted onto propel
+// styling via `render`. The elements-tier story composes the raw `ContextMenuItem` rows by hand.
 const meta = {
   title: "Components/ContextMenu",
   component: ContextMenu,
   subcomponents: {
-    ContextMenuTrigger,
-    ContextMenuPortal,
-    ContextMenuPositioner,
-    ContextMenuPopup,
+    ContextMenuContent,
     ContextMenuItem,
-    ContextMenuItemIcon,
-    ContextMenuItemLabel,
-    ContextMenuItemShortcut,
-    ContextMenuItemIndicator,
     ContextMenuSeparator,
   },
 } satisfies Meta<typeof ContextMenu>;
@@ -46,28 +29,24 @@ const triggerClass =
 export const Default: Story = {
   render: () => (
     <ContextMenu>
-      <ContextMenuTrigger render={<div className={triggerClass} />}>
+      <BaseContextMenu.Trigger render={<div className={triggerClass} />}>
         Right-click here
-      </ContextMenuTrigger>
-      <ContextMenuPortal>
-        <ContextMenuPositioner>
-          <ContextMenuPopup>
-            <ContextMenuItem tone="neutral" inlineStartNode={<Scissors />} inlineEndNode="⌘X">
-              Cut
-            </ContextMenuItem>
-            <ContextMenuItem tone="neutral" inlineStartNode={<Copy />} inlineEndNode="⌘C">
-              Copy
-            </ContextMenuItem>
-            <ContextMenuItem tone="neutral" inlineStartNode={<ClipboardPaste />} inlineEndNode="⌘V">
-              Paste
-            </ContextMenuItem>
-            <ContextMenuSeparator />
-            <ContextMenuItem tone="danger" inlineStartNode={<Trash2 />}>
-              Delete
-            </ContextMenuItem>
-          </ContextMenuPopup>
-        </ContextMenuPositioner>
-      </ContextMenuPortal>
+      </BaseContextMenu.Trigger>
+      <ContextMenuContent>
+        <ContextMenuItem tone="neutral" inlineStartNode={<Scissors />} inlineEndNode="⌘X">
+          Cut
+        </ContextMenuItem>
+        <ContextMenuItem tone="neutral" inlineStartNode={<Copy />} inlineEndNode="⌘C">
+          Copy
+        </ContextMenuItem>
+        <ContextMenuItem tone="neutral" inlineStartNode={<ClipboardPaste />} inlineEndNode="⌘V">
+          Paste
+        </ContextMenuItem>
+        <BaseContextMenu.Separator render={<ContextMenuSeparator />} />
+        <ContextMenuItem tone="danger" inlineStartNode={<Trash2 />}>
+          Delete
+        </ContextMenuItem>
+      </ContextMenuContent>
     </ContextMenu>
   ),
 };

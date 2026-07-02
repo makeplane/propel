@@ -15,7 +15,9 @@ import {
 import * as React from "react";
 import { expect, fn, userEvent } from "storybook/test";
 
+import { Field } from "../components/field";
 import { IconButton } from "../components/icon-button/index";
+import { TextArea } from "../components/text-area";
 import {
   Toolbar,
   ToolbarButton,
@@ -23,9 +25,7 @@ import {
   ToolbarSeparator,
   ToolbarToggle,
 } from "../components/toolbar/index";
-import { Button } from "../ui/button/index";
-import { Field } from "../ui/field/index";
-import { TextArea } from "../ui/text-area/index";
+import { Button } from "../elements/button/index";
 
 // A comment composer is a compositional (application-level) component, not a propel
 // primitive: it is assembled entirely from propel building blocks (Toolbar, Button,

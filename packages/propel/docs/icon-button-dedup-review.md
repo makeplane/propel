@@ -1,6 +1,6 @@
 # Dismiss / close / clear → IconButton dedup — review list
 
-`IconButton` (ui + the ready-made `components/icon-button`) is propel's canonical icon-only button:
+`IconButton` (elements + the ready-made `components/icon-button`) is propel's canonical icon-only button:
 `prominence` (primary/secondary/tertiary/ghost) · `tone` (neutral/danger) · `magnitude`
 (**sm = 20px box / 14px glyph**, md = 24px / 16px, lg = 28px / 16px, xl = 32px / 20px); `aria-label`
 required; glyph passed as `children`. Several dismiss/close/clear parts re-implement it instead of
@@ -35,11 +35,11 @@ UI behavior **manages its own focusability/visibility**:
   and the `NumberFieldButtonIcon` slot deleted.
 - **`ToastClose`** — destyled to a behavior wrapper; the close is now an `IconButton` (ghost/neutral/sm,
   IconButton-outer). Its `absolute inset-e-1 top-1` **4px corner offset** moved to a new `ToastCloseSlot`
-  ui part (position is toast layout; chrome is the IconButton). `toastCloseVariants` deleted.
+  elements part (position is toast layout; chrome is the IconButton). `toastCloseVariants` deleted.
 
 ## Deleted
 
-- **`BadgeDismiss`** (`ui/badge`) — removed as non-canonical. The badge spec is two symmetric node
+- **`BadgeDismiss`** (`elements/badge`) — removed as non-canonical. The badge spec is two symmetric node
   slots (`inlineStartNode` / `inlineEndNode`), not a dismiss button — so the part, its
   `badgeDismissVariants` cva, the exports, and the UI/Badge `WithDismiss` story are all gone.
 

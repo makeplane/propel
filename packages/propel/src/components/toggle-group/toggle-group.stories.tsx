@@ -5,9 +5,9 @@ import { expect, fn } from "storybook/test";
 import { Toggle, ToggleIcon } from "../toggle/index";
 import { ToggleGroup } from "./index";
 
-// Components-tier story: the ready-made `ToggleGroup` (a 1:1 re-export of the ui
+// Components-tier story: the ready-made `ToggleGroup` (a 1:1 re-export of the elements
 // primitive) holding ready-made `Toggle` items. The group sizes each toggle via
-// `magnitude` and tracks selection. The UI-tier story documents the same parts.
+// `magnitude` and tracks selection. The elements-tier story documents the same parts.
 const meta = {
   title: "Components/ToggleGroup",
   component: ToggleGroup,

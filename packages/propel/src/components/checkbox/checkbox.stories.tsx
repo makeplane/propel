@@ -3,7 +3,7 @@ import { Repeat } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
-import { Field } from "../../ui/field/field";
+import { Field } from "../field";
 import {
   Checkbox,
   CheckboxIndeterminateIndicator,

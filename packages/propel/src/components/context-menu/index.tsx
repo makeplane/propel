@@ -1,21 +1,20 @@
+export * from "./context-menu";
+export * from "./context-menu-content";
 export * from "./context-menu-item";
 export * from "./context-menu-link-item";
+export * from "./context-menu-submenu";
 export * from "./context-menu-submenu-trigger";
-// Re-export the atomic structural parts so a full context menu is importable from this convenience.
+// Re-export propel's STYLED context-menu leaf parts so a full context menu can be assembled from
+// one entry. The behavior/structural parts (`Trigger`, `Portal`, `Backdrop`, `Group`, `RadioGroup`)
+// are Base UI's — no propel styling — so compose them from `@base-ui/react/context-menu` directly
+// at the call site; graft the styled leaves below onto their Base UI part via `render`.
 export {
-  ContextMenu,
-  ContextMenuArrow,
-  type ContextMenuArrowProps,
-  ContextMenuBackdrop,
-  type ContextMenuBackdropProps,
   ContextMenuCheckboxItem,
+  type ContextMenuCheckboxItemProps,
   ContextMenuCheckboxItemIndicator,
   type ContextMenuCheckboxItemIndicatorProps,
-  type ContextMenuCheckboxItemProps,
-  ContextMenuGroup,
   ContextMenuGroupLabel,
   type ContextMenuGroupLabelProps,
-  type ContextMenuGroupProps,
   ContextMenuItemIcon,
   type ContextMenuItemIconProps,
   ContextMenuItemIndicator,
@@ -24,24 +23,13 @@ export {
   type ContextMenuItemLabelProps,
   ContextMenuItemShortcut,
   type ContextMenuItemShortcutProps,
-  ContextMenuPopup,
-  type ContextMenuPopupProps,
-  ContextMenuPortal,
-  ContextMenuPositioner,
-  type ContextMenuPositionerProps,
-  type ContextMenuProps,
-  ContextMenuRadioGroup,
-  type ContextMenuRadioGroupProps,
+  type ContextMenuItemTone,
   ContextMenuRadioItem,
+  type ContextMenuRadioItemProps,
   ContextMenuRadioItemIndicator,
   type ContextMenuRadioItemIndicatorProps,
-  type ContextMenuRadioItemProps,
   ContextMenuSeparator,
   type ContextMenuSeparatorProps,
-  ContextMenuSubmenu,
-  type ContextMenuSubmenuProps,
   ContextMenuSubmenuTriggerIndicator,
   type ContextMenuSubmenuTriggerIndicatorProps,
-  ContextMenuTrigger,
-  type ContextMenuTriggerProps,
-} from "../../ui/context-menu";
+} from "../../elements/context-menu";
