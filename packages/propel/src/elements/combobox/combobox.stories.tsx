@@ -8,7 +8,15 @@ import { ListboxItem } from "../../internal/listbox-item";
 import { ListboxPopup } from "../../internal/listbox-popup";
 import { Field, FieldError, FieldLabel } from "../field/index";
 import { IconButton, IconButtonIcon } from "../icon-button";
-import { ComboboxEmpty, ComboboxInput, ComboboxInputGroup, ComboboxItemIndicator } from "./index";
+import {
+  ComboboxChip,
+  ComboboxChipRemove,
+  ComboboxChips,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxInputGroup,
+  ComboboxItemIndicator,
+} from "./index";
 
 const REGIONS = ["us-central-1", "us-east-1", "eu-central-1", "ap-west-1"];
 
@@ -21,6 +29,9 @@ const meta = {
   subcomponents: {
     ComboboxInputGroup,
     ComboboxInput,
+    ComboboxChips,
+    ComboboxChip,
+    ComboboxChipRemove,
     ComboboxItemIndicator,
     ListboxItem,
     ComboboxEmpty,
@@ -124,5 +135,86 @@ export const Invalid: Story = {
     // The wrapping input group recolors its border off `:has([data-invalid])`.
     const group = input.closest<HTMLElement>(":has([data-invalid])");
     await expect(group).toHaveClass("has-[[data-invalid]]:border-danger-strong");
+  },
+};
+
+/**
+ * `multiple` swaps the input frame for `ComboboxChips`: each selected value renders as a
+ * `ComboboxChip` (label + `ComboboxChipRemove`) ahead of the inline input, wrapping onto new rows
+ * as the selection grows. Arrow keys move focus across chips; Backspace removes.
+ */
+export const Multiple: Story = {
+  render: () => (
+    <BaseField.Root name="regions" render={<Field />}>
+      <BaseCombobox.Root multiple items={REGIONS} defaultValue={["us-east-1", "eu-central-1"]}>
+        <BaseField.Label render={<FieldLabel magnitude="md" inset={false} />}>
+          Regions
+        </BaseField.Label>
+        <BaseCombobox.Chips render={<ComboboxChips />}>
+          <BaseCombobox.Value>
+            {(regions: string[]) => (
+              <>
+                {regions.map((region) => (
+                  <BaseCombobox.Chip key={region} render={<ComboboxChip />} aria-label={region}>
+                    {region}
+                    <BaseCombobox.ChipRemove
+                      render={<ComboboxChipRemove />}
+                      aria-label={`Remove ${region}`}
+                    >
+                      <X aria-hidden />
+                    </BaseCombobox.ChipRemove>
+                  </BaseCombobox.Chip>
+                ))}
+                <BaseCombobox.Input render={<ComboboxInput />} placeholder="Add a region" />
+              </>
+            )}
+          </BaseCombobox.Value>
+        </BaseCombobox.Chips>
+        <BaseCombobox.Portal>
+          <BaseCombobox.Positioner>
+            <BaseCombobox.Popup render={<ListboxPopup />}>
+              <BaseCombobox.Empty render={<ComboboxEmpty />}>No matches</BaseCombobox.Empty>
+              <BaseCombobox.List>
+                {REGIONS.map((region) => (
+                  <BaseCombobox.Item
+                    key={region}
+                    value={region}
+                    render={<ListboxItem layout="indicator" magnitude="md" />}
+                  >
+                    <BaseCombobox.ItemIndicator keepMounted render={<ComboboxItemIndicator />}>
+                      <Check aria-hidden />
+                    </BaseCombobox.ItemIndicator>
+                    <span>{region}</span>
+                  </BaseCombobox.Item>
+                ))}
+              </BaseCombobox.List>
+            </BaseCombobox.Popup>
+          </BaseCombobox.Positioner>
+        </BaseCombobox.Portal>
+      </BaseCombobox.Root>
+    </BaseField.Root>
+  ),
+};
+
+/**
+ * Interaction test: both preselected values render as chips, a chip's remove button drops just that
+ * value, and picking another item appends a chip. Tagged out of the sidebar/docs/manifest while
+ * still running under the default `test` tag.
+ */
+export const MultipleInteraction: Story = {
+  ...Multiple,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    await expect(canvas.getByText("us-east-1")).toBeInTheDocument();
+    await expect(canvas.getByText("eu-central-1")).toBeInTheDocument();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Remove us-east-1" }));
+    await expect(canvas.queryByText("us-east-1")).not.toBeInTheDocument();
+
+    await userEvent.click(canvas.getByRole("combobox", { name: "Regions" }));
+    const popup = within(document.body);
+    await userEvent.click(await popup.findByRole("option", { name: "ap-west-1" }));
+    await expect(canvas.getByText("ap-west-1")).toBeInTheDocument();
+    await expect(canvas.getByText("eu-central-1")).toBeInTheDocument();
   },
 };
