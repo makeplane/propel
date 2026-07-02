@@ -1,4 +1,3 @@
-import { DirectionProvider } from "@base-ui/react/direction-provider";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import * as React from "react";
@@ -7,6 +6,7 @@ import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Button } from "../../elements/button";
 import { Checkbox } from "../checkbox/index";
+import { DirectionProvider } from "../direction-provider";
 import { PillSwitch } from "../pill/index";
 import { Radio, RadioGroup } from "../radio/index";
 import { Popover, PopoverContent, PopoverTrigger } from "./index";

@@ -10,5 +10,6 @@ export {
   BreadcrumbPage,
   type BreadcrumbPageProps,
 } from "../../elements/breadcrumb";
-export * from "./breadcrumb-separator";
+export * from "./breadcrumb-ellipsis-trigger";
 export * from "./breadcrumb-menu-trigger";
+export * from "./breadcrumb-separator";

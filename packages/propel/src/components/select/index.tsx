@@ -1,25 +1,23 @@
 export * from "./select";
 export * from "./select-content";
-// Re-export propel's STYLED select parts so a full select can be assembled from one entry. The list
-// surface (`Portal`, `Positioner`, `Popup`) is the shared `internal` overlay/listbox styling, and the
-// `List`/`Item`/`ItemText` behavior parts are Base UI's (rows styled by `internal`'s `ListboxItem`) —
-// so compose those from `@base-ui/react/select` directly at the call site.
+export * from "./select-item";
+export * from "./select-label";
+export * from "./select-list";
+export * from "./select-trigger";
+// Re-export propel's STYLED select parts that stay styling-only, so a full select can be assembled
+// from one entry. The ready-mades above graft Base UI's `Trigger`/`Value`/`Label`/`List`/`Item`
+// behavior onto the styled parts, so consumers never compose `@base-ui/react/select` directly. The
+// styled `SelectTrigger`/`SelectValue`/`SelectIcon`/`SelectLabel` elements are NOT re-exported here
+// — the same-named ready-mades replace them (name collision rule); import them from
+// `elements/select` to hand-wire a custom anatomy.
 export {
   SelectField,
   type SelectFieldProps,
-  SelectIcon,
-  type SelectIconProps,
   SelectItemIndicator,
   type SelectItemIndicatorProps,
-  SelectLabel,
-  type SelectLabelProps,
   SelectScrollDownArrow,
   type SelectScrollDownArrowProps,
   SelectScrollUpArrow,
   type SelectScrollUpArrowProps,
-  SelectTrigger,
   type SelectTriggerMagnitude,
-  type SelectTriggerProps,
-  SelectValue,
-  type SelectValueProps,
 } from "../../elements/select";

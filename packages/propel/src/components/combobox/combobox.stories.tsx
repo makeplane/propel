@@ -1,39 +1,35 @@
-import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronsUpDown, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
-import { ListboxItem } from "../../internal/listbox-item";
 import { Field, FieldError, FieldLabel } from "../field/index";
 import { IconButton } from "../icon-button";
 import {
   Combobox,
-  ComboboxChip,
-  ComboboxChipRemove,
   ComboboxChips,
   ComboboxContent,
   ComboboxEmpty,
-  ComboboxInput,
   ComboboxInputGroup,
+  ComboboxItem,
   ComboboxItemIndicator,
+  ComboboxList,
 } from "./index";
 
 const REGIONS = ["us-central-1", "us-east-1", "eu-central-1", "ap-west-1"];
 
-// Components-tier story: the ready-made `ComboboxContent` collapses the portal/positioner/popup
-// boilerplate into one element, and Base UI behavior parts graft Propel's styled parts via `render`.
-// The elements-tier `Combobox` story wires those raw parts by hand.
+// Components-tier story: the ready-mades collapse every Base UI behavior part — `ComboboxInputGroup`
+// bundles the input + clear/trigger controls, `ComboboxContent` the portal/positioner/popup, and
+// `ComboboxItem` the indicator row — so a full combobox composes without touching `@base-ui/react`.
+// The elements-tier `Combobox` story wires the raw styled parts by hand.
 const meta = {
   title: "Components/Combobox",
   component: Combobox,
   subcomponents: {
     ComboboxInputGroup,
-    ComboboxInput,
     ComboboxChips,
-    ComboboxChip,
-    ComboboxChipRemove,
     ComboboxContent,
-    ListboxItem,
+    ComboboxList,
+    ComboboxItem,
     ComboboxItemIndicator,
     ComboboxEmpty,
   },
@@ -42,7 +38,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Combobox using the ready-made `ComboboxContent` surface for filterable selection. */
+/**
+ * A filterable single-select: `ComboboxInputGroup` is the input frame (pass the clear/trigger
+ * controls — each carries its own localizable `aria-label`), `ComboboxContent` the popup surface,
+ * and `ComboboxItem` the option rows with the selection check baked in.
+ */
 export const Default: Story = {
   args: { items: REGIONS, required: true },
   render: (args) => (
@@ -51,42 +51,28 @@ export const Default: Story = {
         <FieldLabel magnitude="md" inset={false}>
           Region
         </FieldLabel>
-        <BaseCombobox.InputGroup render={<ComboboxInputGroup />}>
-          <BaseCombobox.Input render={<ComboboxInput />} placeholder="e.g. eu-central-1" />
-          <BaseCombobox.Clear
-            render={
-              <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="md"
-                aria-label="Clear region"
-              >
-                <X />
-              </IconButton>
-            }
-          />
-          <BaseCombobox.Trigger
-            render={
-              <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
-                <ChevronsUpDown />
-              </IconButton>
-            }
-          />
-        </BaseCombobox.InputGroup>
+        <ComboboxInputGroup
+          placeholder="e.g. eu-central-1"
+          clear={
+            <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear region">
+              <X />
+            </IconButton>
+          }
+          trigger={
+            <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
+              <ChevronsUpDown />
+            </IconButton>
+          }
+        />
         <ComboboxContent>
-          <BaseCombobox.Empty render={<ComboboxEmpty />}>No matches</BaseCombobox.Empty>
-          <BaseCombobox.List>
+          <ComboboxEmpty>No matches</ComboboxEmpty>
+          <ComboboxList>
             {REGIONS.map((region) => (
-              <BaseCombobox.Item
-                key={region}
-                value={region}
-                render={<ListboxItem layout="indicator" magnitude="md" />}
-              >
-                <ComboboxItemIndicator />
-                <span>{region}</span>
-              </BaseCombobox.Item>
+              <ComboboxItem key={region} value={region} magnitude="md">
+                {region}
+              </ComboboxItem>
             ))}
-          </BaseCombobox.List>
+          </ComboboxList>
         </ComboboxContent>
         <FieldError magnitude="md" />
       </Combobox>
@@ -94,6 +80,10 @@ export const Default: Story = {
   ),
 };
 
+/**
+ * Interaction test: typing filters the popup down to the matching option. Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
 export const DefaultInteraction: Story = {
   ...Default,
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -104,9 +94,10 @@ export const DefaultInteraction: Story = {
 };
 
 /**
- * `multiple` swaps the input frame for `ComboboxChips`: each selected value renders as a
- * `ComboboxChip` (label + `ComboboxChipRemove`) ahead of the inline input, wrapping onto new rows
- * as the selection grows. Arrow keys move focus across chips; Backspace removes.
+ * `multiple` swaps the input frame for `ComboboxChips`: each selected value renders as a removable
+ * chip ahead of the inline input, wrapping onto new rows as the selection grows. `removeLabel`
+ * names each chip's remove button (localizable, required). Arrow keys move focus across chips;
+ * Backspace removes.
  */
 export const Multiple: Story = {
   render: () => (
@@ -115,40 +106,16 @@ export const Multiple: Story = {
         <FieldLabel magnitude="md" inset={false}>
           Regions
         </FieldLabel>
-        <BaseCombobox.Chips render={<ComboboxChips />}>
-          <BaseCombobox.Value>
-            {(regions: string[]) => (
-              <>
-                {regions.map((region) => (
-                  <BaseCombobox.Chip key={region} render={<ComboboxChip />} aria-label={region}>
-                    {region}
-                    <BaseCombobox.ChipRemove
-                      render={<ComboboxChipRemove />}
-                      aria-label={`Remove ${region}`}
-                    >
-                      <X aria-hidden />
-                    </BaseCombobox.ChipRemove>
-                  </BaseCombobox.Chip>
-                ))}
-                <BaseCombobox.Input render={<ComboboxInput />} placeholder="Add a region" />
-              </>
-            )}
-          </BaseCombobox.Value>
-        </BaseCombobox.Chips>
+        <ComboboxChips placeholder="Add a region" removeLabel={(region) => `Remove ${region}`} />
         <ComboboxContent>
-          <BaseCombobox.Empty render={<ComboboxEmpty />}>No matches</BaseCombobox.Empty>
-          <BaseCombobox.List>
+          <ComboboxEmpty>No matches</ComboboxEmpty>
+          <ComboboxList>
             {REGIONS.map((region) => (
-              <BaseCombobox.Item
-                key={region}
-                value={region}
-                render={<ListboxItem layout="indicator" magnitude="md" />}
-              >
-                <ComboboxItemIndicator />
-                <span>{region}</span>
-              </BaseCombobox.Item>
+              <ComboboxItem key={region} value={region} magnitude="md">
+                {region}
+              </ComboboxItem>
             ))}
-          </BaseCombobox.List>
+          </ComboboxList>
         </ComboboxContent>
       </Combobox>
     </Field>

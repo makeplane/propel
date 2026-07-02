@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { ScrollArea } from "./index";
+import { ScrollArea, type ScrollAreaProps } from "./index";
+
+const MAGNITUDES: ScrollAreaProps["magnitude"][] = ["thin", "standard"];
 
 const meta = {
   title: "Components/ScrollArea",
@@ -103,4 +105,45 @@ export const AlwaysVisible: Story = {
       </div>
     ),
   },
+};
+
+/**
+ * Both scrollbar gutter steps side by side: `thin` — 12 px gutter (3 px inset padding), for dense
+ * UI like menus and pickers; `standard` — 16 px gutter (5 px inset padding), for roomier panels.
+ * The thumb stays 6 px in both. Each panel overflows on both axes so the vertical rail, horizontal
+ * rail, and corner are all auditable; shown with `visibility="always"` so the rails are visible at
+ * rest.
+ */
+export const Magnitudes: Story = {
+  // Iterates `magnitude` and captions each panel with it, so that control is disabled.
+  // `orientation` is fixed to `both` because the showcase content overflows both axes (rendering
+  // fewer rails would leave an unscrollbarred overflow); `visibility` stays live and updates both
+  // panels at once.
+  argTypes: { magnitude: { control: false }, orientation: { control: false } },
+  args: {
+    orientation: "both",
+    visibility: "always",
+    magnitude: "thin",
+    children: (
+      <div className="flex w-max flex-col gap-2 p-3">
+        {Array.from({ length: 30 }, (_, i) => (
+          <p key={i} className="text-13 whitespace-nowrap text-secondary">
+            Line {i + 1} of content wide and tall enough to overflow both axes.
+          </p>
+        ))}
+      </div>
+    ),
+  },
+  render: (args) => (
+    <div className="flex min-h-0 flex-1 gap-3 p-3">
+      {MAGNITUDES.map((magnitude) => (
+        <div key={magnitude} className="flex min-w-0 flex-1 flex-col gap-1.5">
+          <p className="text-12 text-tertiary">{magnitude}</p>
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-md border border-subtle">
+            <ScrollArea {...args} magnitude={magnitude} />
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
 };

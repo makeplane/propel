@@ -1,4 +1,3 @@
-import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   Copy,
@@ -17,10 +16,11 @@ import { Menu, MenuContent, MenuItem, MenuSeparator } from "../menu/index";
 import { Menubar, MenubarTrigger, MenubarTriggerIcon, MenubarTriggerLabel } from "./index";
 
 // Components-tier story: the `Menubar` container hosts a row of `Menu` roots, each
-// using the ready-made `MenuContent` surface plus the rich `MenuItem` rows
-// (icon + label). Each trigger composes its anatomy — a leading `MenubarTriggerIcon`
-// (the designer's "whether items have icons" axis) and a `MenubarTriggerLabel`. The
-// elements-tier story assembles the popup parts by hand.
+// using the ready-made `MenubarTrigger` (Base UI's `Menu.Trigger` behavior already
+// grafted) plus the `MenuContent` surface and the rich `MenuItem` rows (icon + label).
+// Each trigger composes its anatomy — a leading `MenubarTriggerIcon` (the designer's
+// "whether items have icons" axis) and a `MenubarTriggerLabel`. The elements-tier
+// story assembles the popup parts by hand.
 const meta = {
   title: "Components/Menubar",
   component: Menubar,
@@ -31,6 +31,7 @@ const meta = {
     Menu,
     MenuContent,
     MenuItem,
+    MenuSeparator,
   },
 } satisfies Meta<typeof Menubar>;
 
@@ -53,7 +54,7 @@ export const Default: Story = {
   render: () => (
     <Menubar>
       <Menu>
-        <MenubarTrigger render={<BaseMenu.Trigger />}>
+        <MenubarTrigger>
           <MenubarTriggerIcon>
             <FilePen />
           </MenubarTriggerIcon>
@@ -67,7 +68,7 @@ export const Default: Story = {
         </MenuContent>
       </Menu>
       <Menu>
-        <MenubarTrigger render={<BaseMenu.Trigger />}>
+        <MenubarTrigger>
           <MenubarTriggerIcon>
             <Pencil />
           </MenubarTriggerIcon>

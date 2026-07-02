@@ -1,4 +1,3 @@
-import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { X } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
@@ -8,12 +7,14 @@ import { IconButton } from "../icon-button";
 import {
   Drawer,
   DrawerBody,
+  DrawerClose,
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerHeaderContent,
   DrawerPanel,
   DrawerTitle,
+  DrawerTrigger,
 } from "./index";
 
 // Components-tier story: uses the ready-made `DrawerPanel`, which composes the
@@ -21,14 +22,16 @@ import {
 // writes the trigger and the panel body. The header/body/footer layout is supplied
 // by the `DrawerHeader`/`DrawerBody`/`DrawerFooter` anatomy parts, and the
 // `DrawerTitle`/`DrawerDescription` grafts wrap the shared overlay heading pair — no
-// layout `className` lives here. Trigger/Close are Base UI behavior parts grafted
-// onto the `Button` (or `IconButton` for the corner close) via `render` — the styled
-// primitive is the render target so its look wins, the drawer part supplies behavior.
+// layout `className` lives here. `DrawerTrigger`/`DrawerClose` are the behavior
+// passthroughs grafted onto the `Button` (or `IconButton` for the corner close) via
+// `render` — the styled primitive is the render target so its look wins, the drawer
+// part supplies behavior.
 
 const meta = {
   title: "Components/Drawer",
   component: Drawer,
   subcomponents: {
+    DrawerTrigger,
     DrawerPanel,
     DrawerHeader,
     DrawerHeaderContent,
@@ -36,6 +39,7 @@ const meta = {
     DrawerFooter,
     DrawerTitle,
     DrawerDescription,
+    DrawerClose,
   },
 } satisfies Meta<typeof Drawer>;
 
@@ -46,7 +50,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Drawer>
-      <BaseDrawer.Trigger
+      <DrawerTrigger
         render={
           <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
             Open details
@@ -59,7 +63,7 @@ export const Default: Story = {
             <DrawerTitle>Work item details</DrawerTitle>
             <DrawerDescription>Edit the fields for this work item.</DrawerDescription>
           </DrawerHeaderContent>
-          <BaseDrawer.Close
+          <DrawerClose
             render={
               <IconButton prominence="ghost" tone="neutral" magnitude="lg" aria-label="Close">
                 <X />
@@ -69,7 +73,7 @@ export const Default: Story = {
         </DrawerHeader>
         <DrawerBody>Panel body content goes here.</DrawerBody>
         <DrawerFooter>
-          <BaseDrawer.Close
+          <DrawerClose
             render={
               <Button sizing="hug" prominence="ghost" tone="neutral" magnitude="lg">
                 Cancel
@@ -113,7 +117,7 @@ export const CloseButtonDismisses: Story = {
 export const StartSide: Story = {
   render: () => (
     <Drawer>
-      <BaseDrawer.Trigger
+      <DrawerTrigger
         render={
           <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
             Open navigation
@@ -125,7 +129,7 @@ export const StartSide: Story = {
           <DrawerHeaderContent>
             <DrawerTitle>Navigation</DrawerTitle>
           </DrawerHeaderContent>
-          <BaseDrawer.Close
+          <DrawerClose
             render={
               <IconButton prominence="ghost" tone="neutral" magnitude="lg" aria-label="Close">
                 <X />
@@ -171,7 +175,7 @@ export const EscapeCloses: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Drawer>
-      <BaseDrawer.Trigger
+      <DrawerTrigger
         render={
           <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
             Open filters

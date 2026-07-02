@@ -13,7 +13,7 @@ export type MenuProps<Payload = unknown> = Omit<
   onOpenChange?: MenuRoot.Props<Payload>["onOpenChange"];
   /** Modal behavior while open. @default false */
   modal?: MenuRoot.Props<Payload>["modal"];
-  /** The trigger and menu surface (`Menu.Trigger`, `MenuContent`). */
+  /** The trigger and menu surface (`MenuTrigger`, `MenuContent`). */
   children?: MenuRoot.Props<Payload>["children"];
 };
 

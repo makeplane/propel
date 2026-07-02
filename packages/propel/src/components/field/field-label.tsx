@@ -4,6 +4,8 @@ import { FieldLabel as FieldLabelElement } from "../../elements/field/field-labe
 import { FieldLabelRequiredMarker } from "../../elements/field/field-label-required-marker";
 import { type FieldLabelVariantProps } from "../../elements/field/variants";
 
+export type { FieldMagnitude } from "../../elements/field/variants";
+
 export type FieldLabelProps = Omit<BaseField.Label.Props, "className" | "style"> &
   FieldLabelVariantProps & { required?: boolean };
 

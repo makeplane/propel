@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { Slider } from "./index";
+import { Slider, type SliderMagnitude } from "./index";
+
+const MAGNITUDES: SliderMagnitude[] = ["sm", "md", "lg"];
 
 // Components-tier story: the ready-made single-thumb `Slider`. It composes the
 // `elements/slider` parts (label + value + control + track + indicator + thumb) for you —
@@ -37,6 +39,21 @@ export const DefaultInteraction: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("slider", { name: "Volume" })).toBeInTheDocument();
   },
+};
+
+/** All thumb sizes: `sm` (12 px), `md` (16 px), `lg` (20 px). The track bar height never changes. */
+export const Magnitudes: Story = {
+  // Iterates `magnitude` and labels each slider with the magnitude name, so disable just
+  // those two controls; the rest stay live and update every slider at once.
+  argTypes: { magnitude: { control: false }, label: { control: false } },
+  args: { magnitude: "md", defaultValue: 40, min: 0, max: 100, step: 1 },
+  render: (args) => (
+    <div className="flex flex-col gap-6">
+      {MAGNITUDES.map((magnitude) => (
+        <Slider key={magnitude} {...args} magnitude={magnitude} label={magnitude} />
+      ))}
+    </div>
+  ),
 };
 
 /** `format` (Intl options) controls the readout — here a percentage. */

@@ -1,4 +1,6 @@
 export * from "./drawer";
+export * from "./drawer-trigger";
+export * from "./drawer-close";
 export * from "./drawer-provider";
 export * from "./drawer-indent";
 export * from "./drawer-indent-background";
@@ -8,13 +10,12 @@ export * from "./drawer-title";
 export * from "./drawer-description";
 export * from "./drawer-panel";
 // Re-export the styled `elements` parts so a full drawer can be assembled from one entry. The
-// behavior-only roles (`Portal`, `Trigger`) carry no propel styling, so compose them from
-// `@base-ui/react/drawer` directly at the call site.
+// behavior-only roles need no Base UI at the call site: `DrawerTrigger`/`DrawerClose` above are
+// the passthroughs, and `DrawerPanel` composes the `Portal`. The styled bare close control stays
+// in `elements/drawer` — the `DrawerClose` behavior part replaces its re-export here.
 export {
   DrawerBody,
   type DrawerBodyProps,
-  DrawerClose,
-  type DrawerCloseProps,
   DrawerContent,
   type DrawerContentProps,
   DrawerFooter,

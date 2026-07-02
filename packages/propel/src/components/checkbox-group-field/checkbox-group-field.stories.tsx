@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
+import type { FieldMagnitude } from "../../elements/field/variants";
+import type { CheckboxGroupDensity } from "../checkbox-group/index";
 import { CheckboxGroupField, CheckboxGroupFieldOption } from "./index";
+
+const MAGNITUDES: FieldMagnitude[] = ["md", "lg", "xl"];
+const DENSITIES: CheckboxGroupDensity[] = ["comfortable", "compact"];
 
 // A fieldset of checkbox options (Field + Fieldset + CheckboxGroup + option rows).
 const meta = {
@@ -28,6 +33,54 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = { args: { hint: "At least one channel is recommended." } };
+
+/** Legend, description, and option text at every magnitude (`md` / `lg` / `xl`). */
+export const Magnitudes: Story = {
+  // Iterates `magnitude` and labels each group with the magnitude name, so disable those
+  // controls (plus `name`, overridden per group); the rest stay live and update every group.
+  argTypes: {
+    magnitude: { control: false },
+    label: { control: false },
+    name: { control: false },
+  },
+  render: (args) => (
+    <div className="flex items-start gap-10">
+      {MAGNITUDES.map((magnitude) => (
+        <CheckboxGroupField
+          key={magnitude}
+          {...args}
+          magnitude={magnitude}
+          label={magnitude}
+          name={`notifications-${magnitude}`}
+        />
+      ))}
+    </div>
+  ),
+};
+
+/** Row spacing between options: `comfortable` keeps a gap, `compact` stacks them flush. */
+export const Densities: Story = {
+  // Iterates `density` and labels each group with the density name, so disable those
+  // controls (plus `name`, overridden per group); the rest stay live and update every group.
+  argTypes: {
+    density: { control: false },
+    label: { control: false },
+    name: { control: false },
+  },
+  render: (args) => (
+    <div className="flex items-start gap-10">
+      {DENSITIES.map((density) => (
+        <CheckboxGroupField
+          key={density}
+          {...args}
+          density={density}
+          label={density}
+          name={`notifications-${density}`}
+        />
+      ))}
+    </div>
+  ),
+};
 
 /**
  * Setting `error` marks the whole group invalid. Base UI's `Field.Root` propagates that validity to

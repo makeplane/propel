@@ -1,23 +1,15 @@
 export * from "./combobox";
+export * from "./combobox-chips";
 export * from "./combobox-content";
+export * from "./combobox-empty";
+export * from "./combobox-input-group";
+export * from "./combobox-item";
 // Ready-made part that supplies a default icon — replaces the bare `elements` slot for consumers.
 export * from "./combobox-item-indicator";
-// Re-export propel's STYLED combobox parts so a full combobox can be assembled from one entry. The
-// behavior/structural parts (`Clear`, `Trigger`, `Portal`, `List`, `Positioner`) are Base UI's — no
-// propel styling — so compose them from `@base-ui/react/combobox` directly at the call site.
-export {
-  ComboboxChip,
-  type ComboboxChipProps,
-  ComboboxChipRemove,
-  type ComboboxChipRemoveProps,
-  ComboboxChips,
-  type ComboboxChipsProps,
-  ComboboxEmpty,
-  type ComboboxEmptyProps,
-  ComboboxInput,
-  type ComboboxInputProps,
-  ComboboxInputGroup,
-  type ComboboxInputGroupProps,
-  ComboboxLabel,
-  type ComboboxLabelProps,
-} from "../../elements/combobox";
+export * from "./combobox-list";
+// The ready-mades above bundle every Base UI behavior part (`Clear`/`Trigger` as node props on
+// `ComboboxInputGroup`; `Portal`/`Positioner`/`Popup` inside `ComboboxContent`;
+// `Value`/`Chip`/`ChipRemove` inside `ComboboxChips`; `List` as a passthrough), so a full combobox
+// composes from this entry without importing `@base-ui/react`. `ComboboxLabel` stays a styled
+// `elements` part — graft it onto `BaseCombobox.Label` at the call site for the advanced anatomy.
+export { ComboboxLabel, type ComboboxLabelProps } from "../../elements/combobox";

@@ -1,15 +1,16 @@
 export * from "./alert-dialog";
+export * from "./alert-dialog-close";
 export * from "./alert-dialog-content";
 export * from "./alert-dialog-description";
 export * from "./alert-dialog-title";
+export * from "./alert-dialog-trigger";
 // Re-export propel's STYLED alert-dialog parts so a full alert dialog can be assembled from one
-// entry. The behavior-only parts (`Trigger`, `Portal`) are Base UI's — no propel styling — so
-// compose them from `@base-ui/react/alert-dialog` directly at the call site.
+// entry. The Popup/Viewport boilerplate is composed by `AlertDialogContent`, and the styled
+// `elements` Close is shadowed by this family's behavior `AlertDialogClose`, so those parts are
+// not re-exported here.
 export {
   AlertDialogActions,
   type AlertDialogActionsProps,
-  AlertDialogClose,
-  type AlertDialogCloseProps,
   AlertDialogHeader,
   type AlertDialogHeaderProps,
   AlertDialogIcon,

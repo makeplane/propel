@@ -1,13 +1,13 @@
-import { NavigationMenu as BaseNavigationMenu } from "@base-ui/react/navigation-menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 import { expect, waitFor } from "storybook/test";
 
 import {
   NavigationMenu,
+  NavigationMenuContent,
   NavigationMenuContentList,
   NavigationMenuIcon,
+  NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuLinkDescription,
   NavigationMenuLinkTitle,
@@ -18,18 +18,21 @@ import {
   NavigationMenuViewport,
 } from "./index";
 
-// Components-tier story: the ready-made `NavigationMenu` (Root) and `NavigationMenuPanel` (Portal ›
-// Positioner › Popup) collapse the behavior/portal chain, so the consumer only grafts Base UI
-// behavior onto the remaining styled parts and nests `NavigationMenuViewport` inside the panel. The
-// elements-tier story assembles the portal chain by hand.
+// Components-tier story: every part is a ready-made — the root `NavigationMenu`, the
+// `NavigationMenuList`/`NavigationMenuItem` row, the `NavigationMenuTrigger` (caret baked in),
+// per-item `NavigationMenuContent`, `NavigationMenuLink`, and the `NavigationMenuPanel` (Portal ›
+// Positioner › Popup) with `NavigationMenuViewport` nested inside — so nothing is hand-wired from
+// Base UI. The elements-tier story assembles the behavior chain by hand.
 const meta = {
   title: "Components/NavigationMenu",
   component: NavigationMenu,
   subcomponents: {
     NavigationMenuList,
+    NavigationMenuItem,
     NavigationMenuTrigger,
     NavigationMenuTriggerLabel,
     NavigationMenuIcon,
+    NavigationMenuContent,
     NavigationMenuContentList,
     NavigationMenuLink,
     NavigationMenuLinkTitle,
@@ -93,27 +96,11 @@ const cancelNavigation = (event: React.MouseEvent) => event.preventDefault();
 function ContentLink({ href, title, description }: (typeof PRODUCT_LINKS)[number]) {
   return (
     <li>
-      <BaseNavigationMenu.Link
-        href={href}
-        onClick={cancelNavigation}
-        render={<NavigationMenuLink presentation="card" />}
-      >
+      <NavigationMenuLink href={href} presentation="card" onClick={cancelNavigation}>
         <NavigationMenuLinkTitle>{title}</NavigationMenuLinkTitle>
         <NavigationMenuLinkDescription>{description}</NavigationMenuLinkDescription>
-      </BaseNavigationMenu.Link>
+      </NavigationMenuLink>
     </li>
-  );
-}
-
-/** A trigger row that pairs the label with the rotating disclosure caret. */
-function TriggerRow({ children }: { children: React.ReactNode }) {
-  return (
-    <BaseNavigationMenu.Trigger render={<NavigationMenuTrigger />}>
-      <NavigationMenuTriggerLabel>{children}</NavigationMenuTriggerLabel>
-      <BaseNavigationMenu.Icon render={<NavigationMenuIcon />}>
-        <ChevronDown aria-hidden />
-      </BaseNavigationMenu.Icon>
-    </BaseNavigationMenu.Trigger>
   );
 }
 
@@ -121,42 +108,38 @@ function TriggerRow({ children }: { children: React.ReactNode }) {
 export const Default: Story = {
   render: () => (
     <NavigationMenu>
-      <BaseNavigationMenu.List render={<NavigationMenuList />}>
-        <BaseNavigationMenu.Item>
-          <TriggerRow>Product</TriggerRow>
-          <BaseNavigationMenu.Content>
-            <ul className="grid w-md grid-cols-2 gap-1 p-2">
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Product</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <NavigationMenuContentList>
               {PRODUCT_LINKS.map((item) => (
                 <ContentLink key={item.href} {...item} />
               ))}
-            </ul>
-          </BaseNavigationMenu.Content>
-        </BaseNavigationMenu.Item>
+            </NavigationMenuContentList>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
 
-        <BaseNavigationMenu.Item>
-          <TriggerRow>Resources</TriggerRow>
-          <BaseNavigationMenu.Content>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+          <NavigationMenuContent>
             <NavigationMenuContentList>
               {RESOURCE_LINKS.map((item) => (
                 <ContentLink key={item.href} {...item} />
               ))}
             </NavigationMenuContentList>
-          </BaseNavigationMenu.Content>
-        </BaseNavigationMenu.Item>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
 
-        <BaseNavigationMenu.Item>
-          <BaseNavigationMenu.Link
-            href="#pricing"
-            onClick={cancelNavigation}
-            render={<NavigationMenuLink presentation="item" />}
-          >
+        <NavigationMenuItem>
+          <NavigationMenuLink href="#pricing" presentation="item" onClick={cancelNavigation}>
             Pricing
-          </BaseNavigationMenu.Link>
-        </BaseNavigationMenu.Item>
-      </BaseNavigationMenu.List>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
 
       <NavigationMenuPanel>
-        <BaseNavigationMenu.Viewport render={<NavigationMenuViewport />} />
+        <NavigationMenuViewport />
       </NavigationMenuPanel>
     </NavigationMenu>
   ),
@@ -166,7 +149,8 @@ export const Default: Story = {
  * Behavior test: clicking a trigger opens its content into the portaled panel; the content's links
  * become reachable by their unique text once open.
  */
-export const OpenContent: Story = {
+export const DefaultInteraction: Story = {
+  ...Default,
   tags: ["!dev", "!autodocs", "!manifest"],
   parameters: {
     a11y: {
@@ -185,34 +169,6 @@ export const OpenContent: Story = {
       },
     },
   },
-  render: () => (
-    <NavigationMenu>
-      <BaseNavigationMenu.List render={<NavigationMenuList />}>
-        <BaseNavigationMenu.Item>
-          <TriggerRow>Product</TriggerRow>
-          <BaseNavigationMenu.Content>
-            <NavigationMenuContentList>
-              {PRODUCT_LINKS.map((item) => (
-                <li key={item.href}>
-                  <BaseNavigationMenu.Link
-                    href={item.href}
-                    onClick={cancelNavigation}
-                    render={<NavigationMenuLink presentation="card" />}
-                  >
-                    <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
-                  </BaseNavigationMenu.Link>
-                </li>
-              ))}
-            </NavigationMenuContentList>
-          </BaseNavigationMenu.Content>
-        </BaseNavigationMenu.Item>
-      </BaseNavigationMenu.List>
-
-      <NavigationMenuPanel>
-        <BaseNavigationMenu.Viewport render={<NavigationMenuViewport />} />
-      </NavigationMenuPanel>
-    </NavigationMenu>
-  ),
   play: async ({ canvas, userEvent }) => {
     const trigger = canvas.getByRole("button", { name: /Product/ });
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
@@ -223,5 +179,46 @@ export const OpenContent: Story = {
     await waitFor(async () => {
       await expect(document.body).toHaveTextContent("Cycles");
     });
+  },
+};
+
+/**
+ * The link's two presentations side by side: `item` is a top-level pill beside the triggers; `card`
+ * stacks a `NavigationMenuLinkTitle` over an optional `NavigationMenuLinkDescription` inside a
+ * content panel.
+ */
+export const Presentations: Story = {
+  render: () => (
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="#pricing" presentation="item" onClick={cancelNavigation}>
+            Pricing
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="#docs" presentation="card" onClick={cancelNavigation}>
+            <NavigationMenuLinkTitle>Documentation</NavigationMenuLinkTitle>
+            <NavigationMenuLinkDescription>
+              Guides and API references.
+            </NavigationMenuLinkDescription>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  ),
+};
+
+/** Behavior test: both presentations render real, named links with their hrefs intact. */
+export const PresentationsInteraction: Story = {
+  ...Presentations,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    const item = canvas.getByRole("link", { name: "Pricing" });
+    await expect(item).toHaveAttribute("href", "#pricing");
+
+    const card = canvas.getByRole("link", { name: /Documentation/ });
+    await expect(card).toHaveAttribute("href", "#docs");
+    await expect(card).toHaveTextContent("Guides and API references.");
   },
 };

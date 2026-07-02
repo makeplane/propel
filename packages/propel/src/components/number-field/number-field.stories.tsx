@@ -3,7 +3,9 @@ import { Minus, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { IconButton } from "../icon-button";
-import { NumberField } from "./index";
+import { NumberField, type NumberFieldMagnitude } from "./index";
+
+const MAGNITUDES: NumberFieldMagnitude[] = ["sm", "md", "lg", "xl"];
 
 // Components-tier story: the ready-made `NumberField` — a numeric input flanked by
 // −/+ buttons, wired for you. Drive it with `value`/`defaultValue`, bound it with
@@ -32,6 +34,55 @@ type Story = StoryObj<typeof meta>;
 /** A bounded numeric input with stepper buttons. */
 export const Default: Story = {
   args: { defaultValue: 2, min: 1, max: 64, magnitude: "xl" },
+};
+
+/**
+ * All sizes (sm/md/lg/xl) side by side. The input height matches the stepper button square, so each
+ * field's decrement/increment `IconButton`s carry the same `magnitude` as the field — that is what
+ * keeps the group container flush.
+ */
+export const Magnitudes: Story = {
+  // Iterates `magnitude`, building magnitude-matched steppers and a distinct accessible name per
+  // field, so disable those controls; the rest stay live and update every field at once.
+  argTypes: {
+    magnitude: { control: false },
+    decrement: { control: false },
+    increment: { control: false },
+    "aria-label": { control: false },
+  },
+  args: { defaultValue: 2, min: 1, max: 64, magnitude: "xl" },
+  render: (args) => (
+    <div className="flex items-center gap-3">
+      {MAGNITUDES.map((magnitude) => (
+        <NumberField
+          key={magnitude}
+          {...args}
+          magnitude={magnitude}
+          aria-label={`Number of instances (${magnitude})`}
+          decrement={
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude={magnitude}
+              aria-label={`Decrease (${magnitude})`}
+            >
+              <Minus />
+            </IconButton>
+          }
+          increment={
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude={magnitude}
+              aria-label={`Increase (${magnitude})`}
+            >
+              <Plus />
+            </IconButton>
+          }
+        />
+      ))}
+    </div>
+  ),
 };
 
 /** Clicking the +/- buttons steps the value within `min`/`max`. */

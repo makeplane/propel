@@ -1,15 +1,19 @@
 export * from "./autocomplete";
 export * from "./autocomplete-content";
-// Re-export propel's STYLED autocomplete parts so a full autocomplete can be assembled from one
-// entry. The behavior/structural parts (`Clear`, `Trigger`, `Portal`, `List`) are Base UI's — no
-// propel styling — so compose them from `@base-ui/react/autocomplete` directly at the call site.
+export * from "./autocomplete-empty";
+export * from "./autocomplete-input-group";
+export * from "./autocomplete-item";
+export * from "./autocomplete-list";
+// Re-export the STYLED `elements` parts the ready-mades above do NOT replace, so a custom input
+// row can still be assembled from one entry. Cross-tier re-exports stay explicit — never
+// `export *` — because the ready-made `AutocompleteInputGroup` and `AutocompleteEmpty` replace
+// their same-named `elements` parts (name collision). `Clear`/`Trigger` are the `clear`/`trigger`
+// node props on `AutocompleteInputGroup`; `Portal`/`Positioner`/`Popup` are `AutocompleteContent`;
+// `List`/`Item` are `AutocompleteList`/`AutocompleteItem` — no Base UI import needed at call sites.
 export {
-  AutocompleteEmpty,
-  type AutocompleteEmptyProps,
-  AutocompleteInput,
-  type AutocompleteInputProps,
-  AutocompleteInputGroup,
-  type AutocompleteInputGroupProps,
   AutocompleteIcon,
   type AutocompleteIconProps,
+  AutocompleteInput,
+  type AutocompleteInputProps,
+  type AutocompleteMagnitude,
 } from "../../elements/autocomplete";
