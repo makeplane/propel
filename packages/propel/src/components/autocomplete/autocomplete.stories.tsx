@@ -69,11 +69,11 @@ export const Default: Story = {
         <AutocompleteContent>
           <AutocompleteEmpty>No matches</AutocompleteEmpty>
           <AutocompleteList>
-            {IMAGES.map((image) => (
+            {(image: string) => (
               <AutocompleteItem key={image} value={image} magnitude="md">
                 {image}
               </AutocompleteItem>
-            ))}
+            )}
           </AutocompleteList>
         </AutocompleteContent>
         <FieldError magnitude="md" />
@@ -87,7 +87,9 @@ export const DefaultInteraction: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
     await userEvent.type(canvas.getByRole("combobox", { name: "Container image" }), "node");
+    // Base UI filters the list to the query: matches stay, everything else drops out.
     await expect(within(document.body).getByText("node:22-slim")).toBeInTheDocument();
+    await expect(within(document.body).queryByText("postgres:18")).not.toBeInTheDocument();
   },
 };
 
@@ -110,11 +112,11 @@ export const Search: Story = {
       <AutocompleteContent>
         <AutocompleteEmpty>No matches</AutocompleteEmpty>
         <AutocompleteList>
-          {IMAGES.map((image) => (
+          {(image: string) => (
             <AutocompleteItem key={image} value={image} magnitude="md">
               {image}
             </AutocompleteItem>
-          ))}
+          )}
         </AutocompleteList>
       </AutocompleteContent>
     </Autocomplete>

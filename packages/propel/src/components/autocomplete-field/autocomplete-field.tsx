@@ -79,7 +79,7 @@ export function AutocompleteField({
                 {empty}
               </BaseAutocomplete.Empty>
               <BaseAutocomplete.List>
-                {items.map((item) => (
+                {(item: string) => (
                   <BaseAutocomplete.Item
                     key={item}
                     value={item}
@@ -87,7 +87,7 @@ export function AutocompleteField({
                   >
                     {item}
                   </BaseAutocomplete.Item>
-                ))}
+                )}
               </BaseAutocomplete.List>
             </BaseAutocomplete.Popup>
           </BaseAutocomplete.Positioner>
