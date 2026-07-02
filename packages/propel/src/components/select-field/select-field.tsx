@@ -80,9 +80,9 @@ export function SelectField({
                   <BaseSelect.Item
                     key={option.value}
                     value={option.value}
-                    render={<ListboxItem magnitude={selectMagnitude} />}
+                    render={<ListboxItem layout="indicator" magnitude={selectMagnitude} />}
                   >
-                    <BaseSelect.ItemIndicator render={<SelectItemIndicator />}>
+                    <BaseSelect.ItemIndicator keepMounted render={<SelectItemIndicator />}>
                       <Check />
                     </BaseSelect.ItemIndicator>
                     <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>

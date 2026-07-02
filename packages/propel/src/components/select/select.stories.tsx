@@ -60,8 +60,12 @@ export const Default: Story = {
         <SelectContent>
           <BaseSelect.List>
             {SERVER_TYPES.map(({ label, value }) => (
-              <BaseSelect.Item key={value} value={value} render={<ListboxItem magnitude="md" />}>
-                <BaseSelect.ItemIndicator render={<SelectItemIndicator />}>
+              <BaseSelect.Item
+                key={value}
+                value={value}
+                render={<ListboxItem layout="indicator" magnitude="md" />}
+              >
+                <BaseSelect.ItemIndicator keepMounted render={<SelectItemIndicator />}>
                   <Check />
                 </BaseSelect.ItemIndicator>
                 <BaseSelect.ItemText>{label}</BaseSelect.ItemText>
