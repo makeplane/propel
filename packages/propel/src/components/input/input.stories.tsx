@@ -3,7 +3,7 @@ import { Mail, Search } from "lucide-react";
 import type * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
-import { InputGroup, InputIconSlot } from "../../ui/input/index";
+import { InputGroup, InputIconSlot } from "../../elements/input/index";
 import { Field, FieldError, FieldLabel } from "../field/index";
 import { type InputMagnitude } from "./index";
 import { Input } from "./index";

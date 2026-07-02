@@ -1,3 +1,4 @@
+import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { ChevronRight } from "lucide-react";
 import type * as React from "react";
 
@@ -9,10 +10,12 @@ import {
   MenuItemTitleRow,
   MenuItemTrailing,
   MenuSubmenuTrigger as MenuSubmenuTriggerElement,
-  type MenuSubmenuTriggerProps as MenuSubmenuTriggerElementProps,
-} from "../../ui/menu";
+} from "../../elements/menu";
 
-export type MenuSubmenuTriggerProps = MenuSubmenuTriggerElementProps & {
+export type MenuSubmenuTriggerProps = Omit<
+  BaseMenu.SubmenuTrigger.Props,
+  "className" | "style" | "label"
+> & {
   /** Leading content before the label. */
   inlineStartNode?: React.ReactNode;
   /** Trailing content before the chevron. */
@@ -20,8 +23,9 @@ export type MenuSubmenuTriggerProps = MenuSubmenuTriggerElementProps & {
 };
 
 /**
- * The ready-made submenu trigger row: composes the atomic `MenuSubmenuTrigger` and lays out
- * optional leading/trailing nodes, the label, and the submenu chevron indicator.
+ * The ready-made submenu trigger row: grafts Base UI's `Menu.SubmenuTrigger` behavior onto the
+ * styled `MenuSubmenuTrigger` and lays out optional leading/trailing nodes, the label, and the
+ * submenu chevron indicator.
  */
 export function MenuSubmenuTrigger({
   inlineStartNode,
@@ -30,7 +34,7 @@ export function MenuSubmenuTrigger({
   ...props
 }: MenuSubmenuTriggerProps) {
   return (
-    <MenuSubmenuTriggerElement {...props}>
+    <BaseMenu.SubmenuTrigger {...props} render={<MenuSubmenuTriggerElement />}>
       {inlineStartNode != null ? <MenuItemIcon>{inlineStartNode}</MenuItemIcon> : null}
       <MenuItemContent>
         <MenuItemTitleRow>
@@ -41,6 +45,6 @@ export function MenuSubmenuTrigger({
       <MenuItemSubmenuIndicator>
         <ChevronRight />
       </MenuItemSubmenuIndicator>
-    </MenuSubmenuTriggerElement>
+    </BaseMenu.SubmenuTrigger>
   );
 }

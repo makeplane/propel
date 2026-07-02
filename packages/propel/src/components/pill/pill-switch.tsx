@@ -7,7 +7,7 @@ import {
   PillLabel,
   type PillMagnitude,
   PillSwitch as PillSwitchElement,
-} from "../../ui/pill";
+} from "../../elements/pill";
 
 export type PillSwitchProps<Value extends string = string> = Omit<
   BaseToggleTypes.Props<Value>,
@@ -22,24 +22,23 @@ export type PillSwitchProps<Value extends string = string> = Omit<
 };
 
 /**
- * The ready-made toggle pill: composes the styled `PillSwitch` container with `Toggle` behavior
- * (the styled button stays the outer element, the `Toggle` is grafted via `render`), an optional
- * leading node, the `PillLabel`, and an optional trailing node. The selected look is the
- * container's pressed state.
+ * The ready-made toggle pill: grafts Base UI's `Toggle` behavior onto the styled `PillSwitch`
+ * container (behavior outer, the styled button as the render target), with an optional leading
+ * node, the `PillLabel`, and an optional trailing node. The selected look is the container's
+ * pressed state.
  */
 export function PillSwitch<Value extends string = string>({
   magnitude,
   inlineStartNode,
   inlineEndNode,
-  render,
   children,
   ...toggleProps
 }: PillSwitchProps<Value>) {
   return (
-    <PillSwitchElement magnitude={magnitude} render={<Toggle render={render} {...toggleProps} />}>
+    <Toggle {...toggleProps} render={<PillSwitchElement magnitude={magnitude} />}>
       {inlineStartNode ? <PillIcon>{inlineStartNode}</PillIcon> : null}
       <PillLabel>{children}</PillLabel>
       {inlineEndNode ? <PillIcon>{inlineEndNode}</PillIcon> : null}
-    </PillSwitchElement>
+    </Toggle>
   );
 }

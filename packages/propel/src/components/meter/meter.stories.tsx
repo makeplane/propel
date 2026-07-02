@@ -4,7 +4,7 @@ import { expect } from "storybook/test";
 import { Meter } from "./index";
 
 // Components-tier story: the ready-made `<Meter value label />`, which composes the
-// `ui/meter` parts (root + label + track › indicator + value). The UI-tier story
+// `elements/meter` parts (root + label + track › indicator + value). The elements-tier story
 // assembles those parts by hand.
 const meta = {
   title: "Components/Meter",

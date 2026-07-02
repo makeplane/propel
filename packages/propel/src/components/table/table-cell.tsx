@@ -6,7 +6,7 @@ import {
   TableCellContent,
   TableCellLayout,
   TableCellSlot,
-} from "../../ui/table/index";
+} from "../../elements/table/index";
 import { useTableMode } from "./table-context";
 
 export type TableCellProps = Omit<TableCellElementProps, "mode"> & {

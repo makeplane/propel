@@ -1,13 +1,12 @@
 import type * as React from "react";
 
+import type { FieldMagnitude } from "../../elements/field/variants";
 import {
   CheckboxFieldControl,
   type CheckboxFieldControlProps,
 } from "../../internal/checkbox-field-control";
 import { useFieldOptionMagnitude } from "../../internal/field-option-magnitude";
-import { FieldItem } from "../../ui/field/field-item";
-import type { FieldMagnitude } from "../../ui/field/variants";
-import { FieldItemContent } from "../field";
+import { FieldItem, FieldItemContent } from "../field";
 
 export type CheckboxGroupFieldOptionProps = Omit<
   CheckboxFieldControlProps,

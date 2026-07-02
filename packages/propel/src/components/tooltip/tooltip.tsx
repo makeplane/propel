@@ -2,15 +2,8 @@ import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import type { TooltipRoot } from "@base-ui/react/tooltip";
 import type * as React from "react";
 
-import {
-  Tooltip as TooltipElement,
-  TooltipArrow,
-  TooltipPopup,
-  TooltipPortal,
-  TooltipPositioner,
-  TooltipShortcut,
-  TooltipTrigger,
-} from "../../ui/tooltip";
+import { TooltipArrow, TooltipPopup, TooltipShortcut } from "../../elements/tooltip";
+import { Positioner } from "../../internal/positioner";
 
 export type TooltipProps<Payload = unknown> = Omit<
   TooltipRoot.Props<Payload>,
@@ -57,10 +50,11 @@ export type TooltipProps<Payload = unknown> = Omit<
  * `role="tooltip"` and wired to the trigger. Pass the trigger as `children`, the label as
  * `content`, and an optional `shortcut` for a dimmed keyboard hint.
  *
- * Composes the `ui/tooltip` parts (`Tooltip` root + `TooltipTrigger` + `TooltipPortal` →
- * `TooltipPositioner` → `TooltipPopup` + `TooltipArrow`). Colors come from propel's adaptive
- * surface tokens (`bg-layer-2` / `text-primary` / `border-subtle-1`), so the tooltip is light on
- * light themes and dark on dark themes, matching the Figma "Tooltip" component (node 1144-3159).
+ * Grafts Base UI's tooltip behavior onto propel's styled parts: `Tooltip.Root` + `Tooltip.Trigger`
+ * + `Tooltip.Portal` → `Tooltip.Positioner` (shared `internal/positioner`) → `TooltipPopup` +
+ * `TooltipArrow`. Colors come from propel's adaptive surface tokens (`bg-layer-2` / `text-primary`
+ * / `border-subtle-1`), so the tooltip is light on light themes and dark on dark themes, matching
+ * the Figma "Tooltip" component (node 1144-3159).
  */
 export function Tooltip<Payload = unknown>({
   content,
@@ -72,22 +66,22 @@ export function Tooltip<Payload = unknown>({
   ...props
 }: TooltipProps<Payload>) {
   return (
-    <TooltipElement {...props}>
-      <TooltipTrigger delay={delay} render={children} />
-      <TooltipPortal>
-        <TooltipPositioner side={side} sideOffset={sideOffset}>
+    <BaseTooltip.Root {...props}>
+      <BaseTooltip.Trigger delay={delay} render={children} />
+      <BaseTooltip.Portal>
+        <BaseTooltip.Positioner side={side} sideOffset={sideOffset} render={<Positioner />}>
           {/* Base UI wires the popup to the trigger via `aria-describedby` but does
               not set a role; declare `role="tooltip"` so the popup matches the ARIA
               tooltip pattern and is queryable as one by assistive tech and tests. The
               popup chrome (inverse-adaptive surface, caption text, radius, shadow,
-              padding, and the gap to the shortcut) lives on the atomic `TooltipPopup`. */}
-          <TooltipPopup role="tooltip">
+              padding, and the gap to the shortcut) lives on the styled `TooltipPopup`. */}
+          <BaseTooltip.Popup role="tooltip" render={<TooltipPopup />}>
             {content}
             {shortcut != null ? <TooltipShortcut>{shortcut}</TooltipShortcut> : null}
-            <TooltipArrow />
-          </TooltipPopup>
-        </TooltipPositioner>
-      </TooltipPortal>
-    </TooltipElement>
+            <BaseTooltip.Arrow render={<TooltipArrow />} />
+          </BaseTooltip.Popup>
+        </BaseTooltip.Positioner>
+      </BaseTooltip.Portal>
+    </BaseTooltip.Root>
   );
 }

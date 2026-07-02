@@ -1,28 +1,31 @@
+export * from "./drawer";
+export * from "./drawer-provider";
+export * from "./drawer-indent";
+export * from "./drawer-indent-background";
+export * from "./drawer-swipe-area";
+export * from "./drawer-backdrop";
+export * from "./drawer-title";
+export * from "./drawer-description";
 export * from "./drawer-panel";
-// Re-export the atomic parts so a full drawer can be assembled from one entry.
+// Re-export the styled `elements` parts so a full drawer can be assembled from one entry. The
+// behavior-only roles (`Portal`, `Trigger`) carry no propel styling, so compose them from
+// `@base-ui/react/drawer` directly at the call site.
 export {
-  Drawer,
-  type DrawerProps,
   DrawerBody,
   type DrawerBodyProps,
   DrawerClose,
   type DrawerCloseProps,
   DrawerContent,
   type DrawerContentProps,
-  DrawerDescription,
-  type DrawerDescriptionProps,
   DrawerFooter,
   type DrawerFooterProps,
   DrawerHeader,
+  type DrawerHeaderProps,
   DrawerHeaderContent,
   type DrawerHeaderContentProps,
-  type DrawerHeaderProps,
-  DrawerProvider,
-  type DrawerProviderProps,
-  DrawerSwipeArea,
-  type DrawerSwipeAreaProps,
-  DrawerTitle,
-  type DrawerTitleProps,
-  DrawerTrigger,
-  type DrawerTriggerProps,
-} from "../../ui/drawer";
+  DrawerPopup,
+  type DrawerPopupProps,
+  type DrawerPopupSide,
+  DrawerViewport,
+  type DrawerViewportProps,
+} from "../../elements/drawer";

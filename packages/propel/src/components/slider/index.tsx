@@ -15,4 +15,4 @@ export {
   type SliderTrackProps,
   SliderValue,
   type SliderValueProps,
-} from "../../ui/slider";
+} from "../../elements/slider";

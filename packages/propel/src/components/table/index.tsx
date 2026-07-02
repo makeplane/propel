@@ -8,7 +8,7 @@ export {
   type TableHeaderProps,
   TableRow,
   type TableRowProps,
-} from "../../ui/table/index";
+} from "../../elements/table/index";
 export * from "./table-action-cell";
 export * from "./table-cell";
 export * from "./table-editable-cell";

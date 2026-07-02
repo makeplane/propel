@@ -4,8 +4,8 @@ import { expect } from "storybook/test";
 
 import { Toggle, ToggleIcon } from "./index";
 
-// Components-tier story: the ready-made `Toggle` (a 1:1 re-export of the ui primitive) —
-// a two-state icon button with its `ToggleIcon` glyph slot. The UI-tier story documents
+// Components-tier story: the ready-made `Toggle` (a 1:1 re-export of the elements primitive) —
+// a two-state icon button with its `ToggleIcon` glyph slot. The elements-tier story documents
 // the same parts and magnitudes.
 const meta = {
   title: "Components/Toggle",

@@ -1,13 +1,13 @@
 export * from "./tab";
 export * from "./tabs";
+export * from "./tabs-indicator";
 export * from "./tabs-list";
-// Re-export the atomic structural parts so a full tab set is importable from this convenience.
+export * from "./tabs-panel";
+// Re-export the styled parts with no behavior of their own so a full tab set is importable from this
+// convenience: the horizontal scroll frame the ready-made `TabsList` composes, and the set's
+// `appearance` axis type.
 export {
-  TabsIndicator,
-  type TabsIndicatorProps,
   TabsListScrollArea,
   type TabsListScrollAreaProps,
-  TabsPanel,
-  type TabsPanelProps,
   type TabsAppearance,
-} from "../../ui/tabs";
+} from "../../elements/tabs";

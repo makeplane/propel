@@ -1,26 +1,22 @@
+import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronsUpDown } from "lucide-react";
 import type * as React from "react";
 
-import { Field } from "../../ui/field/field";
-import { FieldDescription } from "../../ui/field/field-description";
-import type { FieldMagnitude } from "../../ui/field/variants";
+import type { FieldMagnitude } from "../../elements/field/variants";
 import {
-  Select,
   SelectIcon,
-  SelectItem,
   SelectItemIndicator,
-  SelectItemText,
   SelectLabel,
-  SelectList,
-  SelectPopup,
-  SelectPortal,
-  SelectPositioner,
-  type SelectProps,
   SelectTrigger,
   type SelectTriggerMagnitude,
   SelectValue,
-} from "../../ui/select/index";
+} from "../../elements/select/index";
+import { ListboxItem } from "../../internal/listbox-item";
+import { ListboxPopup } from "../../internal/listbox-popup";
+import { Positioner } from "../../internal/positioner";
+import { Field, FieldDescription } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
+import { Select, type SelectProps } from "../select";
 
 // The field magnitude axis (md/lg/xl) drives label and helper-text size; the select
 // trigger/item axis is sm/md/lg, so xl maps onto the largest trigger (lg).
@@ -66,32 +62,36 @@ export function SelectField({
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Select disabled={disabled} items={options} {...selectProps}>
-        <SelectLabel>{label}</SelectLabel>
-        <SelectTrigger magnitude={selectMagnitude}>
-          <SelectValue />
+        <BaseSelect.Label render={<SelectLabel />}>{label}</BaseSelect.Label>
+        <BaseSelect.Trigger render={<SelectTrigger magnitude={selectMagnitude} />}>
+          <BaseSelect.Value render={<SelectValue />} />
           <SelectIcon>
             <ChevronsUpDown />
           </SelectIcon>
-        </SelectTrigger>
+        </BaseSelect.Trigger>
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
         ) : null}
-        <SelectPortal>
-          <SelectPositioner>
-            <SelectPopup>
-              <SelectList>
+        <BaseSelect.Portal>
+          <BaseSelect.Positioner render={<Positioner />}>
+            <BaseSelect.Popup render={<ListboxPopup />}>
+              <BaseSelect.List>
                 {options.map((option) => (
-                  <SelectItem key={option.value} value={option.value} magnitude={selectMagnitude}>
-                    <SelectItemIndicator>
+                  <BaseSelect.Item
+                    key={option.value}
+                    value={option.value}
+                    render={<ListboxItem magnitude={selectMagnitude} />}
+                  >
+                    <BaseSelect.ItemIndicator render={<SelectItemIndicator />}>
                       <Check />
-                    </SelectItemIndicator>
-                    <SelectItemText>{option.label}</SelectItemText>
-                  </SelectItem>
+                    </BaseSelect.ItemIndicator>
+                    <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
+                  </BaseSelect.Item>
                 ))}
-              </SelectList>
-            </SelectPopup>
-          </SelectPositioner>
-        </SelectPortal>
+              </BaseSelect.List>
+            </BaseSelect.Popup>
+          </BaseSelect.Positioner>
+        </BaseSelect.Portal>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </Select>
     </Field>

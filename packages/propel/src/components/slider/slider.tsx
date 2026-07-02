@@ -1,3 +1,4 @@
+import { Slider as BaseSlider } from "@base-ui/react/slider";
 import type * as React from "react";
 
 import {
@@ -7,13 +8,12 @@ import {
   SliderIndicator,
   SliderLabel,
   type SliderMagnitude,
-  type SliderProps as SliderElementProps,
   SliderThumb,
   SliderTrack,
   SliderValue,
-} from "../../ui/slider";
+} from "../../elements/slider";
 
-export type SliderProps = SliderElementProps<number> & {
+export type SliderProps = Omit<BaseSlider.Root.Props<number>, "className" | "style"> & {
   /**
    * Optional visible label rendered above the track (e.g. "Volume"). When omitted, provide an
    * `aria-label` for the thumb so the control is still named for assistive tech.
@@ -34,23 +34,28 @@ export type SliderProps = SliderElementProps<number> & {
  * `magnitude` sets the thumb and hit-area size (`sm` / `md` / `lg`). The track bar height and shape
  * are always the same per the design spec.
  *
- * Composed from the `ui/slider` parts (`Slider` root + `SliderLabel` + `SliderValue` +
- * `SliderControl` + `SliderTrack` + `SliderIndicator` + `SliderThumb`), which are built on Base UI
- * `Slider`. For multiple thumbs or fully custom layout, compose the `ui/slider` parts directly.
+ * Grafts Base UI `Slider` behavior onto the `elements/slider` styled parts (`Slider` root +
+ * `SliderLabel` + `SliderValue` + `SliderControl` + `SliderTrack` + `SliderIndicator` +
+ * `SliderThumb`). For multiple thumbs or fully custom layout, graft the `elements/slider` parts
+ * directly.
  */
 export function Slider({ label, "aria-label": ariaLabel, magnitude, ...props }: SliderProps) {
   return (
-    <SliderElement {...props}>
+    <BaseSlider.Root render={<SliderElement />} {...props}>
       <SliderHeader>
-        {label == null ? <span /> : <SliderLabel>{label}</SliderLabel>}
-        <SliderValue />
+        {label == null ? (
+          <span />
+        ) : (
+          <BaseSlider.Label render={<SliderLabel />}>{label}</BaseSlider.Label>
+        )}
+        <BaseSlider.Value render={<SliderValue />} />
       </SliderHeader>
-      <SliderControl magnitude={magnitude}>
-        <SliderTrack>
-          <SliderIndicator />
-          <SliderThumb magnitude={magnitude} aria-label={ariaLabel} />
-        </SliderTrack>
-      </SliderControl>
-    </SliderElement>
+      <BaseSlider.Control render={<SliderControl magnitude={magnitude} />}>
+        <BaseSlider.Track render={<SliderTrack />}>
+          <BaseSlider.Indicator render={<SliderIndicator />} />
+          <BaseSlider.Thumb render={<SliderThumb magnitude={magnitude} />} aria-label={ariaLabel} />
+        </BaseSlider.Track>
+      </BaseSlider.Control>
+    </BaseSlider.Root>
   );
 }

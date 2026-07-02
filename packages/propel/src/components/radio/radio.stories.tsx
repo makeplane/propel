@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { Fieldset, FieldsetLegend } from "../../ui/fieldset/index";
+import { Fieldset, FieldsetLegend } from "../../elements/fieldset/index";
 import { Field } from "../field/index";
 import { RadioGroupField, RadioGroupFieldOption } from "../radio-group-field/index";
 import { Radio, RadioGroup } from "./index";

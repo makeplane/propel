@@ -1,14 +1,20 @@
+import { ContextMenu as BaseContextMenu } from "@base-ui/react/context-menu";
 import type * as React from "react";
 
 import {
   ContextMenuItemIcon,
   ContextMenuItemLabel,
   ContextMenuLinkItem as ContextMenuLinkItemElement,
-  type ContextMenuLinkItemProps as ContextMenuLinkItemElementProps,
+  type ContextMenuItemTone,
   ContextMenuItemShortcut,
-} from "../../ui/context-menu";
+} from "../../elements/context-menu";
 
-export type ContextMenuLinkItemProps = ContextMenuLinkItemElementProps & {
+export type ContextMenuLinkItemProps = Omit<
+  BaseContextMenu.LinkItem.Props,
+  "className" | "style" | "render"
+> & {
+  /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+  tone: ContextMenuItemTone;
   /** Leading icon before the label. */
   inlineStartNode?: React.ReactNode;
   /** Trailing hint after the label. */
@@ -16,17 +22,19 @@ export type ContextMenuLinkItemProps = ContextMenuLinkItemElementProps & {
 };
 
 /**
- * The ready-made navigational menu row: composes the atomic `ContextMenuLinkItem` and its region
- * parts — a leading icon, the label, and an optional trailing hint.
+ * The ready-made navigational menu row: grafts Base UI's `LinkItem` behavior onto the styled
+ * `ContextMenuLinkItem` and composes its region parts — a leading icon, the label, and an optional
+ * trailing hint.
  */
 export function ContextMenuLinkItem({
+  tone,
   inlineStartNode,
   inlineEndNode,
   children,
   ...props
 }: ContextMenuLinkItemProps) {
   return (
-    <ContextMenuLinkItemElement {...props}>
+    <BaseContextMenu.LinkItem {...props} render={<ContextMenuLinkItemElement tone={tone} />}>
       {inlineStartNode != null ? (
         <ContextMenuItemIcon>{inlineStartNode}</ContextMenuItemIcon>
       ) : null}
@@ -34,6 +42,6 @@ export function ContextMenuLinkItem({
       {inlineEndNode != null ? (
         <ContextMenuItemShortcut>{inlineEndNode}</ContextMenuItemShortcut>
       ) : null}
-    </ContextMenuLinkItemElement>
+    </BaseContextMenu.LinkItem>
   );
 }

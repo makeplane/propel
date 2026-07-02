@@ -1,25 +1,15 @@
+import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import type * as React from "react";
 
-import {
-  Combobox,
-  ComboboxClear,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxInputGroup,
-  ComboboxItem,
-  ComboboxList,
-  ComboboxPopup,
-  ComboboxPortal,
-  ComboboxPositioner,
-  type ComboboxProps,
-  ComboboxTrigger,
-} from "../../ui/combobox/index";
-import { Field } from "../../ui/field/field";
-import { FieldDescription } from "../../ui/field/field-description";
-import { FieldLabel } from "../../ui/field/field-label";
-import type { FieldMagnitude } from "../../ui/field/variants";
+import { ComboboxEmpty, ComboboxInput, ComboboxInputGroup } from "../../elements/combobox/index";
+import type { FieldMagnitude } from "../../elements/field/variants";
+import { ListboxItem } from "../../internal/listbox-item";
+import { ListboxPopup } from "../../internal/listbox-popup";
+import { Positioner } from "../../internal/positioner";
+import { Combobox, type ComboboxProps } from "../combobox";
 // Ready-made part that supplies a default icon when no children are given (defaults are a `components` concern).
 import { ComboboxItemIndicator } from "../combobox/combobox-item-indicator";
+import { Field, FieldDescription, FieldLabel } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 
 export type ComboboxFieldProps = Omit<ComboboxProps<string>, "children" | "items"> & {
@@ -73,29 +63,33 @@ export function ComboboxField({
         <FieldLabel magnitude={magnitude} inset={false}>
           {label}
         </FieldLabel>
-        <ComboboxInputGroup>
-          <ComboboxInput placeholder={placeholder} />
-          <ComboboxClear render={clear} />
-          <ComboboxTrigger render={trigger} />
-        </ComboboxInputGroup>
+        <BaseCombobox.InputGroup render={<ComboboxInputGroup />}>
+          <BaseCombobox.Input render={<ComboboxInput />} placeholder={placeholder} />
+          <BaseCombobox.Clear render={clear} />
+          <BaseCombobox.Trigger render={trigger} />
+        </BaseCombobox.InputGroup>
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
         ) : null}
-        <ComboboxPortal>
-          <ComboboxPositioner>
-            <ComboboxPopup>
-              <ComboboxEmpty>{empty}</ComboboxEmpty>
-              <ComboboxList>
+        <BaseCombobox.Portal>
+          <BaseCombobox.Positioner render={<Positioner />}>
+            <BaseCombobox.Popup render={<ListboxPopup />}>
+              <BaseCombobox.Empty render={<ComboboxEmpty />}>{empty}</BaseCombobox.Empty>
+              <BaseCombobox.List>
                 {items.map((item) => (
-                  <ComboboxItem key={item} value={item}>
+                  <BaseCombobox.Item
+                    key={item}
+                    value={item}
+                    render={<ListboxItem magnitude="md" />}
+                  >
                     <ComboboxItemIndicator />
                     {item}
-                  </ComboboxItem>
+                  </BaseCombobox.Item>
                 ))}
-              </ComboboxList>
-            </ComboboxPopup>
-          </ComboboxPositioner>
-        </ComboboxPortal>
+              </BaseCombobox.List>
+            </BaseCombobox.Popup>
+          </BaseCombobox.Positioner>
+        </BaseCombobox.Portal>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </Combobox>
     </Field>

@@ -1,13 +1,14 @@
+import { ToggleGroup as BaseToggleGroup } from "@base-ui/react/toggle-group";
 import type * as React from "react";
 
-import {
-  ToggleGroup as ToggleGroupElement,
-  type ToggleGroupProps as ToggleGroupElementProps,
-} from "../../ui/toggle-group";
-import type { ToggleMagnitude } from "../../ui/toggle/variants";
+import { ToggleGroup as ToggleGroupElement } from "../../elements/toggle-group";
+import type { ToggleMagnitude } from "../../elements/toggle/variants";
 import { ToggleGroupContext } from "../toggle/toggle-group-context";
 
-export type ToggleGroupProps<Value extends string = string> = ToggleGroupElementProps<Value> & {
+export type ToggleGroupProps<Value extends string = string> = Omit<
+  BaseToggleGroup.Props<Value>,
+  "className" | "style"
+> & {
   /** Size applied to every `Toggle` in the group (each `Toggle` can still override it). */
   magnitude: ToggleMagnitude;
   children?: React.ReactNode;
@@ -15,17 +16,16 @@ export type ToggleGroupProps<Value extends string = string> = ToggleGroupElement
 
 /**
  * The ready-made toggle group: shares `magnitude` with every `Toggle` inside via context (a
- * `Toggle`'s own `magnitude` still wins), composed around the `ui/toggle-group` primitive (which
- * manages single/multi-select state + roving focus).
+ * `Toggle`'s own `magnitude` still wins), grafting Base UI's single/multi-select state + roving
+ * focus onto the `elements/toggle-group` styled container.
  */
 export function ToggleGroup<Value extends string = string>({
   magnitude,
-  children,
   ...props
 }: ToggleGroupProps<Value>) {
   return (
     <ToggleGroupContext.Provider value={magnitude}>
-      <ToggleGroupElement {...props}>{children}</ToggleGroupElement>
+      <BaseToggleGroup render={<ToggleGroupElement />} {...props} />
     </ToggleGroupContext.Provider>
   );
 }

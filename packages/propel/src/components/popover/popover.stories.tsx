@@ -5,7 +5,7 @@ import * as React from "react";
 import { useLayoutEffect } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { Button } from "../../ui/button";
+import { Button } from "../../elements/button";
 import { Checkbox } from "../checkbox/index";
 import { PillSwitch } from "../pill/index";
 import { Radio, RadioGroup } from "../radio/index";

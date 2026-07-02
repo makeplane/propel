@@ -11,4 +11,4 @@ export {
   type CollapsibleTriggerIndicatorProps,
   CollapsibleTriggerTitle,
   type CollapsibleTriggerTitleProps,
-} from "../../ui/collapsible";
+} from "../../elements/collapsible";

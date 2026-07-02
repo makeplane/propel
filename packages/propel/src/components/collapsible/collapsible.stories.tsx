@@ -4,7 +4,7 @@ import { expect } from "storybook/test";
 import { Collapsible } from "./index";
 
 // Components-tier story: the ready-made `<Collapsible trigger=… indicator>body</Collapsible>`
-// wrapper that wires the trigger and panel for the 90% case. The UI-tier story assembles the
+// wrapper that wires the trigger and panel for the 90% case. The elements-tier story assembles the
 // atomic parts. `indicator` is a required prop — set to `true` for the chevron, `false` to omit.
 const meta = {
   title: "Components/Collapsible",

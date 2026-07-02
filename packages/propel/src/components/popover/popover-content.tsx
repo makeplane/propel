@@ -1,7 +1,8 @@
 import { Popover as BasePopover } from "@base-ui/react/popover";
 
+import { PopoverPanelPopup } from "../../elements/popover";
 import { OverlayPanel, type OverlayPanelWidth } from "../../internal/overlay-panel";
-import { PopoverPanelPopup, PopoverPortal, PopoverPositioner } from "../../ui/popover";
+import { Positioner } from "../../internal/positioner";
 
 type PopoverContentWidth = OverlayPanelWidth;
 
@@ -19,7 +20,7 @@ export type PopoverContentProps = Omit<BasePopover.Popup.Props, "className" | "s
 /**
  * A generic floating panel surface for arbitrary controls and form content. Composes the popover
  * portal + positioner + the shared elevated overlay panel around a bare scroll-body popup; all
- * styling lives in the `ui` parts it composes.
+ * styling lives in the `elements` parts it composes.
  */
 export function PopoverContent({
   side,
@@ -29,12 +30,17 @@ export function PopoverContent({
   ...props
 }: PopoverContentProps) {
   return (
-    <PopoverPortal>
-      <PopoverPositioner side={side} sideOffset={sideOffset} align={align}>
+    <BasePopover.Portal>
+      <BasePopover.Positioner
+        side={side}
+        sideOffset={sideOffset}
+        align={align}
+        render={<Positioner />}
+      >
         <OverlayPanel elevation="overlay" radius="lg" width={width}>
-          <PopoverPanelPopup {...props} />
+          <BasePopover.Popup {...props} render={<PopoverPanelPopup />} />
         </OverlayPanel>
-      </PopoverPositioner>
-    </PopoverPortal>
+      </BasePopover.Positioner>
+    </BasePopover.Portal>
   );
 }

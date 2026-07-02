@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { X } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { Button } from "../../ui/button";
+import { Button } from "../../elements/button";
 import { IconButton } from "../icon-button";
 import {
   Dialog,

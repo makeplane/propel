@@ -1,14 +1,14 @@
 import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import type * as React from "react";
 
-import { ScrollAreaCorner, ScrollAreaScrollbar, ScrollAreaThumb } from "../../ui/scroll-area";
+import { ScrollAreaCorner, ScrollAreaScrollbar, ScrollAreaThumb } from "../../elements/scroll-area";
 import {
   Table as TableElement,
   type TableProps as TableElementProps,
   TableScrollArea,
   type TableMode,
   TableScrollAreaViewport,
-} from "../../ui/table";
+} from "../../elements/table";
 import { TableModeContext } from "./table-context";
 
 export type TableProps = TableElementProps & {
@@ -19,23 +19,31 @@ export type TableProps = TableElementProps & {
 
 /**
  * The ready-made table: the styled `<table>` wrapped in a rounded, hairline-bordered scroll frame,
- * sharing its layout `mode` with the cells/heads via context.
+ * sharing its layout `mode` with the cells/heads via context. The Base UI `ScrollArea` behavior
+ * grafts onto the styled `TableScrollArea` frame + viewport (and the overlay scrollbars) via
+ * `render`, behavior part outer.
  */
 export function Table({ mode, children, ...props }: TableProps) {
   return (
     <TableModeContext.Provider value={mode}>
-      <TableScrollArea render={<BaseScrollArea.Root />}>
-        <TableScrollAreaViewport render={<BaseScrollArea.Viewport />}>
+      <BaseScrollArea.Root render={<TableScrollArea />}>
+        <BaseScrollArea.Viewport render={<TableScrollAreaViewport />}>
           <TableElement {...props}>{children}</TableElement>
-        </TableScrollAreaViewport>
-        <ScrollAreaScrollbar orientation="vertical" visibility="auto" magnitude="thin">
-          <ScrollAreaThumb />
-        </ScrollAreaScrollbar>
-        <ScrollAreaScrollbar orientation="horizontal" visibility="auto" magnitude="thin">
-          <ScrollAreaThumb />
-        </ScrollAreaScrollbar>
-        <ScrollAreaCorner />
-      </TableScrollArea>
+        </BaseScrollArea.Viewport>
+        <BaseScrollArea.Scrollbar
+          orientation="vertical"
+          render={<ScrollAreaScrollbar visibility="auto" magnitude="thin" />}
+        >
+          <BaseScrollArea.Thumb render={<ScrollAreaThumb />} />
+        </BaseScrollArea.Scrollbar>
+        <BaseScrollArea.Scrollbar
+          orientation="horizontal"
+          render={<ScrollAreaScrollbar visibility="auto" magnitude="thin" />}
+        >
+          <BaseScrollArea.Thumb render={<ScrollAreaThumb />} />
+        </BaseScrollArea.Scrollbar>
+        <BaseScrollArea.Corner render={<ScrollAreaCorner />} />
+      </BaseScrollArea.Root>
     </TableModeContext.Provider>
   );
 }

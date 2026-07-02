@@ -25,8 +25,7 @@ import {
 import type * as React from "react";
 import { expect } from "storybook/test";
 
-import { Menu, MenuSeparator } from "../../ui/menu";
-import { MenuContent, MenuItem } from "../menu";
+import { Menu, MenuContent, MenuItem, MenuSeparator } from "../menu";
 import {
   Toolbar,
   ToolbarButton,

@@ -1,3 +1,4 @@
+import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   ChevronDown,
@@ -29,7 +30,6 @@ import {
   MenuCheckboxItem,
   MenuContent,
   MenuFooter,
-  MenuGroup,
   MenuItem,
   MenuLabel,
   MenuSearch,
@@ -37,7 +37,6 @@ import {
   MenuSubmenu,
   MenuSubmenuContent,
   MenuSubmenuTrigger,
-  MenuTrigger,
 } from "./index";
 
 const meta = {
@@ -53,12 +52,10 @@ const meta = {
   // their props appear in the args table and the relationship is recorded in the
   // manifest (the same pattern AvatarGroup uses for Avatar).
   subcomponents: {
-    MenuTrigger,
     MenuContent,
     MenuItem,
     MenuCheckboxItem,
     MenuSeparator,
-    MenuGroup,
     MenuLabel,
     MenuSearch,
     MenuFooter,
@@ -205,9 +202,9 @@ export const Status: Story = {
     const visible = STATUSES.filter((s) => s.label.toLowerCase().includes(query.toLowerCase()));
     return (
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>
+        <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
           {STATUSES.find((s) => s.key === selected)?.label ?? "Status"}
-        </MenuTrigger>
+        </BaseMenu.Trigger>
         <MenuContent
           width="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
@@ -261,7 +258,9 @@ export const Labels: Story = {
       trimmed.length > 0 && !LABELS.some((l) => l.label.toLowerCase() === trimmed.toLowerCase());
     return (
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>Labels</MenuTrigger>
+        <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
+          Labels
+        </BaseMenu.Trigger>
         <MenuContent
           width="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
@@ -321,7 +320,9 @@ export const LabelsInteraction: Story = {
 export const ActionMenu: Story = {
   render: () => (
     <Menu>
-      <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
+      <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
+        Actions
+      </BaseMenu.Trigger>
       <MenuContent width="sm">
         <MenuItem inlineStartNode={<Pencil />}>Edit</MenuItem>
         <MenuItem inlineStartNode={<Copy />}>Make a copy</MenuItem>
@@ -332,7 +333,7 @@ export const ActionMenu: Story = {
         >
           Copy link
         </MenuItem>
-        <MenuSeparator />
+        <BaseMenu.Separator render={<MenuSeparator />} />
         <MenuItem
           inlineStartNode={<Trash2 />}
           description="Only completed or cancelled work items can be archived"
@@ -340,7 +341,7 @@ export const ActionMenu: Story = {
         >
           Archive
         </MenuItem>
-        <MenuSeparator />
+        <BaseMenu.Separator render={<MenuSeparator />} />
         <MenuItem inlineStartNode={<Trash2 className="text-danger-primary" />}>
           {<span className="text-danger-primary">Delete</span>}
         </MenuItem>
@@ -408,9 +409,9 @@ export const Description: Story = {
     const [selected, setSelected] = React.useState("private");
     return (
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>
+        <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
           Visibility
-        </MenuTrigger>
+        </BaseMenu.Trigger>
         <MenuContent width="lg">
           <MenuItem
             inlineStartNode={<Lock />}
@@ -459,14 +460,14 @@ export const LabelAndFooterSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Menu>
-      <MenuTrigger render={<button type="button" className={triggerClass} />}>
+      <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
         Grouped menu
-      </MenuTrigger>
+      </BaseMenu.Trigger>
       <MenuContent width="sm" footer={<MenuFooter>Type to add another item.</MenuFooter>}>
-        <MenuGroup>
+        <BaseMenu.Group>
           <MenuLabel inlineEndNode={<span>3</span>}>Section</MenuLabel>
           <MenuItem>First item</MenuItem>
-        </MenuGroup>
+        </BaseMenu.Group>
       </MenuContent>
     </Menu>
   ),
@@ -490,9 +491,9 @@ export const Assignees: Story = {
     const visible = ASSIGNEES.filter((a) => a.name.toLowerCase().includes(query.toLowerCase()));
     return (
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>
+        <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
           Assignees
-        </MenuTrigger>
+        </BaseMenu.Trigger>
         <MenuContent
           width="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
@@ -546,9 +547,9 @@ export const LanguagePicker: Story = {
     );
     return (
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>
+        <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
           {LANGUAGES.find((l) => l.key === selected)?.label ?? "Language"}
-        </MenuTrigger>
+        </BaseMenu.Trigger>
         <MenuContent
           width="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
@@ -600,9 +601,9 @@ export const Priority: Story = {
     const visible = PRIORITIES.filter((p) => p.label.toLowerCase().includes(query.toLowerCase()));
     return (
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>
+        <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
           Priority
-        </MenuTrigger>
+        </BaseMenu.Trigger>
         <MenuContent
           width="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
@@ -654,9 +655,9 @@ export const CheckedFillVisible: Story = {
     const [checked, setChecked] = React.useState<Record<string, boolean>>({});
     return (
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>
+        <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
           Priority
-        </MenuTrigger>
+        </BaseMenu.Trigger>
         <MenuContent width="sm">
           {PRIORITIES.map((p) => (
             <MenuCheckboxItem
@@ -747,9 +748,9 @@ export const Filters: Story = {
     ];
     return (
       <Menu>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>
+        <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
           Filters
-        </MenuTrigger>
+        </BaseMenu.Trigger>
         <MenuContent
           width="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
@@ -767,8 +768,8 @@ export const Filters: Story = {
             return (
               <React.Fragment key={section.title}>
                 {/* Divider between categories. */}
-                {index > 0 ? <MenuSeparator /> : null}
-                <MenuGroup>
+                {index > 0 ? <BaseMenu.Separator render={<MenuSeparator />} /> : null}
+                <BaseMenu.Group>
                   {/* The category heading is itself a menuitem (valid `role="menu"`
                       child) so its collapse chevron stays interactive without breaking
                       ARIA. The label is the section title; the chevron is the
@@ -818,7 +819,7 @@ export const Filters: Story = {
                       }
                     </MenuItem>
                   ) : null}
-                </MenuGroup>
+                </BaseMenu.Group>
               </React.Fragment>
             );
           })}
@@ -893,7 +894,9 @@ export const EmptyState: Story = {
     const visible = STATUSES.filter((s) => s.label.toLowerCase().includes(query.toLowerCase()));
     return (
       <Menu defaultOpen>
-        <MenuTrigger render={<button type="button" className={triggerClass} />}>Status</MenuTrigger>
+        <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
+          Status
+        </BaseMenu.Trigger>
         <MenuContent
           width="sm"
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
@@ -953,9 +956,9 @@ export const Submenu: Story = {
   },
   render: () => (
     <Menu>
-      <MenuTrigger render={<button type="button" className={triggerClass} />}>
+      <BaseMenu.Trigger render={<button type="button" className={triggerClass} />}>
         Filter by
-      </MenuTrigger>
+      </BaseMenu.Trigger>
       <MenuContent width="sm">
         <MenuSubmenu>
           <MenuSubmenuTrigger

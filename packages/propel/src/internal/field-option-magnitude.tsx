@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import type { InputMagnitude } from "../ui/field/variants";
+import type { InputMagnitude } from "../elements/field/variants";
 
 // Cascades the field magnitude from a group field (`CheckboxGroupField` / `RadioGroupField`) down to
 // its option rows, so an option can omit `magnitude` and inherit the group's. React context is a
-// composition concern — never `ui` (rule 7) — and this one is shared by both group fields, so it
+// composition concern — never `elements` (rule 7) — and this one is shared by both group fields, so it
 // lives here in `internal` (alongside the other shared composition impl).
 const FieldOptionMagnitudeContext = React.createContext<InputMagnitude | null>(null);
 

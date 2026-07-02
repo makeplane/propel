@@ -1,27 +1,23 @@
+import { Autocomplete as BaseAutocomplete } from "@base-ui/react/autocomplete";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronsUpDown, Search as SearchGlyph, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
+import { ListboxItem } from "../../internal/listbox-item";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../field/index";
 import { IconButton } from "../icon-button";
 import {
   Autocomplete,
-  AutocompleteClear,
   AutocompleteContent,
   AutocompleteEmpty,
   AutocompleteInput,
   AutocompleteInputGroup,
   AutocompleteIcon,
-  AutocompleteItem,
-  AutocompleteList,
-  AutocompleteTrigger,
 } from "./index";
 
 const IMAGES = ["nginx:1.29-alpine", "node:22-slim", "postgres:18", "redis:8.2.2-alpine"];
 
-// Components-tier story: the ready-made `AutocompleteContent` collapses the
-// portal/positioner/popup boilerplate into one element. The UI-tier `Autocomplete`
-// story assembles those raw parts by hand.
+// Components-tier story: Base UI behavior parts graft Propel's styled parts via `render`.
 const meta = {
   title: "Components/Autocomplete",
   component: Autocomplete,
@@ -29,11 +25,8 @@ const meta = {
     AutocompleteInputGroup,
     AutocompleteIcon,
     AutocompleteInput,
-    AutocompleteClear,
-    AutocompleteTrigger,
     AutocompleteContent,
-    AutocompleteList,
-    AutocompleteItem,
+    ListboxItem,
     AutocompleteEmpty,
   },
 } satisfies Meta<typeof Autocomplete>;
@@ -50,9 +43,12 @@ export const Default: Story = {
         <FieldLabel magnitude="md" inset={false}>
           Container image
         </FieldLabel>
-        <AutocompleteInputGroup magnitude="md">
-          <AutocompleteInput magnitude="md" placeholder="e.g. docker.io/library/node:latest" />
-          <AutocompleteClear
+        <BaseAutocomplete.InputGroup render={<AutocompleteInputGroup magnitude="md" />}>
+          <BaseAutocomplete.Input
+            render={<AutocompleteInput magnitude="md" />}
+            placeholder="e.g. docker.io/library/node:latest"
+          />
+          <BaseAutocomplete.Clear
             render={
               <IconButton
                 prominence="ghost"
@@ -64,7 +60,7 @@ export const Default: Story = {
               </IconButton>
             }
           />
-          <AutocompleteTrigger
+          <BaseAutocomplete.Trigger
             render={
               <IconButton
                 prominence="ghost"
@@ -76,17 +72,21 @@ export const Default: Story = {
               </IconButton>
             }
           />
-        </AutocompleteInputGroup>
+        </BaseAutocomplete.InputGroup>
         <FieldDescription magnitude="md">Enter a registry URL with optional tags.</FieldDescription>
         <AutocompleteContent>
-          <AutocompleteEmpty>No matches</AutocompleteEmpty>
-          <AutocompleteList>
+          <BaseAutocomplete.Empty render={<AutocompleteEmpty />}>No matches</BaseAutocomplete.Empty>
+          <BaseAutocomplete.List>
             {IMAGES.map((image) => (
-              <AutocompleteItem key={image} value={image}>
+              <BaseAutocomplete.Item
+                key={image}
+                value={image}
+                render={<ListboxItem magnitude="md" />}
+              >
                 {image}
-              </AutocompleteItem>
+              </BaseAutocomplete.Item>
             ))}
-          </AutocompleteList>
+          </BaseAutocomplete.List>
         </AutocompleteContent>
         <FieldError magnitude="md" />
       </Autocomplete>
@@ -103,37 +103,41 @@ export const DefaultInteraction: Story = {
   },
 };
 
-/**
- * The autocomplete dressed as a search box: a leading `AutocompleteIcon` magnifier + input + clear,
- * and no chevron trigger. Same parts as `Default` — this is the styling target for folding `Search`
- * into `Autocomplete`.
- */
+/** The autocomplete dressed as a search box: a leading `AutocompleteIcon` magnifier + input + clear. */
 export const Search: Story = {
   args: { items: IMAGES, mode: "both" },
   render: (args) => (
     <Autocomplete {...args}>
-      <AutocompleteInputGroup magnitude="md">
+      <BaseAutocomplete.InputGroup render={<AutocompleteInputGroup magnitude="md" />}>
         <AutocompleteIcon>
           <SearchGlyph />
         </AutocompleteIcon>
-        <AutocompleteInput magnitude="md" placeholder="Search images" aria-label="Search images" />
-        <AutocompleteClear
+        <BaseAutocomplete.Input
+          render={<AutocompleteInput magnitude="md" />}
+          placeholder="Search images"
+          aria-label="Search images"
+        />
+        <BaseAutocomplete.Clear
           render={
             <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear search">
               <X />
             </IconButton>
           }
         />
-      </AutocompleteInputGroup>
+      </BaseAutocomplete.InputGroup>
       <AutocompleteContent>
-        <AutocompleteEmpty>No matches</AutocompleteEmpty>
-        <AutocompleteList>
+        <BaseAutocomplete.Empty render={<AutocompleteEmpty />}>No matches</BaseAutocomplete.Empty>
+        <BaseAutocomplete.List>
           {IMAGES.map((image) => (
-            <AutocompleteItem key={image} value={image}>
+            <BaseAutocomplete.Item
+              key={image}
+              value={image}
+              render={<ListboxItem magnitude="md" />}
+            >
               {image}
-            </AutocompleteItem>
+            </BaseAutocomplete.Item>
           ))}
-        </AutocompleteList>
+        </BaseAutocomplete.List>
       </AutocompleteContent>
     </Autocomplete>
   ),

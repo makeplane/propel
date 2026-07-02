@@ -1,14 +1,14 @@
 import type * as React from "react";
 
-import { Field } from "../../ui/field/field";
-import { FieldControlContent } from "../../ui/field/field-control-content";
-import type { InputMagnitude } from "../../ui/field/variants";
-import { TextArea, type TextAreaProps } from "../../ui/text-area/text-area";
-
-export type { InputMagnitude };
-import { TextAreaGroup } from "../../ui/text-area/text-area-group";
+import { FieldControlContent } from "../../elements/field/field-control-content";
+import type { InputMagnitude } from "../../elements/field/variants";
+import { TextAreaGroup } from "../../elements/text-area/text-area-group";
+import { Field } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 import { FieldLabelGroup } from "../field/field-label-group";
+import { TextArea, type TextAreaProps } from "../text-area";
+
+export type { InputMagnitude };
 
 export type TextAreaFieldProps = Omit<TextAreaProps, "magnitude" | "surface"> & {
   /** Magnitude scale. `md` | `lg` | `xl`. */

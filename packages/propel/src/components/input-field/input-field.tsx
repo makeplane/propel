@@ -1,18 +1,22 @@
+import { Field as BaseField } from "@base-ui/react/field";
+import { Input as BaseInput } from "@base-ui/react/input";
 import type * as React from "react";
 
-import { FieldControlContent } from "../../ui/field/field-control-content";
-import type { InputMagnitude } from "../../ui/field/variants";
-import { InputField as InputFieldElement } from "../../ui/input-field/input-field";
-import type { InputProps } from "../../ui/input/index";
-import { Input } from "../../ui/input/input";
-import { InputGroup } from "../../ui/input/input-group";
-import { InputIconSlot } from "../../ui/input/input-icon-slot";
+import { FieldControlContent } from "../../elements/field/field-control-content";
+import type { InputMagnitude } from "../../elements/field/variants";
+import { InputField as InputFieldElement } from "../../elements/input-field/input-field";
+import { Input as InputElement } from "../../elements/input/input";
+import { InputGroup } from "../../elements/input/input-group";
+import { InputIconSlot } from "../../elements/input/input-icon-slot";
 import { FieldHelperText } from "../field/field-helper-text";
 import { FieldLabelGroup } from "../field/field-label-group";
 
-export type { InputMagnitude } from "../../ui/field/variants";
+export type { InputMagnitude } from "../../elements/field/variants";
 
-export type InputFieldProps = Omit<InputProps, "magnitude"> & {
+export type InputFieldProps = Omit<
+  React.ComponentProps<typeof BaseInput>,
+  "className" | "style" | "render"
+> & {
   /** Magnitude scale. `md` | `lg` | `xl`. */
   magnitude: InputMagnitude;
   /** Label text shown above (or beside) the control. */
@@ -55,11 +59,11 @@ export function InputField({
   ...controlProps
 }: InputFieldProps) {
   return (
-    <InputFieldElement
+    <BaseField.Root
       name={name}
       disabled={disabled}
       invalid={error != null || undefined}
-      orientation={orientation}
+      render={<InputFieldElement orientation={orientation} />}
     >
       <FieldLabelGroup
         magnitude={magnitude}
@@ -71,11 +75,15 @@ export function InputField({
       <FieldControlContent orientation={orientation}>
         <InputGroup magnitude={magnitude}>
           {inlineStartNode ? <InputIconSlot>{inlineStartNode}</InputIconSlot> : null}
-          <Input required={required} magnitude={magnitude} {...controlProps} />
+          <BaseInput
+            required={required}
+            {...controlProps}
+            render={<InputElement magnitude={magnitude} />}
+          />
           {inlineEndNode ? <InputIconSlot>{inlineEndNode}</InputIconSlot> : null}
         </InputGroup>
         <FieldHelperText magnitude={magnitude} hint={hint} error={error} />
       </FieldControlContent>
-    </InputFieldElement>
+    </BaseField.Root>
   );
 }

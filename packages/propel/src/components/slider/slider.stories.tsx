@@ -4,9 +4,9 @@ import { expect } from "storybook/test";
 import { Slider } from "./index";
 
 // Components-tier story: the ready-made single-thumb `Slider`. It composes the
-// `ui/slider` parts (label + value + control + track + indicator + thumb) for you —
+// `elements/slider` parts (label + value + control + track + indicator + thumb) for you —
 // pass `label` (or `aria-label`), `min`/`max`/`step`, and an optional `format`. The
-// UI-tier story shows how to assemble the parts (e.g. a two-thumb range).
+// elements-tier story shows how to assemble the parts (e.g. a two-thumb range).
 const meta = {
   title: "Components/Slider",
   component: Slider,

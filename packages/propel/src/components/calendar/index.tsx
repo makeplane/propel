@@ -1,3 +1,3 @@
-// The ready-made `Calendar` (styled react-day-picker + propel's lucide nav chevrons). Drop down to
-// `@plane/propel/ui/calendar` for the bare primitive (react-day-picker's default chevron).
+// The ready-made `Calendar`: react-day-picker's `DayPicker` behavior grafted onto propel's
+// `elements/calendar` `calendarClassNames` styled contract, finished with propel's lucide nav chevrons.
 export * from "./calendar";

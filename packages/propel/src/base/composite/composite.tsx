@@ -7,7 +7,7 @@ type BaseCompositeProps = BaseComposite.Props<unknown, Record<string, never>>;
  * The container half of Base UI's roving-tabindex `Composite` — the same engine `Toolbar` and
  * `Menu` are built on. Renders a `<div>` by default; one `CompositeItem` child is the tab stop and
  * the arrow keys move focus between them. Defaults to `vertical` (the common list case); pass
- * `orientation` to change it. Unstyled — `ui` layers the look on top.
+ * `orientation` to change it. Unstyled — `elements` layers the look on top.
  *
  * NOTE: Base UI's `CompositeRoot`/`CompositeItem` live under `@base-ui/react/internals` (marked
  * `@internal`). That dependency is isolated to `base/composite` on purpose: the Base UI version is

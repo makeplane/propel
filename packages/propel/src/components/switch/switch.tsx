@@ -1,17 +1,18 @@
-import {
-  Switch as SwitchElement,
-  type SwitchProps as SwitchElementProps,
-  SwitchThumb,
-} from "../../ui/switch";
+import { Switch as BaseSwitch } from "@base-ui/react/switch";
 
-export type { SwitchMagnitude } from "../../ui/switch";
+import { Switch as SwitchElement, type SwitchMagnitude, SwitchThumb } from "../../elements/switch";
 
-export type SwitchProps = SwitchElementProps;
+export type { SwitchMagnitude } from "../../elements/switch";
+
+export type SwitchProps = Omit<BaseSwitch.Root.Props, "className" | "style"> & {
+  /** The switch size axis. */
+  magnitude: SwitchMagnitude;
+};
 
 /**
- * The ready-made switch: composes the atomic `Switch` track with its `SwitchThumb`. The track owns
- * the required `magnitude`; the thumb sizes itself from it. Built on Base UI's `Switch` (so it
- * carries `role="switch"` and full keyboard/form support). Maps to Figma's "Toggle" component.
+ * The ready-made switch: grafts Base UI's `Switch` behavior onto the styled `Switch` track and
+ * `SwitchThumb` knob. The track owns the required `magnitude`; the thumb sizes itself from it. Base
+ * UI supplies `role="switch"` and full keyboard/form support. Maps to Figma's "Toggle" component.
  *
  * On/off, `disabled`, and `readOnly` are control state from the primitive, not variants — pass them
  * as props (`checked`/`defaultChecked`, `disabled`, `readOnly`). Only the size axis (`magnitude`)
@@ -19,8 +20,8 @@ export type SwitchProps = SwitchElementProps;
  */
 export function Switch({ magnitude, ...props }: SwitchProps) {
   return (
-    <SwitchElement magnitude={magnitude} {...props}>
-      <SwitchThumb />
-    </SwitchElement>
+    <BaseSwitch.Root render={<SwitchElement magnitude={magnitude} />} {...props}>
+      <BaseSwitch.Thumb render={<SwitchThumb />} />
+    </BaseSwitch.Root>
   );
 }

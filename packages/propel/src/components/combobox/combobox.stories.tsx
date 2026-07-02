@@ -1,40 +1,33 @@
+import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronsUpDown, X } from "lucide-react";
 import { expect, within } from "storybook/test";
 
+import { ListboxItem } from "../../internal/listbox-item";
 import { Field, FieldError, FieldLabel } from "../field/index";
 import { IconButton } from "../icon-button";
 import {
   Combobox,
-  ComboboxClear,
   ComboboxContent,
   ComboboxEmpty,
   ComboboxInput,
   ComboboxInputGroup,
-  ComboboxItem,
   ComboboxItemIndicator,
-  ComboboxLabel,
-  ComboboxList,
-  ComboboxTrigger,
 } from "./index";
 
 const REGIONS = ["us-central-1", "us-east-1", "eu-central-1", "ap-west-1"];
 
-// Components-tier story: the ready-made `ComboboxContent` collapses the
-// portal/positioner/popup boilerplate into one element. The UI-tier `Combobox`
-// story assembles those raw parts by hand.
+// Components-tier story: the ready-made `ComboboxContent` collapses the portal/positioner/popup
+// boilerplate into one element, and Base UI behavior parts graft Propel's styled parts via `render`.
+// The elements-tier `Combobox` story wires those raw parts by hand.
 const meta = {
   title: "Components/Combobox",
   component: Combobox,
   subcomponents: {
-    ComboboxLabel,
     ComboboxInputGroup,
     ComboboxInput,
-    ComboboxClear,
-    ComboboxTrigger,
     ComboboxContent,
-    ComboboxList,
-    ComboboxItem,
+    ListboxItem,
     ComboboxItemIndicator,
     ComboboxEmpty,
   },
@@ -52,9 +45,9 @@ export const Default: Story = {
         <FieldLabel magnitude="md" inset={false}>
           Region
         </FieldLabel>
-        <ComboboxInputGroup>
-          <ComboboxInput placeholder="e.g. eu-central-1" />
-          <ComboboxClear
+        <BaseCombobox.InputGroup render={<ComboboxInputGroup />}>
+          <BaseCombobox.Input render={<ComboboxInput />} placeholder="e.g. eu-central-1" />
+          <BaseCombobox.Clear
             render={
               <IconButton
                 prominence="ghost"
@@ -66,24 +59,28 @@ export const Default: Story = {
               </IconButton>
             }
           />
-          <ComboboxTrigger
+          <BaseCombobox.Trigger
             render={
               <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
                 <ChevronsUpDown />
               </IconButton>
             }
           />
-        </ComboboxInputGroup>
+        </BaseCombobox.InputGroup>
         <ComboboxContent>
-          <ComboboxEmpty>No matches</ComboboxEmpty>
-          <ComboboxList>
+          <BaseCombobox.Empty render={<ComboboxEmpty />}>No matches</BaseCombobox.Empty>
+          <BaseCombobox.List>
             {REGIONS.map((region) => (
-              <ComboboxItem key={region} value={region}>
+              <BaseCombobox.Item
+                key={region}
+                value={region}
+                render={<ListboxItem magnitude="md" />}
+              >
                 <ComboboxItemIndicator />
                 <span>{region}</span>
-              </ComboboxItem>
+              </BaseCombobox.Item>
             ))}
-          </ComboboxList>
+          </BaseCombobox.List>
         </ComboboxContent>
         <FieldError magnitude="md" />
       </Combobox>

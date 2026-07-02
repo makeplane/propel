@@ -1,22 +1,20 @@
 export * from "./list-section";
-// Re-export the atomic list parts so custom rows and sections are importable from this convenience.
+// The roving-focus `Composite` behavior grafted onto the styled `elements` List/rows.
+export * from "./list";
+export * from "./list-item-button";
+export * from "./list-item-link";
+// Re-export the pure styled parts (no Base UI behavior to graft) straight from `elements/list`.
 export {
-  List,
-  type ListProps,
   ListItem,
   type ListItemProps,
-  ListItemButton,
-  type ListItemButtonProps,
   ListItemIcon,
   type ListItemIconProps,
   ListItemLabel,
   type ListItemLabelProps,
-  ListItemLink,
-  type ListItemLinkProps,
   ListSectionHeading,
   type ListSectionHeadingProps,
   ListSectionTrigger,
   type ListSectionTriggerProps,
   ListSectionTriggerIndicator,
   type ListSectionTriggerIndicatorProps,
-} from "../../ui/list";
+} from "../../elements/list";

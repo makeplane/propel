@@ -1,12 +1,7 @@
-import type { Toast as BaseToast } from "@base-ui/react/toast";
-import type { ToastManager } from "@base-ui/react/toast";
+import { Toast as BaseToast, type ToastManager } from "@base-ui/react/toast";
 import type * as React from "react";
 
-import {
-  ToastPortal,
-  ToastProvider as ToastProviderElement,
-  ToastViewport,
-} from "../../ui/toast/index";
+import { ToastViewport } from "../../elements/toast/index";
 import type { ToastData } from "./toast";
 import { ToastList } from "./toast-list";
 
@@ -25,18 +20,18 @@ export type ToastProviderProps = Omit<
 
 /**
  * Wraps the app and renders the toast viewport. Mount it once near the root, then queue toasts with
- * `useToast().add({ title, description, data: { tone } })`. Composes the atomic `ui/toast` parts
- * (Provider + Portal + Viewport) and the manager-driven {@link ToastList}.
+ * `useToast().add({ title, description, data: { tone } })`. Composes the atomic `elements/toast`
+ * parts (Provider + Portal + Viewport) and the manager-driven {@link ToastList}.
  */
 export function ToastProvider({ children, close, ...props }: ToastProviderProps) {
   return (
-    <ToastProviderElement {...props}>
+    <BaseToast.Provider {...props}>
       {children}
-      <ToastPortal>
-        <ToastViewport>
+      <BaseToast.Portal>
+        <BaseToast.Viewport render={<ToastViewport />}>
           <ToastList close={close} />
-        </ToastViewport>
-      </ToastPortal>
-    </ToastProviderElement>
+        </BaseToast.Viewport>
+      </BaseToast.Portal>
+    </BaseToast.Provider>
   );
 }

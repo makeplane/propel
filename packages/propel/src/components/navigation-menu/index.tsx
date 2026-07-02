@@ -1,18 +1,14 @@
+export * from "./navigation-menu";
 export * from "./navigation-menu-panel";
-// Re-export the atomic navigation menu parts so a full menu can be assembled from one entry.
+// Re-export propel's STYLED navigation-menu parts so a full menu can be assembled from one entry.
+// The structural parts (`Item`, `Content`, `Portal`) are Base UI's — no propel styling — so compose
+// them from `@base-ui/react/navigation-menu` directly at the call site. `Popup` is composed by the
+// ready-made `NavigationMenuPanel`, so it is not re-exported here.
 export {
-  NavigationMenu,
-  type NavigationMenuProps,
-  NavigationMenuArrow,
-  type NavigationMenuArrowProps,
-  NavigationMenuContent,
-  type NavigationMenuContentProps,
   NavigationMenuContentList,
   type NavigationMenuContentListProps,
   NavigationMenuIcon,
   type NavigationMenuIconProps,
-  NavigationMenuItem,
-  type NavigationMenuItemProps,
   NavigationMenuLink,
   type NavigationMenuLinkProps,
   NavigationMenuLinkDescription,
@@ -27,4 +23,4 @@ export {
   type NavigationMenuTriggerLabelProps,
   NavigationMenuViewport,
   type NavigationMenuViewportProps,
-} from "../../ui/navigation-menu";
+} from "../../elements/navigation-menu";

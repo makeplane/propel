@@ -10,9 +10,9 @@ import {
   type BannerProps as BannerElementProps,
   type BannerTone,
   BannerTitle,
-} from "../../ui/banner";
+} from "../../elements/banner";
 
-export type { BannerTone, BannerPlacement } from "../../ui/banner";
+export type { BannerTone, BannerPlacement } from "../../elements/banner";
 
 // The leading icon the system picks per tone when none is supplied. Treated as
 // content (overridable via `inlineStartNode`), not a style placement.
@@ -42,8 +42,8 @@ export type BannerProps = BannerElementProps & {
 /**
  * The ready-made banner: composes the atomic banner parts — the tone icon, the message body
  * (`title` + `children`), and trailing `actions` — so consumers pass content, not layout. A dismiss
- * is just an action: render an `IconButton` in `actions`. Drop down to `@plane/propel/ui/banner` to
- * assemble the parts directly.
+ * is just an action: render an `IconButton` in `actions`. Drop down to
+ * `@plane/propel/elements/banner` to assemble the parts directly.
  */
 export function Banner({
   placement,

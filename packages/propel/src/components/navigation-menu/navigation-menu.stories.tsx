@@ -1,3 +1,4 @@
+import { NavigationMenu as BaseNavigationMenu } from "@base-ui/react/navigation-menu";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown } from "lucide-react";
 import type * as React from "react";
@@ -5,10 +6,8 @@ import { expect, waitFor } from "storybook/test";
 
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuContentList,
   NavigationMenuIcon,
-  NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuLinkDescription,
   NavigationMenuLinkTitle,
@@ -19,24 +18,24 @@ import {
   NavigationMenuViewport,
 } from "./index";
 
-// Components-tier story: the ready-made `NavigationMenuPanel` collapses the Portal › Positioner ›
-// Popup surface into one part, so the consumer only nests `NavigationMenuViewport` inside it. The
-// UI-tier story assembles that portal chain by hand.
+// Components-tier story: the ready-made `NavigationMenu` (Root) and `NavigationMenuPanel` (Portal ›
+// Positioner › Popup) collapse the behavior/portal chain, so the consumer only grafts Base UI
+// behavior onto the remaining styled parts and nests `NavigationMenuViewport` inside the panel. The
+// elements-tier story assembles the portal chain by hand.
 const meta = {
   title: "Components/NavigationMenu",
   component: NavigationMenu,
   subcomponents: {
     NavigationMenuList,
-    NavigationMenuItem,
     NavigationMenuTrigger,
     NavigationMenuTriggerLabel,
     NavigationMenuIcon,
-    NavigationMenuContent,
     NavigationMenuContentList,
     NavigationMenuLink,
     NavigationMenuLinkTitle,
     NavigationMenuLinkDescription,
     NavigationMenuPanel,
+    NavigationMenuViewport,
   },
   parameters: {
     design: {
@@ -94,10 +93,14 @@ const cancelNavigation = (event: React.MouseEvent) => event.preventDefault();
 function ContentLink({ href, title, description }: (typeof PRODUCT_LINKS)[number]) {
   return (
     <li>
-      <NavigationMenuLink presentation="card" render={<a href={href} onClick={cancelNavigation} />}>
+      <BaseNavigationMenu.Link
+        href={href}
+        onClick={cancelNavigation}
+        render={<NavigationMenuLink presentation="card" />}
+      >
         <NavigationMenuLinkTitle>{title}</NavigationMenuLinkTitle>
         <NavigationMenuLinkDescription>{description}</NavigationMenuLinkDescription>
-      </NavigationMenuLink>
+      </BaseNavigationMenu.Link>
     </li>
   );
 }
@@ -105,12 +108,12 @@ function ContentLink({ href, title, description }: (typeof PRODUCT_LINKS)[number
 /** A trigger row that pairs the label with the rotating disclosure caret. */
 function TriggerRow({ children }: { children: React.ReactNode }) {
   return (
-    <NavigationMenuTrigger>
+    <BaseNavigationMenu.Trigger render={<NavigationMenuTrigger />}>
       <NavigationMenuTriggerLabel>{children}</NavigationMenuTriggerLabel>
-      <NavigationMenuIcon>
+      <BaseNavigationMenu.Icon render={<NavigationMenuIcon />}>
         <ChevronDown aria-hidden />
-      </NavigationMenuIcon>
-    </NavigationMenuTrigger>
+      </BaseNavigationMenu.Icon>
+    </BaseNavigationMenu.Trigger>
   );
 }
 
@@ -118,41 +121,42 @@ function TriggerRow({ children }: { children: React.ReactNode }) {
 export const Default: Story = {
   render: () => (
     <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
+      <BaseNavigationMenu.List render={<NavigationMenuList />}>
+        <BaseNavigationMenu.Item>
           <TriggerRow>Product</TriggerRow>
-          <NavigationMenuContent>
+          <BaseNavigationMenu.Content>
             <ul className="grid w-md grid-cols-2 gap-1 p-2">
               {PRODUCT_LINKS.map((item) => (
                 <ContentLink key={item.href} {...item} />
               ))}
             </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
+          </BaseNavigationMenu.Content>
+        </BaseNavigationMenu.Item>
 
-        <NavigationMenuItem>
+        <BaseNavigationMenu.Item>
           <TriggerRow>Resources</TriggerRow>
-          <NavigationMenuContent>
+          <BaseNavigationMenu.Content>
             <NavigationMenuContentList>
               {RESOURCE_LINKS.map((item) => (
                 <ContentLink key={item.href} {...item} />
               ))}
             </NavigationMenuContentList>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
+          </BaseNavigationMenu.Content>
+        </BaseNavigationMenu.Item>
 
-        <NavigationMenuItem>
-          <NavigationMenuLink
-            presentation="item"
-            render={<a href="#pricing" onClick={cancelNavigation} />}
+        <BaseNavigationMenu.Item>
+          <BaseNavigationMenu.Link
+            href="#pricing"
+            onClick={cancelNavigation}
+            render={<NavigationMenuLink presentation="item" />}
           >
             Pricing
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-      </NavigationMenuList>
+          </BaseNavigationMenu.Link>
+        </BaseNavigationMenu.Item>
+      </BaseNavigationMenu.List>
 
       <NavigationMenuPanel>
-        <NavigationMenuViewport />
+        <BaseNavigationMenu.Viewport render={<NavigationMenuViewport />} />
       </NavigationMenuPanel>
     </NavigationMenu>
   ),
@@ -183,28 +187,29 @@ export const OpenContent: Story = {
   },
   render: () => (
     <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
+      <BaseNavigationMenu.List render={<NavigationMenuList />}>
+        <BaseNavigationMenu.Item>
           <TriggerRow>Product</TriggerRow>
-          <NavigationMenuContent>
+          <BaseNavigationMenu.Content>
             <NavigationMenuContentList>
               {PRODUCT_LINKS.map((item) => (
                 <li key={item.href}>
-                  <NavigationMenuLink
-                    presentation="card"
-                    render={<a href={item.href} onClick={cancelNavigation} />}
+                  <BaseNavigationMenu.Link
+                    href={item.href}
+                    onClick={cancelNavigation}
+                    render={<NavigationMenuLink presentation="card" />}
                   >
                     <NavigationMenuLinkTitle>{item.title}</NavigationMenuLinkTitle>
-                  </NavigationMenuLink>
+                  </BaseNavigationMenu.Link>
                 </li>
               ))}
             </NavigationMenuContentList>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
+          </BaseNavigationMenu.Content>
+        </BaseNavigationMenu.Item>
+      </BaseNavigationMenu.List>
 
       <NavigationMenuPanel>
-        <NavigationMenuViewport />
+        <BaseNavigationMenu.Viewport render={<NavigationMenuViewport />} />
       </NavigationMenuPanel>
     </NavigationMenu>
   ),

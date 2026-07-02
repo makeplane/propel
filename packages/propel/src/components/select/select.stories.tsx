@@ -1,18 +1,17 @@
+import { Select as BaseSelect } from "@base-ui/react/select";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { expect, within } from "storybook/test";
 
+import { ListboxItem } from "../../internal/listbox-item";
 import { Field, FieldError } from "../field/index";
 import {
   Select,
   SelectContent,
   SelectField,
   SelectIcon,
-  SelectItem,
   SelectItemIndicator,
-  SelectItemText,
   SelectLabel,
-  SelectList,
   SelectTrigger,
   SelectValue,
 } from "./index";
@@ -23,9 +22,8 @@ const SERVER_TYPES = [
   { label: "Memory optimized", value: "memory" },
 ];
 
-// Components-tier story: the ready-made `SelectContent` collapses the
-// portal/positioner/popup boilerplate into one element. The UI-tier `Select`
-// story assembles those raw parts by hand.
+// Components-tier story: the ready-made `SelectContent` collapses the portal/positioner/popup
+// boilerplate into one element, and Base UI behavior parts graft Propel's styled parts via `render`.
 const meta = {
   title: "Components/Select",
   component: Select,
@@ -36,10 +34,8 @@ const meta = {
     SelectValue,
     SelectIcon,
     SelectContent,
-    SelectList,
-    SelectItem,
+    ListboxItem,
     SelectItemIndicator,
-    SelectItemText,
   },
 } satisfies Meta<typeof Select>;
 
@@ -53,25 +49,25 @@ export const Default: Story = {
     <Field name="serverType">
       <Select {...args}>
         <SelectField>
-          <SelectLabel>Server type</SelectLabel>
-          <SelectTrigger magnitude="md">
-            <SelectValue />
+          <BaseSelect.Label render={<SelectLabel />}>Server type</BaseSelect.Label>
+          <BaseSelect.Trigger render={<SelectTrigger magnitude="md" />}>
+            <BaseSelect.Value render={<SelectValue />} />
             <SelectIcon>
               <ChevronsUpDown />
             </SelectIcon>
-          </SelectTrigger>
+          </BaseSelect.Trigger>
         </SelectField>
         <SelectContent>
-          <SelectList>
+          <BaseSelect.List>
             {SERVER_TYPES.map(({ label, value }) => (
-              <SelectItem key={value} value={value} magnitude="md">
-                <SelectItemIndicator>
+              <BaseSelect.Item key={value} value={value} render={<ListboxItem magnitude="md" />}>
+                <BaseSelect.ItemIndicator render={<SelectItemIndicator />}>
                   <Check />
-                </SelectItemIndicator>
-                <SelectItemText>{label}</SelectItemText>
-              </SelectItem>
+                </BaseSelect.ItemIndicator>
+                <BaseSelect.ItemText>{label}</BaseSelect.ItemText>
+              </BaseSelect.Item>
             ))}
-          </SelectList>
+          </BaseSelect.List>
         </SelectContent>
         <FieldError magnitude="md" />
       </Select>

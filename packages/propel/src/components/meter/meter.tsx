@@ -1,3 +1,4 @@
+import { Meter as BaseMeter } from "@base-ui/react/meter";
 import type * as React from "react";
 
 import {
@@ -8,10 +9,12 @@ import {
   MeterTrack,
   MeterValue,
   type MeterIndicatorLevel,
-  type MeterProps as MeterElementProps,
-} from "../../ui/meter";
+} from "../../elements/meter";
 
-export type MeterProps = MeterElementProps & {
+export type MeterProps = Omit<
+  BaseMeter.Root.Props,
+  "className" | "style" | "render" | "children"
+> & {
   /**
    * Optional visible label rendered above the track (e.g. "Disk usage"). When omitted, provide an
    * `aria-label` so the gauge is still named for assistive tech.
@@ -106,8 +109,8 @@ function deriveIndicatorLevel({
  * segment the current value falls in (warning for suboptimal, accent for normal, success for
  * optimal high — mirroring native `<meter>` semantics).
  *
- * Composed from the `ui/meter` parts (`Meter` root + `MeterLabel` + `MeterTrack` + `MeterIndicator`
- * + `MeterValue`), which are built on Base UI `Meter` (it owns the `meter` role +
+ * Composed from the `elements/meter` parts (`Meter` root + `MeterLabel` + `MeterTrack` +
+ * `MeterIndicator` + `MeterValue`), which are built on Base UI `Meter` (it owns the `meter` role +
  * `aria-valuenow`).
  */
 export function Meter({
@@ -134,16 +137,16 @@ export function Meter({
   const header = hasLabel || showValue;
 
   return (
-    <MeterElement min={min} max={max} {...props}>
+    <BaseMeter.Root min={min} max={max} render={<MeterElement />} {...props}>
       {header ? (
         <MeterHeader>
-          {hasLabel ? <MeterLabel>{label}</MeterLabel> : null}
-          {showValue ? <MeterValue /> : null}
+          {hasLabel ? <BaseMeter.Label render={<MeterLabel />}>{label}</BaseMeter.Label> : null}
+          {showValue ? <BaseMeter.Value render={<MeterValue />} /> : null}
         </MeterHeader>
       ) : null}
-      <MeterTrack>
-        <MeterIndicator level={level} />
-      </MeterTrack>
-    </MeterElement>
+      <BaseMeter.Track render={<MeterTrack />}>
+        <BaseMeter.Indicator render={<MeterIndicator level={level} />} />
+      </BaseMeter.Track>
+    </BaseMeter.Root>
   );
 }

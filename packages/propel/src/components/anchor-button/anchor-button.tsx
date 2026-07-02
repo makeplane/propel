@@ -7,7 +7,7 @@ import {
   AnchorButtonLabel,
   type AnchorButtonProps as AnchorButtonElementProps,
   AnchorButtonSpinner,
-} from "../../ui/anchor-button";
+} from "../../elements/anchor-button";
 
 export type AnchorButtonProps = AnchorButtonElementProps & {
   /** Node before the label (inline-start), sized to `--node-size`. Decorative. */

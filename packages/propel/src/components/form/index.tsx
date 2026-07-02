@@ -1,3 +1,9 @@
-// Ready-made 1:1 re-export of the ui primitive. Drop down to `@plane/propel/ui/form` only
-// when you need the lower-level parts.
-export * from "../../ui/form";
+export * from "./form";
+// Re-export the pure styling regions (no Base UI behavior) so a full form is composable from this
+// convenience entry; they compose inside the ready-made form above.
+export {
+  FormActions,
+  type FormActionsProps,
+  FormBody,
+  type FormBodyProps,
+} from "../../elements/form";

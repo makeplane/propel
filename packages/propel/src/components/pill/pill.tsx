@@ -1,3 +1,4 @@
+import { Button as BaseButton } from "@base-ui/react/button";
 import { LoaderCircle } from "lucide-react";
 import type * as React from "react";
 
@@ -7,7 +8,7 @@ import {
   PillIcon,
   PillLabel,
   PillSpinner,
-} from "../../ui/pill";
+} from "../../elements/pill";
 
 export type PillButtonProps = PillButtonElementProps & {
   /** A node before the label (inline-start), sized to the pill's `--node-size`. */
@@ -19,11 +20,13 @@ export type PillButtonProps = PillButtonElementProps & {
 };
 
 /**
- * The ready-made pill button: composes the `PillButton` container with an optional leading node (or
- * a spinner while `loading`), the `PillLabel`, and an optional trailing node. `loading` disables
- * the button while keeping it focusable (`aria-busy`).
+ * The ready-made pill button: grafts Base UI's `Button` behavior onto the styled `PillButton`
+ * container (behavior outer, the styled button as the render target), with an optional leading node
+ * (or a spinner while `loading`), the `PillLabel`, and an optional trailing node. `loading`
+ * disables the button while keeping it focusable (`aria-busy`).
  */
 export function PillButton({
+  magnitude,
   inlineStartNode,
   inlineEndNode,
   loading = false,
@@ -32,8 +35,9 @@ export function PillButton({
   ...props
 }: PillButtonProps) {
   return (
-    <PillButtonElement
+    <BaseButton
       {...props}
+      render={<PillButtonElement magnitude={magnitude} />}
       disabled={disabled || loading}
       focusableWhenDisabled={loading ? true : undefined}
       aria-busy={loading ? true : undefined}
@@ -47,6 +51,6 @@ export function PillButton({
       ) : null}
       <PillLabel>{children}</PillLabel>
       {!loading && inlineEndNode ? <PillIcon>{inlineEndNode}</PillIcon> : null}
-    </PillButtonElement>
+    </BaseButton>
   );
 }
