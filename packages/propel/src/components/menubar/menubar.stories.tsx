@@ -83,6 +83,15 @@ export const Default: Story = {
       </Menu>
     </Menubar>
   ),
+};
+
+/**
+ * Interaction test: a menubar trigger is a `role="menuitem"` and clicking it opens its menu. Tagged
+ * out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const DefaultInteraction: Story = {
+  ...Default,
+  tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     // Inside a Menubar, each menu trigger is a `role="menuitem"` (not a plain button).
     await userEvent.click(canvas.getByRole("menuitem", { name: "Edit" }));
