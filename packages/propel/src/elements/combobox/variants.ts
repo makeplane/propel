@@ -1,22 +1,28 @@
 import { cva, cx } from "class-variance-authority";
 
-import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
+import { controlGroupClass } from "../../internal/control-group";
+import { controlInputClass } from "../../internal/control-input";
 import { nodeSlotClass } from "../../internal/node-slot";
 
 export const comboboxLabelVariants = cva("text-14 font-medium text-primary");
 export const comboboxInputGroupVariants = cva(
   cx(
-    // Wraps a separate focusable input → `focus: within`.
-    fieldControlSurfaceVariants({ focus: "within" }),
-    "flex min-h-9 min-w-64 items-center gap-2 rounded-md px-3",
-    "data-disabled:cursor-not-allowed data-disabled:text-disabled",
+    // Wraps a separate focusable input → the shared `focus: within` group chrome.
+    controlGroupClass,
+    "group/combobox min-h-9 min-w-64 items-center gap-2 rounded-md px-3 [--node-size:1rem]",
   ),
 );
-export const comboboxInputVariants = cva(
-  "min-w-0 flex-1 bg-transparent text-14 text-primary outline-none placeholder:text-placeholder disabled:text-disabled",
-);
+export const comboboxInputVariants = cva(cx(controlInputClass, "flex-1 text-14"));
 export const comboboxItemIndicatorVariants = cva(
   cx(nodeSlotClass, "size-4 [--node-size:1rem] not-data-selected:invisible"),
+);
+// The decorative leading icon at the input group's inline-start. Sizes its single child to the
+// group's `--node-size` and tints toward the placeholder, brightening on focus.
+export const comboboxIconVariants = cva(
+  cx(
+    nodeSlotClass,
+    "text-icon-placeholder transition-colors group-focus-within/combobox:text-icon-secondary",
+  ),
 );
 export const comboboxEmptyVariants = cva("px-2 py-1.5 text-13 text-tertiary");
 
@@ -24,10 +30,9 @@ export const comboboxEmptyVariants = cva("px-2 py-1.5 text-13 text-tertiary");
 // Tighter padding than `ComboboxInputGroup` so the h-6 chips sit inset like text would.
 export const comboboxChipsVariants = cva(
   cx(
-    // Wraps a separate focusable input → `focus: within`.
-    fieldControlSurfaceVariants({ focus: "within" }),
-    "flex min-h-9 min-w-64 flex-wrap items-center gap-1 rounded-md px-1.5 py-1",
-    "data-disabled:cursor-not-allowed data-disabled:text-disabled",
+    // Wraps a separate focusable input → the shared `focus: within` group chrome.
+    controlGroupClass,
+    "min-h-9 min-w-64 flex-wrap items-center gap-1 rounded-md px-1.5 py-1",
   ),
 );
 // One selected value, rendered as a removable tag (the neutral badge chrome). Arrow keys move
