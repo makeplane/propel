@@ -16,6 +16,15 @@ const meta = {
   component: LinearProgress,
   subcomponents: { LinearProgressTrack, LinearProgressIndicator, LinearProgressValue },
   args: { value: 60, magnitude: "md", tone: "brand", "aria-label": "Upload progress" },
+  // The bar has no intrinsic width (`w-full` root, `flex-1 min-w-0` track), so a bare render
+  // collapses to 0px under the centered layout — give every story a real width to fill.
+  decorators: [
+    (Story) => (
+      <div className="w-64">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof LinearProgress>;
 
 export default meta;
