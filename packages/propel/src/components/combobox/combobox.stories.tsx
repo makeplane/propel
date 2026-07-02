@@ -52,6 +52,7 @@ export const Default: Story = {
           Region
         </FieldLabel>
         <ComboboxInputGroup
+          magnitude="md"
           placeholder="e.g. eu-central-1"
           clear={
             <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear region">
@@ -106,7 +107,11 @@ export const Multiple: Story = {
         <FieldLabel magnitude="md" inset={false}>
           Regions
         </FieldLabel>
-        <ComboboxChips placeholder="Add a region" removeLabel={(region) => `Remove ${region}`} />
+        <ComboboxChips
+          magnitude="md"
+          placeholder="Add a region"
+          removeLabel={(region) => `Remove ${region}`}
+        />
         <ComboboxContent>
           <ComboboxEmpty>No matches</ComboboxEmpty>
           <ComboboxList>

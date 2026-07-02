@@ -12,9 +12,9 @@ import { Field, FieldError } from "../field";
 
 // OTP slots size sm/md/lg; the error line maps onto the field text scale (md/lg/xl).
 const OTP_HELPER_MAGNITUDE: Record<OTPFieldInputMagnitude, FieldMagnitude> = {
-  sm: "md",
   md: "md",
-  lg: "lg",
+  lg: "md",
+  xl: "lg",
 };
 
 export type OTPFieldProps = Omit<BaseOTPField.Root.Props, "className" | "style"> & {

@@ -1,6 +1,6 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
-import { controlGroupClass } from "../../internal/control-group";
+import { controlGroupClass, controlMagnitude } from "../../internal/control-group";
 import { controlInputClass } from "../../internal/control-input";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
@@ -28,7 +28,7 @@ export const inputGroupVariants = cva(
   cx(controlGroupClass, "w-full items-center gap-1.5 rounded-md px-3"),
   {
     variants: {
-      magnitude: { md: "py-1.5", lg: "py-2", xl: "py-3" },
+      magnitude: { md: controlMagnitude.md, lg: controlMagnitude.lg, xl: controlMagnitude.xl },
     },
   },
 );

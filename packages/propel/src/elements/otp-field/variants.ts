@@ -1,5 +1,6 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { controlMagnitude } from "../../internal/control-group";
 import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
@@ -22,10 +23,12 @@ export const otpFieldInputVariants = cva(
   ),
   {
     variants: {
+      // One step relabeled onto the shared control scale: the old sm/md/lg pixels were the
+      // scale's md/lg/(near-)xl. Square cells: shared height + a matching width.
       magnitude: {
-        sm: "size-8 text-13",
-        md: "size-9 text-14",
-        lg: "size-10 text-16",
+        md: cx(controlMagnitude.md, "w-8"),
+        lg: cx(controlMagnitude.lg, "w-9"),
+        xl: cx(controlMagnitude.xl, "w-11"),
       },
     },
   },

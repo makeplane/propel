@@ -31,13 +31,13 @@ export const Default: Story = {
         index === 0 ? (
           <BaseOTPField.Input
             key={index}
-            render={<OTPFieldInput magnitude="md" />}
+            render={<OTPFieldInput magnitude="lg" />}
             aria-labelledby={FIRST_SLOT_LABEL_ID}
           />
         ) : (
           <BaseOTPField.Input
             key={index}
-            render={<OTPFieldInput magnitude="md" />}
+            render={<OTPFieldInput magnitude="lg" />}
             aria-label={`Character ${index + 1}`}
           />
         ),
@@ -64,15 +64,15 @@ export const Grouped: Story = {
     <BaseOTPField.Root length={6} render={<OTPField />} aria-label="Verification code">
       <OTPFieldLabel id={FIRST_SLOT_LABEL_ID}>Character 1</OTPFieldLabel>
       <BaseOTPField.Input
-        render={<OTPFieldInput magnitude="md" />}
+        render={<OTPFieldInput magnitude="lg" />}
         aria-labelledby={FIRST_SLOT_LABEL_ID}
       />
-      <BaseOTPField.Input render={<OTPFieldInput magnitude="md" />} aria-label="Character 2" />
-      <BaseOTPField.Input render={<OTPFieldInput magnitude="md" />} aria-label="Character 3" />
+      <BaseOTPField.Input render={<OTPFieldInput magnitude="lg" />} aria-label="Character 2" />
+      <BaseOTPField.Input render={<OTPFieldInput magnitude="lg" />} aria-label="Character 3" />
       <BaseOTPField.Separator render={<OTPFieldSeparator />}>-</BaseOTPField.Separator>
-      <BaseOTPField.Input render={<OTPFieldInput magnitude="md" />} aria-label="Character 4" />
-      <BaseOTPField.Input render={<OTPFieldInput magnitude="md" />} aria-label="Character 5" />
-      <BaseOTPField.Input render={<OTPFieldInput magnitude="md" />} aria-label="Character 6" />
+      <BaseOTPField.Input render={<OTPFieldInput magnitude="lg" />} aria-label="Character 4" />
+      <BaseOTPField.Input render={<OTPFieldInput magnitude="lg" />} aria-label="Character 5" />
+      <BaseOTPField.Input render={<OTPFieldInput magnitude="lg" />} aria-label="Character 6" />
     </BaseOTPField.Root>
   ),
 };
@@ -98,13 +98,13 @@ export const Invalid: Story = {
         index === 0 ? (
           <BaseOTPField.Input
             key={index}
-            render={<OTPFieldInput magnitude="md" data-invalid />}
+            render={<OTPFieldInput magnitude="lg" data-invalid />}
             aria-labelledby={FIRST_SLOT_LABEL_ID}
           />
         ) : (
           <BaseOTPField.Input
             key={index}
-            render={<OTPFieldInput magnitude="md" data-invalid />}
+            render={<OTPFieldInput magnitude="lg" data-invalid />}
             aria-label={`Character ${index + 1}`}
           />
         ),

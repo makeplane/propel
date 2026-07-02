@@ -1,5 +1,6 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
+import { controlMagnitude } from "../../internal/control-group";
 import { fieldControlSurfaceVariants } from "../../internal/field-control-surface";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
@@ -25,9 +26,9 @@ export const selectTriggerVariants = cva(
     variants: {
       // Figma "Size" axis: three trigger heights with matching text and icon sizes.
       magnitude: {
-        sm: "h-7 text-13 [--node-size:0.875rem]",
-        md: "h-8 text-13 [--node-size:0.875rem]",
-        lg: "h-9 text-14 [--node-size:1rem]",
+        sm: controlMagnitude.sm,
+        md: controlMagnitude.md,
+        lg: controlMagnitude.lg,
       },
     },
   },

@@ -25,3 +25,23 @@ export const controlGroupClass = cx(
   "has-[:disabled]:cursor-not-allowed has-[:disabled]:border-subtle has-[:disabled]:bg-layer-2 has-[:disabled]:ring-0 has-[:disabled]:hover:border-subtle",
   "data-disabled:cursor-not-allowed data-disabled:border-subtle data-disabled:bg-layer-2 data-disabled:text-disabled data-disabled:ring-0 data-disabled:hover:border-subtle",
 );
+
+/**
+ * THE single-line control magnitude scale — one meaning per step across every bordered form control
+ * (input, autocomplete, combobox, select trigger, otp digit). Before this each family kept its own
+ * scale and they disagreed: input was padding-based `md/lg/xl`, autocomplete/select ran `sm/md/lg`
+ * at 28/32/36px but differed on the text size of the SAME step, the otp digits ran the same pixel
+ * scale one label off (32/36/40 as "sm/md/lg"), and combobox had no axis at all. A step now always
+ * means: height, text size, and glyph `--node-size`.
+ *
+ * Sm 28px / text-13 / 14px glyphs · md 32px / text-14 / 16px · lg 36px / text-14 / 16px · xl 44px /
+ * text-16 / 20px. Families expose the steps their Figma spec defines and add only their own
+ * geometry (padding, width, radius). Multiline (`text-area`) reuses the text sizes; the
+ * number-field's scale stays coupled to its stepper `IconButton` squares.
+ */
+export const controlMagnitude = {
+  sm: "min-h-7 text-13 [--node-size:0.875rem]",
+  md: "min-h-8 text-14 [--node-size:1rem]",
+  lg: "min-h-9 text-14 [--node-size:1rem]",
+  xl: "min-h-11 text-16 [--node-size:1.25rem]",
+} as const;
