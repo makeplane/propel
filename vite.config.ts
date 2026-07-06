@@ -55,5 +55,17 @@ export default defineConfig({
   },
   run: {
     cache: true,
+    tasks: {
+      check: {
+        command: "vp check",
+        input: [
+          { auto: true },
+          "!**/dist/**",
+          "!**/node_modules/.vite-temp/**",
+          "!**/storybook-static/**",
+        ],
+        output: [],
+      },
+    },
   },
 });
