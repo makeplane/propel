@@ -8,11 +8,6 @@ on:
   pull_request:
   workflow_dispatch: # manual redeploy (e.g. to restore production)
 
-# One deploy per ref; a newer push supersedes an in-flight one.
-concurrency:
-  group: storybook-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   deploy:
     name: Build & deploy Storybook
