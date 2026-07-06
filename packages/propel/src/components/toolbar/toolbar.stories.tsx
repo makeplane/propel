@@ -25,6 +25,7 @@ import {
 import type * as React from "react";
 import { expect, waitFor, within } from "storybook/test";
 
+import { Icon } from "../icon";
 import { Menu, MenuContent, MenuItem, MenuSeparator } from "../menu";
 import { Tooltip, TooltipProvider } from "../tooltip";
 import {
@@ -48,82 +49,54 @@ function FormattingToolbar(args: React.ComponentProps<typeof Toolbar>) {
   return (
     <Toolbar {...args}>
       <Menu>
-        <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
+        <ToolbarMenuTrigger aria-label="Text style" label="Text" />
         <MenuContent>
           {TEXT_STYLES.map((style) => (
-            <MenuItem key={style}>{style}</MenuItem>
+            <MenuItem key={style} label={style} />
           ))}
         </MenuContent>
       </Menu>
       <Menu>
-        <ToolbarMenuTrigger aria-label="Font">Aa</ToolbarMenuTrigger>
+        <ToolbarMenuTrigger aria-label="Font" label="Aa" />
         <MenuContent>
           {FONTS.map((font) => (
-            <MenuItem key={font}>{font}</MenuItem>
+            <MenuItem key={font} label={font} />
           ))}
         </MenuContent>
       </Menu>
-      <ToolbarButton aria-label="Comment">
-        <MessageSquare />
-      </ToolbarButton>
+      <ToolbarButton aria-label="Comment" icon={<Icon icon={MessageSquare} />} />
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
-        <ToolbarToggle aria-label="Bold">
-          <Bold />
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Italic">
-          <Italic />
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Underline">
-          <Underline />
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Strikethrough">
-          <Strikethrough />
-        </ToolbarToggle>
+        <ToolbarToggle aria-label="Bold" icon={<Icon icon={Bold} />} />
+        <ToolbarToggle aria-label="Italic" icon={<Icon icon={Italic} />} />
+        <ToolbarToggle aria-label="Underline" icon={<Icon icon={Underline} />} />
+        <ToolbarToggle aria-label="Strikethrough" icon={<Icon icon={Strikethrough} />} />
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarToggleGroup defaultValue={["left"]} aria-label="Text alignment">
-        <ToolbarToggle value="left" aria-label="Align left">
-          <AlignLeft />
-        </ToolbarToggle>
-        <ToolbarToggle value="center" aria-label="Align center">
-          <AlignCenter />
-        </ToolbarToggle>
-        <ToolbarToggle value="right" aria-label="Align right">
-          <AlignRight />
-        </ToolbarToggle>
+        <ToolbarToggle value="left" aria-label="Align left" icon={<Icon icon={AlignLeft} />} />
+        <ToolbarToggle
+          value="center"
+          aria-label="Align center"
+          icon={<Icon icon={AlignCenter} />}
+        />
+        <ToolbarToggle value="right" aria-label="Align right" icon={<Icon icon={AlignRight} />} />
       </ToolbarToggleGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Lists">
-        <ToolbarToggle aria-label="Bullet list">
-          <List />
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Numbered list">
-          <ListOrdered />
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Checklist">
-          <ListChecks />
-        </ToolbarToggle>
+        <ToolbarToggle aria-label="Bullet list" icon={<Icon icon={List} />} />
+        <ToolbarToggle aria-label="Numbered list" icon={<Icon icon={ListOrdered} />} />
+        <ToolbarToggle aria-label="Checklist" icon={<Icon icon={ListChecks} />} />
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Blocks">
-        <ToolbarToggle aria-label="Quote">
-          <Quote />
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Code block">
-          <Code />
-        </ToolbarToggle>
-        <ToolbarButton aria-label="Insert table">
-          <Table />
-        </ToolbarButton>
+        <ToolbarToggle aria-label="Quote" icon={<Icon icon={Quote} />} />
+        <ToolbarToggle aria-label="Code block" icon={<Icon icon={Code} />} />
+        <ToolbarButton aria-label="Insert table" icon={<Icon icon={Table} />} />
       </ToolbarGroup>
       <ToolbarSeparator />
-      <ToolbarButton aria-label="Insert link">
-        <Link />
-      </ToolbarButton>
-      <ToolbarButton aria-label="Insert image">
-        <Image />
-      </ToolbarButton>
+      <ToolbarButton aria-label="Insert link" icon={<Icon icon={Link} />} />
+      <ToolbarButton aria-label="Insert image" icon={<Icon icon={Image} />} />
     </Toolbar>
   );
 }
@@ -219,9 +192,7 @@ export const DensityDrivesControlSize: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Toolbar elevation="flat" density="compact">
-      <ToolbarToggle aria-label="Bold">
-        <Bold />
-      </ToolbarToggle>
+      <ToolbarToggle aria-label="Bold" icon={<Icon icon={Bold} />} />
     </Toolbar>
   ),
   play: async ({ canvas }) => {
@@ -245,18 +216,14 @@ export const ComposableMenu: Story = {
   render: (args) => (
     <Toolbar {...args}>
       <Menu defaultOpen>
-        <ToolbarMenuTrigger aria-label="Text style">Text</ToolbarMenuTrigger>
+        <ToolbarMenuTrigger aria-label="Text style" label="Text" />
         <MenuContent>
-          <MenuItem icon={<Pilcrow />} selected>
-            Paragraph
-          </MenuItem>
-          <MenuItem icon={<Heading1 />}>Heading 1</MenuItem>
-          <MenuItem icon={<Heading2 />}>Heading 2</MenuItem>
-          <MenuItem icon={<Heading3 />}>Heading 3</MenuItem>
+          <MenuItem icon={<Icon icon={Pilcrow} tint="secondary" />} selected label="Paragraph" />
+          <MenuItem icon={<Icon icon={Heading1} tint="secondary" />} label="Heading 1" />
+          <MenuItem icon={<Icon icon={Heading2} tint="secondary" />} label="Heading 2" />
+          <MenuItem icon={<Icon icon={Heading3} tint="secondary" />} label="Heading 3" />
           <MenuSeparator />
-          <MenuItem icon={<Code />} disabled>
-            Code block
-          </MenuItem>
+          <MenuItem icon={<Icon icon={Code} tint="secondary" />} disabled label="Code block" />
         </MenuContent>
       </Menu>
     </Toolbar>
@@ -295,15 +262,9 @@ export const KeyboardRovingFocus: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <Toolbar elevation="raised" density="compact">
-      <ToolbarToggle aria-label="Bold">
-        <Bold />
-      </ToolbarToggle>
-      <ToolbarToggle aria-label="Italic">
-        <Italic />
-      </ToolbarToggle>
-      <ToolbarToggle aria-label="Underline">
-        <Underline />
-      </ToolbarToggle>
+      <ToolbarToggle aria-label="Bold" icon={<Icon icon={Bold} />} />
+      <ToolbarToggle aria-label="Italic" icon={<Icon icon={Italic} />} />
+      <ToolbarToggle aria-label="Underline" icon={<Icon icon={Underline} />} />
     </Toolbar>
   ),
   play: async ({ canvas, userEvent }) => {
@@ -353,12 +314,8 @@ export const WithFilter: Story = {
       <ToolbarInput aria-label="Filter issues" placeholder="Filter…" />
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
-        <ToolbarToggle aria-label="Bold">
-          <Bold />
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Italic">
-          <Italic />
-        </ToolbarToggle>
+        <ToolbarToggle aria-label="Bold" icon={<Icon icon={Bold} />} />
+        <ToolbarToggle aria-label="Italic" icon={<Icon icon={Italic} />} />
       </ToolbarGroup>
     </Toolbar>
   ),
@@ -388,17 +345,11 @@ export const WithLink: Story = {
   render: (args) => (
     <Toolbar {...args} aria-label="Document actions">
       <ToolbarGroup aria-label="Text formatting">
-        <ToolbarToggle aria-label="Bold">
-          <Bold />
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Italic">
-          <Italic />
-        </ToolbarToggle>
+        <ToolbarToggle aria-label="Bold" icon={<Icon icon={Bold} />} />
+        <ToolbarToggle aria-label="Italic" icon={<Icon icon={Italic} />} />
       </ToolbarGroup>
       <ToolbarSeparator />
-      <ToolbarLink href="#history" aria-label="View edit history">
-        <History />
-      </ToolbarLink>
+      <ToolbarLink href="#history" aria-label="View edit history" icon={<Icon icon={History} />} />
     </Toolbar>
   ),
 };
@@ -438,20 +389,14 @@ export const WithTooltips: Story = {
   render: (args) => (
     <TooltipProvider>
       <Toolbar {...args} aria-label="Text formatting">
-        <Tooltip content="Bold" shortcut="⌘ B">
-          <ToolbarToggle aria-label="Bold">
-            <Bold />
-          </ToolbarToggle>
+        <Tooltip label="Bold" shortcut="⌘ B">
+          <ToolbarToggle aria-label="Bold" icon={<Icon icon={Bold} />} />
         </Tooltip>
-        <Tooltip content="Italic" shortcut="⌘ I">
-          <ToolbarToggle aria-label="Italic">
-            <Italic />
-          </ToolbarToggle>
+        <Tooltip label="Italic" shortcut="⌘ I">
+          <ToolbarToggle aria-label="Italic" icon={<Icon icon={Italic} />} />
         </Tooltip>
-        <Tooltip content="Underline" shortcut="⌘ U">
-          <ToolbarToggle aria-label="Underline">
-            <Underline />
-          </ToolbarToggle>
+        <Tooltip label="Underline" shortcut="⌘ U">
+          <ToolbarToggle aria-label="Underline" icon={<Icon icon={Underline} />} />
         </Tooltip>
       </Toolbar>
     </TooltipProvider>

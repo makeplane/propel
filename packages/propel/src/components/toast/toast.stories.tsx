@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import * as React from "react";
 import { expect, fn, waitFor, within } from "storybook/test";
 
+import { Icon } from "../icon";
 import { IconButton } from "../icon-button";
 import {
   Toast,
@@ -19,9 +20,13 @@ const TONES: ToastTone[] = ["success", "danger", "info", "warning", "neutral"];
 
 // A shared close control passed to each ToastProvider — carries its own (localizable) aria-label.
 const closeButton = (
-  <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Dismiss">
-    <X />
-  </IconButton>
+  <IconButton
+    prominence="ghost"
+    tone="neutral"
+    magnitude="sm"
+    aria-label="Dismiss"
+    icon={<Icon icon={X} />}
+  />
 );
 
 // Stable spies shared between the ActionsInteraction story's render and play fn so the

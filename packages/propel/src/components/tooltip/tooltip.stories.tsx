@@ -21,7 +21,7 @@ const meta = {
   component: Tooltip,
   subcomponents: { TooltipProvider },
   args: {
-    content: "Tooltip text",
+    label: "Tooltip text",
     children: <button type="button">Hover or focus me</button>,
   },
   parameters: {
@@ -60,7 +60,7 @@ export const Sides: Story = {
   render: () => (
     <div style={sidesGridStyle}>
       {ALL_SIDES.map((side) => (
-        <Tooltip key={side} side={side} content={side} delay={0} open>
+        <Tooltip key={side} side={side} label={side} delay={0} open>
           <button type="button">{side}</button>
         </Tooltip>
       ))}
@@ -112,7 +112,7 @@ export const SidesRtl: Story = {
     <DirectionProvider direction="rtl">
       <div style={sidesGridStyle}>
         {ALL_SIDES.map((side) => (
-          <Tooltip key={side} side={side} content={side} delay={0} open>
+          <Tooltip key={side} side={side} label={side} delay={0} open>
             <button type="button">{side}</button>
           </Tooltip>
         ))}
@@ -127,7 +127,7 @@ export const SidesRtl: Story = {
  */
 export const WithShortcut: Story = {
   args: {
-    content: "Open command menu",
+    label: "Open command menu",
     shortcut: "⌘ K",
   },
 };
@@ -143,13 +143,13 @@ export const WithProvider: Story = {
   render: () => (
     <TooltipProvider closeDelay={100}>
       <div style={{ display: "flex", gap: "0.5rem" }}>
-        <Tooltip content="Bold the selection">
+        <Tooltip label="Bold the selection">
           <button type="button">Bold</button>
         </Tooltip>
-        <Tooltip content="Italicize the selection">
+        <Tooltip label="Italicize the selection">
           <button type="button">Italic</button>
         </Tooltip>
-        <Tooltip content="Underline the selection">
+        <Tooltip label="Underline the selection">
           <button type="button">Underline</button>
         </Tooltip>
       </div>
@@ -169,7 +169,7 @@ export const Controlled: Story = {
     const [open, setOpen] = useState(false);
     return (
       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-        <Tooltip content="Copies the invite link" open={open} onOpenChange={setOpen}>
+        <Tooltip label="Copies the invite link" open={open} onOpenChange={setOpen}>
           <button type="button">Copy link</button>
         </Tooltip>
         <button type="button" onClick={() => setOpen(true)}>
@@ -192,7 +192,7 @@ export const ShowsOnFocus: Story = {
   // A 0ms hover delay keeps this behavior test deterministic; focus opens instantly
   // regardless, but scoping the override here (not on meta) lets docs/examples use
   // the real 600ms default.
-  args: { content: "Tooltip text", delay: 0 },
+  args: { label: "Tooltip text", delay: 0 },
   play: async ({ canvas }) => {
     const trigger = canvas.getByRole("button", { name: "Hover or focus me" });
     // The popup renders in a Portal outside the story canvas, so query the document.
@@ -223,7 +223,7 @@ export const ShowsOnFocus: Story = {
  */
 export const EscapeCloses: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  args: { content: "Tooltip text", delay: 0 },
+  args: { label: "Tooltip text", delay: 0 },
   play: async ({ canvas }) => {
     const trigger = canvas.getByRole("button", { name: "Hover or focus me" });
     const screen = within(document.body);

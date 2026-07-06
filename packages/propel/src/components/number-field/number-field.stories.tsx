@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Minus, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { Icon } from "../icon";
 import { IconButton } from "../icon-button";
 import { NumberField, type NumberFieldMagnitude } from "./index";
 
@@ -16,14 +17,22 @@ const meta = {
   args: {
     "aria-label": "Number of instances",
     decrement: (
-      <IconButton prominence="ghost" tone="neutral" magnitude="xl" aria-label="Decrease">
-        <Minus />
-      </IconButton>
+      <IconButton
+        prominence="ghost"
+        tone="neutral"
+        magnitude="xl"
+        aria-label="Decrease"
+        icon={<Icon icon={Minus} />}
+      />
     ),
     increment: (
-      <IconButton prominence="ghost" tone="neutral" magnitude="xl" aria-label="Increase">
-        <Plus />
-      </IconButton>
+      <IconButton
+        prominence="ghost"
+        tone="neutral"
+        magnitude="xl"
+        aria-label="Increase"
+        icon={<Icon icon={Plus} />}
+      />
     ),
   },
 } satisfies Meta<typeof NumberField>;
@@ -65,9 +74,8 @@ export const Magnitudes: Story = {
               tone="neutral"
               magnitude={magnitude}
               aria-label={`Decrease (${magnitude})`}
-            >
-              <Minus />
-            </IconButton>
+              icon={<Icon icon={Minus} />}
+            />
           }
           increment={
             <IconButton
@@ -75,9 +83,8 @@ export const Magnitudes: Story = {
               tone="neutral"
               magnitude={magnitude}
               aria-label={`Increase (${magnitude})`}
-            >
-              <Plus />
-            </IconButton>
+              icon={<Icon icon={Plus} />}
+            />
           }
         />
       ))}

@@ -9,18 +9,19 @@ import {
   ContextMenuItemShortcut,
   type ContextMenuItemTone,
 } from "../../elements/context-menu";
-import { Icon } from "../../internal/icon";
 
 export type ContextMenuCheckboxItemProps = Omit<
   BaseContextMenu.CheckboxItem.Props,
-  "className" | "style"
+  "children" | "className" | "label" | "style"
 > & {
   /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
   tone: ContextMenuItemTone;
-  /** Leading icon after the tick. */
+  /** Leading element after the tick, e.g. `<Icon icon={Columns} />`. */
   icon?: React.ReactNode;
-  /** Trailing keyboard-shortcut hint after the label. */
-  trailing?: React.ReactNode;
+  /** Primary row label. */
+  label: React.ReactNode;
+  /** Element rendered at the inline end of the row, often a keyboard shortcut. */
+  endContent?: React.ReactNode;
 };
 
 /**
@@ -31,8 +32,8 @@ export type ContextMenuCheckboxItemProps = Omit<
 export function ContextMenuCheckboxItem({
   tone,
   icon,
-  trailing,
-  children,
+  endContent,
+  label,
   ...props
 }: ContextMenuCheckboxItemProps) {
   return (
@@ -46,9 +47,9 @@ export function ContextMenuCheckboxItem({
       >
         <Check aria-hidden />
       </BaseContextMenu.CheckboxItemIndicator>
-      {icon != null ? <Icon>{icon}</Icon> : null}
-      <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
-      {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
+      {icon}
+      <ContextMenuItemLabel>{label}</ContextMenuItemLabel>
+      {endContent != null ? <ContextMenuItemShortcut>{endContent}</ContextMenuItemShortcut> : null}
     </BaseContextMenu.CheckboxItem>
   );
 }

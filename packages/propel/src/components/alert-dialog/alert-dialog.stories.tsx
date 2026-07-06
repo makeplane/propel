@@ -3,7 +3,7 @@ import { TriangleAlert } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { Button } from "../../elements/button";
+import { Button } from "../button";
 import {
   Dialog,
   DialogActions,
@@ -66,9 +66,8 @@ export const Default: Story = {
         tone="danger"
         magnitude="xl"
         render={<AlertDialogTrigger />}
-      >
-        Delete project
-      </Button>
+        label="Delete project"
+      />
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogIcon tone="danger">
@@ -89,18 +88,16 @@ export const Default: Story = {
             tone="neutral"
             magnitude="xl"
             render={<AlertDialogClose />}
-          >
-            Cancel
-          </Button>
+            label="Cancel"
+          />
           <Button
             sizing="hug"
             prominence="primary"
             tone="danger"
             magnitude="xl"
             render={<AlertDialogClose />}
-          >
-            Delete
-          </Button>
+            label="Delete"
+          />
         </AlertDialogActions>
       </AlertDialogContent>
     </AlertDialog>
@@ -152,13 +149,12 @@ export const OpenFromMenu: Story = {
             tone="neutral"
             magnitude="xl"
             render={<MenuTrigger />}
-          >
-            Project options
-          </Button>
+            label="Project options"
+          />
           <MenuContent sizing="sm">
-            <MenuItem>Rename</MenuItem>
-            <MenuItem>Duplicate</MenuItem>
-            <MenuItem onClick={() => setConfirmOpen(true)}>Delete project…</MenuItem>
+            <MenuItem label="Rename" />
+            <MenuItem label="Duplicate" />
+            <MenuItem onClick={() => setConfirmOpen(true)} label="Delete project…" />
           </MenuContent>
         </Menu>
         <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
@@ -182,18 +178,16 @@ export const OpenFromMenu: Story = {
                 tone="neutral"
                 magnitude="xl"
                 render={<AlertDialogClose />}
-              >
-                Cancel
-              </Button>
+                label="Cancel"
+              />
               <Button
                 sizing="hug"
                 prominence="primary"
                 tone="danger"
                 magnitude="xl"
                 render={<AlertDialogClose />}
-              >
-                Delete
-              </Button>
+                label="Delete"
+              />
             </AlertDialogActions>
           </AlertDialogContent>
         </AlertDialog>
@@ -259,9 +253,8 @@ export const CloseConfirmation: Story = {
           tone="neutral"
           magnitude="xl"
           render={<DialogTrigger />}
-        >
-          Write a comment
-        </Button>
+          label="Write a comment"
+        />
         <DialogContent magnitude="md">
           <DialogHeader>
             <DialogHeading>
@@ -289,9 +282,8 @@ export const CloseConfirmation: Story = {
               tone="neutral"
               magnitude="xl"
               render={<DialogClose />}
-            >
-              Close
-            </Button>
+              label="Close"
+            />
           </DialogActions>
           <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
             <AlertDialogContent>
@@ -313,9 +305,8 @@ export const CloseConfirmation: Story = {
                   tone="neutral"
                   magnitude="xl"
                   render={<AlertDialogClose />}
-                >
-                  Keep writing
-                </Button>
+                  label="Keep writing"
+                />
                 <Button
                   sizing="hug"
                   prominence="primary"
@@ -326,9 +317,8 @@ export const CloseConfirmation: Story = {
                     setComposerOpen(false);
                     setDraft("");
                   }}
-                >
-                  Discard
-                </Button>
+                  label="Discard"
+                />
               </AlertDialogActions>
             </AlertDialogContent>
           </AlertDialog>
@@ -411,9 +401,8 @@ export const MultipleTriggers: Story = {
             tone="neutral"
             magnitude="xl"
             render={<AlertDialogTrigger handle={deleteProjectHandle} payload={project} />}
-          >
-            Delete {project}
-          </Button>
+            label={`Delete ${project}`}
+          />
         ))}
       </div>
       <AlertDialog handle={deleteProjectHandle}>
@@ -440,18 +429,16 @@ export const MultipleTriggers: Story = {
                 tone="neutral"
                 magnitude="xl"
                 render={<AlertDialogClose />}
-              >
-                Cancel
-              </Button>
+                label="Cancel"
+              />
               <Button
                 sizing="hug"
                 prominence="primary"
                 tone="danger"
                 magnitude="xl"
                 render={<AlertDialogClose />}
-              >
-                Delete
-              </Button>
+                label="Delete"
+              />
             </AlertDialogActions>
           </AlertDialogContent>
         )}

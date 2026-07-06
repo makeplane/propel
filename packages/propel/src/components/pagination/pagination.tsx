@@ -189,11 +189,10 @@ export function Pagination({
               {pageSize.options.map((option) => (
                 <MenuItem
                   key={option}
+                  label={l.perPageValue(option)}
                   selected={option === pageSize.value}
                   onClick={() => pageSize.onValueChange(option)}
-                >
-                  {l.perPageValue(option)}
-                </MenuItem>
+                />
               ))}
             </MenuContent>
           </Menu>

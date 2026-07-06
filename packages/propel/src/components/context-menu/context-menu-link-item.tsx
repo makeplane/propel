@@ -7,37 +7,38 @@ import {
   type ContextMenuItemTone,
   ContextMenuItemShortcut,
 } from "../../elements/context-menu";
-import { Icon } from "../../internal/icon";
 
 export type ContextMenuLinkItemProps = Omit<
   BaseContextMenu.LinkItem.Props,
-  "className" | "style" | "render"
+  "children" | "className" | "label" | "style" | "render"
 > & {
   /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
   tone: ContextMenuItemTone;
-  /** Leading icon before the label. */
+  /** Leading element before the label, e.g. `<Icon icon={ExternalLink} />`. */
   icon?: React.ReactNode;
-  /** Trailing hint after the label. */
-  trailing?: React.ReactNode;
+  /** Primary row label. */
+  label: React.ReactNode;
+  /** Element rendered at the inline end of the row. */
+  endContent?: React.ReactNode;
 };
 
 /**
  * The ready-made navigational menu row: grafts Base UI's `LinkItem` behavior onto the styled
- * `ContextMenuLinkItem` and composes its region parts — a leading icon, the label, and an optional
- * trailing hint.
+ * `ContextMenuLinkItem` and composes its region parts — a leading icon, the label, and optional end
+ * content.
  */
 export function ContextMenuLinkItem({
   tone,
   icon,
-  trailing,
-  children,
+  endContent,
+  label,
   ...props
 }: ContextMenuLinkItemProps) {
   return (
     <BaseContextMenu.LinkItem {...props} render={<ContextMenuLinkItemElement tone={tone} />}>
-      {icon != null ? <Icon>{icon}</Icon> : null}
-      <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
-      {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
+      {icon}
+      <ContextMenuItemLabel>{label}</ContextMenuItemLabel>
+      {endContent != null ? <ContextMenuItemShortcut>{endContent}</ContextMenuItemShortcut> : null}
     </BaseContextMenu.LinkItem>
   );
 }

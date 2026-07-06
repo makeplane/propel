@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Layers } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { Icon } from "../icon";
 import { Menu, MenuContent, MenuItem } from "../menu";
 import {
   Breadcrumb,
@@ -114,8 +115,8 @@ export const WithCollapsedCrumbs: Story = {
           <Menu>
             <BreadcrumbEllipsisTrigger aria-label="Show more breadcrumbs" />
             <MenuContent sizing="auto">
-              <MenuItem render={inertAnchor()}>Projects</MenuItem>
-              <MenuItem render={inertAnchor()}>Design</MenuItem>
+              <MenuItem render={inertAnchor()} label="Projects" />
+              <MenuItem render={inertAnchor()} label="Design" />
             </MenuContent>
           </Menu>
         </BreadcrumbItem>
@@ -175,11 +176,14 @@ export const WithMenuCrumb: Story = {
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <Menu>
-            <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
+            <BreadcrumbMenuTrigger
+              icon={<Icon icon={Layers} tint="tertiary" magnitude="md" />}
+              label="Plane Design"
+            />
             <MenuContent>
-              <MenuItem render={inertAnchor()}>Plane Web</MenuItem>
-              <MenuItem render={inertAnchor()}>Plane Mobile</MenuItem>
-              <MenuItem render={inertAnchor()}>Plane Server</MenuItem>
+              <MenuItem render={inertAnchor()} label="Plane Web" />
+              <MenuItem render={inertAnchor()} label="Plane Mobile" />
+              <MenuItem render={inertAnchor()} label="Plane Server" />
             </MenuContent>
           </Menu>
         </BreadcrumbItem>
@@ -215,14 +219,12 @@ export const MenuCrumbSelected: Story = {
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <Menu>
-            <BreadcrumbMenuTrigger>List</BreadcrumbMenuTrigger>
+            <BreadcrumbMenuTrigger label="List" />
             <MenuContent>
-              <MenuItem selected render={inertAnchor()}>
-                List
-              </MenuItem>
-              <MenuItem render={inertAnchor()}>Board</MenuItem>
-              <MenuItem render={inertAnchor()}>Calendar</MenuItem>
-              <MenuItem render={inertAnchor()}>Spreadsheet</MenuItem>
+              <MenuItem selected render={inertAnchor()} label="List" />
+              <MenuItem render={inertAnchor()} label="Board" />
+              <MenuItem render={inertAnchor()} label="Calendar" />
+              <MenuItem render={inertAnchor()} label="Spreadsheet" />
             </MenuContent>
           </Menu>
         </BreadcrumbItem>
@@ -251,10 +253,13 @@ export const KeyboardNavigation: Story = {
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <Menu>
-            <BreadcrumbMenuTrigger icon={<Layers />}>Plane Design</BreadcrumbMenuTrigger>
+            <BreadcrumbMenuTrigger
+              icon={<Icon icon={Layers} tint="tertiary" magnitude="md" />}
+              label="Plane Design"
+            />
             <MenuContent>
-              <MenuItem render={inertAnchor()}>Plane Web</MenuItem>
-              <MenuItem render={inertAnchor()}>Plane Mobile</MenuItem>
+              <MenuItem render={inertAnchor()} label="Plane Web" />
+              <MenuItem render={inertAnchor()} label="Plane Mobile" />
             </MenuContent>
           </Menu>
         </BreadcrumbItem>

@@ -7,25 +7,20 @@ import {
   ButtonLabel,
   type ButtonProps as ButtonElementProps,
 } from "../../elements/button";
-import { Icon } from "../../internal/icon";
 import { Spinner } from "../../internal/spinner";
 
-export type ButtonProps = ButtonElementProps & {
+export type ButtonProps = Omit<ButtonElementProps, "children"> & {
   /**
    * Set `false` when `render` swaps the underlying tag away from `<button>` (e.g. a `<div>` or an
    * `<a>`): Base UI then adds `role="button"`, tab focus, and Enter/Space activation.
    */
   nativeButton?: boolean;
-  /**
-   * Node rendered before the label (inline-start). An icon, avatar, or any node; it is sized to the
-   * button's `--node-size`. Decorative, kept out of the name.
-   */
+  /** Element rendered before the label (inline-start), e.g. `<Icon icon={Plus} />`. */
   startIcon?: React.ReactNode;
-  /**
-   * Node rendered after the label (inline-end). An icon, avatar, or any node; it is sized to the
-   * button's `--node-size`. Decorative, kept out of the name.
-   */
+  /** Element rendered after the label (inline-end), e.g. `<Icon icon={ArrowRight} />`. */
   endIcon?: React.ReactNode;
+  /** Visible button label. */
+  label: React.ReactNode;
   /** Shows a spinner, sets `aria-busy`, and makes the button non-interactive. */
   loading?: boolean;
 };
@@ -33,7 +28,7 @@ export type ButtonProps = ButtonElementProps & {
 /**
  * The ready-made `Button`: grafts Base UI's `Button` behavior onto the styled `Button` element and
  * lays out an optional `startIcon`/`endIcon` beside the label plus a `loading` spinner. Content —
- * `children`, the inline nodes, `loading` — is not a variant.
+ * the label, inline nodes, and `loading` state — is not a variant.
  */
 export function Button({
   prominence,
@@ -44,7 +39,7 @@ export function Button({
   endIcon,
   loading = false,
   disabled,
-  children,
+  label,
   render,
   nativeButton,
   ...props
@@ -75,11 +70,11 @@ export function Button({
         <Spinner>
           <LoaderCircle />
         </Spinner>
-      ) : startIcon ? (
-        <Icon>{startIcon}</Icon>
-      ) : null}
-      <ButtonLabel>{children}</ButtonLabel>
-      {!loading && endIcon ? <Icon>{endIcon}</Icon> : null}
+      ) : (
+        startIcon
+      )}
+      <ButtonLabel>{label}</ButtonLabel>
+      {!loading ? endIcon : null}
     </BaseButton>
   );
 }

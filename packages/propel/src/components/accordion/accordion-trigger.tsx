@@ -7,14 +7,18 @@ import {
   AccordionTriggerTitle,
 } from "../../elements/accordion";
 import { DisclosureIndicator } from "../../internal/disclosure-indicator";
-import { Icon } from "../../internal/icon";
 
-export type AccordionTriggerProps = Omit<BaseAccordion.Trigger.Props, "className" | "style"> & {
+export type AccordionTriggerProps = Omit<
+  BaseAccordion.Trigger.Props,
+  "children" | "className" | "style"
+> & {
   /**
-   * Node rendered before the label (inline-start), matching the Figma header icon. Sized to the
-   * trigger's `--node-size`. Decorative, kept out of the name.
+   * Element rendered before the label (inline-start), e.g. `<Icon icon={Folder} tint="secondary"
+   * />`.
    */
   icon?: React.ReactNode;
+  /** Visible trigger label. */
+  label: React.ReactNode;
 };
 
 /**
@@ -22,11 +26,11 @@ export type AccordionTriggerProps = Omit<BaseAccordion.Trigger.Props, "className
  * `AccordionTrigger`, composing an optional `icon`, the `AccordionTriggerTitle`, and the
  * `AccordionTriggerIndicator` chevron that rotates when the panel opens.
  */
-export function AccordionTrigger({ icon, children, ...props }: AccordionTriggerProps) {
+export function AccordionTrigger({ icon, label, ...props }: AccordionTriggerProps) {
   return (
     <BaseAccordion.Trigger {...props} render={<AccordionTriggerElement />}>
-      {icon ? <Icon tint="secondary">{icon}</Icon> : null}
-      <AccordionTriggerTitle>{children}</AccordionTriggerTitle>
+      {icon}
+      <AccordionTriggerTitle>{label}</AccordionTriggerTitle>
       <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
         <ChevronDown />
       </DisclosureIndicator>

@@ -7,18 +7,19 @@ import {
   type PillMagnitude,
   PillSwitch as PillSwitchElement,
 } from "../../elements/pill";
-import { Icon } from "../../internal/icon";
 
 export type PillSwitchProps<Value extends string = string> = Omit<
   BaseToggleTypes.Props<Value>,
-  "className" | "style"
+  "children" | "className" | "style"
 > & {
   /** Size of the pill. */
   magnitude: PillMagnitude;
-  /** A node before the label (inline-start), sized to the pill's `--node-size`. */
+  /** Element rendered before the label (inline-start), e.g. `<Icon icon={Tag} />`. */
   startIcon?: React.ReactNode;
-  /** A node after the label (inline-end), sized to the pill's `--node-size`. */
+  /** Element rendered after the label (inline-end), e.g. `<Icon icon={X} />`. */
   endIcon?: React.ReactNode;
+  /** Visible pill label. */
+  label: React.ReactNode;
 };
 
 /**
@@ -31,14 +32,14 @@ export function PillSwitch<Value extends string = string>({
   magnitude,
   startIcon,
   endIcon,
-  children,
+  label,
   ...toggleProps
 }: PillSwitchProps<Value>) {
   return (
     <Toggle {...toggleProps} render={<PillSwitchElement magnitude={magnitude} />}>
-      {startIcon ? <Icon>{startIcon}</Icon> : null}
-      <PillLabel>{children}</PillLabel>
-      {endIcon ? <Icon>{endIcon}</Icon> : null}
+      {startIcon}
+      <PillLabel>{label}</PillLabel>
+      {endIcon}
     </Toggle>
   );
 }

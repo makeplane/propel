@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ArrowUpRight, Plus } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
+import { Icon } from "../icon";
 import { AnchorButton, type AnchorButtonMagnitude, type AnchorButtonProminence } from "./index";
 
 const PROMINENCES: AnchorButtonProminence[] = ["primary", "secondary"];
@@ -12,7 +13,7 @@ const MAGNITUDES: AnchorButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 const meta = {
   title: "Components/AnchorButton",
   component: AnchorButton,
-  args: { children: "Show more", prominence: "primary", magnitude: "md" },
+  args: { label: "Show more", prominence: "primary", magnitude: "md" },
 } satisfies Meta<typeof AnchorButton>;
 
 export default meta;
@@ -22,13 +23,16 @@ export const Default: Story = {};
 
 /** `prominence`: `primary` is the blue link; `secondary` the muted gray inline link. */
 export const Prominences: Story = {
-  argTypes: { prominence: { control: false }, children: { control: false } },
+  argTypes: { prominence: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-4">
       {PROMINENCES.map((prominence) => (
-        <AnchorButton key={prominence} {...args} prominence={prominence}>
-          {prominence} action
-        </AnchorButton>
+        <AnchorButton
+          key={prominence}
+          {...args}
+          prominence={prominence}
+          label={`${prominence} action`}
+        />
       ))}
     </div>
   ),
@@ -36,13 +40,11 @@ export const Prominences: Story = {
 
 /** Text sizes (Figma S/Base/L/XL map to sm/md/lg/xl). */
 export const Magnitudes: Story = {
-  argTypes: { magnitude: { control: false }, children: { control: false } },
+  argTypes: { magnitude: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-4">
       {MAGNITUDES.map((magnitude) => (
-        <AnchorButton key={magnitude} {...args} magnitude={magnitude}>
-          {magnitude}
-        </AnchorButton>
+        <AnchorButton key={magnitude} {...args} magnitude={magnitude} label={magnitude} />
       ))}
     </div>
   ),
@@ -67,9 +69,12 @@ export const ActsNotNavigates: Story = {
 export const AsLink: Story = {
   args: { prominence: "primary", magnitude: "md" },
   render: (args) => (
-    <AnchorButton {...args} nativeButton={false} render={<a href="#work-items" />}>
-      View all work items
-    </AnchorButton>
+    <AnchorButton
+      {...args}
+      nativeButton={false}
+      render={<a href="#work-items" />}
+      label="View all work items"
+    />
   ),
 };
 
@@ -94,12 +99,18 @@ export const WithIcons: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-6">
-      <AnchorButton prominence="primary" magnitude="md" startIcon={<Plus />}>
-        Add condition
-      </AnchorButton>
-      <AnchorButton prominence="secondary" magnitude="md" endIcon={<ArrowUpRight />}>
-        View docs
-      </AnchorButton>
+      <AnchorButton
+        prominence="primary"
+        magnitude="md"
+        startIcon={<Icon icon={Plus} />}
+        label="Add condition"
+      />
+      <AnchorButton
+        prominence="secondary"
+        magnitude="md"
+        endIcon={<Icon icon={ArrowUpRight} />}
+        label="View docs"
+      />
     </div>
   ),
 };
@@ -107,5 +118,5 @@ export const WithIcons: Story = {
 /** The `loading` spinner replaces the leading icon and dims the label. */
 export const Loading: Story = {
   args: { prominence: "primary", magnitude: "md", loading: true },
-  render: (args) => <AnchorButton {...args}>Saving…</AnchorButton>,
+  render: (args) => <AnchorButton {...args} label="Saving…" />,
 };

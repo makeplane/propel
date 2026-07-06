@@ -10,9 +10,13 @@ export type DrawerTriggerProps = Omit<BaseDrawer.Trigger.Props, "className" | "s
  * ```tsx
  * <DrawerTrigger
  *   render={
- *     <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
- *       Open details
- *     </Button>
+ *     <Button
+ *       sizing="hug"
+ *       prominence="secondary"
+ *       tone="neutral"
+ *       magnitude="xl"
+ *       label="Open details"
+ *     />
  *   }
  * />;
  * ```

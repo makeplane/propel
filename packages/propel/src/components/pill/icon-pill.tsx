@@ -6,12 +6,11 @@ import {
   IconPill as IconPillElement,
   type IconPillProps as IconPillElementProps,
 } from "../../elements/pill";
-import { Icon } from "../../internal/icon";
 import { Spinner } from "../../internal/spinner";
 
-export type IconPillProps = IconPillElementProps & {
-  /** The icon, sized and tinted by the pill. */
-  children: React.ReactNode;
+export type IconPillProps = Omit<IconPillElementProps, "children"> & {
+  /** The icon element, usually `<Icon icon={...} />`. */
+  icon: React.ReactNode;
   /** Required: icon-only pills have no visible text, so they must be labeled. */
   "aria-label": string;
   /** Busy state: swaps the icon for a spinner and blocks clicks. */
@@ -24,13 +23,7 @@ export type IconPillProps = IconPillElementProps & {
  * a spinner while `loading`). `loading` disables the button while keeping it focusable
  * (`aria-busy`). An `aria-label` is required for the accessible name.
  */
-export function IconPill({
-  magnitude,
-  loading = false,
-  disabled,
-  children,
-  ...props
-}: IconPillProps) {
+export function IconPill({ magnitude, loading = false, disabled, icon, ...props }: IconPillProps) {
   return (
     <BaseButton
       {...props}
@@ -44,7 +37,7 @@ export function IconPill({
           <LoaderCircle />
         </Spinner>
       ) : (
-        <Icon>{children}</Icon>
+        icon
       )}
     </BaseButton>
   );

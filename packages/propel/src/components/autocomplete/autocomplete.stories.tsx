@@ -3,9 +3,10 @@ import { ChevronsUpDown, Search as SearchGlyph, X } from "lucide-react";
 import * as React from "react";
 import { expect, waitFor, within } from "storybook/test";
 
-import { Button } from "../../elements/button";
+import { Button } from "../button";
 import { Dialog, DialogBody, DialogContent, DialogHeader, DialogTrigger } from "../dialog/index";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../field/index";
+import { Icon } from "../icon";
 import { IconButton } from "../icon-button";
 import {
   Autocomplete,
@@ -62,9 +63,8 @@ export const Default: Story = {
               tone="neutral"
               magnitude="md"
               aria-label="Clear container image"
-            >
-              <X />
-            </IconButton>
+              icon={<Icon icon={X} />}
+            />
           }
           trigger={
             <IconButton
@@ -72,9 +72,8 @@ export const Default: Story = {
               tone="neutral"
               magnitude="md"
               aria-label="Open container image"
-            >
-              <ChevronsUpDown />
-            </IconButton>
+              icon={<Icon icon={ChevronsUpDown} />}
+            />
           }
         />
         <FieldDescription magnitude="md">Enter a registry URL with optional tags.</FieldDescription>
@@ -162,13 +161,17 @@ export const Search: Story = {
     <Autocomplete {...args}>
       <AutocompleteInputGroup
         magnitude="md"
-        icon={<SearchGlyph />}
+        icon={<Icon icon={SearchGlyph} tint="placeholder" />}
         placeholder="Search images"
         aria-label="Search images"
         clear={
-          <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear search">
-            <X />
-          </IconButton>
+          <IconButton
+            prominence="ghost"
+            tone="neutral"
+            magnitude="md"
+            aria-label="Clear search"
+            icon={<Icon icon={X} />}
+          />
         }
       />
       <AutocompleteContent>
@@ -234,7 +237,7 @@ export const AsyncSearch: Story = {
       >
         <AutocompleteInputGroup
           magnitude="md"
-          icon={<SearchGlyph />}
+          icon={<Icon icon={SearchGlyph} tint="placeholder" />}
           placeholder="Search projects"
           aria-label="Search projects"
         />
@@ -357,7 +360,7 @@ export const FuzzyMatching: Story = {
     <Autocomplete items={IMAGES} filter={fuzzyMatch}>
       <AutocompleteInputGroup
         magnitude="md"
-        icon={<SearchGlyph />}
+        icon={<Icon icon={SearchGlyph} tint="placeholder" />}
         placeholder="Search images"
         aria-label="Search images"
       />
@@ -438,9 +441,8 @@ export const LimitResults: Story = {
               tone="neutral"
               magnitude="md"
               aria-label="Show all labels"
-            >
-              <ChevronsUpDown />
-            </IconButton>
+              icon={<Icon icon={ChevronsUpDown} />}
+            />
           }
         />
         <AutocompleteContent>
@@ -491,7 +493,7 @@ export const AutoHighlight: Story = {
     <Autocomplete {...args}>
       <AutocompleteInputGroup
         magnitude="md"
-        icon={<SearchGlyph />}
+        icon={<Icon icon={SearchGlyph} tint="placeholder" />}
         placeholder="Search images"
         aria-label="Search images"
       />
@@ -547,15 +549,14 @@ export const CommandPalette: Story = {
           tone="neutral"
           magnitude="xl"
           render={<DialogTrigger />}
-        >
-          Open command palette
-        </Button>
+          label="Open command palette"
+        />
         <DialogContent magnitude="md" aria-label="Command palette">
           <Autocomplete open inline items={COMMAND_GROUPS} autoHighlight="always" keepHighlight>
             <DialogHeader>
               <AutocompleteInputGroup
                 magnitude="md"
-                icon={<SearchGlyph />}
+                icon={<Icon icon={SearchGlyph} tint="placeholder" />}
                 placeholder="Search commands"
                 aria-label="Search commands"
               />

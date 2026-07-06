@@ -15,8 +15,10 @@ import {
 import * as React from "react";
 import { expect, fn, userEvent } from "storybook/test";
 
+import { Button } from "../components/button/index";
 import { Field } from "../components/field";
 import { IconButton } from "../components/icon-button/index";
+import { Icon } from "../components/icon/index";
 import { TextArea } from "../components/text-area";
 import {
   Toolbar,
@@ -25,7 +27,6 @@ import {
   ToolbarSeparator,
   ToolbarToggle,
 } from "../components/toolbar/index";
-import { Button } from "../elements/button/index";
 
 // A comment composer is a compositional (application-level) component, not a propel
 // primitive: it is assembled entirely from propel building blocks (Toolbar, Button,
@@ -59,36 +60,20 @@ function FormattingToolbar() {
   return (
     <Toolbar elevation="flat" density="compact" aria-label="Comment formatting">
       <ToolbarGroup aria-label="Insert">
-        <ToolbarButton aria-label="Mention someone">
-          <AtSign />
-        </ToolbarButton>
-        <ToolbarButton aria-label="Add reaction">
-          <SmilePlus />
-        </ToolbarButton>
-        <ToolbarButton aria-label="Add link">
-          <Link />
-        </ToolbarButton>
+        <ToolbarButton aria-label="Mention someone" icon={<Icon icon={AtSign} />} />
+        <ToolbarButton aria-label="Add reaction" icon={<Icon icon={SmilePlus} />} />
+        <ToolbarButton aria-label="Add link" icon={<Icon icon={Link} />} />
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Text formatting">
-        <ToolbarToggle aria-label="Bold">
-          <Bold />
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Italic">
-          <Italic />
-        </ToolbarToggle>
-        <ToolbarToggle aria-label="Underline">
-          <Underline />
-        </ToolbarToggle>
+        <ToolbarToggle aria-label="Bold" icon={<Icon icon={Bold} />} />
+        <ToolbarToggle aria-label="Italic" icon={<Icon icon={Italic} />} />
+        <ToolbarToggle aria-label="Underline" icon={<Icon icon={Underline} />} />
       </ToolbarGroup>
       <ToolbarSeparator />
       <ToolbarGroup aria-label="Lists">
-        <ToolbarButton aria-label="Bulleted list">
-          <List />
-        </ToolbarButton>
-        <ToolbarButton aria-label="More formatting">
-          <MoreHorizontal />
-        </ToolbarButton>
+        <ToolbarButton aria-label="Bulleted list" icon={<Icon icon={List} />} />
+        <ToolbarButton aria-label="More formatting" icon={<Icon icon={MoreHorizontal} />} />
       </ToolbarGroup>
     </Toolbar>
   );
@@ -176,9 +161,8 @@ function CommentComposer({
                 tone="neutral"
                 magnitude="md"
                 aria-label="Attach a file"
-              >
-                <Paperclip aria-hidden />
-              </IconButton>
+                icon={<Icon icon={Paperclip} />}
+              />
               <IconButton
                 prominence="secondary"
                 tone="neutral"
@@ -186,9 +170,8 @@ function CommentComposer({
                 aria-label={sendLabel}
                 disabled={isEmpty}
                 onClick={handleSubmit}
-              >
-                <ArrowUp aria-hidden />
-              </IconButton>
+                icon={<Icon icon={ArrowUp} />}
+              />
             </div>
           </>
         ) : (
@@ -206,9 +189,8 @@ function CommentComposer({
                   magnitude="md"
                   disabled={isEmpty}
                   onClick={handleSubmit}
-                >
-                  {submitLabel}
-                </Button>
+                  label={submitLabel}
+                />
               ) : (
                 <IconButton
                   prominence="secondary"
@@ -217,9 +199,8 @@ function CommentComposer({
                   aria-label={sendLabel}
                   disabled={isEmpty}
                   onClick={handleSubmit}
-                >
-                  <ArrowUp aria-hidden />
-                </IconButton>
+                  icon={<Icon icon={ArrowUp} />}
+                />
               )}
             </div>
           </>
@@ -257,32 +238,25 @@ const RECIPE_SOURCE = `function CommentComposer() {
         <div className="flex min-h-9 items-center justify-between gap-2 py-1 pe-1.5 ps-1">
           <Toolbar elevation="flat" density="compact" aria-label="Comment formatting">
             <ToolbarGroup aria-label="Insert">
-              <ToolbarButton aria-label="Mention someone">
-                <AtSign />
-              </ToolbarButton>
-              <ToolbarButton aria-label="Add reaction">
-                <SmilePlus />
-              </ToolbarButton>
-              <ToolbarButton aria-label="Add link">
-                <Link />
-              </ToolbarButton>
+              <ToolbarButton aria-label="Mention someone" icon={<Icon icon={AtSign} />} />
+              <ToolbarButton aria-label="Add reaction" icon={<Icon icon={SmilePlus} />} />
+              <ToolbarButton aria-label="Add link" icon={<Icon icon={Link} />} />
             </ToolbarGroup>
             <ToolbarSeparator />
             <ToolbarGroup aria-label="Text formatting">
-              <ToolbarToggle aria-label="Bold">
-                <Bold />
-              </ToolbarToggle>
-              <ToolbarToggle aria-label="Italic">
-                <Italic />
-              </ToolbarToggle>
-              <ToolbarToggle aria-label="Underline">
-                <Underline />
-              </ToolbarToggle>
+              <ToolbarToggle aria-label="Bold" icon={<Icon icon={Bold} />} />
+              <ToolbarToggle aria-label="Italic" icon={<Icon icon={Italic} />} />
+              <ToolbarToggle aria-label="Underline" icon={<Icon icon={Underline} />} />
             </ToolbarGroup>
           </Toolbar>
-          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="md" disabled={isEmpty}>
-            Comment
-          </Button>
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="md"
+            disabled={isEmpty}
+            label="Comment"
+          />
         </div>
       </div>
     </Field>

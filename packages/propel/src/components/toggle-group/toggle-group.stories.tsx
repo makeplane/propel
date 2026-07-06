@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Bold, Italic, List, ListOrdered, Underline } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
+import { Icon } from "../icon";
 import { Toggle, type ToggleMagnitude } from "../toggle/index";
 import { ToggleGroup } from "./index";
 
@@ -35,12 +36,8 @@ export const Default: Story = {
   args: { magnitude: "md", defaultValue: ["bulleted"], onValueChange: fn() },
   render: (args) => (
     <ToggleGroup {...args} aria-label="List style">
-      <Toggle value="bulleted" aria-label="Bulleted list">
-        <List />
-      </Toggle>
-      <Toggle value="numbered" aria-label="Numbered list">
-        <ListOrdered />
-      </Toggle>
+      <Toggle value="bulleted" aria-label="Bulleted list" icon={<Icon icon={List} />} />
+      <Toggle value="numbered" aria-label="Numbered list" icon={<Icon icon={ListOrdered} />} />
     </ToggleGroup>
   ),
 };
@@ -84,15 +81,17 @@ export const Magnitudes: Story = {
           defaultValue={["bold"]}
           aria-label={`Text formatting (${magnitude})`}
         >
-          <Toggle value="bold" aria-label={`Bold (${magnitude})`}>
-            <Bold />
-          </Toggle>
-          <Toggle value="italic" aria-label={`Italic (${magnitude})`}>
-            <Italic />
-          </Toggle>
-          <Toggle value="underline" aria-label={`Underline (${magnitude})`}>
-            <Underline />
-          </Toggle>
+          <Toggle value="bold" aria-label={`Bold (${magnitude})`} icon={<Icon icon={Bold} />} />
+          <Toggle
+            value="italic"
+            aria-label={`Italic (${magnitude})`}
+            icon={<Icon icon={Italic} />}
+          />
+          <Toggle
+            value="underline"
+            aria-label={`Underline (${magnitude})`}
+            icon={<Icon icon={Underline} />}
+          />
         </ToggleGroup>
       ))}
     </div>
@@ -104,15 +103,9 @@ export const Multiple: Story = {
   args: { magnitude: "md", multiple: true, defaultValue: ["bold", "italic"] },
   render: (args) => (
     <ToggleGroup {...args} aria-label="Text formatting">
-      <Toggle value="bold" aria-label="Bold">
-        <Bold />
-      </Toggle>
-      <Toggle value="italic" aria-label="Italic">
-        <Italic />
-      </Toggle>
-      <Toggle value="underline" aria-label="Underline">
-        <Underline />
-      </Toggle>
+      <Toggle value="bold" aria-label="Bold" icon={<Icon icon={Bold} />} />
+      <Toggle value="italic" aria-label="Italic" icon={<Icon icon={Italic} />} />
+      <Toggle value="underline" aria-label="Underline" icon={<Icon icon={Underline} />} />
     </ToggleGroup>
   ),
 };

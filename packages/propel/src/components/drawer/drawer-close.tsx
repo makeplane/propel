@@ -10,9 +10,13 @@ export type DrawerCloseProps = Omit<BaseDrawer.Close.Props, "className" | "style
  * ```tsx
  * <DrawerClose
  *   render={
- *     <IconButton prominence="ghost" tone="neutral" magnitude="lg" aria-label={closeLabel}>
- *       <X />
- *     </IconButton>
+ *     <IconButton
+ *       prominence="ghost"
+ *       tone="neutral"
+ *       magnitude="lg"
+ *       aria-label={closeLabel}
+ *       icon={<Icon icon={X} />}
+ *     />
  *   }
  * />;
  * ```

@@ -7,28 +7,23 @@ import {
   AnchorButtonLabel,
   type AnchorButtonProps as AnchorButtonElementProps,
 } from "../../elements/anchor-button";
-import { Icon } from "../../internal/icon";
 import { Spinner } from "../../internal/spinner";
 
 export type { AnchorButtonMagnitude, AnchorButtonProminence } from "../../elements/anchor-button";
 
-export type AnchorButtonProps = AnchorButtonElementProps & {
+export type AnchorButtonProps = Omit<AnchorButtonElementProps, "children"> & {
   /**
    * Set `false` when `render` swaps the underlying tag away from `<button>` (e.g. `render={<a
    * href=… />}` for a real navigation link): Base UI then keeps role, tab focus, and activation
    * semantics right on the rendered tag.
    */
   nativeButton?: boolean;
-  /**
-   * Node rendered before the label (inline-start). An icon or any node; it is sized to the link's
-   * `--node-size`. Decorative, kept out of the name.
-   */
+  /** Element rendered before the label (inline-start), e.g. `<Icon icon={Plus} />`. */
   startIcon?: React.ReactNode;
-  /**
-   * Node rendered after the label (inline-end). An icon or any node; it is sized to the link's
-   * `--node-size`. Decorative, kept out of the name.
-   */
+  /** Element rendered after the label (inline-end), e.g. `<Icon icon={ArrowUpRight} />`. */
   endIcon?: React.ReactNode;
+  /** Visible action/link label. */
+  label: React.ReactNode;
   /** Shows a spinner, sets `aria-busy`, and makes the control non-interactive. */
   loading?: boolean;
 };
@@ -48,7 +43,7 @@ export function AnchorButton({
   endIcon,
   loading = false,
   disabled,
-  children,
+  label,
   render,
   nativeButton,
   ...props
@@ -77,11 +72,11 @@ export function AnchorButton({
         <Spinner>
           <LoaderCircle />
         </Spinner>
-      ) : startIcon ? (
-        <Icon>{startIcon}</Icon>
-      ) : null}
-      <AnchorButtonLabel>{children}</AnchorButtonLabel>
-      {!loading && endIcon ? <Icon>{endIcon}</Icon> : null}
+      ) : (
+        startIcon
+      )}
+      <AnchorButtonLabel>{label}</AnchorButtonLabel>
+      {!loading ? endIcon : null}
     </BaseButton>
   );
 }

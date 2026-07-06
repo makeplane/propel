@@ -8,7 +8,6 @@ import {
   CheckboxIndicator,
   CheckboxLabel,
 } from "../../elements/checkbox";
-import { Icon } from "../../internal/icon";
 
 export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" | "render"> & {
   /**
@@ -18,9 +17,8 @@ export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" 
    */
   label?: React.ReactNode;
   /**
-   * Node shown between the box and the label (inline-start), matching the Figma "checkbox with
-   * label" icon slot. Only rendered when `label` is present. Sized to `--node-size` (14px).
-   * Decorative, kept out of the name.
+   * Element shown between the box and the label (inline-start), e.g. `<Icon icon={User}
+   * tint="secondary" magnitude="sm" />`. Only rendered when `label` is present.
    */
   icon?: React.ReactNode;
 };
@@ -53,11 +51,7 @@ export function Checkbox({ label, icon, id, ...props }: CheckboxProps) {
   return (
     <CheckboxLabel htmlFor={checkboxId}>
       {box}
-      {icon ? (
-        <Icon tint="secondary" magnitude="sm">
-          {icon}
-        </Icon>
-      ) : null}
+      {icon}
       {label}
     </CheckboxLabel>
   );

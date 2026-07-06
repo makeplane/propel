@@ -12,6 +12,7 @@ import {
 import * as React from "react";
 import { expect, fireEvent, userEvent, waitFor, within } from "storybook/test";
 
+import { Icon } from "../icon";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -27,8 +28,8 @@ import {
 } from "./index";
 
 // Components-tier story: the ready-made `ContextMenu` root and `ContextMenuContent` surface graft
-// Base UI's portal/positioner/popup, and the rich `ContextMenuItem` lays out an icon + label + a
-// trailing shortcut. `ContextMenuTrigger` is the behavior surface that opens the menu, and
+// Base UI's portal/positioner/popup, and the rich `ContextMenuItem` lays out an icon + label +
+// `endContent`. `ContextMenuTrigger` is the behavior surface that opens the menu, and
 // `ContextMenuSeparator` is the ready-made divider. The elements-tier story composes the raw
 // `ContextMenuItem` rows by hand.
 const meta = {
@@ -59,19 +60,21 @@ export const Default: Story = {
         Right-click here
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem tone="neutral" icon={<Scissors />} trailing="⌘X">
-          Cut
-        </ContextMenuItem>
-        <ContextMenuItem tone="neutral" icon={<Copy />} trailing="⌘C">
-          Copy
-        </ContextMenuItem>
-        <ContextMenuItem tone="neutral" icon={<ClipboardPaste />} trailing="⌘V">
-          Paste
-        </ContextMenuItem>
+        <ContextMenuItem
+          tone="neutral"
+          icon={<Icon icon={Scissors} />}
+          endContent="⌘X"
+          label="Cut"
+        />
+        <ContextMenuItem tone="neutral" icon={<Icon icon={Copy} />} endContent="⌘C" label="Copy" />
+        <ContextMenuItem
+          tone="neutral"
+          icon={<Icon icon={ClipboardPaste} />}
+          endContent="⌘V"
+          label="Paste"
+        />
         <ContextMenuSeparator />
-        <ContextMenuItem tone="danger" icon={<Trash2 />}>
-          Delete
-        </ContextMenuItem>
+        <ContextMenuItem tone="danger" icon={<Icon icon={Trash2} />} label="Delete" />
       </ContextMenuContent>
     </ContextMenu>
   ),
@@ -101,16 +104,10 @@ export const Tones: Story = {
         Right-click here
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem tone="neutral" icon={<PencilLine />}>
-          Rename
-        </ContextMenuItem>
-        <ContextMenuItem tone="neutral" icon={<Copy />}>
-          Duplicate
-        </ContextMenuItem>
+        <ContextMenuItem tone="neutral" icon={<Icon icon={PencilLine} />} label="Rename" />
+        <ContextMenuItem tone="neutral" icon={<Icon icon={Copy} />} label="Duplicate" />
         <ContextMenuSeparator />
-        <ContextMenuItem tone="danger" icon={<Trash2 />}>
-          Delete
-        </ContextMenuItem>
+        <ContextMenuItem tone="danger" icon={<Icon icon={Trash2} />} label="Delete" />
       </ContextMenuContent>
     </ContextMenu>
   ),
@@ -156,26 +153,22 @@ export const Submenu: Story = {
         Right-click here
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem tone="neutral" icon={<PencilLine />}>
-          Rename
-        </ContextMenuItem>
-        <ContextMenuItem tone="neutral" icon={<Copy />}>
-          Duplicate
-        </ContextMenuItem>
+        <ContextMenuItem tone="neutral" icon={<Icon icon={PencilLine} />} label="Rename" />
+        <ContextMenuItem tone="neutral" icon={<Icon icon={Copy} />} label="Duplicate" />
         <ContextMenuSubmenu>
-          <ContextMenuSubmenuTrigger tone="neutral" icon={<FolderInput />}>
-            Move to
-          </ContextMenuSubmenuTrigger>
+          <ContextMenuSubmenuTrigger
+            tone="neutral"
+            icon={<Icon icon={FolderInput} />}
+            label="Move to"
+          />
           <ContextMenuContent>
-            <ContextMenuItem tone="neutral">Mobile app</ContextMenuItem>
-            <ContextMenuItem tone="neutral">Web app</ContextMenuItem>
-            <ContextMenuItem tone="neutral">Design system</ContextMenuItem>
+            <ContextMenuItem tone="neutral" label="Mobile app" />
+            <ContextMenuItem tone="neutral" label="Web app" />
+            <ContextMenuItem tone="neutral" label="Design system" />
           </ContextMenuContent>
         </ContextMenuSubmenu>
         <ContextMenuSeparator />
-        <ContextMenuItem tone="danger" icon={<Trash2 />}>
-          Delete
-        </ContextMenuItem>
+        <ContextMenuItem tone="danger" icon={<Icon icon={Trash2} />} label="Delete" />
       </ContextMenuContent>
     </ContextMenu>
   ),
@@ -219,20 +212,25 @@ export const LinkItems: Story = {
       <ContextMenuContent>
         <ContextMenuLinkItem
           tone="neutral"
-          icon={<ExternalLink />}
+          icon={<Icon icon={ExternalLink} />}
           href="#work-item"
           target="_blank"
           rel="noopener noreferrer"
-        >
-          Open in new tab
-        </ContextMenuLinkItem>
-        <ContextMenuLinkItem tone="neutral" icon={<Link2 />} href="#activity">
-          Go to activity
-        </ContextMenuLinkItem>
+          label="Open in new tab"
+        />
+        <ContextMenuLinkItem
+          tone="neutral"
+          icon={<Icon icon={Link2} />}
+          href="#activity"
+          label="Go to activity"
+        />
         <ContextMenuSeparator />
-        <ContextMenuItem tone="neutral" icon={<Copy />} trailing="⌘C">
-          Copy link
-        </ContextMenuItem>
+        <ContextMenuItem
+          tone="neutral"
+          icon={<Icon icon={Copy} />}
+          endContent="⌘C"
+          label="Copy link"
+        />
       </ContextMenuContent>
     </ContextMenu>
   ),
@@ -288,9 +286,8 @@ export const SingleSelect: Story = {
               selected={sortBy === option.key}
               closeOnClick={false}
               onClick={() => setSortBy(option.key)}
-            >
-              {option.label}
-            </ContextMenuItem>
+              label={option.label}
+            />
           ))}
         </ContextMenuContent>
       </ContextMenu>
@@ -343,17 +340,22 @@ export const SelectionRows: Story = {
             checked={wrap}
             onCheckedChange={setWrap}
             closeOnClick={false}
-          >
-            Wrap titles
-          </ContextMenuCheckboxItem>
+            label="Wrap titles"
+          />
           <ContextMenuSeparator />
           <ContextMenuRadioGroup value={sort} onValueChange={setSort}>
-            <ContextMenuRadioItem tone="neutral" value="manual" closeOnClick={false}>
-              Manual order
-            </ContextMenuRadioItem>
-            <ContextMenuRadioItem tone="neutral" value="updated" closeOnClick={false}>
-              Last updated
-            </ContextMenuRadioItem>
+            <ContextMenuRadioItem
+              tone="neutral"
+              value="manual"
+              closeOnClick={false}
+              label="Manual order"
+            />
+            <ContextMenuRadioItem
+              tone="neutral"
+              value="updated"
+              closeOnClick={false}
+              label="Last updated"
+            />
           </ContextMenuRadioGroup>
         </ContextMenuContent>
       </ContextMenu>

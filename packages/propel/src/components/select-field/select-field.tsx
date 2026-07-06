@@ -1,22 +1,19 @@
 import { Select as BaseSelect } from "@base-ui/react/select";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check } from "lucide-react";
 import type * as React from "react";
 
 import type { FieldMagnitude } from "../../elements/field/variants";
 import {
   SelectItemIndicator,
   SelectLabel,
-  SelectTrigger,
   type SelectTriggerMagnitude,
-  SelectValue,
 } from "../../elements/select/index";
-import { Icon } from "../../internal/icon";
 import { ListboxItem } from "../../internal/listbox-item";
 import { ListboxPopup } from "../../internal/listbox-popup";
 import { Positioner } from "../../internal/positioner";
 import { Field, FieldDescription } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
-import { Select, type SelectProps } from "../select";
+import { Select, SelectTrigger, type SelectProps } from "../select";
 
 export type { FieldMagnitude } from "../../elements/field/variants";
 
@@ -65,12 +62,7 @@ export function SelectField({
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Select disabled={disabled} items={options} {...selectProps}>
         <BaseSelect.Label render={<SelectLabel />}>{label}</BaseSelect.Label>
-        <BaseSelect.Trigger render={<SelectTrigger magnitude={selectMagnitude} />}>
-          <BaseSelect.Value render={<SelectValue />} />
-          <Icon tint="secondary">
-            <ChevronsUpDown />
-          </Icon>
-        </BaseSelect.Trigger>
+        <SelectTrigger magnitude={selectMagnitude} />
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
         ) : null}

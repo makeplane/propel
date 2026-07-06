@@ -8,17 +8,18 @@ import {
   type ToolbarButtonProps,
   type ToolbarDensity,
 } from "../../elements/toolbar";
-import { Icon } from "../../internal/icon";
 import { ToolbarDensityContext } from "./toolbar-context";
 
 export type ToolbarToggleProps<Value extends string = string> = Omit<
   BaseToggleTypes.Props<Value>,
-  "className" | "style" | "render"
+  "children" | "className" | "style" | "render"
 > & {
   /** Density override; defaults to the surrounding `Toolbar`'s density. */
   density?: ToolbarDensity;
   /** Accessible name for the icon toggle. */
   "aria-label": string;
+  /** Icon element rendered inside the toolbar toggle. */
+  icon: React.ReactNode;
   /** Custom render for the underlying styled toolbar button. */
   render?: ToolbarButtonProps["render"];
 };
@@ -31,7 +32,7 @@ export type ToolbarToggleProps<Value extends string = string> = Omit<
 export function ToolbarToggle<Value extends string = string>({
   render,
   density,
-  children,
+  icon,
   "aria-label": ariaLabel,
   ...toggleProps
 }: ToolbarToggleProps<Value>) {
@@ -51,7 +52,7 @@ export function ToolbarToggle<Value extends string = string>({
         />
       }
     >
-      <Icon>{children}</Icon>
+      {icon}
     </BaseToolbar.Button>
   );
 }

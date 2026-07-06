@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { Icon } from "../../internal/icon";
+import { Icon } from "../icon";
 import {
   Menu,
   MenuContent,
@@ -71,31 +71,27 @@ export const Default: Story = {
     <Menubar>
       <Menu>
         <MenubarTrigger>
-          <Icon tint="secondary">
-            <FilePen />
-          </Icon>
+          <Icon icon={FilePen} tint="secondary" />
           <MenubarTriggerLabel>File</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent sizing="sm">
-          <MenuItem icon={<FilePlus />}>New file</MenuItem>
-          <MenuItem icon={<FolderOpen />}>Open…</MenuItem>
+          <MenuItem icon={<Icon icon={FilePlus} tint="secondary" />} label="New file" />
+          <MenuItem icon={<Icon icon={FolderOpen} tint="secondary" />} label="Open…" />
           <MenuSeparator />
-          <MenuItem icon={<Save />}>Save</MenuItem>
+          <MenuItem icon={<Icon icon={Save} tint="secondary" />} label="Save" />
         </MenuContent>
       </Menu>
       <Menu>
         <MenubarTrigger>
-          <Icon tint="secondary">
-            <Pencil />
-          </Icon>
+          <Icon icon={Pencil} tint="secondary" />
           <MenubarTriggerLabel>Edit</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent sizing="sm">
-          <MenuItem icon={<Undo2 />}>Undo</MenuItem>
-          <MenuItem icon={<Redo2 />}>Redo</MenuItem>
+          <MenuItem icon={<Icon icon={Undo2} tint="secondary" />} label="Undo" />
+          <MenuItem icon={<Icon icon={Redo2} tint="secondary" />} label="Redo" />
           <MenuSeparator />
-          <MenuItem icon={<Scissors />}>Cut</MenuItem>
-          <MenuItem icon={<Copy />}>Copy</MenuItem>
+          <MenuItem icon={<Icon icon={Scissors} tint="secondary" />} label="Cut" />
+          <MenuItem icon={<Icon icon={Copy} tint="secondary" />} label="Copy" />
         </MenuContent>
       </Menu>
     </Menubar>
@@ -138,19 +134,19 @@ export const Submenu: Story = {
           <MenubarTriggerLabel>File</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent sizing="sm">
-          <MenuItem icon={<FilePlus />}>New file</MenuItem>
-          <MenuItem icon={<FolderOpen />}>Open…</MenuItem>
+          <MenuItem icon={<Icon icon={FilePlus} tint="secondary" />} label="New file" />
+          <MenuItem icon={<Icon icon={FolderOpen} tint="secondary" />} label="Open…" />
           <MenuSeparator />
           <MenuSubmenu>
-            <MenuSubmenuTrigger icon={<FileOutput />}>Export</MenuSubmenuTrigger>
+            <MenuSubmenuTrigger icon={<Icon icon={FileOutput} tint="secondary" />} label="Export" />
             <MenuSubmenuContent sizing="sm">
-              <MenuItem>PDF</MenuItem>
-              <MenuItem>PNG</MenuItem>
-              <MenuItem>SVG</MenuItem>
+              <MenuItem label="PDF" />
+              <MenuItem label="PNG" />
+              <MenuItem label="SVG" />
             </MenuSubmenuContent>
           </MenuSubmenu>
           <MenuSeparator />
-          <MenuItem icon={<Printer />}>Print…</MenuItem>
+          <MenuItem icon={<Icon icon={Printer} tint="secondary" />} label="Print…" />
         </MenuContent>
       </Menu>
       <Menu>
@@ -158,15 +154,15 @@ export const Submenu: Story = {
           <MenubarTriggerLabel>View</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent sizing="sm">
-          <MenuItem icon={<ZoomIn />}>Zoom in</MenuItem>
-          <MenuItem icon={<ZoomOut />}>Zoom out</MenuItem>
+          <MenuItem icon={<Icon icon={ZoomIn} tint="secondary" />} label="Zoom in" />
+          <MenuItem icon={<Icon icon={ZoomOut} tint="secondary" />} label="Zoom out" />
           <MenuSeparator />
           <MenuSubmenu>
-            <MenuSubmenuTrigger icon={<LayoutGrid />}>Layout</MenuSubmenuTrigger>
+            <MenuSubmenuTrigger icon={<Icon icon={LayoutGrid} tint="secondary" />} label="Layout" />
             <MenuSubmenuContent sizing="sm">
-              <MenuItem>Single page</MenuItem>
-              <MenuItem>Two pages</MenuItem>
-              <MenuItem>Continuous</MenuItem>
+              <MenuItem label="Single page" />
+              <MenuItem label="Two pages" />
+              <MenuItem label="Continuous" />
             </MenuSubmenuContent>
           </MenuSubmenu>
         </MenuContent>
@@ -217,10 +213,10 @@ export const DisabledMenu: Story = {
           <MenubarTriggerLabel>File</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent sizing="sm">
-          <MenuItem icon={<FilePlus />}>New file</MenuItem>
-          <MenuItem icon={<FolderOpen />}>Open…</MenuItem>
+          <MenuItem icon={<Icon icon={FilePlus} tint="secondary" />} label="New file" />
+          <MenuItem icon={<Icon icon={FolderOpen} tint="secondary" />} label="Open…" />
           <MenuSeparator />
-          <MenuItem icon={<Save />}>Save</MenuItem>
+          <MenuItem icon={<Icon icon={Save} tint="secondary" />} label="Save" />
         </MenuContent>
       </Menu>
       <Menu disabled>
@@ -228,8 +224,8 @@ export const DisabledMenu: Story = {
           <MenubarTriggerLabel>Help</MenubarTriggerLabel>
         </MenubarTrigger>
         <MenuContent sizing="sm">
-          <MenuItem>Documentation</MenuItem>
-          <MenuItem>Keyboard shortcuts</MenuItem>
+          <MenuItem label="Documentation" />
+          <MenuItem label="Keyboard shortcuts" />
         </MenuContent>
       </Menu>
     </Menubar>

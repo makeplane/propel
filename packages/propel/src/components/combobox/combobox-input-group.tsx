@@ -6,7 +6,6 @@ import {
   ComboboxInput as ComboboxInputElement,
   ComboboxInputGroup as ComboboxInputGroupElement,
 } from "../../elements/combobox";
-import { ControlIcon } from "../../internal/control-icon";
 
 export type ComboboxInputGroupProps = Omit<
   BaseCombobox.Input.Props,
@@ -17,8 +16,8 @@ export type ComboboxInputGroupProps = Omit<
   /** Input placeholder. */
   placeholder?: string;
   /**
-   * Decorative leading glyph (e.g. a search magnifier), rendered in the group's `ComboboxIcon` slot
-   * at the inline-start.
+   * Decorative leading element at the inline-start, e.g. `<Icon icon={Search} tint="placeholder"
+   * />`.
    */
   icon?: React.ReactNode;
   /**
@@ -48,7 +47,7 @@ export function ComboboxInputGroup({
 }: ComboboxInputGroupProps) {
   return (
     <BaseCombobox.InputGroup render={<ComboboxInputGroupElement magnitude={magnitude} />}>
-      {icon != null ? <ControlIcon>{icon}</ControlIcon> : null}
+      {icon}
       <BaseCombobox.Input {...props} render={<ComboboxInputElement />} />
       {clear != null ? <BaseCombobox.Clear render={clear} /> : null}
       {trigger != null ? <BaseCombobox.Trigger render={trigger} /> : null}

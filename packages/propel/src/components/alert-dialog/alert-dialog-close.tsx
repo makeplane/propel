@@ -7,9 +7,13 @@ export type AlertDialogCloseProps = Omit<BaseAlertDialog.Close.Props, "className
  * `Button` so the styled primitive's look wins via render-composition:
  *
  * ```tsx
- * <Button prominence="secondary" tone="neutral" magnitude="xl" render={<AlertDialogClose />}>
- *   Cancel
- * </Button>;
+ * <Button
+ *   prominence="secondary"
+ *   tone="neutral"
+ *   magnitude="xl"
+ *   label="Cancel"
+ *   render={<AlertDialogClose />}
+ * />;
  * ```
  *
  * Maps 1:1 to `AlertDialog.Close`.

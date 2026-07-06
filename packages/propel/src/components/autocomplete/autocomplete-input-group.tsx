@@ -6,7 +6,6 @@ import {
   AutocompleteInputGroup as AutocompleteInputGroupElement,
   type AutocompleteMagnitude,
 } from "../../elements/autocomplete";
-import { ControlIcon } from "../../internal/control-icon";
 
 export type AutocompleteInputGroupProps = Omit<
   BaseAutocomplete.Input.Props,
@@ -17,8 +16,8 @@ export type AutocompleteInputGroupProps = Omit<
   /** Input placeholder. */
   placeholder?: string;
   /**
-   * Decorative leading glyph (e.g. a search magnifier), rendered in the group's `AutocompleteIcon`
-   * slot at the inline-start.
+   * Decorative leading element at the inline-start, e.g. `<Icon icon={Search} tint="placeholder"
+   * />`.
    */
   icon?: React.ReactNode;
   /**
@@ -48,7 +47,7 @@ export function AutocompleteInputGroup({
 }: AutocompleteInputGroupProps) {
   return (
     <BaseAutocomplete.InputGroup render={<AutocompleteInputGroupElement magnitude={magnitude} />}>
-      {icon != null ? <ControlIcon>{icon}</ControlIcon> : null}
+      {icon}
       <BaseAutocomplete.Input {...props} render={<AutocompleteInput magnitude={magnitude} />} />
       {clear != null ? <BaseAutocomplete.Clear render={clear} /> : null}
       {trigger != null ? <BaseAutocomplete.Trigger render={trigger} /> : null}

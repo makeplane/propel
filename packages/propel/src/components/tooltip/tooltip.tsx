@@ -7,12 +7,12 @@ import { Positioner } from "../../internal/positioner";
 
 export type TooltipProps<Payload = unknown> = Omit<
   TooltipRoot.Props<Payload>,
-  "children" | "className" | "style"
+  "children" | "className" | "label" | "style"
 > & {
   /** The text (or rich content) shown inside the tooltip popup. */
-  content: React.ReactNode;
+  label: React.ReactNode;
   /**
-   * Optional keyboard-shortcut hint shown to the right of `content`, dimmed (e.g. `"⌘ K"`). Maps to
+   * Optional keyboard-shortcut hint shown to the right of `label`, dimmed (e.g. `"⌘ K"`). Maps to
    * the Figma "Cmd + K" slot — omit it for a plain tooltip.
    */
   shortcut?: React.ReactNode;
@@ -47,8 +47,8 @@ export type TooltipProps<Payload = unknown> = Omit<
  * the trigger and is dismissed on blur, pointer-leave, or `Esc`.
  *
  * Built on Base UI's tooltip, so it's accessible by default: the popup is exposed as
- * `role="tooltip"` and wired to the trigger. Pass the trigger as `children`, the label as
- * `content`, and an optional `shortcut` for a dimmed keyboard hint.
+ * `role="tooltip"` and wired to the trigger. Pass the trigger as `children`, the popup copy as
+ * `label`, and an optional `shortcut` for a dimmed keyboard hint.
  *
  * Grafts Base UI's tooltip behavior onto propel's styled parts: `Tooltip.Root` + `Tooltip.Trigger`
  * + `Tooltip.Portal` → `Tooltip.Positioner` (shared `internal/positioner`) → `TooltipPopup` +
@@ -57,7 +57,7 @@ export type TooltipProps<Payload = unknown> = Omit<
  * the Figma "Tooltip" component (node 1144-3159).
  */
 export function Tooltip<Payload = unknown>({
-  content,
+  label,
   shortcut,
   children,
   side = "top",
@@ -76,7 +76,7 @@ export function Tooltip<Payload = unknown>({
               popup chrome (inverse-adaptive surface, caption text, radius, shadow,
               padding, and the gap to the shortcut) lives on the styled `TooltipPopup`. */}
           <BaseTooltip.Popup role="tooltip" render={<TooltipPopup />}>
-            {content}
+            {label}
             {shortcut != null ? <TooltipShortcut>{shortcut}</TooltipShortcut> : null}
             <BaseTooltip.Arrow render={<TooltipArrow />} />
           </BaseTooltip.Popup>

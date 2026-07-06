@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { CircleHelp } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { Icon } from "../icon";
 import {
   Accordion,
   AccordionHeader,
@@ -75,7 +76,7 @@ export const Default: Story = {
       {ITEMS.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
           <AccordionHeader>
-            <AccordionTrigger>{item.label}</AccordionTrigger>
+            <AccordionTrigger label={item.label} />
           </AccordionHeader>
           <AccordionPanel>{item.body}</AccordionPanel>
         </AccordionItem>
@@ -91,7 +92,10 @@ export const WithIcon: Story = {
       {ITEMS.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
           <AccordionHeader>
-            <AccordionTrigger icon={<CircleHelp />}>{item.label}</AccordionTrigger>
+            <AccordionTrigger
+              icon={<Icon icon={CircleHelp} tint="secondary" />}
+              label={item.label}
+            />
           </AccordionHeader>
           <AccordionPanel>{item.body}</AccordionPanel>
         </AccordionItem>
@@ -131,7 +135,7 @@ export const States: Story = {
       ).map(([label, id]) => (
         <AccordionItem key={label} value={id}>
           <AccordionHeader>
-            <AccordionTrigger id={id}>{label} — What is Plane?</AccordionTrigger>
+            <AccordionTrigger id={id} label={`${label} — What is Plane?`} />
           </AccordionHeader>
           <AccordionPanel>Plane is an open-source project management tool.</AccordionPanel>
         </AccordionItem>
@@ -149,7 +153,7 @@ export const MultipleItems: Story = {
       {ITEMS.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
           <AccordionHeader>
-            <AccordionTrigger>{item.label}</AccordionTrigger>
+            <AccordionTrigger label={item.label} />
           </AccordionHeader>
           <AccordionPanel>{item.body}</AccordionPanel>
         </AccordionItem>
@@ -168,7 +172,7 @@ export const Interaction: Story = {
     <Accordion>
       <AccordionItem value="a">
         <AccordionHeader>
-          <AccordionTrigger>Section A</AccordionTrigger>
+          <AccordionTrigger label="Section A" />
         </AccordionHeader>
         <AccordionPanel>Panel A content</AccordionPanel>
       </AccordionItem>
@@ -239,7 +243,7 @@ export const KeyboardToggle: Story = {
     <Accordion>
       <AccordionItem value="a">
         <AccordionHeader>
-          <AccordionTrigger>Section A</AccordionTrigger>
+          <AccordionTrigger label="Section A" />
         </AccordionHeader>
         <AccordionPanel>Panel A content</AccordionPanel>
       </AccordionItem>

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, Plus, Tag, X } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
 
+import { Icon } from "../icon";
 import { IconPill, PillButton, PillLabel, PillSwitch } from "./index";
 
 const MAGNITUDES = ["sm", "md", "lg"] as const;
@@ -14,7 +15,7 @@ const meta = {
   title: "Components/Pill",
   component: PillButton,
   subcomponents: { PillSwitch, IconPill, PillLabel },
-  args: { magnitude: "md", children: "Label" },
+  args: { magnitude: "md", label: "Label" },
   parameters: {
     design: {
       type: "figma",
@@ -28,7 +29,7 @@ type Story = StoryObj<typeof meta>;
 
 /** A pill-shaped button. Holds a label with optional inline-start/end nodes. */
 export const Button: Story = {
-  args: { magnitude: "md", startIcon: <Plus />, children: "Add label" },
+  args: { magnitude: "md", startIcon: <Icon icon={Plus} />, label: "Add label" },
 };
 
 /** Every magnitude (`sm` / `md` / `lg`) of `PillButton`. */
@@ -37,9 +38,12 @@ export const Magnitudes: Story = {
   render: () => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <PillButton key={magnitude} magnitude={magnitude} startIcon={<Tag />}>
-          {magnitude}
-        </PillButton>
+        <PillButton
+          key={magnitude}
+          magnitude={magnitude}
+          startIcon={<Icon icon={Tag} />}
+          label={magnitude}
+        />
       ))}
     </div>
   ),
@@ -57,21 +61,11 @@ export const States: Story = {
   },
   render: () => (
     <div className="flex items-center gap-3">
-      <PillButton magnitude="md" startIcon={<Tag />}>
-        Default
-      </PillButton>
-      <PillButton id="pill-hover" magnitude="md" startIcon={<Tag />}>
-        Hover
-      </PillButton>
-      <PillButton id="pill-active" magnitude="md" startIcon={<Tag />}>
-        Active
-      </PillButton>
-      <PillButton magnitude="md" startIcon={<Tag />} disabled>
-        Disabled
-      </PillButton>
-      <PillButton magnitude="md" loading>
-        Loading
-      </PillButton>
+      <PillButton magnitude="md" startIcon={<Icon icon={Tag} />} label="Default" />
+      <PillButton id="pill-hover" magnitude="md" startIcon={<Icon icon={Tag} />} label="Hover" />
+      <PillButton id="pill-active" magnitude="md" startIcon={<Icon icon={Tag} />} label="Active" />
+      <PillButton magnitude="md" startIcon={<Icon icon={Tag} />} disabled label="Disabled" />
+      <PillButton magnitude="md" loading label="Loading" />
     </div>
   ),
 };
@@ -84,12 +78,8 @@ export const Switch: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-3">
-      <PillSwitch magnitude="md" startIcon={<Tag />}>
-        Off
-      </PillSwitch>
-      <PillSwitch magnitude="md" startIcon={<Check />} defaultPressed>
-        On
-      </PillSwitch>
+      <PillSwitch magnitude="md" startIcon={<Icon icon={Tag} />} label="Off" />
+      <PillSwitch magnitude="md" startIcon={<Icon icon={Check} />} defaultPressed label="On" />
     </div>
   ),
 };
@@ -103,16 +93,15 @@ export const Icons: Story = {
   render: () => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <IconPill key={magnitude} magnitude={magnitude} aria-label={`Close ${magnitude}`}>
-          <X />
-        </IconPill>
+        <IconPill
+          key={magnitude}
+          magnitude={magnitude}
+          aria-label={`Close ${magnitude}`}
+          icon={<Icon icon={X} />}
+        />
       ))}
-      <IconPill magnitude="md" aria-label="Add (disabled)" disabled>
-        <Plus />
-      </IconPill>
-      <IconPill magnitude="md" aria-label="Add (loading)" loading>
-        <Plus />
-      </IconPill>
+      <IconPill magnitude="md" aria-label="Add (disabled)" disabled icon={<Icon icon={Plus} />} />
+      <IconPill magnitude="md" aria-label="Add (loading)" loading icon={<Icon icon={Plus} />} />
     </div>
   ),
 };
@@ -125,12 +114,8 @@ export const ButtonClicks: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <div className="flex gap-3">
-      <PillButton magnitude="md" onClick={clickSpies.onClick}>
-        Click me
-      </PillButton>
-      <PillButton magnitude="md" loading onClick={clickSpies.onLoadingClick}>
-        Busy
-      </PillButton>
+      <PillButton magnitude="md" onClick={clickSpies.onClick} label="Click me" />
+      <PillButton magnitude="md" loading onClick={clickSpies.onLoadingClick} label="Busy" />
     </div>
   ),
   play: async ({ canvas }) => {
@@ -155,11 +140,7 @@ export const ButtonClicks: Story = {
  */
 export const SwitchToggles: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
-  render: () => (
-    <PillSwitch magnitude="md" startIcon={<Tag />}>
-      Toggle me
-    </PillSwitch>
-  ),
+  render: () => <PillSwitch magnitude="md" startIcon={<Icon icon={Tag} />} label="Toggle me" />,
   play: async ({ canvas }) => {
     const toggle = canvas.getByRole("button", { name: "Toggle me" });
     await expect(toggle).toHaveAttribute("aria-pressed", "false");
