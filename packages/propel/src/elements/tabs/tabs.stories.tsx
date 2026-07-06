@@ -251,6 +251,14 @@ export const StatesCanary: Story = {
         .backgroundColor,
     );
 
+    // The disabled tab dims its label through `group-disabled/tab` — the label owns the text color,
+    // so the tab button's own `disabled:` tone can't reach it; assert it differs from resting.
+    await expect(
+      getComputedStyle(labelOf(underlineList.getByRole("tab", { name: "Disabled" }))).color,
+    ).not.toBe(
+      getComputedStyle(labelOf(underlineList.getByRole("tab", { name: "Resting" }))).color,
+    );
+
     // The pinned `--active-tab-left` (2px) resolves through the indicator's compiled
     // `left: calc(var(--active-tab-left) + 0.5rem)` to 10px.
     const indicator = underlineListEl.querySelector(":scope > [aria-hidden]");
