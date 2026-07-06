@@ -9,11 +9,14 @@ export * from "./drawer-backdrop";
 export * from "./drawer-title";
 export * from "./drawer-description";
 export * from "./drawer-panel";
+export * from "./drawer-header";
 export * from "./create-handle";
 // Re-export the styled `elements` parts so a full drawer can be assembled from one entry. The
 // behavior-only roles need no Base UI at the call site: `DrawerTrigger`/`DrawerClose` above are
 // the passthroughs, and `DrawerPanel` composes the `Portal`. The styled bare close control stays
-// in `elements/drawer` — the `DrawerClose` behavior part replaces its re-export here.
+// in `elements/drawer` — the `DrawerClose` behavior part replaces its re-export here. `DrawerHeader`
+// is NOT re-exported from `elements` here: the `./drawer-header` ready-made (with the built-in
+// corner close) shadows it; the close-less atom stays reachable at `@plane/propel/elements/drawer`.
 export {
   DrawerBody,
   type DrawerBodyProps,
@@ -21,8 +24,6 @@ export {
   type DrawerContentProps,
   DrawerFooter,
   type DrawerFooterProps,
-  DrawerHeader,
-  type DrawerHeaderProps,
   DrawerHeaderContent,
   type DrawerHeaderContentProps,
   DrawerPopup,
