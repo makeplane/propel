@@ -1,5 +1,6 @@
 import type * as React from "react";
 
+import { FieldItemControlGroup } from "../../elements/field/field-item-control-group";
 import type { FieldMagnitude } from "../../elements/field/variants";
 import { useFieldOptionMagnitude } from "../../internal/field-option-magnitude";
 import { FieldItem, FieldItemContent } from "../field";
@@ -25,7 +26,9 @@ export function RadioGroupFieldOption({
 
   return (
     <FieldItem disabled={props.disabled}>
-      <Radio {...props} />
+      <FieldItemControlGroup>
+        <Radio {...props} />
+      </FieldItemControlGroup>
       <FieldItemContent magnitude={magnitude} description={description}>
         {label}
       </FieldItemContent>

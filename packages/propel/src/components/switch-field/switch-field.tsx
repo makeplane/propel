@@ -1,5 +1,6 @@
 import type * as React from "react";
 
+import { FieldItemControlGroup } from "../../elements/field/field-item-control-group";
 import type { FieldMagnitude } from "../../elements/field/variants";
 import { Field, FieldItem, FieldItemContent } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
@@ -38,7 +39,9 @@ export function SwitchField({
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <FieldItem disabled={disabled}>
-        <Switch magnitude={magnitude} disabled={disabled} {...controlProps} />
+        <FieldItemControlGroup>
+          <Switch magnitude={magnitude} disabled={disabled} {...controlProps} />
+        </FieldItemControlGroup>
         <FieldItemContent magnitude={textMagnitude} description={description}>
           {label}
         </FieldItemContent>

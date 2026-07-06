@@ -1,5 +1,6 @@
 import type * as React from "react";
 
+import { FieldItemControlGroup } from "../../elements/field/field-item-control-group";
 import type { FieldMagnitude } from "../../elements/field/variants";
 import {
   CheckboxFieldControl,
@@ -40,7 +41,9 @@ export function CheckboxField({
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <FieldItem disabled={disabled}>
-        <CheckboxFieldControl disabled={disabled} {...controlProps} />
+        <FieldItemControlGroup>
+          <CheckboxFieldControl disabled={disabled} {...controlProps} />
+        </FieldItemControlGroup>
         <FieldItemContent magnitude={magnitude} description={description}>
           {label}
         </FieldItemContent>
