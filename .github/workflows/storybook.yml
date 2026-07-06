@@ -44,7 +44,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: packages/propel
-          # Run our lockfile wrangler (a @plane/propel devDep), not the action's
+          # Run our lockfile wrangler (a @makeplane/propel devDep), not the action's
           # own. `packageManager: npm` makes the action invoke `npx wrangler …`,
           # and under setup-vp `npx` is a symlink to `vp` — so it runs the
           # installed wrangler. Omitting `wranglerVersion` skips the action's
