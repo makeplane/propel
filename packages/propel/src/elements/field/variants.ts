@@ -38,8 +38,15 @@ export type FieldLabelVariantProps = StrictVariantProps<typeof fieldLabelVariant
 // `required` carries the semantics), tinted danger per the Figma spec.
 export const fieldLabelRequiredMarkerVariants = cva("text-danger-primary");
 
-// The label + description column for a single choice option (checkbox/radio/switch row).
-export const fieldItemContentVariants = cva("flex min-w-0 flex-col gap-1");
+// The label + description column for a single choice option (checkbox/radio/switch row). The
+// explicit 20px line box (`leading-5`) pairs with the 20px control slot
+// (`fieldItemControlGroupVariants`) so the control centers on the label's first line.
+export const fieldItemContentVariants = cva("flex min-w-0 flex-col gap-1 leading-5");
+
+// The control slot of a choice option row: a 20px-tall box matching the label's first line box
+// (`fieldItemContentVariants`' `leading-5`), centering any control height (radio/checkbox 16px,
+// switch 14–18px) against that line — even when the label wraps or a description follows.
+export const fieldItemControlGroupVariants = cva("flex h-5 shrink-0 items-center");
 
 export const fieldDescriptionVariants = cva("text-tertiary", {
   variants: {
