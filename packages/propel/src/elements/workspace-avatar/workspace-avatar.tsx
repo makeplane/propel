@@ -14,7 +14,7 @@ export type WorkspaceAvatarProps = Omit<useRender.ComponentProps<"span">, "class
  * `WorkspaceAvatarFallback`. Base-UI-agnostic — graft the `Avatar.Root` behavior in `components`
  * via `<BaseAvatar.Root render={<WorkspaceAvatar/>} />`. The rounded-square shape distinguishes a
  * workspace from a (circular) person avatar. For the ready-made image+initials avatar, use the
- * `WorkspaceAvatar` from `@plane/propel/components/workspace-avatar`.
+ * `WorkspaceAvatar` from `@makeplane/propel/components/workspace-avatar`.
  */
 export function WorkspaceAvatar({ magnitude, render, ...props }: WorkspaceAvatarProps) {
   const defaultProps: useRender.ElementProps<"span"> = {

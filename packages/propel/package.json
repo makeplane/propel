@@ -1,6 +1,6 @@
 {
-  "name": "@plane/propel",
-  "version": "0.0.0",
+  "name": "@makeplane/propel",
+  "version": "0.1.0",
   "description": "Plane's React component library built on Base UI and Tailwind CSS v4.",
   "keywords": [
     "base-ui",

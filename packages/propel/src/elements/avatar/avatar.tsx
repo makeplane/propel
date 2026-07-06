@@ -33,7 +33,7 @@ export type AvatarProps = Omit<useRender.ComponentProps<"span">, "className" | "
  * The styled avatar container — a single `<span>` holding an `AvatarImage` and/or `AvatarFallback`.
  * Base-UI-agnostic; graft the Base UI `Avatar.Root` behavior/context in `components` via
  * `<BaseAvatar.Root render={<Avatar/>} />`. For the ready-made image+initials+icon avatar, use the
- * `Avatar` from `@plane/propel/components/avatar`.
+ * `Avatar` from `@makeplane/propel/components/avatar`.
  */
 export function Avatar({ magnitude, render, ...props }: AvatarProps) {
   const defaultProps: useRender.ElementProps<"span"> = {

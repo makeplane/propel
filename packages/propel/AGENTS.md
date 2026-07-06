@@ -1,6 +1,6 @@
 # Propel component operating protocol
 
-`@plane/propel` is a React component library built on Base UI + Tailwind v4. This file is the
+`@makeplane/propel` is a React component library built on Base UI + Tailwind v4. This file is the
 **exact** protocol for building and changing components. Follow it literally; when something here
 conflicts with an older habit, this wins.
 

@@ -1,13 +1,13 @@
-# @plane/propel
+# @makeplane/propel
 
 Plane's open-source React component library, built on [Base UI](https://base-ui.com) and [Tailwind CSS v4](https://tailwindcss.com).
 
 ## Installation
 
 ```bash
-pnpm add @plane/propel
+pnpm add @makeplane/propel
 # or
-npm install @plane/propel
+npm install @makeplane/propel
 ```
 
 Propel has three peer dependencies you install in your app: `react` and
@@ -23,7 +23,7 @@ just import propel's styles after Tailwind in your app's entry CSS:
 ```css
 /* app.css */
 @import "tailwindcss";
-@import "@plane/propel/styles";
+@import "@makeplane/propel/styles";
 ```
 
 That single import registers propel's tokens **and** registers propel's compiled
@@ -34,8 +34,8 @@ Then import each component or hook from its own subpath — there is no root
 barrel, so you only ever pull in (and tree-shake to) what you use:
 
 ```tsx
-import { Button } from "@plane/propel/components/button";
-import { useDisclosure } from "@plane/propel/hooks/use-disclosure";
+import { Button } from "@makeplane/propel/components/button";
+import { useDisclosure } from "@makeplane/propel/hooks/use-disclosure";
 
 export function Example() {
   const disclosure = useDisclosure();
@@ -43,18 +43,18 @@ export function Example() {
 }
 ```
 
-| Import pattern                    | Resolves to        |
-| --------------------------------- | ------------------ |
-| `@plane/propel/components/<name>` | a single component |
-| `@plane/propel/hooks/<name>`      | a single hook      |
+| Import pattern                        | Resolves to        |
+| ------------------------------------- | ------------------ |
+| `@makeplane/propel/components/<name>` | a single component |
+| `@makeplane/propel/hooks/<name>`      | a single hook      |
 
 ### Styles
 
-| Import                            | Contents                                                  |
-| --------------------------------- | --------------------------------------------------------- |
-| `@plane/propel/styles`            | Everything — design tokens + animations (`propel.css`)    |
-| `@plane/propel/styles/variables`  | Design tokens only (`:root` custom properties + `@theme`) |
-| `@plane/propel/styles/animations` | Keyframes / animation utilities only                      |
+| Import                                | Contents                                                  |
+| ------------------------------------- | --------------------------------------------------------- |
+| `@makeplane/propel/styles`            | Everything — design tokens + animations (`propel.css`)    |
+| `@makeplane/propel/styles/variables`  | Design tokens only (`:root` custom properties + `@theme`) |
+| `@makeplane/propel/styles/animations` | Keyframes / animation utilities only                      |
 
 The tokens use the Tailwind v4 multi-theme pattern (light/dark/high-contrast via
 `[data-theme]`), so theming is driven by a `data-theme` attribute on a host
@@ -91,7 +91,7 @@ vp test             # run tests
 - **No root barrel.** Each component lives in `src/components/<name>/index.ts`
   and each hook in `src/hooks/<name>/index.ts`. The build emits one entry per
   folder; static wildcard `exports` (`./components/*`, `./hooks/*`) expose them
-  as `@plane/propel/components/<name>` / `hooks/<name>` automatically — no
+  as `@makeplane/propel/components/<name>` / `hooks/<name>` automatically — no
   `exports` edits and no barrel to maintain when you add a folder.
 - **Component folders have a public boundary.** `index.tsx` only re-exports the
   public API for that component folder. Public components and public child
