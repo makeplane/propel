@@ -28,7 +28,7 @@ export const otpFieldInputVariants = cva(
       magnitude: {
         md: cx(controlMagnitude.md, "w-8"),
         lg: cx(controlMagnitude.lg, "w-9"),
-        xl: cx(controlMagnitude.xl, "w-11"),
+        xl: cx(controlMagnitude.xl, "w-10"),
       },
     },
   },
