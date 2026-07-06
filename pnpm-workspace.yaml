@@ -11,9 +11,9 @@ catalog:
   # Pin the Vite+ toolchain to an exact version (was `@latest`). `@latest` re-resolved to a
   # different `@voidzero-dev/vite-plus-core` on every install, so the bundled `oxfmt` drifted
   # between local and CI and formatted the same file differently — keep it deterministic.
-  vite: npm:@voidzero-dev/vite-plus-core@0.2.1
+  vite: npm:@voidzero-dev/vite-plus-core@0.2.2
   vitest: 4.1.9
-  vite-plus: 0.2.1
+  vite-plus: 0.2.2
   "@tailwindcss/vite": ^4.3.2
   "@typescript/native-preview": 7.0.0-dev.20260701.1
   playwright: ^1.61.1

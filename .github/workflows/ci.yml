@@ -30,6 +30,6 @@ jobs:
       # Storybook stories run as browser tests (Vitest + Playwright), so CI needs
       # the Chromium binary + its system deps. `pnpm` isn't on PATH under
       # setup-vp, so run the package binary via `vp exec` (see viteplus.dev/guide/ci).
-      - run: vp exec --filter @plane/propel playwright install --with-deps chromium
+      - run: vp exec --filter @makeplane/propel playwright install --with-deps chromium
       - run: vp run -r test
       - run: vp run -r build
