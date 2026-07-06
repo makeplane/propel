@@ -8,7 +8,7 @@
     "prepare": "vp config",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "vp run -r build && changeset publish"
+    "release": "vp run -r --concurrency-limit 1 build && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
