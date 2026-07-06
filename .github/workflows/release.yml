@@ -24,15 +24,18 @@ jobs:
           node-version-file: .node-version
           cache: true
 
+      - name: Build packages
+        run: vp run -r build
+
       # Opens/updates a "Version Packages" PR when changesets are present, and
       # publishes to npm when that PR is merged (i.e. when no changesets remain).
       - name: Create release PR or publish
         uses: changesets/action@v1
         with:
-          # `pnpm` isn't on PATH under setup-vp; run the local Changesets binary through `vp exec`.
+          # changesets/action@v1 splits these strings on whitespace before exec,
+          # so keep each command to a single Vite+ binary invocation.
           version: vp exec -w changeset version
-          publish: vp run -r --concurrency-limit 1 build && vp exec -w changeset publish
+          publish: vp exec -w changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"
