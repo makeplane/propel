@@ -3,7 +3,7 @@ import { cva, cx } from "class-variance-authority";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // "Always the same" per Figma design spec (issue #142):
-// - Pill-shaped border-radius (fully rounded ends)
+// - Medium (md) border-radius
 // - Inline-flex layout with centered content
 // - Height, horizontal padding, font size per size step
 // - Font weight
@@ -18,7 +18,7 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Shared structural base baked into every pill container cva below.
 const pillBase =
-  "inline-flex shrink-0 items-center justify-center rounded-full border-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-strong";
+  "inline-flex shrink-0 items-center justify-center rounded-md border-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-strong";
 
 // Shared label-pill base (PillButton + PillSwitch): a 14px node scale, capped width, and
 // per-magnitude height/padding/font.
