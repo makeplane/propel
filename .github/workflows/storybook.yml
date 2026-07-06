@@ -31,7 +31,23 @@ jobs:
           node-version-file: .node-version
           cache: true
 
+      - name: Restore Vite Task cache
+        id: vite-task-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: node_modules/.vite/task-cache
+          key: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            vite-task-${{ runner.os }}-${{ runner.arch }}-
+
       - run: vp run -r build-storybook
+
+      - name: Save Vite Task cache
+        if: success()
+        uses: actions/cache/save@v6
+        with:
+          path: node_modules/.vite/task-cache
+          key: ${{ steps.vite-task-cache.outputs.cache-primary-key }}
 
       # PR → a versioned upload aliased to the PR number, which yields a stable
       # preview URL (pr-<n>-propel-storybook.<subdomain>.workers.dev) without

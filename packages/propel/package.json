@@ -55,13 +55,9 @@
     "provenance": true
   },
   "scripts": {
-    "build": "node ./scripts/pack-retry.mjs",
-    "check": "vp check",
     "dev": "vp pack --watch",
     "prepublishOnly": "vp run build",
-    "test": "vp test",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "storybook dev -p 6006"
   },
   "dependencies": {
     "@base-ui/react": "catalog:",

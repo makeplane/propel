@@ -75,6 +75,30 @@ export default defineConfig({
       },
     ],
   },
+  run: {
+    tasks: {
+      build: {
+        command: "node ./scripts/pack-retry.mjs",
+        input: [{ auto: true }, "!dist/**", "!node_modules/.vite-temp/**", "!storybook-static/**"],
+        output: ["dist/**"],
+      },
+      "build-storybook": {
+        command: "storybook build",
+        input: [{ auto: true }, "!dist/**", "!node_modules/.vite-temp/**", "!storybook-static/**"],
+        output: ["storybook-static/**"],
+      },
+      check: {
+        command: "vp check",
+        input: [{ auto: true }, "!dist/**", "!node_modules/.vite-temp/**", "!storybook-static/**"],
+        output: [],
+      },
+      test: {
+        command: "vp test",
+        input: [{ auto: true }, "!dist/**", "!node_modules/.vite-temp/**", "!storybook-static/**"],
+        output: [],
+      },
+    },
+  },
   // Keep vite's dev/test server out of nested agent worktrees (`.claude/worktrees/<name>`,
   // full second checkouts living inside the workspace root). See the root `vite.config.ts`.
   server: { watch: { ignored: ["**/.claude/**"] } },
