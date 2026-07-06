@@ -4,6 +4,7 @@ import { expect, fn } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
 import { Button } from "../button/index";
+import { Icon } from "../icon";
 import { IconButton } from "../icon-button/index";
 import { Banner, type BannerTone } from "./index";
 
@@ -67,24 +68,35 @@ export const WithActions: Story = {
     tone: "neutral",
     actions: (
       <>
-        <Button sizing="hug" prominence="ghost" tone="neutral" magnitude="sm">
-          Remind me later
-        </Button>
-        <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="sm">
-          Learn more
-        </Button>
-        <Button sizing="hug" prominence="primary" tone="neutral" magnitude="sm">
-          Update now
-        </Button>
+        <Button
+          sizing="hug"
+          prominence="ghost"
+          tone="neutral"
+          magnitude="sm"
+          label="Remind me later"
+        />
+        <Button
+          sizing="hug"
+          prominence="secondary"
+          tone="neutral"
+          magnitude="sm"
+          label="Learn more"
+        />
+        <Button
+          sizing="hug"
+          prominence="primary"
+          tone="neutral"
+          magnitude="sm"
+          label="Update now"
+        />
         <IconButton
           prominence="ghost"
           tone="neutral"
           magnitude="md"
           aria-label="Dismiss"
           onClick={fn()}
-        >
-          <X />
-        </IconButton>
+          icon={<Icon icon={X} />}
+        />
       </>
     ),
   },
@@ -102,9 +114,8 @@ export const Dismissible: Story = {
         magnitude="md"
         aria-label="Dismiss"
         onClick={fn()}
-      >
-        <X />
-      </IconButton>
+        icon={<Icon icon={X} />}
+      />
     ),
   },
 };
@@ -126,9 +137,8 @@ export const DismissibleInteraction: Story = {
         magnitude="md"
         aria-label="Dismiss"
         onClick={dismissSpy}
-      >
-        <X />
-      </IconButton>
+        icon={<Icon icon={X} />}
+      />
     ),
   },
   play: async ({ canvas, userEvent }) => {
@@ -146,14 +156,17 @@ export const OptionalContentSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
     <div className="flex w-160 flex-col gap-3">
-      <Banner placement="inline" tone="warning" icon={null}>
-        Maintenance starts at 6 PM.
-      </Banner>
+      <Banner
+        placement="inline"
+        tone="warning"
+        icon={null}
+        description="Maintenance starts at 6 PM."
+      />
       <Banner
         placement="inline"
         tone="info"
         title="Custom icon"
-        icon={<Info data-testid="custom-banner-icon" />}
+        icon={<Icon icon={<Info data-testid="custom-banner-icon" />} />}
       />
     </div>
   ),

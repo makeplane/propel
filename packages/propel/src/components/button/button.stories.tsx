@@ -4,6 +4,7 @@ import * as React from "react";
 import { expect, fn, userEvent as baseUserEvent, waitFor } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
+import { Icon } from "../icon";
 import { Button, ButtonLabel, type ButtonMagnitude, type ButtonProminence } from "./index";
 
 const PROMINENCES: ButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
@@ -23,7 +24,7 @@ const meta = {
     },
   },
   args: {
-    children: "Button",
+    label: "Button",
     prominence: "primary",
     tone: "neutral",
     magnitude: "md",
@@ -40,13 +41,11 @@ export const Default: Story = {};
 export const Prominences: Story = {
   // Iterates `prominence` and labels each button, so disable just those two controls;
   // the rest stay live and update every button at once.
-  argTypes: { prominence: { control: false }, children: { control: false } },
+  argTypes: { prominence: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {PROMINENCES.map((prominence) => (
-        <Button key={prominence} {...args} prominence={prominence}>
-          {prominence}
-        </Button>
+        <Button key={prominence} {...args} prominence={prominence} label={prominence} />
       ))}
     </div>
   ),
@@ -60,15 +59,9 @@ export const Tones: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <Button {...args} tone="neutral" prominence="primary">
-        Neutral
-      </Button>
-      <Button {...args} tone="danger" prominence="primary">
-        Danger fill
-      </Button>
-      <Button {...args} tone="danger" prominence="secondary">
-        Danger outline
-      </Button>
+      <Button {...args} tone="neutral" prominence="primary" label="Neutral" />
+      <Button {...args} tone="danger" prominence="primary" label="Danger fill" />
+      <Button {...args} tone="danger" prominence="secondary" label="Danger outline" />
     </div>
   ),
 };
@@ -77,13 +70,11 @@ export const Tones: Story = {
 export const Magnitudes: Story = {
   // Iterates `magnitude` and labels each button with the magnitude name, so disable
   // just those two controls; the rest stay live and update every button at once.
-  argTypes: { magnitude: { control: false }, children: { control: false } },
+  argTypes: { magnitude: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <Button key={magnitude} {...args} magnitude={magnitude}>
-          {magnitude}
-        </Button>
+        <Button key={magnitude} {...args} magnitude={magnitude} label={magnitude} />
       ))}
     </div>
   ),
@@ -94,15 +85,20 @@ export const WithIcons: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <Button {...args} startIcon={<Plus />}>
-        New
-      </Button>
-      <Button {...args} prominence="secondary" endIcon={<Settings />}>
-        Settings
-      </Button>
-      <Button {...args} prominence="tertiary" startIcon={<Search />} endIcon={<Plus />}>
-        Search
-      </Button>
+      <Button {...args} startIcon={<Icon icon={Plus} />} label="New" />
+      <Button
+        {...args}
+        prominence="secondary"
+        endIcon={<Icon icon={Settings} />}
+        label="Settings"
+      />
+      <Button
+        {...args}
+        prominence="tertiary"
+        startIcon={<Icon icon={Search} />}
+        endIcon={<Icon icon={Plus} />}
+        label="Search"
+      />
     </div>
   ),
 };
@@ -112,15 +108,9 @@ export const Loading: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <Button {...args} loading>
-        Saving
-      </Button>
-      <Button {...args} prominence="secondary" loading>
-        Loading
-      </Button>
-      <Button {...args} prominence="tertiary" loading>
-        Please wait
-      </Button>
+      <Button {...args} loading label="Saving" />
+      <Button {...args} prominence="secondary" loading label="Loading" />
+      <Button {...args} prominence="tertiary" loading label="Please wait" />
     </div>
   ),
 };
@@ -139,13 +129,12 @@ export const AsyncSubmit: Story = {
       <Button
         {...args}
         loading={submitting}
+        label={submitting ? "Submitting" : "Submit"}
         onClick={() => {
           setSubmitting(true);
           window.setTimeout(() => setSubmitting(false), 300);
         }}
-      >
-        {submitting ? "Submitting" : "Submit"}
-      </Button>
+      />
     );
   },
 };
@@ -155,12 +144,8 @@ export const Stretch: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex w-64 flex-col gap-2">
-      <Button {...args} sizing="fill">
-        Full-width
-      </Button>
-      <Button {...args} prominence="secondary" sizing="fill">
-        Full-width outline
-      </Button>
+      <Button {...args} sizing="fill" label="Full-width" />
+      <Button {...args} prominence="secondary" sizing="fill" label="Full-width outline" />
     </div>
   ),
 };
@@ -318,9 +303,7 @@ export const CustomTag: Story = {
     sizing: "hug",
   },
   render: (args) => (
-    <Button {...args} nativeButton={false} render={<div />}>
-      Add to favorites
-    </Button>
+    <Button {...args} nativeButton={false} render={<div />} label="Add to favorites" />
   ),
 };
 
@@ -339,10 +322,9 @@ export const CustomTagInteraction: Story = {
         {...args}
         nativeButton={false}
         render={<div data-testid="custom-tag-button" />}
+        label={`Activated ${count}`}
         onClick={() => setCount((current) => current + 1)}
-      >
-        Activated {count}
-      </Button>
+      />
     );
   },
   play: async ({ canvas, userEvent }) => {
@@ -372,9 +354,7 @@ export const AsLink: Story = {
     sizing: "hug",
   },
   render: (args) => (
-    <Button {...args} nativeButton={false} render={<a href="#reports" />}>
-      Open reports
-    </Button>
+    <Button {...args} nativeButton={false} render={<a href="#reports" />} label="Open reports" />
   ),
 };
 

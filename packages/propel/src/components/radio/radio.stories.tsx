@@ -209,9 +209,14 @@ export const FormIntegration: Story = {
             </RadioGroupField>
           </FormBody>
           <FormActions layout="inline">
-            <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
-              Save
-            </Button>
+            <Button
+              sizing="hug"
+              type="submit"
+              prominence="primary"
+              tone="neutral"
+              magnitude="md"
+              label="Save"
+            />
           </FormActions>
         </Form>
         <output className="text-13 text-secondary">

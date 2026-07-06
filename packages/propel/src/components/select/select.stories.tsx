@@ -57,9 +57,7 @@ export const Default: Story = {
         <SelectContent>
           <SelectList>
             {SERVER_TYPES.map(({ label, value }) => (
-              <SelectItem key={value} value={value} magnitude="md">
-                {label}
-              </SelectItem>
+              <SelectItem key={value} value={value} magnitude="md" label={label} />
             ))}
           </SelectList>
         </SelectContent>
@@ -100,9 +98,7 @@ export const Placeholder: Story = {
         <SelectContent>
           <SelectList>
             {SERVER_TYPES.map(({ label, value }) => (
-              <SelectItem key={value} value={value} magnitude="md">
-                {label}
-              </SelectItem>
+              <SelectItem key={value} value={value} magnitude="md" label={label} />
             ))}
           </SelectList>
         </SelectContent>
@@ -146,9 +142,7 @@ export const Multiple: Story = {
         <SelectContent>
           <SelectList>
             {SERVER_TYPES.map(({ label, value }) => (
-              <SelectItem key={value} value={value} magnitude="md">
-                {label}
-              </SelectItem>
+              <SelectItem key={value} value={value} magnitude="md" label={label} />
             ))}
           </SelectList>
         </SelectContent>
@@ -209,9 +203,7 @@ export const ObjectValues: Story = {
         <SelectContent>
           <SelectList>
             {ASSIGNEES.map((member) => (
-              <SelectItem key={member.id} value={member} magnitude="md">
-                {member.name}
-              </SelectItem>
+              <SelectItem key={member.id} value={member} magnitude="md" label={member.name} />
             ))}
           </SelectList>
         </SelectContent>
@@ -275,9 +267,7 @@ export const Grouped: Story = {
               <SelectGroup key={group.label}>
                 <SelectGroupLabel>{group.label}</SelectGroupLabel>
                 {group.items.map(({ label, value }) => (
-                  <SelectItem key={value} value={value} magnitude="md">
-                    {label}
-                  </SelectItem>
+                  <SelectItem key={value} value={value} magnitude="md" label={label} />
                 ))}
               </SelectGroup>
             ))}
@@ -318,9 +308,7 @@ export const Magnitudes: Story = {
           <SelectContent>
             <SelectList>
               {SERVER_TYPES.map(({ label, value }) => (
-                <SelectItem key={value} value={value} magnitude={magnitude}>
-                  {label}
-                </SelectItem>
+                <SelectItem key={value} value={value} magnitude={magnitude} label={label} />
               ))}
             </SelectList>
           </SelectContent>

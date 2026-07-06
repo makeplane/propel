@@ -24,28 +24,38 @@ const toneIcon: Record<BannerTone, LucideIcon> = {
   danger: CircleAlert,
 };
 
-export type BannerProps = BannerElementProps & {
+export type BannerProps = Omit<BannerElementProps, "children"> & {
   /**
    * Node rendered before the message (inline-start). Defaults to a tone-appropriate lucide icon;
    * pass `null` to hide it. Sized to the banner's node size. Decorative, kept out of the name.
    */
   icon?: React.ReactNode;
-  /** The banner's headline. Rendered as its own block above any `children` body. */
+  /** The banner's headline. Rendered as its own block above any description body. */
   title?: React.ReactNode;
+  /** Body text rendered under the title. */
+  description?: React.ReactNode;
   /**
    * Trailing actions, placed after the message — e.g. buttons, or a dismiss `IconButton`
-   * (`<IconButton aria-label="Dismiss" onClick={…}><X /></IconButton>`).
+   * (`<IconButton aria-label="Dismiss" icon={<Icon icon={X} />} onClick={…} />`).
    */
   actions?: React.ReactNode;
 };
 
 /**
  * The ready-made banner: composes the atomic banner parts — the tone icon, the message body
- * (`title` + `children`), and trailing `actions` — so consumers pass content, not layout. A dismiss
- * is just an action: render an `IconButton` in `actions`. Drop down to
+ * (`title` + `description`), and trailing `actions` — so consumers pass content, not layout. A
+ * dismiss is just an action: render an `IconButton` in `actions`. Drop down to
  * `@makeplane/propel/elements/banner` to assemble the parts directly.
  */
-export function Banner({ placement, tone, icon, title, actions, children, ...props }: BannerProps) {
+export function Banner({
+  placement,
+  tone,
+  icon,
+  title,
+  description,
+  actions,
+  ...props
+}: BannerProps) {
   const DefaultIcon = toneIcon[tone];
   return (
     <BannerElement placement={placement} tone={tone} {...props}>
@@ -60,7 +70,7 @@ export function Banner({ placement, tone, icon, title, actions, children, ...pro
       ) : null}
       <BannerBody placement={placement} tone={tone}>
         {title ? <BannerTitle>{title}</BannerTitle> : null}
-        {children ? <BannerDescription>{children}</BannerDescription> : null}
+        {description ? <BannerDescription>{description}</BannerDescription> : null}
       </BannerBody>
       {actions ? <BannerActions>{actions}</BannerActions> : null}
     </BannerElement>

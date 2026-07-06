@@ -3,7 +3,6 @@ import { X } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { Button } from "../../elements/button";
 import {
   AlertDialog,
   AlertDialogActions,
@@ -13,6 +12,8 @@ import {
   AlertDialogIntro,
   AlertDialogTitle,
 } from "../alert-dialog";
+import { Button } from "../button";
+import { Icon } from "../icon";
 import { IconButton } from "../icon-button";
 import { TextArea } from "../text-area";
 import {
@@ -64,9 +65,13 @@ export const Default: Story = {
     <Drawer>
       <DrawerTrigger
         render={
-          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
-            Open details
-          </Button>
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="xl"
+            label="Open details"
+          />
         }
       />
       <DrawerPanel side="end">
@@ -77,9 +82,13 @@ export const Default: Story = {
           </DrawerHeaderContent>
           <DrawerClose
             render={
-              <IconButton prominence="ghost" tone="neutral" magnitude="lg" aria-label="Close">
-                <X />
-              </IconButton>
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="lg"
+                aria-label="Close"
+                icon={<Icon icon={X} />}
+              />
             }
           />
         </DrawerHeader>
@@ -87,14 +96,16 @@ export const Default: Story = {
         <DrawerFooter>
           <DrawerClose
             render={
-              <Button sizing="hug" prominence="ghost" tone="neutral" magnitude="lg">
-                Cancel
-              </Button>
+              <Button
+                sizing="hug"
+                prominence="ghost"
+                tone="neutral"
+                magnitude="lg"
+                label="Cancel"
+              />
             }
           />
-          <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg">
-            Save
-          </Button>
+          <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg" label="Save" />
         </DrawerFooter>
       </DrawerPanel>
     </Drawer>
@@ -131,9 +142,13 @@ export const StartSide: Story = {
     <Drawer>
       <DrawerTrigger
         render={
-          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
-            Open navigation
-          </Button>
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="xl"
+            label="Open navigation"
+          />
         }
       />
       <DrawerPanel side="start">
@@ -143,9 +158,13 @@ export const StartSide: Story = {
           </DrawerHeaderContent>
           <DrawerClose
             render={
-              <IconButton prominence="ghost" tone="neutral" magnitude="lg" aria-label="Close">
-                <X />
-              </IconButton>
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="lg"
+                aria-label="Close"
+                icon={<Icon icon={X} />}
+              />
             }
           />
         </DrawerHeader>
@@ -189,9 +208,13 @@ export const EscapeCloses: Story = {
     <Drawer>
       <DrawerTrigger
         render={
-          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
-            Open filters
-          </Button>
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="xl"
+            label="Open filters"
+          />
         }
       />
       <DrawerPanel side="end">
@@ -222,9 +245,13 @@ export const Nested: Story = {
     <Drawer>
       <DrawerTrigger
         render={
-          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
-            Open settings
-          </Button>
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="xl"
+            label="Open settings"
+          />
         }
       />
       <DrawerPanel side="end">
@@ -238,9 +265,13 @@ export const Nested: Story = {
           <Drawer>
             <DrawerTrigger
               render={
-                <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="lg">
-                  Advanced options
-                </Button>
+                <Button
+                  sizing="hug"
+                  prominence="secondary"
+                  tone="neutral"
+                  magnitude="lg"
+                  label="Advanced options"
+                />
               }
             />
             <DrawerPanel side="end">
@@ -302,18 +333,26 @@ export const DetachedTriggers: Story = {
         handle={detailsDrawer}
         payload="WEB-101"
         render={
-          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
-            WEB-101
-          </Button>
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="xl"
+            label="WEB-101"
+          />
         }
       />
       <DrawerTrigger
         handle={detailsDrawer}
         payload="WEB-202"
         render={
-          <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
-            WEB-202
-          </Button>
+          <Button
+            sizing="hug"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="xl"
+            label="WEB-202"
+          />
         }
       />
       <Drawer handle={detailsDrawer}>
@@ -380,9 +419,13 @@ export const CloseConfirmation: Story = {
         >
           <DrawerTrigger
             render={
-              <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
-                Add comment
-              </Button>
+              <Button
+                sizing="hug"
+                prominence="secondary"
+                tone="neutral"
+                magnitude="xl"
+                label="Add comment"
+              />
             }
           />
           <DrawerPanel side="end">
@@ -393,9 +436,13 @@ export const CloseConfirmation: Story = {
               </DrawerHeaderContent>
               <DrawerClose
                 render={
-                  <IconButton prominence="ghost" tone="neutral" magnitude="lg" aria-label="Close">
-                    <X />
-                  </IconButton>
+                  <IconButton
+                    prominence="ghost"
+                    tone="neutral"
+                    magnitude="lg"
+                    aria-label="Close"
+                    icon={<Icon icon={X} />}
+                  />
                 }
               />
             </DrawerHeader>
@@ -429,9 +476,8 @@ export const CloseConfirmation: Story = {
                 tone="neutral"
                 magnitude="lg"
                 onClick={() => setConfirmOpen(false)}
-              >
-                Keep editing
-              </Button>
+                label="Keep editing"
+              />
               <Button
                 sizing="hug"
                 prominence="primary"
@@ -442,9 +488,8 @@ export const CloseConfirmation: Story = {
                   setOpen(false);
                   setDraft("");
                 }}
-              >
-                Discard
-              </Button>
+                label="Discard"
+              />
             </AlertDialogActions>
           </AlertDialogContent>
         </AlertDialog>

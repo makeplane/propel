@@ -3,17 +3,17 @@ import { Heart, Star } from "lucide-react";
 import * as React from "react";
 import { expect } from "storybook/test";
 
+import { Icon } from "../icon";
 import { Toggle, type ToggleMagnitude } from "./index";
 
 const MAGNITUDES: ToggleMagnitude[] = ["sm", "md", "lg"];
 
-// Components-tier story: the ready-made `Toggle` (a 1:1 re-export of the elements primitive) —
-// a two-state icon button that wraps its bare svg child in the shared glyph slot. The elements-tier story documents
-// the same parts and magnitudes.
+// Components-tier story: the ready-made `Toggle` is a two-state icon button that renders a provided
+// icon element. The elements-tier story documents the same parts and magnitudes.
 const meta = {
   title: "Components/Toggle",
   component: Toggle,
-  args: { magnitude: "md", "aria-label": "Favorite" },
+  args: { magnitude: "md", "aria-label": "Favorite", icon: <Icon icon={Star} /> },
 } satisfies Meta<typeof Toggle>;
 
 export default meta;
@@ -22,11 +22,7 @@ type Story = StoryObj<typeof meta>;
 /** A toggle wrapping an icon; click flips pressed. */
 export const Default: Story = {
   args: { magnitude: "md" },
-  render: (args) => (
-    <Toggle {...args}>
-      <Star />
-    </Toggle>
-  ),
+  render: (args) => <Toggle {...args} />,
 };
 
 /**
@@ -58,9 +54,8 @@ export const Magnitudes: Story = {
           {...args}
           magnitude={magnitude}
           aria-label={`Favorite (${magnitude})`}
-        >
-          <Star />
-        </Toggle>
+          icon={<Icon icon={Star} />}
+        />
       ))}
     </div>
   ),
@@ -75,9 +70,13 @@ export const Controlled: Story = {
   render: function Render() {
     const [pressed, setPressed] = React.useState(false);
     return (
-      <Toggle magnitude="md" aria-label="Favorite" pressed={pressed} onPressedChange={setPressed}>
-        <Heart fill={pressed ? "currentColor" : "none"} />
-      </Toggle>
+      <Toggle
+        magnitude="md"
+        aria-label="Favorite"
+        pressed={pressed}
+        onPressedChange={setPressed}
+        icon={<Icon icon={<Heart fill={pressed ? "currentColor" : "none"} />} />}
+      />
     );
   },
 };
@@ -109,15 +108,9 @@ export const States: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-2">
-      <Toggle magnitude="md" aria-label="Off">
-        <Star />
-      </Toggle>
-      <Toggle magnitude="md" defaultPressed aria-label="On">
-        <Star />
-      </Toggle>
-      <Toggle magnitude="md" disabled aria-label="Disabled">
-        <Star />
-      </Toggle>
+      <Toggle magnitude="md" aria-label="Off" icon={<Icon icon={Star} />} />
+      <Toggle magnitude="md" defaultPressed aria-label="On" icon={<Icon icon={Star} />} />
+      <Toggle magnitude="md" disabled aria-label="Disabled" icon={<Icon icon={Star} />} />
     </div>
   ),
 };

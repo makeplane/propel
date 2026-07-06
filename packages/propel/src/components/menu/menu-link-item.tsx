@@ -8,29 +8,33 @@ import {
   MenuItemTrailing,
   MenuLinkItem as MenuLinkItemElement,
 } from "../../elements/menu";
-import { Icon } from "../../internal/icon";
 
-export type MenuLinkItemProps = Omit<BaseMenu.LinkItem.Props, "className" | "style"> & {
-  /** Leading content before the label. */
+export type MenuLinkItemProps = Omit<
+  BaseMenu.LinkItem.Props,
+  "children" | "className" | "label" | "style"
+> & {
+  /** Leading element before the label, e.g. `<Icon icon={ExternalLink} tint="secondary" />`. */
   icon?: React.ReactNode;
-  /** Trailing content after the label. */
-  trailing?: React.ReactNode;
+  /** Primary row label. */
+  label: React.ReactNode;
+  /** Element rendered at the inline end of the row. */
+  endContent?: React.ReactNode;
 };
 
 /**
  * The ready-made navigational `<a>` menu row: grafts Base UI's `Menu.LinkItem` behavior onto the
- * styled `MenuLinkItem` and lays out optional leading/trailing nodes and the label.
+ * styled `MenuLinkItem` and lays out an optional leading icon, label, and end content.
  */
-export function MenuLinkItem({ icon, trailing, children, ...props }: MenuLinkItemProps) {
+export function MenuLinkItem({ icon, label, endContent, ...props }: MenuLinkItemProps) {
   return (
     <BaseMenu.LinkItem {...props} render={<MenuLinkItemElement />}>
-      {icon != null ? <Icon tint="secondary">{icon}</Icon> : null}
+      {icon}
       <MenuItemContent>
         <MenuItemTitleRow>
-          <MenuItemTitle>{children}</MenuItemTitle>
+          <MenuItemTitle>{label}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
-      {trailing != null ? <MenuItemTrailing>{trailing}</MenuItemTrailing> : null}
+      {endContent != null ? <MenuItemTrailing>{endContent}</MenuItemTrailing> : null}
     </BaseMenu.LinkItem>
   );
 }

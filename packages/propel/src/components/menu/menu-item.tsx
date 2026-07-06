@@ -12,50 +12,54 @@ import {
   MenuItemTitleRow,
   MenuItemTrailing,
 } from "../../elements/menu";
-import { Icon } from "../../internal/icon";
 
-export type MenuItemProps = Omit<BaseMenu.Item.Props, "className" | "style"> & {
-  /** Leading content before the label. */
+export type MenuItemProps = Omit<
+  BaseMenu.Item.Props,
+  "children" | "className" | "label" | "style"
+> & {
+  /** Leading element before the label, e.g. `<Icon icon={Settings} tint="secondary" />`. */
   icon?: React.ReactNode;
+  /** Primary row label. */
+  label: React.ReactNode;
   /** Muted secondary line under the label. */
   description?: React.ReactNode;
   /** Muted text shown inline after the label. */
   secondaryText?: React.ReactNode;
-  /** Trailing content after the label. */
-  trailing?: React.ReactNode;
+  /** Element rendered at the inline end of the row. */
+  endContent?: React.ReactNode;
   /** Single-select selected state. */
   selected?: boolean;
 };
 
 /**
  * The ready-made selectable menu row: grafts Base UI's `Menu.Item` behavior onto the styled
- * `MenuItem` and lays out optional leading/trailing nodes, the label, a secondary line, and the
- * single-select check indicator.
+ * `MenuItem` and lays out an optional leading icon, label, secondary line, and end content, plus
+ * the single-select check indicator.
  */
 export function MenuItem({
   icon,
   description,
   secondaryText,
-  trailing,
+  endContent,
   selected,
-  children,
+  label,
   ...props
 }: MenuItemProps) {
   // The taller, top-aligned row layout is implied by having a description — derived, not a prop.
   const layout = description != null ? "with-description" : "default";
   return (
     <BaseMenu.Item {...props} render={<MenuItemElement layout={layout} />}>
-      {icon != null ? <Icon tint="secondary">{icon}</Icon> : null}
+      {icon}
       <MenuItemContent>
         <MenuItemTitleRow>
-          <MenuItemTitle>{children}</MenuItemTitle>
+          <MenuItemTitle>{label}</MenuItemTitle>
           {secondaryText != null ? (
             <MenuItemSecondaryText>{secondaryText}</MenuItemSecondaryText>
           ) : null}
         </MenuItemTitleRow>
         {description != null ? <MenuItemDescription>{description}</MenuItemDescription> : null}
       </MenuItemContent>
-      {trailing != null ? <MenuItemTrailing>{trailing}</MenuItemTrailing> : null}
+      {endContent != null ? <MenuItemTrailing>{endContent}</MenuItemTrailing> : null}
       {selected ? (
         <MenuItemIndicator>
           <Check />

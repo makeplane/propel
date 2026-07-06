@@ -11,24 +11,28 @@ import {
   MenuItemTitle,
   MenuItemTitleRow,
 } from "../../elements/menu";
-import { Icon } from "../../internal/icon";
 
-export type MenuCheckboxItemProps = Omit<BaseMenu.CheckboxItem.Props, "className" | "style"> & {
-  /** Leading content shown after the checkbox. */
+export type MenuCheckboxItemProps = Omit<
+  BaseMenu.CheckboxItem.Props,
+  "children" | "className" | "label" | "style"
+> & {
+  /** Leading element shown after the checkbox, e.g. `<Icon icon={Settings} tint="secondary" />`. */
   icon?: React.ReactNode;
-  /** Trailing content. */
-  trailing?: React.ReactNode;
+  /** Primary row label. */
+  label: React.ReactNode;
+  /** Element rendered at the inline end of the row. */
+  endContent?: React.ReactNode;
 };
 
 /**
  * The ready-made toggleable multi-select menu row: grafts Base UI's `Menu.CheckboxItem` behavior
  * onto the styled `MenuCheckboxItem` and lays out the checkbox box (a kept-mounted
  * `Menu.CheckboxItemIndicator` grafted onto `MenuCheckboxItemIndicator` + a lucide `Check`),
- * optional leading/trailing nodes, and the label. Base UI's `Menu.CheckboxItem` tracks the checked
+ * optional leading icon, label, and end content. Base UI's `Menu.CheckboxItem` tracks the checked
  * state, so `checked` / `defaultChecked` / `onCheckedChange` forward straight to it and the
  * indicator reads it from context.
  */
-export function MenuCheckboxItem({ icon, trailing, children, ...props }: MenuCheckboxItemProps) {
+export function MenuCheckboxItem({ icon, label, endContent, ...props }: MenuCheckboxItemProps) {
   return (
     <BaseMenu.CheckboxItem {...props} render={<MenuCheckboxItemElement />}>
       <MenuItemControl>
@@ -36,13 +40,13 @@ export function MenuCheckboxItem({ icon, trailing, children, ...props }: MenuChe
           <Check aria-hidden />
         </BaseMenu.CheckboxItemIndicator>
       </MenuItemControl>
-      {icon != null ? <Icon tint="secondary">{icon}</Icon> : null}
+      {icon}
       <MenuItemContent>
         <MenuItemTitleRow>
-          <MenuItemTitle>{children}</MenuItemTitle>
+          <MenuItemTitle>{label}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
-      {trailing != null ? <MenuItemMeta>{trailing}</MenuItemMeta> : null}
+      {endContent != null ? <MenuItemMeta>{endContent}</MenuItemMeta> : null}
     </BaseMenu.CheckboxItem>
   );
 }

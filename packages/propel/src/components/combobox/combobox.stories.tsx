@@ -16,6 +16,7 @@ import {
   DialogTitle,
 } from "../dialog/index";
 import { Field, FieldError, FieldLabel } from "../field/index";
+import { Icon } from "../icon";
 import { IconButton } from "../icon-button";
 import { InputField } from "../input-field/index";
 import {
@@ -78,23 +79,29 @@ export const Default: Story = {
           magnitude="md"
           placeholder="e.g. eu-central-1"
           clear={
-            <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear region">
-              <X />
-            </IconButton>
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude="md"
+              aria-label="Clear region"
+              icon={<Icon icon={X} />}
+            />
           }
           trigger={
-            <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
-              <ChevronsUpDown />
-            </IconButton>
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude="md"
+              aria-label="Open region"
+              icon={<Icon icon={ChevronsUpDown} />}
+            />
           }
         />
         <ComboboxContent>
           <ComboboxEmpty>No matches</ComboboxEmpty>
           <ComboboxList>
             {(region: string) => (
-              <ComboboxItem key={region} value={region} magnitude="md">
-                {region}
-              </ComboboxItem>
+              <ComboboxItem key={region} value={region} magnitude="md" label={region} />
             )}
           </ComboboxList>
         </ComboboxContent>
@@ -189,9 +196,7 @@ export const Multiple: Story = {
           <ComboboxEmpty>No matches</ComboboxEmpty>
           <ComboboxList>
             {(region: string) => (
-              <ComboboxItem key={region} value={region} magnitude="md">
-                {region}
-              </ComboboxItem>
+              <ComboboxItem key={region} value={region} magnitude="md" label={region} />
             )}
           </ComboboxList>
         </ComboboxContent>
@@ -249,9 +254,7 @@ export const Grouped: Story = {
                 <ComboboxGroupLabel>{group.label}</ComboboxGroupLabel>
                 <ComboboxCollection>
                   {(region: string) => (
-                    <ComboboxItem key={region} value={region} magnitude="md">
-                      {region}
-                    </ComboboxItem>
+                    <ComboboxItem key={region} value={region} magnitude="md" label={region} />
                   )}
                 </ComboboxCollection>
               </ComboboxGroup>
@@ -344,9 +347,8 @@ export const AsyncSearch: Story = {
                 tone="neutral"
                 magnitude="md"
                 aria-label="Clear reviewer"
-              >
-                <X />
-              </IconButton>
+                icon={<Icon icon={X} />}
+              />
             }
             trigger={
               <IconButton
@@ -354,9 +356,8 @@ export const AsyncSearch: Story = {
                 tone="neutral"
                 magnitude="md"
                 aria-label="Open reviewer"
-              >
-                <ChevronsUpDown />
-              </IconButton>
+                icon={<Icon icon={ChevronsUpDown} />}
+              />
             }
           />
           <ComboboxContent>
@@ -364,9 +365,7 @@ export const AsyncSearch: Story = {
             <ComboboxEmpty>{!pending && trimmed !== "" ? "No members match" : null}</ComboboxEmpty>
             <ComboboxList>
               {(member: string) => (
-                <ComboboxItem key={member} value={member} magnitude="md">
-                  {member}
-                </ComboboxItem>
+                <ComboboxItem key={member} value={member} magnitude="md" label={member} />
               )}
             </ComboboxList>
           </ComboboxContent>
@@ -487,9 +486,7 @@ export const Creatable: Story = {
               <ComboboxEmpty>No labels found</ComboboxEmpty>
               <ComboboxList>
                 {(label: ProjectLabel) => (
-                  <ComboboxItem key={label.id} value={label} magnitude="md">
-                    {label.value}
-                  </ComboboxItem>
+                  <ComboboxItem key={label.id} value={label} magnitude="md" label={label.value} />
                 )}
               </ComboboxList>
             </ComboboxContent>
@@ -527,18 +524,16 @@ export const Creatable: Story = {
                 tone="neutral"
                 magnitude="xl"
                 render={<DialogClose />}
-              >
-                Cancel
-              </Button>
+                label="Cancel"
+              />
               <Button
                 sizing="hug"
                 prominence="primary"
                 tone="neutral"
                 magnitude="xl"
                 onClick={createLabel}
-              >
-                Create
-              </Button>
+                label="Create"
+              />
             </DialogActions>
           </DialogContent>
         </Dialog>

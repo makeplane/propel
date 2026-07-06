@@ -7,9 +7,13 @@ export type AlertDialogTriggerProps = Omit<BaseAlertDialog.Trigger.Props, "class
  * primitive's look wins via render-composition:
  *
  * ```tsx
- * <Button prominence="primary" tone="danger" magnitude="xl" render={<AlertDialogTrigger />}>
- *   Delete project
- * </Button>;
+ * <Button
+ *   prominence="primary"
+ *   tone="danger"
+ *   magnitude="xl"
+ *   label="Delete project"
+ *   render={<AlertDialogTrigger />}
+ * />;
  * ```
  *
  * Base UI manages `aria-haspopup`/`aria-expanded` and focus restoration when the alert dialog

@@ -24,6 +24,7 @@ import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Avatar } from "../avatar/index";
 import { Badge } from "../badge/index";
+import { Icon } from "../icon";
 import {
   createMenuHandle,
   Menu,
@@ -224,9 +225,8 @@ export const Status: Story = {
               selected={selected === s.key}
               closeOnClick={false}
               onClick={() => setSelected(s.key)}
-            >
-              {s.label}
-            </MenuItem>
+              label={s.label}
+            />
           ))}
         </MenuContent>
       </Menu>
@@ -276,9 +276,10 @@ export const Labels: Story = {
             // (Figma 64-626): the sticky MenuSearch already draws its own bottom
             // rule, so the "Add label" row mounts directly beneath it with no extra line.
             <MenuItem
-              icon={<Plus className="text-icon-secondary" />}
+              icon={<Icon icon={Plus} tint="secondary" />}
               closeOnClick={false}
-            >{`Add label "${trimmed}"`}</MenuItem>
+              label={`Add label "${trimmed}"`}
+            />
           ) : null}
           {visible.map((l) => (
             <MenuCheckboxItem
@@ -286,9 +287,8 @@ export const Labels: Story = {
               icon={<ColorSwatch className={l.color} />}
               checked={Boolean(checked[l.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [l.key]: next }))}
-            >
-              {l.label}
-            </MenuCheckboxItem>
+              label={l.label}
+            />
           ))}
         </MenuContent>
       </Menu>
@@ -320,7 +320,7 @@ export const LabelsInteraction: Story = {
 };
 
 /**
- * Demo 3 — **ActionMenu**. Icon items, a trailing keyboard shortcut (⌘L), a disabled item with a
+ * Demo 3 — **ActionMenu**. Icon items, `endContent` keyboard shortcuts, a disabled item with a
  * description, a destructive Delete, and separators between groups.
  */
 export const ActionMenu: Story = {
@@ -328,24 +328,26 @@ export const ActionMenu: Story = {
     <Menu>
       <MenuTrigger render={<button type="button" className={triggerClass} />}>Actions</MenuTrigger>
       <MenuContent sizing="sm">
-        <MenuItem icon={<Pencil />}>Edit</MenuItem>
-        <MenuItem icon={<Copy />}>Make a copy</MenuItem>
-        <MenuItem icon={<ExternalLink />}>Open in new tab</MenuItem>
-        <MenuItem icon={<Link2 />} trailing={<span className="text-12 text-tertiary">⌘L</span>}>
-          Copy link
-        </MenuItem>
+        <MenuItem icon={<Icon icon={Pencil} tint="secondary" />} label="Edit" />
+        <MenuItem icon={<Icon icon={Copy} tint="secondary" />} label="Make a copy" />
+        <MenuItem icon={<Icon icon={ExternalLink} tint="secondary" />} label="Open in new tab" />
+        <MenuItem
+          icon={<Icon icon={Link2} tint="secondary" />}
+          endContent={<span className="text-12 text-tertiary">⌘L</span>}
+          label="Copy link"
+        />
         <MenuSeparator />
         <MenuItem
-          icon={<Trash2 />}
+          icon={<Icon icon={Trash2} tint="secondary" />}
           description="Only completed or cancelled work items can be archived"
           disabled
-        >
-          Archive
-        </MenuItem>
+          label="Archive"
+        />
         <MenuSeparator />
-        <MenuItem icon={<Trash2 className="text-danger-primary" />}>
-          {<span className="text-danger-primary">Delete</span>}
-        </MenuItem>
+        <MenuItem
+          icon={<Icon icon={Trash2} tint="danger" />}
+          label={<span className="text-danger-primary">Delete</span>}
+        />
       </MenuContent>
     </Menu>
   ),
@@ -415,23 +417,21 @@ export const Description: Story = {
         </MenuTrigger>
         <MenuContent sizing="lg">
           <MenuItem
-            icon={<Lock />}
+            icon={<Icon icon={Lock} tint="secondary" />}
             description="Accessible only by invite"
             selected={selected === "private"}
             closeOnClick={false}
             onClick={() => setSelected("private")}
-          >
-            Private
-          </MenuItem>
+            label="Private"
+          />
           <MenuItem
-            icon={<Globe />}
+            icon={<Icon icon={Globe} tint="secondary" />}
             description="Anyone in the workspace except Guests can join"
             selected={selected === "public"}
             closeOnClick={false}
             onClick={() => setSelected("public")}
-          >
-            Public
-          </MenuItem>
+            label="Public"
+          />
         </MenuContent>
       </Menu>
     );
@@ -467,7 +467,7 @@ export const LabelAndFooterSemantics: Story = {
       <MenuContent sizing="sm" footer={<MenuFooter>Type to add another item.</MenuFooter>}>
         <MenuGroup>
           <MenuLabel meta={<span>3</span>}>Section</MenuLabel>
-          <MenuItem>First item</MenuItem>
+          <MenuItem label="First item" />
         </MenuGroup>
       </MenuContent>
     </Menu>
@@ -506,9 +506,8 @@ export const Assignees: Story = {
               checked={Boolean(checked[a.key])}
               disabled={a.disabled}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [a.key]: next }))}
-            >
-              {a.name}
-            </MenuCheckboxItem>
+              label={a.name}
+            />
           ))}
         </MenuContent>
       </Menu>
@@ -562,9 +561,8 @@ export const LanguagePicker: Story = {
               selected={selected === l.key}
               closeOnClick={false}
               onClick={() => setSelected(l.key)}
-            >
-              {l.label}
-            </MenuItem>
+              label={l.label}
+            />
           ))}
         </MenuContent>
       </Menu>
@@ -615,9 +613,8 @@ export const Priority: Story = {
               icon={p.icon}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
-            >
-              {p.label}
-            </MenuCheckboxItem>
+              label={p.label}
+            />
           ))}
         </MenuContent>
       </Menu>
@@ -666,9 +663,8 @@ export const CheckedFillVisible: Story = {
               icon={p.icon}
               checked={Boolean(checked[p.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [p.key]: next }))}
-            >
-              {p.label}
-            </MenuCheckboxItem>
+              label={p.label}
+            />
           ))}
         </MenuContent>
       </Menu>
@@ -773,11 +769,10 @@ export const Filters: Story = {
                 <MenuGroup>
                   {/* The category heading is itself a menuitem (valid `role="menu"`
                       child) so its collapse chevron stays interactive without breaking
-                      ARIA. The label is the section title; the chevron is the
-                      trailing. */}
+                      ARIA. The label is the section title; the chevron is `endContent`. */}
                   <MenuItem
                     aria-expanded={!isCollapsed}
-                    trailing={
+                    endContent={
                       isCollapsed ? (
                         <ChevronRight aria-hidden="true" />
                       ) : (
@@ -786,9 +781,8 @@ export const Filters: Story = {
                     }
                     closeOnClick={false}
                     onClick={() => setCollapsed((c) => ({ ...c, [section.title]: !isCollapsed }))}
-                  >
-                    {section.title}
-                  </MenuItem>
+                    label={section.title}
+                  />
                   {!isCollapsed
                     ? visibleItems.map((i) => (
                         <MenuCheckboxItem
@@ -796,9 +790,8 @@ export const Filters: Story = {
                           icon={i.icon}
                           checked={Boolean(checked[i.key])}
                           onCheckedChange={toggle(i.key)}
-                        >
-                          {i.label}
-                        </MenuCheckboxItem>
+                          label={i.label}
+                        />
                       ))
                     : null}
                   {/* "View all" is its own menuitem (keyboard-focusable like any row)
@@ -812,13 +805,12 @@ export const Filters: Story = {
                       onClick={() =>
                         setExpandedAll((s) => ({ ...s, [section.title]: !isExpandedAll }))
                       }
-                    >
-                      {
+                      label={
                         <span className="text-accent-primary">
                           {isExpandedAll ? "Show less" : `View all (${items.length})`}
                         </span>
                       }
-                    </MenuItem>
+                    />
                   ) : null}
                 </MenuGroup>
               </React.Fragment>
@@ -901,11 +893,7 @@ export const EmptyState: Story = {
           search={<MenuSearch value={query} onValueChange={setQuery} placeholder="Search" />}
         >
           {visible.length > 0 ? (
-            visible.map((s) => (
-              <MenuItem key={s.key} icon={s.icon}>
-                {s.label}
-              </MenuItem>
-            ))
+            visible.map((s) => <MenuItem key={s.key} icon={s.icon} label={s.label} />)
           ) : (
             <div className="px-2 py-2 text-13 text-tertiary">No matching results</div>
           )}
@@ -934,8 +922,8 @@ export const EmptyStateInteraction: Story = {
 };
 
 /**
- * Demo 10 — **Submenu**. Rows carry a trailing count `Badge` and a chevron; hovering one opens a
- * nested submenu of options (built on `MenuSubmenu`).
+ * Demo 10 — **Submenu**. Rows carry an `endContent` count `Badge` and a chevron; hovering one opens
+ * a nested submenu of options (built on `MenuSubmenu`).
  */
 export const Submenu: Story = {
   parameters: {
@@ -961,59 +949,39 @@ export const Submenu: Story = {
       <MenuContent sizing="sm">
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            trailing={
-              <Badge magnitude="sm" tone="neutral">
-                5
-              </Badge>
-            }
-          >
-            Priority
-          </MenuSubmenuTrigger>
+            endContent={<Badge magnitude="sm" tone="neutral" label="5" />}
+            label="Priority"
+          />
           <MenuSubmenuContent sizing="sm">
             {PRIORITIES.map((p) => (
-              <MenuItem key={p.key} icon={p.icon} closeOnClick={false}>
-                {p.label}
-              </MenuItem>
+              <MenuItem key={p.key} icon={p.icon} closeOnClick={false} label={p.label} />
             ))}
           </MenuSubmenuContent>
         </MenuSubmenu>
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            trailing={
-              <Badge magnitude="sm" tone="neutral">
-                5
-              </Badge>
-            }
-          >
-            State
-          </MenuSubmenuTrigger>
+            endContent={<Badge magnitude="sm" tone="neutral" label="5" />}
+            label="State"
+          />
           <MenuSubmenuContent sizing="sm">
             {STATUSES.map((s) => (
-              <MenuItem key={s.key} icon={s.icon} closeOnClick={false}>
-                {s.label}
-              </MenuItem>
+              <MenuItem key={s.key} icon={s.icon} closeOnClick={false} label={s.label} />
             ))}
           </MenuSubmenuContent>
         </MenuSubmenu>
         <MenuSubmenu>
           <MenuSubmenuTrigger
-            trailing={
-              <Badge magnitude="sm" tone="neutral">
-                5
-              </Badge>
-            }
-          >
-            Assignee
-          </MenuSubmenuTrigger>
+            endContent={<Badge magnitude="sm" tone="neutral" label="5" />}
+            label="Assignee"
+          />
           <MenuSubmenuContent sizing="sm">
             {ASSIGNEES.map((a) => (
               <MenuItem
                 key={a.key}
                 icon={<Avatar magnitude="2xs" fallback={initials(a.name)} alt={a.name} />}
                 closeOnClick={false}
-              >
-                {a.name}
-              </MenuItem>
+                label={a.name}
+              />
             ))}
           </MenuSubmenuContent>
         </MenuSubmenu>
@@ -1063,10 +1031,10 @@ export const OpenOnHover: Story = {
         Quick add
       </MenuTrigger>
       <MenuContent sizing="sm">
-        <MenuItem>Work item</MenuItem>
-        <MenuItem>Page</MenuItem>
-        <MenuItem>Cycle</MenuItem>
-        <MenuItem>Module</MenuItem>
+        <MenuItem label="Work item" />
+        <MenuItem label="Page" />
+        <MenuItem label="Cycle" />
+        <MenuItem label="Module" />
       </MenuContent>
     </Menu>
   ),
@@ -1115,9 +1083,8 @@ export const GroupLabels: Story = {
                 selected={sort === s.key}
                 closeOnClick={false}
                 onClick={() => setSort(s.key)}
-              >
-                {s.label}
-              </MenuItem>
+                label={s.label}
+              />
             ))}
           </MenuGroup>
           <MenuSeparator />
@@ -1128,9 +1095,8 @@ export const GroupLabels: Story = {
                 key={p.key}
                 checked={Boolean(workspace[p.key])}
                 onCheckedChange={(next) => setWorkspace((w) => ({ ...w, [p.key]: next }))}
-              >
-                {p.label}
-              </MenuCheckboxItem>
+                label={p.label}
+              />
             ))}
           </MenuGroup>
         </MenuContent>
@@ -1180,12 +1146,13 @@ export const DetachedTrigger: Story = {
       </MenuTrigger>
       <Menu handle={workItemActionsHandle}>
         <MenuContent sizing="sm">
-          <MenuItem icon={<Pencil />}>Edit</MenuItem>
-          <MenuItem icon={<Copy />}>Make a copy</MenuItem>
+          <MenuItem icon={<Icon icon={Pencil} tint="secondary" />} label="Edit" />
+          <MenuItem icon={<Icon icon={Copy} tint="secondary" />} label="Make a copy" />
           <MenuSeparator />
-          <MenuItem icon={<Trash2 className="text-danger-primary" />}>
-            {<span className="text-danger-primary">Delete</span>}
-          </MenuItem>
+          <MenuItem
+            icon={<Icon icon={Trash2} tint="danger" />}
+            label={<span className="text-danger-primary">Delete</span>}
+          />
         </MenuContent>
       </Menu>
     </>
@@ -1245,7 +1212,7 @@ export const MultipleTriggers: Story = {
           <MenuContent sizing="sm">
             <MenuViewport>
               {(payload ?? []).map((command) => (
-                <MenuItem key={command}>{command}</MenuItem>
+                <MenuItem key={command} label={command} />
               ))}
             </MenuViewport>
           </MenuContent>
@@ -1320,7 +1287,7 @@ export const ControlledMultipleTriggers: Story = {
         >
           {({ payload }) => (
             <MenuContent sizing="sm">
-              <MenuItem>{`${payload ?? ""} action`}</MenuItem>
+              <MenuItem label={`${payload ?? ""} action`} />
             </MenuContent>
           )}
         </Menu>
@@ -1359,12 +1326,8 @@ export const RadioRows: Story = {
         </MenuTrigger>
         <MenuContent sizing="sm">
           <MenuRadioGroup value={density} onValueChange={setDensity}>
-            <MenuRadioItem value="comfortable" closeOnClick={false}>
-              Comfortable
-            </MenuRadioItem>
-            <MenuRadioItem value="compact" closeOnClick={false}>
-              Compact
-            </MenuRadioItem>
+            <MenuRadioItem value="comfortable" closeOnClick={false} label="Comfortable" />
+            <MenuRadioItem value="compact" closeOnClick={false} label="Compact" />
           </MenuRadioGroup>
         </MenuContent>
       </Menu>

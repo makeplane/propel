@@ -9,30 +9,31 @@ import {
   type ContextMenuSubmenuTriggerTone,
 } from "../../elements/context-menu";
 import { DisclosureIndicator } from "../../internal/disclosure-indicator";
-import { Icon } from "../../internal/icon";
 
 export type ContextMenuSubmenuTriggerProps = Omit<
   BaseContextMenu.SubmenuTrigger.Props,
-  "className" | "style" | "render"
+  "children" | "className" | "label" | "style" | "render"
 > & {
   /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
   tone: ContextMenuSubmenuTriggerTone;
-  /** Leading icon before the label. */
+  /** Leading element before the label, e.g. `<Icon icon={Folder} />`. */
   icon?: React.ReactNode;
-  /** Trailing hint before the submenu caret. */
-  trailing?: React.ReactNode;
+  /** Primary row label. */
+  label: React.ReactNode;
+  /** Element rendered before the submenu caret at the inline end of the row. */
+  endContent?: React.ReactNode;
 };
 
 /**
  * The ready-made submenu trigger: grafts Base UI's `SubmenuTrigger` behavior onto the styled
  * `ContextMenuSubmenuTrigger` and composes its region parts — a leading icon, the label, an
- * optional trailing hint, and the caret that points toward the submenu.
+ * optional end content, and the caret that points toward the submenu.
  */
 export function ContextMenuSubmenuTrigger({
   tone,
   icon,
-  trailing,
-  children,
+  endContent,
+  label,
   ...props
 }: ContextMenuSubmenuTriggerProps) {
   return (
@@ -40,9 +41,9 @@ export function ContextMenuSubmenuTrigger({
       {...props}
       render={<ContextMenuSubmenuTriggerElement tone={tone} />}
     >
-      {icon != null ? <Icon>{icon}</Icon> : null}
-      <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
-      {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
+      {icon}
+      <ContextMenuItemLabel>{label}</ContextMenuItemLabel>
+      {endContent != null ? <ContextMenuItemShortcut>{endContent}</ContextMenuItemShortcut> : null}
       <DisclosureIndicator motion="pointEnd" tint="tertiary" magnitude="inherit">
         <ChevronDown />
       </DisclosureIndicator>

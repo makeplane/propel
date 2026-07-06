@@ -3,6 +3,7 @@ import { expect } from "storybook/test";
 
 import { Button } from "../components/button/index";
 import { IconButton } from "../components/icon-button/index";
+import { Icon } from "../components/icon/index";
 import {
   List,
   ListItem,
@@ -11,7 +12,6 @@ import {
   ListItemLink,
   ListSection,
 } from "../components/list/index";
-import { Icon } from "../internal/icon";
 import {
   AddWorkItemIcon,
   AnalyticsIcon,
@@ -58,12 +58,20 @@ export const WorkspaceSidebar: Story = {
       <div className="flex items-center justify-between px-2">
         <span className="text-15 font-semibold text-primary">Projects</span>
         <div className="flex items-center gap-0.5">
-          <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Filter">
-            <PreferencesIcon aria-hidden />
-          </IconButton>
-          <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Toggle sidebar">
-            <SidePeekIcon aria-hidden />
-          </IconButton>
+          <IconButton
+            prominence="ghost"
+            tone="neutral"
+            magnitude="sm"
+            aria-label="Filter"
+            icon={<Icon icon={PreferencesIcon} />}
+          />
+          <IconButton
+            prominence="ghost"
+            tone="neutral"
+            magnitude="sm"
+            aria-label="Toggle sidebar"
+            icon={<Icon icon={SidePeekIcon} />}
+          />
         </div>
       </div>
 
@@ -72,33 +80,26 @@ export const WorkspaceSidebar: Story = {
         tone="neutral"
         magnitude="xl"
         sizing="fill"
-        startIcon={<AddWorkItemIcon aria-hidden />}
-      >
-        New work item
-      </Button>
+        startIcon={<Icon icon={AddWorkItemIcon} />}
+        label="New work item"
+      />
 
       <List role="toolbar" aria-label="Primary">
         <ListItem>
           <ListItemLink href="#home">
-            <Icon magnitude="md">
-              <HomeIcon aria-hidden />
-            </Icon>
+            <Icon icon={HomeIcon} magnitude="md" />
             <ListItemLabel>Home</ListItemLabel>
           </ListItemLink>
         </ListItem>
         <ListItem>
           <ListItemLink href="#stickers">
-            <Icon magnitude="md">
-              <StickersIcon aria-hidden />
-            </Icon>
+            <Icon icon={StickersIcon} magnitude="md" />
             <ListItemLabel>Stickers</ListItemLabel>
           </ListItemLink>
         </ListItem>
         <ListItem>
           <ListItemLink href="#your-work">
-            <Icon magnitude="md">
-              <YourWorkIcon aria-hidden />
-            </Icon>
+            <Icon icon={YourWorkIcon} magnitude="md" />
             <ListItemLabel>Your work</ListItemLabel>
           </ListItemLink>
         </ListItem>
@@ -108,49 +109,37 @@ export const WorkspaceSidebar: Story = {
         <List role="toolbar" aria-label="Workspace">
           <ListItem>
             <ListItemLink href="#projects" aria-current="page">
-              <Icon magnitude="md">
-                <ProjectsIcon aria-hidden />
-              </Icon>
+              <Icon icon={ProjectsIcon} magnitude="md" />
               <ListItemLabel>Projects</ListItemLabel>
             </ListItemLink>
           </ListItem>
           <ListItem>
             <ListItemLink href="#work-graph">
-              <Icon magnitude="md">
-                <YourWorkIcon aria-hidden />
-              </Icon>
+              <Icon icon={YourWorkIcon} magnitude="md" />
               <ListItemLabel>Work graph</ListItemLabel>
             </ListItemLink>
           </ListItem>
           <ListItem>
             <ListItemLink href="#initiatives">
-              <Icon magnitude="md">
-                <InitiativesIcon aria-hidden />
-              </Icon>
+              <Icon icon={InitiativesIcon} magnitude="md" />
               <ListItemLabel>Initiatives</ListItemLabel>
             </ListItemLink>
           </ListItem>
           <ListItem>
             <ListItemLink href="#analytics">
-              <Icon magnitude="md">
-                <AnalyticsIcon aria-hidden />
-              </Icon>
+              <Icon icon={AnalyticsIcon} magnitude="md" />
               <ListItemLabel>Analytics</ListItemLabel>
             </ListItemLink>
           </ListItem>
           <ListItem>
             <ListItemLink href="#releases">
-              <Icon magnitude="md">
-                <ReleasesIcon aria-hidden />
-              </Icon>
+              <Icon icon={ReleasesIcon} magnitude="md" />
               <ListItemLabel>Releases</ListItemLabel>
             </ListItemLink>
           </ListItem>
           <ListItem>
             <ListItemButton>
-              <Icon magnitude="md">
-                <MoreIcon aria-hidden />
-              </Icon>
+              <Icon icon={MoreIcon} magnitude="md" />
               <ListItemLabel>More</ListItemLabel>
             </ListItemButton>
           </ListItem>
@@ -161,41 +150,31 @@ export const WorkspaceSidebar: Story = {
         <List role="toolbar" aria-label="Projects">
           <ListItem>
             <ListItemLink href="#acme">
-              <Icon magnitude="md" aria-hidden>
-                🚜
-              </Icon>
+              <Icon icon="🚜" magnitude="md" />
               <ListItemLabel>Acme Inc.</ListItemLabel>
             </ListItemLink>
           </ListItem>
           <ListItem>
             <ListItemLink href="#web-development">
-              <Icon magnitude="md" aria-hidden>
-                🧩
-              </Icon>
+              <Icon icon="🧩" magnitude="md" />
               <ListItemLabel>Web Development</ListItemLabel>
             </ListItemLink>
           </ListItem>
           <ListItem>
             <ListItemLink href="#plane-pro">
-              <Icon magnitude="md" aria-hidden>
-                🚗
-              </Icon>
+              <Icon icon="🚗" magnitude="md" />
               <ListItemLabel>Plane Pro</ListItemLabel>
             </ListItemLink>
           </ListItem>
           <ListItem>
             <ListItemLink href="#discover">
-              <Icon magnitude="md" aria-hidden>
-                📞
-              </Icon>
+              <Icon icon="📞" magnitude="md" />
               <ListItemLabel>Discover</ListItemLabel>
             </ListItemLink>
           </ListItem>
           <ListItem>
             <ListItemButton>
-              <Icon magnitude="md">
-                <MoreIcon aria-hidden />
-              </Icon>
+              <Icon icon={MoreIcon} magnitude="md" />
               <ListItemLabel>More</ListItemLabel>
             </ListItemButton>
           </ListItem>
@@ -206,25 +185,19 @@ export const WorkspaceSidebar: Story = {
         <List role="toolbar" aria-label="Try">
           <ListItem>
             <ListItemLink href="#github">
-              <Icon magnitude="md">
-                <GithubIcon aria-hidden />
-              </Icon>
+              <Icon icon={GithubIcon} magnitude="md" />
               <ListItemLabel>Connect to GitHub</ListItemLabel>
             </ListItemLink>
           </ListItem>
           <ListItem>
             <ListItemLink href="#slack">
-              <Icon magnitude="md">
-                <SlackIcon aria-hidden />
-              </Icon>
+              <Icon icon={SlackIcon} magnitude="md" />
               <ListItemLabel>Connect to Slack</ListItemLabel>
             </ListItemLink>
           </ListItem>
           <ListItem>
             <ListItemLink href="#plane-ai">
-              <Icon magnitude="md">
-                <PlaneAiIcon aria-hidden />
-              </Icon>
+              <Icon icon={PlaneAiIcon} magnitude="md" />
               <ListItemLabel>Try Plane AI</ListItemLabel>
             </ListItemLink>
           </ListItem>

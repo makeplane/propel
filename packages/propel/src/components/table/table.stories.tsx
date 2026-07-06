@@ -4,6 +4,7 @@ import * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Avatar } from "../avatar/index";
+import { Icon } from "../icon";
 import { MenuContent, MenuItem } from "../menu/index";
 import { Pagination } from "../pagination/index";
 import {
@@ -89,9 +90,7 @@ export const Default: Story = {
       <TableHeader>
         <TableRow>
           {COLUMNS.map((c) => (
-            <TableHead pinned="none" key={c}>
-              {c}
-            </TableHead>
+            <TableHead pinned="none" label={c} key={c} />
           ))}
         </TableRow>
       </TableHeader>
@@ -180,11 +179,9 @@ export const Sortable: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead pinned="none" sortable sort={sort} onSort={cycle}>
-              Name
-            </TableHead>
-            <TableHead pinned="none">Account type</TableHead>
-            <TableHead pinned="none">Email</TableHead>
+            <TableHead pinned="none" label="Name" sortable sort={sort} onSort={cycle} />
+            <TableHead pinned="none" label="Account type" />
+            <TableHead pinned="none" label="Email" />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -252,9 +249,9 @@ export const EditableCells: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead pinned="none">Name</TableHead>
-            <TableHead pinned="none">Email</TableHead>
-            <TableHead pinned="none">Account type</TableHead>
+            <TableHead pinned="none" label="Name" />
+            <TableHead pinned="none" label="Email" />
+            <TableHead pinned="none" label="Account type" />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -284,11 +281,10 @@ export const EditableCells: Story = {
                   {ROLES.map((role) => (
                     <MenuItem
                       key={role}
+                      label={role}
                       selected={role === person.role}
                       onClick={() => setRole(person.email, role)}
-                    >
-                      {role}
-                    </MenuItem>
+                    />
                   ))}
                 </MenuContent>
               </TableEditableCell>
@@ -354,10 +350,10 @@ export const WithPagination: Story = {
         <Table {...args}>
           <TableHeader>
             <TableRow>
-              <TableHead pinned="none">Name</TableHead>
-              <TableHead pinned="none">Email</TableHead>
-              <TableHead pinned="none">Account type</TableHead>
-              <TableHead pinned="none">Billing status</TableHead>
+              <TableHead pinned="none" label="Name" />
+              <TableHead pinned="none" label="Email" />
+              <TableHead pinned="none" label="Account type" />
+              <TableHead pinned="none" label="Billing status" />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -441,12 +437,10 @@ export const RichRows: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead pinned="none">Name</TableHead>
-            <TableHead pinned="none">Email</TableHead>
-            <TableHead pinned="none">Account type</TableHead>
-            <TableHead pinned="none">
-              <span className="sr-only">Actions</span>
-            </TableHead>
+            <TableHead pinned="none" label="Name" />
+            <TableHead pinned="none" label="Email" />
+            <TableHead pinned="none" label="Account type" />
+            <TableHead pinned="none" label={<span className="sr-only">Actions</span>} />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -469,18 +463,17 @@ export const RichRows: Story = {
                   {ROLES.map((role) => (
                     <MenuItem
                       key={role}
+                      label={role}
                       selected={role === person.role}
                       onClick={() => setRole(person.email, role)}
-                    >
-                      {role}
-                    </MenuItem>
+                    />
                   ))}
                 </MenuContent>
               </TableEditableCell>
               <TableActionCell aria-label={`Options for ${person.name}`}>
                 <MenuContent>
-                  <MenuItem icon={<Pencil />}>Edit</MenuItem>
-                  <MenuItem icon={<Trash2 />}>Delete</MenuItem>
+                  <MenuItem icon={<Icon icon={Pencil} tint="secondary" />} label="Edit" />
+                  <MenuItem icon={<Icon icon={Trash2} tint="danger" />} label="Delete" />
                 </MenuContent>
               </TableActionCell>
             </TableRow>
@@ -524,11 +517,11 @@ export const StickyHeaderAndColumns: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead pinned="start">Name</TableHead>
-            <TableHead pinned="none">Display name</TableHead>
-            <TableHead pinned="none">Email</TableHead>
-            <TableHead pinned="none">Account type</TableHead>
-            <TableHead pinned="none">Billing status</TableHead>
+            <TableHead pinned="start" label="Name" />
+            <TableHead pinned="none" label="Display name" />
+            <TableHead pinned="none" label="Email" />
+            <TableHead pinned="none" label="Account type" />
+            <TableHead pinned="none" label="Billing status" />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -601,10 +594,8 @@ export const SortableKeyboard: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead pinned="none" sortable sort={sort} onSort={cycle}>
-              Name
-            </TableHead>
-            <TableHead pinned="none">Email</TableHead>
+            <TableHead pinned="none" label="Name" sortable sort={sort} onSort={cycle} />
+            <TableHead pinned="none" label="Email" />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -671,8 +662,8 @@ export const EditableCellKeyboard: Story = {
       <Table {...args}>
         <TableHeader>
           <TableRow>
-            <TableHead pinned="none">Name</TableHead>
-            <TableHead pinned="none">Account type</TableHead>
+            <TableHead pinned="none" label="Name" />
+            <TableHead pinned="none" label="Account type" />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -683,9 +674,7 @@ export const EditableCellKeyboard: Story = {
             <TableEditableCell value={role} aria-label="Account type for Chargers">
               <MenuContent>
                 {ROLES.map((r) => (
-                  <MenuItem key={r} selected={r === role} onClick={() => setRole(r)}>
-                    {r}
-                  </MenuItem>
+                  <MenuItem key={r} label={r} selected={r === role} onClick={() => setRole(r)} />
                 ))}
               </MenuContent>
             </TableEditableCell>

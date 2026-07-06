@@ -4,7 +4,7 @@ import * as React from "react";
 import { useLayoutEffect } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { Button } from "../../elements/button";
+import { Button } from "../button";
 import { Checkbox } from "../checkbox/index";
 import { DirectionProvider } from "../direction-provider";
 import { PillSwitch } from "../pill/index";
@@ -86,9 +86,8 @@ export const Default: Story = {
         tone="neutral"
         magnitude="xl"
         render={<PopoverTrigger />}
-      >
-        Options
-      </Button>
+        label="Options"
+      />
       <PopoverContent side="bottom" align="start" sizing="md" aria-label="Options">
         <ToggleFooter defaultToggles={{ sub: true }} />
       </PopoverContent>
@@ -153,9 +152,8 @@ export const DisplayProperties: Story = {
           tone="neutral"
           magnitude="xl"
           render={<PopoverTrigger />}
-        >
-          Display
-        </Button>
+          label="Display"
+        />
         <PopoverContent side="bottom" align="start" sizing="md" aria-label="Display options">
           <PanelLabel>Display Properties</PanelLabel>
           <div className="flex flex-wrap gap-1.5 px-2 py-1.5">
@@ -165,9 +163,8 @@ export const DisplayProperties: Story = {
                 magnitude="md"
                 pressed={Boolean(pills[p])}
                 onPressedChange={(next) => setPills((s) => ({ ...s, [p]: next }))}
-              >
-                {p}
-              </PillSwitch>
+                label={p}
+              />
             ))}
           </div>
           <PanelSeparator />
@@ -233,9 +230,8 @@ export const DisplayAccordion: Story = {
           tone="neutral"
           magnitude="xl"
           render={<PopoverTrigger />}
-        >
-          Display options
-        </Button>
+          label="Display options"
+        />
         <PopoverContent side="bottom" align="start" sizing="md" aria-label="Display options">
           {SECTIONS.map((title) => {
             const key = title.split(" ")[0].toLowerCase();
@@ -322,9 +318,8 @@ export const OpenOnHover: Story = {
         tone="neutral"
         magnitude="xl"
         render={<PopoverTrigger openOnHover delay={100} />}
-      >
-        Filters
-      </Button>
+        label="Filters"
+      />
       <PopoverContent side="bottom" align="start" sizing="md" aria-label="Active filters">
         <PanelLabel>Applied filters</PanelLabel>
         <div className="flex flex-col gap-1 px-2 py-1.5 text-13 text-secondary">
@@ -379,9 +374,8 @@ export const DetachedTrigger: Story = {
           tone="neutral"
           magnitude="xl"
           render={<PopoverTrigger handle={displayPopoverHandle} />}
-        >
-          Display
-        </Button>
+          label="Display"
+        />
       </div>
       {/* The popover: declared elsewhere, associated by `handle`. */}
       <Popover handle={displayPopoverHandle}>
@@ -446,9 +440,8 @@ export const MultipleTriggers: Story = {
                   tone="neutral"
                   magnitude="xl"
                   render={<PopoverTrigger payload={member} />}
-                >
-                  {member.name}
-                </Button>
+                  label={member.name}
+                />
               ))}
             </div>
             <PopoverContent side="bottom" align="start" sizing="md" aria-label="Member details">
@@ -522,18 +515,16 @@ export const Controlled: Story = {
             tone="neutral"
             magnitude="xl"
             render={<PopoverTrigger id="view-sort-trigger" />}
-          >
-            Sort
-          </Button>
+            label="Sort"
+          />
           <Button
             sizing="hug"
             prominence="secondary"
             tone="neutral"
             magnitude="xl"
             render={<PopoverTrigger id="view-filter-trigger" />}
-          >
-            Filter
-          </Button>
+            label="Filter"
+          />
           <PopoverContent side="bottom" align="start" sizing="md" aria-label="View options">
             {triggerId === "view-filter-trigger" ? (
               <>
@@ -562,9 +553,8 @@ export const Controlled: Story = {
             setTriggerId("view-filter-trigger");
             setOpen(true);
           }}
-        >
-          Reopen filters
-        </Button>
+          label="Reopen filters"
+        />
       </div>
     );
   },
@@ -645,9 +635,8 @@ export const RTL: Story = {
             tone="neutral"
             magnitude="xl"
             render={<PopoverTrigger />}
-          >
-            خيارات
-          </Button>
+            label="خيارات"
+          />
           <PopoverContent side="bottom" align="start" sizing="md" aria-label="Options">
             <PanelLabel>الترتيب حسب</PanelLabel>
             <RadioGroup density="comfortable" defaultValue="priority">

@@ -7,14 +7,15 @@ import {
   type PillButtonProps as PillButtonElementProps,
   PillLabel,
 } from "../../elements/pill";
-import { Icon } from "../../internal/icon";
 import { Spinner } from "../../internal/spinner";
 
-export type PillButtonProps = PillButtonElementProps & {
-  /** A node before the label (inline-start), sized to the pill's `--node-size`. */
+export type PillButtonProps = Omit<PillButtonElementProps, "children"> & {
+  /** Element rendered before the label (inline-start), e.g. `<Icon icon={Tag} />`. */
   startIcon?: React.ReactNode;
-  /** A node after the label (inline-end), sized to the pill's `--node-size`. */
+  /** Element rendered after the label (inline-end), e.g. `<Icon icon={X} />`. */
   endIcon?: React.ReactNode;
+  /** Visible pill label. */
+  label: React.ReactNode;
   /** Busy state: swaps the inline-start node for a spinner and blocks clicks. */
   loading?: boolean;
 };
@@ -31,7 +32,7 @@ export function PillButton({
   endIcon,
   loading = false,
   disabled,
-  children,
+  label,
   ...props
 }: PillButtonProps) {
   return (
@@ -46,11 +47,11 @@ export function PillButton({
         <Spinner>
           <LoaderCircle />
         </Spinner>
-      ) : startIcon ? (
-        <Icon>{startIcon}</Icon>
-      ) : null}
-      <PillLabel>{children}</PillLabel>
-      {!loading && endIcon ? <Icon>{endIcon}</Icon> : null}
+      ) : (
+        startIcon
+      )}
+      <PillLabel>{label}</PillLabel>
+      {!loading ? endIcon : null}
     </BaseButton>
   );
 }

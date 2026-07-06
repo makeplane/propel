@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronsUpDown, X } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { Icon } from "../icon";
 import { IconButton } from "../icon-button";
 import { AutocompleteField, type FieldMagnitude } from "./index";
 
@@ -24,9 +25,8 @@ const meta = {
         tone="neutral"
         magnitude="md"
         aria-label="Clear container image"
-      >
-        <X />
-      </IconButton>
+        icon={<Icon icon={X} />}
+      />
     ),
     trigger: (
       <IconButton
@@ -34,9 +34,8 @@ const meta = {
         tone="neutral"
         magnitude="md"
         aria-label="Open container image"
-      >
-        <ChevronsUpDown />
-      </IconButton>
+        icon={<Icon icon={ChevronsUpDown} />}
+      />
     ),
     empty: "No images found",
     magnitude: "md",

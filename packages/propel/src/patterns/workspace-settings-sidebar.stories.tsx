@@ -3,6 +3,7 @@ import { type ComponentType, Fragment, type SVGProps } from "react";
 import { expect } from "storybook/test";
 
 import { Badge } from "../components/badge/index";
+import { Icon } from "../components/icon/index";
 import {
   List,
   ListItem,
@@ -12,7 +13,6 @@ import {
 } from "../components/list/index";
 import { Separator } from "../components/separator/index";
 import { WorkspaceAvatar } from "../components/workspace-avatar/index";
-import { Icon } from "../internal/icon";
 import {
   AccessAndRolesIcon,
   BillingsIcon,
@@ -148,9 +148,7 @@ export const WorkspaceSettings: Story = {
           <span className="truncate text-14 font-medium text-primary">Acme Inc.</span>
           <span className="text-12 text-tertiary">Admin</span>
         </div>
-        <Badge tone="brand" magnitude="sm">
-          Business
-        </Badge>
+        <Badge tone="brand" magnitude="sm" label="Business" />
       </div>
 
       {sections.map((section, index) => (
@@ -164,9 +162,7 @@ export const WorkspaceSettings: Story = {
                 return (
                   <ListItem key={row.href}>
                     <ListItemLink href={row.href}>
-                      <Icon magnitude="md">
-                        <RowIcon aria-hidden />
-                      </Icon>
+                      <Icon icon={RowIcon} magnitude="md" />
                       <ListItemLabel>{row.label}</ListItemLabel>
                     </ListItemLink>
                   </ListItem>

@@ -9,18 +9,19 @@ import {
   ContextMenuRadioItem as ContextMenuRadioItemElement,
   ContextMenuRadioItemIndicator,
 } from "../../elements/context-menu";
-import { Icon } from "../../internal/icon";
 
 export type ContextMenuRadioItemProps = Omit<
   BaseContextMenu.RadioItem.Props,
-  "className" | "style"
+  "children" | "className" | "label" | "style"
 > & {
   /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
   tone: ContextMenuItemTone;
-  /** Leading icon after the radio dot. */
+  /** Leading element after the radio dot, e.g. `<Icon icon={AlignLeft} />`. */
   icon?: React.ReactNode;
-  /** Trailing keyboard-shortcut hint after the label. */
-  trailing?: React.ReactNode;
+  /** Primary row label. */
+  label: React.ReactNode;
+  /** Element rendered at the inline end of the row, often a keyboard shortcut. */
+  endContent?: React.ReactNode;
 };
 
 /**
@@ -31,8 +32,8 @@ export type ContextMenuRadioItemProps = Omit<
 export function ContextMenuRadioItem({
   tone,
   icon,
-  trailing,
-  children,
+  endContent,
+  label,
   ...props
 }: ContextMenuRadioItemProps) {
   return (
@@ -40,9 +41,9 @@ export function ContextMenuRadioItem({
       <BaseContextMenu.RadioItemIndicator keepMounted render={<ContextMenuRadioItemIndicator />}>
         <Circle aria-hidden />
       </BaseContextMenu.RadioItemIndicator>
-      {icon != null ? <Icon>{icon}</Icon> : null}
-      <ContextMenuItemLabel>{children}</ContextMenuItemLabel>
-      {trailing != null ? <ContextMenuItemShortcut>{trailing}</ContextMenuItemShortcut> : null}
+      {icon}
+      <ContextMenuItemLabel>{label}</ContextMenuItemLabel>
+      {endContent != null ? <ContextMenuItemShortcut>{endContent}</ContextMenuItemShortcut> : null}
     </BaseContextMenu.RadioItem>
   );
 }

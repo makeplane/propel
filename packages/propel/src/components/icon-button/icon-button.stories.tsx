@@ -4,6 +4,7 @@ import { expect, fn } from "storybook/test";
 
 import { IconButton as IconButtonElement } from "../../elements/icon-button";
 import { iconControl } from "../../storybook/icon-control";
+import { Icon } from "../icon";
 import { IconButton, type IconButtonMagnitude, type IconButtonProminence } from "./index";
 
 const PROMINENCES: IconButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
@@ -13,7 +14,7 @@ const meta = {
   title: "Components/IconButton",
   component: IconButton,
   subcomponents: { IconButtonElement },
-  argTypes: { children: iconControl },
+  argTypes: { icon: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -24,7 +25,7 @@ const meta = {
     prominence: "primary",
     tone: "neutral",
     magnitude: "md",
-    children: <Plus />,
+    icon: <Icon icon={Plus} />,
     "aria-label": "Add item",
   },
 } satisfies Meta<typeof IconButton>;
@@ -124,9 +125,13 @@ export const Disabled: Story = {
 export const HasAccessibleName: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <IconButton prominence="primary" tone="neutral" magnitude="md" aria-label="Add item">
-      <Plus />
-    </IconButton>
+    <IconButton
+      prominence="primary"
+      tone="neutral"
+      magnitude="md"
+      aria-label="Add item"
+      icon={<Icon icon={Plus} />}
+    />
   ),
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("button", { name: "Add item" })).toBeInTheDocument();

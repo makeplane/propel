@@ -25,6 +25,9 @@ export const iconVariants = cva(nodeSlotClass, {
   variants: {
     tint: {
       inherit: "",
+      danger: "text-danger-primary",
+      placeholder:
+        "text-icon-placeholder transition-colors group-focus-within/control:text-icon-secondary",
       secondary: "text-icon-secondary",
       tertiary: "text-icon-tertiary",
     },

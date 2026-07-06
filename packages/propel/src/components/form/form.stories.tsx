@@ -168,9 +168,14 @@ export const Default: Story = {
           />
         </FormBody>
         <FormActions layout="inline">
-          <Button sizing="hug" type="submit" prominence="secondary" tone="neutral" magnitude="md">
-            Submit
-          </Button>
+          <Button
+            sizing="hug"
+            type="submit"
+            prominence="secondary"
+            tone="neutral"
+            magnitude="md"
+            label="Submit"
+          />
         </FormActions>
       </Form>
     );
@@ -226,9 +231,14 @@ export const ConstraintValidationInteraction: Story = {
         />
       </FormBody>
       <FormActions layout="inline">
-        <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
-          Submit
-        </Button>
+        <Button
+          sizing="hug"
+          type="submit"
+          prominence="primary"
+          tone="neutral"
+          magnitude="md"
+          label="Submit"
+        />
       </FormActions>
     </Form>
   ),
@@ -279,9 +289,8 @@ export const AsyncValidation: Story = {
             tone="neutral"
             magnitude="md"
             loading={pending}
-          >
-            Create account
-          </Button>
+            label="Create account"
+          />
         </FormActions>
       </Form>
     );
@@ -338,9 +347,8 @@ export const ServerFunction: Story = {
             tone="neutral"
             magnitude="md"
             loading={pending}
-          >
-            Reserve username
-          </Button>
+            label="Reserve username"
+          />
         </FormActions>
       </Form>
     );
@@ -406,9 +414,14 @@ export const SchemaValidation: Story = {
           />
         </FormBody>
         <FormActions layout="inline">
-          <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
-            Submit
-          </Button>
+          <Button
+            sizing="hug"
+            type="submit"
+            prominence="primary"
+            tone="neutral"
+            magnitude="md"
+            label="Submit"
+          />
         </FormActions>
       </Form>
     );

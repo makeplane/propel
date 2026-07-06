@@ -9,7 +9,7 @@ export * from "./select-group-label";
 // Re-export propel's STYLED select parts that stay styling-only, so a full select can be assembled
 // from one entry. The ready-mades above graft Base UI's `Trigger`/`Value`/`Label`/`List`/`Item`
 // behavior onto the styled parts, so consumers never compose `@base-ui/react/select` directly. The
-// styled `SelectTrigger`/`SelectValue`/`SelectIcon`/`SelectLabel` elements are NOT re-exported here
+// styled `SelectTrigger`/`SelectValue`/`SelectLabel` elements are NOT re-exported here
 // — the same-named ready-mades replace them (name collision rule); import them from
 // `elements/select` to hand-wire a custom anatomy.
 export {

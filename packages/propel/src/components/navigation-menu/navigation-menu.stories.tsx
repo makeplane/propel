@@ -105,7 +105,7 @@ export const Default: Story = {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Product</NavigationMenuTrigger>
+          <NavigationMenuTrigger label="Product" />
           <NavigationMenuContent>
             <NavigationMenuContentList>
               {PRODUCT_LINKS.map((item) => (
@@ -127,7 +127,7 @@ export const Default: Story = {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+          <NavigationMenuTrigger label="Resources" />
           <NavigationMenuContent>
             <NavigationMenuContentList>
               {RESOURCE_LINKS.map((item) => (
@@ -250,7 +250,7 @@ export const LargeContent: Story = {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
+          <NavigationMenuTrigger label="Projects" />
           <NavigationMenuContent>
             <div className="flex h-72 flex-col">
               <ScrollArea orientation="vertical" visibility="auto" magnitude="thin">

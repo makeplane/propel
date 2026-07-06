@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Activity, LayoutGrid, Settings } from "lucide-react";
 import { expect, waitFor } from "storybook/test";
 
+import { Icon } from "../icon";
 import { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./index";
 
 // The standard three-tab set the basic stories share (the only difference between
@@ -10,14 +11,19 @@ const TAB_ITEMS = [
   {
     value: "overview",
     label: "Overview",
-    icon: <LayoutGrid />,
+    icon: <Icon icon={LayoutGrid} />,
     panel: "A high-level summary of the project.",
   },
-  { value: "activity", label: "Activity", icon: <Activity />, panel: "The latest activity feed." },
+  {
+    value: "activity",
+    label: "Activity",
+    icon: <Icon icon={Activity} />,
+    panel: "The latest activity feed.",
+  },
   {
     value: "settings",
     label: "Settings",
-    icon: <Settings />,
+    icon: <Icon icon={Settings} />,
     panel: "Configuration and preferences.",
   },
 ];
@@ -48,9 +54,7 @@ export const Contained: Story = {
     <Tabs {...args}>
       <TabsList>
         {TAB_ITEMS.map((t) => (
-          <Tab key={t.value} value={t.value}>
-            {t.label}
-          </Tab>
+          <Tab key={t.value} value={t.value} label={t.label} />
         ))}
       </TabsList>
       {TAB_ITEMS.map((t) => (
@@ -69,9 +73,7 @@ export const Underline: Story = {
     <Tabs {...args}>
       <TabsList>
         {TAB_ITEMS.map((t) => (
-          <Tab key={t.value} value={t.value}>
-            {t.label}
-          </Tab>
+          <Tab key={t.value} value={t.value} label={t.label} />
         ))}
       </TabsList>
       {TAB_ITEMS.map((t) => (
@@ -90,9 +92,7 @@ export const WithIcons: Story = {
     <Tabs {...args}>
       <TabsList>
         {TAB_ITEMS.map((t) => (
-          <Tab key={t.value} value={t.value} icon={t.icon}>
-            {t.label}
-          </Tab>
+          <Tab key={t.value} value={t.value} icon={t.icon} label={t.label} />
         ))}
       </TabsList>
       {TAB_ITEMS.map((t) => (
@@ -111,9 +111,7 @@ export const UnderlineWithIcons: Story = {
     <Tabs {...args}>
       <TabsList>
         {TAB_ITEMS.map((t) => (
-          <Tab key={t.value} value={t.value} icon={t.icon}>
-            {t.label}
-          </Tab>
+          <Tab key={t.value} value={t.value} icon={t.icon} label={t.label} />
         ))}
       </TabsList>
       {TAB_ITEMS.map((t) => (
@@ -147,9 +145,7 @@ export const Overflowing: Story = {
             "Webhooks",
             "Billing",
           ].map((label) => (
-            <Tab key={label} value={label.toLowerCase()}>
-              {label}
-            </Tab>
+            <Tab key={label} value={label.toLowerCase()} label={label} />
           ))}
         </TabsList>
         <TabsPanel value="overview">A high-level summary of the project.</TabsPanel>
@@ -171,9 +167,7 @@ export const OverflowScrolls: Story = {
       <Tabs {...args}>
         <TabsList>
           {Array.from({ length: 12 }, (_, i) => (
-            <Tab key={i} value={`tab-${i}`}>
-              {`Section ${i + 1}`}
-            </Tab>
+            <Tab key={i} value={`tab-${i}`} label={`Section ${i + 1}`} />
           ))}
         </TabsList>
         <TabsPanel value="tab-0">Section 1 panel</TabsPanel>
@@ -202,8 +196,8 @@ export const ClickActivates: Story = {
   render: (args) => (
     <Tabs {...args}>
       <TabsList>
-        <Tab value="overview">Overview</Tab>
-        <Tab value="activity">Activity</Tab>
+        <Tab value="overview" label="Overview" />
+        <Tab value="activity" label="Activity" />
       </TabsList>
       <TabsPanel value="overview">Overview panel</TabsPanel>
       <TabsPanel value="activity">Activity panel</TabsPanel>
@@ -248,9 +242,9 @@ export const KeyboardNavigates: Story = {
   render: (args) => (
     <Tabs {...args}>
       <TabsList>
-        <Tab value="overview">Overview</Tab>
-        <Tab value="activity">Activity</Tab>
-        <Tab value="settings">Settings</Tab>
+        <Tab value="overview" label="Overview" />
+        <Tab value="activity" label="Activity" />
+        <Tab value="settings" label="Settings" />
       </TabsList>
       <TabsPanel value="overview">Overview panel</TabsPanel>
       <TabsPanel value="activity">Activity panel</TabsPanel>

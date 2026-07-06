@@ -6,6 +6,7 @@ import { expect, userEvent } from "storybook/test";
 import { Button } from "../button";
 import { Field } from "../field";
 import { Form, FormActions, FormBody } from "../form";
+import { Icon } from "../icon";
 import {
   Checkbox,
   CheckboxIndeterminateIndicator,
@@ -116,7 +117,7 @@ export const WithIcon: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <Checkbox
-      icon={<Repeat aria-hidden className="size-3.5" />}
+      icon={<Icon icon={Repeat} tint="secondary" magnitude="sm" />}
       label="Sync automatically"
       defaultChecked
     />
@@ -206,9 +207,14 @@ export const FormIntegration: Story = {
             </Field>
           </FormBody>
           <FormActions layout="inline">
-            <Button sizing="hug" type="submit" prominence="primary" tone="neutral" magnitude="md">
-              Save
-            </Button>
+            <Button
+              sizing="hug"
+              type="submit"
+              prominence="primary"
+              tone="neutral"
+              magnitude="md"
+              label="Save"
+            />
           </FormActions>
         </Form>
         <output className="text-13 text-secondary">

@@ -7,15 +7,13 @@ import {
   TabUnderlineBarTrack,
   TabUnderlineLabel,
 } from "../../elements/tabs";
-import { NodeSlot } from "../../internal/node-slot";
 import { TabsAppearanceContext } from "./tabs-context";
 
-export type TabProps = Omit<BaseTabs.Tab.Props, "className" | "style"> & {
-  /**
-   * Node rendered before the label (inline-start). Sized to the tab's `--node-size` (16px) and
-   * tinted to the tab's text color. Decorative, kept out of the name.
-   */
+export type TabProps = Omit<BaseTabs.Tab.Props, "children" | "className" | "style"> & {
+  /** Element rendered before the label (inline-start), e.g. `<Icon icon={Folder} />`. */
   icon?: React.ReactNode;
+  /** Visible tab label. */
+  label: React.ReactNode;
 };
 
 /**
@@ -24,16 +22,15 @@ export type TabProps = Omit<BaseTabs.Tab.Props, "className" | "style"> & {
  * `icon` with the label. The `underline` appearance additionally renders the sliding bar track
  * beneath the label.
  */
-export function Tab({ icon, children, ...props }: TabProps) {
+export function Tab({ icon, label, ...props }: TabProps) {
   const appearance = React.useContext(TabsAppearanceContext);
-  const iconNode = icon ? <NodeSlot aria-hidden>{icon}</NodeSlot> : null;
 
   if (appearance === "underline") {
     return (
       <BaseTabs.Tab render={<TabElement appearance={appearance} />} {...props}>
         <TabUnderlineLabel>
-          {iconNode}
-          {children}
+          {icon}
+          {label}
         </TabUnderlineLabel>
         <TabUnderlineBarTrack>
           <TabUnderlineBar />
@@ -44,8 +41,8 @@ export function Tab({ icon, children, ...props }: TabProps) {
 
   return (
     <BaseTabs.Tab render={<TabElement appearance={appearance} />} {...props}>
-      {iconNode}
-      {children}
+      {icon}
+      {label}
     </BaseTabs.Tab>
   );
 }

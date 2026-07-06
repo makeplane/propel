@@ -3,7 +3,7 @@ import { Ellipsis } from "lucide-react";
 import type * as React from "react";
 
 import { BreadcrumbTrigger } from "../../elements/breadcrumb";
-import { Icon } from "../../internal/icon";
+import { Icon as IconSlot } from "../../internal/icon";
 
 export type BreadcrumbEllipsisTriggerProps = Omit<
   BaseMenu.Trigger.Props,
@@ -11,7 +11,7 @@ export type BreadcrumbEllipsisTriggerProps = Omit<
 > & {
   /** Accessible name for the trigger (e.g. "Show more breadcrumbs"). Required (icon-only). */
   "aria-label": string;
-  /** The trigger glyph. @default an ellipsis */
+  /** The trigger element. @default an ellipsis */
   icon?: React.ReactNode;
 };
 
@@ -25,9 +25,11 @@ export type BreadcrumbEllipsisTriggerProps = Omit<
 export function BreadcrumbEllipsisTrigger({ icon, ...props }: BreadcrumbEllipsisTriggerProps) {
   return (
     <BaseMenu.Trigger render={<BreadcrumbTrigger />} {...props}>
-      <Icon tint="tertiary" magnitude="md">
-        {icon ?? <Ellipsis />}
-      </Icon>
+      {icon ?? (
+        <IconSlot tint="tertiary" magnitude="md">
+          <Ellipsis />
+        </IconSlot>
+      )}
     </BaseMenu.Trigger>
   );
 }

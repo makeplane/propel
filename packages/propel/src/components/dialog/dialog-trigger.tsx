@@ -7,9 +7,13 @@ export type DialogTriggerProps = Omit<BaseDialog.Trigger.Props, "className" | "s
  * primitive's look wins via render-composition:
  *
  * ```tsx
- * <Button prominence="secondary" tone="neutral" magnitude="xl" render={<DialogTrigger />}>
- *   Open dialog
- * </Button>;
+ * <Button
+ *   prominence="secondary"
+ *   tone="neutral"
+ *   magnitude="xl"
+ *   label="Open dialog"
+ *   render={<DialogTrigger />}
+ * />;
  * ```
  *
  * Base UI manages `aria-haspopup`/`aria-expanded` and focus restoration when the dialog closes.

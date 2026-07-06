@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Check, Sparkles } from "lucide-react";
 
 import { iconControl } from "../../storybook/icon-control";
+import { Icon } from "../icon";
 import { Badge, BadgeLabel, type BadgeMagnitude, type BadgeTone } from "./index";
 
 const TONES: BadgeTone[] = [
@@ -31,7 +32,7 @@ const meta = {
   subcomponents: { BadgeLabel },
   argTypes: { startIcon: iconControl, endIcon: iconControl },
   args: {
-    children: "Badge",
+    label: "Badge",
     tone: "neutral",
     magnitude: "md",
   },
@@ -50,13 +51,11 @@ export const Default: Story = {};
 
 /** Every color/intent the badge supports, side by side. */
 export const Tones: Story = {
-  argTypes: { tone: { control: false }, children: { control: false } },
+  argTypes: { tone: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex flex-wrap items-center gap-3">
       {TONES.map((tone) => (
-        <Badge key={tone} {...args} tone={tone}>
-          {tone}
-        </Badge>
+        <Badge key={tone} {...args} tone={tone} label={tone} />
       ))}
     </div>
   ),
@@ -64,13 +63,11 @@ export const Tones: Story = {
 
 /** The three sizes (Figma S / Base / Large). */
 export const Magnitudes: Story = {
-  argTypes: { magnitude: { control: false }, children: { control: false } },
+  argTypes: { magnitude: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <Badge key={magnitude} {...args} magnitude={magnitude}>
-          {magnitude}
-        </Badge>
+        <Badge key={magnitude} {...args} magnitude={magnitude} label={magnitude} />
       ))}
     </div>
   ),
@@ -82,9 +79,14 @@ export const WithLeadingIcon: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <Badge key={magnitude} {...args} tone="success" magnitude={magnitude} startIcon={<Check />}>
-          Done
-        </Badge>
+        <Badge
+          key={magnitude}
+          {...args}
+          tone="success"
+          magnitude={magnitude}
+          startIcon={<Icon icon={Check} />}
+          label="Done"
+        />
       ))}
     </div>
   ),
@@ -96,9 +98,14 @@ export const WithTrailingIcon: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <Badge key={magnitude} {...args} tone="brand" magnitude={magnitude} endIcon={<Sparkles />}>
-          Pro
-        </Badge>
+        <Badge
+          key={magnitude}
+          {...args}
+          tone="brand"
+          magnitude={magnitude}
+          endIcon={<Icon icon={Sparkles} />}
+          label="Pro"
+        />
       ))}
     </div>
   ),
@@ -129,9 +136,13 @@ export const PlanBadges: Story = {
       {(["paid", "free"] as const).map((plan) => (
         <div key={plan} className="flex items-center gap-3">
           {MAGNITUDES.map((magnitude) => (
-            <Badge key={magnitude} {...args} tone={PLAN_TONES[plan]} magnitude={magnitude}>
-              {plan === "paid" ? "Paid" : "Free"}
-            </Badge>
+            <Badge
+              key={magnitude}
+              {...args}
+              tone={PLAN_TONES[plan]}
+              magnitude={magnitude}
+              label={plan === "paid" ? "Paid" : "Free"}
+            />
           ))}
         </div>
       ))}

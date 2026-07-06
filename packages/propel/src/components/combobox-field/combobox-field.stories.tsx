@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronsUpDown, X } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { Icon } from "../icon";
 import { IconButton } from "../icon-button";
 import { ComboboxField, type ComboboxFieldProps } from "./index";
 
@@ -18,14 +19,22 @@ const meta = {
     label: "Region",
     description: "Filter the deployment region.",
     clear: (
-      <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear region">
-        <X />
-      </IconButton>
+      <IconButton
+        prominence="ghost"
+        tone="neutral"
+        magnitude="md"
+        aria-label="Clear region"
+        icon={<Icon icon={X} />}
+      />
     ),
     trigger: (
-      <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
-        <ChevronsUpDown />
-      </IconButton>
+      <IconButton
+        prominence="ghost"
+        tone="neutral"
+        magnitude="md"
+        aria-label="Open region"
+        icon={<Icon icon={ChevronsUpDown} />}
+      />
     ),
     empty: "No regions found",
     magnitude: "md",

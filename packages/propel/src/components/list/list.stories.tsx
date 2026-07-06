@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Ellipsis, Inbox, LayoutGrid, Settings } from "lucide-react";
 import { expect } from "storybook/test";
 
-import { Icon } from "../../internal/icon";
+import { Icon } from "../icon";
 import {
   List,
   ListItem,
@@ -51,34 +51,26 @@ export const Default: Story = {
     <List role="toolbar" aria-label="Workspace">
       <ListItem>
         <ListItemLink href="#inbox">
-          <Icon magnitude="md">
-            <Inbox aria-hidden />
-          </Icon>
+          <Icon icon={Inbox} magnitude="md" />
           <ListItemLabel>Inbox</ListItemLabel>
         </ListItemLink>
       </ListItem>
       <ListItem>
         <ListItemLink href="#projects" aria-current="page">
-          <Icon magnitude="md">
-            <LayoutGrid aria-hidden />
-          </Icon>
+          <Icon icon={LayoutGrid} magnitude="md" />
           <ListItemLabel>Projects</ListItemLabel>
         </ListItemLink>
       </ListItem>
       <ListItem>
         <ListItemLink href="#settings">
-          <Icon magnitude="md">
-            <Settings aria-hidden />
-          </Icon>
+          <Icon icon={Settings} magnitude="md" />
           <ListItemLabel>Settings</ListItemLabel>
         </ListItemLink>
       </ListItem>
       <ListItem>
         {/* An action row (not navigation) — a button that shares the row chrome. */}
         <ListItemButton>
-          <Icon magnitude="md">
-            <Ellipsis aria-hidden />
-          </Icon>
+          <Icon icon={Ellipsis} magnitude="md" />
           <ListItemLabel>More</ListItemLabel>
         </ListItemButton>
       </ListItem>
@@ -130,17 +122,13 @@ export const Section: Story = {
       <List role="toolbar" aria-label="Workspace">
         <ListItem>
           <ListItemLink href="#projects" aria-current="page">
-            <Icon magnitude="md">
-              <LayoutGrid aria-hidden />
-            </Icon>
+            <Icon icon={LayoutGrid} magnitude="md" />
             <ListItemLabel>Projects</ListItemLabel>
           </ListItemLink>
         </ListItem>
         <ListItem>
           <ListItemLink href="#settings">
-            <Icon magnitude="md">
-              <Settings aria-hidden />
-            </Icon>
+            <Icon icon={Settings} magnitude="md" />
             <ListItemLabel>Settings</ListItemLabel>
           </ListItemLink>
         </ListItem>

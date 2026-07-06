@@ -1,12 +1,18 @@
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check } from "lucide-react";
+import type * as React from "react";
 
 import { SelectItemIndicator } from "../../elements/select";
 import { ListboxItem, type ListboxItemMagnitude } from "../../internal/listbox-item";
 
-export type SelectItemProps = Omit<BaseSelect.Item.Props, "className" | "render" | "style"> & {
+export type SelectItemProps = Omit<
+  BaseSelect.Item.Props,
+  "children" | "className" | "label" | "render" | "style"
+> & {
   /** Visual size of the row: controls its height and text size. Required. */
   magnitude: ListboxItemMagnitude;
+  /** Option label. */
+  label: React.ReactNode;
 };
 
 /**
@@ -14,16 +20,16 @@ export type SelectItemProps = Omit<BaseSelect.Item.Props, "className" | "render"
  * row and bakes the selection marker — Base UI's `Select.ItemIndicator` grafted onto the styled
  * `SelectItemIndicator` with a check glyph. The marker is `keepMounted` because the
  * `layout="indicator"` row places children positionally: it must occupy the leading column even
- * while unselected (the styled marker hides its glyph off `data-selected`). Children become the
- * item's text via Base UI's `Select.ItemText`.
+ * while unselected (the styled marker hides its glyph off `data-selected`). The `label` prop
+ * becomes the item's text via Base UI's `Select.ItemText`.
  */
-export function SelectItem({ children, magnitude, ...props }: SelectItemProps) {
+export function SelectItem({ label, magnitude, ...props }: SelectItemProps) {
   return (
     <BaseSelect.Item {...props} render={<ListboxItem layout="indicator" magnitude={magnitude} />}>
       <BaseSelect.ItemIndicator keepMounted render={<SelectItemIndicator />}>
         <Check aria-hidden />
       </BaseSelect.ItemIndicator>
-      <BaseSelect.ItemText>{children}</BaseSelect.ItemText>
+      <BaseSelect.ItemText>{label}</BaseSelect.ItemText>
     </BaseSelect.Item>
   );
 }

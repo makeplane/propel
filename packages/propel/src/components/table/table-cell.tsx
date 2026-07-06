@@ -6,14 +6,15 @@ import {
   TableCellContent,
   TableCellLayout,
 } from "../../elements/table/index";
-import { NodeSlot } from "../../internal/node-slot";
 import { useTableMode } from "./table-context";
 
-export type TableCellProps = Omit<TableCellElementProps, "mode"> & {
-  /** Leading content beside the cell text — an icon or an `Avatar`. */
+export type TableCellProps = Omit<TableCellElementProps, "children" | "mode"> & {
+  /** Leading element beside the cell text, e.g. `<Icon icon={...} />` or an `Avatar`. */
   startIcon?: React.ReactNode;
-  /** Trailing content beside the cell text — an icon or an `Avatar`. */
+  /** Trailing element beside the cell text, e.g. `<Icon icon={...} />` or an `Avatar`. */
   endIcon?: React.ReactNode;
+  /** Cell content. */
+  children?: React.ReactNode;
 };
 
 /** A ready-made data cell: optional leading/trailing slots around a truncating content region. */
@@ -22,9 +23,9 @@ export function TableCell({ startIcon, endIcon, children, ...props }: TableCellP
   return (
     <TableCellElement mode={mode} {...props}>
       <TableCellLayout>
-        {startIcon != null ? <NodeSlot>{startIcon}</NodeSlot> : null}
+        {startIcon}
         <TableCellContent>{children}</TableCellContent>
-        {endIcon != null ? <NodeSlot>{endIcon}</NodeSlot> : null}
+        {endIcon}
       </TableCellLayout>
     </TableCellElement>
   );

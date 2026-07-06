@@ -132,7 +132,7 @@ export const WithImageInteraction: Story = {
   },
 };
 
-// Per-trigger payload content: the card resolves its body from the string payload the
+// Per-trigger payload body: the card resolves its body from the string payload the
 // active trigger passed, so one card serves several launch points.
 const topics: Record<string, { title: string; description: string }> = {
   cycles: {
@@ -284,9 +284,8 @@ export const Controlled: Story = {
             setTriggerId("modules-trigger");
             setOpen(true);
           }}
-        >
-          Preview modules
-        </Button>
+          label="Preview modules"
+        />
       </div>
     );
   },

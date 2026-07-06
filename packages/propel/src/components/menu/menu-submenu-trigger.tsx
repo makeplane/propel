@@ -10,35 +10,34 @@ import {
   MenuSubmenuTrigger as MenuSubmenuTriggerElement,
 } from "../../elements/menu";
 import { DisclosureIndicator } from "../../internal/disclosure-indicator";
-import { Icon } from "../../internal/icon";
 
-export type MenuSubmenuTriggerProps = Omit<BaseMenu.SubmenuTrigger.Props, "className" | "style"> & {
-  /** Leading content before the label. */
+export type MenuSubmenuTriggerProps = Omit<
+  BaseMenu.SubmenuTrigger.Props,
+  "children" | "className" | "label" | "style"
+> & {
+  /** Leading element before the label, e.g. `<Icon icon={Folder} tint="secondary" />`. */
   icon?: React.ReactNode;
-  /** Trailing content before the chevron. */
-  trailing?: React.ReactNode;
+  /** Primary row label. */
+  label: React.ReactNode;
+  /** Element rendered before the submenu chevron at the inline end of the row. */
+  endContent?: React.ReactNode;
 };
 
 /**
  * The ready-made submenu trigger row: grafts Base UI's `Menu.SubmenuTrigger` behavior onto the
- * styled `MenuSubmenuTrigger` and lays out optional leading/trailing nodes, the label, and the
+ * styled `MenuSubmenuTrigger` and lays out an optional leading icon, label, end content, and the
  * submenu chevron indicator.
  */
-export function MenuSubmenuTrigger({
-  icon,
-  trailing,
-  children,
-  ...props
-}: MenuSubmenuTriggerProps) {
+export function MenuSubmenuTrigger({ icon, endContent, label, ...props }: MenuSubmenuTriggerProps) {
   return (
     <BaseMenu.SubmenuTrigger {...props} render={<MenuSubmenuTriggerElement />}>
-      {icon != null ? <Icon tint="secondary">{icon}</Icon> : null}
+      {icon}
       <MenuItemContent>
         <MenuItemTitleRow>
-          <MenuItemTitle>{children}</MenuItemTitle>
+          <MenuItemTitle>{label}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
-      {trailing != null ? <MenuItemTrailing>{trailing}</MenuItemTrailing> : null}
+      {endContent != null ? <MenuItemTrailing>{endContent}</MenuItemTrailing> : null}
       <DisclosureIndicator motion="pointEnd" tint="tertiary" magnitude="inherit">
         <ChevronDown />
       </DisclosureIndicator>

@@ -3,6 +3,7 @@ import { Mail, Search } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
+import { Icon } from "../icon";
 import { InputField, type InputMagnitude } from "./index";
 
 const MAGNITUDES: InputMagnitude[] = ["md", "lg", "xl"];
@@ -92,8 +93,8 @@ export const WithIcons: Story = {
     orientation: "vertical",
     label: "Search",
     placeholder: "Search…",
-    startIcon: <Search />,
-    endIcon: <Mail />,
+    startIcon: <Icon icon={Search} tint="placeholder" />,
+    endIcon: <Icon icon={Mail} tint="placeholder" />,
   },
 };
 
@@ -196,8 +197,8 @@ export const RtlVerify: Story = {
         orientation="vertical"
         label="بحث"
         placeholder="Search…"
-        startIcon={<Search />}
-        endIcon={<Mail />}
+        startIcon={<Icon icon={Search} tint="placeholder" />}
+        endIcon={<Icon icon={Mail} tint="placeholder" />}
       />
       <InputField
         magnitude="md"
@@ -238,8 +239,8 @@ export const LtrVerify: Story = {
         orientation="vertical"
         label="Search"
         placeholder="Search…"
-        startIcon={<Search />}
-        endIcon={<Mail />}
+        startIcon={<Icon icon={Search} tint="placeholder" />}
+        endIcon={<Icon icon={Mail} tint="placeholder" />}
       />
       <InputField
         magnitude="md"

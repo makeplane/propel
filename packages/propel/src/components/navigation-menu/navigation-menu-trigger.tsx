@@ -10,10 +10,12 @@ import {
 
 export type NavigationMenuTriggerProps = Omit<
   BaseNavigationMenu.Trigger.Props,
-  "className" | "style"
+  "children" | "className" | "style"
 > & {
   /** Replaces the default disclosure caret (a down chevron) in the trigger's `Icon` slot. */
   icon?: React.ReactNode;
+  /** Visible trigger label. */
+  label: React.ReactNode;
 };
 
 /**
@@ -21,10 +23,10 @@ export type NavigationMenuTriggerProps = Omit<
  * trigger, wraps the label, and bakes the rotating disclosure caret (`NavigationMenuIcon` with a
  * default chevron — defaults are a `components` concern, rule 2a). Override the glyph via `icon`.
  */
-export function NavigationMenuTrigger({ icon, children, ...props }: NavigationMenuTriggerProps) {
+export function NavigationMenuTrigger({ icon, label, ...props }: NavigationMenuTriggerProps) {
   return (
     <BaseNavigationMenu.Trigger {...props} render={<NavigationMenuTriggerElement />}>
-      <NavigationMenuTriggerLabel>{children}</NavigationMenuTriggerLabel>
+      <NavigationMenuTriggerLabel>{label}</NavigationMenuTriggerLabel>
       <BaseNavigationMenu.Icon render={<NavigationMenuIcon />}>
         {icon ?? <ChevronDown aria-hidden />}
       </BaseNavigationMenu.Icon>
