@@ -1,17 +1,19 @@
 import { defineConfig } from "vite-plus";
 import { configDefaults } from "vite-plus/test/config";
 
+const agentIgnorePatterns = ["**/.claude/**", "**/.agents/**"];
+
 export default defineConfig({
   staged: {
     "*": "vp check --fix",
   },
-  // Agent worktrees (`.claude/worktrees/<name>`) are full second checkouts of the repo
-  // nested inside vite's workspace root. Vitest doesn't honor `.gitignore`, so a
+  // Agent worktrees (`.claude/worktrees/<name>`, `.agents/...`) can live inside
+  // the repo root. Vitest doesn't honor `.gitignore`, so a
   // repo-root `vp test` would otherwise crawl those duplicate trees; also keep the
   // dev/test server's file watcher out of them.
-  server: { watch: { ignored: ["**/.claude/**"] } },
+  server: { watch: { ignored: agentIgnorePatterns } },
   test: {
-    exclude: [...configDefaults.exclude, "**/.claude/**"],
+    exclude: [...configDefaults.exclude, ...agentIgnorePatterns],
   },
   fmt: {
     ignorePatterns: ["dist/**"],
@@ -54,12 +56,13 @@ export default defineConfig({
     },
   },
   run: {
-    cache: true,
     tasks: {
       check: {
         command: "vp check",
         input: [
           { auto: true },
+          "!**/.agents/**",
+          "!**/.claude/**",
           "!**/dist/**",
           "!**/node_modules/.vite-temp/**",
           "!**/storybook-static/**",

@@ -56,7 +56,6 @@
   },
   "scripts": {
     "dev": "vp pack --watch",
-    "prepublishOnly": "vp run build",
     "storybook": "storybook dev -p 6006"
   },
   "dependencies": {
@@ -78,8 +77,8 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@typescript/native-preview": "catalog:",
-    "@vitest/browser-playwright": "4.1.9",
-    "@vitest/coverage-v8": "4.1.9",
+    "@vitest/browser-playwright": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "playwright": "catalog:",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
@@ -87,8 +86,9 @@
     "storybook-addon-pseudo-states": "^10.4.6",
     "tailwindcss": "catalog:",
     "typescript": "^6.0.3",
+    "vite": "catalog:",
     "vite-plus": "catalog:",
-    "vitest": "4.1.9",
+    "vitest": "catalog:",
     "wrangler": "4.107.0"
   },
   "peerDependencies": {
