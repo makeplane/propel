@@ -22,7 +22,10 @@ export const drawerViewportVariants = cva("fixed inset-0 z-50");
 export const drawerPopupVariants = cva(
   cx(
     "fixed inset-y-0 z-50 flex h-full w-80 max-w-[90vw] flex-col",
-    "border-subtle bg-layer-1 shadow-overlay-100 outline-none",
+    // `surface-1` is the on-top-of-page panel surface every other overlay uses (the shared
+    // `internal/surface` recipe: menus, toast, calendar, toolbar). `layer-1` is an interactive
+    // control fill (it carries hover/active/selected variants), wrong for a static panel.
+    "border-subtle bg-surface-1 shadow-overlay-100 outline-none",
     "transition-transform duration-200",
   ),
   {
