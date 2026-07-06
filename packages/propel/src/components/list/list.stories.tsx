@@ -50,29 +50,26 @@ export const Default: Story = {
   render: () => (
     <List role="toolbar" aria-label="Workspace">
       <ListItem>
-        <ListItemLink href="#inbox">
-          <Icon icon={Inbox} magnitude="md" />
-          <ListItemLabel>Inbox</ListItemLabel>
-        </ListItemLink>
+        <ListItemLink href="#inbox" icon={<Icon icon={Inbox} magnitude="md" />} label="Inbox" />
       </ListItem>
       <ListItem>
-        <ListItemLink href="#projects" aria-current="page">
-          <Icon icon={LayoutGrid} magnitude="md" />
-          <ListItemLabel>Projects</ListItemLabel>
-        </ListItemLink>
+        <ListItemLink
+          href="#projects"
+          aria-current="page"
+          icon={<Icon icon={LayoutGrid} magnitude="md" />}
+          label="Projects"
+        />
       </ListItem>
       <ListItem>
-        <ListItemLink href="#settings">
-          <Icon icon={Settings} magnitude="md" />
-          <ListItemLabel>Settings</ListItemLabel>
-        </ListItemLink>
+        <ListItemLink
+          href="#settings"
+          icon={<Icon icon={Settings} magnitude="md" />}
+          label="Settings"
+        />
       </ListItem>
       <ListItem>
         {/* An action row (not navigation) — a button that shares the row chrome. */}
-        <ListItemButton>
-          <Icon icon={Ellipsis} magnitude="md" />
-          <ListItemLabel>More</ListItemLabel>
-        </ListItemButton>
+        <ListItemButton icon={<Icon icon={Ellipsis} magnitude="md" />} label="More" />
       </ListItem>
     </List>
   ),
@@ -121,16 +118,19 @@ export const Section: Story = {
     <ListSection label="Workspace" indicator defaultOpen>
       <List role="toolbar" aria-label="Workspace">
         <ListItem>
-          <ListItemLink href="#projects" aria-current="page">
-            <Icon icon={LayoutGrid} magnitude="md" />
-            <ListItemLabel>Projects</ListItemLabel>
-          </ListItemLink>
+          <ListItemLink
+            href="#projects"
+            aria-current="page"
+            icon={<Icon icon={LayoutGrid} magnitude="md" />}
+            label="Projects"
+          />
         </ListItem>
         <ListItem>
-          <ListItemLink href="#settings">
-            <Icon icon={Settings} magnitude="md" />
-            <ListItemLabel>Settings</ListItemLabel>
-          </ListItemLink>
+          <ListItemLink
+            href="#settings"
+            icon={<Icon icon={Settings} magnitude="md" />}
+            label="Settings"
+          />
         </ListItem>
       </List>
     </ListSection>

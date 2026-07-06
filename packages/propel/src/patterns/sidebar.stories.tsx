@@ -8,7 +8,6 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemLabel,
   ListItemLink,
   ListSection,
 } from "../components/list/index";
@@ -32,8 +31,8 @@ import {
 // App-level demo (not a shipped primitive): the Plane workspace sidebar assembled entirely from
 // existing propel components — proving the design frame distills into the system with no bespoke
 // "navbar". Header actions are `IconButton`s, the create action is a `Button`; collapsible groups are
-// the ready-made `ListSection`, and rows are `List` + `ListItem`(+`Link`/`Button`/`Icon`/`Label`) —
-// all from `components/list`. The glyphs are Plane's own Foundations icons (copied verbatim from
+// the ready-made `ListSection`, and rows are `List` + `ListItem`(+`Link`/`Button` label/icon slots)
+// — all from `components/list`. The glyphs are Plane's own Foundations icons (copied verbatim from
 // Figma as SVG in sidebar-icons.tsx — Plane uses its own set, not lucide, and propel doesn't ship it
 // yet); project glyphs are emoji.
 //
@@ -86,62 +85,64 @@ export const WorkspaceSidebar: Story = {
 
       <List role="toolbar" aria-label="Primary">
         <ListItem>
-          <ListItemLink href="#home">
-            <Icon icon={HomeIcon} magnitude="md" />
-            <ListItemLabel>Home</ListItemLabel>
-          </ListItemLink>
+          <ListItemLink href="#home" icon={<Icon icon={HomeIcon} magnitude="md" />} label="Home" />
         </ListItem>
         <ListItem>
-          <ListItemLink href="#stickers">
-            <Icon icon={StickersIcon} magnitude="md" />
-            <ListItemLabel>Stickers</ListItemLabel>
-          </ListItemLink>
+          <ListItemLink
+            href="#stickers"
+            icon={<Icon icon={StickersIcon} magnitude="md" />}
+            label="Stickers"
+          />
         </ListItem>
         <ListItem>
-          <ListItemLink href="#your-work">
-            <Icon icon={YourWorkIcon} magnitude="md" />
-            <ListItemLabel>Your work</ListItemLabel>
-          </ListItemLink>
+          <ListItemLink
+            href="#your-work"
+            icon={<Icon icon={YourWorkIcon} magnitude="md" />}
+            label="Your work"
+          />
         </ListItem>
       </List>
 
       <ListSection label="Workspace" indicator defaultOpen>
         <List role="toolbar" aria-label="Workspace">
           <ListItem>
-            <ListItemLink href="#projects" aria-current="page">
-              <Icon icon={ProjectsIcon} magnitude="md" />
-              <ListItemLabel>Projects</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink
+              href="#projects"
+              aria-current="page"
+              icon={<Icon icon={ProjectsIcon} magnitude="md" />}
+              label="Projects"
+            />
           </ListItem>
           <ListItem>
-            <ListItemLink href="#work-graph">
-              <Icon icon={YourWorkIcon} magnitude="md" />
-              <ListItemLabel>Work graph</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink
+              href="#work-graph"
+              icon={<Icon icon={YourWorkIcon} magnitude="md" />}
+              label="Work graph"
+            />
           </ListItem>
           <ListItem>
-            <ListItemLink href="#initiatives">
-              <Icon icon={InitiativesIcon} magnitude="md" />
-              <ListItemLabel>Initiatives</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink
+              href="#initiatives"
+              icon={<Icon icon={InitiativesIcon} magnitude="md" />}
+              label="Initiatives"
+            />
           </ListItem>
           <ListItem>
-            <ListItemLink href="#analytics">
-              <Icon icon={AnalyticsIcon} magnitude="md" />
-              <ListItemLabel>Analytics</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink
+              href="#analytics"
+              icon={<Icon icon={AnalyticsIcon} magnitude="md" />}
+              label="Analytics"
+            />
           </ListItem>
           <ListItem>
-            <ListItemLink href="#releases">
-              <Icon icon={ReleasesIcon} magnitude="md" />
-              <ListItemLabel>Releases</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink
+              href="#releases"
+              icon={<Icon icon={ReleasesIcon} magnitude="md" />}
+              label="Releases"
+            />
           </ListItem>
           <ListItem>
-            <ListItemButton>
-              <Icon icon={MoreIcon} magnitude="md" />
-              <ListItemLabel>More</ListItemLabel>
-            </ListItemButton>
+            <ListItemButton icon={<Icon icon={MoreIcon} magnitude="md" />} label="More" />
           </ListItem>
         </List>
       </ListSection>
@@ -149,34 +150,31 @@ export const WorkspaceSidebar: Story = {
       <ListSection label="Projects" indicator defaultOpen>
         <List role="toolbar" aria-label="Projects">
           <ListItem>
-            <ListItemLink href="#acme">
-              <Icon icon="🚜" magnitude="md" />
-              <ListItemLabel>Acme Inc.</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink href="#acme" icon={<Icon icon="🚜" magnitude="md" />} label="Acme Inc." />
           </ListItem>
           <ListItem>
-            <ListItemLink href="#web-development">
-              <Icon icon="🧩" magnitude="md" />
-              <ListItemLabel>Web Development</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink
+              href="#web-development"
+              icon={<Icon icon="🧩" magnitude="md" />}
+              label="Web Development"
+            />
           </ListItem>
           <ListItem>
-            <ListItemLink href="#plane-pro">
-              <Icon icon="🚗" magnitude="md" />
-              <ListItemLabel>Plane Pro</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink
+              href="#plane-pro"
+              icon={<Icon icon="🚗" magnitude="md" />}
+              label="Plane Pro"
+            />
           </ListItem>
           <ListItem>
-            <ListItemLink href="#discover">
-              <Icon icon="📞" magnitude="md" />
-              <ListItemLabel>Discover</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink
+              href="#discover"
+              icon={<Icon icon="📞" magnitude="md" />}
+              label="Discover"
+            />
           </ListItem>
           <ListItem>
-            <ListItemButton>
-              <Icon icon={MoreIcon} magnitude="md" />
-              <ListItemLabel>More</ListItemLabel>
-            </ListItemButton>
+            <ListItemButton icon={<Icon icon={MoreIcon} magnitude="md" />} label="More" />
           </ListItem>
         </List>
       </ListSection>
@@ -184,22 +182,25 @@ export const WorkspaceSidebar: Story = {
       <ListSection label="Try" indicator defaultOpen>
         <List role="toolbar" aria-label="Try">
           <ListItem>
-            <ListItemLink href="#github">
-              <Icon icon={GithubIcon} magnitude="md" />
-              <ListItemLabel>Connect to GitHub</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink
+              href="#github"
+              icon={<Icon icon={GithubIcon} magnitude="md" />}
+              label="Connect to GitHub"
+            />
           </ListItem>
           <ListItem>
-            <ListItemLink href="#slack">
-              <Icon icon={SlackIcon} magnitude="md" />
-              <ListItemLabel>Connect to Slack</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink
+              href="#slack"
+              icon={<Icon icon={SlackIcon} magnitude="md" />}
+              label="Connect to Slack"
+            />
           </ListItem>
           <ListItem>
-            <ListItemLink href="#plane-ai">
-              <Icon icon={PlaneAiIcon} magnitude="md" />
-              <ListItemLabel>Try Plane AI</ListItemLabel>
-            </ListItemLink>
+            <ListItemLink
+              href="#plane-ai"
+              icon={<Icon icon={PlaneAiIcon} magnitude="md" />}
+              label="Try Plane AI"
+            />
           </ListItem>
         </List>
       </ListSection>
