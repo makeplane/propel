@@ -16,13 +16,19 @@ export const linkChromeVariants = cva(
     variants: {
       prominence: {
         primary: "text-link-primary hover:text-link-primary-hover",
-        secondary: "text-secondary hover:text-primary",
+        // The muted link rests at `tertiary` and darkens two steps to `primary` on hover — a wider
+        // default→hover gap than `secondary`→`primary` gave, so the hover reads clearly.
+        secondary: "text-tertiary hover:text-primary",
       },
+      // Inline text has no height/padding, so text size is the ONLY size cue — the scale must step
+      // the font itself at every magnitude (unlike `buttonGeometryVariants`, where the button
+      // height carries the step and `md`/`lg` can share a font size). One distinct token per step:
+      // 12·13·14·16.
       magnitude: {
         sm: "text-12 leading-snug [--node-size:0.75rem]",
         md: "text-13 [--node-size:0.875rem]",
-        lg: "text-13 [--node-size:0.875rem]",
-        xl: "text-14 [--node-size:1rem]",
+        lg: "text-14 [--node-size:1rem]",
+        xl: "text-16 [--node-size:1.25rem]",
       },
     },
   },
