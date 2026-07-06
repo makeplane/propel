@@ -19,4 +19,6 @@ export type ButtonVariantProps = StrictVariantProps<typeof buttonVariants>;
 
 // The text label inside a Button. When the parent button is `aria-busy` (loading) it dims via the
 // `group-aria-busy:` sibling of the `group` class on the root.
-export const buttonLabelVariants = cva("group-aria-busy:opacity-50");
+export const buttonLabelVariants = cva(
+  "transition-opacity duration-200 ease-out group-aria-busy:opacity-50",
+);

@@ -10,7 +10,7 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 export const controlChromeVariants = cva(
   cx(
     "group relative inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md",
-    "transition-colors outline-none",
+    "transition-all duration-200 ease-out outline-none",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1",
     "disabled:pointer-events-none disabled:cursor-not-allowed",
     "aria-busy:cursor-default",
