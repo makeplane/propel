@@ -10,6 +10,11 @@ export const autocompleteInputGroupVariants = cva(
     // Wraps a separate focusable input → the shared `focus: within` group chrome.
     controlGroupClass,
     "w-full items-center gap-2 rounded-lg px-3",
+    // A trailing control (clear/trigger renders a `<button>`; the leading icon is a `<span>`) sits
+    // flush inside the field, not in its own oversized button well: tighten the group's right
+    // padding so the chevron/clear glyph reads as part of the input, optically balanced with the
+    // text. The `:has()` selector outweighs the flat `px-3`, so it only applies when present.
+    "has-[button]:pr-1",
   ),
   {
     variants: {
