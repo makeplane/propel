@@ -51,8 +51,13 @@ export const tabVariants = cva(
 
 export type TabVariantProps = StrictVariantProps<typeof tabVariants>;
 
+// The label owns the underline tab's visible text color, so the disabled tone has to key off the
+// parent tab's `disabled` here — the tab button's own `disabled:text-disabled` can't reach text a
+// child colors explicitly. The disabled/hover/active state tones are mutually exclusive in practice
+// (a tab is never both disabled and active/hovered), so their equal specificity never collides;
+// the hover background is also suppressed while disabled.
 export const tabUnderlineLabelVariants = cva(
-  "flex h-7 items-center justify-center gap-1.5 rounded-md px-2 py-0.5 text-tertiary transition-colors group-hover/tab:bg-layer-transparent-hover group-hover/tab:text-secondary group-data-active/tab:bg-layer-transparent-selected group-data-active/tab:text-primary",
+  "flex h-7 items-center justify-center gap-1.5 rounded-md px-2 py-0.5 text-tertiary transition-colors group-hover/tab:bg-layer-transparent-hover group-hover/tab:text-secondary group-disabled/tab:bg-transparent group-disabled/tab:text-disabled group-data-active/tab:bg-layer-transparent-selected group-data-active/tab:text-primary",
 );
 
 export const tabUnderlineBarTrackVariants = cva("flex px-2");
