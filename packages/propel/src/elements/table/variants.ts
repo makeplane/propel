@@ -15,10 +15,12 @@ export const tableScrollAreaVariants = cva(
   "relative flex max-h-full w-full flex-col overflow-hidden rounded-lg border border-subtle bg-surface-1",
 );
 
-// The scroll viewport that the `<table>` lives in.
+// The scroll viewport that the `<table>` lives in. The `group/table-viewport` marker lets pinned
+// heads/cells read Base UI's `data-overflow-x-start`/`data-overflow-x-end` scroll state to cast
+// their directional shadow only while content is scrolled behind them.
 export const tableScrollAreaViewportVariants = cva(
   cx(
-    "min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none",
+    "group/table-viewport min-h-0 flex-1 overscroll-contain rounded-[inherit] outline-none",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-inset",
   ),
 );
@@ -51,11 +53,25 @@ export const tableHeadVariants = cva(
         table: "border-b border-subtle",
         spreadsheet: "border-e-[0.5px] border-b-[0.5px] border-subtle last:border-e-0",
       },
-      // Pin this header to an inline edge while the body scrolls sideways.
+      // Pin this header to an inline edge while the body scrolls sideways. The directional shadow
+      // appears only while content is scrolled behind the pinned edge (Base UI's overflow state on
+      // the viewport) and flips with the writing direction. It's cast from an `::after` box, not
+      // the cell itself: Chrome does not paint `box-shadow` on table cells under
+      // `border-collapse: collapse`.
       pinned: {
         none: "z-20",
-        start: "sticky inset-s-0 z-30 border-e-[0.5px] border-subtle",
-        end: "sticky inset-e-0 z-30 border-s-[0.5px] border-subtle",
+        start: cx(
+          "sticky inset-s-0 z-30 border-e-[0.5px] border-subtle",
+          "after:pointer-events-none after:absolute after:inset-0 after:[clip-path:inset(0_-80px)]",
+          "group-data-overflow-x-start/table-viewport:after:shadow-direction-right",
+          "rtl:group-data-overflow-x-start/table-viewport:after:shadow-direction-left",
+        ),
+        end: cx(
+          "sticky inset-e-0 z-30 border-s-[0.5px] border-subtle",
+          "after:pointer-events-none after:absolute after:inset-0 after:[clip-path:inset(0_-80px)]",
+          "group-data-overflow-x-end/table-viewport:after:shadow-direction-left",
+          "rtl:group-data-overflow-x-end/table-viewport:after:shadow-direction-right",
+        ),
       },
     },
   },
@@ -72,9 +88,18 @@ export const tableCellVariants = cva("h-11 align-middle", {
     },
     pinned: {
       none: "",
-      start:
+      start: cx(
         "sticky inset-s-0 z-10 border-e-[0.5px] border-subtle bg-layer-2 group-hover/body-row:bg-layer-2-hover",
-      end: "sticky inset-e-0 z-10 border-s-[0.5px] border-subtle bg-layer-2 group-hover/body-row:bg-layer-2-hover",
+        "after:pointer-events-none after:absolute after:inset-0 after:[clip-path:inset(0_-80px)]",
+        "group-data-overflow-x-start/table-viewport:after:shadow-direction-right",
+        "rtl:group-data-overflow-x-start/table-viewport:after:shadow-direction-left",
+      ),
+      end: cx(
+        "sticky inset-e-0 z-10 border-s-[0.5px] border-subtle bg-layer-2 group-hover/body-row:bg-layer-2-hover",
+        "after:pointer-events-none after:absolute after:inset-0 after:[clip-path:inset(0_-80px)]",
+        "group-data-overflow-x-end/table-viewport:after:shadow-direction-left",
+        "rtl:group-data-overflow-x-end/table-viewport:after:shadow-direction-right",
+      ),
     },
     // Cells that host a full-cell trigger (editable/action) drop their own padding so
     // the trigger fills the cell; plain cells keep the standard padding.
