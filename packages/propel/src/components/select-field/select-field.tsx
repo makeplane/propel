@@ -31,7 +31,7 @@ export type SelectFieldOption = {
 };
 
 export type SelectFieldProps = Omit<SelectProps<string>, "children" | "items"> & {
-  /** Supporting text shown below the trigger. */
+  /** Supporting text shown below the trigger. Replaced by `error` when an error is set. */
   description?: React.ReactNode;
   /** Error text shown below the control. */
   error?: React.ReactNode;
@@ -63,7 +63,7 @@ export function SelectField({
       <Select disabled={disabled} items={options} {...selectProps}>
         <BaseSelect.Label render={<SelectLabel />}>{label}</BaseSelect.Label>
         <SelectTrigger magnitude={selectMagnitude} />
-        {description != null ? (
+        {error == null && description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
         ) : null}
         <BaseSelect.Portal>

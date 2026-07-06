@@ -16,7 +16,7 @@ export type ComboboxFieldProps<Value = string> = Omit<
   ComboboxProps<Value>,
   "children" | "items"
 > & {
-  /** Supporting text shown below the input. */
+  /** Supporting text shown below the input. Replaced by `error` when an error is set. */
   description?: React.ReactNode;
   /**
    * The clear control (e.g. an `IconButton`), rendered as the combobox's clear button. It carries
@@ -74,7 +74,7 @@ export function ComboboxField<Value = string>({
           <BaseCombobox.Clear render={clear} />
           <BaseCombobox.Trigger render={trigger} />
         </BaseCombobox.InputGroup>
-        {description != null ? (
+        {error == null && description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
         ) : null}
         <BaseCombobox.Portal>
