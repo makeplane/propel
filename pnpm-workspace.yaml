@@ -36,6 +36,10 @@ overrides:
   "miniflare>ws": 8.21.0
   "storybook>ws": 8.21.0
   "@vitest/browser>ws": 8.21.0
+  # @manypkg/get-packages still asks for read-yaml-file@1, which cannot run with
+  # js-yaml@4 because it calls the removed safeLoad API. v2 keeps the same CommonJS
+  # surface while supporting js-yaml@4.
+  read-yaml-file: 2.1.0
   "@changesets/parse>js-yaml": 4.2.0
   "read-yaml-file>js-yaml": 4.2.0
   "storybook>esbuild": 0.28.1

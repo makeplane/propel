@@ -43,7 +43,7 @@ export type BannerProps = BannerElementProps & {
  * The ready-made banner: composes the atomic banner parts — the tone icon, the message body
  * (`title` + `children`), and trailing `actions` — so consumers pass content, not layout. A dismiss
  * is just an action: render an `IconButton` in `actions`. Drop down to
- * `@plane/propel/elements/banner` to assemble the parts directly.
+ * `@makeplane/propel/elements/banner` to assemble the parts directly.
  */
 export function Banner({ placement, tone, icon, title, actions, children, ...props }: BannerProps) {
   const DefaultIcon = toneIcon[tone];

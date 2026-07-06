@@ -1,12 +1,12 @@
 /*
- * @plane/propel — design tokens + component styles.
+ * @makeplane/propel — design tokens + component styles.
  *
  * This file is Tailwind v4 *source* CSS (it uses @theme, @utility,
  * @custom-variant). It is meant to be imported into an app that already pulls
  * in Tailwind, so the app's Tailwind compiler processes these tokens:
  *
  *   @import "tailwindcss";
- *   @import "@plane/propel/styles";
+ *   @import "@makeplane/propel/styles";
  *
  * It intentionally does NOT `@import "tailwindcss"` itself, so the consuming
  * app stays in full control of its own Tailwind setup.

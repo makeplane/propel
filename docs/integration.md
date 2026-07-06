@@ -1,6 +1,6 @@
 # Integrating propel into Plane
 
-How we adopt `@plane/propel` into the existing Plane codebase and evolve its APIs as
+How we adopt `@makeplane/propel` into the existing Plane codebase and evolve its APIs as
 we go. This is the dev-facing companion to [`design.md`](./design.md) (the shared
 property + anatomy vocabulary).
 

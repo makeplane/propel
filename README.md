@@ -9,7 +9,7 @@ A [Vite+](https://viteplus.dev) monorepo.
 - [`docs/integration.md`](./docs/integration.md) — how we adopt propel into Plane:
   the explicit-first rollout, composing primitives with Base UI `render`, and the
   remaining anatomy work.
-- [`packages/propel/README.md`](./packages/propel/README.md) — the `@plane/propel`
+- [`packages/propel/README.md`](./packages/propel/README.md) — the `@makeplane/propel`
   package: install, usage, and component conventions.
 
 ## Prerequisites
