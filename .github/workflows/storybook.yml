@@ -30,6 +30,9 @@ jobs:
         with:
           node-version-file: .node-version
           cache: true
+          run-install: false
+
+      - run: vp install
 
       - name: Restore Vite Task cache
         id: vite-task-cache
