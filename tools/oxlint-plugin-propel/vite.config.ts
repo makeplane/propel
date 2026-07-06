@@ -1,5 +1,13 @@
 import { defineConfig } from "vite-plus";
 
+const taskInput = [
+  { auto: true },
+  "!**/.agents/**",
+  "!**/.claude/**",
+  "!dist/**",
+  "!node_modules/.vite-temp/**",
+];
+
 export default defineConfig({
   pack: {
     dts: {
@@ -18,17 +26,17 @@ export default defineConfig({
     tasks: {
       build: {
         command: "vp pack",
-        input: [{ auto: true }, "!dist/**", "!node_modules/.vite-temp/**"],
+        input: taskInput,
         output: ["dist/**"],
       },
       check: {
         command: "vp check",
-        input: [{ auto: true }, "!dist/**", "!node_modules/.vite-temp/**"],
+        input: taskInput,
         output: [],
       },
       test: {
         command: "vp test",
-        input: [{ auto: true }, "!dist/**", "!node_modules/.vite-temp/**"],
+        input: taskInput,
         output: [],
       },
     },

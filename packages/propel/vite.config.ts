@@ -1,4 +1,3 @@
-/// <reference types="vitest/config" />
 import { existsSync, readdirSync } from "node:fs";
 // Build one entry per primitive/component/hook so each is published as its own
 // subpath. The three component tiers each get a group: `base` (Base UI extensions),
@@ -14,12 +13,21 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
-import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vite-plus";
+import { playwright } from "vite-plus/test/browser-playwright";
 import { configDefaults } from "vite-plus/test/config";
 
 const dirname =
   typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+const agentIgnorePatterns = ["**/.claude/**", "**/.agents/**"];
+const taskInput = [
+  { auto: true },
+  "!**/.agents/**",
+  "!**/.claude/**",
+  "!dist/**",
+  "!node_modules/.vite-temp/**",
+  "!storybook-static/**",
+];
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 function subpathEntries(): Record<string, string> {
@@ -78,30 +86,29 @@ export default defineConfig({
   run: {
     tasks: {
       build: {
-        command: "node ./scripts/pack-retry.mjs",
-        input: [{ auto: true }, "!dist/**", "!node_modules/.vite-temp/**", "!storybook-static/**"],
+        command: "vp pack",
+        input: taskInput,
         output: ["dist/**"],
       },
       "build-storybook": {
         command: "storybook build",
-        input: [{ auto: true }, "!dist/**", "!node_modules/.vite-temp/**", "!storybook-static/**"],
+        input: taskInput,
         output: ["storybook-static/**"],
       },
       check: {
         command: "vp check",
-        input: [{ auto: true }, "!dist/**", "!node_modules/.vite-temp/**", "!storybook-static/**"],
+        input: taskInput,
         output: [],
       },
       test: {
         command: "vp test",
-        input: [{ auto: true }, "!dist/**", "!node_modules/.vite-temp/**", "!storybook-static/**"],
+        input: taskInput,
         output: [],
       },
     },
   },
-  // Keep vite's dev/test server out of nested agent worktrees (`.claude/worktrees/<name>`,
-  // full second checkouts living inside the workspace root). See the root `vite.config.ts`.
-  server: { watch: { ignored: ["**/.claude/**"] } },
+  // Keep vite's dev/test server out of local agent state. See the root `vite.config.ts`.
+  server: { watch: { ignored: agentIgnorePatterns } },
   // Pre-bundle every story's deps in a single optimizer pass at server start. Without this the
   // browser discovers deps lazily, so a late story importing a not-yet-bundled dep triggers a
   // mid-run re-optimize; that commits a new bundle, reloads the page, and 404s the module
@@ -116,7 +123,7 @@ export default defineConfig({
     // Vitest ignores `.gitignore`, so its file discovery would otherwise crawl those
     // worktree checkouts (each carries a duplicate copy of every story). The storybook
     // project below extends this config, so the exclude applies to it too.
-    exclude: [...configDefaults.exclude, "**/.claude/**"],
+    exclude: [...configDefaults.exclude, ...agentIgnorePatterns],
     // The standard Storybook Vitest-addon project: one chromium browser instance running
     // every story as a test (render → play → a11y gate). See the addon docs:
     // https://storybook.js.org/docs/writing-tests/integrations/vitest-addon

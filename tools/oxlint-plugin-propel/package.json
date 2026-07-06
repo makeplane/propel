@@ -23,8 +23,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "dev": "vp pack --watch",
-    "prepublishOnly": "vp run build"
+    "dev": "vp pack --watch"
   },
   "dependencies": {
     "@oxlint/plugins": "catalog:"
@@ -35,6 +34,7 @@
     "bumpp": "^11.1.0",
     "oxlint": "catalog:",
     "typescript": "^6.0.3",
+    "vite": "catalog:",
     "vite-plus": "catalog:"
   }
 }
