@@ -16,7 +16,7 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 //   - magnitude: S / Base / Large (height, horizontal padding, text size, node size)
 //   - tone: color/sentiment (neutral, grey, brand, info, …)
 export const badgeVariants = cva(
-  "inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-full leading-none font-medium whitespace-nowrap",
+  "inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-sm leading-none font-medium whitespace-nowrap",
   {
     variants: {
       // Figma Size axis. Each step sets height, horizontal padding, text size, and the
