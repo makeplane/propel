@@ -86,6 +86,20 @@
     }
   }
 
+  /* spinner reveal: a loader slot growing from zero to its glyph width while fading in, so the
+     control it sits in (button, pill) widens smoothly into its loading state instead of snapping */
+  --animate-spinner-reveal: spinnerReveal 0.2s ease-out forwards;
+  @keyframes spinnerReveal {
+    0% {
+      opacity: 0;
+      width: 0;
+    }
+    100% {
+      opacity: 1;
+      width: var(--node-size);
+    }
+  }
+
   /* tour carousel animations */
   --animate-tour-carousel-slide-in-right: tourCarouselSlideInRight 0.4s
     cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
