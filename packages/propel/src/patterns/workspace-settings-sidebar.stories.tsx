@@ -4,13 +4,7 @@ import { expect } from "storybook/test";
 
 import { Badge } from "../components/badge/index";
 import { Icon } from "../components/icon/index";
-import {
-  List,
-  ListItem,
-  ListItemLabel,
-  ListItemLink,
-  ListSectionHeading,
-} from "../components/list/index";
+import { List, ListItem, ListItemLink, ListSectionHeading } from "../components/list/index";
 import { Separator } from "../components/separator/index";
 import { WorkspaceAvatar } from "../components/workspace-avatar/index";
 import {
@@ -161,10 +155,11 @@ export const WorkspaceSettings: Story = {
                 const RowIcon = row.icon;
                 return (
                   <ListItem key={row.href}>
-                    <ListItemLink href={row.href}>
-                      <Icon icon={RowIcon} magnitude="md" />
-                      <ListItemLabel>{row.label}</ListItemLabel>
-                    </ListItemLink>
+                    <ListItemLink
+                      href={row.href}
+                      icon={<Icon icon={RowIcon} magnitude="md" />}
+                      label={row.label}
+                    />
                   </ListItem>
                 );
               })}
