@@ -38,21 +38,30 @@ function PanelSeparator() {
   return <div className="-mx-1 my-1 border-t border-subtle" />;
 }
 
-// A row whose leading control is a propel Radio, for single-select sort lists.
-// Sized to match a MenuItem (34px tall, `rounded-md`) so the panel reads like
-// the menu.
-function PanelRadioRow({ value, label }: { value: string; label: string }) {
+// One option row for the panels, sized to match a MenuItem (34px tall, `rounded-md`) so
+// every leading control — Radio, Checkbox, anything — lands on the SAME row height and the
+// panel reads like the menu. The whole row is the clickable `<label>`; a bare control goes
+// in `control` and the text as children (the wrapping label names the control, so the bare
+// box/circle needs no `aria-label`, mirroring a native labelled input).
+function PanelRow({ control, children }: { control: React.ReactNode; children: React.ReactNode }) {
   return (
     <label className="flex h-[34px] cursor-pointer items-center gap-2 rounded-md px-2 text-13 text-secondary hover:bg-layer-transparent-hover">
-      <Radio value={value} />
-      <span className="min-w-0 flex-1 truncate">{label}</span>
+      {control}
+      <span className="min-w-0 flex-1 truncate">{children}</span>
     </label>
   );
 }
 
-// The checkbox-toggle footer (show sub-work items / show empty groups) that closes
-// several of the display panels. Each panel gets an independent copy that owns its
-// own state; pass `defaultToggles` to start a key checked.
+// A single-select sort row: a propel Radio in the shared `PanelRow`.
+function PanelRadioRow({ value, label }: { value: string; label: string }) {
+  return <PanelRow control={<Radio value={value} />}>{label}</PanelRow>;
+}
+
+// The checkbox-toggle footer (show sub-work items / show empty groups) that closes several
+// of the display panels. Each toggle is a BARE Checkbox box in a `PanelRow` — not the propel
+// Checkbox's own shorter label row — so the checkbox rows match the radio rows' 34px height.
+// Each panel gets an independent copy that owns its own state; pass `defaultToggles` to start
+// a key checked.
 function ToggleFooter({ defaultToggles = {} }: { defaultToggles?: Record<string, boolean> }) {
   const [toggles, setToggles] = React.useState<Record<string, boolean>>(defaultToggles);
   return (
@@ -363,6 +372,10 @@ const displayPopoverHandle = createPopoverHandle();
  * **DetachedTrigger** — `createPopoverHandle()` links a `PopoverTrigger` that lives OUTSIDE the
  * `Popover` to it via the `handle` prop, so a toolbar button can open a panel that is declared
  * elsewhere in the tree (the panel still anchors to the trigger that opened it).
+ *
+ * This panel uses `align="end"` (the other stories use `align="start"`): the trigger sits at the
+ * inline-end of its row, so end-aligning keeps the panel extending inward instead of overflowing
+ * the right edge. Match `align` to where the trigger sits.
  */
 export const DetachedTrigger: Story = {
   render: () => (
@@ -381,6 +394,9 @@ export const DetachedTrigger: Story = {
       </div>
       {/* The popover: declared elsewhere, associated by `handle`. */}
       <Popover handle={displayPopoverHandle}>
+        {/* `align="end"` (vs the `start` the other panels use): the trigger sits at the row's
+            inline-end, so end-aligning the panel makes it extend inward/leftward and stay on-screen
+            rather than overflowing the right edge. */}
         <PopoverContent side="bottom" align="end" sizing="md" aria-label="Display options">
           <ToggleFooter defaultToggles={{ sub: true }} />
         </PopoverContent>
@@ -494,8 +510,13 @@ export const MultipleTriggersInteraction: Story = {
 /**
  * **Controlled** — external state drives the popover via `open` + `onOpenChange`, with `triggerId`
  * naming the active trigger among several (each `PopoverTrigger` gets an `id`; the change event's
- * `trigger` element reports which one fired). The panel content follows the active trigger, and a
- * plain button outside the popover reopens the Filter panel programmatically.
+ * `trigger` element reports which one fired). The panel content follows the active trigger.
+ *
+ * The "Reopen filters" button is a plain button OUTSIDE the popover: it sets `open` and points
+ * `triggerId` at the Filter trigger. Because the panel anchors to whatever `triggerId` names, it
+ * reopens **under the Filter button**, not under "Reopen filters" — that's how a toolbar action can
+ * reopen a panel at its original anchor. Set `triggerId` to control where a programmatic open
+ * lands.
  */
 export const Controlled: Story = {
   render: function Render() {
@@ -545,7 +566,9 @@ export const Controlled: Story = {
             )}
           </PopoverContent>
         </Popover>
-        {/* Programmatic opening: any control can set the state (and the target trigger). */}
+        {/* Programmatic opening: any control can set the state AND the target trigger. Because it
+            sets `triggerId` to the Filter trigger, the panel anchors to (opens under) THAT trigger,
+            not this button — clicking here reopens the Filter panel where the Filter button is. */}
         <Button
           sizing="hug"
           prominence="tertiary"
