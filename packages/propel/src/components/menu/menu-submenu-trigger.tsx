@@ -7,6 +7,7 @@ import {
   MenuItemTitle,
   MenuItemTitleRow,
   MenuItemTrailing,
+  type MenuItemTone,
   MenuSubmenuTrigger as MenuSubmenuTriggerElement,
 } from "../../elements/menu";
 import { DisclosureIndicator } from "../../internal/disclosure-indicator";
@@ -15,6 +16,8 @@ export type MenuSubmenuTriggerProps = Omit<
   BaseMenu.SubmenuTrigger.Props,
   "children" | "className" | "label" | "style"
 > & {
+  /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+  tone?: MenuItemTone;
   /** Leading element before the label, e.g. `<Icon icon={Folder} tint="secondary" />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
@@ -28,9 +31,15 @@ export type MenuSubmenuTriggerProps = Omit<
  * styled `MenuSubmenuTrigger` and lays out an optional leading icon, label, end content, and the
  * submenu chevron indicator.
  */
-export function MenuSubmenuTrigger({ icon, endContent, label, ...props }: MenuSubmenuTriggerProps) {
+export function MenuSubmenuTrigger({
+  tone,
+  icon,
+  endContent,
+  label,
+  ...props
+}: MenuSubmenuTriggerProps) {
   return (
-    <BaseMenu.SubmenuTrigger {...props} render={<MenuSubmenuTriggerElement />}>
+    <BaseMenu.SubmenuTrigger {...props} render={<MenuSubmenuTriggerElement tone={tone} />}>
       {icon}
       <MenuItemContent>
         <MenuItemTitleRow>

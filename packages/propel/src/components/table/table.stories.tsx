@@ -440,7 +440,7 @@ export const RichRows: Story = {
             <TableHead pinned="none" label="Name" />
             <TableHead pinned="none" label="Email" />
             <TableHead pinned="none" label="Account type" />
-            <TableHead pinned="none" label={<span className="sr-only">Actions</span>} />
+            <TableHead pinned="none" label="Actions" visuallyHidden />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -473,7 +473,7 @@ export const RichRows: Story = {
               <TableActionCell aria-label={`Options for ${person.name}`}>
                 <MenuContent>
                   <MenuItem icon={<Icon icon={Pencil} tint="secondary" />} label="Edit" />
-                  <MenuItem icon={<Icon icon={Trash2} tint="danger" />} label="Delete" />
+                  <MenuItem tone="danger" icon={<Icon icon={Trash2} />} label="Delete" />
                 </MenuContent>
               </TableActionCell>
             </TableRow>

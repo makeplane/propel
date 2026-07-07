@@ -1,7 +1,8 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { checkboxBoxVariants } from "../../internal/checkbox-box";
 import { nodeSlotClass } from "../../internal/node-slot";
+import { type StrictVariantProps } from "../../internal/variant-props";
 
 // The box look lives in `internal/checkbox-box` so it can be shared with the menu's checkbox
 // indicator (rule 4). `Checkbox` renders it directly — same signature, so delegate to it.
@@ -25,10 +26,30 @@ export const checkboxIndeterminateIndicatorVariants = cva(
 // disabled state off the wrapped `Checkbox` (Base UI — and `Field.Root` — set `data-disabled` on
 // it) via `:has()`, so it needs no `disabled` prop: it cancels the hover background and shows the
 // not-allowed cursor whenever a descendant is disabled.
+const checkboxLabelDefaultVariants = {
+  sizing: "hug",
+} as const;
+
 export const checkboxLabelVariants = cva(
   cx(
     "inline-flex items-center gap-2 rounded-sm px-2 py-1",
     "text-13 text-secondary transition-colors",
     "cursor-pointer not-has-[[data-disabled]]:hover:bg-layer-transparent-hover has-[[data-disabled]]:cursor-not-allowed",
   ),
+  {
+    variants: {
+      sizing: {
+        hug: "w-fit",
+        fill: "w-full",
+      },
+    },
+    defaultVariants: checkboxLabelDefaultVariants,
+  },
 );
+
+type CheckboxLabelVariantConfig = VariantProps<typeof checkboxLabelVariants>;
+export type CheckboxLabelSizing = NonNullable<CheckboxLabelVariantConfig["sizing"]>;
+export type CheckboxLabelVariantProps = StrictVariantProps<
+  typeof checkboxLabelVariants,
+  keyof typeof checkboxLabelDefaultVariants
+>;

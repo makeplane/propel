@@ -109,8 +109,28 @@ export const tableCellLayoutVariants = cva("flex items-center gap-2 [--node-size
 // The growing text region of a cell; truncates instead of overflowing.
 export const tableCellContentVariants = cva("min-w-0 flex-1 truncate");
 
-// The label region inside a `TableHead`: truncates the column title.
-export const tableHeadTitleVariants = cva("truncate");
+const tableHeadTitleDefaultVariants = {
+  visibility: "visible",
+} as const;
+
+// The label region inside a `TableHead`: truncates the column title, or visually hides it for
+// icon/action columns that still need an accessible header.
+export const tableHeadTitleVariants = cva("truncate", {
+  variants: {
+    visibility: {
+      visible: "",
+      hidden: "sr-only",
+    },
+  },
+  defaultVariants: tableHeadTitleDefaultVariants,
+});
+
+type TableHeadTitleVariantConfig = VariantProps<typeof tableHeadTitleVariants>;
+export type TableHeadTitleVisibility = NonNullable<TableHeadTitleVariantConfig["visibility"]>;
+export type TableHeadTitleVariantProps = StrictVariantProps<
+  typeof tableHeadTitleVariants,
+  keyof typeof tableHeadTitleDefaultVariants
+>;
 
 // The sort control inside a sortable `TableHead`: a button that wraps the title + the
 // sort indicator. The chevron sits to the inline-end of the text (an "always").

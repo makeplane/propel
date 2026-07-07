@@ -366,7 +366,8 @@ export const OpenFromMenu: Story = {
             <MenuItem icon={<Icon icon={Link2} tint="secondary" />} label="Copy link" />
             <MenuSeparator />
             <MenuItem
-              icon={<Icon icon={Trash2} tint="danger" />}
+              tone="danger"
+              icon={<Icon icon={Trash2} />}
               onClick={() => setOpen(true)}
               label="Delete project…"
             />

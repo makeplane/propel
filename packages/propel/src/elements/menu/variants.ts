@@ -1,4 +1,4 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { checkboxBoxVariants } from "../../internal/checkbox-box";
 import { itemIndicatorClass } from "../../internal/item-indicator";
@@ -32,9 +32,17 @@ export const menuPopupVariants = cva("outline-none", {
 // the hover/cursor affordance.
 const menuRowBase = cx(
   "group/item flex w-full gap-2 rounded-md px-2 text-13 outline-none select-none [--node-size:1rem]",
-  "text-secondary",
   "data-disabled:pointer-events-none data-disabled:text-disabled",
 );
+
+const menuRowDefaultVariants = {
+  tone: "neutral",
+} as const;
+
+const menuRowToneVariants = {
+  neutral: "text-secondary",
+  danger: "text-danger-primary data-disabled:text-disabled data-highlighted:text-danger-primary",
+} as const;
 
 /** Standalone `MenuItem` row: `layout` (single vs with-description) + `emphasis`. */
 export const menuRowVariants = cva(cx(menuRowBase, "data-highlighted:bg-layer-transparent-hover"), {
@@ -43,7 +51,10 @@ export const menuRowVariants = cva(cx(menuRowBase, "data-highlighted:bg-layer-tr
       default: "h-[34px] items-center",
       "with-description": "min-h-[34px] items-start py-1.5",
     },
+    /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+    tone: menuRowToneVariants,
   },
+  defaultVariants: menuRowDefaultVariants,
 });
 
 /**
@@ -55,6 +66,13 @@ export const menuCheckboxItemVariants = cva(
     menuRowBase,
     "h-[34px] cursor-default items-center data-highlighted:bg-layer-transparent-hover",
   ),
+  {
+    variants: {
+      /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+      tone: menuRowToneVariants,
+    },
+    defaultVariants: menuRowDefaultVariants,
+  },
 );
 
 /**
@@ -67,6 +85,17 @@ export const menuSubmenuTriggerVariants = cva(
     "h-[34px] cursor-default items-center",
     "data-highlighted:bg-layer-transparent-hover data-popup-open:bg-layer-transparent-hover",
   ),
+  {
+    variants: {
+      /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+      tone: {
+        neutral: "text-secondary",
+        danger:
+          "text-danger-primary data-disabled:text-disabled data-highlighted:text-danger-primary data-popup-open:text-danger-primary",
+      },
+    },
+    defaultVariants: menuRowDefaultVariants,
+  },
 );
 
 /**
@@ -161,4 +190,21 @@ export const menuFooterVariants = cva(
 
 export type MenuPopupVariantProps = StrictVariantProps<typeof menuPopupVariants>;
 
-export type MenuRowVariantProps = StrictVariantProps<typeof menuRowVariants>;
+type MenuRowVariantConfig = VariantProps<typeof menuRowVariants>;
+/** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+export type MenuItemTone = NonNullable<MenuRowVariantConfig["tone"]>;
+
+export type MenuRowVariantProps = StrictVariantProps<
+  typeof menuRowVariants,
+  keyof typeof menuRowDefaultVariants
+>;
+
+export type MenuCheckboxItemVariantProps = StrictVariantProps<
+  typeof menuCheckboxItemVariants,
+  keyof typeof menuRowDefaultVariants
+>;
+
+export type MenuSubmenuTriggerVariantProps = StrictVariantProps<
+  typeof menuSubmenuTriggerVariants,
+  keyof typeof menuRowDefaultVariants
+>;
