@@ -46,7 +46,7 @@ function PanelSeparator() {
 // string because this slot is designed for a text label only.
 function PanelRow({ control, label }: { control: React.ReactNode; label: string }) {
   return (
-    <label className="flex h-[34px] cursor-pointer items-center gap-2 rounded-md px-2 text-13 text-secondary hover:bg-layer-transparent-hover">
+    <label className="flex h-8.5 cursor-pointer items-center gap-2 rounded-md px-2 text-13 text-secondary hover:bg-layer-transparent-hover">
       {control}
       <span className="min-w-0 flex-1 truncate">{label}</span>
     </label>
@@ -254,7 +254,7 @@ export const DisplayAccordion: Story = {
                   type="button"
                   aria-expanded={isOpen}
                   onClick={() => setOpen(isOpen ? null : key)}
-                  className="flex h-[34px] w-full items-center gap-2 rounded-md px-2 text-13 text-secondary outline-none hover:bg-layer-transparent-hover"
+                  className="flex h-8.5 w-full items-center gap-2 rounded-md px-2 text-13 text-secondary outline-none hover:bg-layer-transparent-hover"
                 >
                   <span className="min-w-0 flex-1 truncate text-left">{title}</span>
                   {isOpen ? (

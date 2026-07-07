@@ -11,13 +11,13 @@ export const contextMenuPopupVariants = cva(cx(popupSurfaceClass, "min-w-40 p-1"
 
 /**
  * Item rows: shared styling for Item, LinkItem, CheckboxItem and RadioItem. `--node-size` sizes the
- * row's icon regions (leading icon, selection indicator) to the 16px row glyph. `h-[34px]` (not the
- * Tailwind `h-8`/32px step) and the highlighted state leaving `text-secondary` untouched (bg tint
- * only) both match the dropdown `Menu`'s row exactly — the two surfaces share one row anatomy.
+ * row's icon regions (leading icon, selection indicator) to the 16px row glyph. `h-8.5` (34px) and
+ * the highlighted state leaving `text-secondary` untouched (bg tint only) both match the dropdown
+ * `Menu`'s row exactly — the two surfaces share one row anatomy.
  */
 export const contextMenuItemVariants = cva(
   cx(
-    "flex h-[34px] cursor-default items-center gap-2 rounded-md px-2 text-13 outline-none select-none [--node-size:1rem]",
+    "flex h-8.5 cursor-default items-center gap-2 rounded-md px-2 text-13 outline-none select-none [--node-size:1rem]",
     "data-highlighted:bg-layer-transparent-hover",
     "data-disabled:pointer-events-none data-disabled:text-disabled",
   ),
@@ -38,7 +38,7 @@ export const contextMenuItemVariants = cva(
  */
 export const contextMenuSubmenuTriggerVariants = cva(
   cx(
-    "group/item flex h-[34px] cursor-default items-center gap-2 rounded-md px-2 text-13 outline-none select-none [--node-size:1rem]",
+    "group/item flex h-8.5 cursor-default items-center gap-2 rounded-md px-2 text-13 outline-none select-none [--node-size:1rem]",
     "data-highlighted:bg-layer-transparent-hover",
     "data-popup-open:bg-layer-transparent-hover",
     "data-disabled:pointer-events-none data-disabled:text-disabled",
