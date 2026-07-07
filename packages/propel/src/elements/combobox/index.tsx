@@ -1,4 +1,5 @@
 export * from "./combobox-chip";
+export * from "./combobox-chip-overflow";
 export * from "./combobox-chip-remove";
 export * from "./combobox-chips";
 export * from "./combobox-empty";
