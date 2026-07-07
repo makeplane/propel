@@ -90,8 +90,9 @@ type Story = StoryObj<typeof meta>;
  * rows of internal `Icon` + `MenuItemContent` › `MenuItemTitleRow` › `MenuItemTitle`), an
  * inline-end `MenuItemEndContent` shortcut, a `MenuSubmenuTrigger` row whose caret is the internal
  * `DisclosureIndicator` (`motion="pointEnd"`), `MenuSeparator` dividers, and a single-select row
- * whose inline-end check (`MenuItemIndicator`) shows via the pinned `data-selected=""`. The
- * "Duplicate" row pins `data-highlighted=""` — the state Base UI sets on the active row.
+ * whose inline-start check (`MenuItemIndicator`, ahead of any icon) shows via the pinned
+ * `data-selected=""`. The "Duplicate" row pins `data-highlighted=""` — the state Base UI sets on
+ * the active row.
  */
 export const Default: Story = {
   render: ({ elevation }) => (
@@ -140,14 +141,14 @@ export const Default: Story = {
           </DisclosureIndicator>
         </MenuSubmenuTrigger>
         <MenuItem role="menuitem" layout="default">
+          <MenuItemIndicator data-selected="">
+            <Check />
+          </MenuItemIndicator>
           <MenuItemContent>
             <MenuItemTitleRow>
               <MenuItemTitle>Pinned</MenuItemTitle>
             </MenuItemTitleRow>
           </MenuItemContent>
-          <MenuItemIndicator data-selected="">
-            <Check />
-          </MenuItemIndicator>
         </MenuItem>
         <MenuSeparator role="separator" />
         <MenuItem role="menuitem" layout="default">
@@ -258,6 +259,9 @@ export const ItemLayouts: Story = {
         </MenuItem>
         <MenuSeparator role="separator" />
         <MenuItem role="menuitem" layout="with-description">
+          <MenuItemIndicator data-selected="">
+            <Check />
+          </MenuItemIndicator>
           <Icon tint="secondary">
             <Lock />
           </Icon>
@@ -267,11 +271,14 @@ export const ItemLayouts: Story = {
             </MenuItemTitleRow>
             <MenuItemDescription>Accessible only by invite</MenuItemDescription>
           </MenuItemContent>
-          <MenuItemIndicator data-selected="">
-            <Check />
-          </MenuItemIndicator>
         </MenuItem>
         <MenuItem role="menuitem" layout="with-description">
+          {/* Unselected, but still mounted: Private/Public form a single-select pair, so both rows
+              reserve the same leading gutter — Public's icon lines up with Private's rather than
+              sitting flush against the row's edge. */}
+          <MenuItemIndicator>
+            <Check />
+          </MenuItemIndicator>
           <Icon tint="secondary">
             <Globe />
           </Icon>
@@ -333,24 +340,24 @@ export const States: Story = {
             </MenuItemContent>
           </MenuItem>
           <MenuItem role="menuitem" layout="default">
+            <MenuItemIndicator data-selected="">
+              <Check />
+            </MenuItemIndicator>
             <MenuItemContent>
               <MenuItemTitleRow>
                 <MenuItemTitle>Selected</MenuItemTitle>
               </MenuItemTitleRow>
             </MenuItemContent>
-            <MenuItemIndicator data-selected="">
-              <Check />
-            </MenuItemIndicator>
           </MenuItem>
           <MenuItem role="menuitem" layout="default">
+            <MenuItemIndicator>
+              <Check />
+            </MenuItemIndicator>
             <MenuItemContent>
               <MenuItemTitleRow>
                 <MenuItemTitle>Unselected</MenuItemTitle>
               </MenuItemTitleRow>
             </MenuItemContent>
-            <MenuItemIndicator>
-              <Check />
-            </MenuItemIndicator>
           </MenuItem>
           <MenuSeparator role="separator" />
           <MenuSubmenuTrigger role="menuitem" aria-haspopup="menu" aria-expanded={false}>
