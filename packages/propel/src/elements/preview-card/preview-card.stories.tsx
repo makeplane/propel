@@ -1,25 +1,41 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { CircleDot } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { OverlayDescription } from "../../internal/overlay-description";
 import { OverlayTitle } from "../../internal/overlay-title";
-import { PreviewCardBody, PreviewCardImage, PreviewCardPopup } from "./index";
+import { Avatar, AvatarFallback } from "../avatar/index";
+import { Badge } from "../badge/index";
+import {
+  PreviewCardBody,
+  PreviewCardIcon,
+  PreviewCardImage,
+  PreviewCardMeta,
+  PreviewCardPopup,
+  PreviewCardPropertyGroup,
+  PreviewCardTitleRow,
+} from "./index";
 
 // elements-tier story (rule 2b): a pure UI-configuration showcase. The styled parts render
 // DIRECTLY — no Base UI grafts — with the popup laid out inline (it is just a styled div; Base UI
 // only positions it) and its transition poses pinned statically via the `data-starting-style`/
 // `data-ending-style` attributes Base UI's preview card would set. The Root, Trigger, and Portal
-// are behavior-only roles (they live in `components`); the positioner, backdrop, and arrow are
-// shared `internal/` chrome grafted there too. The title and description compose the shared
-// `internal/overlay-*` recipes at the preview card's `md` size. Hover-open, dismissal, and aria
-// behavior are demonstrated AND tested in the components-tier story (Components/PreviewCard).
+// are behavior-only roles (they live in `components`); the positioner and arrow are shared
+// `internal/` chrome grafted there too — no backdrop, since a preview card is non-modal (rule 4a's
+// shared `Backdrop` is for genuinely modal overlays only). The title and description compose the
+// shared `internal/overlay-*` recipes at the preview card's `md` size. Hover-open, dismissal, and
+// aria behavior are demonstrated AND tested in the components-tier story (Components/PreviewCard).
 
 const meta = {
   title: "Elements/PreviewCard",
   component: PreviewCardPopup,
   subcomponents: {
     PreviewCardBody,
+    PreviewCardIcon,
     PreviewCardImage,
+    PreviewCardMeta,
+    PreviewCardPropertyGroup,
+    PreviewCardTitleRow,
   },
 } satisfies Meta<typeof PreviewCardPopup>;
 
@@ -65,6 +81,44 @@ export const WithImage: Story = {
         <OverlayDescription magnitude="md">
           Typography, color, and logo usage for everything Plane ships.
         </OverlayDescription>
+      </PreviewCardBody>
+    </PreviewCardPopup>
+  ),
+};
+
+/**
+ * A work-item-style link preview: `PreviewCardIcon` sits beside the title in a
+ * `PreviewCardTitleRow` (compose the row only when there's a leading icon),
+ * `PreviewCardPropertyGroup` holds a wrapping row of the consumer's own chips (here `Badge` for
+ * status/priority and `Avatar` for the assignee — the part supplies only the row layout), and
+ * `PreviewCardMeta` closes the card with a muted caption. Every new region is optional and
+ * independent — a card can add just one.
+ */
+export const RichAnatomy: Story = {
+  render: () => (
+    <PreviewCardPopup>
+      <PreviewCardBody>
+        <PreviewCardTitleRow>
+          <PreviewCardIcon>
+            <CircleDot />
+          </PreviewCardIcon>
+          <OverlayTitle magnitude="md">Redesign the pricing page</OverlayTitle>
+        </PreviewCardTitleRow>
+        <OverlayDescription magnitude="md">
+          Rework the tiered layout to highlight the annual plan discount.
+        </OverlayDescription>
+        <PreviewCardPropertyGroup>
+          <Badge tone="warning" magnitude="sm">
+            In Progress
+          </Badge>
+          <Badge tone="danger" magnitude="sm">
+            High priority
+          </Badge>
+          <Avatar magnitude="xs" role="img" aria-label="Priya Sharma">
+            <AvatarFallback tone="indigo">P</AvatarFallback>
+          </Avatar>
+        </PreviewCardPropertyGroup>
+        <PreviewCardMeta>WEB-142 · Updated 2 days ago</PreviewCardMeta>
       </PreviewCardBody>
     </PreviewCardPopup>
   ),
