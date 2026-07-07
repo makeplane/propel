@@ -4,6 +4,7 @@ import * as React from "react";
 import { expect, userEvent } from "storybook/test";
 
 import { Button } from "../button";
+import { CheckboxField } from "../checkbox-field";
 import { Field } from "../field";
 import { Form, FormActions, FormBody } from "../form";
 import { Icon } from "../icon";
@@ -17,10 +18,14 @@ import {
 const meta = {
   title: "Components/Checkbox",
   component: Checkbox,
+  // The ready-made Checkbox is the bare box (+ optional inline label); CheckboxField is the
+  // labeled-row composition that owns the Field name for form submission — add its tab to the
+  // args table and record the relationship in the manifest (mirrors Switch/RadioGroup).
   subcomponents: {
     CheckboxLabel,
     CheckboxIndicator,
     CheckboxIndeterminateIndicator,
+    CheckboxField,
   },
   args: {
     "aria-label": "Example",
@@ -164,9 +169,10 @@ export const Invalid: Story = {
 };
 
 /**
- * Interaction test: the invalid `Field` propagates `data-invalid` and the danger border, while the
- * checked box keeps the accent fill. Tagged out of the sidebar/docs/manifest while still running
- * under the default `test` tag.
+ * Interaction test: the invalid `Field` propagates `data-invalid` and the danger border on the
+ * RESTING box only — once checked, the danger border clears back to transparent (the accent fill
+ * alone communicates the value; a required-and-now-satisfied checkbox shouldn't still ring red).
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const InvalidInteraction: Story = {
   ...Invalid,
@@ -182,17 +188,29 @@ export const InvalidInteraction: Story = {
     await expect(getComputedStyle(unchecked).borderColor).not.toBe(
       getComputedStyle(resting).borderColor,
     );
-    // Checked invalid box: accent-blue fill, like every other state.
+    // Checked invalid box: accent-blue fill, like every other state...
     await expect(checked).toHaveAttribute("aria-checked", "true");
-    await expect(checked).toHaveClass("data-checked:bg-accent-primary");
+    await expect(checked).toHaveAttribute("data-invalid");
+    await expect(getComputedStyle(checked).backgroundColor).not.toBe(
+      getComputedStyle(resting).backgroundColor,
+    );
+    // ...and, despite still being `data-invalid`, the danger border does NOT persist through the
+    // checked fill: `data-checked:border-transparent` takes over, same as a checked box anywhere
+    // else — it must NOT still show the unchecked invalid box's red border.
+    await expect(getComputedStyle(checked).borderColor).not.toBe(
+      getComputedStyle(unchecked).borderColor,
+    );
   },
 };
 
 /**
- * Form integration: wrap the checkbox in a `Field` with a `name` and Base UI wires the rest — the
- * field name flows onto the box, a hidden input serializes it with the form, and `Form`'s
- * `onFormSubmit` receives the checked state as a boolean. The checkbox itself needs no extra
- * wiring. Submit to see the captured value.
+ * Form integration: a sign-in form where "Stay logged in" needs to submit alongside the rest of the
+ * fields — e.g. to extend the session server-side once the user authenticates. `CheckboxField` (the
+ * labeled-row ready-made) already owns the `Field` name, so inside a `Form` its checked state
+ * serializes with the submission — `onFormSubmit` receives it under the field's `name` as a
+ * boolean, with no extra wiring on the checkbox. Reach for the bare `Checkbox` + a hand-wired
+ * `Field` (as in the `Invalid` story above) only when you need a custom row layout `CheckboxField`
+ * doesn't offer. Submit to see the captured value.
  */
 export const FormIntegration: Story = {
   parameters: { controls: { disable: true } },
@@ -202,9 +220,7 @@ export const FormIntegration: Story = {
       <div className="flex w-80 flex-col gap-3">
         <Form<{ stayLoggedIn: boolean }> onFormSubmit={(values) => setSubmitted(values)}>
           <FormBody layout="single">
-            <Field name="stayLoggedIn">
-              <Checkbox label="Stay logged in for 7 days" />
-            </Field>
+            <CheckboxField name="stayLoggedIn" label="Stay logged in for 7 days" magnitude="md" />
           </FormBody>
           <FormActions layout="inline">
             <Button
