@@ -6,7 +6,9 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 export const radioVariants = cva(
   cx(
     "flex size-4 shrink-0 items-center justify-center rounded-full border-sm border-current bg-layer-1",
-    "text-icon-tertiary transition-colors outline-none",
+    // `duration-100`, matching Checkbox/Switch: one snappy fill speed across every small toggle
+    // control.
+    "text-icon-tertiary transition-colors duration-100 outline-none",
     "data-checked:text-icon-accent-primary",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-2",
     "data-disabled:cursor-not-allowed data-disabled:text-icon-disabled data-disabled:opacity-60",
