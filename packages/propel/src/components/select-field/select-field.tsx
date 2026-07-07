@@ -5,13 +5,12 @@ import type * as React from "react";
 import type { FieldMagnitude } from "../../elements/field/variants";
 import {
   SelectItemIndicator,
-  SelectLabel,
   type SelectTriggerMagnitude,
 } from "../../elements/select/index";
 import { ListboxItem } from "../../internal/listbox-item";
 import { ListboxPopup } from "../../internal/listbox-popup";
 import { Positioner } from "../../internal/positioner";
-import { Field, FieldDescription } from "../field";
+import { Field, FieldDescription, FieldLabel } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 import { Select, SelectTrigger, type SelectProps } from "../select";
 
@@ -61,7 +60,13 @@ export function SelectField({
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Select disabled={disabled} items={options} {...selectProps}>
-        <BaseSelect.Label render={<SelectLabel />}>{label}</BaseSelect.Label>
+        {/* Use the shared `FieldLabel` (magnitude-scaled: md=text-13) so the select field's label
+            matches the other field labels — the picker's own fixed-`text-14` `SelectLabel` made it a
+            step too large next to Input/Radio/Checkbox in a form. `Field.Root` still associates it
+            with the trigger. */}
+        <FieldLabel magnitude={magnitude} inset={false}>
+          {label}
+        </FieldLabel>
         <SelectTrigger magnitude={selectMagnitude} />
         {error == null && description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
