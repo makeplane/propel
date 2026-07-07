@@ -92,16 +92,26 @@ export const Invalid: Story = {
 };
 
 /**
- * Interaction test: every option's box propagates `data-invalid` and the danger border class.
- * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ * Interaction test: every option's box propagates `data-invalid`. The still-unchecked options show
+ * the danger border; "Email" starts `defaultValue`-checked, and a checked box keeps its transparent
+ * border (the accent fill alone communicates the value) even while the group is invalid. Tagged out
+ * of the sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const InvalidInteraction: Story = {
   ...Invalid,
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
+    const dangerBorder = getComputedStyle(document.documentElement)
+      .getPropertyValue("--border-danger-strong")
+      .trim();
     for (const box of canvas.getAllByRole("checkbox")) {
       await expect(box).toHaveAttribute("data-invalid");
-      await expect(box).toHaveClass("data-invalid:border-danger-strong");
+      const borderColor = getComputedStyle(box).borderColor;
+      if (box.getAttribute("aria-checked") === "true") {
+        await expect(borderColor).not.toBe(dangerBorder);
+      } else {
+        await expect(borderColor).toBe(dangerBorder);
+      }
     }
   },
 };

@@ -97,7 +97,6 @@ export const InvalidInteraction: Story = {
     await expect(resting).not.toHaveAttribute("data-invalid");
     // The invalid field propagates `data-invalid` onto the box (Base UI Field -> Checkbox.Root).
     await expect(invalid).toHaveAttribute("data-invalid");
-    await expect(invalid).toHaveClass("data-invalid:border-danger-strong");
     // ...and the danger border actually renders: its color differs from the resting box's border.
     await expect(getComputedStyle(invalid).borderColor).not.toBe(
       getComputedStyle(resting).borderColor,
