@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ChevronsUpDown, X } from "lucide-react";
+import { ChevronsUpDown, MapPin, X } from "lucide-react";
 import * as React from "react";
 import { expect, waitFor, within } from "storybook/test";
 
@@ -227,6 +227,69 @@ export const MultipleInteraction: Story = {
   },
 };
 
+const MANY_REGIONS = [
+  "us-central-1",
+  "us-east-1",
+  "eu-central-1",
+  "eu-west-1",
+  "ap-west-1",
+  "ap-southeast-2",
+  "sa-east-1",
+];
+
+/**
+ * `maxVisible` collapses a large selection to a single row: the first N chips plus a "+N more"
+ * count, instead of wrapping onto new rows. `startIcon`/`endIcon` add a contextual node to each
+ * chip (here a leading region glyph — an assignee `Avatar` works the same way). The hidden values
+ * stay managed from the popup: reopen it and deselect to remove one.
+ */
+export const MultipleOverflow: Story = {
+  render: () => (
+    <Field name="regions">
+      <Combobox multiple items={MANY_REGIONS} defaultValue={MANY_REGIONS}>
+        <FieldLabel magnitude="md" inset={false}>
+          Regions
+        </FieldLabel>
+        <ComboboxChips
+          magnitude="md"
+          placeholder=""
+          maxVisible={2}
+          removeLabel={(region) => `Remove ${region}`}
+          startIcon={() => <MapPin />}
+        />
+        <ComboboxContent>
+          <ComboboxEmpty>No matches</ComboboxEmpty>
+          <ComboboxList>
+            {(region: string) => (
+              <ComboboxItem key={region} value={region} magnitude="md">
+                {region}
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+    </Field>
+  ),
+};
+
+/**
+ * Interaction test: with seven values selected and `maxVisible={2}`, only two chips render and the
+ * rest collapse into "+5 more". Tagged out of the sidebar/docs/manifest while still running under
+ * the default `test` tag.
+ */
+export const MultipleOverflowInteraction: Story = {
+  ...MultipleOverflow,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    await expect(canvas.getByText("us-central-1")).toBeInTheDocument();
+    await expect(canvas.getByText("us-east-1")).toBeInTheDocument();
+    await expect(canvas.getByText("+5 more")).toBeInTheDocument();
+    // Only the first two values render as chips; the rest are represented by the overflow count.
+    await expect(canvas.queryByText("eu-central-1")).not.toBeInTheDocument();
+    await expect(canvas.getAllByRole("button", { name: /^Remove/ })).toHaveLength(2);
+  },
+};
+
 const GROUPED_REGIONS = [
   { label: "Americas", items: ["us-central-1", "us-east-1", "sa-east-1"] },
   { label: "Europe", items: ["eu-central-1", "eu-west-1"] },
@@ -412,7 +475,9 @@ const INITIAL_LABELS: ProjectLabel[] = [
 /**
  * Creating a new item when the query matches nothing: a synthetic `Create "…"` row is appended to
  * `items`, and picking it opens a creation `Dialog` (intercepted in the root's `onValueChange`)
- * instead of selecting. Confirming adds the new label to the list and selects it as a chip.
+ * instead of selecting. Confirming adds the new label to the list and selects it as a chip. The
+ * dialog follows the standard `Dialog` anatomy — a titled header with a corner close, a described
+ * body with the name field, and cancel/create actions.
  */
 export const Creatable: Story = {
   render: function Render() {
@@ -506,13 +571,23 @@ export const Creatable: Story = {
               <DialogHeading>
                 <DialogTitle>Create new label</DialogTitle>
               </DialogHeading>
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="lg"
+                aria-label="Close"
+                render={<DialogClose />}
+              >
+                <X />
+              </IconButton>
             </DialogHeader>
             <DialogBody>
-              <DialogDescription>Add a new label to select.</DialogDescription>
+              <DialogDescription>Name the label you want to add, then create it.</DialogDescription>
               <InputField
                 magnitude="md"
                 orientation="vertical"
                 label="Label name"
+                placeholder="e.g. triage"
                 value={draft ?? ""}
                 onValueChange={(value) => setDraft(value)}
               />

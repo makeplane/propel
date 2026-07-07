@@ -8,6 +8,7 @@ import { ListboxPopup } from "../../internal/listbox-popup";
 import { IconButton } from "../icon-button";
 import {
   ComboboxChip,
+  ComboboxChipOverflow,
   ComboboxChipRemove,
   ComboboxChips,
   ComboboxEmpty,
@@ -48,6 +49,7 @@ const meta = {
     ComboboxInput,
     ComboboxChips,
     ComboboxChip,
+    ComboboxChipOverflow,
     ComboboxChipRemove,
     ComboboxItemIndicator,
     ComboboxEmpty,
@@ -155,7 +157,7 @@ export const Magnitudes: Story = {
           <ComboboxInputGroup magnitude={magnitude}>
             <ComboboxInput aria-label={`Region (${magnitude})`} placeholder={magnitude} />
           </ComboboxInputGroup>
-          <ComboboxChips magnitude={magnitude}>
+          <ComboboxChips magnitude={magnitude} layout="wrap">
             <ComboboxChip>
               us-east-1
               <ComboboxChipRemove aria-label={`Remove us-east-1 (${magnitude})`}>
@@ -265,7 +267,7 @@ export const Chips: Story = {
   },
   render: () => (
     <div className="flex w-96 flex-col gap-1.5">
-      <ComboboxChips magnitude="md">
+      <ComboboxChips magnitude="md" layout="wrap">
         <ComboboxChip>
           us-east-1
           <ComboboxChipRemove id="combobox-chip-remove-hover" aria-label="Remove us-east-1">
@@ -285,6 +287,42 @@ export const Chips: Story = {
           </ComboboxChipRemove>
         </ComboboxChip>
         <ComboboxInput aria-label="Regions" placeholder="Add a region" />
+      </ComboboxChips>
+    </div>
+  ),
+};
+
+/**
+ * The `layout="collapse"` frame: a single clipped row that shows the visible chips (each here with
+ * a leading `Icon` slot standing in for a contextual glyph/avatar) followed by a
+ * `ComboboxChipOverflow` "+N more" count. The components-tier `ComboboxChips` derives this from its
+ * `maxVisible` prop; the hidden values stay managed from the popup.
+ */
+export const Collapsed: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex w-72 flex-col gap-1.5">
+      <ComboboxChips magnitude="md" layout="collapse">
+        <ComboboxChip>
+          <Icon>
+            <Check />
+          </Icon>
+          Priya Nair
+          <ComboboxChipRemove aria-label="Remove Priya Nair">
+            <X aria-hidden />
+          </ComboboxChipRemove>
+        </ComboboxChip>
+        <ComboboxChip>
+          <Icon>
+            <Check />
+          </Icon>
+          Marcus Chen
+          <ComboboxChipRemove aria-label="Remove Marcus Chen">
+            <X aria-hidden />
+          </ComboboxChipRemove>
+        </ComboboxChip>
+        <ComboboxChipOverflow>+5 more</ComboboxChipOverflow>
+        <ComboboxInput aria-label="Assignees" placeholder="" />
       </ComboboxChips>
     </div>
   ),
