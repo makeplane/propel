@@ -123,12 +123,17 @@ export const SidesRtl: Story = {
 
 /**
  * A keyboard-shortcut hint sits to the right of the label, dimmed at the smaller caption scale —
- * the Figma "Cmd + K" slot. Pass any node to `shortcut`.
+ * the Figma "Cmd + K" slot. Put the canonical `aria-keyshortcuts` value on the trigger itself.
  */
 export const WithShortcut: Story = {
   args: {
     label: "Open command menu",
     shortcut: "⌘ K",
+    children: (
+      <button type="button" aria-keyshortcuts="Meta+K">
+        Hover or focus me
+      </button>
+    ),
   },
 };
 
@@ -270,9 +275,9 @@ export const WithProviderInteraction: Story = {
 
 /**
  * Hidden behavior twin of `WithShortcut` (relocated from the old elements-tier story, rule 2b): the
- * open tooltip is one `role="tooltip"` popup carrying both the label and the `shortcut` hint, so
- * assistive tech announces them together. Focus (not hover) keeps the open deterministic regardless
- * of Base UI's hover delays.
+ * open tooltip is one `role="tooltip"` popup carrying the label and a visible, decorative shortcut
+ * hint. The trigger carries the semantic `aria-keyshortcuts` value. Focus (not hover) keeps the
+ * open deterministic regardless of Base UI's hover delays.
  */
 export const WithShortcutInteraction: Story = {
   ...WithShortcut,
@@ -280,10 +285,13 @@ export const WithShortcutInteraction: Story = {
   args: { ...WithShortcut.args, delay: 0 },
   play: async ({ canvas }) => {
     await userEvent.tab();
-    await expect(canvas.getByRole("button", { name: "Hover or focus me" })).toHaveFocus();
+    const trigger = canvas.getByRole("button", { name: "Hover or focus me" });
+    await expect(trigger).toHaveFocus();
+    await expect(trigger).toHaveAttribute("aria-keyshortcuts", "Meta+K");
     const tooltip = await within(document.body).findByRole("tooltip");
     await expect(tooltip).toHaveTextContent("Open command menu");
     await expect(tooltip).toHaveTextContent("⌘ K");
+    await expect(within(tooltip).getByText("⌘ K")).toHaveAttribute("aria-hidden", "true");
   },
 };
 

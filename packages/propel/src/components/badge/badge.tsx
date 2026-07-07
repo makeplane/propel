@@ -7,8 +7,8 @@ import {
 } from "../../elements/badge";
 
 export type BadgeProps = Omit<BadgeElementProps, "children"> & {
-  /** The badge label — text, a count, or any inline content. */
-  label?: React.ReactNode;
+  /** The badge label text. */
+  label?: string;
   /** Element rendered before the label (inline-start), e.g. `<Icon icon={Check} />`. */
   startIcon?: React.ReactNode;
   /** Element rendered after the label (inline-end), e.g. `<Icon icon={Sparkles} />`. */

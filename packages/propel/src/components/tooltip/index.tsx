@@ -9,6 +9,4 @@ export {
   type TooltipArrowProps,
   TooltipPopup,
   type TooltipPopupProps,
-  TooltipShortcut,
-  type TooltipShortcutProps,
 } from "../../elements/tooltip";

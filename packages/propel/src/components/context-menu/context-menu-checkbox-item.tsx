@@ -6,7 +6,6 @@ import {
   ContextMenuCheckboxItem as ContextMenuCheckboxItemElement,
   ContextMenuCheckboxItemIndicator,
   ContextMenuItemLabel,
-  ContextMenuItemShortcut,
   type ContextMenuItemTone,
 } from "../../elements/context-menu";
 
@@ -19,9 +18,9 @@ export type ContextMenuCheckboxItemProps = Omit<
   /** Leading element after the tick, e.g. `<Icon icon={Columns} />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
-  label: React.ReactNode;
-  /** Element rendered at the inline end of the row, often a keyboard shortcut. */
-  endContent?: React.ReactNode;
+  label: string;
+  /** Element rendered at the inline end of the row, e.g. `<Shortcut keys="⌘ K" />`. */
+  endContent?: React.ReactElement;
 };
 
 /**
@@ -49,7 +48,7 @@ export function ContextMenuCheckboxItem({
       </BaseContextMenu.CheckboxItemIndicator>
       {icon}
       <ContextMenuItemLabel>{label}</ContextMenuItemLabel>
-      {endContent != null ? <ContextMenuItemShortcut>{endContent}</ContextMenuItemShortcut> : null}
+      {endContent}
     </BaseContextMenu.CheckboxItem>
   );
 }

@@ -9,8 +9,6 @@ import {
   SelectField,
   SelectItemIndicator,
   SelectLabel,
-  SelectScrollDownArrow,
-  SelectScrollUpArrow,
   SelectTrigger,
   type SelectTriggerMagnitude,
   SelectValue,
@@ -24,9 +22,7 @@ const MAGNITUDES: SelectTriggerMagnitude[] = ["sm", "md", "lg"];
 // only positions it) and every visual state pinned statically via the `data-*`/aria attributes
 // Base UI's select would set (`data-highlighted=""`, `data-selected=""`, `data-disabled=""`,
 // `data-invalid=""`) or the native `disabled` attribute. Grafting, keyboard, and aria behavior are
-// demonstrated AND tested in the components-tier story (Components/Select). The scroll-arrow parts
-// carry no styling of their own yet, so they are documented as subcomponents without a pinned
-// showcase.
+// demonstrated AND tested in the components-tier story (Components/Select).
 const meta = {
   title: "Elements/Select",
   component: SelectTrigger,
@@ -35,8 +31,6 @@ const meta = {
     SelectLabel,
     SelectValue,
     SelectItemIndicator,
-    SelectScrollUpArrow,
-    SelectScrollDownArrow,
     ListboxPopup,
     ListboxItem,
   },

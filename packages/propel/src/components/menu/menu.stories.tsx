@@ -25,6 +25,7 @@ import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Avatar } from "../avatar/index";
 import { Badge } from "../badge/index";
 import { Icon } from "../icon";
+import { Shortcut } from "../shortcut";
 import {
   createMenuHandle,
   Menu,
@@ -160,12 +161,22 @@ const PRIORITIES = [
 ] as const;
 
 const LABELS = [
-  { key: "customer", label: "Customer request", color: "bg-label-orange-bg-strong" },
-  { key: "feedback", label: "Feedback", color: "bg-label-emerald-bg-strong" },
-  { key: "design", label: "Design", color: "bg-label-purple-bg-strong" },
-  { key: "dev", label: "Dev", color: "bg-label-indigo-bg-strong" },
-  { key: "feature", label: "Feature", color: "bg-label-crimson-bg-strong" },
+  { key: "customer", label: "Customer request", tone: "orange" },
+  { key: "feedback", label: "Feedback", tone: "emerald" },
+  { key: "design", label: "Design", tone: "purple" },
+  { key: "dev", label: "Dev", tone: "indigo" },
+  { key: "feature", label: "Feature", tone: "crimson" },
 ] as const;
+
+const labelSwatchClass = {
+  orange: "bg-label-orange-bg-strong",
+  emerald: "bg-label-emerald-bg-strong",
+  purple: "bg-label-purple-bg-strong",
+  indigo: "bg-label-indigo-bg-strong",
+  crimson: "bg-label-crimson-bg-strong",
+} as const;
+
+type LabelSwatchTone = keyof typeof labelSwatchClass;
 
 const ASSIGNEES: ReadonlyArray<{ key: string; name: string; disabled?: boolean }> = [
   { key: "amelia", name: "Amelia Parker" },
@@ -187,8 +198,8 @@ const LANGUAGES = [
 
 // A small color swatch, used as the leading control alongside the Checkbox for
 // labels. Not a propel primitive — local to the demo.
-function ColorSwatch({ className }: { className: string }) {
-  return <span className={`size-3.5 shrink-0 rounded-xs ${className}`} aria-hidden />;
+function ColorSwatch({ tone }: { tone: LabelSwatchTone }) {
+  return <span className={`size-3.5 shrink-0 rounded-xs ${labelSwatchClass[tone]}`} aria-hidden />;
 }
 
 // Initials for an Avatar fallback ("Amelia Parker" -> "AP").
@@ -284,7 +295,7 @@ export const Labels: Story = {
           {visible.map((l) => (
             <MenuCheckboxItem
               key={l.key}
-              icon={<ColorSwatch className={l.color} />}
+              icon={<ColorSwatch tone={l.tone} />}
               checked={Boolean(checked[l.key])}
               onCheckedChange={(next) => setChecked((c) => ({ ...c, [l.key]: next }))}
               label={l.label}
@@ -333,7 +344,8 @@ export const ActionMenu: Story = {
         <MenuItem icon={<Icon icon={ExternalLink} tint="secondary" />} label="Open in new tab" />
         <MenuItem
           icon={<Icon icon={Link2} tint="secondary" />}
-          endContent={<span className="text-12 text-tertiary">⌘L</span>}
+          aria-keyshortcuts="Meta+L"
+          endContent={<Shortcut keys="⌘L" />}
           label="Copy link"
         />
         <MenuSeparator />
@@ -359,6 +371,16 @@ export const ActionMenuInteraction: Story = {
       const archive = (await waitFor(() => findItem("menuitem", "Archive"))) as HTMLElement;
       await expect(archive).toHaveAttribute("data-disabled");
     });
+
+    await step(
+      "shortcut hints stay decorative while the row exposes aria-keyshortcuts",
+      async () => {
+        const copyLink = within(document.body).getByRole("menuitem", { name: "Copy link" });
+        await expect(copyLink).toHaveAttribute("aria-keyshortcuts", "Meta+L");
+        await expect(copyLink).toHaveAccessibleName("Copy link");
+        await expect(within(copyLink).getByText("⌘L")).toHaveAttribute("aria-hidden", "true");
+      },
+    );
 
     // Keyboard ARIA pattern (WAI-ARIA menu button): on the trigger, Enter/Space/
     // ArrowDown open the menu and focus the first item; Arrow Down/Up navigate;
@@ -802,11 +824,8 @@ export const Filters: Story = {
                       onClick={() =>
                         setExpandedAll((s) => ({ ...s, [section.title]: !isExpandedAll }))
                       }
-                      label={
-                        <span className="text-accent-primary">
-                          {isExpandedAll ? "Show less" : `View all (${items.length})`}
-                        </span>
-                      }
+                      tone="accent"
+                      label={isExpandedAll ? "Show less" : `View all (${items.length})`}
                     />
                   ) : null}
                 </MenuGroup>

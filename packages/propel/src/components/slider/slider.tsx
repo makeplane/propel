@@ -1,5 +1,4 @@
 import { Slider as BaseSlider } from "@base-ui/react/slider";
-import type * as React from "react";
 
 import {
   Slider as SliderElement,
@@ -18,7 +17,7 @@ export type SliderProps = Omit<BaseSlider.Root.Props<number>, "className" | "sty
    * Optional visible label rendered above the track (e.g. "Volume"). When omitted, provide an
    * `aria-label` for the thumb so the control is still named for assistive tech.
    */
-  label?: React.ReactNode;
+  label?: string;
   /** Accessible name for the thumb. Required when there is no visible `label`. */
   "aria-label"?: string;
   /** Thumb and control size. `sm` = 12 px thumb, `md` = 16 px, `lg` = 20 px. */

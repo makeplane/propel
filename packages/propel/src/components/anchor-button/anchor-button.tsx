@@ -23,7 +23,7 @@ export type AnchorButtonProps = Omit<AnchorButtonElementProps, "children"> & {
   /** Element rendered after the label (inline-end), e.g. `<Icon icon={ArrowUpRight} />`. */
   endIcon?: React.ReactNode;
   /** Visible action/link label. */
-  label: React.ReactNode;
+  label: string;
   /** Shows a spinner, sets `aria-busy`, and makes the control non-interactive. */
   loading?: boolean;
 };

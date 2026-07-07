@@ -27,7 +27,7 @@ const ariaSort: Record<TableHeadSort, React.AriaAttributes["aria-sort"]> = {
 
 export type TableHeadProps = Omit<TableHeadElementProps, "aria-sort" | "children" | "mode"> & {
   /** Header label. */
-  label: React.ReactNode;
+  label: string;
   /** Visually hide the label while keeping it available to assistive tech. */
   visuallyHidden?: boolean;
   /** Whether this header is interactive sortable (renders a sort trigger + reflects `aria-sort`). */

@@ -14,7 +14,6 @@ import {
   ComboboxInput,
   ComboboxInputGroup,
   ComboboxItemIndicator,
-  ComboboxLabel,
   type ComboboxMagnitude,
 } from "./index";
 
@@ -46,7 +45,6 @@ const meta = {
   title: "Elements/Combobox",
   component: ComboboxInputGroup,
   subcomponents: {
-    ComboboxLabel,
     ComboboxInput,
     ComboboxChips,
     ComboboxChip,
@@ -63,15 +61,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * The full single-select anatomy assembled statically: `ComboboxLabel`, then `ComboboxInputGroup`
- * (the bordered frame) holding the `ComboboxInput` plus the consumer-provided clear/trigger
- * `IconButton` controls; below it, the internal `ListboxPopup` surface with the `ComboboxEmpty`
- * live region (mounted but content-less while there are matches — its padding applies via
- * `:not(:empty)`) and one `ListboxItem` row per pinnable state. `layout="indicator"` reserves the
- * leading 1rem column, so every row keeps a `ComboboxItemIndicator` — only the selected row's
- * indicator carries `data-selected` and shows its check. The popup's anchor-derived sizing vars
- * (`--anchor-width`, `--available-height`) are supplied by the wrapper, standing in for Base UI's
- * positioner.
+ * The full single-select anatomy assembled statically: `ComboboxInputGroup` (the bordered frame)
+ * holds the `ComboboxInput` plus the consumer-provided clear/trigger `IconButton` controls; below
+ * it, the internal `ListboxPopup` surface with the `ComboboxEmpty` live region (mounted but
+ * content-less while there are matches — its padding applies via `:not(:empty)`) and one
+ * `ListboxItem` row per pinnable state. `layout="indicator"` reserves the leading 1rem column, so
+ * every row keeps a `ComboboxItemIndicator` — only the selected row's indicator carries
+ * `data-selected` and shows its check. The popup's anchor-derived sizing vars (`--anchor-width`,
+ * `--available-height`) are supplied by the story wrapper, standing in for Base UI's positioner.
  */
 export const Default: Story = {
   parameters: {
@@ -86,9 +83,8 @@ export const Default: Story = {
   },
   render: ({ magnitude }) => (
     <div className="flex w-72 flex-col gap-1.5 [--anchor-width:18rem] [--available-height:18rem]">
-      <ComboboxLabel id="combobox-region-label">Region</ComboboxLabel>
       <ComboboxInputGroup magnitude={magnitude}>
-        <ComboboxInput aria-labelledby="combobox-region-label" placeholder="e.g. eu-central-1" />
+        <ComboboxInput aria-label="Region" placeholder="e.g. eu-central-1" />
         <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear region">
           <Icon>
             <X />
@@ -269,7 +265,6 @@ export const Chips: Story = {
   },
   render: () => (
     <div className="flex w-96 flex-col gap-1.5">
-      <ComboboxLabel id="combobox-regions-label">Regions</ComboboxLabel>
       <ComboboxChips magnitude="md">
         <ComboboxChip>
           us-east-1
@@ -289,7 +284,7 @@ export const Chips: Story = {
             <X aria-hidden />
           </ComboboxChipRemove>
         </ComboboxChip>
-        <ComboboxInput aria-labelledby="combobox-regions-label" placeholder="Add a region" />
+        <ComboboxInput aria-label="Regions" placeholder="Add a region" />
       </ComboboxChips>
     </div>
   ),

@@ -19,7 +19,7 @@ export type CheckboxFieldProps = Omit<
   /** Error text shown below the control. */
   error?: React.ReactNode;
   /** Visible field label. */
-  label: React.ReactNode;
+  label: string;
   /** Label and helper text size. */
   magnitude: FieldMagnitude;
   /** Optional supporting text announced as the checkbox description. */

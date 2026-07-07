@@ -3,7 +3,6 @@ import { expect } from "storybook/test";
 
 import {
   ScrollArea,
-  ScrollAreaContent,
   ScrollAreaCorner,
   ScrollAreaScrollbar,
   type ScrollAreaScrollbarMagnitude,
@@ -24,7 +23,6 @@ const meta = {
   component: ScrollArea,
   subcomponents: {
     ScrollAreaViewport,
-    ScrollAreaContent,
     ScrollAreaScrollbar,
     ScrollAreaThumb,
     ScrollAreaCorner,
@@ -37,12 +35,12 @@ type Story = StoryObj<typeof meta>;
 
 /**
  * The full anatomy assembled statically: `ScrollArea` (the relative flex-column root) holding
- * `ScrollAreaViewport` › `ScrollAreaContent` › the overflowing content, plus a vertical and a
- * horizontal `ScrollAreaScrollbar` rail (each with its `ScrollAreaThumb`) and the
- * `ScrollAreaCorner` where they meet (transparent by design). The rails pin the `data-orientation`
- * attribute Base UI's Scrollbar would set — the cva keys its axis layout and gutter dimension off
- * it — and use `visibility="always"` so they show at rest. The absolute positioning wrappers and
- * the fixed-length thumb wrappers stand in for Base UI's inline placement and scroll-ratio thumb
+ * `ScrollAreaViewport` › the overflowing content, plus a vertical and a horizontal
+ * `ScrollAreaScrollbar` rail (each with its `ScrollAreaThumb`) and the `ScrollAreaCorner` where
+ * they meet (transparent by design). The rails pin the `data-orientation` attribute Base UI's
+ * Scrollbar would set — the cva keys its axis layout and gutter dimension off it — and use
+ * `visibility="always"` so they show at rest. The absolute positioning wrappers and the
+ * fixed-length thumb wrappers stand in for Base UI's inline placement and scroll-ratio thumb
  * sizing; the outer box clips, standing in for the viewport's Base-UI-applied `overflow: scroll`.
  */
 export const Default: Story = {
@@ -50,15 +48,13 @@ export const Default: Story = {
     <div className="flex h-64 w-72 flex-col overflow-hidden rounded-lg border border-subtle bg-layer-1">
       <ScrollArea>
         <ScrollAreaViewport>
-          <ScrollAreaContent>
-            <div className="flex flex-col gap-2 p-3">
-              {Array.from({ length: 30 }, (_, i) => (
-                <p key={i} className="text-13 whitespace-nowrap text-secondary">
-                  Line {i + 1} of wide content that overflows horizontally as well as down.
-                </p>
-              ))}
-            </div>
-          </ScrollAreaContent>
+          <div className="flex flex-col gap-2 p-3">
+            {Array.from({ length: 30 }, (_, i) => (
+              <p key={i} className="text-13 whitespace-nowrap text-secondary">
+                Line {i + 1} of wide content that overflows horizontally as well as down.
+              </p>
+            ))}
+          </div>
         </ScrollAreaViewport>
         <div className="absolute inset-e-0 top-0 bottom-3 flex">
           <ScrollAreaScrollbar visibility="always" magnitude="thin" data-orientation="vertical">

@@ -13,6 +13,7 @@ import * as React from "react";
 import { expect, fireEvent, userEvent, waitFor, within } from "storybook/test";
 
 import { Icon } from "../icon";
+import { Shortcut } from "../shortcut";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -63,14 +64,22 @@ export const Default: Story = {
         <ContextMenuItem
           tone="neutral"
           icon={<Icon icon={Scissors} />}
-          endContent="⌘X"
+          aria-keyshortcuts="Meta+X"
+          endContent={<Shortcut keys="⌘X" />}
           label="Cut"
         />
-        <ContextMenuItem tone="neutral" icon={<Icon icon={Copy} />} endContent="⌘C" label="Copy" />
+        <ContextMenuItem
+          tone="neutral"
+          icon={<Icon icon={Copy} />}
+          aria-keyshortcuts="Meta+C"
+          endContent={<Shortcut keys="⌘C" />}
+          label="Copy"
+        />
         <ContextMenuItem
           tone="neutral"
           icon={<Icon icon={ClipboardPaste} />}
-          endContent="⌘V"
+          aria-keyshortcuts="Meta+V"
+          endContent={<Shortcut keys="⌘V" />}
           label="Paste"
         />
         <ContextMenuSeparator />
@@ -88,6 +97,10 @@ export const DefaultInteraction: Story = {
     await waitFor(() => expect(document.body.querySelector('[role="menu"]')).toBeInTheDocument());
     await expect(document.body).toHaveTextContent("Copy");
     await expect(document.body).toHaveTextContent("Delete");
+    const copy = within(document.body).getByRole("menuitem", { name: "Copy" });
+    await expect(copy).toHaveAttribute("aria-keyshortcuts", "Meta+C");
+    await expect(copy).toHaveAccessibleName("Copy");
+    await expect(within(copy).getByText("⌘C")).toHaveAttribute("aria-hidden", "true");
   },
 };
 
@@ -228,7 +241,8 @@ export const LinkItems: Story = {
         <ContextMenuItem
           tone="neutral"
           icon={<Icon icon={Copy} />}
-          endContent="⌘C"
+          aria-keyshortcuts="Meta+C"
+          endContent={<Shortcut keys="⌘C" />}
           label="Copy link"
         />
       </ContextMenuContent>

@@ -1,6 +1,5 @@
 import { Menu } from "@base-ui/react/menu";
 import { ChevronDown } from "lucide-react";
-import type * as React from "react";
 
 import { ToolbarMenuTriggerIndicator, ToolbarMenuTriggerLabel } from "../../elements/toolbar/index";
 import { ToolbarMenuTriggerButton } from "./toolbar-menu-trigger-button";
@@ -10,7 +9,7 @@ export type ToolbarMenuTriggerProps = Omit<
   "children" | "className" | "style"
 > & {
   /** Visible menu-trigger label. */
-  label: React.ReactNode;
+  label: string;
 };
 
 /** The trigger that opens a `ToolbarMenu`: a label plus a disclosure chevron. */

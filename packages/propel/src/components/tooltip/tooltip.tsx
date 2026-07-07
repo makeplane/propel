@@ -2,20 +2,22 @@ import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import type { TooltipRoot } from "@base-ui/react/tooltip";
 import type * as React from "react";
 
-import { TooltipArrow, TooltipPopup, TooltipShortcut } from "../../elements/tooltip";
+import { TooltipArrow, TooltipPopup } from "../../elements/tooltip";
 import { Positioner } from "../../internal/positioner";
+import { Shortcut } from "../shortcut";
 
 export type TooltipProps<Payload = unknown> = Omit<
   TooltipRoot.Props<Payload>,
   "children" | "className" | "label" | "style"
 > & {
-  /** The text (or rich content) shown inside the tooltip popup. */
-  label: React.ReactNode;
+  /** The text shown inside the tooltip popup. */
+  label: string;
   /**
    * Optional keyboard-shortcut hint shown to the right of `label`, dimmed (e.g. `"⌘ K"`). Maps to
-   * the Figma "Cmd + K" slot — omit it for a plain tooltip.
+   * the Figma "Cmd + K" slot — omit it for a plain tooltip. This is visual text; put the canonical
+   * `aria-keyshortcuts` value on the trigger element.
    */
-  shortcut?: React.ReactNode;
+  shortcut?: string;
   /**
    * The element the tooltip is attached to. Base UI renders the trigger as a `<button>` by default;
    * pass a single element and it is used as the trigger via the `render` prop, so any focusable
@@ -48,7 +50,7 @@ export type TooltipProps<Payload = unknown> = Omit<
  *
  * Built on Base UI's tooltip, so it's accessible by default: the popup is exposed as
  * `role="tooltip"` and wired to the trigger. Pass the trigger as `children`, the popup copy as
- * `label`, and an optional `shortcut` for a dimmed keyboard hint.
+ * `label`, and an optional `shortcut` for a dimmed visual keyboard hint.
  *
  * Grafts Base UI's tooltip behavior onto propel's styled parts: `Tooltip.Root` + `Tooltip.Trigger`
  * + `Tooltip.Portal` → `Tooltip.Positioner` (shared `internal/positioner`) → `TooltipPopup` +
@@ -77,7 +79,7 @@ export function Tooltip<Payload = unknown>({
               padding, and the gap to the shortcut) lives on the styled `TooltipPopup`. */}
           <BaseTooltip.Popup role="tooltip" render={<TooltipPopup />}>
             {label}
-            {shortcut != null ? <TooltipShortcut>{shortcut}</TooltipShortcut> : null}
+            {shortcut != null ? <Shortcut keys={shortcut} magnitude="sm" /> : null}
             <BaseTooltip.Arrow render={<TooltipArrow />} />
           </BaseTooltip.Popup>
         </BaseTooltip.Positioner>

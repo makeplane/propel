@@ -1,5 +1,4 @@
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
-import type * as React from "react";
 
 import { ListboxItem, type ListboxItemMagnitude } from "../../internal/listbox-item";
 // Ready-made marker that supplies the default check glyph (defaults are a `components` concern).
@@ -12,7 +11,7 @@ export type ComboboxItemProps = Omit<
   /** Row height and text size. Required. */
   magnitude: ListboxItemMagnitude;
   /** Option label. */
-  label: React.ReactNode;
+  label: string;
 };
 
 /**

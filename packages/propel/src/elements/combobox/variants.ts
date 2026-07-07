@@ -1,14 +1,12 @@
 import { cva, cx } from "class-variance-authority";
 
 import { controlGroupClass, controlMagnitude } from "../../internal/control-group";
-import { controlLabelClass } from "../../internal/control-group";
 import { controlInputClass } from "../../internal/control-input";
 import { itemIndicatorClass } from "../../internal/item-indicator";
 import { listboxEmptyClass } from "../../internal/listbox-empty";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
-export const comboboxLabelVariants = cva(controlLabelClass);
 export const comboboxInputGroupVariants = cva(
   cx(
     // Wraps a separate focusable input → the shared `focus: within` group chrome.

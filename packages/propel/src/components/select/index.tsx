@@ -17,9 +17,5 @@ export {
   type SelectFieldProps,
   SelectItemIndicator,
   type SelectItemIndicatorProps,
-  SelectScrollDownArrow,
-  type SelectScrollDownArrowProps,
-  SelectScrollUpArrow,
-  type SelectScrollUpArrowProps,
   type SelectTriggerMagnitude,
 } from "../../elements/select";

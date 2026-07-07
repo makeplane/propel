@@ -8,7 +8,7 @@ import { DisclosureIndicator } from "../../internal/disclosure-indicator";
 
 export type ListSectionProps = Omit<BaseCollapsible.Root.Props, "className" | "style"> & {
   /** The section heading shown in the toggle. */
-  label: React.ReactNode;
+  label: string;
   /** The section body — typically a `List` of rows. */
   children: React.ReactNode;
   /** Whether to show the rotating disclosure chevron at the heading's inline-end. */

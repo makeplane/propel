@@ -11,7 +11,7 @@ export type ListItemLinkProps = Omit<
   /** Element rendered before the label, usually `<Icon icon={...} />`. */
   icon?: React.ReactNode;
   /** Visible row label. */
-  label: React.ReactNode;
+  label: string;
 };
 
 /**

@@ -1,8 +1,7 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { itemIndicatorClass } from "../../internal/item-indicator";
-import { groupLabelClass } from "../../internal/listbox-group-label";
-import { menuSeparatorClass, rowMetaClass } from "../../internal/menu-row-parts";
+import { menuSeparatorClass } from "../../internal/menu-row-parts";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { popupSurfaceClass } from "../../internal/popup-surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
@@ -58,9 +57,6 @@ export const contextMenuSubmenuTriggerVariants = cva(
 /** The growing label region of an item row; fills the row so trailing regions sit at the inline-end. */
 export const contextMenuItemLabelVariants = cva("min-w-0 flex-1 truncate");
 
-/** The trailing keyboard-shortcut text region, sitting at the row's inline-end. */
-export const contextMenuItemShortcutVariants = cva(rowMetaClass);
-
 /**
  * Selection indicator region: the check inside checkbox/radio items and the trailing check of a
  * single-select `ContextMenuItem`. Sizes its single child to the row's `--node-size` and tints it
@@ -88,9 +84,6 @@ export const contextMenuRadioItemIndicatorVariants = cva(
 
 /** Separator: a thin divider spanning the popup padding. */
 export const contextMenuSeparatorVariants = cva(menuSeparatorClass);
-
-/** GroupLabel: a non-interactive section heading. */
-export const contextMenuGroupLabelVariants = cva(groupLabelClass);
 
 type ContextMenuItemVariantConfig = VariantProps<typeof contextMenuItemVariants>;
 /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */

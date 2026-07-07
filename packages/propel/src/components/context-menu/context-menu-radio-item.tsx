@@ -4,7 +4,6 @@ import type * as React from "react";
 
 import {
   ContextMenuItemLabel,
-  ContextMenuItemShortcut,
   type ContextMenuItemTone,
   ContextMenuRadioItem as ContextMenuRadioItemElement,
   ContextMenuRadioItemIndicator,
@@ -19,9 +18,9 @@ export type ContextMenuRadioItemProps = Omit<
   /** Leading element after the radio dot, e.g. `<Icon icon={AlignLeft} />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
-  label: React.ReactNode;
-  /** Element rendered at the inline end of the row, often a keyboard shortcut. */
-  endContent?: React.ReactNode;
+  label: string;
+  /** Element rendered at the inline end of the row, e.g. `<Shortcut keys="⌘ K" />`. */
+  endContent?: React.ReactElement;
 };
 
 /**
@@ -43,7 +42,7 @@ export function ContextMenuRadioItem({
       </BaseContextMenu.RadioItemIndicator>
       {icon}
       <ContextMenuItemLabel>{label}</ContextMenuItemLabel>
-      {endContent != null ? <ContextMenuItemShortcut>{endContent}</ContextMenuItemShortcut> : null}
+      {endContent}
     </BaseContextMenu.RadioItem>
   );
 }

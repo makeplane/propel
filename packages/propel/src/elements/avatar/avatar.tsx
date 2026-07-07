@@ -1,17 +1,13 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
-import { avatarToneBgClass, avatarVariants, type AvatarVariantProps } from "./variants";
+import { avatarVariants, type AvatarVariantProps } from "./variants";
 
 export type { AvatarMagnitude } from "./variants";
 
 // The initials tone palette the designer defined for avatars (Figma label colors).
 export const AVATAR_TONES = ["orange", "indigo", "emerald", "crimson", "pink", "purple"] as const;
 export type AvatarTone = (typeof AVATAR_TONES)[number];
-
-// Re-exported for callers (e.g. `WorkspaceAvatar`) that style their own fallback surface.
-// The source of truth lives in `variants.ts`.
-export const initialsToneClass: Record<AvatarTone, string> = avatarToneBgClass;
 
 /**
  * Deterministically pick a tone from a seed (e.g. a name or user id) so the same person always gets

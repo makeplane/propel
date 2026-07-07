@@ -17,21 +17,20 @@ import { expect } from "storybook/test";
 
 import { DisclosureIndicator } from "../../internal/disclosure-indicator";
 import { Icon } from "../../internal/icon";
+import { Shortcut } from "../../internal/shortcut";
 import {
   MenuCheckboxItem,
   MenuCheckboxItemIndicator,
   MenuFooter,
-  MenuGroupLabel,
   MenuItem,
   MenuItemContent,
   MenuItemControl,
   MenuItemDescription,
   MenuItemIndicator,
-  MenuItemMeta,
   MenuItemSecondaryText,
   MenuItemTitle,
   MenuItemTitleRow,
-  MenuItemTrailing,
+  MenuItemEndContent,
   MenuLabel,
   MenuLabelMeta,
   MenuLabelTitle,
@@ -63,8 +62,7 @@ const meta = {
     MenuItemTitle,
     MenuItemSecondaryText,
     MenuItemDescription,
-    MenuItemMeta,
-    MenuItemTrailing,
+    MenuItemEndContent,
     MenuItemIndicator,
     MenuItemControl,
     MenuCheckboxItem,
@@ -74,7 +72,6 @@ const meta = {
     MenuLinkItem,
     MenuSubmenuTrigger,
     MenuSeparator,
-    MenuGroupLabel,
     MenuLabel,
     MenuLabelTitle,
     MenuLabelMeta,
@@ -89,9 +86,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * The full anatomy assembled statically: `MenuPopup` › a labelled group (`MenuGroupLabel` +
- * `MenuItem` rows of internal `Icon` + `MenuItemContent` › `MenuItemTitleRow` › `MenuItemTitle`), a
- * trailing `MenuItemMeta` shortcut, a `MenuSubmenuTrigger` row whose caret is the internal
+ * The full anatomy assembled statically: `MenuPopup` › a labelled group (`MenuLabel` + `MenuItem`
+ * rows of internal `Icon` + `MenuItemContent` › `MenuItemTitleRow` › `MenuItemTitle`), an
+ * inline-end `MenuItemEndContent` shortcut, a `MenuSubmenuTrigger` row whose caret is the internal
  * `DisclosureIndicator` (`motion="pointEnd"`), `MenuSeparator` dividers, and a single-select row
  * whose inline-end check (`MenuItemIndicator`) shows via the pinned `data-selected=""`. The
  * "Duplicate" row pins `data-highlighted=""` — the state Base UI sets on the active row.
@@ -101,8 +98,10 @@ export const Default: Story = {
     <div className="w-56">
       <MenuPopup elevation={elevation} role="menu">
         <div role="group" aria-labelledby="menu-elements-default-actions">
-          <MenuGroupLabel id="menu-elements-default-actions">Actions</MenuGroupLabel>
-          <MenuItem role="menuitem" layout="default">
+          <MenuLabel id="menu-elements-default-actions">
+            <MenuLabelTitle>Actions</MenuLabelTitle>
+          </MenuLabel>
+          <MenuItem role="menuitem" layout="default" aria-keyshortcuts="Meta+E">
             <Icon tint="secondary">
               <Pencil />
             </Icon>
@@ -111,7 +110,9 @@ export const Default: Story = {
                 <MenuItemTitle>Edit</MenuItemTitle>
               </MenuItemTitleRow>
             </MenuItemContent>
-            <MenuItemMeta>⌘E</MenuItemMeta>
+            <MenuItemEndContent>
+              <Shortcut aria-hidden>⌘E</Shortcut>
+            </MenuItemEndContent>
           </MenuItem>
           <MenuItem role="menuitem" layout="default" data-highlighted="">
             <Icon tint="secondary">
@@ -216,8 +217,8 @@ export const Elevations: Story = {
 /**
  * `MenuItem`'s `layout` axis and the row's text anatomy. `default` is the 34px single-line row:
  * `MenuItemTitleRow` baseline-aligns the `MenuItemTitle` with optional inline
- * `MenuItemSecondaryText`, and the inline-end holds a muted `MenuItemMeta` shortcut or a free-form
- * `MenuItemTrailing` slot. `with-description` is the taller, top-aligned row that stacks a
+ * `MenuItemSecondaryText`, and the inline-end holds a muted shortcut or a free-form
+ * `MenuItemEndContent` slot. `with-description` is the taller, top-aligned row that stacks a
  * `MenuItemDescription` beneath the title (the components-tier ready-made derives this layout from
  * its `description` prop rather than exposing it).
  */
@@ -226,7 +227,7 @@ export const ItemLayouts: Story = {
   render: () => (
     <div className="w-72">
       <MenuPopup elevation="raised" role="menu" aria-label="Row layouts">
-        <MenuItem role="menuitem" layout="default">
+        <MenuItem role="menuitem" layout="default" aria-keyshortcuts="Meta+L">
           <Icon tint="secondary">
             <Link2 />
           </Icon>
@@ -235,7 +236,9 @@ export const ItemLayouts: Story = {
               <MenuItemTitle>Copy link</MenuItemTitle>
             </MenuItemTitleRow>
           </MenuItemContent>
-          <MenuItemMeta>⌘L</MenuItemMeta>
+          <MenuItemEndContent>
+            <Shortcut aria-hidden>⌘L</Shortcut>
+          </MenuItemEndContent>
         </MenuItem>
         <MenuItem role="menuitem" layout="default">
           <MenuItemContent>
@@ -249,11 +252,9 @@ export const ItemLayouts: Story = {
           <MenuItemContent>
             <MenuItemTitleRow>
               <MenuItemTitle>Assignees</MenuItemTitle>
+              <MenuItemSecondaryText>5</MenuItemSecondaryText>
             </MenuItemTitleRow>
           </MenuItemContent>
-          <MenuItemTrailing>
-            <span className="text-12 text-tertiary">5</span>
-          </MenuItemTrailing>
         </MenuItem>
         <MenuSeparator role="separator" />
         <MenuItem role="menuitem" layout="with-description">
@@ -428,7 +429,9 @@ export const SelectionItems: Story = {
     <div className="w-56">
       <MenuPopup elevation="raised" role="menu">
         <div role="group" aria-labelledby="menu-elements-selection-notify">
-          <MenuGroupLabel id="menu-elements-selection-notify">Notify me about</MenuGroupLabel>
+          <MenuLabel id="menu-elements-selection-notify">
+            <MenuLabelTitle>Notify me about</MenuLabelTitle>
+          </MenuLabel>
           <MenuCheckboxItem role="menuitemcheckbox" aria-checked="true">
             <MenuItemControl>
               <MenuCheckboxItemIndicator data-checked="">
@@ -473,11 +476,13 @@ export const SelectionItems: Story = {
         </div>
         <MenuSeparator role="separator" />
         <div role="group" aria-labelledby="menu-elements-selection-layout">
-          <MenuGroupLabel id="menu-elements-selection-layout">Layout</MenuGroupLabel>
+          <MenuLabel id="menu-elements-selection-layout">
+            <MenuLabelTitle>Layout</MenuLabelTitle>
+          </MenuLabel>
           <MenuRadioItem role="menuitemradio" aria-checked="true">
             <MenuItemControl>
               <MenuRadioItemIndicator>
-                <Circle className="size-2 fill-current" aria-hidden />
+                <Circle aria-hidden />
               </MenuRadioItemIndicator>
             </MenuItemControl>
             <MenuItemContent>
@@ -531,7 +536,7 @@ export const LinkItems: Story = {
           </MenuItemContent>
         </MenuLinkItem>
         <MenuSeparator role="separator" />
-        <MenuItem role="menuitem" layout="default">
+        <MenuItem role="menuitem" layout="default" aria-keyshortcuts="Meta+C">
           <Icon tint="secondary">
             <Copy />
           </Icon>
@@ -540,7 +545,9 @@ export const LinkItems: Story = {
               <MenuItemTitle>Copy link</MenuItemTitle>
             </MenuItemTitleRow>
           </MenuItemContent>
-          <MenuItemMeta>⌘C</MenuItemMeta>
+          <MenuItemEndContent>
+            <Shortcut aria-hidden>⌘C</Shortcut>
+          </MenuItemEndContent>
         </MenuItem>
       </MenuPopup>
     </div>
@@ -548,10 +555,9 @@ export const LinkItems: Story = {
 };
 
 /**
- * The two heading kinds plus the divider. `MenuGroupLabel` is the plain muted heading Base UI's
- * `GroupLabel` grafts onto; `MenuLabel` is the richer heading row laying a growing `MenuLabelTitle`
- * against an inline-end `MenuLabelMeta` (the components-tier `MenuLabel` fills it from its `meta`
- * prop). `MenuSeparator` spans the popup padding between the sections.
+ * Heading rows plus the divider. `MenuLabel` lays a growing `MenuLabelTitle` against an inline-end
+ * `MenuLabelMeta` (the components-tier `MenuLabel` fills it from its `meta` prop). `MenuSeparator`
+ * spans the popup padding between the sections.
  */
 export const Sections: Story = {
   parameters: { controls: { disable: true } },
@@ -559,7 +565,9 @@ export const Sections: Story = {
     <div className="w-56">
       <MenuPopup elevation="raised" role="menu">
         <div role="group" aria-labelledby="menu-elements-sections-sort">
-          <MenuGroupLabel id="menu-elements-sections-sort">Sort</MenuGroupLabel>
+          <MenuLabel id="menu-elements-sections-sort">
+            <MenuLabelTitle>Sort</MenuLabelTitle>
+          </MenuLabel>
           <MenuItem role="menuitem" layout="default">
             <MenuItemContent>
               <MenuItemTitleRow>

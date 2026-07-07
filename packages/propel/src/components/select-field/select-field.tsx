@@ -26,7 +26,7 @@ const SELECT_MAGNITUDE: Record<FieldMagnitude, SelectTriggerMagnitude> = {
 };
 
 export type SelectFieldOption = {
-  label: React.ReactNode;
+  label: string;
   value: string;
 };
 
@@ -38,7 +38,7 @@ export type SelectFieldProps = Omit<SelectProps<string>, "children" | "items"> &
   /** Helper text shown below the control. Replaced by `error` when an error is set. */
   hint?: React.ReactNode;
   /** Visible field label. */
-  label: React.ReactNode;
+  label: string;
   /** Label and helper text size. */
   magnitude: FieldMagnitude;
   /** Options rendered in the popup. */

@@ -16,7 +16,7 @@ export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" 
    * bare checkbox (just the box) — in that case give the box an accessible name with `aria-label`
    * or `aria-labelledby`.
    */
-  label?: React.ReactNode;
+  label?: string;
   /** Width of the clickable label row when `label` is present. */
   sizing?: CheckboxLabelSizing;
   /**

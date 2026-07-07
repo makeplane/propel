@@ -4,7 +4,6 @@ import type * as React from "react";
 
 import {
   ContextMenuItemLabel,
-  ContextMenuItemShortcut,
   ContextMenuSubmenuTrigger as ContextMenuSubmenuTriggerElement,
   type ContextMenuSubmenuTriggerTone,
 } from "../../elements/context-menu";
@@ -19,9 +18,9 @@ export type ContextMenuSubmenuTriggerProps = Omit<
   /** Leading element before the label, e.g. `<Icon icon={Folder} />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
-  label: React.ReactNode;
+  label: string;
   /** Element rendered before the submenu caret at the inline end of the row. */
-  endContent?: React.ReactNode;
+  endContent?: React.ReactElement;
 };
 
 /**
@@ -43,7 +42,7 @@ export function ContextMenuSubmenuTrigger({
     >
       {icon}
       <ContextMenuItemLabel>{label}</ContextMenuItemLabel>
-      {endContent != null ? <ContextMenuItemShortcut>{endContent}</ContextMenuItemShortcut> : null}
+      {endContent}
       <DisclosureIndicator motion="pointEnd" tint="tertiary" magnitude="inherit">
         <ChevronDown />
       </DisclosureIndicator>
