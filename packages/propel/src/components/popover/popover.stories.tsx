@@ -41,20 +41,21 @@ function PanelSeparator() {
 // One option row for the panels, sized to match a MenuItem (34px tall, `rounded-md`) so
 // every leading control — Radio, Checkbox, anything — lands on the SAME row height and the
 // panel reads like the menu. The whole row is the clickable `<label>`; a bare control goes
-// in `control` and the text as children (the wrapping label names the control, so the bare
-// box/circle needs no `aria-label`, mirroring a native labelled input).
-function PanelRow({ control, children }: { control: React.ReactNode; children: React.ReactNode }) {
+// in `control` and the text in `label` (the wrapping label names the control, so the bare
+// box/circle needs no `aria-label`, mirroring a native labelled input). `label` is a plain
+// string because this slot is designed for a text label only.
+function PanelRow({ control, label }: { control: React.ReactNode; label: string }) {
   return (
     <label className="flex h-[34px] cursor-pointer items-center gap-2 rounded-md px-2 text-13 text-secondary hover:bg-layer-transparent-hover">
       {control}
-      <span className="min-w-0 flex-1 truncate">{children}</span>
+      <span className="min-w-0 flex-1 truncate">{label}</span>
     </label>
   );
 }
 
 // A single-select sort row: a propel Radio in the shared `PanelRow`.
 function PanelRadioRow({ value, label }: { value: string; label: string }) {
-  return <PanelRow control={<Radio value={value} />}>{label}</PanelRow>;
+  return <PanelRow control={<Radio value={value} />} label={label} />;
 }
 
 // The checkbox-toggle footer (show sub-work items / show empty groups) that closes several
