@@ -91,9 +91,9 @@ type CommentComposerProps = {
   /** Placeholder shown in the empty composer. */
   placeholder?: string;
   /** Accessible name for the textarea (visually hidden). */
-  label?: React.ReactNode;
+  label?: string;
   /** Label for the submit button (base magnitude). */
-  submitLabel?: React.ReactNode;
+  submitLabel?: string;
   /** Called with the body value when the user submits a non-empty comment. */
   onSubmit?: (value: string) => void;
 };
@@ -126,7 +126,6 @@ function CommentComposer({
     onSubmit?.(currentValue);
   };
 
-  const sendLabel = typeof submitLabel === "string" ? submitLabel : "Comment";
   const controlMagnitude = magnitude === "xs" ? "sm" : "lg";
   const controlSurface = magnitude === "xs" ? "inline" : "embedded";
 
@@ -167,7 +166,7 @@ function CommentComposer({
                 prominence="secondary"
                 tone="neutral"
                 magnitude="md"
-                aria-label={sendLabel}
+                aria-label={submitLabel}
                 disabled={isEmpty}
                 onClick={handleSubmit}
                 icon={<Icon icon={ArrowUp} />}
@@ -196,7 +195,7 @@ function CommentComposer({
                   prominence="secondary"
                   tone="neutral"
                   magnitude="md"
-                  aria-label={sendLabel}
+                  aria-label={submitLabel}
                   disabled={isEmpty}
                   onClick={handleSubmit}
                   icon={<Icon icon={ArrowUp} />}

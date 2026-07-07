@@ -15,14 +15,13 @@ import { expect } from "storybook/test";
 
 import { DisclosureIndicator } from "../../internal/disclosure-indicator";
 import { Icon } from "../../internal/icon";
+import { Shortcut } from "../../internal/shortcut";
 import {
   ContextMenuCheckboxItem,
   ContextMenuCheckboxItemIndicator,
-  ContextMenuGroupLabel,
   ContextMenuItem,
   ContextMenuItemIndicator,
   ContextMenuItemLabel,
-  ContextMenuItemShortcut,
   ContextMenuLinkItem,
   ContextMenuPopup,
   ContextMenuRadioItem,
@@ -44,7 +43,6 @@ const meta = {
   subcomponents: {
     ContextMenuItem,
     ContextMenuItemLabel,
-    ContextMenuItemShortcut,
     ContextMenuItemIndicator,
     ContextMenuCheckboxItem,
     ContextMenuCheckboxItemIndicator,
@@ -53,7 +51,6 @@ const meta = {
     ContextMenuLinkItem,
     ContextMenuSubmenuTrigger,
     ContextMenuSeparator,
-    ContextMenuGroupLabel,
   },
 } satisfies Meta<typeof ContextMenuPopup>;
 
@@ -61,13 +58,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * The full anatomy assembled statically: `ContextMenuPopup` › a labelled group
- * (`ContextMenuGroupLabel` + `ContextMenuItem` rows of internal `Icon` + `ContextMenuItemLabel` +
- * `ContextMenuItemShortcut`), a `ContextMenuSubmenuTrigger` row whose trailing caret is the
- * internal `DisclosureIndicator` (`motion="pointEnd"`), `ContextMenuSeparator` dividers, a
- * single-select row whose trailing check (`ContextMenuItemIndicator`) shows via the pinned
- * `data-selected=""`, and a `tone="danger"` row. The "Copy" row pins `data-highlighted=""` — the
- * state Base UI sets on the row under the pointer.
+ * The full anatomy assembled statically: `ContextMenuPopup` › an accessible group of
+ * `ContextMenuItem` rows of internal `Icon` + `ContextMenuItemLabel` + inline-end shortcut content,
+ * a `ContextMenuSubmenuTrigger` row whose trailing caret is the internal `DisclosureIndicator`
+ * (`motion="pointEnd"`), `ContextMenuSeparator` dividers, a single-select row whose trailing check
+ * (`ContextMenuItemIndicator`) shows via the pinned `data-selected=""`, and a `tone="danger"` row.
+ * The "Copy" row pins `data-highlighted=""` — the state Base UI sets on the row under the pointer.
  */
 export const Default: Story = {
   parameters: {
@@ -82,30 +78,32 @@ export const Default: Story = {
   },
   render: () => (
     <ContextMenuPopup role="menu">
-      <div role="group" aria-labelledby="context-menu-elements-default-actions">
-        <ContextMenuGroupLabel id="context-menu-elements-default-actions">
-          Actions
-        </ContextMenuGroupLabel>
-        <ContextMenuItem role="menuitem" tone="neutral">
+      <div role="group" aria-label="Actions">
+        <ContextMenuItem role="menuitem" tone="neutral" aria-keyshortcuts="Meta+X">
           <Icon>
             <Scissors />
           </Icon>
           <ContextMenuItemLabel>Cut</ContextMenuItemLabel>
-          <ContextMenuItemShortcut>⌘X</ContextMenuItemShortcut>
+          <Shortcut aria-hidden>⌘X</Shortcut>
         </ContextMenuItem>
-        <ContextMenuItem role="menuitem" tone="neutral" data-highlighted="">
+        <ContextMenuItem
+          role="menuitem"
+          tone="neutral"
+          aria-keyshortcuts="Meta+C"
+          data-highlighted=""
+        >
           <Icon>
             <Copy />
           </Icon>
           <ContextMenuItemLabel>Copy</ContextMenuItemLabel>
-          <ContextMenuItemShortcut>⌘C</ContextMenuItemShortcut>
+          <Shortcut aria-hidden>⌘C</Shortcut>
         </ContextMenuItem>
-        <ContextMenuItem role="menuitem" tone="neutral">
+        <ContextMenuItem role="menuitem" tone="neutral" aria-keyshortcuts="Meta+V">
           <Icon>
             <ClipboardPaste />
           </Icon>
           <ContextMenuItemLabel>Paste</ContextMenuItemLabel>
-          <ContextMenuItemShortcut>⌘V</ContextMenuItemShortcut>
+          <Shortcut aria-hidden>⌘V</Shortcut>
         </ContextMenuItem>
       </div>
       <ContextMenuSeparator role="separator" />
@@ -287,10 +285,7 @@ export const SelectionItems: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <ContextMenuPopup role="menu">
-      <div role="group" aria-labelledby="context-menu-elements-selection-display">
-        <ContextMenuGroupLabel id="context-menu-elements-selection-display">
-          Display
-        </ContextMenuGroupLabel>
+      <div role="group" aria-label="Display">
         <ContextMenuCheckboxItem role="menuitemcheckbox" aria-checked="true" tone="neutral">
           <ContextMenuCheckboxItemIndicator data-selected="">
             <Check />
@@ -305,10 +300,7 @@ export const SelectionItems: Story = {
         </ContextMenuCheckboxItem>
       </div>
       <ContextMenuSeparator role="separator" />
-      <div role="group" aria-labelledby="context-menu-elements-selection-order">
-        <ContextMenuGroupLabel id="context-menu-elements-selection-order">
-          Order by
-        </ContextMenuGroupLabel>
+      <div role="group" aria-label="Order by">
         <ContextMenuRadioItem role="menuitemradio" aria-checked="true" tone="neutral">
           <ContextMenuRadioItemIndicator data-selected="">
             <Dot />
@@ -360,12 +352,12 @@ export const LinkItems: Story = {
         <ContextMenuItemLabel>Go to activity</ContextMenuItemLabel>
       </ContextMenuLinkItem>
       <ContextMenuSeparator role="separator" />
-      <ContextMenuItem role="menuitem" tone="neutral">
+      <ContextMenuItem role="menuitem" tone="neutral" aria-keyshortcuts="Meta+C">
         <Icon>
           <Copy />
         </Icon>
         <ContextMenuItemLabel>Copy link</ContextMenuItemLabel>
-        <ContextMenuItemShortcut>⌘C</ContextMenuItemShortcut>
+        <Shortcut aria-hidden>⌘C</Shortcut>
       </ContextMenuItem>
     </ContextMenuPopup>
   ),

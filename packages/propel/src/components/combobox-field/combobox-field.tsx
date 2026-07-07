@@ -37,7 +37,7 @@ export type ComboboxFieldProps<Value = string> = Omit<
   /** Items rendered in the popup. */
   items: readonly Value[];
   /** Visible field label. */
-  label: React.ReactNode;
+  label: string;
   /** Label and helper text size. */
   magnitude: FieldMagnitude;
   /** Input placeholder. */

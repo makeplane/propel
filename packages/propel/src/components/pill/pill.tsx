@@ -15,7 +15,7 @@ export type PillButtonProps = Omit<PillButtonElementProps, "children"> & {
   /** Element rendered after the label (inline-end), e.g. `<Icon icon={X} />`. */
   endIcon?: React.ReactNode;
   /** Visible pill label. */
-  label: React.ReactNode;
+  label: string;
   /** Busy state: swaps the inline-start node for a spinner and blocks clicks. */
   loading?: boolean;
 };

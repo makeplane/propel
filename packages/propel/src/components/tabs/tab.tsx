@@ -13,7 +13,7 @@ export type TabProps = Omit<BaseTabs.Tab.Props, "children" | "className" | "styl
   /** Element rendered before the label (inline-start), e.g. `<Icon icon={Folder} />`. */
   icon?: React.ReactNode;
   /** Visible tab label. */
-  label: React.ReactNode;
+  label: string;
 };
 
 /**

@@ -20,7 +20,7 @@ export type ButtonProps = Omit<ButtonElementProps, "children"> & {
   /** Element rendered after the label (inline-end), e.g. `<Icon icon={ArrowRight} />`. */
   endIcon?: React.ReactNode;
   /** Visible button label. */
-  label: React.ReactNode;
+  label: string;
   /** Shows a spinner, sets `aria-busy`, and makes the button non-interactive. */
   loading?: boolean;
 };

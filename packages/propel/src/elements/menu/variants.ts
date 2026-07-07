@@ -2,8 +2,7 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { checkboxBoxVariants } from "../../internal/checkbox-box";
 import { itemIndicatorClass } from "../../internal/item-indicator";
-import { groupLabelClass } from "../../internal/listbox-group-label";
-import { menuSeparatorClass, rowMetaClass } from "../../internal/menu-row-parts";
+import { menuSeparatorClass } from "../../internal/menu-row-parts";
 import { nodeSlotClass } from "../../internal/node-slot";
 import { popupSurfaceClass } from "../../internal/popup-surface";
 import { type StrictVariantProps } from "../../internal/variant-props";
@@ -27,9 +26,9 @@ export const menuPopupVariants = cva("outline-none", {
 });
 
 // All interactive rows (item, link, radio, checkbox, submenu trigger) share one row base:
-// the same height, padding, radius, gap, text + disabled treatment. `variant` switches between
-// a single-line row and a taller top-aligned row that fits a description; `emphasis` switches
-// the hover/cursor affordance.
+// the same height, padding, radius, gap, text + disabled treatment. `layout` switches between
+// a single-line row and a taller top-aligned row that fits a description; `tone` switches the row
+// palette.
 const menuRowBase = cx(
   "group/item flex w-full gap-2 rounded-md px-2 text-13 outline-none select-none [--node-size:1rem]",
   "data-disabled:pointer-events-none data-disabled:text-disabled",
@@ -41,17 +40,18 @@ const menuRowDefaultVariants = {
 
 const menuRowToneVariants = {
   neutral: "text-secondary",
+  accent: "text-accent-primary data-disabled:text-disabled data-highlighted:text-accent-primary",
   danger: "text-danger-primary data-disabled:text-disabled data-highlighted:text-danger-primary",
 } as const;
 
-/** Standalone `MenuItem` row: `layout` (single vs with-description) + `emphasis`. */
+/** Standalone `MenuItem` row: `layout` (single vs with-description) + `tone`. */
 export const menuRowVariants = cva(cx(menuRowBase, "data-highlighted:bg-layer-transparent-hover"), {
   variants: {
     layout: {
       default: "h-[34px] items-center",
       "with-description": "min-h-[34px] items-start py-1.5",
     },
-    /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+    /** Row text palette. */
     tone: menuRowToneVariants,
   },
   defaultVariants: menuRowDefaultVariants,
@@ -68,7 +68,7 @@ export const menuCheckboxItemVariants = cva(
   ),
   {
     variants: {
-      /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+      /** Row text palette. */
       tone: menuRowToneVariants,
     },
     defaultVariants: menuRowDefaultVariants,
@@ -87,9 +87,11 @@ export const menuSubmenuTriggerVariants = cva(
   ),
   {
     variants: {
-      /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+      /** Row text palette. */
       tone: {
         neutral: "text-secondary",
+        accent:
+          "text-accent-primary data-disabled:text-disabled data-highlighted:text-accent-primary data-popup-open:text-accent-primary",
         danger:
           "text-danger-primary data-disabled:text-disabled data-highlighted:text-danger-primary data-popup-open:text-danger-primary",
       },
@@ -120,11 +122,8 @@ export const menuItemDescriptionVariants = cva(
   "truncate text-12 text-tertiary group-data-disabled/item:text-disabled",
 );
 
-/** Trailing muted metadata shown after the title column (e.g. a keyboard shortcut). */
-export const menuItemMetaVariants = cva(rowMetaClass);
-
-/** A trailing slot for arbitrary content. Sizes an icon child to `--node-size`; adds no tint. */
-export const menuItemTrailingVariants = cva(nodeSlotClass);
+/** An end-content slot for arbitrary content. Sizes an icon child to `--node-size`; adds no tint. */
+export const menuItemEndContentVariants = cva(nodeSlotClass);
 
 /**
  * The single-select check shown at a row's inline-end. Sizes its single child to `--node-size` and
@@ -158,9 +157,6 @@ export const menuCheckboxItemIndicatorVariants = cva(
 /** Separator: a thin divider spanning the popup padding. */
 export const menuSeparatorVariants = cva(menuSeparatorClass);
 
-/** GroupLabel: a non-interactive section heading. */
-export const menuGroupLabelVariants = cva(groupLabelClass);
-
 /**
  * Label: a non-interactive section heading row that can carry inline-end metadata. Lays out a
  * growing `MenuLabelTitle` and an optional `MenuLabelMeta`.
@@ -191,7 +187,7 @@ export const menuFooterVariants = cva(
 export type MenuPopupVariantProps = StrictVariantProps<typeof menuPopupVariants>;
 
 type MenuRowVariantConfig = VariantProps<typeof menuRowVariants>;
-/** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+/** Row text palette. */
 export type MenuItemTone = NonNullable<MenuRowVariantConfig["tone"]>;
 
 export type MenuRowVariantProps = StrictVariantProps<

@@ -1,5 +1,4 @@
 import { Meter as BaseMeter } from "@base-ui/react/meter";
-import type * as React from "react";
 
 import {
   Meter as MeterElement,
@@ -19,7 +18,7 @@ export type MeterProps = Omit<
    * Optional visible label rendered above the track (e.g. "Disk usage"). When omitted, provide an
    * `aria-label` so the gauge is still named for assistive tech.
    */
-  label?: React.ReactNode;
+  label?: string;
   /**
    * Whether to show the formatted value text alongside the label.
    *

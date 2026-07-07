@@ -6,7 +6,7 @@ import {
   MenuItemContent,
   MenuItemTitle,
   MenuItemTitleRow,
-  MenuItemTrailing,
+  MenuItemEndContent,
   type MenuItemTone,
   MenuSubmenuTrigger as MenuSubmenuTriggerElement,
 } from "../../elements/menu";
@@ -16,14 +16,14 @@ export type MenuSubmenuTriggerProps = Omit<
   BaseMenu.SubmenuTrigger.Props,
   "children" | "className" | "label" | "style"
 > & {
-  /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+  /** Row text palette. */
   tone?: MenuItemTone;
   /** Leading element before the label, e.g. `<Icon icon={Folder} tint="secondary" />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
-  label: React.ReactNode;
-  /** Element rendered before the submenu chevron at the inline end of the row. */
-  endContent?: React.ReactNode;
+  label: string;
+  /** Element rendered before the submenu chevron, e.g. `<Shortcut keys="⌘ K" />`. */
+  endContent?: React.ReactElement;
 };
 
 /**
@@ -46,7 +46,7 @@ export function MenuSubmenuTrigger({
           <MenuItemTitle>{label}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
-      {endContent != null ? <MenuItemTrailing>{endContent}</MenuItemTrailing> : null}
+      {endContent != null ? <MenuItemEndContent>{endContent}</MenuItemEndContent> : null}
       <DisclosureIndicator motion="pointEnd" tint="tertiary" magnitude="inherit">
         <ChevronDown />
       </DisclosureIndicator>

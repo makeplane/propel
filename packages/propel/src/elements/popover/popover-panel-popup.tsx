@@ -10,8 +10,7 @@ export type PopoverPanelPopupProps = Omit<useRender.ComponentProps<"div">, "clas
  * The popup as the scroll body of an elevated panel surface. Carries only the inner padding +
  * focus-outline reset — the surrounding panel supplies the surface chrome (border, background,
  * shadow, radius), so this never doubles it up. Base-UI-agnostic — graft in `components` via
- * `<BasePopover.Popup render={<PopoverPanelPopup/>} />`. Use {@link PopoverPopup} for a
- * self-contained popup that is its own surface.
+ * `<BasePopover.Popup render={<PopoverPanelPopup/>} />`.
  */
 export function PopoverPanelPopup({ render, ...props }: PopoverPanelPopupProps) {
   const defaultProps: useRender.ElementProps<"div"> = { className: popoverPanelPopupVariants() };

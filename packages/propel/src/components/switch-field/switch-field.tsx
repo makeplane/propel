@@ -17,7 +17,7 @@ export type SwitchFieldProps = Omit<SwitchProps, "aria-label"> & {
   /** Error text shown below the control. */
   error?: React.ReactNode;
   /** Visible field label. */
-  label: React.ReactNode;
+  label: string;
   /** Optional supporting text announced as the switch description. */
   description?: React.ReactNode;
 };

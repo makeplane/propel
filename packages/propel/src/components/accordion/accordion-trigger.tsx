@@ -18,7 +18,7 @@ export type AccordionTriggerProps = Omit<
    */
   icon?: React.ReactNode;
   /** Visible trigger label. */
-  label: React.ReactNode;
+  label: string;
 };
 
 /**

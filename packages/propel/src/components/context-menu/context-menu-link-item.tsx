@@ -5,7 +5,6 @@ import {
   ContextMenuItemLabel,
   ContextMenuLinkItem as ContextMenuLinkItemElement,
   type ContextMenuItemTone,
-  ContextMenuItemShortcut,
 } from "../../elements/context-menu";
 
 export type ContextMenuLinkItemProps = Omit<
@@ -17,9 +16,9 @@ export type ContextMenuLinkItemProps = Omit<
   /** Leading element before the label, e.g. `<Icon icon={ExternalLink} />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
-  label: React.ReactNode;
-  /** Element rendered at the inline end of the row. */
-  endContent?: React.ReactNode;
+  label: string;
+  /** Element rendered at the inline end of the row, e.g. `<Shortcut keys="⌘ K" />`. */
+  endContent?: React.ReactElement;
 };
 
 /**
@@ -38,7 +37,7 @@ export function ContextMenuLinkItem({
     <BaseContextMenu.LinkItem {...props} render={<ContextMenuLinkItemElement tone={tone} />}>
       {icon}
       <ContextMenuItemLabel>{label}</ContextMenuItemLabel>
-      {endContent != null ? <ContextMenuItemShortcut>{endContent}</ContextMenuItemShortcut> : null}
+      {endContent}
     </BaseContextMenu.LinkItem>
   );
 }

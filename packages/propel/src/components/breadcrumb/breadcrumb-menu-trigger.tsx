@@ -12,7 +12,7 @@ export type BreadcrumbMenuTriggerProps = Omit<
   /** Leading element, typically `<Icon icon={...} tint="tertiary" magnitude="md" />`. */
   icon?: React.ReactNode;
   /** The crumb label. */
-  label?: React.ReactNode;
+  label?: string;
 };
 
 /** The crumb that opens a `BreadcrumbMenu`. */

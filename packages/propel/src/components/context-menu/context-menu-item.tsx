@@ -7,7 +7,6 @@ import {
   ContextMenuItemLabel,
   ContextMenuItem as ContextMenuItemElement,
   type ContextMenuItemTone,
-  ContextMenuItemShortcut,
 } from "../../elements/context-menu";
 
 export type ContextMenuItemProps = Omit<
@@ -19,9 +18,9 @@ export type ContextMenuItemProps = Omit<
   /** Leading element before the label, e.g. `<Icon icon={Copy} />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
-  label: React.ReactNode;
-  /** Element rendered at the inline end of the row, often a keyboard shortcut. */
-  endContent?: React.ReactNode;
+  label: string;
+  /** Element rendered at the inline end of the row, e.g. `<Shortcut keys="⌘ K" />`. */
+  endContent?: React.ReactElement;
   /** Single-select selected state. */
   selected?: boolean;
 };
@@ -43,7 +42,7 @@ export function ContextMenuItem({
     <BaseContextMenu.Item {...props} render={<ContextMenuItemElement tone={tone} />}>
       {icon}
       <ContextMenuItemLabel>{label}</ContextMenuItemLabel>
-      {endContent != null ? <ContextMenuItemShortcut>{endContent}</ContextMenuItemShortcut> : null}
+      {endContent}
       {selected ? (
         <ContextMenuItemIndicator data-selected="">
           <Check />

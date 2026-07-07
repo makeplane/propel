@@ -87,7 +87,7 @@ export type PaginationLabels = {
    */
   page: (page: number) => string;
   /** Visible text on the per-page selector trigger, given the size. Defaults to `"50"`. */
-  perPageValue: (pageSize: number) => React.ReactNode;
+  perPageValue: (pageSize: number) => string;
   /** Trailing text after the per-page selector. Defaults to `"per page"`. */
   perPage: string;
 };

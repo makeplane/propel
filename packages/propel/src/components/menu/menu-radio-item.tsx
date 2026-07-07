@@ -5,7 +5,7 @@ import type * as React from "react";
 import {
   MenuItemContent,
   MenuItemControl,
-  MenuItemMeta,
+  MenuItemEndContent,
   MenuItemTitle,
   MenuItemTitleRow,
   type MenuItemTone,
@@ -17,14 +17,14 @@ export type MenuRadioItemProps = Omit<
   BaseMenu.RadioItem.Props,
   "children" | "className" | "label" | "style"
 > & {
-  /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+  /** Row text palette. */
   tone?: MenuItemTone;
   /** Leading element shown after the radio dot, e.g. `<Icon icon={Settings} tint="secondary" />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
-  label: React.ReactNode;
-  /** Element rendered at the inline end of the row. */
-  endContent?: React.ReactNode;
+  label: string;
+  /** Element rendered at the inline end of the row, e.g. `<Shortcut keys="⌘ K" />`. */
+  endContent?: React.ReactElement;
 };
 
 /**
@@ -48,7 +48,7 @@ export function MenuRadioItem({ tone, icon, label, endContent, ...props }: MenuR
           <MenuItemTitle>{label}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
-      {endContent != null ? <MenuItemMeta>{endContent}</MenuItemMeta> : null}
+      {endContent != null ? <MenuItemEndContent>{endContent}</MenuItemEndContent> : null}
     </BaseMenu.RadioItem>
   );
 }

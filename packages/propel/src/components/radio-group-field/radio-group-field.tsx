@@ -22,7 +22,7 @@ export type RadioGroupFieldProps<Value = string> = Omit<
   /** Helper text shown below the group. Replaced by `error` when an error is set. */
   hint?: React.ReactNode;
   /** Visible fieldset legend. */
-  label: React.ReactNode;
+  label: string;
   /** Legend and helper text size. */
   magnitude: FieldMagnitude;
   /** Submitted field name. */

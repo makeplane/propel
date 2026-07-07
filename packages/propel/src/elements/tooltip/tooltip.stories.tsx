@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
 
-import { TooltipArrow, TooltipPopup, TooltipShortcut } from "./index";
+import { Shortcut as InternalShortcut } from "../../internal/shortcut";
+import { TooltipArrow, TooltipPopup } from "./index";
 
 // elements-tier story (rule 2b): a pure UI-configuration showcase. The styled parts render
 // DIRECTLY — no Base UI grafts — with the popup laid out inline (it is just a styled div; Base UI
@@ -15,7 +16,6 @@ const meta = {
   component: TooltipPopup,
   subcomponents: {
     TooltipArrow,
-    TooltipShortcut,
   },
 } satisfies Meta<typeof TooltipPopup>;
 
@@ -25,7 +25,7 @@ type Story = StoryObj<typeof meta>;
 /**
  * The full anatomy assembled statically, as Base UI would lay it out open above its trigger (the
  * ready-made's default `side="top"`): the `TooltipPopup` surface (adaptive `layer-2` fill, caption
- * text, radius, overlay shadow) holds the label and a `TooltipShortcut` hint, with the
+ * text, radius, overlay shadow) holds the label and a decorative shortcut hint, with the
  * `TooltipArrow` pinned `data-side="top"` and parked at the bottom edge by a demo wrapper (Base
  * UI's positioner owns the real placement) so it points down at the would-be trigger.
  */
@@ -34,7 +34,9 @@ export const Default: Story = {
     <div className="relative w-fit pb-2">
       <TooltipPopup>
         Saves automatically
-        <TooltipShortcut>⌘ S</TooltipShortcut>
+        <InternalShortcut aria-hidden magnitude="sm">
+          ⌘ S
+        </InternalShortcut>
       </TooltipPopup>
       <div className="absolute inset-s-6 bottom-1" aria-hidden="true">
         <TooltipArrow data-side="top" />
@@ -44,10 +46,9 @@ export const Default: Story = {
 };
 
 /**
- * The `TooltipShortcut` slot: a keyboard-shortcut hint to the inline-end of the label — the Figma
- * "Cmd + K" slot — one notch smaller (`caption-sm`) and tinted `text/tertiary` so it reads as a
- * dimmer, secondary cue while still meeting text contrast on the popup surface. Omit it for a plain
- * tooltip.
+ * The shortcut hint sits inline-end of the label — the Figma "Cmd + K" slot — one notch smaller
+ * (`caption-sm`) and tinted `text/tertiary` so it reads as a dimmer, secondary cue while still
+ * meeting text contrast on the popup surface. Omit it for a plain tooltip.
  */
 export const Shortcut: Story = {
   render: () => (
@@ -60,7 +61,9 @@ export const Shortcut: Story = {
         <p className="text-13 text-secondary">With shortcut</p>
         <TooltipPopup>
           Open command menu
-          <TooltipShortcut>⌘ K</TooltipShortcut>
+          <InternalShortcut aria-hidden magnitude="sm">
+            ⌘ K
+          </InternalShortcut>
         </TooltipPopup>
       </div>
     </div>

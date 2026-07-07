@@ -19,7 +19,7 @@ export type PillSwitchProps<Value extends string = string> = Omit<
   /** Element rendered after the label (inline-end), e.g. `<Icon icon={X} />`. */
   endIcon?: React.ReactNode;
   /** Visible pill label. */
-  label: React.ReactNode;
+  label: string;
 };
 
 /**

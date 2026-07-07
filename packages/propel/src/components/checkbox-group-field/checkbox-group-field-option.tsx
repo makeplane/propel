@@ -13,7 +13,7 @@ export type CheckboxGroupFieldOptionProps = Omit<
   "aria-label" | "label" | "icon"
 > & {
   /** Visible option label. */
-  label: React.ReactNode;
+  label: string;
   /** Optional supporting text announced as the checkbox description. */
   description?: React.ReactNode;
   /** Label and description size. Inherited from `CheckboxGroupField` when omitted. */

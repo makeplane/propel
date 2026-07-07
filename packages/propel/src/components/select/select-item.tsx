@@ -1,6 +1,5 @@
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check } from "lucide-react";
-import type * as React from "react";
 
 import { SelectItemIndicator } from "../../elements/select";
 import { ListboxItem, type ListboxItemMagnitude } from "../../internal/listbox-item";
@@ -12,7 +11,7 @@ export type SelectItemProps = Omit<
   /** Visual size of the row: controls its height and text size. Required. */
   magnitude: ListboxItemMagnitude;
   /** Option label. */
-  label: React.ReactNode;
+  label: string;
 };
 
 /**

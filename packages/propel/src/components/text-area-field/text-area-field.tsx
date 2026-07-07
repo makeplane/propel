@@ -14,7 +14,7 @@ export type TextAreaFieldProps = Omit<TextAreaProps, "magnitude" | "surface"> & 
   /** Magnitude scale. `md` | `lg` | `xl`. */
   magnitude: InputMagnitude;
   /** Label text shown above the control. */
-  label?: React.ReactNode;
+  label?: string;
   /** Marks the field required: adds a `*` asterisk and sets `required`. */
   required?: boolean;
   /** Supporting text shown directly below the label. */

@@ -1,5 +1,4 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
-import type * as React from "react";
 
 import {
   LinearProgress as LinearProgressElement,
@@ -27,7 +26,7 @@ export type LinearProgressProps = Omit<BaseProgress.Root.Props, "className" | "s
   /** Show the trailing percentage label. @default true */
   showValue?: boolean;
   /** Visible text label before the track — Base UI's `Progress.Label` (also names the bar). */
-  label?: React.ReactNode;
+  label?: string;
   /** Accessible name (required — the visible % is not a substitute). */
   "aria-label": string;
 };

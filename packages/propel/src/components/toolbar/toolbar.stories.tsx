@@ -390,13 +390,21 @@ export const WithTooltips: Story = {
     <TooltipProvider>
       <Toolbar {...args} aria-label="Text formatting">
         <Tooltip label="Bold" shortcut="⌘ B">
-          <ToolbarToggle aria-label="Bold" icon={<Icon icon={Bold} />} />
+          <ToolbarToggle aria-label="Bold" aria-keyshortcuts="Meta+B" icon={<Icon icon={Bold} />} />
         </Tooltip>
         <Tooltip label="Italic" shortcut="⌘ I">
-          <ToolbarToggle aria-label="Italic" icon={<Icon icon={Italic} />} />
+          <ToolbarToggle
+            aria-label="Italic"
+            aria-keyshortcuts="Meta+I"
+            icon={<Icon icon={Italic} />}
+          />
         </Tooltip>
         <Tooltip label="Underline" shortcut="⌘ U">
-          <ToolbarToggle aria-label="Underline" icon={<Icon icon={Underline} />} />
+          <ToolbarToggle
+            aria-label="Underline"
+            aria-keyshortcuts="Meta+U"
+            icon={<Icon icon={Underline} />}
+          />
         </Tooltip>
       </Toolbar>
     </TooltipProvider>

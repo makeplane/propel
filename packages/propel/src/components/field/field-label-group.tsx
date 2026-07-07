@@ -11,7 +11,7 @@ import { FieldLabel } from "./field-label";
 export type FieldLabelGroupProps = FieldLabelGroupVariantProps & {
   magnitude: InputMagnitude;
   required?: boolean;
-  label?: React.ReactNode;
+  label?: string;
   description?: React.ReactNode;
 };
 

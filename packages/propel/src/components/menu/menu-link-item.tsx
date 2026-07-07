@@ -5,7 +5,7 @@ import {
   MenuItemContent,
   MenuItemTitle,
   MenuItemTitleRow,
-  MenuItemTrailing,
+  MenuItemEndContent,
   MenuLinkItem as MenuLinkItemElement,
   type MenuItemTone,
 } from "../../elements/menu";
@@ -14,14 +14,14 @@ export type MenuLinkItemProps = Omit<
   BaseMenu.LinkItem.Props,
   "children" | "className" | "label" | "style"
 > & {
-  /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+  /** Row text palette. */
   tone?: MenuItemTone;
   /** Leading element before the label, e.g. `<Icon icon={ExternalLink} tint="secondary" />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
-  label: React.ReactNode;
-  /** Element rendered at the inline end of the row. */
-  endContent?: React.ReactNode;
+  label: string;
+  /** Element rendered at the inline end of the row, e.g. `<Shortcut keys="⌘ K" />`. */
+  endContent?: React.ReactElement;
 };
 
 /**
@@ -37,7 +37,7 @@ export function MenuLinkItem({ tone, icon, label, endContent, ...props }: MenuLi
           <MenuItemTitle>{label}</MenuItemTitle>
         </MenuItemTitleRow>
       </MenuItemContent>
-      {endContent != null ? <MenuItemTrailing>{endContent}</MenuItemTrailing> : null}
+      {endContent != null ? <MenuItemEndContent>{endContent}</MenuItemEndContent> : null}
     </BaseMenu.LinkItem>
   );
 }

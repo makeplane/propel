@@ -7,7 +7,7 @@ import { Radio, type RadioProps } from "../radio/radio";
 
 export type RadioGroupFieldOptionProps = RadioProps & {
   /** Visible option label. */
-  label: React.ReactNode;
+  label: string;
   /** Optional supporting text announced as the radio description. */
   description?: React.ReactNode;
   /** Label and description size. Inherited from `RadioGroupField` when omitted. */

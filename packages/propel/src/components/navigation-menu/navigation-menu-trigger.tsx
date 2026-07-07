@@ -15,7 +15,7 @@ export type NavigationMenuTriggerProps = Omit<
   /** Replaces the default disclosure caret (a down chevron) in the trigger's `Icon` slot. */
   icon?: React.ReactNode;
   /** Visible trigger label. */
-  label: React.ReactNode;
+  label: string;
 };
 
 /**

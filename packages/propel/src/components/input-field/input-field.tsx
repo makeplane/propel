@@ -19,7 +19,7 @@ export type InputFieldProps = Omit<
   /** Magnitude scale. `md` | `lg` | `xl`. */
   magnitude: InputMagnitude;
   /** Label text shown above (or beside) the control. */
-  label?: React.ReactNode;
+  label?: string;
   /** Marks the field required: adds a `*` asterisk and sets `required`. */
   required?: boolean;
   /** Supporting text shown directly below the label. */
