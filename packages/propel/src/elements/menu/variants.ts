@@ -48,8 +48,8 @@ const menuRowToneVariants = {
 export const menuRowVariants = cva(cx(menuRowBase, "data-highlighted:bg-layer-transparent-hover"), {
   variants: {
     layout: {
-      default: "h-[34px] items-center",
-      "with-description": "min-h-[34px] items-start py-1.5",
+      default: "h-8.5 items-center",
+      "with-description": "min-h-8.5 items-start py-1.5",
     },
     /** Row text palette. */
     tone: menuRowToneVariants,
@@ -62,10 +62,7 @@ export const menuRowVariants = cva(cx(menuRowBase, "data-highlighted:bg-layer-tr
  * checkbox row never carries a description).
  */
 export const menuCheckboxItemVariants = cva(
-  cx(
-    menuRowBase,
-    "h-[34px] cursor-default items-center data-highlighted:bg-layer-transparent-hover",
-  ),
+  cx(menuRowBase, "h-8.5 cursor-default items-center data-highlighted:bg-layer-transparent-hover"),
   {
     variants: {
       /** Row text palette. */
@@ -82,7 +79,7 @@ export const menuCheckboxItemVariants = cva(
 export const menuSubmenuTriggerVariants = cva(
   cx(
     menuRowBase,
-    "h-[34px] cursor-default items-center",
+    "h-8.5 cursor-default items-center",
     "data-highlighted:bg-layer-transparent-hover data-popup-open:bg-layer-transparent-hover",
   ),
   {
