@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import * as React from "react";
 import { expect } from "storybook/test";
 
 import { Checkbox } from "../checkbox/index";
@@ -18,8 +17,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Every child value in the parent-checkbox stories; the group's `allValues` prop
-// is what lets a `parent` checkbox derive its checked/indeterminate state.
+// Every value in the select-all story; the group's `allValues` prop is what lets the `parent`
+// checkbox derive its checked/indeterminate state from the flat list of rows.
 const PROTOCOLS = ["http", "https", "ssh"];
 
 /** Labeled checkbox rows; the first is selected by default. */
@@ -50,16 +49,18 @@ export const DefaultInteraction: Story = {
 };
 
 /**
- * A `parent` checkbox controls the whole group: pass the group `allValues` and mark one row
- * `parent`. With only some values selected it shows the indeterminate dash; toggling it checks or
- * clears every row. Explicit child ids + `aria-controls` keep the parent's controls references
- * valid (propel rows always carry their own label id).
+ * A **select-all** control (Base UI's `parent` checkbox): pass the group `allValues` and mark one
+ * row `parent`. Base UI derives that row's state from the flat list — checked when every row is on,
+ * the indeterminate dash when only some are, unchecked when none — and toggling it checks or clears
+ * every row at once. The control is an affordance over the whole group, not a value of its own, so
+ * label it plainly ("Select all"). Explicit child ids + `aria-controls` keep the parent's controls
+ * reference valid (propel rows always carry their own label id).
  */
-export const ParentCheckbox: Story = {
+export const SelectAll: Story = {
   args: { density: "comfortable", defaultValue: ["https"], allValues: PROTOCOLS },
   render: (args) => (
     <CheckboxGroup {...args} aria-label="Allowed protocols">
-      <Checkbox parent label="All protocols" aria-controls={PROTOCOLS.join(" ")} />
+      <Checkbox parent label="Select all" aria-controls={PROTOCOLS.join(" ")} />
       <Checkbox id="http" value="http" label="HTTP" />
       <Checkbox id="https" value="https" label="HTTPS" />
       <Checkbox id="ssh" value="ssh" label="SSH" />
@@ -68,158 +69,143 @@ export const ParentCheckbox: Story = {
 };
 
 /**
- * Interaction test: the parent reads `mixed` for a partial selection, checks every row when
+ * Interaction test: the select-all row reads `mixed` for a partial selection, checks every row when
  * clicked, clears them on the next click, and returns to `mixed` when a single row is checked.
  * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
  */
-export const ParentCheckboxInteraction: Story = {
-  ...ParentCheckbox,
+export const SelectAllInteraction: Story = {
+  ...SelectAll,
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
-    const parent = canvas.getByRole("checkbox", { name: "All protocols" });
+    const selectAll = canvas.getByRole("checkbox", { name: "Select all" });
     const http = canvas.getByRole("checkbox", { name: "HTTP" });
     const https = canvas.getByRole("checkbox", { name: "HTTPS" });
     const ssh = canvas.getByRole("checkbox", { name: "SSH" });
 
-    // one of three values selected → the parent reports the indeterminate (mixed) state
-    await expect(parent).toHaveAttribute("aria-checked", "mixed");
+    // one of three values selected → the select-all reports the indeterminate (mixed) state
+    await expect(selectAll).toHaveAttribute("aria-checked", "mixed");
 
-    // clicking a mixed parent selects every value
-    await userEvent.click(parent);
-    await expect(parent).toHaveAttribute("aria-checked", "true");
+    // clicking a mixed select-all selects every value
+    await userEvent.click(selectAll);
+    await expect(selectAll).toHaveAttribute("aria-checked", "true");
     await expect(http).toHaveAttribute("aria-checked", "true");
     await expect(https).toHaveAttribute("aria-checked", "true");
     await expect(ssh).toHaveAttribute("aria-checked", "true");
 
-    // clicking a fully-checked parent clears the group
-    await userEvent.click(parent);
-    await expect(parent).toHaveAttribute("aria-checked", "false");
+    // clicking a fully-checked select-all clears the group
+    await userEvent.click(selectAll);
+    await expect(selectAll).toHaveAttribute("aria-checked", "false");
     await expect(http).toHaveAttribute("aria-checked", "false");
     await expect(https).toHaveAttribute("aria-checked", "false");
     await expect(ssh).toHaveAttribute("aria-checked", "false");
 
-    // checking a single row returns the parent to mixed
+    // checking a single row returns the select-all to mixed
     await userEvent.click(http);
-    await expect(parent).toHaveAttribute("aria-checked", "mixed");
+    await expect(selectAll).toHaveAttribute("aria-checked", "mixed");
   },
 };
 
-// Values for the nested-group stories: the outer group tracks the top-level permissions while
-// the nested group tracks the user-management subset behind the "manage-users" value.
-const MAIN_PERMISSIONS = ["view-dashboard", "manage-users", "access-reports"];
-const MANAGEMENT_PERMISSIONS = ["create-user", "edit-user", "delete-user", "assign-roles"];
+// The nested story models a real permission tree as two INDEPENDENT categories. Each category is its
+// own group whose `allValues` are exactly that category's children, so its `parent` rolls up only
+// its own children — never the sibling category.
+const MANAGE_USERS_PERMISSIONS = ["create-user", "edit-user", "delete-user", "assign-roles"];
+const MANAGE_CONTENT_PERMISSIONS = ["create-content", "edit-content", "publish-content"];
 
 /**
- * Groups nest: a nested `CheckboxGroup` (with its own `parent` row) manages a subset of values
- * while the outer group tracks the top level. The two controlled selections stay in sync through
- * `onValueChange` — completing the nested group checks its value into the outer one — and the outer
- * parent's explicit `indeterminate` shows the dash while the nested selection is partial.
+ * A genuine parent/child hierarchy — distinct from the flat `SelectAll` control above. Each
+ * category ("Manage users", "Manage content") is its OWN `CheckboxGroup` whose `allValues` are
+ * exactly that category's children, so its `parent` row rolls up ONLY its own children: it checks
+ * when all of them are on, shows the indeterminate dash when only some are, and toggling it checks
+ * or clears its own children. The categories are independent — a row under "Manage users" never
+ * affects "Manage content". Both groups are uncontrolled (`defaultValue`), so Base UI owns every
+ * parent/child state with no manual syncing. "User permissions" is a plain heading, not a control.
  */
 export const NestedParentCheckbox: Story = {
-  args: { density: "comfortable", allValues: MAIN_PERMISSIONS },
-  render: function Render(args) {
-    const [mainValue, setMainValue] = React.useState<string[]>([]);
-    const [managementValue, setManagementValue] = React.useState<string[]>([]);
-    return (
+  parameters: { controls: { disable: true } },
+  args: { density: "comfortable" },
+  render: (args) => (
+    <div className="flex flex-col gap-4">
+      <p className="text-13 font-semibold text-primary">User permissions</p>
       <CheckboxGroup
-        {...args}
-        aria-label="User permissions"
-        value={mainValue}
-        onValueChange={(value) => {
-          if (value.includes("manage-users")) {
-            setManagementValue(MANAGEMENT_PERMISSIONS);
-          } else if (managementValue.length === MANAGEMENT_PERMISSIONS.length) {
-            setManagementValue([]);
-          }
-          setMainValue(value);
-        }}
+        density={args.density}
+        aria-label="Manage users"
+        allValues={MANAGE_USERS_PERMISSIONS}
+        defaultValue={[]}
+      >
+        <Checkbox parent label="Manage users" aria-controls={MANAGE_USERS_PERMISSIONS.join(" ")} />
+        <div className="flex flex-col gap-2 ps-6">
+          <Checkbox id="create-user" value="create-user" label="Create user" />
+          <Checkbox id="edit-user" value="edit-user" label="Edit user" />
+          <Checkbox id="delete-user" value="delete-user" label="Delete user" />
+          <Checkbox id="assign-roles" value="assign-roles" label="Assign roles" />
+        </div>
+      </CheckboxGroup>
+      <CheckboxGroup
+        density={args.density}
+        aria-label="Manage content"
+        allValues={MANAGE_CONTENT_PERMISSIONS}
+        defaultValue={[]}
       >
         <Checkbox
           parent
-          label="User permissions"
-          aria-controls={MAIN_PERMISSIONS.join(" ")}
-          indeterminate={
-            managementValue.length > 0 && managementValue.length !== MANAGEMENT_PERMISSIONS.length
-          }
+          label="Manage content"
+          aria-controls={MANAGE_CONTENT_PERMISSIONS.join(" ")}
         />
-        <Checkbox id="view-dashboard" value="view-dashboard" label="View dashboard" />
-        <Checkbox id="access-reports" value="access-reports" label="Access reports" />
-        <div className="ps-6">
-          <CheckboxGroup
-            density={args.density}
-            aria-label="Manage users"
-            allValues={MANAGEMENT_PERMISSIONS}
-            value={managementValue}
-            onValueChange={(value) => {
-              if (value.length === MANAGEMENT_PERMISSIONS.length) {
-                setMainValue((prev) =>
-                  prev.includes("manage-users") ? prev : [...prev, "manage-users"],
-                );
-              } else {
-                setMainValue((prev) => prev.filter((v) => v !== "manage-users"));
-              }
-              setManagementValue(value);
-            }}
-          >
-            <Checkbox
-              parent
-              id="manage-users"
-              label="Manage users"
-              aria-controls={MANAGEMENT_PERMISSIONS.join(" ")}
-            />
-            <Checkbox id="create-user" value="create-user" label="Create user" />
-            <Checkbox id="edit-user" value="edit-user" label="Edit user" />
-            <Checkbox id="delete-user" value="delete-user" label="Delete user" />
-            <Checkbox id="assign-roles" value="assign-roles" label="Assign roles" />
-          </CheckboxGroup>
+        <div className="flex flex-col gap-2 ps-6">
+          <Checkbox id="create-content" value="create-content" label="Create content" />
+          <Checkbox id="edit-content" value="edit-content" label="Edit content" />
+          <Checkbox id="publish-content" value="publish-content" label="Publish content" />
         </div>
       </CheckboxGroup>
-    );
-  },
+    </div>
+  ),
 };
 
 /**
- * Interaction test: one nested row turns the nested parent `mixed` and puts the indeterminate dash
- * on the outer parent (its explicit `indeterminate` surfaces as `data-indeterminate`;
- * `aria-checked` stays group-derived). Completing the nested group checks "manage-users" into the
- * outer group, and the outer parent then selects and clears every value across both groups. Tagged
- * out of the sidebar/docs/manifest while still running under the default `test` tag.
+ * Interaction test for the parent/child hierarchy: selecting one child turns ONLY its own parent
+ * `mixed` (the sibling category is untouched), completing every child checks that parent, toggling
+ * a parent checks/clears only its own children, and toggling one category never leaks into the
+ * other. Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const NestedParentCheckboxInteraction: Story = {
   ...NestedParentCheckbox,
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas, userEvent }) => {
-    const userPermissions = canvas.getByRole("checkbox", { name: "User permissions" });
     const manageUsers = canvas.getByRole("checkbox", { name: "Manage users" });
     const createUser = canvas.getByRole("checkbox", { name: "Create user" });
-    const viewDashboard = canvas.getByRole("checkbox", { name: "View dashboard" });
+    const editUser = canvas.getByRole("checkbox", { name: "Edit user" });
+    const deleteUser = canvas.getByRole("checkbox", { name: "Delete user" });
+    const assignRoles = canvas.getByRole("checkbox", { name: "Assign roles" });
+    const manageContent = canvas.getByRole("checkbox", { name: "Manage content" });
+    const createContent = canvas.getByRole("checkbox", { name: "Create content" });
 
     // nothing selected anywhere → both parents read clear
-    await expect(userPermissions).toHaveAttribute("aria-checked", "false");
     await expect(manageUsers).toHaveAttribute("aria-checked", "false");
+    await expect(manageContent).toHaveAttribute("aria-checked", "false");
 
-    // one nested row → the nested parent turns mixed and the outer parent shows the dash
-    // through its explicit `indeterminate` wiring
+    // selecting one child turns ONLY its own parent mixed; the sibling category is untouched
     await userEvent.click(createUser);
     await expect(manageUsers).toHaveAttribute("aria-checked", "mixed");
-    await expect(userPermissions).toHaveAttribute("data-indeterminate");
+    await expect(manageContent).toHaveAttribute("aria-checked", "false");
+    await expect(createContent).toHaveAttribute("aria-checked", "false");
 
-    // completing the nested group syncs "manage-users" into the outer group → outer parent mixed
+    // completing every child of a category checks its parent — the sibling stays clear
+    await userEvent.click(editUser);
+    await userEvent.click(deleteUser);
+    await userEvent.click(assignRoles);
+    await expect(manageUsers).toHaveAttribute("aria-checked", "true");
+    await expect(manageContent).toHaveAttribute("aria-checked", "false");
+
+    // toggling a checked parent clears only its own children
     await userEvent.click(manageUsers);
-    await expect(manageUsers).toHaveAttribute("aria-checked", "true");
-    await expect(createUser).toHaveAttribute("aria-checked", "true");
-    await expect(userPermissions).toHaveAttribute("aria-checked", "mixed");
+    await expect(manageUsers).toHaveAttribute("aria-checked", "false");
+    await expect(createUser).toHaveAttribute("aria-checked", "false");
+    await expect(assignRoles).toHaveAttribute("aria-checked", "false");
 
-    // checking the outer parent selects every value in both groups
-    await userEvent.click(userPermissions);
-    await expect(userPermissions).toHaveAttribute("aria-checked", "true");
-    await expect(viewDashboard).toHaveAttribute("aria-checked", "true");
-    await expect(manageUsers).toHaveAttribute("aria-checked", "true");
-
-    // clearing the outer parent empties both groups
-    await userEvent.click(userPermissions);
-    await expect(userPermissions).toHaveAttribute("aria-checked", "false");
-    await expect(viewDashboard).toHaveAttribute("aria-checked", "false");
+    // toggling the OTHER parent checks only its own children — no leak into the first category
+    await userEvent.click(manageContent);
+    await expect(manageContent).toHaveAttribute("aria-checked", "true");
+    await expect(createContent).toHaveAttribute("aria-checked", "true");
     await expect(manageUsers).toHaveAttribute("aria-checked", "false");
     await expect(createUser).toHaveAttribute("aria-checked", "false");
   },
