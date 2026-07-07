@@ -53,17 +53,18 @@ export const DefaultInteraction: Story = {
  * row `parent`. Base UI derives that row's state from the flat list — checked when every row is on,
  * the indeterminate dash when only some are, unchecked when none — and toggling it checks or clears
  * every row at once. The control is an affordance over the whole group, not a value of its own, so
- * label it plainly ("Select all"). Explicit child ids + `aria-controls` keep the parent's controls
- * reference valid (propel rows always carry their own label id).
+ * label it plainly ("Select all"). Rows carry no explicit `id`: Base UI derives each child input id
+ * as `${groupId}-${value}` and auto-wires the parent's `aria-controls` to match (a custom `id` on a
+ * grouped child is ignored — base-ui#2691).
  */
 export const SelectAll: Story = {
   args: { density: "comfortable", defaultValue: ["https"], allValues: PROTOCOLS },
   render: (args) => (
     <CheckboxGroup {...args} aria-label="Allowed protocols">
-      <Checkbox parent label="Select all" aria-controls={PROTOCOLS.join(" ")} />
-      <Checkbox id="http" value="http" label="HTTP" />
-      <Checkbox id="https" value="https" label="HTTPS" />
-      <Checkbox id="ssh" value="ssh" label="SSH" />
+      <Checkbox parent label="Select all" />
+      <Checkbox value="http" label="HTTP" />
+      <Checkbox value="https" label="HTTPS" />
+      <Checkbox value="ssh" label="SSH" />
     </CheckboxGroup>
   ),
 };
@@ -132,12 +133,12 @@ export const NestedParentCheckbox: Story = {
         allValues={MANAGE_USERS_PERMISSIONS}
         defaultValue={[]}
       >
-        <Checkbox parent label="Manage users" aria-controls={MANAGE_USERS_PERMISSIONS.join(" ")} />
+        <Checkbox parent label="Manage users" />
         <div className="flex flex-col gap-2 ps-6">
-          <Checkbox id="create-user" value="create-user" label="Create user" />
-          <Checkbox id="edit-user" value="edit-user" label="Edit user" />
-          <Checkbox id="delete-user" value="delete-user" label="Delete user" />
-          <Checkbox id="assign-roles" value="assign-roles" label="Assign roles" />
+          <Checkbox value="create-user" label="Create user" />
+          <Checkbox value="edit-user" label="Edit user" />
+          <Checkbox value="delete-user" label="Delete user" />
+          <Checkbox value="assign-roles" label="Assign roles" />
         </div>
       </CheckboxGroup>
       <CheckboxGroup
@@ -146,15 +147,11 @@ export const NestedParentCheckbox: Story = {
         allValues={MANAGE_CONTENT_PERMISSIONS}
         defaultValue={[]}
       >
-        <Checkbox
-          parent
-          label="Manage content"
-          aria-controls={MANAGE_CONTENT_PERMISSIONS.join(" ")}
-        />
+        <Checkbox parent label="Manage content" />
         <div className="flex flex-col gap-2 ps-6">
-          <Checkbox id="create-content" value="create-content" label="Create content" />
-          <Checkbox id="edit-content" value="edit-content" label="Edit content" />
-          <Checkbox id="publish-content" value="publish-content" label="Publish content" />
+          <Checkbox value="create-content" label="Create content" />
+          <Checkbox value="edit-content" label="Edit content" />
+          <Checkbox value="publish-content" label="Publish content" />
         </div>
       </CheckboxGroup>
     </div>
