@@ -21,7 +21,7 @@ export function BreadcrumbMenuTrigger({ icon, label, ...props }: BreadcrumbMenuT
     <BaseMenu.Trigger render={<BreadcrumbTrigger group />} {...props}>
       {icon}
       {label}
-      <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+      <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
         <ChevronDown />
       </DisclosureIndicator>
     </BaseMenu.Trigger>
