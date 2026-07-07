@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { CircleDot } from "lucide-react";
 import * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { Avatar } from "../avatar/index";
+import { Badge } from "../badge/index";
 import { Button } from "../button/index";
 import {
   createPreviewCardHandle,
@@ -10,15 +13,20 @@ import {
   PreviewCardBody,
   PreviewCardContent,
   PreviewCardDescription,
+  PreviewCardIcon,
   PreviewCardImage,
+  PreviewCardMeta,
+  PreviewCardPropertyGroup,
   PreviewCardTitle,
+  PreviewCardTitleRow,
   PreviewCardTrigger,
 } from "./index";
 
 // Components-tier story: uses the ready-made `PreviewCardContent`, which composes
-// the portal/backdrop/positioner/popup so a consumer only writes the trigger and
-// the card body (and may drop in the re-exported `PreviewCardArrow`). The trigger is
-// `PreviewCardTrigger` — propel's behavior passthrough of Base UI's `PreviewCard.Trigger`.
+// the portal/positioner/popup (no backdrop — a preview card is non-modal) so a consumer only
+// writes the trigger and the card body (and may drop in the re-exported `PreviewCardArrow`). The
+// trigger is `PreviewCardTrigger` — propel's behavior passthrough of Base UI's
+// `PreviewCard.Trigger`.
 
 const meta = {
   title: "Components/PreviewCard",
@@ -28,8 +36,12 @@ const meta = {
     PreviewCardContent,
     PreviewCardArrow,
     PreviewCardBody,
+    PreviewCardIcon,
     PreviewCardImage,
+    PreviewCardMeta,
+    PreviewCardPropertyGroup,
     PreviewCardTitle,
+    PreviewCardTitleRow,
     PreviewCardDescription,
   },
 } satisfies Meta<typeof PreviewCard>;
@@ -129,6 +141,63 @@ export const WithImageInteraction: Story = {
         ).toBeInTheDocument(),
       { timeout: 3000 },
     );
+  },
+};
+
+/**
+ * A work-item-style link preview: `PreviewCardIcon` sits beside the title in a
+ * `PreviewCardTitleRow` (compose the row only when there's a leading icon),
+ * `PreviewCardPropertyGroup` holds a wrapping row of the consumer's own controls (here the
+ * ready-made `Badge` for status/priority and `Avatar` for the assignee — the part supplies only the
+ * row layout), and `PreviewCardMeta` closes the card with a muted caption. Every region is optional
+ * and independent — a card can add just one.
+ */
+export const WithRichAnatomy: Story = {
+  render: () => (
+    <p className="max-w-prose text-14 text-secondary">
+      See{" "}
+      <PreviewCard>
+        <PreviewCardTrigger render={triggerAnchor("https://app.plane.so/issues/WEB-142")}>
+          WEB-142
+        </PreviewCardTrigger>
+        <PreviewCardContent side="top">
+          <PreviewCardBody>
+            <PreviewCardTitleRow>
+              <PreviewCardIcon>
+                <CircleDot />
+              </PreviewCardIcon>
+              <PreviewCardTitle>Redesign the pricing page</PreviewCardTitle>
+            </PreviewCardTitleRow>
+            <PreviewCardDescription>
+              Rework the tiered layout to highlight the annual plan discount.
+            </PreviewCardDescription>
+            <PreviewCardPropertyGroup>
+              <Badge tone="warning" magnitude="sm" label="In Progress" />
+              <Badge tone="danger" magnitude="sm" label="High priority" />
+              <Avatar magnitude="xs" alt="Priya Sharma" fallback="P" />
+            </PreviewCardPropertyGroup>
+            <PreviewCardMeta>WEB-142 · Updated 2 days ago</PreviewCardMeta>
+          </PreviewCardBody>
+          <PreviewCardArrow />
+        </PreviewCardContent>
+      </PreviewCard>{" "}
+      for the current status before starting the follow-up task.
+    </p>
+  ),
+};
+
+export const WithRichAnatomyInteraction: Story = {
+  ...WithRichAnatomy,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    await userEvent.hover(canvas.getByRole("link", { name: "WEB-142" }));
+    const body = within(document.body);
+    await waitFor(() => expect(body.getByText("Redesign the pricing page")).toBeInTheDocument());
+    // Properties and metadata render alongside the title/description.
+    await expect(body.getByText("In Progress")).toBeInTheDocument();
+    await expect(body.getByText("High priority")).toBeInTheDocument();
+    await expect(body.getByRole("img", { name: "Priya Sharma" })).toBeInTheDocument();
+    await expect(body.getByText("WEB-142 · Updated 2 days ago")).toBeInTheDocument();
   },
 };
 
