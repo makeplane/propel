@@ -7,6 +7,7 @@ import {
   CheckboxIndeterminateIndicator,
   CheckboxIndicator,
   CheckboxLabel,
+  type CheckboxLabelSizing,
 } from "../../elements/checkbox";
 
 export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" | "render"> & {
@@ -16,6 +17,8 @@ export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" 
    * or `aria-labelledby`.
    */
   label?: React.ReactNode;
+  /** Width of the clickable label row when `label` is present. */
+  sizing?: CheckboxLabelSizing;
   /**
    * Element shown between the box and the label (inline-start), e.g. `<Icon icon={User}
    * tint="secondary" magnitude="sm" />`. Only rendered when `label` is present.
@@ -28,7 +31,7 @@ export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" 
  * check and indeterminate indicators, and optionally wraps the row in a clickable `CheckboxLabel`
  * with an icon slot.
  */
-export function Checkbox({ label, icon, id, ...props }: CheckboxProps) {
+export function Checkbox({ label, sizing, icon, id, ...props }: CheckboxProps) {
   // Generate a stable id so an explicit `label` can be associated with the box.
   const generatedId = React.useId();
   const checkboxId = id ?? generatedId;
@@ -49,7 +52,7 @@ export function Checkbox({ label, icon, id, ...props }: CheckboxProps) {
   if (label == null) return box;
 
   return (
-    <CheckboxLabel htmlFor={checkboxId}>
+    <CheckboxLabel htmlFor={checkboxId} sizing={sizing}>
       {box}
       {icon}
       {label}

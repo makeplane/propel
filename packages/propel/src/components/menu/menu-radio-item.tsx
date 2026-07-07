@@ -8,6 +8,7 @@ import {
   MenuItemMeta,
   MenuItemTitle,
   MenuItemTitleRow,
+  type MenuItemTone,
   MenuRadioItem as MenuRadioItemElement,
   MenuRadioItemIndicator,
 } from "../../elements/menu";
@@ -16,6 +17,8 @@ export type MenuRadioItemProps = Omit<
   BaseMenu.RadioItem.Props,
   "children" | "className" | "label" | "style"
 > & {
+  /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+  tone?: MenuItemTone;
   /** Leading element shown after the radio dot, e.g. `<Icon icon={Settings} tint="secondary" />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
@@ -31,9 +34,9 @@ export type MenuRadioItemProps = Omit<
  * `MenuRadioGroup` carrying `value`/`onValueChange`; the dot reads the selected state from
  * context.
  */
-export function MenuRadioItem({ icon, label, endContent, ...props }: MenuRadioItemProps) {
+export function MenuRadioItem({ tone, icon, label, endContent, ...props }: MenuRadioItemProps) {
   return (
-    <BaseMenu.RadioItem {...props} render={<MenuRadioItemElement />}>
+    <BaseMenu.RadioItem {...props} render={<MenuRadioItemElement tone={tone} />}>
       <MenuItemControl>
         <BaseMenu.RadioItemIndicator keepMounted render={<MenuRadioItemIndicator />}>
           <Circle aria-hidden />

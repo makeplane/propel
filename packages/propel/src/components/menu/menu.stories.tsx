@@ -344,10 +344,7 @@ export const ActionMenu: Story = {
           label="Archive"
         />
         <MenuSeparator />
-        <MenuItem
-          icon={<Icon icon={Trash2} tint="danger" />}
-          label={<span className="text-danger-primary">Delete</span>}
-        />
+        <MenuItem tone="danger" icon={<Icon icon={Trash2} />} label="Delete" />
       </MenuContent>
     </Menu>
   ),
@@ -1149,10 +1146,7 @@ export const DetachedTrigger: Story = {
           <MenuItem icon={<Icon icon={Pencil} tint="secondary" />} label="Edit" />
           <MenuItem icon={<Icon icon={Copy} tint="secondary" />} label="Make a copy" />
           <MenuSeparator />
-          <MenuItem
-            icon={<Icon icon={Trash2} tint="danger" />}
-            label={<span className="text-danger-primary">Delete</span>}
-          />
+          <MenuItem tone="danger" icon={<Icon icon={Trash2} />} label="Delete" />
         </MenuContent>
       </Menu>
     </>

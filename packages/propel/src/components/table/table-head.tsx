@@ -28,7 +28,8 @@ const ariaSort: Record<TableHeadSort, React.AriaAttributes["aria-sort"]> = {
 export type TableHeadProps = Omit<TableHeadElementProps, "aria-sort" | "children" | "mode"> & {
   /** Header label. */
   label: React.ReactNode;
-  /** Visual treatment. `sortable` renders the title as a sort-cycling button. */
+  /** Visually hide the label while keeping it available to assistive tech. */
+  visuallyHidden?: boolean;
   /** Whether this header is interactive sortable (renders a sort trigger + reflects `aria-sort`). */
   sortable?: boolean;
   /** Current sort state for a sortable header. @default "none" */
@@ -40,6 +41,7 @@ export type TableHeadProps = Omit<TableHeadElementProps, "aria-sort" | "children
 /** A ready-made header cell: a plain title, or (when sortable) a sort-cycling button with a chevron. */
 export function TableHead({
   label,
+  visuallyHidden = false,
   sortable = false,
   sort = "none",
   onSort,
@@ -49,6 +51,7 @@ export function TableHead({
   const isSortable = sortable;
   const hasSortControl = isSortable && onSort != null;
   const SortGlyph = sortGlyph[sort];
+  const titleVisibility = visuallyHidden ? "hidden" : "visible";
 
   return (
     <TableHeadElement
@@ -58,13 +61,13 @@ export function TableHead({
     >
       {hasSortControl ? (
         <TableHeadSortTrigger onClick={onSort}>
-          <TableHeadTitle>{label}</TableHeadTitle>
+          <TableHeadTitle visibility={titleVisibility}>{label}</TableHeadTitle>
           <TableHeadSortIndicator>
             <SortGlyph />
           </TableHeadSortIndicator>
         </TableHeadSortTrigger>
       ) : (
-        <TableHeadTitle>{label}</TableHeadTitle>
+        <TableHeadTitle visibility={titleVisibility}>{label}</TableHeadTitle>
       )}
     </TableHeadElement>
   );

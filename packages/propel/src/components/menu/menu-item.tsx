@@ -4,6 +4,7 @@ import type * as React from "react";
 
 import {
   MenuItem as MenuItemElement,
+  type MenuItemTone,
   MenuItemContent,
   MenuItemDescription,
   MenuItemSecondaryText,
@@ -17,6 +18,8 @@ export type MenuItemProps = Omit<
   BaseMenu.Item.Props,
   "children" | "className" | "label" | "style"
 > & {
+  /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+  tone?: MenuItemTone;
   /** Leading element before the label, e.g. `<Icon icon={Settings} tint="secondary" />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
@@ -37,6 +40,7 @@ export type MenuItemProps = Omit<
  * the single-select check indicator.
  */
 export function MenuItem({
+  tone,
   icon,
   description,
   secondaryText,
@@ -48,7 +52,7 @@ export function MenuItem({
   // The taller, top-aligned row layout is implied by having a description — derived, not a prop.
   const layout = description != null ? "with-description" : "default";
   return (
-    <BaseMenu.Item {...props} render={<MenuItemElement layout={layout} />}>
+    <BaseMenu.Item {...props} render={<MenuItemElement layout={layout} tone={tone} />}>
       {icon}
       <MenuItemContent>
         <MenuItemTitleRow>

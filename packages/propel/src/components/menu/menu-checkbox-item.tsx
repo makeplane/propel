@@ -10,12 +10,15 @@ import {
   MenuItemMeta,
   MenuItemTitle,
   MenuItemTitleRow,
+  type MenuItemTone,
 } from "../../elements/menu";
 
 export type MenuCheckboxItemProps = Omit<
   BaseMenu.CheckboxItem.Props,
   "children" | "className" | "label" | "style"
 > & {
+  /** Neutral rows use the standard text hierarchy; `danger` rows use the error palette. */
+  tone?: MenuItemTone;
   /** Leading element shown after the checkbox, e.g. `<Icon icon={Settings} tint="secondary" />`. */
   icon?: React.ReactNode;
   /** Primary row label. */
@@ -32,9 +35,15 @@ export type MenuCheckboxItemProps = Omit<
  * state, so `checked` / `defaultChecked` / `onCheckedChange` forward straight to it and the
  * indicator reads it from context.
  */
-export function MenuCheckboxItem({ icon, label, endContent, ...props }: MenuCheckboxItemProps) {
+export function MenuCheckboxItem({
+  tone,
+  icon,
+  label,
+  endContent,
+  ...props
+}: MenuCheckboxItemProps) {
   return (
-    <BaseMenu.CheckboxItem {...props} render={<MenuCheckboxItemElement />}>
+    <BaseMenu.CheckboxItem {...props} render={<MenuCheckboxItemElement tone={tone} />}>
       <MenuItemControl>
         <BaseMenu.CheckboxItemIndicator keepMounted render={<MenuCheckboxItemIndicator />}>
           <Check aria-hidden />
