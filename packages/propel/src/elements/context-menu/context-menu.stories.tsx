@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   Check,
   ChevronDown,
+  Circle,
   ClipboardPaste,
   Copy,
-  Dot,
   ExternalLink,
   FolderInput,
   Link2,
@@ -303,19 +303,19 @@ export const SelectionItems: Story = {
       <div role="group" aria-label="Order by">
         <ContextMenuRadioItem role="menuitemradio" aria-checked="true" tone="neutral">
           <ContextMenuRadioItemIndicator data-selected="">
-            <Dot />
+            <Circle aria-hidden />
           </ContextMenuRadioItemIndicator>
           <ContextMenuItemLabel>Manual</ContextMenuItemLabel>
         </ContextMenuRadioItem>
         <ContextMenuRadioItem role="menuitemradio" aria-checked="false" tone="neutral">
           <ContextMenuRadioItemIndicator>
-            <Dot />
+            <Circle aria-hidden />
           </ContextMenuRadioItemIndicator>
           <ContextMenuItemLabel>Created date</ContextMenuItemLabel>
         </ContextMenuRadioItem>
         <ContextMenuRadioItem role="menuitemradio" aria-checked="false" tone="neutral">
           <ContextMenuRadioItemIndicator>
-            <Dot />
+            <Circle aria-hidden />
           </ContextMenuRadioItemIndicator>
           <ContextMenuItemLabel>Priority</ContextMenuItemLabel>
         </ContextMenuRadioItem>
