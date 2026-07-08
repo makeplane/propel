@@ -11,6 +11,7 @@ import {
   AccordionPanel,
   AccordionPanelContent,
   AccordionTrigger,
+  AccordionTriggerIcon,
   AccordionTriggerTitle,
 } from "./index";
 
@@ -28,6 +29,7 @@ const meta = {
     AccordionItem,
     AccordionHeader,
     AccordionTrigger,
+    AccordionTriggerIcon,
     AccordionTriggerTitle,
     AccordionPanel,
     AccordionPanelContent,
@@ -61,12 +63,12 @@ const ITEMS = [
 
 /**
  * The full anatomy assembled statically: `Accordion` › `AccordionItem` › `AccordionHeader` ›
- * `AccordionTrigger` (leading internal `Icon`, growing `AccordionTriggerTitle`, trailing internal
- * `DisclosureIndicator`), plus `AccordionPanel` › `AccordionPanelContent` (the padding lives on the
- * content so the panel's height animation measures cleanly). The first item is pinned open:
- * `data-panel-open=""` on the trigger rotates the caret (the trigger carries `group`; the indicator
- * reads `group-data-panel-open`) and its panel renders — closed items render no panel, matching
- * Base UI's unmount-while-closed default.
+ * `AccordionTrigger` (leading `AccordionTriggerIcon` wrapping the internal `Icon`, growing
+ * `AccordionTriggerTitle`, trailing internal `DisclosureIndicator`), plus `AccordionPanel` ›
+ * `AccordionPanelContent` (the padding lives on the content so the panel's height animation
+ * measures cleanly). The first item is pinned open: `data-panel-open=""` on the trigger rotates the
+ * caret (the trigger carries `group`; the indicator reads `group-data-panel-open`) and its panel
+ * renders — closed items render no panel, matching Base UI's unmount-while-closed default.
  */
 export const Default: Story = {
   render: () => (
@@ -77,9 +79,11 @@ export const Default: Story = {
           <AccordionItem key={item.label}>
             <AccordionHeader>
               <AccordionTrigger aria-expanded={open} data-panel-open={open ? "" : undefined}>
-                <Icon tint="secondary">
-                  <CircleHelp />
-                </Icon>
+                <AccordionTriggerIcon>
+                  <Icon tint="secondary">
+                    <CircleHelp />
+                  </Icon>
+                </AccordionTriggerIcon>
                 <AccordionTriggerTitle>{item.label}</AccordionTriggerTitle>
                 <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
                   <ChevronDown />
