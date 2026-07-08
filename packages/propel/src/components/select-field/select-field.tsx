@@ -64,7 +64,7 @@ export function SelectField({
           {label}
         </BaseSelect.Label>
         <SelectTrigger magnitude={selectMagnitude} />
-        {error == null && description != null ? (
+        {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
         ) : null}
         <BaseSelect.Portal>
