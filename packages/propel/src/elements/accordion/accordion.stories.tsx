@@ -61,6 +61,12 @@ const ITEMS = [
   },
 ];
 
+// A title long enough to wrap onto several lines inside the framed 474px canvas — exercises
+// `accordionTriggerTitleVariants` (`min-w-0 flex-1`): the label grows, wraps, and shrinks rather
+// than pushing the trailing caret off the row.
+const LONG_TITLE =
+  "Can I connect Plane to my existing tools and migrate all of my historical project data without losing the relationships between issues, cycles, and modules?";
+
 /**
  * The full anatomy assembled statically: `Accordion` › `AccordionItem` › `AccordionHeader` ›
  * `AccordionTrigger` (leading `AccordionTriggerIcon` wrapping the internal `Icon`, growing
@@ -172,7 +178,10 @@ export const States: Story = {
       </AccordionItem>
       <AccordionItem>
         <AccordionHeader>
-          <AccordionTrigger disabled aria-expanded={false}>
+          {/* Real accordions disable at the ITEM, so Base UI sets `data-disabled`/`aria-disabled`
+              (the trigger stays focusable) — NOT the native `disabled` attribute. Pin that spelling
+              so the dimming reflects what ships. */}
+          <AccordionTrigger data-disabled="" aria-disabled aria-expanded={false}>
             <AccordionTriggerTitle>Disabled</AccordionTriggerTitle>
             <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
               <ChevronDown />
@@ -212,5 +221,180 @@ export const StatesCanary: Story = {
       }
       await expect(getComputedStyle(panel).height).toBe("0px");
     }
+
+    // The compiled `data-disabled:opacity-60` selector dims the disabled row even though Base UI
+    // uses `data-disabled` (not the native `disabled` attribute), so `:disabled` alone wouldn't fire.
+    const disabled = canvas.getByRole("button", { name: "Disabled" });
+    await expect(Number(getComputedStyle(disabled).opacity)).toBeLessThan(1);
+  },
+};
+
+/**
+ * The same anatomy under `dir="rtl"`: the leading `Icon` and the growing title flip to the
+ * inline-start (right) edge and the `DisclosureIndicator` to the inline-end (left). The caret's
+ * `motion="disclose"` selectors are RTL-mirrored — the closed row's caret points inline-end (left,
+ * `rtl:rotate-90`) while the open row's points down (`rtl:group-data-panel-open:rotate-0`).
+ */
+export const RTL: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div dir="rtl">
+      <Accordion>
+        <AccordionItem>
+          <AccordionHeader>
+            <AccordionTrigger aria-expanded data-panel-open="">
+              <Icon tint="secondary">
+                <CircleHelp />
+              </Icon>
+              <AccordionTriggerTitle>Open — caret points down</AccordionTriggerTitle>
+              <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
+                <ChevronDown />
+              </DisclosureIndicator>
+            </AccordionTrigger>
+          </AccordionHeader>
+          <AccordionPanel>
+            <AccordionPanelContent>
+              The panel content, laid out right-to-left.
+            </AccordionPanelContent>
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem>
+          <AccordionHeader>
+            <AccordionTrigger aria-expanded={false}>
+              <Icon tint="secondary">
+                <CircleHelp />
+              </Icon>
+              <AccordionTriggerTitle>Closed — caret points inline-end</AccordionTriggerTitle>
+              <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
+                <ChevronDown />
+              </DisclosureIndicator>
+            </AccordionTrigger>
+          </AccordionHeader>
+        </AccordionItem>
+      </Accordion>
+    </div>
+  ),
+};
+
+/**
+ * CSS canary (rule 2b): asserts the caret's RTL-mirrored selectors compiled — a closed caret
+ * rotates the opposite way under `dir="rtl"` (`rtl:rotate-90`) than under LTR (`-rotate-90`).
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const RTLCanary: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <>
+      <Accordion>
+        <AccordionItem>
+          <AccordionHeader>
+            <AccordionTrigger aria-expanded={false}>
+              <AccordionTriggerTitle>LTR closed</AccordionTriggerTitle>
+              <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
+                <ChevronDown />
+              </DisclosureIndicator>
+            </AccordionTrigger>
+          </AccordionHeader>
+        </AccordionItem>
+      </Accordion>
+      <div dir="rtl">
+        <Accordion>
+          <AccordionItem>
+            <AccordionHeader>
+              <AccordionTrigger aria-expanded={false}>
+                <AccordionTriggerTitle>RTL closed</AccordionTriggerTitle>
+                <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
+                  <ChevronDown />
+                </DisclosureIndicator>
+              </AccordionTrigger>
+            </AccordionHeader>
+          </AccordionItem>
+        </Accordion>
+      </div>
+    </>
+  ),
+  play: async ({ canvas }) => {
+    const caretRotate = (name: string) => {
+      const caret = canvas.getByRole("button", { name }).querySelector("[aria-hidden]");
+      if (!(caret instanceof HTMLElement)) throw new Error(`missing caret in "${name}" trigger`);
+      return getComputedStyle(caret).rotate;
+    };
+    // The compiled `rtl:rotate-90` selector mirrors the closed caret away from LTR's `-rotate-90`.
+    await expect(caretRotate("LTR closed")).not.toBe(caretRotate("RTL closed"));
+  },
+};
+
+/**
+ * A trigger whose title is too long for one line: `accordionTriggerTitleVariants` (`min-w-0
+ * flex-1`) wraps it onto multiple lines and keeps it from shoving the trailing caret past the row's
+ * edge. The leading icon and caret stay centered against the wrapped block.
+ */
+export const LongText: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Accordion>
+      <AccordionItem>
+        <AccordionHeader>
+          <AccordionTrigger aria-expanded data-panel-open="">
+            <Icon tint="secondary">
+              <CircleHelp />
+            </Icon>
+            <AccordionTriggerTitle>{LONG_TITLE}</AccordionTriggerTitle>
+            <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
+              <ChevronDown />
+            </DisclosureIndicator>
+          </AccordionTrigger>
+        </AccordionHeader>
+        <AccordionPanel>
+          <AccordionPanelContent>
+            The panel body sits below the wrapped multi-line title.
+          </AccordionPanelContent>
+        </AccordionPanel>
+      </AccordionItem>
+    </Accordion>
+  ),
+};
+
+/**
+ * CSS canary (rule 2b): asserts the title's `min-w-0 flex-1` actually wraps — a long title makes
+ * its row taller than a short one (multi-line), while `min-w-0` keeps the wrapped title from
+ * pushing the row wider than its container (no horizontal overflow). Tagged out of the
+ * sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const LongTextCanary: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Accordion>
+      <AccordionItem>
+        <AccordionHeader>
+          <AccordionTrigger aria-expanded={false}>
+            <AccordionTriggerTitle>Short</AccordionTriggerTitle>
+            <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
+              <ChevronDown />
+            </DisclosureIndicator>
+          </AccordionTrigger>
+        </AccordionHeader>
+      </AccordionItem>
+      <AccordionItem>
+        <AccordionHeader>
+          <AccordionTrigger aria-expanded={false}>
+            <AccordionTriggerTitle>{LONG_TITLE}</AccordionTriggerTitle>
+            <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
+              <ChevronDown />
+            </DisclosureIndicator>
+          </AccordionTrigger>
+        </AccordionHeader>
+      </AccordionItem>
+    </Accordion>
+  ),
+  play: async ({ canvas }) => {
+    const short = canvas.getByRole("button", { name: "Short" });
+    const long = canvas.getByRole("button", { name: LONG_TITLE });
+    // The long title wraps onto multiple lines, making its row taller than the single-line row…
+    await expect(long.clientHeight).toBeGreaterThan(short.clientHeight);
+    // …while `min-w-0` keeps the wrapped title from pushing the row wider than its container.
+    await expect(long.scrollWidth).toBeLessThanOrEqual(long.clientWidth);
   },
 };
