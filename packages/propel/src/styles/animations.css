@@ -86,10 +86,10 @@
     }
   }
 
-  /* spinner expand: a loader slot growing from zero to its glyph width while fading in, so the
+  /* spinner reveal: a loader slot growing from zero to its glyph width while fading in, so the
      control it sits in (button, pill) widens smoothly into its loading state instead of snapping */
-  --animate-spinner-expand: spinner-expand 0.2s ease-out forwards;
-  @keyframes spinner-expand {
+  --animate-spinner-reveal: spinner-reveal 0.2s ease-out forwards;
+  @keyframes spinner-reveal {
     0% {
       opacity: 0;
       width: 0;
