@@ -3,6 +3,7 @@ import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
 import {
+  AccordionTriggerIcon,
   AccordionTrigger as AccordionTriggerElement,
   AccordionTriggerTitle,
 } from "../../elements/accordion";
@@ -23,13 +24,14 @@ export type AccordionTriggerProps = Omit<
 
 /**
  * The ready-made accordion trigger: grafts Base UI's trigger behavior onto the styled
- * `AccordionTrigger`, composing an optional `icon`, the `AccordionTriggerTitle`, and the
- * `AccordionTriggerIndicator` chevron that rotates when the panel opens.
+ * `AccordionTrigger`, composing an optional `icon` (wrapped in `AccordionTriggerIcon` so it sizes
+ * independently of the row), the `AccordionTriggerTitle`, and the `AccordionTriggerIndicator`
+ * chevron that rotates when the panel opens.
  */
 export function AccordionTrigger({ icon, label, ...props }: AccordionTriggerProps) {
   return (
     <BaseAccordion.Trigger {...props} render={<AccordionTriggerElement />}>
-      {icon}
+      {icon != null ? <AccordionTriggerIcon>{icon}</AccordionTriggerIcon> : null}
       <AccordionTriggerTitle>{label}</AccordionTriggerTitle>
       <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
         <ChevronDown />
