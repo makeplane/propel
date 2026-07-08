@@ -9,7 +9,6 @@ import { IconButton } from "../icon-button";
 import {
   ComboboxChip,
   ComboboxChipOverflow,
-  ComboboxChipRemove,
   ComboboxChips,
   ComboboxEmpty,
   ComboboxInput,
@@ -50,7 +49,6 @@ const meta = {
     ComboboxChips,
     ComboboxChip,
     ComboboxChipOverflow,
-    ComboboxChipRemove,
     ComboboxItemIndicator,
     ComboboxEmpty,
     ListboxPopup,
@@ -160,9 +158,16 @@ export const Magnitudes: Story = {
           <ComboboxChips magnitude={magnitude} layout="wrap">
             <ComboboxChip>
               us-east-1
-              <ComboboxChipRemove aria-label={`Remove us-east-1 (${magnitude})`}>
-                <X aria-hidden />
-              </ComboboxChipRemove>
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="sm"
+                aria-label={`Remove us-east-1 (${magnitude})`}
+              >
+                <Icon>
+                  <X />
+                </Icon>
+              </IconButton>
             </ComboboxChip>
             <ComboboxInput aria-label={`Regions (${magnitude})`} placeholder="Add a region" />
           </ComboboxChips>
@@ -248,20 +253,18 @@ export const StatesCanary: Story = {
 
 /**
  * The multiselect anatomy: `ComboboxChips` replaces the input frame, wrapping one `ComboboxChip`
- * per selected value (its label plus a `ComboboxChipRemove` — pass an X-style svg and an
- * `aria-label` naming the value) ahead of the inline `ComboboxInput`. Chip states pinned: the
- * second chip wears the focus ring arrow-key navigation would give it (forced by the pseudo-states
- * addon, as is the first chip's remove hover), and the third pins the `data-disabled` a disabled
- * root would mirror onto it, with its remove natively disabled.
+ * per selected value (its label plus the remove control — an `IconButton` the components ready-made
+ * grafts onto Base UI's remove behavior) ahead of the inline `ComboboxInput`. Chip states pinned:
+ * the third pins the `data-disabled` a disabled root would mirror onto the chip, with its remove
+ * natively disabled.
  */
 export const Chips: Story = {
   parameters: {
     controls: { disable: true },
     a11y: {
-      // Pinning hover/disabled state attributes makes axe evaluate visuals it never sees live
-      // (it does not test :hover, and WCAG 1.4.3 exempts disabled controls). The tertiary-text-
-      // on-hover-fill contrast is a design-token question flagged for the design pass, not a
-      // story bug.
+      // Pinning the disabled state attribute makes axe evaluate visuals it never sees live (WCAG
+      // 1.4.3 exempts disabled controls). The tertiary-text-on-hover-fill contrast is a design-token
+      // question flagged for the design pass, not a story bug.
       config: { rules: [{ id: "color-contrast", enabled: false }] },
     },
   },
@@ -270,21 +273,43 @@ export const Chips: Story = {
       <ComboboxChips magnitude="md" layout="wrap">
         <ComboboxChip>
           us-east-1
-          <ComboboxChipRemove id="combobox-chip-remove-hover" aria-label="Remove us-east-1">
-            <X aria-hidden />
-          </ComboboxChipRemove>
+          <IconButton
+            prominence="ghost"
+            tone="neutral"
+            magnitude="sm"
+            aria-label="Remove us-east-1"
+          >
+            <Icon>
+              <X />
+            </Icon>
+          </IconButton>
         </ComboboxChip>
-        <ComboboxChip id="combobox-chip-focus">
+        <ComboboxChip>
           eu-central-1
-          <ComboboxChipRemove aria-label="Remove eu-central-1">
-            <X aria-hidden />
-          </ComboboxChipRemove>
+          <IconButton
+            prominence="ghost"
+            tone="neutral"
+            magnitude="sm"
+            aria-label="Remove eu-central-1"
+          >
+            <Icon>
+              <X />
+            </Icon>
+          </IconButton>
         </ComboboxChip>
         <ComboboxChip data-disabled="">
           ap-west-1
-          <ComboboxChipRemove aria-label="Remove ap-west-1" disabled>
-            <X aria-hidden />
-          </ComboboxChipRemove>
+          <IconButton
+            prominence="ghost"
+            tone="neutral"
+            magnitude="sm"
+            aria-label="Remove ap-west-1"
+            disabled
+          >
+            <Icon>
+              <X />
+            </Icon>
+          </IconButton>
         </ComboboxChip>
         <ComboboxInput aria-label="Regions" placeholder="Add a region" />
       </ComboboxChips>
@@ -308,18 +333,32 @@ export const Collapsed: Story = {
             <Check />
           </Icon>
           Priya Nair
-          <ComboboxChipRemove aria-label="Remove Priya Nair">
-            <X aria-hidden />
-          </ComboboxChipRemove>
+          <IconButton
+            prominence="ghost"
+            tone="neutral"
+            magnitude="sm"
+            aria-label="Remove Priya Nair"
+          >
+            <Icon>
+              <X />
+            </Icon>
+          </IconButton>
         </ComboboxChip>
         <ComboboxChip>
           <Icon>
             <Check />
           </Icon>
           Marcus Chen
-          <ComboboxChipRemove aria-label="Remove Marcus Chen">
-            <X aria-hidden />
-          </ComboboxChipRemove>
+          <IconButton
+            prominence="ghost"
+            tone="neutral"
+            magnitude="sm"
+            aria-label="Remove Marcus Chen"
+          >
+            <Icon>
+              <X />
+            </Icon>
+          </IconButton>
         </ComboboxChip>
         <ComboboxChipOverflow>+5 more</ComboboxChipOverflow>
         <ComboboxInput aria-label="Assignees" placeholder="" />

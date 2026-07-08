@@ -4,7 +4,6 @@ import { controlGroupClass, controlMagnitude } from "../../internal/control-grou
 import { controlInputClass } from "../../internal/control-input";
 import { itemIndicatorClass } from "../../internal/item-indicator";
 import { listboxEmptyClass } from "../../internal/listbox-empty";
-import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const comboboxInputGroupVariants = cva(
@@ -76,15 +75,6 @@ export const comboboxChipVariants = cva(
 // hidden values are managed from the popup (deselect to remove).
 export const comboboxChipOverflowVariants = cva(
   "shrink-0 px-0.5 text-13 text-secondary select-none",
-);
-// The chip's remove affordance; pass an X-style svg.
-export const comboboxChipRemoveVariants = cva(
-  cx(
-    nodeSlotClass,
-    "size-4 cursor-pointer rounded-sm text-icon-secondary [--node-size:0.75rem]",
-    "outline-none hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong",
-    "disabled:cursor-not-allowed disabled:text-icon-disabled",
-  ),
 );
 
 export type ComboboxInputGroupVariantProps = StrictVariantProps<typeof comboboxInputGroupVariants>;

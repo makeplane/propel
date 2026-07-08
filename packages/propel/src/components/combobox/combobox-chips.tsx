@@ -23,8 +23,7 @@ export type ComboboxChipsProps<Value = string> = {
   /**
    * Renders one selected value as a `ComboboxChip` — the `ComboboxChips` counterpart of
    * `ComboboxList`'s item template. Set your own `key`, exactly like `ComboboxList`'s function
-   * child, e.g. ``(value) => <ComboboxChip key={value} label={value} removeLabel={`Remove
-   * ${value}`} />``.
+   * child, e.g. `(value) => <ComboboxChip key={value} label={value} remove={<... />} />`.
    */
   children: (value: Value) => React.ReactNode;
 };
