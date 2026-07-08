@@ -3,15 +3,11 @@ import { Check } from "lucide-react";
 import type * as React from "react";
 
 import type { FieldMagnitude } from "../../elements/field/variants";
-import {
-  SelectItemIndicator,
-  SelectLabel,
-  type SelectTriggerMagnitude,
-} from "../../elements/select/index";
+import { SelectItemIndicator, type SelectTriggerMagnitude } from "../../elements/select/index";
 import { ListboxItem } from "../../internal/listbox-item";
 import { ListboxPopup } from "../../internal/listbox-popup";
 import { Positioner } from "../../internal/positioner";
-import { Field, FieldDescription } from "../field";
+import { Field, FieldDescription, FieldLabel } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 import { Select, SelectTrigger, type SelectProps } from "../select";
 
@@ -31,7 +27,7 @@ export type SelectFieldOption = {
 };
 
 export type SelectFieldProps = Omit<SelectProps<string>, "children" | "items"> & {
-  /** Supporting text shown below the trigger. */
+  /** Supporting text shown below the trigger. Replaced by `error` when an error is set. */
   description?: React.ReactNode;
   /** Error text shown below the control. */
   error?: React.ReactNode;
@@ -61,7 +57,12 @@ export function SelectField({
   return (
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <Select disabled={disabled} items={options} {...selectProps}>
-        <BaseSelect.Label render={<SelectLabel />}>{label}</BaseSelect.Label>
+        {/* Graft Base UI's select-label association onto the shared, magnitude-scaled `FieldLabel`
+            (md=text-13) so the label matches the other field wrappers (input/combobox/autocomplete)
+            — the picker's own fixed-`text-14` `SelectLabel` rendered it a step too large. */}
+        <BaseSelect.Label render={<FieldLabel magnitude={magnitude} inset={false} />}>
+          {label}
+        </BaseSelect.Label>
         <SelectTrigger magnitude={selectMagnitude} />
         {description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>

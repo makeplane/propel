@@ -20,7 +20,7 @@ export type AutocompleteFieldProps<Value = string> = Omit<
   AutocompleteProps<Value>,
   "children" | "items"
 > & {
-  /** Supporting text shown below the input. */
+  /** Supporting text shown below the input. Replaced by `error` when an error is set. */
   description?: React.ReactNode;
   /** The clear control (e.g. an `IconButton`) carrying its own localizable `aria-label`. */
   clear: React.ReactElement;
@@ -76,7 +76,7 @@ export function AutocompleteField<Value = string>({
           <BaseAutocomplete.Clear render={clear} />
           <BaseAutocomplete.Trigger render={trigger} />
         </BaseAutocomplete.InputGroup>
-        {description != null ? (
+        {error == null && description != null ? (
           <FieldDescription magnitude={magnitude}>{description}</FieldDescription>
         ) : null}
         <BaseAutocomplete.Portal>

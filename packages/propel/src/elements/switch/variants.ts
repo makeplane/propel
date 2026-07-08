@@ -14,7 +14,10 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 // so the track stays the single source of the size axis.
 export const switchVariants = cva(
   cx(
-    "relative inline-flex shrink-0 items-center rounded-full p-px transition-colors",
+    // `duration-100`, matching Checkbox/Radio: one snappy fill speed across every small toggle
+    // control. The thumb's slide (`switchThumbVariants`) matches too, so the track's color change
+    // and the knob's travel finish together instead of the fill completing before the slide.
+    "relative inline-flex shrink-0 items-center rounded-full p-px transition-colors duration-100",
     // Off track = Figma icon/placeholder; on track = accent/primary.
     "bg-icon-placeholder data-checked:bg-accent-primary",
     // Unchangeable (disabled or readonly) dims the whole control to 40%,
@@ -41,7 +44,7 @@ export const switchVariants = cva(
 // `on-color` is the white-on-tone token, which holds across the theme flip.
 export const switchThumbVariants = cva(
   cx(
-    "size-(--switch-thumb-size) rounded-full bg-on-color shadow-raised-100 transition-transform",
+    "size-(--switch-thumb-size) rounded-full bg-on-color shadow-raised-100 transition-transform duration-100",
     "data-checked:translate-x-(--switch-thumb-travel)",
     "rtl:data-checked:-translate-x-(--switch-thumb-travel)",
   ),

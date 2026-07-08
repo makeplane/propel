@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ChevronsUpDown, X } from "lucide-react";
+import { ChevronsUpDown, MapPin, X } from "lucide-react";
 import * as React from "react";
 import { expect, waitFor, within } from "storybook/test";
 
@@ -21,6 +21,7 @@ import { IconButton } from "../icon-button";
 import { InputField } from "../input-field/index";
 import {
   Combobox,
+  ComboboxChip,
   ComboboxChips,
   ComboboxCollection,
   ComboboxContent,
@@ -47,6 +48,7 @@ const meta = {
   subcomponents: {
     ComboboxInputGroup,
     ComboboxChips,
+    ComboboxChip,
     ComboboxContent,
     ComboboxList,
     ComboboxItem,
@@ -176,9 +178,11 @@ export const InvalidInteraction: Story = {
 
 /**
  * `multiple` swaps the input frame for `ComboboxChips`: each selected value renders as a removable
- * chip ahead of the inline input, wrapping onto new rows as the selection grows. `removeLabel`
- * names each chip's remove button (localizable, required). Arrow keys move focus across chips;
- * Backspace removes.
+ * chip ahead of the inline input, wrapping onto new rows as the selection grows. `children` renders
+ * one value as a `ComboboxChip` — the `ComboboxChips` counterpart of `ComboboxList`'s item
+ * template. `remove` is a consumer-supplied control (its own — localizable — `aria-label`) grafted
+ * onto Base UI's remove behavior, same as `ComboboxInputGroup`'s `clear`/`trigger`. Arrow keys move
+ * focus across chips; Backspace removes.
  */
 export const Multiple: Story = {
   render: () => (
@@ -187,11 +191,23 @@ export const Multiple: Story = {
         <FieldLabel magnitude="md" inset={false}>
           Regions
         </FieldLabel>
-        <ComboboxChips
-          magnitude="md"
-          placeholder="Add a region"
-          removeLabel={(region) => `Remove ${region}`}
-        />
+        <ComboboxChips magnitude="md" placeholder="Add a region">
+          {(region: string) => (
+            <ComboboxChip
+              key={region}
+              label={region}
+              remove={
+                <IconButton
+                  prominence="ghost"
+                  tone="neutral"
+                  magnitude="sm"
+                  aria-label={`Remove ${region}`}
+                  icon={<Icon icon={X} />}
+                />
+              }
+            />
+          )}
+        </ComboboxChips>
         <ComboboxContent>
           <ComboboxEmpty>No matches</ComboboxEmpty>
           <ComboboxList>
@@ -224,6 +240,78 @@ export const MultipleInteraction: Story = {
     await userEvent.click(await popup.findByRole("option", { name: "ap-west-1" }));
     await expect(canvas.getByText("ap-west-1")).toBeInTheDocument();
     await expect(canvas.getByText("eu-central-1")).toBeInTheDocument();
+  },
+};
+
+const MANY_REGIONS = [
+  "us-central-1",
+  "us-east-1",
+  "eu-central-1",
+  "eu-west-1",
+  "ap-west-1",
+  "ap-southeast-2",
+  "sa-east-1",
+];
+
+/**
+ * `maxVisible` collapses a large selection to a single row: the first N chips plus a "+N more"
+ * count, instead of wrapping onto new rows. `startContent` adds a contextual leading node to each
+ * chip (here a region glyph — an assignee `Avatar` works the same way). The hidden values stay
+ * managed from the popup: reopen it and deselect to remove one.
+ */
+export const MultipleOverflow: Story = {
+  render: () => (
+    <Field name="regions">
+      <Combobox multiple items={MANY_REGIONS} defaultValue={MANY_REGIONS}>
+        <FieldLabel magnitude="md" inset={false}>
+          Regions
+        </FieldLabel>
+        <ComboboxChips magnitude="md" placeholder="" maxVisible={2}>
+          {(region: string) => (
+            <ComboboxChip
+              key={region}
+              label={region}
+              startContent={<Icon icon={MapPin} />}
+              remove={
+                <IconButton
+                  prominence="ghost"
+                  tone="neutral"
+                  magnitude="sm"
+                  aria-label={`Remove ${region}`}
+                  icon={<Icon icon={X} />}
+                />
+              }
+            />
+          )}
+        </ComboboxChips>
+        <ComboboxContent>
+          <ComboboxEmpty>No matches</ComboboxEmpty>
+          <ComboboxList>
+            {(region: string) => (
+              <ComboboxItem key={region} value={region} magnitude="md" label={region} />
+            )}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+    </Field>
+  ),
+};
+
+/**
+ * Interaction test: with seven values selected and `maxVisible={2}`, only two chips render and the
+ * rest collapse into "+5 more". Tagged out of the sidebar/docs/manifest while still running under
+ * the default `test` tag.
+ */
+export const MultipleOverflowInteraction: Story = {
+  ...MultipleOverflow,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    await expect(canvas.getByText("us-central-1")).toBeInTheDocument();
+    await expect(canvas.getByText("us-east-1")).toBeInTheDocument();
+    await expect(canvas.getByText("+5 more")).toBeInTheDocument();
+    // Only the first two values render as chips; the rest are represented by the overflow count.
+    await expect(canvas.queryByText("eu-central-1")).not.toBeInTheDocument();
+    await expect(canvas.getAllByRole("button", { name: /^Remove/ })).toHaveLength(2);
   },
 };
 
@@ -412,7 +500,9 @@ const INITIAL_LABELS: ProjectLabel[] = [
 /**
  * Creating a new item when the query matches nothing: a synthetic `Create "…"` row is appended to
  * `items`, and picking it opens a creation `Dialog` (intercepted in the root's `onValueChange`)
- * instead of selecting. Confirming adds the new label to the list and selects it as a chip.
+ * instead of selecting. Confirming adds the new label to the list and selects it as a chip. The
+ * dialog follows the standard `Dialog` anatomy — a titled header with a corner close, a described
+ * body with the name field, and cancel/create actions.
  */
 export const Creatable: Story = {
   render: function Render() {
@@ -476,12 +566,23 @@ export const Creatable: Story = {
             <FieldLabel magnitude="md" inset={false}>
               Labels
             </FieldLabel>
-            <ComboboxChips
-              magnitude="md"
-              placeholder="Add a label"
-              removeLabel={(label: ProjectLabel) => `Remove ${label.value}`}
-              itemToStringLabel={(label: ProjectLabel) => label.value}
-            />
+            <ComboboxChips magnitude="md" placeholder="Add a label">
+              {(label: ProjectLabel) => (
+                <ComboboxChip
+                  key={label.id}
+                  label={label.value}
+                  remove={
+                    <IconButton
+                      prominence="ghost"
+                      tone="neutral"
+                      magnitude="sm"
+                      aria-label={`Remove ${label.value}`}
+                      icon={<Icon icon={X} />}
+                    />
+                  }
+                />
+              )}
+            </ComboboxChips>
             <ComboboxContent>
               <ComboboxEmpty>No labels found</ComboboxEmpty>
               <ComboboxList>
@@ -506,13 +607,22 @@ export const Creatable: Story = {
               <DialogHeading>
                 <DialogTitle>Create new label</DialogTitle>
               </DialogHeading>
+              <IconButton
+                prominence="ghost"
+                tone="neutral"
+                magnitude="lg"
+                aria-label="Close"
+                render={<DialogClose />}
+                icon={<Icon icon={X} />}
+              />
             </DialogHeader>
             <DialogBody>
-              <DialogDescription>Add a new label to select.</DialogDescription>
+              <DialogDescription>Name the label you want to add, then create it.</DialogDescription>
               <InputField
                 magnitude="md"
                 orientation="vertical"
                 label="Label name"
+                placeholder="e.g. triage"
                 value={draft ?? ""}
                 onValueChange={(value) => setDraft(value)}
               />

@@ -48,8 +48,8 @@ const menuRowToneVariants = {
 export const menuRowVariants = cva(cx(menuRowBase, "data-highlighted:bg-layer-transparent-hover"), {
   variants: {
     layout: {
-      default: "h-[34px] items-center",
-      "with-description": "min-h-[34px] items-start py-1.5",
+      default: "h-8.5 items-center",
+      "with-description": "min-h-8.5 items-start py-1.5",
     },
     /** Row text palette. */
     tone: menuRowToneVariants,
@@ -62,10 +62,7 @@ export const menuRowVariants = cva(cx(menuRowBase, "data-highlighted:bg-layer-tr
  * checkbox row never carries a description).
  */
 export const menuCheckboxItemVariants = cva(
-  cx(
-    menuRowBase,
-    "h-[34px] cursor-default items-center data-highlighted:bg-layer-transparent-hover",
-  ),
+  cx(menuRowBase, "h-8.5 cursor-default items-center data-highlighted:bg-layer-transparent-hover"),
   {
     variants: {
       /** Row text palette. */
@@ -82,7 +79,7 @@ export const menuCheckboxItemVariants = cva(
 export const menuSubmenuTriggerVariants = cva(
   cx(
     menuRowBase,
-    "h-[34px] cursor-default items-center",
+    "h-8.5 cursor-default items-center",
     "data-highlighted:bg-layer-transparent-hover data-popup-open:bg-layer-transparent-hover",
   ),
   {
@@ -126,8 +123,9 @@ export const menuItemDescriptionVariants = cva(
 export const menuItemEndContentVariants = cva(nodeSlotClass);
 
 /**
- * The single-select check shown at a row's inline-end. Sizes its single child to `--node-size` and
- * tints it with the accent. Decorative — the row carries the selected state.
+ * The single-select check shown at a row's inline-start, ahead of any leading icon. Sizes its
+ * single child to `--node-size` and tints it with the accent. Decorative — the row carries the
+ * selected state.
  */
 export const menuItemIndicatorVariants = cva(cx(itemIndicatorClass, "h-5 w-4"));
 
@@ -159,9 +157,13 @@ export const menuSeparatorVariants = cva(menuSeparatorClass);
 
 /**
  * Label: a non-interactive section heading row that can carry inline-end metadata. Lays out a
- * growing `MenuLabelTitle` and an optional `MenuLabelMeta`.
+ * growing `MenuLabelTitle` and an optional `MenuLabelMeta`. `text-caption-md-regular` (not the bare
+ * `text-12`) so it picks up the preset's `1.2` line-height, matching `MenuGroupLabel`'s height
+ * instead of falling back to the browser's taller default.
  */
-export const menuLabelVariants = cva("flex items-center gap-1.5 px-2 py-1.5 text-12 text-tertiary");
+export const menuLabelVariants = cva(
+  "flex items-center gap-1.5 px-2 py-1.5 text-caption-md-regular text-tertiary",
+);
 
 /** The growing title within a `MenuLabel`. */
 export const menuLabelTitleVariants = cva("min-w-0 flex-1 truncate");

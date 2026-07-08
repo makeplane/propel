@@ -25,7 +25,8 @@ export const paginationItemVariants = cva("flex items-center");
 // 24px tall with a 24px minimum width so single digits stay square (per Figma),
 // but the slot grows for wider content — multi-digit page numbers like `100` get
 // their own width plus horizontal padding rather than clipping a fixed square.
-// `radius/sm` for page numbers, `radius/md` for the arrow buttons.
+// One `radius/sm` (4px, per Figma) across page numbers and arrows so the
+// selected-number fill and the arrow fill share a corner radius.
 const slotBase = cx(
   "inline-flex h-6 w-auto min-w-6 shrink-0 items-center justify-center px-1",
   "text-13 text-primary outline-none",
@@ -51,7 +52,7 @@ export const paginationPageButtonVariants = cva(
 export const paginationArrowButtonVariants = cva(
   cx(
     slotBase,
-    "rounded-md bg-layer-transparent text-icon-secondary",
+    "rounded-sm bg-layer-transparent text-icon-secondary",
     "hover:bg-layer-transparent-hover",
     "focus-visible:ring-2 focus-visible:ring-accent-strong",
     "disabled:pointer-events-none disabled:text-icon-disabled",

@@ -235,8 +235,8 @@ const ROLES = ["Admin", "Member", "Guest"];
 /**
  * **Editable cells.** Each "Account type" cell is a `TableEditableCell`: clicking it opens a propel
  * `Menu` to pick a new value, which updates the row in place (Figma "Account type" editable cell).
- * The cell tints on hover and while its menu is open; the last-clicked cell keeps a stronger
- * `selected` tint to mark the active cell. Works in both table variants.
+ * The cell tints on hover and while its menu is open; the open cell also carries the stronger
+ * `selected` tint, which clears when the menu closes. Works in both table variants.
  */
 export const EditableCells: Story = {
   args: { mode: "table" },
@@ -273,9 +273,7 @@ export const EditableCells: Story = {
                 value={person.role}
                 selected={selectedEmail === person.email}
                 aria-label={`Account type for ${person.name}`}
-                onOpenChange={(next) => {
-                  if (next) setSelectedEmail(person.email);
-                }}
+                onOpenChange={(next) => setSelectedEmail(next ? person.email : null)}
               >
                 <MenuContent>
                   {ROLES.map((role) => (
