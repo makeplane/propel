@@ -21,6 +21,8 @@ import { IconButton } from "../icon-button";
 import { InputField } from "../input-field/index";
 import {
   Combobox,
+  ComboboxChip,
+  ComboboxChipRemove,
   ComboboxChips,
   ComboboxCollection,
   ComboboxContent,
@@ -47,6 +49,8 @@ const meta = {
   subcomponents: {
     ComboboxInputGroup,
     ComboboxChips,
+    ComboboxChip,
+    ComboboxChipRemove,
     ComboboxContent,
     ComboboxList,
     ComboboxItem,
@@ -176,9 +180,10 @@ export const InvalidInteraction: Story = {
 
 /**
  * `multiple` swaps the input frame for `ComboboxChips`: each selected value renders as a removable
- * chip ahead of the inline input, wrapping onto new rows as the selection grows. `removeLabel`
- * names each chip's remove button (localizable, required). Arrow keys move focus across chips;
- * Backspace removes.
+ * chip ahead of the inline input, wrapping onto new rows as the selection grows. `children` renders
+ * one value as a `ComboboxChip` — the `ComboboxChips` counterpart of `ComboboxList`'s item
+ * template. `removeLabel` names the chip's remove button (localizable, required). Arrow keys move
+ * focus across chips; Backspace removes.
  */
 export const Multiple: Story = {
   render: () => (
@@ -187,11 +192,11 @@ export const Multiple: Story = {
         <FieldLabel magnitude="md" inset={false}>
           Regions
         </FieldLabel>
-        <ComboboxChips
-          magnitude="md"
-          placeholder="Add a region"
-          removeLabel={(region) => `Remove ${region}`}
-        />
+        <ComboboxChips magnitude="md" placeholder="Add a region">
+          {(region: string) => (
+            <ComboboxChip key={region} label={region} removeLabel={`Remove ${region}`} />
+          )}
+        </ComboboxChips>
         <ComboboxContent>
           <ComboboxEmpty>No matches</ComboboxEmpty>
           <ComboboxList>
@@ -239,9 +244,9 @@ const MANY_REGIONS = [
 
 /**
  * `maxVisible` collapses a large selection to a single row: the first N chips plus a "+N more"
- * count, instead of wrapping onto new rows. `startIcon`/`endIcon` add a contextual node to each
- * chip (here a leading region glyph — an assignee `Avatar` works the same way). The hidden values
- * stay managed from the popup: reopen it and deselect to remove one.
+ * count, instead of wrapping onto new rows. `startContent` adds a contextual leading node to each
+ * chip (here a region glyph — an assignee `Avatar` works the same way). The hidden values stay
+ * managed from the popup: reopen it and deselect to remove one.
  */
 export const MultipleOverflow: Story = {
   render: () => (
@@ -250,20 +255,21 @@ export const MultipleOverflow: Story = {
         <FieldLabel magnitude="md" inset={false}>
           Regions
         </FieldLabel>
-        <ComboboxChips
-          magnitude="md"
-          placeholder=""
-          maxVisible={2}
-          removeLabel={(region) => `Remove ${region}`}
-          startIcon={() => <MapPin />}
-        />
+        <ComboboxChips magnitude="md" placeholder="" maxVisible={2}>
+          {(region: string) => (
+            <ComboboxChip
+              key={region}
+              label={region}
+              removeLabel={`Remove ${region}`}
+              startContent={<Icon icon={MapPin} />}
+            />
+          )}
+        </ComboboxChips>
         <ComboboxContent>
           <ComboboxEmpty>No matches</ComboboxEmpty>
           <ComboboxList>
             {(region: string) => (
-              <ComboboxItem key={region} value={region} magnitude="md">
-                {region}
-              </ComboboxItem>
+              <ComboboxItem key={region} value={region} magnitude="md" label={region} />
             )}
           </ComboboxList>
         </ComboboxContent>
@@ -541,12 +547,15 @@ export const Creatable: Story = {
             <FieldLabel magnitude="md" inset={false}>
               Labels
             </FieldLabel>
-            <ComboboxChips
-              magnitude="md"
-              placeholder="Add a label"
-              removeLabel={(label: ProjectLabel) => `Remove ${label.value}`}
-              itemToStringLabel={(label: ProjectLabel) => label.value}
-            />
+            <ComboboxChips magnitude="md" placeholder="Add a label">
+              {(label: ProjectLabel) => (
+                <ComboboxChip
+                  key={label.id}
+                  label={label.value}
+                  removeLabel={`Remove ${label.value}`}
+                />
+              )}
+            </ComboboxChips>
             <ComboboxContent>
               <ComboboxEmpty>No labels found</ComboboxEmpty>
               <ComboboxList>
@@ -577,9 +586,8 @@ export const Creatable: Story = {
                 magnitude="lg"
                 aria-label="Close"
                 render={<DialogClose />}
-              >
-                <X />
-              </IconButton>
+                icon={<Icon icon={X} />}
+              />
             </DialogHeader>
             <DialogBody>
               <DialogDescription>Name the label you want to add, then create it.</DialogDescription>
