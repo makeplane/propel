@@ -22,7 +22,6 @@ import { InputField } from "../input-field/index";
 import {
   Combobox,
   ComboboxChip,
-  ComboboxChipRemove,
   ComboboxChips,
   ComboboxCollection,
   ComboboxContent,
@@ -50,7 +49,6 @@ const meta = {
     ComboboxInputGroup,
     ComboboxChips,
     ComboboxChip,
-    ComboboxChipRemove,
     ComboboxContent,
     ComboboxList,
     ComboboxItem,
@@ -182,7 +180,8 @@ export const InvalidInteraction: Story = {
  * `multiple` swaps the input frame for `ComboboxChips`: each selected value renders as a removable
  * chip ahead of the inline input, wrapping onto new rows as the selection grows. `children` renders
  * one value as a `ComboboxChip` — the `ComboboxChips` counterpart of `ComboboxList`'s item
- * template. `removeLabel` names the chip's remove button (localizable, required). Arrow keys move
+ * template. `remove` is a consumer-supplied control (its own — localizable — `aria-label`) grafted
+ * onto Base UI's remove behavior, same as `ComboboxInputGroup`'s `clear`/`trigger`. Arrow keys move
  * focus across chips; Backspace removes.
  */
 export const Multiple: Story = {
@@ -194,7 +193,19 @@ export const Multiple: Story = {
         </FieldLabel>
         <ComboboxChips magnitude="md" placeholder="Add a region">
           {(region: string) => (
-            <ComboboxChip key={region} label={region} removeLabel={`Remove ${region}`} />
+            <ComboboxChip
+              key={region}
+              label={region}
+              remove={
+                <IconButton
+                  prominence="ghost"
+                  tone="neutral"
+                  magnitude="sm"
+                  aria-label={`Remove ${region}`}
+                  icon={<Icon icon={X} />}
+                />
+              }
+            />
           )}
         </ComboboxChips>
         <ComboboxContent>
@@ -260,8 +271,16 @@ export const MultipleOverflow: Story = {
             <ComboboxChip
               key={region}
               label={region}
-              removeLabel={`Remove ${region}`}
               startContent={<Icon icon={MapPin} />}
+              remove={
+                <IconButton
+                  prominence="ghost"
+                  tone="neutral"
+                  magnitude="sm"
+                  aria-label={`Remove ${region}`}
+                  icon={<Icon icon={X} />}
+                />
+              }
             />
           )}
         </ComboboxChips>
@@ -552,7 +571,15 @@ export const Creatable: Story = {
                 <ComboboxChip
                   key={label.id}
                   label={label.value}
-                  removeLabel={`Remove ${label.value}`}
+                  remove={
+                    <IconButton
+                      prominence="ghost"
+                      tone="neutral"
+                      magnitude="sm"
+                      aria-label={`Remove ${label.value}`}
+                      icon={<Icon icon={X} />}
+                    />
+                  }
                 />
               )}
             </ComboboxChips>

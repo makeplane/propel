@@ -1,6 +1,5 @@
 export * from "./combobox";
 export * from "./combobox-chip";
-export * from "./combobox-chip-remove";
 export * from "./combobox-chips";
 export * from "./combobox-collection";
 export * from "./combobox-content";

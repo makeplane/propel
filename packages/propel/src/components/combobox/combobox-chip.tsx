@@ -2,7 +2,6 @@ import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import type * as React from "react";
 
 import { ComboboxChip as ComboboxChipElement } from "../../elements/combobox";
-import { ComboboxChipRemove } from "./combobox-chip-remove";
 
 export type ComboboxChipProps = Omit<
   BaseCombobox.Chip.Props,
@@ -14,21 +13,24 @@ export type ComboboxChipProps = Omit<
   endContent?: React.ReactNode;
   /** The chip's label. Also sets the chip's own accessible name. */
   label: string;
-  /** Accessible name for the remove button (localizable), e.g. `` `Remove ${label}` ``. */
-  removeLabel: string;
+  /**
+   * The remove control, grafted onto Base UI's `ChipRemove` behavior. It carries its own —
+   * localizable — `aria-label`; the chip bakes no label or glyph.
+   */
+  remove: React.ReactElement;
 };
 
 /**
  * Ready-made chip: Base UI's chip behavior (arrow-key focus, Backspace/Delete removal) grafted onto
- * the styled tag, laying out an optional leading/trailing node around the label plus a
- * `ComboboxChipRemove`. Base UI derives which selected value a chip represents from its position
- * among its siblings — pass one per value from `ComboboxChips`' `children`.
+ * the styled tag, laying out an optional leading/trailing node around the label plus the
+ * consumer-provided `remove` control. Base UI derives which selected value a chip represents from
+ * its position among its siblings — pass one per value from `ComboboxChips`' `children`.
  */
 export function ComboboxChip({
   startContent,
   endContent,
   label,
-  removeLabel,
+  remove,
   ...props
 }: ComboboxChipProps) {
   return (
@@ -36,7 +38,7 @@ export function ComboboxChip({
       {startContent}
       {label}
       {endContent}
-      <ComboboxChipRemove aria-label={removeLabel} />
+      <BaseCombobox.ChipRemove render={remove} />
     </BaseCombobox.Chip>
   );
 }
