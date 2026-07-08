@@ -9,14 +9,14 @@ import { nodeSlotClass } from "./node-slot";
  * child (pass a `LoaderCircle`) to the inherited `--node-size`. Replaces the byte-identical
  * Button/IconButton/Pill spinner parts.
  *
- * Two animations run on mount: the `--animate-spinner-expand` one-shot grows the slot from zero
+ * Two animations run on mount: the `--animate-spinner-reveal` one-shot grows the slot from zero
  * width and fades it in (so a control entering its loading state widens smoothly instead of
  * snapping), while the perpetual `spin` rotates the glyph. They live on separate elements because
- * an element has a single `animation` slot: the expand owns the span, the spin owns the svg child.
+ * an element has a single `animation` slot: the reveal owns the span, the spin owns the svg child.
  * `overflow-hidden` clips the glyph while the slot is still expanding.
  */
 export const spinnerVariants = cva(
-  cx(nodeSlotClass, "animate-spinner-expand overflow-hidden [&>svg]:animate-spin"),
+  cx(nodeSlotClass, "animate-spinner-reveal overflow-hidden [&>svg]:animate-spin"),
 );
 
 export type SpinnerProps = Omit<useRender.ComponentProps<"span">, "className" | "style">;
