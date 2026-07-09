@@ -30,7 +30,7 @@ export const accordionTriggerIconVariants = cva(cx(nodeSlotClass, "[--node-size:
 export const accordionPanelVariants = cva(
   cx(
     "h-(--accordion-panel-height) overflow-hidden",
-    "text-13 text-secondary",
+    "text-13 font-regular text-secondary",
     "transition-[height] duration-200 ease-out",
     "data-ending-style:h-0 data-starting-style:h-0",
   ),
