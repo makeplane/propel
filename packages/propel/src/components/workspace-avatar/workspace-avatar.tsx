@@ -2,7 +2,7 @@ import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import { Building2 } from "lucide-react";
 import type * as React from "react";
 
-import { type AvatarTone, getAvatarTone } from "../../elements/avatar";
+import { type AvatarTone, resolveAvatarTone } from "../../elements/avatar";
 import {
   WorkspaceAvatar as WorkspaceAvatarElement,
   WorkspaceAvatarFallback,
@@ -21,7 +21,10 @@ export type WorkspaceAvatarProps = WorkspaceAvatarElementProps & {
    * workspace icon shows.
    */
   fallback?: React.ReactNode;
-  /** Initials background color. Defaults to a stable color derived from `alt`. */
+  /**
+   * Initials background color. Defaults to a stable color derived from `alt`, or the initials when
+   * there is no `alt`.
+   */
   tone?: AvatarTone;
   /** Milliseconds before the fallback shows, to avoid a flash while `src` loads quickly. */
   delay?: number;
@@ -48,9 +51,9 @@ export function WorkspaceAvatar({
   // color; the anonymous workspace icon renders in the icon slot over the root's neutral
   // backdrop when there are no initials either (there is no "none" tone).
   const hasInitials = fallback != null;
-  // The tone is auto-derived from the name unless explicitly set, so each workspace gets a
-  // stable color without the caller having to choose one.
-  const resolvedTone = tone ?? getAvatarTone(alt ?? "");
+  // The tone is auto-derived (from the name, else the initials) unless explicitly set, so each
+  // workspace gets a stable, distinct color without the caller having to choose one.
+  const resolvedTone = resolveAvatarTone(tone, alt, fallback);
   return (
     // Base UI's `Avatar` behavior grafts onto the styled `elements` parts via `render` (behavior part
     // outer, styled part as the render target). `role="img"` + `aria-label` give the avatar one

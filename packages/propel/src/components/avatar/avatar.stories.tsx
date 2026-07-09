@@ -68,6 +68,56 @@ export const Tones: Story = {
   ),
 };
 
+// Initials-only avatars with NO `alt`, each with different initials. Every one seeds its tone from
+// its own initials, so they spread across the palette instead of collapsing onto one color — the
+// bug when the seed was `alt ?? ""` (empty string → always the first tone). Same initials would
+// still yield the same color: the assignment stays stable, it's just no longer name-dependent.
+const NO_ALT_INITIALS = ["NN", "AD", "MK", "AR", "JD", "AB"];
+
+/**
+ * With no `alt`, tone is derived from each avatar's initials — so a row of unnamed avatars still
+ * gets a varied palette rather than all sharing one color.
+ */
+export const NoAltDistinctTones: Story = {
+  parameters: {
+    controls: { disable: true },
+    // These avatars intentionally omit `alt` to exercise the tone-from-initials path, so the
+    // `role="img"` root has no accessible name and axe's `role-img-alt` fires. That naming gap is
+    // orthogonal to what this story demonstrates (tone distribution) and is covered by the
+    // alt-bearing stories above; disable just this rule here.
+    a11y: { config: { rules: [{ id: "role-img-alt", enabled: false }] } },
+  },
+  render: () => (
+    <div className="flex items-center gap-3">
+      {NO_ALT_INITIALS.map((initials) => (
+        <Avatar key={initials} magnitude="lg" fallback={initials} />
+      ))}
+    </div>
+  ),
+};
+
+/**
+ * Behavior twin of `NoAltDistinctTones`: none of the avatars has an `alt`, yet their initials
+ * surfaces resolve to more than one color. Before the fix every seedless avatar hashed `""` to the
+ * same tone, so this set would have collapsed to size 1. Tagged out of the sidebar/docs/manifest
+ * while still running under the default `test` tag.
+ */
+export const NoAltDistinctTonesInteraction: Story = {
+  ...NoAltDistinctTones,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    const colors = NO_ALT_INITIALS.map(
+      (initials) => getComputedStyle(canvas.getByText(initials)).backgroundColor,
+    );
+    // Every color is a real compiled tone (not transparent)…
+    for (const color of colors) {
+      await expect(color).not.toBe("rgba(0, 0, 0, 0)");
+    }
+    // …and they are not all the same — the seedless-collapse regression is gone.
+    await expect(new Set(colors).size).toBeGreaterThan(1);
+  },
+};
+
 /** The three states side by side: image, initials, and the anonymous person icon. */
 export const States: Story = {
   parameters: { controls: { disable: true } },

@@ -10,7 +10,7 @@ import {
   type AvatarMagnitude,
   type AvatarProps as AvatarElementProps,
   type AvatarTone,
-  getAvatarTone,
+  resolveAvatarTone,
 } from "../../elements/avatar";
 import { AvatarGroupContext } from "./avatar-group-context";
 
@@ -23,7 +23,10 @@ export type AvatarProps = Omit<AvatarElementProps, "magnitude"> & {
   alt?: string;
   /** Initials shown when there is no image. When omitted too, a person icon shows. */
   fallback?: React.ReactNode;
-  /** Initials background color. Defaults to a stable color derived from `alt`. */
+  /**
+   * Initials background color. Defaults to a stable color derived from `alt`, or the initials when
+   * there is no `alt`.
+   */
   tone?: AvatarTone;
   /** Milliseconds before the fallback shows, to avoid a flash while `src` loads quickly. */
   delay?: number;
@@ -43,9 +46,9 @@ export function Avatar({ magnitude, src, alt, fallback, tone, delay, ...props }:
   const hasInitials = fallback != null;
   const groupMagnitude = React.useContext(AvatarGroupContext);
   const effectiveMagnitude = magnitude ?? groupMagnitude ?? "md";
-  // The tone is auto-derived from the name unless explicitly set, so each person gets a
-  // stable color without the caller having to choose one.
-  const resolvedTone = tone ?? getAvatarTone(alt ?? "");
+  // The tone is auto-derived (from the name, else the initials) unless explicitly set, so each
+  // person gets a stable, distinct color without the caller having to choose one.
+  const resolvedTone = resolveAvatarTone(tone, alt, fallback);
   return (
     // `role="img"` + `aria-label` give the avatar one accessible name in every state
     // (image / initials / icon); the inner image is decorative. Base UI `Avatar` behavior/context
