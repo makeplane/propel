@@ -62,7 +62,7 @@ export const Tones: Story = {
   ),
 };
 
-/** The two states side by side: logo and the initial fallback. */
+/** The three states side by side: logo, the initial fallback, and the anonymous workspace icon. */
 export const States: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
@@ -73,8 +73,34 @@ export const States: Story = {
         src="https://avatars.githubusercontent.com/u/73642778?s=128"
       />
       <WorkspaceAvatar {...args} magnitude="lg" src={undefined} />
+      <WorkspaceAvatar {...args} magnitude="lg" src={undefined} fallback={undefined} />
     </div>
   ),
+};
+
+/**
+ * With neither `src` nor `fallback`, the anonymous workspace icon shows over the neutral backdrop —
+ * the same default-state contract `Avatar` has with its person icon.
+ */
+export const NoFallback: Story = {
+  args: { src: undefined, fallback: undefined },
+};
+
+/**
+ * Behavior twin of `NoFallback`: no `<img>`, no initials text — just the icon slot rendering the
+ * anonymous glyph. Tagged out of the sidebar/docs/manifest while still running under the default
+ * `test` tag.
+ */
+export const NoFallbackInteraction: Story = {
+  ...NoFallback,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, canvasElement }) => {
+    const avatar = await canvas.findByRole("img", { name: "Plane workspace" });
+    await expect(canvasElement.querySelector("img")).not.toBeInTheDocument();
+    await expect(canvas.queryByText("PV")).not.toBeInTheDocument();
+    // The icon slot's `aria-hidden` svg is the only content — the root still carries the a11y name.
+    await expect(avatar.querySelector("svg")).toBeInTheDocument();
+  },
 };
 
 /**

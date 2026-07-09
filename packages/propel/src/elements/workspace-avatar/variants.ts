@@ -1,6 +1,7 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { avatarFallbackClass, avatarImageClass, avatarTones } from "../../internal/avatar-shared";
+import { nodeSlotClass } from "../../internal/node-slot";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // Magnitudes follow the same scale as Avatar (Figma "Workspace avatar"): 2xs 16
@@ -41,6 +42,25 @@ export const workspaceAvatarFallbackVariants = cva(avatarFallbackClass, {
   },
 });
 
+// The anonymous workspace-icon slot (the Figma "icon" content state), shown when a workspace
+// avatar has neither a logo nor initials. A node-slot: it sizes whatever single child it's given
+// to the inherited `--node-size`, never baking a size onto the child. Same per-magnitude px scale
+// as `avatarIconVariants` in `elements/avatar`, and the glyph is tinted muted the same way.
+export const workspaceAvatarIconVariants = cva(cx(nodeSlotClass, "text-icon-placeholder"), {
+  variants: {
+    magnitude: {
+      "2xs": "[--node-size:0.875rem]", // 14px
+      xs: "[--node-size:0.875rem]", // 14px
+      sm: "[--node-size:1rem]", // 16px
+      md: "[--node-size:1.25rem]", // 20px
+      lg: "[--node-size:1.5rem]", // 24px
+      xl: "[--node-size:1.5rem]", // 24px
+      "2xl": "[--node-size:2rem]", // 32px
+      "3xl": "[--node-size:2rem]", // 32px
+    },
+  },
+});
+
 export type WorkspaceAvatarMagnitude = NonNullable<
   VariantProps<typeof workspaceAvatarVariants>["magnitude"]
 >;
@@ -49,4 +69,8 @@ export type WorkspaceAvatarVariantProps = StrictVariantProps<typeof workspaceAva
 
 export type WorkspaceAvatarFallbackVariantProps = StrictVariantProps<
   typeof workspaceAvatarFallbackVariants
+>;
+
+export type WorkspaceAvatarIconVariantProps = StrictVariantProps<
+  typeof workspaceAvatarIconVariants
 >;

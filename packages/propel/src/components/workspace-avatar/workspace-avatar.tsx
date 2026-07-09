@@ -1,10 +1,12 @@
 import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
+import { Building2 } from "lucide-react";
 import type * as React from "react";
 
 import { type AvatarTone, getAvatarTone } from "../../elements/avatar";
 import {
   WorkspaceAvatar as WorkspaceAvatarElement,
   WorkspaceAvatarFallback,
+  WorkspaceAvatarIcon,
   WorkspaceAvatarImage,
   type WorkspaceAvatarProps as WorkspaceAvatarElementProps,
 } from "../../elements/workspace-avatar";
@@ -14,7 +16,10 @@ export type WorkspaceAvatarProps = WorkspaceAvatarElementProps & {
   src?: string;
   /** Accessible name for the workspace avatar. */
   alt?: string;
-  /** Shown when there is no logo — typically the workspace's initial. */
+  /**
+   * Shown when there is no logo — typically the workspace's initial. When omitted too, an anonymous
+   * workspace icon shows.
+   */
   fallback?: React.ReactNode;
   /** Initials background color. Defaults to a stable color derived from `alt`. */
   tone?: AvatarTone;
@@ -23,10 +28,11 @@ export type WorkspaceAvatarProps = WorkspaceAvatarElementProps & {
 };
 
 /**
- * The ready-made workspace avatar: a logo that falls back to initials, composed from the
- * `elements/workspace-avatar` parts (`WorkspaceAvatar` root + `WorkspaceAvatarImage` +
- * `WorkspaceAvatarFallback`). Pass `src` for the logo, `fallback` for initials, and optionally
- * `tone` (otherwise derived from `alt`).
+ * The ready-made workspace avatar: a logo that falls back to initials, or an anonymous workspace
+ * icon when there are no initials either, composed from the `elements/workspace-avatar` parts
+ * (`WorkspaceAvatar` root + `WorkspaceAvatarImage` + `WorkspaceAvatarFallback` +
+ * `WorkspaceAvatarIcon`). Pass `src` for the logo, `fallback` for initials, and optionally `tone`
+ * (otherwise derived from `alt`).
  */
 export function WorkspaceAvatar({
   magnitude,
@@ -39,7 +45,8 @@ export function WorkspaceAvatar({
 }: WorkspaceAvatarProps) {
   // Base UI shows the fallback whenever the logo is absent, loading, or failed, so the
   // colored-initials styling lives on the Fallback element itself. Initials = a label tone
-  // color; the anonymous state = the neutral `none` tone.
+  // color; the anonymous workspace icon renders in the icon slot over the root's neutral
+  // backdrop when there are no initials either (there is no "none" tone).
   const hasInitials = fallback != null;
   // The tone is auto-derived from the name unless explicitly set, so each workspace gets a
   // stable color without the caller having to choose one.
@@ -59,7 +66,11 @@ export function WorkspaceAvatar({
         <BaseAvatar.Fallback delay={delay} render={<WorkspaceAvatarFallback tone={resolvedTone} />}>
           {fallback}
         </BaseAvatar.Fallback>
-      ) : null}
+      ) : (
+        <BaseAvatar.Fallback delay={delay} render={<WorkspaceAvatarIcon magnitude={magnitude} />}>
+          <Building2 />
+        </BaseAvatar.Fallback>
+      )}
     </BaseAvatar.Root>
   );
 }

@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Building2 } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { AVATAR_TONES } from "../avatar/index";
 import {
   WorkspaceAvatar,
   WorkspaceAvatarFallback,
+  WorkspaceAvatarIcon,
   WorkspaceAvatarImage,
   type WorkspaceAvatarMagnitude,
 } from "./index";
@@ -18,13 +20,13 @@ const LOGO_SRC = `data:image/svg+xml,${encodeURIComponent(
 
 // elements-tier story (rule 2b): a pure UI-configuration showcase — the styled parts render
 // DIRECTLY, with no Base UI grafts. The workspace-avatar cvas key off no `data-*`/aria state, so
-// each visual state is simply which child renders (logo image / initials fallback). Image-load
-// fallback behavior is demonstrated in Components/WorkspaceAvatar. `meta.component` is the
-// no-variant `WorkspaceAvatarImage` so no props are forced into story args.
+// each visual state is simply which child renders (logo image / initials fallback / anonymous
+// icon). Image-load fallback behavior is demonstrated in Components/WorkspaceAvatar.
+// `meta.component` is the no-variant `WorkspaceAvatarImage` so no props are forced into story args.
 const meta = {
   title: "Elements/WorkspaceAvatar",
   component: WorkspaceAvatarImage,
-  subcomponents: { WorkspaceAvatar, WorkspaceAvatarFallback },
+  subcomponents: { WorkspaceAvatar, WorkspaceAvatarFallback, WorkspaceAvatarIcon },
 } satisfies Meta<typeof WorkspaceAvatarImage>;
 
 export default meta;
@@ -65,7 +67,28 @@ export const Tones: Story = {
   ),
 };
 
-/** The two content states side by side: the logo image and the initials fallback. */
+/**
+ * `WorkspaceAvatarIcon` sizes the anonymous workspace glyph per magnitude — the same per-magnitude
+ * icon px scale as `AvatarIcon`.
+ */
+export const IconMagnitudes: Story = {
+  render: () => (
+    <div className="flex items-center gap-3">
+      {MAGNITUDES.map((magnitude) => (
+        <WorkspaceAvatar key={magnitude} magnitude={magnitude} role="img" aria-label={magnitude}>
+          <WorkspaceAvatarIcon magnitude={magnitude}>
+            <Building2 />
+          </WorkspaceAvatarIcon>
+        </WorkspaceAvatar>
+      ))}
+    </div>
+  ),
+};
+
+/**
+ * The three content states side by side: the logo image, initials, and the anonymous workspace
+ * icon.
+ */
 export const States: Story = {
   render: () => (
     <div className="flex items-center gap-3">
@@ -74,6 +97,11 @@ export const States: Story = {
       </WorkspaceAvatar>
       <WorkspaceAvatar magnitude="lg" role="img" aria-label="Initials">
         <WorkspaceAvatarFallback tone="emerald">PV</WorkspaceAvatarFallback>
+      </WorkspaceAvatar>
+      <WorkspaceAvatar magnitude="lg" role="img" aria-label="Anonymous">
+        <WorkspaceAvatarIcon magnitude="lg">
+          <Building2 />
+        </WorkspaceAvatarIcon>
       </WorkspaceAvatar>
     </div>
   ),
