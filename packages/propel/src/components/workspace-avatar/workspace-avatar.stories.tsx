@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, waitFor } from "storybook/test";
 
-import { AVATAR_TONES, WorkspaceAvatar, type WorkspaceAvatarMagnitude } from "./index";
+import { WorkspaceAvatar, type WorkspaceAvatarMagnitude } from "./index";
 
 const MAGNITUDES: WorkspaceAvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
@@ -38,25 +38,6 @@ export const Magnitudes: Story = {
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
         <WorkspaceAvatar key={magnitude} {...args} magnitude={magnitude} />
-      ))}
-    </div>
-  ),
-};
-
-/** Initials use the same tone palette as Avatar (auto-derived from `alt`). */
-export const Tones: Story = {
-  args: { src: undefined },
-  argTypes: { tone: { control: false }, fallback: { control: false } },
-  render: (args) => (
-    <div className="flex items-center gap-3">
-      {AVATAR_TONES.map((tone) => (
-        <WorkspaceAvatar
-          key={tone}
-          {...args}
-          tone={tone}
-          magnitude="lg"
-          fallback={tone[0]?.toUpperCase()}
-        />
       ))}
     </div>
   ),

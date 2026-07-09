@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
 import { expect, waitFor } from "storybook/test";
 
-import { AVATAR_TONES, type AvatarMagnitude, Avatar } from "./index";
+import { type AvatarMagnitude, Avatar } from "./index";
 
 const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
@@ -45,24 +45,6 @@ export const Magnitudes: Story = {
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
         <Avatar key={magnitude} {...args} magnitude={magnitude} />
-      ))}
-    </div>
-  ),
-};
-
-/**
- * The initials background follows `tone`. When `tone` is omitted it's derived from `alt`, so every
- * person gets a stable color automatically.
- */
-export const Tones: Story = {
-  args: { src: undefined },
-  // Iterates `tone` and derives each label (`fallback`) from the tone name, so
-  // disable those two controls; the rest stay live and update every avatar at once.
-  argTypes: { tone: { control: false }, fallback: { control: false } },
-  render: (args) => (
-    <div className="flex items-center gap-3">
-      {AVATAR_TONES.map((tone) => (
-        <Avatar key={tone} {...args} tone={tone} magnitude="lg" fallback={tone[0]?.toUpperCase()} />
       ))}
     </div>
   ),

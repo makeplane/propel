@@ -2,7 +2,7 @@ import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import { Building2 } from "lucide-react";
 import type * as React from "react";
 
-import { type AvatarTone, resolveAvatarTone } from "../../elements/avatar";
+import { getAvatarTone } from "../../elements/avatar";
 import {
   WorkspaceAvatar as WorkspaceAvatarElement,
   WorkspaceAvatarFallback,
@@ -21,11 +21,6 @@ export type WorkspaceAvatarProps = WorkspaceAvatarElementProps & {
    * workspace icon shows.
    */
   fallback?: React.ReactNode;
-  /**
-   * Initials background color. Defaults to a stable color derived from `alt`, or the initials when
-   * there is no `alt`.
-   */
-  tone?: AvatarTone;
   /** Milliseconds before the fallback shows, to avoid a flash while `src` loads quickly. */
   delay?: number;
 };
@@ -34,25 +29,26 @@ export type WorkspaceAvatarProps = WorkspaceAvatarElementProps & {
  * The ready-made workspace avatar: a logo that falls back to initials, or an anonymous workspace
  * icon when there are no initials either, composed from the `elements/workspace-avatar` parts
  * (`WorkspaceAvatar` root + `WorkspaceAvatarImage` + `WorkspaceAvatarFallback`). Pass `src` for the
- * logo, `fallback` for initials, and optionally `tone` (otherwise derived from `alt`).
+ * logo and `fallback` for initials; the initials color is chosen automatically and is not a
+ * consumer prop.
  */
 export function WorkspaceAvatar({
   magnitude,
   src,
   alt,
   fallback,
-  tone,
   delay,
   ...props
 }: WorkspaceAvatarProps) {
   // Base UI shows the fallback whenever the logo is absent, loading, or failed, so the
-  // colored-initials styling lives on the Fallback element itself. Initials = a label tone
-  // color; the anonymous workspace glyph is the shared `Icon` (muted, static), sized by the
-  // `--node-size` the root sets per magnitude — no workspace-specific icon part.
+  // colored-initials styling lives on the Fallback element itself. The anonymous workspace glyph is
+  // the shared `Icon` (muted, static), sized by the `--node-size` the root sets per magnitude — no
+  // workspace-specific icon part.
   const hasInitials = fallback != null;
-  // The tone is auto-derived (from the name, else the initials) unless explicitly set, so each
-  // workspace gets a stable, distinct color without the caller having to choose one.
-  const resolvedTone = resolveAvatarTone(tone, alt, fallback);
+  // Tone is always system-chosen (never a consumer prop): seed a stable color from the name, else
+  // the initials text, so unnamed workspaces vary by initials instead of collapsing onto one color.
+  const toneSeed = alt?.trim() || (typeof fallback === "string" ? fallback.trim() : "");
+  const resolvedTone = getAvatarTone(toneSeed);
   return (
     // Base UI's `Avatar` behavior grafts onto the styled `elements` parts via `render` (behavior part
     // outer, styled part as the render target). `role="img"` + `aria-label` give the avatar one

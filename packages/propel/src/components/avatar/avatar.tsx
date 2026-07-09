@@ -8,8 +8,7 @@ import {
   AvatarImage,
   type AvatarMagnitude,
   type AvatarProps as AvatarElementProps,
-  type AvatarTone,
-  resolveAvatarTone,
+  getAvatarTone,
 } from "../../elements/avatar";
 import { Icon } from "../../internal/icon";
 import { AvatarGroupContext } from "./avatar-group-context";
@@ -23,11 +22,6 @@ export type AvatarProps = Omit<AvatarElementProps, "magnitude"> & {
   alt?: string;
   /** Initials shown when there is no image. When omitted too, a person icon shows. */
   fallback?: React.ReactNode;
-  /**
-   * Initials background color. Defaults to a stable color derived from `alt`, or the initials when
-   * there is no `alt`.
-   */
-  tone?: AvatarTone;
   /** Milliseconds before the fallback shows, to avoid a flash while `src` loads quickly. */
   delay?: number;
 };
@@ -35,22 +29,22 @@ export type AvatarProps = Omit<AvatarElementProps, "magnitude"> & {
 /**
  * The ready-made avatar: an image that falls back to initials (or an anonymous person icon),
  * composed from the `elements/avatar` parts (`Avatar` root + `AvatarImage` + `AvatarFallback`).
- * Pass `src` for the photo, `fallback` for initials, and optionally `tone` (otherwise derived from
- * `alt`).
+ * Pass `src` for the photo and `fallback` for initials; the initials color is chosen automatically
+ * and is not a consumer prop.
  */
-export function Avatar({ magnitude, src, alt, fallback, tone, delay, ...props }: AvatarProps) {
+export function Avatar({ magnitude, src, alt, fallback, delay, ...props }: AvatarProps) {
   // Base UI shows the fallback whenever the image is absent, loading, or failed, so the
-  // colored-initials styling lives on the Fallback element itself. Initials = a label tone
-  // color; the anonymous person icon renders in the icon slot over the root's neutral backdrop
-  // (there is no "none" tone).
+  // colored-initials styling lives on the Fallback element itself. The anonymous person icon
+  // renders in the icon slot over the root's neutral backdrop when there are no initials.
   const hasInitials = fallback != null;
   const groupMagnitude = React.useContext(AvatarGroupContext);
   const effectiveMagnitude = magnitude ?? groupMagnitude ?? "md";
   // The anonymous glyph is the shared `Icon` (muted, static — no input-focus brightening), sized by
   // the `--node-size` the root sets per magnitude, so there is no avatar-specific icon part.
-  // The tone is auto-derived (from the name, else the initials) unless explicitly set, so each
-  // person gets a stable, distinct color without the caller having to choose one.
-  const resolvedTone = resolveAvatarTone(tone, alt, fallback);
+  // Tone is always system-chosen (never a consumer prop): seed a stable color from the name, else
+  // the initials text, so unnamed avatars vary by initials instead of collapsing onto one color.
+  const toneSeed = alt?.trim() || (typeof fallback === "string" ? fallback.trim() : "");
+  const resolvedTone = getAvatarTone(toneSeed);
   return (
     // `role="img"` + `aria-label` give the avatar one accessible name in every state
     // (image / initials / icon); the inner image is decorative. Base UI `Avatar` behavior/context
