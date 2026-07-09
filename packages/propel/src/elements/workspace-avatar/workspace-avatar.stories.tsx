@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Building2 } from "lucide-react";
 import { expect } from "storybook/test";
 
+import { Icon } from "../../internal/icon";
 import { AVATAR_TONES } from "../avatar/index";
 import {
   WorkspaceAvatar,
   WorkspaceAvatarFallback,
-  WorkspaceAvatarIcon,
   WorkspaceAvatarImage,
   type WorkspaceAvatarMagnitude,
 } from "./index";
@@ -26,7 +26,7 @@ const LOGO_SRC = `data:image/svg+xml,${encodeURIComponent(
 const meta = {
   title: "Elements/WorkspaceAvatar",
   component: WorkspaceAvatarImage,
-  subcomponents: { WorkspaceAvatar, WorkspaceAvatarFallback, WorkspaceAvatarIcon },
+  subcomponents: { WorkspaceAvatar, WorkspaceAvatarFallback },
 } satisfies Meta<typeof WorkspaceAvatarImage>;
 
 export default meta;
@@ -68,17 +68,18 @@ export const Tones: Story = {
 };
 
 /**
- * `WorkspaceAvatarIcon` sizes the anonymous workspace glyph per magnitude — the same per-magnitude
- * icon px scale as `AvatarIcon`.
+ * The anonymous workspace glyph is the shared `Icon` (`tint="muted"`), sized per magnitude by the
+ * `--node-size` the `WorkspaceAvatar` root sets — the same icon px scale as `Avatar`. No
+ * workspace-specific icon part: the glyph just inherits the root's node size.
  */
 export const IconMagnitudes: Story = {
   render: () => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
         <WorkspaceAvatar key={magnitude} magnitude={magnitude} role="img" aria-label={magnitude}>
-          <WorkspaceAvatarIcon magnitude={magnitude}>
+          <Icon tint="muted">
             <Building2 />
-          </WorkspaceAvatarIcon>
+          </Icon>
         </WorkspaceAvatar>
       ))}
     </div>
@@ -99,9 +100,9 @@ export const States: Story = {
         <WorkspaceAvatarFallback tone="emerald">PV</WorkspaceAvatarFallback>
       </WorkspaceAvatar>
       <WorkspaceAvatar magnitude="lg" role="img" aria-label="Anonymous">
-        <WorkspaceAvatarIcon magnitude="lg">
+        <Icon tint="muted">
           <Building2 />
-        </WorkspaceAvatarIcon>
+        </Icon>
       </WorkspaceAvatar>
     </div>
   ),

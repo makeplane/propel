@@ -5,13 +5,13 @@ import * as React from "react";
 import {
   Avatar as AvatarElement,
   AvatarFallback,
-  AvatarIcon,
   AvatarImage,
   type AvatarMagnitude,
   type AvatarProps as AvatarElementProps,
   type AvatarTone,
   resolveAvatarTone,
 } from "../../elements/avatar";
+import { Icon } from "../../internal/icon";
 import { AvatarGroupContext } from "./avatar-group-context";
 
 export type AvatarProps = Omit<AvatarElementProps, "magnitude"> & {
@@ -46,6 +46,8 @@ export function Avatar({ magnitude, src, alt, fallback, tone, delay, ...props }:
   const hasInitials = fallback != null;
   const groupMagnitude = React.useContext(AvatarGroupContext);
   const effectiveMagnitude = magnitude ?? groupMagnitude ?? "md";
+  // The anonymous glyph is the shared `Icon` (muted, static — no input-focus brightening), sized by
+  // the `--node-size` the root sets per magnitude, so there is no avatar-specific icon part.
   // The tone is auto-derived (from the name, else the initials) unless explicitly set, so each
   // person gets a stable, distinct color without the caller having to choose one.
   const resolvedTone = resolveAvatarTone(tone, alt, fallback);
@@ -65,7 +67,7 @@ export function Avatar({ magnitude, src, alt, fallback, tone, delay, ...props }:
           {fallback}
         </BaseAvatar.Fallback>
       ) : (
-        <BaseAvatar.Fallback delay={delay} render={<AvatarIcon magnitude={effectiveMagnitude} />}>
+        <BaseAvatar.Fallback delay={delay} render={<Icon tint="muted" />}>
           <User />
         </BaseAvatar.Fallback>
       )}

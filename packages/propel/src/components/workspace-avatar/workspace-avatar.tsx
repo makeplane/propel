@@ -6,10 +6,10 @@ import { type AvatarTone, resolveAvatarTone } from "../../elements/avatar";
 import {
   WorkspaceAvatar as WorkspaceAvatarElement,
   WorkspaceAvatarFallback,
-  WorkspaceAvatarIcon,
   WorkspaceAvatarImage,
   type WorkspaceAvatarProps as WorkspaceAvatarElementProps,
 } from "../../elements/workspace-avatar";
+import { Icon } from "../../internal/icon";
 
 export type WorkspaceAvatarProps = WorkspaceAvatarElementProps & {
   /** Workspace logo URL. Falls back to the initial when absent/loading/failed. */
@@ -33,9 +33,8 @@ export type WorkspaceAvatarProps = WorkspaceAvatarElementProps & {
 /**
  * The ready-made workspace avatar: a logo that falls back to initials, or an anonymous workspace
  * icon when there are no initials either, composed from the `elements/workspace-avatar` parts
- * (`WorkspaceAvatar` root + `WorkspaceAvatarImage` + `WorkspaceAvatarFallback` +
- * `WorkspaceAvatarIcon`). Pass `src` for the logo, `fallback` for initials, and optionally `tone`
- * (otherwise derived from `alt`).
+ * (`WorkspaceAvatar` root + `WorkspaceAvatarImage` + `WorkspaceAvatarFallback`). Pass `src` for the
+ * logo, `fallback` for initials, and optionally `tone` (otherwise derived from `alt`).
  */
 export function WorkspaceAvatar({
   magnitude,
@@ -48,8 +47,8 @@ export function WorkspaceAvatar({
 }: WorkspaceAvatarProps) {
   // Base UI shows the fallback whenever the logo is absent, loading, or failed, so the
   // colored-initials styling lives on the Fallback element itself. Initials = a label tone
-  // color; the anonymous workspace icon renders in the icon slot over the root's neutral
-  // backdrop when there are no initials either (there is no "none" tone).
+  // color; the anonymous workspace glyph is the shared `Icon` (muted, static), sized by the
+  // `--node-size` the root sets per magnitude — no workspace-specific icon part.
   const hasInitials = fallback != null;
   // The tone is auto-derived (from the name, else the initials) unless explicitly set, so each
   // workspace gets a stable, distinct color without the caller having to choose one.
@@ -70,7 +69,7 @@ export function WorkspaceAvatar({
           {fallback}
         </BaseAvatar.Fallback>
       ) : (
-        <BaseAvatar.Fallback delay={delay} render={<WorkspaceAvatarIcon magnitude={magnitude} />}>
+        <BaseAvatar.Fallback delay={delay} render={<Icon tint="muted" />}>
           <Building2 />
         </BaseAvatar.Fallback>
       )}

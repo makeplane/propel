@@ -2,14 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { User } from "lucide-react";
 import { expect } from "storybook/test";
 
-import {
-  Avatar,
-  AVATAR_TONES,
-  AvatarFallback,
-  AvatarIcon,
-  AvatarImage,
-  type AvatarMagnitude,
-} from "./index";
+import { Icon } from "../../internal/icon";
+import { Avatar, AVATAR_TONES, AvatarFallback, AvatarImage, type AvatarMagnitude } from "./index";
 
 const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
@@ -26,7 +20,7 @@ const PHOTO_SRC = `data:image/svg+xml,${encodeURIComponent(
 const meta = {
   title: "Elements/Avatar",
   component: AvatarImage,
-  subcomponents: { Avatar, AvatarFallback, AvatarIcon },
+  subcomponents: { Avatar, AvatarFallback },
 } satisfies Meta<typeof AvatarImage>;
 
 export default meta;
@@ -68,17 +62,18 @@ export const Tones: Story = {
 };
 
 /**
- * `AvatarIcon` sizes the anonymous person glyph per magnitude — Figma's explicit icon px values,
- * not a fixed fraction of the avatar.
+ * The anonymous person glyph is the shared `Icon` (`tint="muted"`), sized per magnitude by the
+ * `--node-size` the `Avatar` root sets — Figma's explicit icon px values, not a fixed fraction of
+ * the avatar. No avatar-specific icon part: the glyph just inherits the root's node size.
  */
 export const IconMagnitudes: Story = {
   render: () => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
         <Avatar key={magnitude} magnitude={magnitude} role="img" aria-label={magnitude}>
-          <AvatarIcon magnitude={magnitude}>
+          <Icon tint="muted">
             <User />
-          </AvatarIcon>
+          </Icon>
         </Avatar>
       ))}
     </div>
@@ -96,9 +91,9 @@ export const States: Story = {
         <AvatarFallback tone="emerald">GH</AvatarFallback>
       </Avatar>
       <Avatar magnitude="lg" role="img" aria-label="Anonymous">
-        <AvatarIcon magnitude="lg">
+        <Icon tint="muted">
           <User />
-        </AvatarIcon>
+        </Icon>
       </Avatar>
     </div>
   ),
