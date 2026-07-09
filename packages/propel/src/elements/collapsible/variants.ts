@@ -11,7 +11,11 @@ import {
 // (variant/tone/magnitude) to expose. The cva pairings below hold the static
 // chrome so every part is styled in one place, with no `className` at the boundary.
 
-export const collapsibleTriggerVariants = cva(cx(disclosureTriggerClass, "w-full"));
+// `--node-size:1rem` sizes the trailing chevron (`magnitude="inherit"`) — declared here, on
+// collapsible's own trigger, not on the shared `disclosureTriggerClass` (see its comment).
+export const collapsibleTriggerVariants = cva(
+  cx(disclosureTriggerClass, "w-full [--node-size:1rem]"),
+);
 
 // The trigger's growing label. `flex-1` fills the row so a trailing
 // `CollapsibleTriggerIndicator` sits at the inline-end edge; `min-w-0` lets a long

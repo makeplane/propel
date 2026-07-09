@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { CircleHelp } from "lucide-react";
+import * as React from "react";
 import { expect } from "storybook/test";
 
+import { Button } from "../button";
 import { Icon } from "../icon";
 import {
   Accordion,
@@ -163,6 +165,77 @@ export const MultipleItems: Story = {
 };
 
 /**
+ * A single item can opt out with `disabled` (Base UI dims the trigger, sets the native `disabled`
+ * attribute, and ignores pointer/keyboard toggling). Here the middle item is disabled while the
+ * others stay interactive; the first is expanded by default.
+ */
+export const Disabled: Story = {
+  parameters: { controls: { disable: true } },
+  render: (args) => (
+    <Accordion {...args} defaultValue={["what"]}>
+      {ITEMS.map((item) => (
+        <AccordionItem key={item.value} value={item.value} disabled={item.value === "pricing"}>
+          <AccordionHeader>
+            <AccordionTrigger label={item.label} />
+          </AccordionHeader>
+          <AccordionPanel>{item.body}</AccordionPanel>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  ),
+};
+
+/**
+ * Controlled mode: `value` + `onValueChange` hand ownership of the open set to the consumer. The
+ * external **Expand all** / **Collapse all** buttons mutate that state directly (proving the
+ * accordion holds none of its own), while trigger clicks flow back through `onValueChange`. Uses
+ * `multiple` so several panels can be open at once.
+ */
+export const Controlled: Story = {
+  parameters: { controls: { disable: true } },
+  render: function Render(args) {
+    const [value, setValue] = React.useState<string[]>(["what"]);
+    return (
+      <div className="flex flex-col gap-3">
+        <div className="flex gap-2">
+          <Button
+            prominence="secondary"
+            tone="neutral"
+            magnitude="sm"
+            sizing="hug"
+            label="Expand all"
+            onClick={() => setValue(ITEMS.map((item) => item.value))}
+          />
+          <Button
+            prominence="secondary"
+            tone="neutral"
+            magnitude="sm"
+            sizing="hug"
+            label="Collapse all"
+            onClick={() => setValue([])}
+          />
+        </div>
+        <Accordion
+          {...args}
+          multiple
+          value={value}
+          onValueChange={(next) => setValue(next as string[])}
+        >
+          {ITEMS.map((item) => (
+            <AccordionItem key={item.value} value={item.value}>
+              <AccordionHeader>
+                <AccordionTrigger label={item.label} />
+              </AccordionHeader>
+              <AccordionPanel>{item.body}</AccordionPanel>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    );
+  },
+};
+
+/**
  * Behavior test: clicking a collapsed trigger expands its panel and flips `aria-expanded` to true
  * (a `region` appears); clicking again collapses it.
  */
@@ -272,5 +345,63 @@ export const KeyboardToggle: Story = {
     // …and collapse.
     await userEvent.keyboard(" ");
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  },
+};
+
+/**
+ * Behavior twin of `Disabled`: the disabled trigger carries the native `disabled` attribute and
+ * clicking it does nothing (`aria-expanded` stays false, no `region` appears), while a sibling
+ * still toggles normally.
+ */
+export const DisabledInteraction: Story = {
+  ...Disabled,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const disabled = canvas.getByRole("button", { name: "How does pricing work?" });
+    // Base UI marks the row disabled via `aria-disabled`/`data-disabled` (keeping it focusable per
+    // the APG) rather than the native `disabled` attribute; either way it refuses to toggle.
+    await expect(disabled).toHaveAttribute("aria-disabled", "true");
+    await expect(disabled).toHaveAttribute("data-disabled");
+    await expect(disabled).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(disabled);
+    await expect(disabled).toHaveAttribute("aria-expanded", "false");
+    await expect(canvas.queryByRole("region", { name: "How does pricing work?" })).toBeNull();
+
+    // A sibling item is unaffected and still toggles.
+    const enabled = canvas.getByRole("button", { name: "Can I import my existing data?" });
+    await userEvent.click(enabled);
+    await expect(enabled).toHaveAttribute("aria-expanded", "true");
+  },
+};
+
+/**
+ * Behavior twin of `Controlled`: the external buttons drive the open set (proving the accordion is
+ * fully controlled), and a trigger click routes through `onValueChange` back into that same state.
+ */
+export const ControlledInteraction: Story = {
+  ...Controlled,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const triggers = ITEMS.map((item) => canvas.getByRole("button", { name: item.label }));
+
+    // The first item starts open from the controlling state.
+    await expect(triggers[0]).toHaveAttribute("aria-expanded", "true");
+    await expect(triggers[1]).toHaveAttribute("aria-expanded", "false");
+
+    // Expand all: external state opens every panel simultaneously (multiple mode).
+    await userEvent.click(canvas.getByRole("button", { name: "Expand all" }));
+    for (const trigger of triggers) {
+      await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    }
+
+    // Collapse all: external state closes every panel.
+    await userEvent.click(canvas.getByRole("button", { name: "Collapse all" }));
+    for (const trigger of triggers) {
+      await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    }
+
+    // A trigger click still flows through onValueChange into the controlling state.
+    await userEvent.click(triggers[1]);
+    await expect(triggers[1]).toHaveAttribute("aria-expanded", "true");
   },
 };

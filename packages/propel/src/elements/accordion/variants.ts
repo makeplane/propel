@@ -16,14 +16,21 @@ export const accordionItemVariants = cva("border-b border-subtle");
 
 export const accordionHeaderVariants = cva("flex");
 
+// `--node-size:0.875rem` sizes the leading icon (`magnitude="inherit"`) — declared here, on
+// accordion's own trigger, not on the shared `disclosureTriggerClass` (see its comment). The
+// trailing chevron is unaffected: `DisclosureIndicator`'s `magnitude="sm"` re-declares
+// `--node-size` on itself regardless of what the row provides.
 export const accordionTriggerVariants = cva(
-  cx(disclosureTriggerClass, "flex-1 bg-layer-transparent p-3 hover:bg-layer-transparent-hover"),
+  cx(
+    disclosureTriggerClass,
+    "flex-1 bg-layer-transparent p-3 [--node-size:0.875rem] hover:bg-layer-transparent-hover",
+  ),
 );
 
 export const accordionPanelVariants = cva(
   cx(
     "h-(--accordion-panel-height) overflow-hidden",
-    "text-14 text-secondary",
+    "text-13 font-regular text-secondary",
     "transition-[height] duration-200 ease-out",
     "data-ending-style:h-0 data-starting-style:h-0",
   ),
@@ -35,4 +42,4 @@ export const accordionTriggerTitleVariants = cva(disclosureTriggerTitleClass);
 
 // The padded inner content of a panel. Padding lives here, never on the
 // height-animating `AccordionPanel` (padding there would jump the open/close height).
-export const accordionPanelContentVariants = cva("px-3 pb-3");
+export const accordionPanelContentVariants = cva("px-3 pt-1.5 pb-3");
