@@ -1,8 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, waitFor } from "storybook/test";
 
 import { AVATAR_TONES, WorkspaceAvatar, type WorkspaceAvatarMagnitude } from "./index";
 
 const MAGNITUDES: WorkspaceAvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
+
+// A `src` that is present but undecodable — the browser still attempts to load it and fires a
+// genuine `error` event, unlike an absent `src` (which Base UI never attempts to load at all).
+// Malformed inline data needs no network, so the failure is deterministic in any environment.
+const BROKEN_SRC = "data:image/png;base64,not-a-real-image";
 
 // Components-tier story: the ready-made `WorkspaceAvatar` single component.
 const meta = {
@@ -69,4 +75,27 @@ export const States: Story = {
       <WorkspaceAvatar {...args} magnitude="lg" src={undefined} />
     </div>
   ),
+};
+
+/**
+ * A `src` that fails to load — distinct from an absent `src` (the `States`/`Tones` stories above),
+ * which never attempts to load a logo at all. The initials fallback takes over once the load
+ * errors.
+ */
+export const BrokenImage: Story = {
+  args: { src: BROKEN_SRC },
+};
+
+/**
+ * Behavior twin of `BrokenImage`: the failed load never leaves an `<img>` in the DOM, and the
+ * initials fallback renders in its place. Tagged out of the sidebar/docs/manifest while still
+ * running under the default `test` tag.
+ */
+export const BrokenImageInteraction: Story = {
+  ...BrokenImage,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, canvasElement }) => {
+    await waitFor(() => expect(canvas.getByText("PV")).toBeInTheDocument());
+    await waitFor(() => expect(canvasElement.querySelector("img")).not.toBeInTheDocument());
+  },
 };

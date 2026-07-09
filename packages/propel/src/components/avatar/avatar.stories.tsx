@@ -11,6 +11,11 @@ const PHOTO_SRC = `data:image/svg+xml,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#7dd3fc"/><circle cx="44" cy="18" r="8" fill="#fde047"/><path d="M0 64 24 34l14 16 10-10 16 24Z" fill="#16a34a"/></svg>',
 )}`;
 
+// A `src` that is present but undecodable — the browser still attempts to load it and fires a
+// genuine `error` event, unlike an absent `src` (which Base UI never attempts to load at all).
+// Malformed inline data needs no network, so the failure is deterministic in any environment.
+const BROKEN_SRC = "data:image/png;base64,not-a-real-image";
+
 const meta = {
   title: "Components/Avatar",
   component: Avatar,
@@ -111,6 +116,29 @@ export const DelayedFallbackInteraction: Story = {
     // (`alt=""`, the root owns the accessible name), so query the element directly.
     await waitFor(() => expect(canvasElement.querySelector("img")).toBeInTheDocument());
     await expect(canvas.queryByText("AL")).not.toBeInTheDocument();
+  },
+};
+
+/**
+ * A `src` that fails to load — distinct from an absent `src` (the `States`/`Tones` stories above),
+ * which never attempts to load an image at all. The initials fallback takes over once the load
+ * errors.
+ */
+export const BrokenImage: Story = {
+  args: { src: BROKEN_SRC },
+};
+
+/**
+ * Behavior twin of `BrokenImage`: the failed load never leaves an `<img>` in the DOM, and the
+ * initials fallback renders in its place. Tagged out of the sidebar/docs/manifest while still
+ * running under the default `test` tag.
+ */
+export const BrokenImageInteraction: Story = {
+  ...BrokenImage,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, canvasElement }) => {
+    await waitFor(() => expect(canvas.getByText("AL")).toBeInTheDocument());
+    await waitFor(() => expect(canvasElement.querySelector("img")).not.toBeInTheDocument());
   },
 };
 
