@@ -4,7 +4,6 @@ import {
   disclosureTriggerClass,
   disclosureTriggerTitleClass,
 } from "../../internal/disclosure-trigger";
-import { nodeSlotClass } from "../../internal/node-slot";
 
 // Accordion is a structural disclosure primitive: the Figma "Accordion" spec only
 // defines the collapsed/hover/expanded states (which Base UI drives as state, not
@@ -17,15 +16,16 @@ export const accordionItemVariants = cva("border-b border-subtle");
 
 export const accordionHeaderVariants = cva("flex");
 
+// `--node-size:0.875rem` sizes the leading icon (`magnitude="inherit"`) — declared here, on
+// accordion's own trigger, not on the shared `disclosureTriggerClass` (see its comment). The
+// trailing chevron is unaffected: `DisclosureIndicator`'s `magnitude="sm"` re-declares
+// `--node-size` on itself regardless of what the row provides.
 export const accordionTriggerVariants = cva(
-  cx(disclosureTriggerClass, "flex-1 bg-layer-transparent p-3 hover:bg-layer-transparent-hover"),
+  cx(
+    disclosureTriggerClass,
+    "flex-1 bg-layer-transparent p-3 [--node-size:0.875rem] hover:bg-layer-transparent-hover",
+  ),
 );
-
-// The trigger's leading icon slot. Re-declares `--node-size` on itself (rather than on the
-// trigger row) so it can be smaller than the row's inherited default — the same pattern used by
-// `DisclosureIndicator` to size the trailing caret independently — without shrinking the row's
-// shared `--node-size` that `disclosureTriggerClass` also feeds the (accordion-only) chevron.
-export const accordionTriggerIconVariants = cva(cx(nodeSlotClass, "[--node-size:0.875rem]"));
 
 export const accordionPanelVariants = cva(
   cx(
