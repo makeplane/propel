@@ -27,6 +27,15 @@ const meta = {
   title: "Elements/WorkspaceAvatar",
   component: WorkspaceAvatarImage,
   subcomponents: { WorkspaceAvatar, WorkspaceAvatarFallback },
+  // Every story is one or more avatars in a row; a single avatar just centers trivially inside it,
+  // so one decorator covers every story in this file instead of each `render` repeating the div.
+  decorators: [
+    (Story) => (
+      <div className="flex items-center gap-3">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof WorkspaceAvatarImage>;
 
 export default meta;
@@ -44,26 +53,26 @@ export const Default: Story = {
 /** Every workspace-avatar size (Figma 2xs 16px → 3xl 64px). */
 export const Magnitudes: Story = {
   render: () => (
-    <div className="flex items-center gap-3">
+    <>
       {MAGNITUDES.map((magnitude) => (
         <WorkspaceAvatar key={magnitude} magnitude={magnitude} role="img" aria-label={magnitude}>
           <WorkspaceAvatarFallback tone="indigo">PV</WorkspaceAvatarFallback>
         </WorkspaceAvatar>
       ))}
-    </div>
+    </>
   ),
 };
 
 /** The fallback's `tone` colors the initials surface — one swatch per Figma avatar tone. */
 export const Tones: Story = {
   render: () => (
-    <div className="flex items-center gap-3">
+    <>
       {AVATAR_TONES.map((tone) => (
         <WorkspaceAvatar key={tone} magnitude="lg" role="img" aria-label={tone}>
           <WorkspaceAvatarFallback tone={tone}>{tone[0]?.toUpperCase()}</WorkspaceAvatarFallback>
         </WorkspaceAvatar>
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -74,7 +83,7 @@ export const Tones: Story = {
  */
 export const IconMagnitudes: Story = {
   render: () => (
-    <div className="flex items-center gap-3">
+    <>
       {MAGNITUDES.map((magnitude) => (
         <WorkspaceAvatar key={magnitude} magnitude={magnitude} role="img" aria-label={magnitude}>
           <Icon tint="muted">
@@ -82,7 +91,7 @@ export const IconMagnitudes: Story = {
           </Icon>
         </WorkspaceAvatar>
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -92,7 +101,7 @@ export const IconMagnitudes: Story = {
  */
 export const States: Story = {
   render: () => (
-    <div className="flex items-center gap-3">
+    <>
       <WorkspaceAvatar magnitude="lg" role="img" aria-label="Logo">
         <WorkspaceAvatarImage src={LOGO_SRC} alt="" />
       </WorkspaceAvatar>
@@ -104,7 +113,7 @@ export const States: Story = {
           <Building2 />
         </Icon>
       </WorkspaceAvatar>
-    </div>
+    </>
   ),
 };
 

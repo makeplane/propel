@@ -30,6 +30,15 @@ const meta = {
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=40-46",
     },
   },
+  // Every story is one or more avatars in a row; a single avatar just centers trivially inside it,
+  // so one decorator covers every story in this file instead of each `render` repeating the div.
+  decorators: [
+    (Story) => (
+      <div className="flex items-center gap-3">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Avatar>;
 
 export default meta;
@@ -42,11 +51,11 @@ export const Magnitudes: Story = {
   // update every avatar at once.
   argTypes: { magnitude: { control: false } },
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       {MAGNITUDES.map((magnitude) => (
         <Avatar key={magnitude} {...args} magnitude={magnitude} />
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -70,11 +79,11 @@ export const NoAltDistinctTones: Story = {
     a11y: { config: { rules: [{ id: "role-img-alt", enabled: false }] } },
   },
   render: () => (
-    <div className="flex items-center gap-3">
+    <>
       {NO_ALT_INITIALS.map((initials) => (
         <Avatar key={initials} magnitude="lg" fallback={initials} />
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -104,11 +113,11 @@ export const NoAltDistinctTonesInteraction: Story = {
 export const States: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       <Avatar {...args} magnitude="lg" src="https://i.pravatar.cc/128?img=47" />
       <Avatar {...args} magnitude="lg" src={undefined} />
       <Avatar {...args} magnitude="lg" src={undefined} fallback={undefined} />
-    </div>
+    </>
   ),
 };
 

@@ -25,6 +25,15 @@ const meta = {
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=40-46",
     },
   },
+  // Every story is one or more avatars in a row; a single avatar just centers trivially inside it,
+  // so one decorator covers every story in this file instead of each `render` repeating the div.
+  decorators: [
+    (Story) => (
+      <div className="flex items-center gap-3">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof WorkspaceAvatar>;
 
 export default meta;
@@ -35,11 +44,11 @@ export const Default: Story = {};
 export const Magnitudes: Story = {
   argTypes: { magnitude: { control: false } },
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       {MAGNITUDES.map((magnitude) => (
         <WorkspaceAvatar key={magnitude} {...args} magnitude={magnitude} />
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -63,11 +72,11 @@ export const NoAltDistinctTones: Story = {
     a11y: { config: { rules: [{ id: "role-img-alt", enabled: false }] } },
   },
   render: () => (
-    <div className="flex items-center gap-3">
+    <>
       {NO_ALT_INITIALS.map((initials) => (
         <WorkspaceAvatar key={initials} magnitude="lg" fallback={initials} />
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -95,7 +104,7 @@ export const NoAltDistinctTonesInteraction: Story = {
 export const States: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       <WorkspaceAvatar
         {...args}
         magnitude="lg"
@@ -103,7 +112,7 @@ export const States: Story = {
       />
       <WorkspaceAvatar {...args} magnitude="lg" src={undefined} />
       <WorkspaceAvatar {...args} magnitude="lg" src={undefined} fallback={undefined} />
-    </div>
+    </>
   ),
 };
 
