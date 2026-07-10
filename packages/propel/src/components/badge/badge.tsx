@@ -7,7 +7,7 @@ import {
 } from "../../elements/badge";
 
 export type BadgeProps = Omit<BadgeElementProps, "children"> & {
-  /** The badge label text. */
+  /** The badge label text. Omit for an icon-only badge (a compact status indicator). */
   label?: string;
   /** Element rendered before the label (inline-start), e.g. `<Icon icon={Check} />`. */
   startIcon?: React.ReactNode;
@@ -17,13 +17,15 @@ export type BadgeProps = Omit<BadgeElementProps, "children"> & {
 
 /**
  * The ready-made badge: composes the atomic `Badge` pill with the `BadgeLabel` and optional leading
- * (`startIcon`) and trailing (`endIcon`) icon slots.
+ * (`startIcon`) and trailing (`endIcon`) icon slots. With no `label` the pill is icon-only — the
+ * label part is skipped entirely (an empty flex child would still consume the pill's `gap` and
+ * render it lopsided).
  */
 export function Badge({ label, startIcon, endIcon, ...props }: BadgeProps) {
   return (
     <BadgeElement {...props}>
       {startIcon}
-      <BadgeLabel>{label}</BadgeLabel>
+      {label != null ? <BadgeLabel>{label}</BadgeLabel> : null}
       {endIcon}
     </BadgeElement>
   );
