@@ -5,11 +5,12 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 
 export const avatarImageVariants = cva(avatarImageClass);
 
-// The fallback's `tone` colors the initials surface. `none` (the default) is the
-// anonymous/icon state — neutral layer + muted placeholder icon. The named tones are
-// the Figma avatar label colors (initials on a solid tone, white text). Exposing this
-// as a variant lets a composition (`components/avatar`) style the fallback without a
-// `className`.
+// The fallback's `tone` colors the initials surface — always one of the six Figma avatar label
+// colors (initials on a solid tone, white text); there is no neutral "none" tone and no
+// `defaultVariants`, so `tone` is required. The anonymous/icon state is not this part at all: when
+// there are no initials, the ready-made renders the shared `Icon` directly instead of
+// `AvatarFallback`. Exposing `tone` as a variant lets a composition (`components/avatar`) style the
+// fallback without a `className`.
 export const avatarFallbackVariants = cva(avatarFallbackClass, {
   variants: {
     tone: avatarTones,

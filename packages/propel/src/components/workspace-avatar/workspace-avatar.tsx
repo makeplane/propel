@@ -2,7 +2,7 @@ import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import { Building2 } from "lucide-react";
 import type * as React from "react";
 
-import { getAvatarTone } from "../../elements/avatar";
+import { getAvatarTone, getAvatarToneSeed } from "../../elements/avatar";
 import {
   WorkspaceAvatar as WorkspaceAvatarElement,
   WorkspaceAvatarFallback,
@@ -47,8 +47,7 @@ export function WorkspaceAvatar({
   const hasInitials = fallback != null;
   // Tone is always system-chosen (never a consumer prop): seed a stable color from the name, else
   // the initials text, so unnamed workspaces vary by initials instead of collapsing onto one color.
-  const toneSeed = alt?.trim() || (typeof fallback === "string" ? fallback.trim() : "");
-  const resolvedTone = getAvatarTone(toneSeed);
+  const resolvedTone = getAvatarTone(getAvatarToneSeed(alt, fallback));
   return (
     // Base UI's `Avatar` behavior grafts onto the styled `elements` parts via `render` (behavior part
     // outer, styled part as the render target). `role="img"` + `aria-label` give the avatar one

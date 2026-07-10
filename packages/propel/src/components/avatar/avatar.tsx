@@ -9,6 +9,7 @@ import {
   type AvatarMagnitude,
   type AvatarProps as AvatarElementProps,
   getAvatarTone,
+  getAvatarToneSeed,
 } from "../../elements/avatar";
 import { Icon } from "../../internal/icon";
 import { AvatarGroupContext } from "./avatar-group-context";
@@ -43,17 +44,18 @@ export function Avatar({ magnitude, src, alt, fallback, delay, ...props }: Avata
   // the `--node-size` the root sets per magnitude, so there is no avatar-specific icon part.
   // Tone is always system-chosen (never a consumer prop): seed a stable color from the name, else
   // the initials text, so unnamed avatars vary by initials instead of collapsing onto one color.
-  const toneSeed = alt?.trim() || (typeof fallback === "string" ? fallback.trim() : "");
-  const resolvedTone = getAvatarTone(toneSeed);
+  const resolvedTone = getAvatarTone(getAvatarToneSeed(alt, fallback));
   return (
     // `role="img"` + `aria-label` give the avatar one accessible name in every state
     // (image / initials / icon); the inner image is decorative. Base UI `Avatar` behavior/context
-    // grafts onto the styled `elements/avatar` parts via `render` (behavior part outer).
+    // grafts onto the styled `elements/avatar` parts via `render` (behavior part outer). `{...props}`
+    // spreads before the hardcoded `role`/`aria-label` so a stray same-named prop can never silently
+    // override the `alt`-derived accessible name (matches `components/workspace-avatar`).
     <BaseAvatar.Root
-      role="img"
-      aria-label={alt}
       {...props}
       render={<AvatarElement magnitude={effectiveMagnitude} />}
+      role="img"
+      aria-label={alt}
     >
       {src ? <BaseAvatar.Image render={<AvatarImage />} src={src} alt="" /> : null}
       {hasInitials ? (
