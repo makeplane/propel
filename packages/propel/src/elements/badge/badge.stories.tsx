@@ -126,7 +126,9 @@ export const WithIcon: Story = {
 
 /**
  * Icon-only (no `BadgeLabel`) — the Figma anatomy's "compact status indicator / when space is
- * limited" case: the pill holds just the `Icon` slot, centered with symmetric padding.
+ * limited" case: the pill holds just the `Icon` slot, centered with symmetric padding. The icon is
+ * decorative (`aria-hidden`), so the pill carries its own `aria-label` — otherwise this state has
+ * no accessible name at all.
  */
 export const IconOnly: Story = {
   parameters: { controls: { disable: true } },
@@ -134,7 +136,13 @@ export const IconOnly: Story = {
   render: (args) => (
     <>
       {MAGNITUDES.map((magnitude) => (
-        <Badge key={magnitude} {...args} tone="success" magnitude={magnitude}>
+        <Badge
+          key={magnitude}
+          {...args}
+          tone="success"
+          magnitude={magnitude}
+          aria-label="Completed"
+        >
           <Icon>
             <Check />
           </Icon>

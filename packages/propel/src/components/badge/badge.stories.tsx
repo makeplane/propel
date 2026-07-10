@@ -127,7 +127,9 @@ export const WithTrailingIcon: Story = {
 
 /**
  * Icon-only (no `label`) — the Figma anatomy's "compact status indicator / when space is limited"
- * case. The label part is skipped entirely, so the icon sits centered with symmetric padding.
+ * case. The label part is skipped entirely, so the icon sits centered with symmetric padding. The
+ * icon is decorative (`aria-hidden`), so the pill carries its own `aria-label` — otherwise this
+ * state has no accessible name at all.
  */
 export const IconOnly: Story = {
   parameters: { controls: { disable: true } },
@@ -142,6 +144,7 @@ export const IconOnly: Story = {
           magnitude={magnitude}
           label={undefined}
           startIcon={<Icon icon={Check} />}
+          aria-label="Completed"
         />
       ))}
     </>
@@ -150,15 +153,18 @@ export const IconOnly: Story = {
 
 /**
  * Behavior twin of `IconOnly`: with no label there is no empty label span left in the pill (an
- * empty flex child would eat the `gap` and render the icon off-center), and the icon sits
- * symmetrically — equal space on both sides. Tagged out of the sidebar/docs/manifest while still
- * running under the default `test` tag.
+ * empty flex child would eat the `gap` and render the icon off-center), the icon sits symmetrically
+ * — equal space on both sides — and the pill still carries an accessible name via `aria-label`.
+ * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const IconOnlyInteraction: Story = {
   ...IconOnly,
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvasElement }) => {
-    for (const pill of canvasElement.querySelectorAll<HTMLElement>("div > span")) {
+    const pills = canvasElement.querySelectorAll<HTMLElement>("div > span");
+    // Guards the assertions below from silently no-op'ing if this selector ever stops matching.
+    await expect(pills.length).toBe(MAGNITUDES.length);
+    for (const pill of pills) {
       // Exactly one child: the icon slot. No empty BadgeLabel span.
       await expect(pill.children.length).toBe(1);
       const icon = pill.children[0] as HTMLElement;
@@ -168,6 +174,8 @@ export const IconOnlyInteraction: Story = {
       const before = iconRect.left - pillRect.left;
       const after = pillRect.right - iconRect.right;
       await expect(Math.abs(before - after)).toBeLessThanOrEqual(1);
+      // The icon is aria-hidden, so the pill's own `aria-label` is the only accessible name.
+      await expect(pill.getAttribute("aria-label")).toBe("Completed");
     }
   },
 };

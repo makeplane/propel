@@ -50,10 +50,6 @@ export const badgeVariants = cva(
   },
 );
 
-// The decorative leading icon at the badge's inline-start (the Figma badge icon). Sizes
-// its single child to the badge's `--node-size` (shared node-slot class) and inherits
-// the tone's text color so the icon tints to match — per the spec, "icon follows the
-// badge's size and color".
 type BadgeVariantConfig = VariantProps<typeof badgeVariants>;
 export type BadgeMagnitude = NonNullable<BadgeVariantConfig["magnitude"]>;
 export type BadgeTone = NonNullable<BadgeVariantConfig["tone"]>;

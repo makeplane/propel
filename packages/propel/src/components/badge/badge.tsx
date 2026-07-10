@@ -7,7 +7,11 @@ import {
 } from "../../elements/badge";
 
 export type BadgeProps = Omit<BadgeElementProps, "children"> & {
-  /** The badge label text. Omit for an icon-only badge (a compact status indicator). */
+  /**
+   * The badge label text. Omit for an icon-only badge (a compact status indicator) — the icon
+   * itself is decorative (`aria-hidden`), so pass an `aria-label` in that case; without one an
+   * icon-only badge has no accessible name at all.
+   */
   label?: string;
   /** Element rendered before the label (inline-start), e.g. `<Icon icon={Check} />`. */
   startIcon?: React.ReactNode;
