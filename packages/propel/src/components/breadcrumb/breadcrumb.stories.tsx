@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { FileText, Layers } from "lucide-react";
-import type * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Icon } from "../icon";
@@ -50,11 +49,6 @@ type Story = StoryObj<typeof meta>;
 // browser runner — so swallow the default click. Real apps pass a router link here instead.
 const inertAnchor = () => <a href="#" onClick={(event) => event.preventDefault()} />;
 
-// Crumb label/href are typed props, not children: `BreadcrumbLink` takes `label` (+ `href`,
-// `onClick`, `render` for a router link); `BreadcrumbPage` takes `label`. Both accept an optional
-// leading `icon`. This shared handler swallows the demo anchors' navigation (see `inertAnchor`).
-const swallow = (event: React.MouseEvent) => event.preventDefault();
-
 /**
  * A three-level trail ending in the current page.
  *
@@ -69,15 +63,15 @@ export const Default: Story = {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={swallow} label="Projects" />
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Projects" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={swallow} label="Design" />
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Design" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -117,7 +111,7 @@ export const WithIcon: Story = {
         <BreadcrumbItem>
           <BreadcrumbLink
             href="#"
-            onClick={swallow}
+            onClick={(event) => event.preventDefault()}
             icon={<Icon icon={Layers} tint="secondary" />}
             label="Plane Design"
           />
@@ -143,13 +137,13 @@ export const WithLongLabel: Story = {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <BreadcrumbLink
             href="#"
-            onClick={swallow}
+            onClick={(event) => event.preventDefault()}
             label="Design System and Component Library Documentation"
           />
         </BreadcrumbItem>
@@ -172,7 +166,7 @@ export const WithCollapsedCrumbs: Story = {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -186,7 +180,7 @@ export const WithCollapsedCrumbs: Story = {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={swallow} label="Components" />
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Components" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -231,7 +225,7 @@ export const WithMenuCrumb: Story = {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -268,7 +262,7 @@ export const MenuCrumbSelected: Story = {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -304,7 +298,7 @@ export const KeyboardNavigation: Story = {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
