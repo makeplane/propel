@@ -1,4 +1,4 @@
-import { CircleAlert, Info, Megaphone, TriangleAlert, type LucideIcon } from "lucide-react";
+import { CircleAlert, Info, Megaphone, TriangleAlert, X, type LucideIcon } from "lucide-react";
 import type * as React from "react";
 
 import {
@@ -11,6 +11,8 @@ import {
   type BannerTone,
   BannerTitle,
 } from "../../elements/banner";
+import { Icon } from "../icon";
+import { IconButton } from "../icon-button";
 
 export type { BannerTone, BannerPlacement } from "../../elements/banner";
 
@@ -35,17 +37,24 @@ export type BannerProps = Omit<BannerElementProps, "children"> & {
   /** Body text rendered under the title. */
   description?: React.ReactNode;
   /**
-   * Trailing actions, placed after the message — e.g. buttons, or a dismiss `IconButton`
-   * (`<IconButton aria-label="Dismiss" icon={<Icon icon={X} />} onClick={…} />`).
+   * Trailing CTA buttons, placed after the message. Per Figma the banner carries up to three CTAs
+   * (primary / secondary / tertiary). The dismiss control is a separate slot — pass `onDismiss`
+   * rather than appending a dismiss button here.
    */
   actions?: React.ReactNode;
+  /**
+   * When set, renders the dedicated dismiss control — a ghost, icon-only `IconButton` fixed at the
+   * banner's trailing edge (after `actions`), matching Figma's always-last "Close" anatomy node.
+   * Consumers own visibility: the handler fires on click; the banner does not hide itself.
+   */
+  onDismiss?: () => void;
 };
 
 /**
  * The ready-made banner: composes the atomic banner parts — the tone icon, the message body
- * (`title` + `description`), and trailing `actions` — so consumers pass content, not layout. A
- * dismiss is just an action: render an `IconButton` in `actions`. Drop down to
- * `@makeplane/propel/elements/banner` to assemble the parts directly.
+ * (`title` + `description`), trailing `actions`, and an optional trailing `onDismiss` control — so
+ * consumers pass content, not layout. Drop down to `@makeplane/propel/elements/banner` to assemble
+ * the parts directly.
  */
 export function Banner({
   placement,
@@ -54,6 +63,7 @@ export function Banner({
   title,
   description,
   actions,
+  onDismiss,
   ...props
 }: BannerProps) {
   const DefaultIcon = toneIcon[tone];
@@ -72,7 +82,21 @@ export function Banner({
         {title ? <BannerTitle placement={placement}>{title}</BannerTitle> : null}
         {description ? <BannerDescription>{description}</BannerDescription> : null}
       </BannerBody>
-      {actions ? <BannerActions>{actions}</BannerActions> : null}
+      {actions || onDismiss ? (
+        <BannerActions>
+          {actions}
+          {onDismiss ? (
+            <IconButton
+              prominence="ghost"
+              tone="neutral"
+              magnitude="sm"
+              aria-label="Dismiss"
+              onClick={onDismiss}
+              icon={<Icon icon={X} />}
+            />
+          ) : null}
+        </BannerActions>
+      ) : null}
     </BannerElement>
   );
 }

@@ -1,11 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Info, X } from "lucide-react";
+import { Info } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
 import { Button } from "../button/index";
 import { Icon } from "../icon";
-import { IconButton } from "../icon-button/index";
 import { Banner, type BannerTone } from "./index";
 
 const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
@@ -65,14 +64,16 @@ export const Placements: Story = {
 };
 
 /**
- * The full page banner from Figma: a message with trailing `actions`. A dismiss is just one of
- * those actions — a ghost `IconButton` — so it lives in `actions` alongside the `Button`s.
+ * The full page banner from Figma: a message with trailing CTA `actions` plus the dedicated
+ * `onDismiss` control. The dismiss is its own slot (Figma's always-last "Close" node), rendered
+ * automatically after the CTAs — not appended to `actions`.
  */
 export const WithActions: Story = {
   parameters: { controls: { disable: true } },
   args: {
     placement: "page",
     tone: "neutral",
+    onDismiss: fn(),
     actions: (
       <>
         <Button
@@ -96,40 +97,23 @@ export const WithActions: Story = {
           magnitude="sm"
           label="Update now"
         />
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="sm"
-          aria-label="Dismiss"
-          onClick={fn()}
-          icon={<Icon icon={X} />}
-        />
       </>
     ),
   },
 };
 
-/** A dismissible inline banner — the dismiss is just an `IconButton` rendered in `actions`. */
+/** A dismissible inline banner — the dismiss control comes from the dedicated `onDismiss` slot. */
 export const Dismissible: Story = {
   args: {
     placement: "inline",
     tone: "info",
-    actions: (
-      <IconButton
-        prominence="ghost"
-        tone="neutral"
-        magnitude="sm"
-        aria-label="Dismiss"
-        onClick={fn()}
-        icon={<Icon icon={X} />}
-      />
-    ),
+    onDismiss: fn(),
   },
 };
 
 /**
- * Hidden interaction twin of `Dismissible`: clicking the dismiss `IconButton` rendered in `actions`
- * invokes its handler. Tagged out of the sidebar/docs/manifest but still run under the default
+ * Hidden interaction twin of `Dismissible`: clicking the dedicated dismiss control invokes the
+ * `onDismiss` handler. Tagged out of the sidebar/docs/manifest but still run under the default
  * `test` tag.
  */
 export const DismissibleInteraction: Story = {
@@ -137,16 +121,7 @@ export const DismissibleInteraction: Story = {
   args: {
     placement: "inline",
     tone: "info",
-    actions: (
-      <IconButton
-        prominence="ghost"
-        tone="neutral"
-        magnitude="sm"
-        aria-label="Dismiss"
-        onClick={dismissSpy}
-        icon={<Icon icon={X} />}
-      />
-    ),
+    onDismiss: dismissSpy,
   },
   play: async ({ canvas, userEvent }) => {
     dismissSpy.mockClear();
