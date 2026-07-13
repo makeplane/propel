@@ -69,7 +69,7 @@ export function Banner({
         </BannerIcon>
       ) : null}
       <BannerBody placement={placement} tone={tone}>
-        {title ? <BannerTitle>{title}</BannerTitle> : null}
+        {title ? <BannerTitle placement={placement}>{title}</BannerTitle> : null}
         {description ? <BannerDescription>{description}</BannerDescription> : null}
       </BannerBody>
       {actions ? <BannerActions>{actions}</BannerActions> : null}

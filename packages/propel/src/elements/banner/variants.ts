@@ -38,13 +38,14 @@ export const bannerVariants = cva("flex items-center overflow-clip", {
   ],
 });
 
-// The leading icon slot at the banner's inline-start. Sizes its single child to the
-// placement's node size (page 20px, inline 16px per Figma typography) via the shared
-// node-slot class, and tints it with the tone's `icon/*` token.
+// The leading icon slot at the banner's inline-start. Sizes its single child to 16px via
+// the shared node-slot class (page adds 2px y padding, hugging the slot to 16×20 per
+// Figma), and tints it with the tone's `icon/*` token.
 export const bannerIconVariants = cva(nodeSlotClass, {
   variants: {
     placement: {
-      page: "[--node-size:1.25rem]",
+      // Figma: 16×16 icon, 2px top/bottom padding on the slot (hugs to 16×20).
+      page: "py-0.5 [--node-size:1rem]",
       inline: "[--node-size:1rem]",
     },
     tone: {
@@ -82,8 +83,17 @@ export const bannerBodyVariants = cva(
   },
 );
 
-// The banner's headline block, stacked above the description inside the body column.
-export const bannerTitleVariants = cva("");
+// The banner's headline block, stacked above the description inside the body column. Weight
+// follows the same per-placement rule as the body (page medium, inline regular, per Figma) —
+// carried on its own composite text utility rather than inherited font-weight.
+export const bannerTitleVariants = cva("", {
+  variants: {
+    placement: {
+      page: "text-body-sm-medium",
+      inline: "text-body-sm-regular",
+    },
+  },
+});
 
 // The banner's supporting message block, below the title inside the body column.
 export const bannerDescriptionVariants = cva("");
@@ -96,3 +106,4 @@ export type BannerTone = NonNullable<VariantProps<typeof bannerVariants>["tone"]
 export type BannerVariantProps = StrictVariantProps<typeof bannerVariants>;
 export type BannerBodyVariantProps = StrictVariantProps<typeof bannerBodyVariants>;
 export type BannerIconVariantProps = StrictVariantProps<typeof bannerIconVariants>;
+export type BannerTitleVariantProps = StrictVariantProps<typeof bannerTitleVariants>;

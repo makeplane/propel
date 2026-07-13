@@ -92,7 +92,7 @@ export const WithActions: Story = {
         <IconButton
           prominence="ghost"
           tone="neutral"
-          magnitude="md"
+          magnitude="sm"
           aria-label="Dismiss"
           onClick={fn()}
           icon={<Icon icon={X} />}
@@ -111,7 +111,7 @@ export const Dismissible: Story = {
       <IconButton
         prominence="ghost"
         tone="neutral"
-        magnitude="md"
+        magnitude="sm"
         aria-label="Dismiss"
         onClick={fn()}
         icon={<Icon icon={X} />}
@@ -134,7 +134,7 @@ export const DismissibleInteraction: Story = {
       <IconButton
         prominence="ghost"
         tone="neutral"
-        magnitude="md"
+        magnitude="sm"
         aria-label="Dismiss"
         onClick={dismissSpy}
         icon={<Icon icon={X} />}

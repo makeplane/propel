@@ -52,7 +52,9 @@ export const Default: Story = {
         <Info />
       </BannerIcon>
       <BannerBody placement={args.placement} tone={args.tone}>
-        <BannerTitle>There is something that needs your attention</BannerTitle>
+        <BannerTitle placement={args.placement}>
+          There is something that needs your attention
+        </BannerTitle>
       </BannerBody>
     </Banner>
   ),
@@ -70,7 +72,9 @@ export const Tones: Story = {
             <Info />
           </BannerIcon>
           <BannerBody placement="inline" tone={tone}>
-            <BannerTitle>There is something that needs your attention</BannerTitle>
+            <BannerTitle placement="inline">
+              There is something that needs your attention
+            </BannerTitle>
           </BannerBody>
         </Banner>
       ))}
@@ -90,7 +94,9 @@ export const Placements: Story = {
             <Info />
           </BannerIcon>
           <BannerBody placement={placement} tone="info">
-            <BannerTitle>There is something that needs your attention</BannerTitle>
+            <BannerTitle placement={placement}>
+              There is something that needs your attention
+            </BannerTitle>
           </BannerBody>
         </Banner>
       ))}
@@ -113,7 +119,9 @@ export const Anatomy: Story = {
         <Info />
       </BannerIcon>
       <BannerBody placement={args.placement} tone={args.tone}>
-        <BannerTitle>There is something that needs your attention</BannerTitle>
+        <BannerTitle placement={args.placement}>
+          There is something that needs your attention
+        </BannerTitle>
         <BannerDescription>Review the details and pick an action to continue.</BannerDescription>
       </BannerBody>
       <BannerActions>
