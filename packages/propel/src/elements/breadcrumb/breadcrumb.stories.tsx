@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, ChevronRight, Ellipsis, Layers } from "lucide-react";
+import { expect } from "storybook/test";
 
 import { Icon } from "../../internal/icon";
 import {
@@ -164,4 +165,60 @@ export const States: Story = {
       </div>
     </div>
   ),
+};
+
+/**
+ * CSS canary (rule 2b): asserts the breadcrumb's RTL-mirrored selectors compiled. The separator
+ * chevron mirrors under `dir="rtl"` (`rtl:[&>svg]:-scale-x-100`) and the menu-crumb caret rotates
+ * the opposite way (`rtl:rotate-90` vs LTR's `-rotate-90`). Rendered LTR + RTL side by side and
+ * compared. Tagged out of the sidebar/docs/manifest while still running under the default `test`
+ * tag.
+ */
+export const RTLCanary: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <>
+      {(["ltr", "rtl"] as const).map((dir) => (
+        <div key={dir} dir={dir}>
+          <Breadcrumb aria-label={`Breadcrumb ${dir}`}>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbTrigger group>
+                  {dir.toUpperCase()} trigger
+                  <BreadcrumbTriggerIndicator>
+                    <ChevronDown />
+                  </BreadcrumbTriggerIndicator>
+                </BreadcrumbTrigger>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>
+                <ChevronRight />
+              </BreadcrumbSeparator>
+              <BreadcrumbItem>
+                <BreadcrumbPage>{dir.toUpperCase()} page</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      ))}
+    </>
+  ),
+  play: async ({ canvas, canvasElement }) => {
+    // The compiled `rtl:rotate-90` selector mirrors the closed caret away from LTR's `-rotate-90`.
+    const caretRotate = (name: string) => {
+      const caret = canvas.getByRole("button", { name }).querySelector("[aria-hidden]");
+      if (!(caret instanceof HTMLElement)) throw new Error(`missing caret in "${name}" trigger`);
+      return getComputedStyle(caret).rotate;
+    };
+    await expect(caretRotate("RTL trigger")).not.toBe(caretRotate("LTR trigger"));
+
+    // The compiled `rtl:[&>svg]:-scale-x-100` selector mirrors the separator chevron under RTL.
+    const separatorMirror = (dir: string) => {
+      const svg = canvasElement.querySelector(`[dir="${dir}"] li[aria-hidden="true"] svg`);
+      if (!(svg instanceof SVGElement)) throw new Error(`missing ${dir} separator glyph`);
+      const cs = getComputedStyle(svg);
+      return `${cs.transform}|${cs.scale}`;
+    };
+    await expect(separatorMirror("rtl")).not.toBe(separatorMirror("ltr"));
+  },
 };

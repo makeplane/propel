@@ -7,11 +7,11 @@ import { Icon as IconSlot } from "../../internal/icon";
 
 export type BreadcrumbEllipsisTriggerProps = Omit<
   BaseMenu.Trigger.Props,
-  "className" | "style" | "children"
+  "className" | "style" | "children" | "render"
 > & {
   /** Accessible name for the trigger (e.g. "Show more breadcrumbs"). Required (icon-only). */
   "aria-label": string;
-  /** The trigger element. @default an ellipsis */
+  /** The glyph shown inside the trigger. @default an ellipsis */
   icon?: React.ReactNode;
 };
 
@@ -24,7 +24,7 @@ export type BreadcrumbEllipsisTriggerProps = Omit<
  */
 export function BreadcrumbEllipsisTrigger({ icon, ...props }: BreadcrumbEllipsisTriggerProps) {
   return (
-    <BaseMenu.Trigger render={<BreadcrumbTrigger />} {...props}>
+    <BaseMenu.Trigger {...props} render={<BreadcrumbTrigger />}>
       {icon ?? (
         <IconSlot tint="tertiary">
           <Ellipsis />
