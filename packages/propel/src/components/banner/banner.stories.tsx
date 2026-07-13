@@ -40,13 +40,22 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** Every intent (`tone`) side by side — the soft surface + foreground color per meaning. */
+/**
+ * Every intent (`tone`) side by side — the soft surface + foreground color per meaning — in both
+ * placements: the rounded `inline` card and the full-width `page` strip (their neutral surfaces
+ * differ, so each is shown).
+ */
 export const Tones: Story = {
   argTypes: { tone: { control: false }, placement: { control: false } },
   render: (args) => (
     <>
-      {TONES.map((tone) => (
-        <Banner key={tone} {...args} placement="inline" tone={tone} />
+      {(["inline", "page"] as const).map((placement) => (
+        <div key={placement} className="flex flex-col gap-3">
+          <p className="text-12 text-tertiary capitalize">{placement}</p>
+          {TONES.map((tone) => (
+            <Banner key={tone} {...args} placement={placement} tone={tone} />
+          ))}
+        </div>
       ))}
     </>
   ),

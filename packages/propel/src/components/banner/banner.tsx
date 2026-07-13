@@ -40,6 +40,11 @@ export type BannerProps = Omit<BannerElementProps, "children"> & {
    * Trailing CTA buttons, placed after the message. Per Figma the banner carries up to three CTAs
    * (primary / secondary / tertiary). The dismiss control is a separate slot — pass `onDismiss`
    * rather than appending a dismiss button here.
+   *
+   * Layout note: the actions group does not shrink and does not wrap, so a `page` banner assumes a
+   * wide viewport. With the full three-CTA + dismiss set, a very narrow container (a constrained
+   * sidebar/split pane, heavy zoom) can clip the trailing CTA. Prefer fewer CTAs where width is
+   * tight; phone-width layouts belong to the mobile app, not this component.
    */
   actions?: React.ReactNode;
   /**
