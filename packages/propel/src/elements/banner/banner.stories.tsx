@@ -38,6 +38,13 @@ const meta = {
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1838-14322",
     },
   },
+  decorators: [
+    (Story) => (
+      <div className="flex w-180 flex-col gap-3">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Banner>;
 
 export default meta;
@@ -65,7 +72,7 @@ export const Tones: Story = {
   args: { placement: "inline", tone: "neutral" },
   argTypes: { tone: { control: false }, placement: { control: false } },
   render: () => (
-    <div className="flex w-160 flex-col gap-3">
+    <>
       {TONES.map((tone) => (
         <Banner key={tone} placement="inline" tone={tone}>
           <BannerIcon placement="inline" tone={tone}>
@@ -78,7 +85,7 @@ export const Tones: Story = {
           </BannerBody>
         </Banner>
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -87,7 +94,7 @@ export const Placements: Story = {
   args: { placement: "page", tone: "info" },
   argTypes: { placement: { control: false }, tone: { control: false } },
   render: () => (
-    <div className="flex w-160 flex-col gap-4">
+    <>
       {(["page", "inline"] as const).map((placement) => (
         <Banner key={placement} placement={placement} tone="info">
           <BannerIcon placement={placement} tone="info">
@@ -100,7 +107,7 @@ export const Placements: Story = {
           </BannerBody>
         </Banner>
       ))}
-    </div>
+    </>
   ),
 };
 

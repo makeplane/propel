@@ -27,6 +27,13 @@ const meta = {
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1838-14322",
     },
   },
+  decorators: [
+    (Story) => (
+      <div className="flex w-180 flex-col gap-3">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Banner>;
 
 export default meta;
@@ -38,11 +45,11 @@ export const Default: Story = {};
 export const Tones: Story = {
   argTypes: { tone: { control: false }, placement: { control: false } },
   render: (args) => (
-    <div className="flex w-160 flex-col gap-3">
+    <>
       {TONES.map((tone) => (
         <Banner key={tone} {...args} placement="inline" tone={tone} />
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -50,10 +57,10 @@ export const Tones: Story = {
 export const Placements: Story = {
   argTypes: { placement: { control: false }, tone: { control: false } },
   render: (args) => (
-    <div className="flex w-160 flex-col gap-4">
+    <>
       <Banner {...args} placement="page" tone="info" />
       <Banner {...args} placement="inline" tone="info" />
-    </div>
+    </>
   ),
 };
 
@@ -155,7 +162,7 @@ export const DismissibleInteraction: Story = {
 export const OptionalContentSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <div className="flex w-160 flex-col gap-3">
+    <>
       <Banner
         placement="inline"
         tone="warning"
@@ -168,7 +175,7 @@ export const OptionalContentSemantics: Story = {
         title="Custom icon"
         icon={<Icon icon={<Info data-testid="custom-banner-icon" />} />}
       />
-    </div>
+    </>
   ),
   play: async ({ canvas }) => {
     const warning = canvas.getByRole("alert");
