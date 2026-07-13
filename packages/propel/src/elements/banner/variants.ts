@@ -95,7 +95,10 @@ export const bannerTitleVariants = cva("", {
   },
 });
 
-// The banner's supporting message block, below the title inside the body column.
+// The banner's supporting message block, below the title inside the body column. No Figma design
+// uses a description today, so it deliberately carries no styling of its own: it inherits size,
+// line-height, weight and tone color from `bannerBodyVariants`. Kept as a named part (with its own
+// cva) so the anatomy stays complete and description styling has a home when a design needs one.
 export const bannerDescriptionVariants = cva("");
 
 // Trailing actions wrapper: always the same layout regardless of placement/tone.

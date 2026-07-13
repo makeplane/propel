@@ -72,15 +72,14 @@ export function Banner({
   ...props
 }: BannerProps) {
   const DefaultIcon = toneIcon[tone];
+  // `undefined` → tone default; `null` → hidden; any node → custom. Resolve once so a single
+  // `BannerIcon` wrapper renders whatever survives.
+  const resolvedIcon = icon === undefined ? <DefaultIcon /> : icon;
   return (
     <BannerElement placement={placement} tone={tone} {...props}>
-      {icon === undefined ? (
+      {resolvedIcon ? (
         <BannerIcon placement={placement} tone={tone}>
-          <DefaultIcon />
-        </BannerIcon>
-      ) : icon ? (
-        <BannerIcon placement={placement} tone={tone}>
-          {icon}
+          {resolvedIcon}
         </BannerIcon>
       ) : null}
       <BannerBody placement={placement} tone={tone}>

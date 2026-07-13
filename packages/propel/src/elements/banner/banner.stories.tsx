@@ -141,7 +141,7 @@ export const Anatomy: Story = {
         <Button sizing="hug" prominence="primary" tone="neutral" magnitude="sm">
           <ButtonLabel>Update now</ButtonLabel>
         </Button>
-        <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Dismiss">
+        <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Dismiss">
           <Icon>
             <X />
           </Icon>
