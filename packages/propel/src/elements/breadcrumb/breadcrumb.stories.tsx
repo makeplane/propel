@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, ChevronRight, Ellipsis, Layers } from "lucide-react";
 
-import { DisclosureIndicator } from "../../internal/disclosure-indicator";
 import { Icon } from "../../internal/icon";
 import {
   Breadcrumb,
@@ -11,6 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbTrigger,
+  BreadcrumbTriggerIndicator,
 } from "./index";
 
 // elements-tier story (rule 2b): a pure UI-configuration showcase of the atomic breadcrumb parts
@@ -79,35 +79,36 @@ export const Default: Story = {
 
 /**
  * The menu-crumb chrome assembled from atoms: `BreadcrumbTrigger` (`group` adds the `group/trigger`
- * marker) holding an internal `Icon`, the label, and a `DisclosureIndicator` chevron. In the app,
- * Base UI's `Menu.Trigger` grafts onto it and sets `data-popup-open` while its menu is open — here
- * that attribute is pinned statically, which both shifts the pill to the open palette and rotates
- * the chevron down. The icon-only form (no `group`, no indicator) is the collapsed-crumbs ellipsis
- * crumb; being icon-only it requires an `aria-label`.
+ * marker) holding an internal `Icon`, the label, and a `BreadcrumbTriggerIndicator` chevron. In the
+ * app, Base UI's `Menu.Trigger` grafts onto it and sets `data-popup-open` while its menu is open —
+ * here that attribute is pinned statically, which shifts the pill to the open palette, rotates the
+ * chevron down, and shifts the chevron from `icon-secondary` to `icon-primary` (the active crumb).
+ * The icon-only form (no `group`, no indicator) is the collapsed-crumbs ellipsis crumb; being
+ * icon-only it requires an `aria-label`.
  */
 export const Trigger: Story = {
   render: () => (
     <div className="flex items-center gap-3">
       <BreadcrumbTrigger group>
-        <Icon tint="tertiary" magnitude="md">
+        <Icon tint="secondary">
           <Layers />
         </Icon>
         Plane Design
-        <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+        <BreadcrumbTriggerIndicator>
           <ChevronDown />
-        </DisclosureIndicator>
+        </BreadcrumbTriggerIndicator>
       </BreadcrumbTrigger>
       <BreadcrumbTrigger group data-popup-open="">
-        <Icon tint="tertiary" magnitude="md">
+        <Icon tint="secondary">
           <Layers />
         </Icon>
         Plane Design
-        <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+        <BreadcrumbTriggerIndicator>
           <ChevronDown />
-        </DisclosureIndicator>
+        </BreadcrumbTriggerIndicator>
       </BreadcrumbTrigger>
       <BreadcrumbTrigger aria-label="Show more breadcrumbs">
-        <Icon tint="tertiary" magnitude="md">
+        <Icon tint="tertiary">
           <Ellipsis />
         </Icon>
       </BreadcrumbTrigger>
@@ -144,21 +145,21 @@ export const States: Story = {
       <div className="flex items-center gap-3">
         <BreadcrumbTrigger group>
           Trigger
-          <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+          <BreadcrumbTriggerIndicator>
             <ChevronDown />
-          </DisclosureIndicator>
+          </BreadcrumbTriggerIndicator>
         </BreadcrumbTrigger>
         <BreadcrumbTrigger id="breadcrumb-trigger-hover" group>
           Trigger hover
-          <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+          <BreadcrumbTriggerIndicator>
             <ChevronDown />
-          </DisclosureIndicator>
+          </BreadcrumbTriggerIndicator>
         </BreadcrumbTrigger>
         <BreadcrumbTrigger group data-popup-open="">
           Trigger open
-          <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+          <BreadcrumbTriggerIndicator>
             <ChevronDown />
-          </DisclosureIndicator>
+          </BreadcrumbTriggerIndicator>
         </BreadcrumbTrigger>
       </div>
     </div>

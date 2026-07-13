@@ -2,8 +2,7 @@ import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { ChevronDown } from "lucide-react";
 import type * as React from "react";
 
-import { BreadcrumbTrigger } from "../../elements/breadcrumb";
-import { DisclosureIndicator } from "../../internal/disclosure-indicator";
+import { BreadcrumbTrigger, BreadcrumbTriggerIndicator } from "../../elements/breadcrumb";
 
 export type BreadcrumbMenuTriggerProps = Omit<
   BaseMenu.Trigger.Props,
@@ -21,9 +20,9 @@ export function BreadcrumbMenuTrigger({ icon, label, ...props }: BreadcrumbMenuT
     <BaseMenu.Trigger render={<BreadcrumbTrigger group />} {...props}>
       {icon}
       {label}
-      <DisclosureIndicator motion="disclose" tint="secondary" magnitude="sm">
+      <BreadcrumbTriggerIndicator>
         <ChevronDown />
-      </DisclosureIndicator>
+      </BreadcrumbTriggerIndicator>
     </BaseMenu.Trigger>
   );
 }

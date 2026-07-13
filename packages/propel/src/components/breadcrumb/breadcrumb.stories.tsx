@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Layers } from "lucide-react";
+import { FileText, Layers } from "lucide-react";
+import type * as React from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Icon } from "../icon";
@@ -49,31 +50,38 @@ type Story = StoryObj<typeof meta>;
 // browser runner — so swallow the default click. Real apps pass a router link here instead.
 const inertAnchor = () => <a href="#" onClick={(event) => event.preventDefault()} />;
 
-/** A three-level trail ending in the current page. */
+// Crumb label/href are typed props, not children: `BreadcrumbLink` takes `label` (+ `href`,
+// `onClick`, `render` for a router link); `BreadcrumbPage` takes `label`. Both accept an optional
+// leading `icon`. This shared handler swallows the demo anchors' navigation (see `inertAnchor`).
+const swallow = (event: React.MouseEvent) => event.preventDefault();
+
+/**
+ * A three-level trail ending in the current page.
+ *
+ * The trail ends on the current-page crumb: there is **no** trailing separator after the last crumb
+ * (a separator sits only _between_ crumbs, so a trail of N crumbs has N−1 separators). Figma's
+ * example frames show a chevron after the final crumb — that is an authoring artifact of chaining
+ * copies of one crumb instance with its `Arrow` toggle left on, not a spec requirement. Don't
+ * "restore" a trailing arrow to match the mock.
+ */
 export const Default: Story = {
   render: () => (
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Plane
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Projects
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#" onClick={swallow} label="Projects" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Design
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#" onClick={swallow} label="Design" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Work items</BreadcrumbPage>
+          <BreadcrumbPage label="Work items" />
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
@@ -97,6 +105,64 @@ export const DefaultInteraction: Story = {
 };
 
 /**
+ * Crumbs carry an optional leading `icon`, following the same slot convention as `MenuItem` and the
+ * menu crumb: pass a public `<Icon icon={…} tint="secondary" />`. The crumb sizes it to 16×16 via
+ * its `--node-size`, so no `magnitude` is needed. Works on both a navigable `BreadcrumbLink` and
+ * the current-page `BreadcrumbPage`.
+ */
+export const WithIcon: Story = {
+  render: () => (
+    <Breadcrumb aria-label="Breadcrumb">
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink
+            href="#"
+            onClick={swallow}
+            icon={<Icon icon={Layers} tint="secondary" />}
+            label="Plane Design"
+          />
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage icon={<Icon icon={FileText} tint="secondary" />} label="Work items" />
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  ),
+};
+
+/**
+ * A long crumb label stays on a single line. The crumb variants set `whitespace-nowrap`, so a long
+ * label keeps the trail's fixed `h-6` height and baseline instead of wrapping onto a second line
+ * and breaking the row's alignment. When horizontal space genuinely runs out, collapse the middle
+ * crumbs behind a menu (see `WithCollapsedCrumbs`) rather than letting labels wrap — the primitive
+ * does not truncate on its own, since a sensible clip width is an app-level decision.
+ */
+export const WithLongLabel: Story = {
+  render: () => (
+    <Breadcrumb aria-label="Breadcrumb">
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink
+            href="#"
+            onClick={swallow}
+            label="Design System and Component Library Documentation"
+          />
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage label="Work items" />
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  ),
+};
+
+/**
  * When the trail is too long, collapse the middle crumbs behind a menu. The
  * `BreadcrumbEllipsisTrigger` crumb opens a `Menu` of the hidden crumbs — there is no separate
  * "dropdown": it is the same Menu composition, with an ellipsis glyph standing in for a label.
@@ -106,9 +172,7 @@ export const WithCollapsedCrumbs: Story = {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Plane
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -122,13 +186,11 @@ export const WithCollapsedCrumbs: Story = {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Components
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#" onClick={swallow} label="Components" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+          <BreadcrumbPage label="Breadcrumb" />
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
@@ -169,15 +231,13 @@ export const WithMenuCrumb: Story = {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Plane
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <Menu>
             <BreadcrumbMenuTrigger
-              icon={<Icon icon={Layers} tint="tertiary" magnitude="md" />}
+              icon={<Icon icon={Layers} tint="secondary" />}
               label="Plane Design"
             />
             <MenuContent>
@@ -191,7 +251,7 @@ export const WithMenuCrumb: Story = {
             breadcrumb chevron (and rotates down while the menu is open), so a
             separate separator would render a second, redundant arrow. */}
         <BreadcrumbItem>
-          <BreadcrumbPage>Components</BreadcrumbPage>
+          <BreadcrumbPage label="Components" />
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
@@ -208,13 +268,11 @@ export const MenuCrumbSelected: Story = {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Plane
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Work items</BreadcrumbPage>
+          <BreadcrumbPage label="Work items" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -246,15 +304,13 @@ export const KeyboardNavigation: Story = {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Plane
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#" onClick={swallow} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <Menu>
             <BreadcrumbMenuTrigger
-              icon={<Icon icon={Layers} tint="tertiary" magnitude="md" />}
+              icon={<Icon icon={Layers} tint="secondary" />}
               label="Plane Design"
             />
             <MenuContent>
@@ -265,7 +321,7 @@ export const KeyboardNavigation: Story = {
         </BreadcrumbItem>
         {/* Menu crumb's own chevron is the breadcrumb chevron; no separator after it. */}
         <BreadcrumbItem>
-          <BreadcrumbPage>Components</BreadcrumbPage>
+          <BreadcrumbPage label="Components" />
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

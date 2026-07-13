@@ -26,7 +26,7 @@ export function BreadcrumbEllipsisTrigger({ icon, ...props }: BreadcrumbEllipsis
   return (
     <BaseMenu.Trigger render={<BreadcrumbTrigger />} {...props}>
       {icon ?? (
-        <IconSlot tint="tertiary" magnitude="md">
+        <IconSlot tint="tertiary">
           <Ellipsis />
         </IconSlot>
       )}
