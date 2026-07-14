@@ -13,6 +13,6 @@ export type AnchorButtonMagnitude = NonNullable<AnchorButtonVariantConfig["magni
 
 export type AnchorButtonVariantProps = StrictVariantProps<typeof anchorButtonVariants>;
 
-// The text label inside an AnchorButton. When the parent is `aria-busy` (loading) it dims via the
-// `group-aria-busy:` sibling of the `group` class on the root (mirrors ButtonLabel).
-export const anchorButtonLabelVariants = cva("group-aria-busy:opacity-50");
+// The text label inside an AnchorButton. Carries the underline (Figma: underline spans the text
+// only, not the flanking icons). Loading mutes via the root chrome — same weight as any spinner.
+export const anchorButtonLabelVariants = cva("underline underline-offset-2");

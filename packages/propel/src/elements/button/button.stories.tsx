@@ -3,6 +3,7 @@ import { LoaderCircle, Plus } from "lucide-react";
 
 import { Icon } from "../../internal/icon";
 import { Spinner } from "../../internal/spinner";
+import { AnchorButton, AnchorButtonLabel } from "../anchor-button/index";
 import {
   Button,
   ButtonLabel,
@@ -135,8 +136,8 @@ export const Stretch: Story = {
  * Every visual state of every palette, pinned statically — one row per prominence×tone pairing the
  * chrome defines. Hover / active / focus-visible are CSS pseudo-classes, forced by the
  * pseudo-states addon; `disabled` is the native attribute the `disabled:` palette keys off; busy
- * pins the `aria-busy` the ready-made Button sets while `loading` (the `ButtonLabel` dims via
- * `group-aria-busy:` and the spinner reads as the active affordance).
+ * pins the `aria-busy` the ready-made Button sets while `loading` (loading mutes via the root
+ * chrome palette — label and spinner share the same weight).
  */
 export const States: Story = {
   parameters: {
@@ -198,10 +199,10 @@ export const States: Story = {
             aria-busy
             aria-disabled
           >
+            <ButtonLabel>Busy</ButtonLabel>
             <Spinner>
               <LoaderCircle />
             </Spinner>
-            <ButtonLabel>Busy</ButtonLabel>
           </Button>
         </div>
       ))}
@@ -211,12 +212,143 @@ export const States: Story = {
 
 /**
  * The atomic button is composed from named parts: the internal `Icon` sizes a decorative
- * leading/trailing node to the button's `--node-size`, `ButtonLabel` holds the text (and dims under
- * `aria-busy`), and the internal `Spinner` is the loading indicator. The busy state is pinned here
- * via the `aria-busy`/`aria-disabled` the ready-made Button (Components/Button) sets while
+ * leading/trailing node to the button's `--node-size`, `ButtonLabel` holds the text, and the
+ * internal `Spinner` is the loading indicator (trailing, after the label). The busy state is pinned
+ * here via the `aria-busy`/`aria-disabled` the ready-made Button (Components/Button) sets while
  * `loading` — that ready-made also lays these parts out for you and adds the soft-disabled
  * behavior.
  */
+// ---------------------------------------------------------------------------
+// TEMPORARY debug sheet (mirrors the Figma "Buttons" master sheet). Every
+// palette × magnitude × state at once, plus the text-link buttons. Excluded
+// from autodocs and the test run — DELETE once the state debugging is done.
+// ---------------------------------------------------------------------------
+
+const DEBUG_SECTIONS: { title: string; prominence: ButtonProminence; tone: ButtonTone }[] = [
+  { title: "Primary buttons", prominence: "primary", tone: "neutral" },
+  { title: "Error buttons (fill)", prominence: "primary", tone: "danger" },
+  { title: "Secondary buttons", prominence: "secondary", tone: "neutral" },
+  { title: "Error buttons (outline)", prominence: "secondary", tone: "danger" },
+  { title: "Tertiary buttons", prominence: "tertiary", tone: "neutral" },
+  { title: "Ghost buttons", prominence: "ghost", tone: "neutral" },
+];
+
+const DEBUG_STATES = ["default", "hover", "active", "focus", "disabled", "busy"] as const;
+const DEBUG_LINK_PROMINENCES = [
+  { title: "Default", prominence: "primary" },
+  { title: "Subtle", prominence: "secondary" },
+] as const;
+
+function debugButtonIds(state: string) {
+  return DEBUG_SECTIONS.flatMap(({ prominence, tone }) =>
+    MAGNITUDES.map((magnitude) => `#dbg-${prominence}-${tone}-${magnitude}-${state}`),
+  );
+}
+function debugLinkIds(state: string) {
+  return DEBUG_LINK_PROMINENCES.flatMap(({ prominence }) =>
+    MAGNITUDES.map((magnitude) => `#dbg-link-${prominence}-${magnitude}-${state}`),
+  );
+}
+
+/**
+ * TEMPORARY: the full debug sheet — every palette (primary/secondary/tertiary/ghost + the two
+ * danger palettes) × every magnitude (columns) × every state (rows: rest, hover, active,
+ * focus-visible, disabled, busy), each with start+end icons, plus the text-link buttons
+ * (`AnchorButton`, Default/Subtle). Hover/active/focus are forced by the pseudo-states addon.
+ * Delete this story once state debugging is done.
+ */
+export const AllVariantsDebug: Story = {
+  tags: ["!autodocs", "!test"],
+  parameters: {
+    controls: { disable: true },
+    pseudo: {
+      hover: [...debugButtonIds("hover"), ...debugLinkIds("hover")],
+      active: debugButtonIds("active"),
+      focusVisible: [...debugButtonIds("focus"), ...debugLinkIds("focus")],
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-x-16 gap-y-10">
+      {DEBUG_SECTIONS.map(({ title, prominence, tone }) => (
+        <section key={title} className="flex flex-col items-start gap-2">
+          <p className="text-14 font-medium text-primary">{title}</p>
+          {DEBUG_STATES.map((state) => {
+            const pinned = state === "hover" || state === "active" || state === "focus";
+            return (
+              <div key={state} className="flex items-center gap-3">
+                {MAGNITUDES.map((magnitude) => (
+                  <Button
+                    key={magnitude}
+                    id={pinned ? `dbg-${prominence}-${tone}-${magnitude}-${state}` : undefined}
+                    prominence={prominence}
+                    tone={tone}
+                    magnitude={magnitude}
+                    sizing="hug"
+                    disabled={state === "disabled"}
+                    aria-busy={state === "busy" || undefined}
+                    aria-disabled={state === "busy" || undefined}
+                  >
+                    {state === "busy" ? null : (
+                      <Icon>
+                        <Plus />
+                      </Icon>
+                    )}
+                    <ButtonLabel>Button</ButtonLabel>
+                    {state === "busy" ? (
+                      <Spinner>
+                        <LoaderCircle />
+                      </Spinner>
+                    ) : (
+                      <Icon>
+                        <Plus />
+                      </Icon>
+                    )}
+                  </Button>
+                ))}
+              </div>
+            );
+          })}
+        </section>
+      ))}
+      <section className="col-span-2 flex flex-col items-start gap-2">
+        <p className="text-14 font-medium text-primary">Text link button</p>
+        <div className="flex items-start gap-16">
+          {DEBUG_LINK_PROMINENCES.map(({ title, prominence }) => (
+            <div key={prominence} className="flex flex-col items-start gap-2">
+              <p className="text-13 text-tertiary">{title}</p>
+              {(["default", "hover", "focus", "disabled"] as const).map((state) => (
+                <div key={state} className="flex items-center gap-4">
+                  {MAGNITUDES.map((magnitude) => (
+                    <AnchorButton
+                      key={magnitude}
+                      id={
+                        state === "hover" || state === "focus"
+                          ? `dbg-link-${prominence}-${magnitude}-${state}`
+                          : undefined
+                      }
+                      prominence={prominence}
+                      magnitude={magnitude}
+                      disabled={state === "disabled"}
+                    >
+                      <Icon>
+                        <Plus />
+                      </Icon>
+                      <AnchorButtonLabel>Button</AnchorButtonLabel>
+                      <Icon>
+                        <Plus />
+                      </Icon>
+                    </AnchorButton>
+                  ))}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  ),
+};
+
 export const Anatomy: Story = {
   args: { children: undefined },
   argTypes: { children: { control: false } },
@@ -236,10 +368,10 @@ export const Anatomy: Story = {
         aria-busy
         aria-disabled
       >
+        <ButtonLabel>Loading</ButtonLabel>
         <Spinner>
           <LoaderCircle />
         </Spinner>
-        <ButtonLabel>Loading</ButtonLabel>
       </Button>
     </div>
   ),

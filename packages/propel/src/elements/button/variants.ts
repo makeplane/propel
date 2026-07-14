@@ -17,8 +17,6 @@ export type ButtonSizing = NonNullable<ButtonVariantConfig["sizing"]>;
 // No `defaultVariants` today, so every axis is required.
 export type ButtonVariantProps = StrictVariantProps<typeof buttonVariants>;
 
-// The text label inside a Button. When the parent button is `aria-busy` (loading) it dims via the
-// `group-aria-busy:` sibling of the `group` class on the root.
-export const buttonLabelVariants = cva(
-  "transition-opacity duration-200 ease-out group-aria-busy:opacity-50",
-);
+// The text label inside a Button. Loading mutes via the root's disabled/`aria-busy` chrome
+// palette (Figma: label + spinner share the same muted weight — no extra opacity fade).
+export const buttonLabelVariants = cva("");

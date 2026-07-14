@@ -115,7 +115,7 @@ export const WithIcons: Story = {
   ),
 };
 
-/** The `loading` spinner replaces the leading icon and dims the label. */
+/** The `loading` spinner trails the label and mutes via the link chrome. */
 export const Loading: Story = {
   args: { prominence: "primary", magnitude: "md", loading: true },
   render: (args) => <AnchorButton {...args} label="Saving…" />,

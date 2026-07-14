@@ -103,7 +103,7 @@ export const WithIcons: Story = {
   ),
 };
 
-/** The loading state shows a spinner, sets `aria-busy`, and blocks interaction. The label dims. */
+/** The loading state shows a trailing spinner, sets `aria-busy`, and blocks interaction. */
 export const Loading: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (

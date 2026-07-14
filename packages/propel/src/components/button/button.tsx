@@ -27,8 +27,8 @@ export type ButtonProps = Omit<ButtonElementProps, "children"> & {
 
 /**
  * The ready-made `Button`: grafts Base UI's `Button` behavior onto the styled `Button` element and
- * lays out an optional `startIcon`/`endIcon` beside the label plus a `loading` spinner. Content —
- * the label, inline nodes, and `loading` state — is not a variant.
+ * lays out an optional `startIcon`/`endIcon` beside the label, swapping them for a trailing
+ * `loading` spinner. Content — the label, inline nodes, and `loading` state — is not a variant.
  */
 export function Button({
   prominence,
@@ -66,15 +66,15 @@ export function Button({
       focusableWhenDisabled={loading ? true : undefined}
       aria-busy={loading ? true : undefined}
     >
+      {!loading ? startIcon : null}
+      <ButtonLabel>{label}</ButtonLabel>
       {loading ? (
         <Spinner>
           <LoaderCircle />
         </Spinner>
       ) : (
-        startIcon
+        endIcon
       )}
-      <ButtonLabel>{label}</ButtonLabel>
-      {!loading ? endIcon : null}
     </BaseButton>
   );
 }

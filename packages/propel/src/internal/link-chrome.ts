@@ -1,16 +1,19 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
 // The inline text-link look (Figma "Link"): `AnchorButton` wears it — a `<button>` action by
-// default, or a real `<a>` via `render`/`nativeButton={false}`. Underline + the link palette by
-// `prominence` (blue primary / muted secondary), text size by `magnitude`. Carries both `disabled`
-// (button) and `aria-disabled` (anchor) so it styles either element. Compose nothing — it is the
-// whole look; each surface just renders its element with this className.
+// default, or a real `<a>` via `render`/`nativeButton={false}`. The link palette is by
+// `prominence` (blue primary / muted secondary), text size by `magnitude`. Underline lives on the
+// label part (Figma: underline spans the text only, not the flanking icons). Carries both
+// `disabled` (button) and `aria-disabled` (anchor) so it styles either element. Compose nothing —
+// it is the whole look; each surface just renders its element with this className.
 export const linkChromeVariants = cva(
   cx(
-    "group inline-flex cursor-pointer items-center gap-1 rounded-xs underline underline-offset-2 transition-colors outline-none",
+    "group inline-flex cursor-pointer items-center gap-1 rounded-xs transition-colors outline-none",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1",
-    "disabled:cursor-not-allowed disabled:text-disabled disabled:no-underline",
-    "aria-disabled:cursor-not-allowed aria-disabled:text-disabled aria-disabled:no-underline",
+    // Figma disabled keeps the underline — only the color mutes to `text-disabled`.
+    "disabled:cursor-not-allowed disabled:text-disabled",
+    "aria-disabled:cursor-not-allowed aria-disabled:text-disabled",
+    "aria-busy:cursor-default aria-busy:text-disabled",
   ),
   {
     variants: {

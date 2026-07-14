@@ -4,7 +4,11 @@
 @import "../tailwind.css";
 
 /* Make the preview canvas adapt to the active theme so the toolbar toggle is
-   visually meaningful (bg + text follow light/dark/contrast). */
+   visually meaningful (bg + text follow light/dark/contrast).
+
+   Use `layer-2` (not `canvas`): in light mode `--bg-canvas` === `--bg-layer-3`, so
+   tertiary button rest fills (and anything else keyed to `layer-3`) vanish on the
+   default Storybook page — Figma button sheets sit on white/`layer-2`. */
 body {
-  @apply bg-canvas text-primary;
+  @apply bg-layer-2 text-primary;
 }
