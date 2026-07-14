@@ -15,6 +15,11 @@ const meta = {
   title: "Components/ButtonGroup",
   component: ButtonGroup,
   subcomponents: { ButtonGroupButton },
+  // `magnitude` is added in the components tier (not on the elements div) — pin a radio like
+  // IconButton so Controls is not a free-text string.
+  argTypes: {
+    magnitude: { control: "radio", options: ["sm", "md", "lg"] },
+  },
   args: { magnitude: "md" },
 } satisfies Meta<typeof ButtonGroup>;
 

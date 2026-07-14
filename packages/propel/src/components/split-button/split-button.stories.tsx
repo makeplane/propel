@@ -7,6 +7,7 @@ import { Menu, MenuContent, MenuItem } from "../menu";
 import { SplitButton } from "./index";
 
 const MAGNITUDES = ["sm", "md", "lg", "xl"] as const;
+const PROMINENCES = ["primary", "secondary"] as const;
 
 // Components-tier story: the ready-made `SplitButton` — a main action `Button` plus a chevron
 // `IconButton` grafted as the surrounding `Menu`'s trigger, connected by the styled frame. The
@@ -15,7 +16,12 @@ const MAGNITUDES = ["sm", "md", "lg", "xl"] as const;
 const meta = {
   title: "Components/SplitButton",
   component: SplitButton,
-  args: { prominence: "primary", tone: "neutral", magnitude: "lg" },
+  // Docgen loses the literal unions through the useRender/`Omit` chain — pin radios like IconButton.
+  argTypes: {
+    prominence: { control: "radio", options: ["primary", "secondary"] },
+    magnitude: { control: "radio", options: ["sm", "md", "lg", "xl"] },
+  },
+  args: { prominence: "primary", magnitude: "lg" },
 } satisfies Meta<typeof SplitButton>;
 
 export default meta;
@@ -73,31 +79,26 @@ export const DefaultInteraction: Story = {
 };
 
 /**
- * The `prominence` × `tone` matrix (primary and secondary only — there is no tertiary/ghost split
- * button). Primary frames tint the divider onto the accent/danger fill.
+ * Every prominence (primary and secondary only — there is no tertiary/ghost, and no tone axis).
+ * Primary lays segments out as separate pills; secondary connects them with a divider.
  */
-export const ProminencesAndTones: Story = {
-  argTypes: { prominence: { control: false }, tone: { control: false } },
+export const Prominences: Story = {
+  argTypes: { prominence: { control: false } },
   args: { label: "Button" },
   render: (args) => (
-    <div className="flex flex-col items-start gap-6">
-      {(["neutral", "danger"] as const).map((tone) => (
-        <div key={tone} className="flex items-center gap-6">
-          {(["primary", "secondary"] as const).map((prominence) => (
-            <Menu key={prominence}>
-              <SplitButton
-                {...args}
-                prominence={prominence}
-                tone={tone}
-                startIcon={<Icon icon={Plus} />}
-                menuLabel={`More options (${prominence} ${tone})`}
-              />
-              <MenuContent align="end">
-                <MenuItem label="Secondary action" />
-              </MenuContent>
-            </Menu>
-          ))}
-        </div>
+    <div className="flex items-center gap-6">
+      {PROMINENCES.map((prominence) => (
+        <Menu key={prominence}>
+          <SplitButton
+            {...args}
+            prominence={prominence}
+            startIcon={<Icon icon={Plus} />}
+            menuLabel={`More options (${prominence})`}
+          />
+          <MenuContent align="end">
+            <MenuItem label="Secondary action" />
+          </MenuContent>
+        </Menu>
       ))}
     </div>
   ),

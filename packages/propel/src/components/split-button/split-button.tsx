@@ -36,18 +36,14 @@ export type SplitButtonProps = Omit<SplitButtonElementProps, "children"> & {
 
 /**
  * The ready-made split button: a main action `Button` plus a chevron `IconButton` grafted as the
- * surrounding menu's `MenuTrigger`, connected by the styled `SplitButton` frame. It ships no menu
- * of its own — render it as a `Menu`'s child, with the surface as a sibling `MenuContent`:
+ * surrounding menu's `MenuTrigger`, laid out by the styled `SplitButton` frame (separate pills when
+ * primary, connected outline when secondary). Neutral only — there is no danger/error split button;
+ * both segments are wired with `tone="neutral"`. It ships no menu of its own — render it as a
+ * `Menu`'s child, with the surface as a sibling `MenuContent`:
  *
  * ```tsx
  * <Menu>
- *   <SplitButton
- *     prominence="primary"
- *     tone="neutral"
- *     magnitude="lg"
- *     label="Save"
- *     onClick={save}
- *   />
+ *   <SplitButton prominence="primary" magnitude="lg" label="Save" onClick={save} />
  *   <MenuContent>
  *     <MenuItem label="Save as draft" />
  *   </MenuContent>
@@ -56,7 +52,6 @@ export type SplitButtonProps = Omit<SplitButtonElementProps, "children"> & {
  */
 export function SplitButton({
   prominence,
-  tone,
   magnitude,
   label,
   onClick,
@@ -68,10 +63,10 @@ export function SplitButton({
   ...props
 }: SplitButtonProps) {
   return (
-    <SplitButtonElement prominence={prominence} tone={tone} magnitude={magnitude} {...props}>
+    <SplitButtonElement prominence={prominence} magnitude={magnitude} {...props}>
       <Button
         prominence={prominence}
-        tone={tone}
+        tone="neutral"
         magnitude={magnitude}
         sizing="hug"
         label={label}
@@ -86,7 +81,7 @@ export function SplitButton({
         render={
           <IconButton
             prominence={prominence}
-            tone={tone}
+            tone="neutral"
             magnitude={magnitude}
             icon={<Icon icon={ChevronDown} />}
             aria-label={menuLabel}
