@@ -7,6 +7,7 @@ import {
   ButtonLabel,
   type ButtonProps as ButtonElementProps,
 } from "../../elements/button";
+import { controlChromePair, type ControlChromePair } from "../../internal/control-chrome";
 import { Spinner } from "../../internal/spinner";
 
 export type ButtonProps = Omit<ButtonElementProps, "children"> & {
@@ -53,8 +54,7 @@ export function Button({
       nativeButton={nativeButton}
       render={
         <ButtonElement
-          prominence={prominence}
-          tone={tone}
+          {...controlChromePair({ prominence, tone } as ControlChromePair)}
           magnitude={magnitude}
           sizing={sizing}
           // The consumer's render swaps the underlying element; the styled part stays the

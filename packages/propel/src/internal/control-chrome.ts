@@ -2,10 +2,11 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 
 /**
  * The control chrome shared by the button-look surfaces built on Figma's button tokens — `Button`
- * (`<button>`), `AnchorButton` (`<a>`), and `IconButton`. It owns the shared behavior base (focus
- * ring, disabled affordance, shape, transition) and the neutral/danger fill + border + text palette
- * per `prominence`. Each surface's geometry (label padding vs square box) is its own local concern.
- * Compose this with a surface's local cva via `composeVariants`.
+ * and `IconButton` (both default to `<button>`; either can render as `<a>` via `render` +
+ * `nativeButton={false}`). It owns the shared behavior base (focus ring, disabled affordance,
+ * shape, transition) and the neutral/danger fill + border + text palette per `prominence`. Each
+ * surface's geometry (label padding vs square box) is its own local concern. Compose this with a
+ * surface's local cva via `composeVariants`.
  *
  * Disabled / loading (Figma): filled primary (and filled danger) swap to the solid `layer-disabled`
  * pill; secondary / outline keep their surface and only mute border+text; tertiary / ghost drop the
@@ -104,5 +105,25 @@ export const controlChromeVariants = cva(
     ],
   },
 );
+
+/**
+ * Valid prominence × tone pairs for control chrome. Figma only defines danger on primary (fill) and
+ * secondary (outline); tertiary/ghost have no danger palette — those combos would render unstyled
+ * base chrome, so they are unrepresentable here.
+ */
+export type ControlChromePair =
+  | { prominence: "primary" | "secondary"; tone: "neutral" | "danger" }
+  | { prominence: "tertiary" | "ghost"; tone: "neutral" };
+
+/**
+ * Re-pair `prominence`/`tone` after destructuring a `ControlChromePair` union (TS widens the fields
+ * independently). Pass the result into elements that take `ControlChromePair`.
+ */
+export function controlChromePair(props: ControlChromePair): ControlChromePair {
+  if (props.prominence === "tertiary" || props.prominence === "ghost") {
+    return { prominence: props.prominence, tone: "neutral" };
+  }
+  return { prominence: props.prominence, tone: props.tone };
+}
 
 export type ControlChromeVariantProps = VariantProps<typeof controlChromeVariants>;

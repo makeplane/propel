@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { LoaderCircle } from "lucide-react";
 
+import { Spinner } from "../../internal/spinner";
 import {
   AnchorButton,
   AnchorButtonLabel,
@@ -14,8 +16,9 @@ const MAGNITUDES: AnchorButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 // the inline-link look, rendered directly. Its interaction states are CSS (`hover:`/
 // `focus-visible:`) plus the `disabled`/`aria-disabled` attributes Base UI's `Button` sets, so
 // `States` pins them statically (pseudo-states addon + the attributes). The Base UI `Button` graft
-// (clicks, `disabled`, keyboard) is demonstrated and tested in Components/AnchorButton. For a nav
-// `<a>` styled as a button see `AnchorButton`; for a real inline link, `Anchor`.
+// (clicks, `disabled`, keyboard) is demonstrated and tested in Components/AnchorButton. For real
+// navigation with this look, use the ready-made with `nativeButton={false}` + `render={<a />}`.
+// For a nav link wearing *button* chrome, use `Button` with the same `render` mechanics.
 const meta = {
   title: "Elements/AnchorButton",
   component: AnchorButton,
@@ -64,7 +67,8 @@ export const Magnitudes: Story = {
  * (forced via the pseudo-states addon), focus-visible draws the accent ring (also forced), native
  * `disabled` — what Base UI's `Button` sets by default — and `aria-disabled="true"` — the
  * soft-disabled state it sets under `focusableWhenDisabled` — both keep the underline and mute to
- * the disabled text color with `cursor-not-allowed`.
+ * the disabled text color with `cursor-not-allowed`. Busy pins the `aria-busy`/`aria-disabled` the
+ * ready-made sets while `loading` (trailing spinner; label and spinner share muted weight).
  */
 export const States: Story = {
   parameters: {
@@ -100,6 +104,12 @@ export const States: Story = {
           </AnchorButton>
           <AnchorButton prominence={prominence} magnitude="md" aria-disabled="true">
             <AnchorButtonLabel>Soft-disabled</AnchorButtonLabel>
+          </AnchorButton>
+          <AnchorButton prominence={prominence} magnitude="md" aria-busy aria-disabled>
+            <AnchorButtonLabel>Busy</AnchorButtonLabel>
+            <Spinner>
+              <LoaderCircle />
+            </Spinner>
           </AnchorButton>
         </div>
       ))}

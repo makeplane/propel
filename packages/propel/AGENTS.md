@@ -197,9 +197,10 @@ existed).
   `[&>svg]:size-*`. A family gets its OWN icon part only for genuinely distinct styling (toast/
   banner/alert-dialog tones, avatar's scale, autocomplete/combobox focus-brightening); an icon slot
   that is only a tint/size of the shared chrome is the internal `Icon` (`tint`/`magnitude` axes,
-  defaulting to `inherit`), composed by the `components` ready-made — icon-shaped controls
-  (`IconButton`, `Toggle`, `ToolbarButton`, `ToolbarToggle`) wrap their bare svg children in it
-  themselves, so consumers pass a bare glyph.
+  defaulting to `inherit`). Ready-mades expose that slot as an `icon` / `startIcon` / `endIcon`
+  **node prop** — consumers pass the public `<Icon icon={Plus} />` (or another already-wrapped
+  node). Icon-shaped controls (`IconButton`, `Toggle`, `ToolbarButton`, `ToolbarToggle`) render the
+  provided node as-is; they do **not** wrap bare lucide glyphs themselves.
 - **`<Part>Indicator`** — a state-reflecting part. Keep Base UI's own names where they exist
   (`ItemIndicator` for a selected marker, `Tabs`/`Progress`/`Meter`/`Slider` `Indicator` for
   geometry). Disclosure carets are ONE internal `DisclosureIndicator` (pass a **chevron-down**;
@@ -217,7 +218,8 @@ not a part at all — compose the internal `NodeSlot` in `components` instead (`
 Consumer-provided node **props** follow the same convention: name the prop for the slot it fills,
 Base UI style (`placeholder`, `title`, `description`), never a `Node` suffix — `icon` fills the
 family's single `Icon` slot; `startIcon`/`endIcon` fill dual `Icon` slots (bare `start`/`end` is
-the logical-direction vocabulary, like Drawer's `side`); `trailing` fills `MenuItemTrailing`;
+the logical-direction vocabulary, like Drawer's `side`). Pass the public `<Icon icon={Plus} />`
+into those props (ready-mades do not wrap bare glyphs). `trailing` fills `MenuItemTrailing`;
 `meta` fills `MenuLabelMeta`; a consumer-provided control is named for its role (`decrement`,
 `increment`).
 

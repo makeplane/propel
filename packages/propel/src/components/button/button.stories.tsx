@@ -45,7 +45,13 @@ export const Prominences: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
       {PROMINENCES.map((prominence) => (
-        <Button key={prominence} {...args} prominence={prominence} label={prominence} />
+        <Button
+          key={prominence}
+          {...args}
+          prominence={prominence}
+          tone="neutral"
+          label={prominence}
+        />
       ))}
     </div>
   ),
@@ -117,8 +123,9 @@ export const Loading: Story = {
 
 /**
  * A submit that enters `loading` after being clicked: the click starts the work (a deterministic
- * 300 ms delay here), the button shows the spinner, announces `aria-busy`, and blocks re-submits —
- * yet keeps keyboard focus while soft-disabled — then settles back once the work resolves.
+ * 1.5 s delay here so the spinner is readable), the button shows the spinner, announces
+ * `aria-busy`, and blocks re-submits — yet keeps keyboard focus while soft-disabled — then settles
+ * back once the work resolves.
  */
 export const AsyncSubmit: Story = {
   parameters: { controls: { disable: true } },
@@ -132,7 +139,7 @@ export const AsyncSubmit: Story = {
         label={submitting ? "Submitting" : "Submit"}
         onClick={() => {
           setSubmitting(true);
-          window.setTimeout(() => setSubmitting(false), 300);
+          window.setTimeout(() => setSubmitting(false), 1500);
         }}
       />
     );
@@ -284,7 +291,7 @@ export const AsyncSubmitKeepsFocus: Story = {
     await expect(button).toHaveAccessibleName("Submitting");
     await expect(button).toHaveFocus();
     // The work settles: interactive again, focus still on the button.
-    await waitFor(() => expect(button).not.toHaveAttribute("aria-busy"));
+    await waitFor(() => expect(button).not.toHaveAttribute("aria-busy"), { timeout: 3000 });
     await expect(button).not.toBeDisabled();
     await expect(button).toHaveAccessibleName("Submit");
     await expect(button).toHaveFocus();

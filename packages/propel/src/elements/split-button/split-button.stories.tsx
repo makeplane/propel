@@ -3,7 +3,7 @@ import { ChevronDown, Plus } from "lucide-react";
 import { expect } from "storybook/test";
 
 import { Icon } from "../../internal/icon";
-import { Button } from "../button/index";
+import { Button, ButtonLabel } from "../button/index";
 import { IconButton } from "../icon-button/index";
 import {
   SplitButton,
@@ -41,7 +41,7 @@ export const Default: Story = {
         <Icon>
           <Plus />
         </Icon>
-        Button
+        <ButtonLabel>Button</ButtonLabel>
       </Button>
       <IconButton prominence="primary" tone="neutral" magnitude="lg" aria-label="More options">
         <Icon>
@@ -74,7 +74,7 @@ export const ProminencesAndTones: Story = {
                 <Icon>
                   <Plus />
                 </Icon>
-                Button
+                <ButtonLabel>Button</ButtonLabel>
               </Button>
               <IconButton
                 prominence={prominence}
@@ -128,7 +128,7 @@ export const Magnitudes: Story = {
             <Icon>
               <Plus />
             </Icon>
-            Button
+            <ButtonLabel>Button</ButtonLabel>
           </Button>
           <IconButton
             prominence="primary"
@@ -157,7 +157,7 @@ export const Disabled: Story = {
         <Icon>
           <Plus />
         </Icon>
-        Button
+        <ButtonLabel>Button</ButtonLabel>
       </Button>
       <IconButton
         prominence="primary"

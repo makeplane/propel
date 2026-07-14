@@ -49,6 +49,7 @@ export const Prominences: Story = {
           key={prominence}
           {...args}
           prominence={prominence}
+          tone="neutral"
           aria-label={`${prominence} action`}
         />
       ))}
@@ -110,6 +111,7 @@ export const Disabled: Story = {
           key={prominence}
           {...args}
           prominence={prominence}
+          tone="neutral"
           aria-label={`${prominence} disabled`}
           disabled
         />
@@ -198,5 +200,36 @@ export const LoadingBlocksInteraction: Story = {
     await userEvent.keyboard("[Space]");
     await userEvent.click(button);
     await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+/**
+ * A navigation link: `render={<a href=… />}` swaps the element and `nativeButton={false}` applies
+ * Base UI's non-native button semantics — announced as a button, while the `<a>` keeps native
+ * navigation (Enter follows the href, open-in-new-tab works).
+ */
+export const AsLink: Story = {
+  args: {
+    prominence: "secondary",
+    tone: "neutral",
+    magnitude: "md",
+    "aria-label": "Open reports",
+  },
+  render: (args) => <IconButton {...args} nativeButton={false} render={<a href="#reports" />} />,
+};
+
+/**
+ * Interaction test: the rendered element is an `<a>` with its href, announced as a button. Tagged
+ * out of the sidebar/docs/manifest while still running under the default `test` tag.
+ */
+export const AsLinkInteraction: Story = {
+  ...AsLink,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    // Base UI's contract for nativeButton={false}: the control is ANNOUNCED as a button
+    // (role="button") while the <a> keeps native navigation (Enter follows the href).
+    const link = canvas.getByRole("button", { name: "Open reports" });
+    await expect(link.tagName).toBe("A");
+    await expect(link).toHaveAttribute("href", "#reports");
   },
 };

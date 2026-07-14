@@ -3,8 +3,9 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { linkChromeVariants } from "../../internal/link-chrome";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
-// `AnchorButton` presents as a link (the shared link chrome) but is a `<button>` (an action). Same
-// look as `Anchor`, button behavior. For a navigation `<a>` that looks like a button, use `AnchorButton`.
+// `AnchorButton` presents as a link (the shared link chrome) but defaults to a `<button>` (an
+// action). For real navigation, the ready-made uses `nativeButton={false}` + `render={<a />}`.
+// For a navigation `<a>` that looks like a *button*, use `Button` with the same `render` mechanics.
 export const anchorButtonVariants = linkChromeVariants;
 
 type AnchorButtonVariantConfig = VariantProps<typeof anchorButtonVariants>;

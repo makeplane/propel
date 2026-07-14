@@ -10,10 +10,11 @@ export type AnchorButtonProps = Omit<useRender.ComponentProps<"button">, "classN
 
 /**
  * The styled `<button>` that reads as an inline text link — the "action that looks like a link" (a
- * "Show more" toggle, an inline "Edit"). Base-UI-agnostic: pick the link palette (`prominence`,
- * shared with `Anchor`) and text size (`magnitude`); the action behavior grafts in `components` via
- * `<BaseButton render={<AnchorButton/>} />`. For a nav `<a>` styled as a button use `AnchorButton`;
- * for a real inline link, `Anchor`.
+ * "Show more" toggle, an inline "Edit"). Base-UI-agnostic: pick the link palette (`prominence`) and
+ * text size (`magnitude`); the action behavior grafts in `components` via `<BaseButton
+ * render={<AnchorButton/>} />`. Default element is `<button>`; for real navigation pass
+ * `nativeButton={false}` + `render={<a href=… />}` on the ready-made. For a nav link wearing
+ * _button_ chrome, use `Button` with the same `render` mechanics — not this component.
  */
 export function AnchorButton({ prominence, magnitude, render, ...props }: AnchorButtonProps) {
   const defaultProps: useRender.ElementProps<"button"> = {

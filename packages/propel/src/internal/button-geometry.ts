@@ -1,9 +1,10 @@
 import { cva, cx, type VariantProps } from "class-variance-authority";
 
-// The label-button geometry shared by surfaces that wear the control chrome with a text label:
-// `Button` (`<button>`) and `AnchorButton` (`<a>`). Owns the label row (gap/font), the per-magnitude
-// height/min-width/padding/text + `--node-size` glyph scale (Figma "Buttons" Size), and full-width
-// `sizing`. Compose with `controlChromeVariants` via `composeVariants`.
+// The label-button geometry for surfaces that wear control chrome with a text label: `Button`.
+// Owns the label row (gap/font), the per-magnitude height/min-width/padding/text + `--node-size`
+// glyph scale (Figma "Buttons" Size), and full-width `sizing`. Compose with `controlChromeVariants`
+// via `composeVariants`. (The inline text-link look is `linkChromeVariants` on `AnchorButton` —
+// not this geometry.)
 export const buttonGeometryVariants = cva(cx("gap-1 font-medium whitespace-nowrap"), {
   variants: {
     magnitude: {
