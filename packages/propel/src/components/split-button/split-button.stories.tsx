@@ -33,7 +33,7 @@ export const Default: Story = {
   render: (args) => (
     <Menu>
       <SplitButton {...args} startIcon={<Icon icon={Plus} />} />
-      <MenuContent>
+      <MenuContent align="end">
         <MenuItem label="Create from template" />
         <MenuItem label="Import work items" />
       </MenuContent>
@@ -55,9 +55,14 @@ export const DefaultInteraction: Story = {
     await expect(args.onClick).toHaveBeenCalledTimes(1);
     await expect(menuPopup()).not.toBeInTheDocument();
 
-    await userEvent.click(canvas.getByRole("button", { name: "More options" }));
+    const trigger = canvas.getByRole("button", { name: "More options" });
+    await userEvent.click(trigger);
     await waitFor(() => expect(menuPopup()).toBeInTheDocument());
     await expect(args.onClick).toHaveBeenCalledTimes(1);
+
+    // Regression: while open, Base UI appends focus-guard spans inside the frame after the
+    // trigger; the frame's child selectors must not eat the open trigger's end radius.
+    await expect(getComputedStyle(trigger).borderTopRightRadius).not.toBe("0px");
 
     const item = Array.from(document.body.querySelectorAll('[role="menuitem"]')).find((el) =>
       el.textContent?.includes("Create from template"),
@@ -87,7 +92,7 @@ export const ProminencesAndTones: Story = {
                 startIcon={<Icon icon={Plus} />}
                 menuLabel={`More options (${prominence} ${tone})`}
               />
-              <MenuContent>
+              <MenuContent align="end">
                 <MenuItem label="Secondary action" />
               </MenuContent>
             </Menu>
@@ -112,7 +117,7 @@ export const Magnitudes: Story = {
             startIcon={<Icon icon={Plus} />}
             menuLabel={`More options (${magnitude})`}
           />
-          <MenuContent>
+          <MenuContent align="end">
             <MenuItem label="Secondary action" />
           </MenuContent>
         </Menu>
@@ -127,7 +132,7 @@ export const Disabled: Story = {
   render: (args) => (
     <Menu>
       <SplitButton {...args} startIcon={<Icon icon={Plus} />} />
-      <MenuContent>
+      <MenuContent align="end">
         <MenuItem label="Create from template" />
       </MenuContent>
     </Menu>
@@ -162,7 +167,7 @@ export const Loading: Story = {
   render: (args) => (
     <Menu>
       <SplitButton {...args} startIcon={<Icon icon={Plus} />} />
-      <MenuContent>
+      <MenuContent align="end">
         <MenuItem label="Create from template" />
       </MenuContent>
     </Menu>

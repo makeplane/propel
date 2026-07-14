@@ -148,7 +148,7 @@ export const Magnitudes: Story = {
 
 /**
  * Both segments pinned disabled (the native `disabled` attribute): the segments show their disabled
- * fills and the frame dims its divider (`has-[:disabled]:divide-subtle`).
+ * fills and the frame dims its divider (the `:has(:disabled)` end-border tint).
  */
 export const Disabled: Story = {
   render: () => (

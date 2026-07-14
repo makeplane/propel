@@ -8,13 +8,16 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 //
 //   - Inner-edge radius flattening via child selectors (longhand `rounded-s/e-none` intentionally
 //     out-cascades a segment's own shorthand `rounded-md`).
-//   - The doubled border at the junction of self-bordered (secondary) segments collapses to one
-//     (`border-s-0` on the trailing segment; the leading segment's end border is the divider).
-//   - Borderless (primary) segments get their divider from `divide-x`, tinted per tone so it reads
-//     on the accent fill; `divide-x`'s zero-specificity `:where()` never touches a segment that
-//     draws its own border.
+//   - The divider is the FIRST segment's end border (`border-e`, tinted per tone on the primary
+//     fill; a self-bordered secondary segment already draws it). The doubled border at the
+//     junction of self-bordered segments collapses to one (`border-s-0` on trailing children).
 //   - A focused segment is lifted (`z-10` under `isolate`) so its offset focus ring paints over
 //     the adjacent segment instead of underneath it.
+//
+// Every child selector keys off `:first-child`/`* + *` and NEVER `:last-child`: while the menu is
+// open, Base UI appends focus-guard `<span>`s after the trigger inside the frame, so the trigger
+// is not reliably the last child (keying the flattening off `:not(:last-child)` visibly ate the
+// open trigger's end radius).
 //
 // `prominence` is declared for the split-button Types only — primary and secondary; there is no
 // tertiary/ghost split button. `magnitude` is color-less: it constrains the composed frame to the
@@ -22,9 +25,9 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 export const splitButtonVariants = cva(
   cx(
     "isolate inline-flex items-stretch",
-    "divide-x has-[:disabled]:divide-subtle",
-    "[&>*+*]:rounded-s-none [&>*:not(:last-child)]:rounded-e-none",
-    "[&>*+*]:border-s-0",
+    "[&>*+*]:rounded-s-none [&>*:first-child]:rounded-e-none",
+    "[&>*+*]:border-s-0 [&>*:first-child]:border-e",
+    "[&:has(:disabled)>*:first-child]:border-e-subtle",
     "[&>*:focus-visible]:z-10",
   ),
   {
@@ -36,8 +39,17 @@ export const splitButtonVariants = cva(
     compoundVariants: [
       // The pressed-fill background tokens double as the divider tint (there is no border token
       // for a line on the accent/danger fill), read via the var shorthand like circular-progress.
-      { prominence: "primary", tone: "neutral", className: "divide-(--bg-accent-primary-active)" },
-      { prominence: "primary", tone: "danger", className: "divide-(--bg-danger-primary-active)" },
+      // Secondary needs no tint: its main segment's own border-strong end border IS the divider.
+      {
+        prominence: "primary",
+        tone: "neutral",
+        className: "[&>*:first-child]:border-e-(--bg-accent-primary-active)",
+      },
+      {
+        prominence: "primary",
+        tone: "danger",
+        className: "[&>*:first-child]:border-e-(--bg-danger-primary-active)",
+      },
     ],
   },
 );
