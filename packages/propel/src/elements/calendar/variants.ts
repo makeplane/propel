@@ -60,10 +60,14 @@ export const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"
   range_middle:
     "range-middle [&>button]:bg-transparent [&>button]:text-primary [&>button:hover]:bg-transparent",
   // Today (when not selected): accent text so the current date stands out. When
-  // the cell is also selected, the solid accent button (above) wins.
-  today: "[&:not([aria-selected])>button]:text-accent-primary [&>button]:font-semibold",
-  // Disabled days read as muted, non-interactive text.
-  disabled: "[&>button]:text-disabled [&>button]:pointer-events-none",
+  // the cell is also selected, the solid accent button (above) wins. A 6px dot
+  // (icon/accent/subtle) sits centered 4px above the cell's bottom edge in
+  // every state, marking the current date even inside a selected pill.
+  today:
+    "[&:not([aria-selected])>button]:text-accent-primary [&>button]:font-semibold after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:size-1.5 after:rounded-full after:bg-(--txt-icon-accent-subtle)",
+  // Disabled days read as muted, non-interactive text — `opacity-60` on top of the disabled
+  // tone (the propel disabled convention) so they clearly recede from enabled days.
+  disabled: "[&>button]:text-disabled [&>button]:opacity-60 [&>button]:pointer-events-none",
   // Days from the adjacent month: dimmed.
   outside: "[&>button]:text-tertiary",
   hidden: "invisible",

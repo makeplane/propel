@@ -477,13 +477,21 @@ export const StatesCanary: Story = {
       getComputedStyle(resting).backgroundColor,
     );
 
-    // `today` recolors the (unselected) day's text to the accent tone.
+    // `today` recolors the (unselected) day's text to the accent tone and paints the 6px
+    // current-date dot 4px above the CELL's bottom edge — including on a selected today.
     const today = canvas.getByRole("button", { name: "Day 3, today" });
     await expect(getComputedStyle(today).color).not.toBe(getComputedStyle(resting).color);
+    const todayDot = getComputedStyle(cellOf(today), "::after");
+    await expect(todayDot.width).toBe("6px");
+    await expect(todayDot.height).toBe("6px");
+    await expect(todayDot.bottom).toBe("4px");
+    const selectedToday = canvas.getByRole("button", { name: "Day 5, selected today" });
+    await expect(getComputedStyle(cellOf(selectedToday), "::after").width).toBe("6px");
 
-    // `disabled` makes the day button non-interactive.
+    // `disabled` makes the day button non-interactive and visibly recessed.
     const disabled = canvas.getByRole("button", { name: "Day 6, disabled" });
     await expect(getComputedStyle(disabled).pointerEvents).toBe("none");
+    await expect(getComputedStyle(disabled).opacity).toBe("0.6");
 
     // `range-middle` paints the soft in-range fill on the CELL, and its button reset beats
     // `selected`'s accent fill (the cell carries both classes) so the button stays transparent.

@@ -76,6 +76,42 @@ export const WithDisabledDays: Story = {
 };
 
 /**
+ * The current date carries a 6px accent dot, centered 4px above the bottom edge of its 40px cell.
+ * The dot persists when today is selected (inside the solid pill) or mid-range. `today` is pinned
+ * to Jan 6 so the story renders deterministically.
+ */
+export const TodayIndicator: Story = {
+  render: function Render() {
+    const [selected, setSelected] = React.useState<Date | undefined>();
+    return (
+      <Calendar
+        mode="single"
+        defaultMonth={JANUARY_2025}
+        today={new Date(2025, 0, 6)}
+        selected={selected}
+        onSelect={setSelected}
+      />
+    );
+  },
+  play: async ({ canvas, userEvent }) => {
+    const todayButton = canvas.getByRole("button", { name: /^Today, .*January 6th, 2025/ });
+    const todayCell = todayButton.closest("td") as HTMLTableCellElement;
+    const dot = getComputedStyle(todayCell, "::after");
+    await expect(dot.width).toBe("6px");
+    await expect(dot.height).toBe("6px");
+    await expect(dot.bottom).toBe("4px");
+
+    // The dot survives selection: select today, the pseudo-element is still there.
+    await userEvent.click(todayButton);
+    await expect(canvas.getByRole("gridcell", { selected: true })).toHaveAttribute(
+      "data-day",
+      "2025-01-06",
+    );
+    await expect(getComputedStyle(todayCell, "::after").width).toBe("6px");
+  },
+};
+
+/**
  * Behavior tests: the month grid renders day buttons, clicking a day selects it, and a disabled day
  * stays unselectable. Tagged out of the sidebar/docs/manifest but still runs under `test`. A fixed
  * `defaultMonth` keeps the grid deterministic.
