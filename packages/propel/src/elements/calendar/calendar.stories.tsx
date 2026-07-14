@@ -243,7 +243,7 @@ export const States: Story = {
         <nav className={calendarClassNames.nav}>
           <button
             type="button"
-            disabled
+            aria-disabled
             aria-label="Go to the Previous Month"
             className={calendarClassNames.button_previous}
           >
@@ -505,5 +505,10 @@ export const StatesCanary: Story = {
     const hidden = canvasElement.querySelector("#elements-calendar-hidden-day");
     if (!(hidden instanceof HTMLElement)) throw new Error("missing pinned hidden cell");
     await expect(getComputedStyle(hidden).visibility).toBe("hidden");
+
+    // nav `aria-disabled` (the attribute react-day-picker sets, not native `disabled`) dims the
+    // chevron button to 60% opacity (the system disabled convention).
+    const navDisabled = canvas.getByRole("button", { name: "Go to the Previous Month" });
+    await expect(getComputedStyle(navDisabled).opacity).toBe("0.6");
   },
 };
