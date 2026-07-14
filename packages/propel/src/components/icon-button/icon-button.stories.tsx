@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus } from "lucide-react";
-import { expect, fn } from "storybook/test";
+import { expect, fireEvent, fn } from "storybook/test";
 
 import { IconButton as IconButtonElement } from "../../elements/icon-button";
 import { iconControl } from "../../storybook/icon-control";
@@ -198,7 +198,10 @@ export const LoadingBlocksInteraction: Story = {
     await expect(button).toHaveFocus();
     await userEvent.keyboard("{Enter}");
     await userEvent.keyboard("[Space]");
-    await userEvent.click(button);
+    // The chrome blocks real pointers outright (`aria-busy:pointer-events-none`), which makes
+    // `userEvent.click` throw — dispatch the event directly to prove Base UI's soft-disabled
+    // suppression holds even if a click event somehow reaches the button.
+    await fireEvent.click(button);
     await expect(args.onClick).not.toHaveBeenCalled();
   },
 };

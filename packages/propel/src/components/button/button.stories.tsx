@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Plus, Search, Settings } from "lucide-react";
 import * as React from "react";
-import { expect, fn, userEvent as baseUserEvent, waitFor } from "storybook/test";
+import { expect, fireEvent, fn, userEvent as baseUserEvent, waitFor } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
 import { Icon } from "../icon";
@@ -257,7 +257,7 @@ export const LoadingNotKeyboardActivatable: Story = {
 export const LoadingBlocksClick: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   args: { onClick: fn(), loading: true },
-  play: async ({ args, canvas, userEvent }) => {
+  play: async ({ args, canvas }) => {
     const button = canvas.getByRole("button", { name: "Button" });
     await expect(button).toHaveAttribute("aria-busy", "true");
     await expect(button).toHaveAttribute("aria-disabled", "true");
@@ -268,7 +268,10 @@ export const LoadingBlocksClick: Story = {
     // It can receive focus.
     button.focus();
     await expect(button).toHaveFocus();
-    await userEvent.click(button);
+    // The chrome blocks real pointers outright (`aria-busy:pointer-events-none`), which makes
+    // `userEvent.click` throw — dispatch the event directly to prove Base UI's soft-disabled
+    // suppression holds even if a click event somehow reaches the button.
+    await fireEvent.click(button);
     await expect(args.onClick).not.toHaveBeenCalled();
   },
 };
