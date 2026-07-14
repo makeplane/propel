@@ -14,6 +14,15 @@ const meta = {
   title: "Components/IconButton",
   component: IconButton,
   subcomponents: { IconButtonElement },
+  // Every multi-button showcase lays its buttons out in the same centered row; single-button
+  // stories render one child in the row, which changes nothing visually.
+  decorators: [
+    (Story) => (
+      <div className="flex items-center gap-3">
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: { icon: iconControl },
   parameters: {
     design: {
@@ -43,7 +52,7 @@ export const Default: Story = {};
 export const Prominences: Story = {
   argTypes: { prominence: { control: false }, "aria-label": { control: false } },
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       {PROMINENCES.map((prominence) => (
         <IconButton
           key={prominence}
@@ -53,7 +62,7 @@ export const Prominences: Story = {
           aria-label={`${prominence} action`}
         />
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -64,11 +73,11 @@ export const Prominences: Story = {
 export const Tones: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       <IconButton {...args} tone="neutral" prominence="primary" aria-label="Neutral" />
       <IconButton {...args} tone="danger" prominence="primary" aria-label="Danger fill" />
       <IconButton {...args} tone="danger" prominence="secondary" aria-label="Danger outline" />
-    </div>
+    </>
   ),
 };
 
@@ -76,7 +85,7 @@ export const Tones: Story = {
 export const Magnitudes: Story = {
   argTypes: { magnitude: { control: false }, "aria-label": { control: false } },
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       {MAGNITUDES.map((magnitude) => (
         <IconButton
           key={magnitude}
@@ -85,7 +94,7 @@ export const Magnitudes: Story = {
           aria-label={`${magnitude} add`}
         />
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -93,11 +102,11 @@ export const Magnitudes: Story = {
 export const Loading: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       <IconButton {...args} prominence="primary" aria-label="Saving" loading />
       <IconButton {...args} prominence="secondary" aria-label="Loading" loading />
       <IconButton {...args} prominence="tertiary" aria-label="Refreshing" loading />
-    </div>
+    </>
   ),
 };
 
@@ -105,7 +114,7 @@ export const Loading: Story = {
 export const Disabled: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       {PROMINENCES.map((prominence) => (
         <IconButton
           key={prominence}
@@ -116,7 +125,7 @@ export const Disabled: Story = {
           disabled
         />
       ))}
-    </div>
+    </>
   ),
 };
 
