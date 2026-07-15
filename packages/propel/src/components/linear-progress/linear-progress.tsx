@@ -64,8 +64,13 @@ export function LinearProgress({
   label,
   ...props
 }: LinearProgressProps) {
+  const max = props.max ?? 100;
+  const min = props.min ?? 0;
+  // Clamp out-of-range input to `[min, max]` before Base UI derives the fill, `aria-valuenow`, and
+  // the `%` label, so they never disagree (e.g. `value={150}` reads 100%, not a 150% overflow).
+  const clampedValue = value == null ? null : Math.min(Math.max(value, min), max);
   return (
-    <BaseProgress.Root value={value} {...props} render={<LinearProgressElement />}>
+    <BaseProgress.Root value={clampedValue} {...props} render={<LinearProgressElement />}>
       {label != null ? (
         <BaseProgress.Label render={<LinearProgressLabel />}>{label}</BaseProgress.Label>
       ) : null}
