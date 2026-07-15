@@ -20,9 +20,10 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 const pillBase =
   "inline-flex shrink-0 items-center justify-center rounded-md border-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent-strong";
 
-// Shared label-pill base (PillButton + PillSwitch): a 14px node scale, capped width, and
-// per-magnitude height/padding/font.
-const labelPillBase = cx(pillBase, "max-w-[120px] gap-1 py-1 [--node-size:0.875rem]");
+// Shared label-pill base (PillButton + PillSwitch): a 14px node scale and per-magnitude
+// height/padding/font. The truncation cap differs per container (PillButton 150px, PillSwitch
+// 120px per Figma), so it lives on each container cva, not here.
+const labelPillBase = cx(pillBase, "gap-1 py-1 [--node-size:0.875rem]");
 
 const labelPillMagnitude = {
   sm: "h-5 px-1.5 text-12",
@@ -32,30 +33,33 @@ const labelPillMagnitude = {
 
 // ─── Containers (one styled element each) ────────────────────────────────────
 
-export const pillButtonVariants = cva([labelPillBase, "cursor-pointer text-secondary"], {
-  variants: {
-    magnitude: labelPillMagnitude,
-    // Figma PillButton mirrors Button prominence chrome (control-chrome):
-    // `outline` ≈ secondary (bordered + layer-2), `soft` ≈ tertiary (borderless + layer-3).
-    // Disabled/loading stay transparent per the pill Figma (not button's layer-disabled fill).
-    emphasis: {
-      outline: [
-        "border-subtle-1 bg-layer-2",
-        "hover:border-strong hover:bg-layer-2-hover",
-        "active:border-strong active:bg-layer-2-active active:text-primary",
-        "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
-        "aria-busy:cursor-default aria-busy:border-subtle-1 aria-busy:bg-layer-transparent aria-busy:text-disabled",
-      ],
-      soft: [
-        "border-transparent bg-layer-3",
-        "hover:bg-layer-3-hover",
-        "active:bg-layer-3-active active:text-primary",
-        "disabled:cursor-not-allowed disabled:bg-layer-transparent disabled:text-disabled",
-        "aria-busy:cursor-default aria-busy:bg-layer-transparent aria-busy:text-disabled",
-      ],
+export const pillButtonVariants = cva(
+  [labelPillBase, "max-w-[150px] cursor-pointer text-secondary"],
+  {
+    variants: {
+      magnitude: labelPillMagnitude,
+      // Figma PillButton mirrors Button prominence chrome (control-chrome):
+      // `outline` ≈ secondary (bordered + layer-2), `soft` ≈ tertiary (borderless + layer-3).
+      // Disabled/loading stay transparent per the pill Figma (not button's layer-disabled fill).
+      emphasis: {
+        outline: [
+          "border-subtle-1 bg-layer-2",
+          "hover:border-strong hover:bg-layer-2-hover",
+          "active:border-strong active:bg-layer-2-active active:text-primary",
+          "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
+          "aria-busy:cursor-default aria-busy:border-subtle-1 aria-busy:bg-layer-transparent aria-busy:text-disabled",
+        ],
+        soft: [
+          "border-transparent bg-layer-3",
+          "hover:bg-layer-3-hover",
+          "active:bg-layer-3-active active:text-primary",
+          "disabled:cursor-not-allowed disabled:bg-layer-transparent disabled:text-disabled",
+          "aria-busy:cursor-default aria-busy:bg-layer-transparent aria-busy:text-disabled",
+        ],
+      },
     },
   },
-});
+);
 
 // No `defaultVariants` today, so every axis is required.
 export type PillButtonVariantProps = StrictVariantProps<typeof pillButtonVariants>;
@@ -65,7 +69,7 @@ export type PillButtonEmphasis = NonNullable<PillButtonVariantConfig["emphasis"]
 export const pillSwitchVariants = cva(
   [
     labelPillBase,
-    "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
+    "max-w-[120px] cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
     "hover:border-strong hover:bg-layer-2-hover",
     "data-pressed:border-strong data-pressed:bg-layer-2-selected data-pressed:text-primary",
     "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",

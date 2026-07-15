@@ -280,8 +280,8 @@ export const Icons: Story = {
 };
 
 /**
- * Labels past the 120px cap truncate with an ellipsis. `PillLabel` bakes a native `title` from the
- * string children so hover recovers the full text.
+ * Labels past the width cap (PillButton 150px, PillSwitch 120px) truncate with an ellipsis.
+ * `PillLabel` bakes a native `title` from the string children so hover recovers the full text.
  */
 export const TruncatedLabel: Story = {
   parameters: { controls: { disable: true } },
