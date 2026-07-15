@@ -1,0 +1,31 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Dialog
+description: A modal overlay for focused tasks and confirmations.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/dialog/basic.tsx";
+import basicSource from "~/demos/dialog/basic.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Dialog, DialogTrigger, DialogContent } from "@makeplane/propel/components/dialog";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/dialog/dialog.tsx", component: "Dialog" },
+    { source: "components/dialog/dialog-content.tsx", component: "DialogContent" },
+  ]}
+/>
