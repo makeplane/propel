@@ -107,6 +107,38 @@ export const Icons: Story = {
 };
 
 /**
+ * Labels past the 120px cap truncate with an ellipsis. `PillLabel` sets a native `title` from the
+ * string label so hover recovers the full text.
+ */
+export const TruncatedLabel: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex items-center gap-3">
+      <PillButton
+        magnitude="md"
+        startIcon={<Icon icon={Tag} />}
+        label="Engineering Infrastructure Team - View"
+      />
+      <PillSwitch
+        magnitude="md"
+        startIcon={<Icon icon={Tag} />}
+        label="Engineering Infrastructure Team - Toggle"
+      />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const buttons = canvas.getAllByRole("button", { name: "Engineering Infrastructure Team" });
+    await expect(buttons).toHaveLength(2);
+    for (const button of buttons) {
+      // Icon is also a `<span>`; the label is the one carrying `title`.
+      const label = button.querySelector("span[title]");
+      await expect(label).toHaveAttribute("title", "Engineering Infrastructure Team");
+      await expect(label!.scrollWidth).toBeGreaterThan(label!.clientWidth);
+    }
+  },
+};
+
+/**
  * Clicking a `PillButton` fires its handler, and a `loading` pill blocks the click while staying
  * focusable (`aria-busy`). Tagged out of the sidebar/docs/manifest but still run under `test`.
  */

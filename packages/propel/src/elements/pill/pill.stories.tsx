@@ -220,6 +220,34 @@ export const Icons: Story = {
 };
 
 /**
+ * Labels past the 120px cap truncate with an ellipsis. `PillLabel` bakes a native `title` from the
+ * string children so hover recovers the full text.
+ */
+export const TruncatedLabel: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex items-center gap-3">
+      <PillButton magnitude="md" aria-label="View Engineering Infrastructure Team">
+        <Icon>
+          <Tag />
+        </Icon>
+        <PillLabel>Engineering Infrastructure Team – View</PillLabel>
+      </PillButton>
+      <PillSwitch
+        magnitude="md"
+        aria-pressed={false}
+        aria-label="Toggle Engineering Infrastructure Team"
+      >
+        <Icon>
+          <Tag />
+        </Icon>
+        <PillLabel>Engineering Infrastructure Team – Toggle</PillLabel>
+      </PillSwitch>
+    </div>
+  ),
+};
+
+/**
  * CSS canary (rule 2b): asserts the pinned `data-pressed` selector actually compiled — the pressed
  * switch's fill (`data-pressed:bg-layer-2-selected`) computes differently from the resting fill
  * (`bg-layer-2`). Tagged out of the sidebar/docs/manifest while still running under the default
