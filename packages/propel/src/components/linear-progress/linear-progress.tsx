@@ -13,7 +13,10 @@ import {
 export type LinearProgressMagnitude = NonNullable<LinearProgressTrackProps["magnitude"]>;
 export type LinearProgressTone = NonNullable<LinearProgressIndicatorProps["tone"]>;
 
-export type LinearProgressProps = Omit<BaseProgress.Root.Props, "className" | "style" | "value"> & {
+export type LinearProgressProps = Omit<
+  BaseProgress.Root.Props,
+  "className" | "style" | "value" | "render"
+> & {
   /**
    * Completion from 0 to `max` (default 100). `null` = indeterminate (animated fill,
    * `aria-valuenow` unset).
@@ -27,8 +30,8 @@ export type LinearProgressProps = Omit<BaseProgress.Root.Props, "className" | "s
   showValue?: boolean;
   /** Visible text label before the track — Base UI's `Progress.Label` (also names the bar). */
   label?: string;
-  /** Accessible name (required — the visible % is not a substitute). */
-  "aria-label": string;
+  /** Accessible name. Required unless `label` is set — then the visible `label` names the bar. */
+  "aria-label"?: string;
 };
 
 /**

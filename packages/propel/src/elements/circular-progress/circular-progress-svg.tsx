@@ -3,7 +3,6 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { circularProgressSvgVariants } from "./variants";
 
-/** Props for {@link CircularProgressSvg}. */
 export type CircularProgressSvgProps = Omit<useRender.ComponentProps<"svg">, "className" | "style">;
 
 /**

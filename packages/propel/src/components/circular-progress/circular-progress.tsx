@@ -22,7 +22,7 @@ const RING_STROKE = 2;
 
 export type CircularProgressProps = Omit<
   BaseProgress.Root.Props,
-  "className" | "style" | "value"
+  "className" | "style" | "value" | "render"
 > & {
   /**
    * Completion from 0 to `max` (default 100). `null` = indeterminate: a fixed quarter arc spins
@@ -56,8 +56,8 @@ export function CircularProgress({ value, magnitude, tone, ...props }: CircularP
   return (
     <BaseProgress.Root
       value={clampedValue}
-      render={<CircularProgressElement magnitude={magnitude} />}
       {...props}
+      render={<CircularProgressElement magnitude={magnitude} />}
     >
       <CircularProgressSvg viewBox={`0 0 ${box} ${box}`}>
         <CircularProgressTrack cx={center} cy={center} r={radius} strokeWidth={RING_STROKE} />

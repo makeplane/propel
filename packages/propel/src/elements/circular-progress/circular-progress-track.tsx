@@ -3,7 +3,6 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { circularProgressTrackVariants } from "./variants";
 
-/** Props for {@link CircularProgressTrack}. */
 export type CircularProgressTrackProps = Omit<
   useRender.ComponentProps<"circle">,
   "className" | "style"

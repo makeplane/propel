@@ -4,6 +4,7 @@ import { expect, waitFor } from "storybook/test";
 
 import {
   LinearProgressIndicator,
+  LinearProgressLabel,
   LinearProgressTrack,
   LinearProgressValue,
 } from "../../elements/linear-progress";
@@ -15,7 +16,12 @@ const TONES: LinearProgressTone[] = ["brand", "success", "warning", "danger"];
 const meta = {
   title: "Components/LinearProgress",
   component: LinearProgress,
-  subcomponents: { LinearProgressTrack, LinearProgressIndicator, LinearProgressValue },
+  subcomponents: {
+    LinearProgressLabel,
+    LinearProgressTrack,
+    LinearProgressIndicator,
+    LinearProgressValue,
+  },
   args: { value: 60, magnitude: "md", tone: "brand", "aria-label": "Upload progress" },
   // The bar has no intrinsic width (`w-full` root, `flex-1 min-w-0` track), so a bare render
   // collapses to 0px under the centered layout — give every story a real width to fill.
@@ -106,5 +112,11 @@ export const HasProgressbarRole: Story = {
 
 /** A visible text label before the track — `label` also names the bar for assistive tech. */
 export const WithLabel: Story = {
-  args: { value: 60, magnitude: "md", tone: "brand", label: "Uploading attachments" },
+  args: {
+    value: 60,
+    magnitude: "md",
+    tone: "brand",
+    label: "Uploading attachments",
+    "aria-label": undefined,
+  },
 };
