@@ -48,16 +48,16 @@ export function WorkspaceAvatar({
   // Tone is always system-chosen (never a consumer prop): seed a stable color from the name, else
   // the initials text, so unnamed workspaces vary by initials instead of collapsing onto one color.
   const resolvedTone = getAvatarTone(getAvatarToneSeed(alt, fallback));
+  // Named vs decorative: with an `alt`, expose one accessible name for every state (logo / initials)
+  // via `role="img"`; without one, mark the avatar `aria-hidden` so it is skipped rather than
+  // announced as a nameless image (the name lives in adjacent text). This is the only correct pair —
+  // a `role="img"` with no name is an axe violation. (Matches `components/avatar`.)
+  const a11y = alt != null ? { role: "img", "aria-label": alt } : { "aria-hidden": true };
   return (
     // Base UI's `Avatar` behavior grafts onto the styled `elements` parts via `render` (behavior part
-    // outer, styled part as the render target). `role="img"` + `aria-label` give the avatar one
-    // accessible name in every state (logo / initials); the inner image is decorative.
-    <BaseAvatar.Root
-      {...props}
-      render={<WorkspaceAvatarElement magnitude={magnitude} />}
-      role="img"
-      aria-label={alt}
-    >
+    // outer, styled part as the render target). `{...props}` spreads before the hardcoded a11y attrs
+    // so a stray same-named prop can never silently override them.
+    <BaseAvatar.Root {...props} render={<WorkspaceAvatarElement magnitude={magnitude} />} {...a11y}>
       {src ? <BaseAvatar.Image render={<WorkspaceAvatarImage />} src={src} alt="" /> : null}
       {hasInitials ? (
         <BaseAvatar.Fallback delay={delay} render={<WorkspaceAvatarFallback tone={resolvedTone} />}>

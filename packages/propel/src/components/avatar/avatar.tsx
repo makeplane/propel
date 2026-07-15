@@ -45,18 +45,16 @@ export function Avatar({ magnitude, src, alt, fallback, delay, ...props }: Avata
   // Tone is always system-chosen (never a consumer prop): seed a stable color from the name, else
   // the initials text, so unnamed avatars vary by initials instead of collapsing onto one color.
   const resolvedTone = getAvatarTone(getAvatarToneSeed(alt, fallback));
+  // Named vs decorative: with an `alt`, expose one accessible name for every state
+  // (image / initials / icon) via `role="img"`; without one, mark the avatar `aria-hidden` so it is
+  // skipped rather than announced as a nameless image (the name lives in adjacent text). This is the
+  // only correct pair — a `role="img"` with no name is an axe violation.
+  const a11y = alt != null ? { role: "img", "aria-label": alt } : { "aria-hidden": true };
   return (
-    // `role="img"` + `aria-label` give the avatar one accessible name in every state
-    // (image / initials / icon); the inner image is decorative. Base UI `Avatar` behavior/context
-    // grafts onto the styled `elements/avatar` parts via `render` (behavior part outer). `{...props}`
-    // spreads before the hardcoded `role`/`aria-label` so a stray same-named prop can never silently
-    // override the `alt`-derived accessible name (matches `components/workspace-avatar`).
-    <BaseAvatar.Root
-      {...props}
-      render={<AvatarElement magnitude={effectiveMagnitude} />}
-      role="img"
-      aria-label={alt}
-    >
+    // Base UI `Avatar` behavior/context grafts onto the styled `elements/avatar` parts via `render`
+    // (behavior part outer). `{...props}` spreads before the hardcoded a11y attrs so a stray
+    // same-named prop can never silently override them (matches `components/workspace-avatar`).
+    <BaseAvatar.Root {...props} render={<AvatarElement magnitude={effectiveMagnitude} />} {...a11y}>
       {src ? <BaseAvatar.Image render={<AvatarImage />} src={src} alt="" /> : null}
       {hasInitials ? (
         <BaseAvatar.Fallback delay={delay} render={<AvatarFallback tone={resolvedTone} />}>

@@ -70,14 +70,7 @@ const NO_ALT_INITIALS = ["NN", "AD", "MK", "AR", "JD", "AB"];
  * gets a varied palette rather than all sharing one color.
  */
 export const NoAltDistinctTones: Story = {
-  parameters: {
-    controls: { disable: true },
-    // These avatars intentionally omit `alt` to exercise the tone-from-initials path, so the
-    // `role="img"` root has no accessible name and axe's `role-img-alt` fires. That naming gap is
-    // orthogonal to what this story demonstrates (tone distribution) and is covered by the
-    // alt-bearing stories above; disable just this rule here.
-    a11y: { config: { rules: [{ id: "role-img-alt", enabled: false }] } },
-  },
+  parameters: { controls: { disable: true } },
   render: () => (
     <>
       {NO_ALT_INITIALS.map((initials) => (
