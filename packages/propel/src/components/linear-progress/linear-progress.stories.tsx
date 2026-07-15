@@ -35,7 +35,10 @@ const meta = {
 } satisfies Meta<typeof LinearProgress>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+// Typed against the component (not `typeof meta`): the props are a discriminated union on
+// `label`/`aria-label`, which `StoryObj<typeof meta>` collapses to `never`. `StoryObj<typeof
+// LinearProgress>` keeps per-story args as a `Partial` of the union so stories still type-check.
+type Story = StoryObj<typeof LinearProgress>;
 
 export const Default: Story = {};
 

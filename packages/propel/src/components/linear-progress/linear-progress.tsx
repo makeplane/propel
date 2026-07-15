@@ -13,9 +13,9 @@ import {
 export type LinearProgressMagnitude = NonNullable<LinearProgressTrackProps["magnitude"]>;
 export type LinearProgressTone = NonNullable<LinearProgressIndicatorProps["tone"]>;
 
-export type LinearProgressProps = Omit<
+type LinearProgressOwnProps = Omit<
   BaseProgress.Root.Props,
-  "className" | "style" | "value" | "render"
+  "className" | "style" | "value" | "render" | "aria-label"
 > & {
   /**
    * Completion from 0 to `max` (default 100). `null` = indeterminate (animated fill,
@@ -28,11 +28,27 @@ export type LinearProgressProps = Omit<
   tone: LinearProgressTone;
   /** Show the trailing percentage label. @default true */
   showValue?: boolean;
-  /** Visible text label before the track — Base UI's `Progress.Label` (also names the bar). */
-  label?: string;
-  /** Accessible name. Required unless `label` is set — then the visible `label` names the bar. */
-  "aria-label"?: string;
 };
+
+/**
+ * The bar always has an accessible name: pass a visible `label` (names it via Base UI's
+ * `Progress.Label`) or an `aria-label` — the union makes omitting both a type error rather than a
+ * silently unnamed progressbar.
+ */
+export type LinearProgressProps = LinearProgressOwnProps &
+  (
+    | {
+        /** Visible text label before the track — Base UI's `Progress.Label` (also names the bar). */
+        label: string;
+        /** Accessible name. Optional when `label` is set — the visible label already names the bar. */
+        "aria-label"?: string;
+      }
+    | {
+        label?: undefined;
+        /** Accessible name (required when there is no visible `label`). */
+        "aria-label": string;
+      }
+  );
 
 /**
  * A horizontal determinate/indeterminate progress bar with an optional trailing `%` label. Drive it
