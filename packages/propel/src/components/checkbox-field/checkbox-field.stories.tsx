@@ -5,7 +5,7 @@ import { CheckboxField, type FieldMagnitude } from "./index";
 
 const MAGNITUDES: FieldMagnitude[] = ["md", "lg", "xl"];
 
-// A single checkbox laid out as a field row (Field + CheckboxFieldControl + label/helper).
+// A single checkbox laid out as a field row (Field + bare Checkbox + label/helper).
 const meta = {
   title: "Components/CheckboxField",
   component: CheckboxField,

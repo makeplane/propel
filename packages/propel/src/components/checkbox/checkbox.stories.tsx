@@ -79,6 +79,7 @@ export const States: Story = {
       <Checkbox label="Indeterminate" indeterminate />
       <Checkbox label="Disabled" disabled />
       <Checkbox label="Disabled checked" disabled defaultChecked />
+      <Checkbox label="Disabled indeterminate" disabled indeterminate />
     </div>
   ),
 };
@@ -112,6 +113,22 @@ export const WithoutLabel: Story = {
 export const WithLabel: Story = {
   parameters: { controls: { disable: true } },
   render: () => <Checkbox label="Send me product updates" defaultChecked />,
+};
+
+/**
+ * Interaction test: clicking the label text (not the box) toggles via the ready-made's
+ * `htmlFor`/`id` association. Tagged out of the sidebar/docs/manifest while still running under the
+ * default `test` tag.
+ */
+export const LabelClickToggles: Story = {
+  ...WithLabel,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const box = canvas.getByRole("checkbox");
+    await expect(box).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(canvas.getByText("Send me product updates"));
+    await expect(box).toHaveAttribute("aria-checked", "false");
+  },
 };
 
 /**

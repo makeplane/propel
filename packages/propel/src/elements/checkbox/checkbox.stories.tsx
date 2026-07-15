@@ -195,9 +195,10 @@ export const States: Story = {
 /**
  * Hidden CSS canary: asserts the pinned `data-*` states compile to real styling — the
  * `data-invalid` border and `data-checked` fill differ from resting, the invalid+checked box keeps
- * the same accent fill as the plain checked box, the three box-level hovers (forced via
- * pseudo-states) shift fill away from their resting counterparts, and inside the indeterminate box
- * the check computes `display: none` while the dash computes `inline-flex`. Tagged out of the
+ * the same accent fill as the plain checked box, disabled unchecked/checked use `--txt-disabled`
+ * for border and fill (same computed color), the three box-level hovers (forced via pseudo-states)
+ * shift fill away from their resting counterparts, and inside the indeterminate box the check
+ * computes `display: none` while the dash computes `inline-flex`. Tagged out of the
  * sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const StatesCssCanary: Story = {
@@ -219,6 +220,19 @@ export const StatesCssCanary: Story = {
     const invalidChecked = canvas.getByRole("checkbox", { name: "Invalid checked" });
     await expect(getComputedStyle(invalidChecked).backgroundColor).toBe(
       getComputedStyle(checked).backgroundColor,
+    );
+    // Disabled: Figma `#71777A` via `--txt-disabled` — border (unchecked) and fill (checked) match,
+    // and both differ from their enabled counterparts.
+    const disabled = canvas.getByRole("checkbox", { name: "Disabled" });
+    const disabledChecked = canvas.getByRole("checkbox", { name: "Disabled checked" });
+    await expect(getComputedStyle(disabled).borderColor).not.toBe(
+      getComputedStyle(resting).borderColor,
+    );
+    await expect(getComputedStyle(disabledChecked).backgroundColor).not.toBe(
+      getComputedStyle(checked).backgroundColor,
+    );
+    await expect(getComputedStyle(disabledChecked).backgroundColor).toBe(
+      getComputedStyle(disabled).borderColor,
     );
     // Box-level hovers: unchecked wash + darker accent for checked/indeterminate.
     const hoverUnchecked = canvas.getByRole("checkbox", { name: "Hover unchecked" });
@@ -256,7 +270,7 @@ export const Labeled: Story = {
   },
   render: () => (
     <div className="flex flex-col items-start gap-2">
-      <CheckboxLabel>
+      <CheckboxLabel sizing="hug">
         <Checkbox
           role="checkbox"
           aria-checked="true"
@@ -272,11 +286,11 @@ export const Labeled: Story = {
         </Icon>
         Sync automatically
       </CheckboxLabel>
-      <CheckboxLabel id="elements-checkbox-label-hover">
+      <CheckboxLabel id="elements-checkbox-label-hover" sizing="hug">
         <Checkbox role="checkbox" aria-checked="false" aria-label="Hovered row" />
         Hovered row
       </CheckboxLabel>
-      <CheckboxLabel>
+      <CheckboxLabel sizing="hug">
         <Checkbox
           role="checkbox"
           aria-checked="false"
@@ -285,6 +299,30 @@ export const Labeled: Story = {
           data-disabled=""
         />
         Disabled row
+      </CheckboxLabel>
+    </div>
+  ),
+};
+
+/**
+ * The label row's only variant axis: `hug` sizes to content; `fill` stretches to the container
+ * width (e.g. a settings list where the whole row is the hit target).
+ */
+export const Sizing: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex w-72 flex-col gap-2">
+      <CheckboxLabel sizing="hug">
+        <Checkbox role="checkbox" aria-checked="false" aria-label="Hug" />
+        Hug
+      </CheckboxLabel>
+      <CheckboxLabel sizing="fill">
+        <Checkbox role="checkbox" aria-checked="true" aria-label="Fill" data-checked="">
+          <CheckboxIndicator data-checked="">
+            <Check aria-hidden />
+          </CheckboxIndicator>
+        </Checkbox>
+        Fill
       </CheckboxLabel>
     </div>
   ),

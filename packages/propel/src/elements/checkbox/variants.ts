@@ -26,10 +26,8 @@ export const checkboxIndeterminateIndicatorVariants = cva(
 // disabled state off the wrapped `Checkbox` (Base UI — and `Field.Root` — set `data-disabled` on
 // it) via `:has()`, so it needs no `disabled` prop: it cancels the hover background and shows the
 // not-allowed cursor whenever a descendant is disabled.
-const checkboxLabelDefaultVariants = {
-  sizing: "hug",
-} as const;
-
+// No `defaultVariants` — `sizing` is required here; the ready-made `components/Checkbox` resolves
+// the consumer default (`"hug"`) per AGENTS rule 13.
 export const checkboxLabelVariants = cva(
   cx(
     // `align-top`: an `inline-flex` row baseline-aligns to its first item. The box is empty while
@@ -39,9 +37,10 @@ export const checkboxLabelVariants = cva(
     "inline-flex items-center gap-2 rounded-sm px-2 py-1 align-top",
     // Figma `font/body-xs/regular` + `text/secondary` — use the composite type utility (not bare
     // `text-13`) so size 13, weight regular, and line-height 154% all apply together. Disabled
-    // recolors the label (and the optional leading Icon slot) to `text/disabled` (#71777A) off the
-    // wrapped box's `data-disabled` — the Icon keeps its own tint class, so the direct-child
-    // `aria-hidden` span is overridden explicitly.
+    // recolors the label to `text/disabled` (#71777A) off the wrapped box's `data-disabled`. The
+    // optional icon slot is overridden via `[&>span[aria-hidden]]` — that assumes a direct-child
+    // `aria-hidden` span (the shared `Icon`). Pass that shape (or equivalent); a bare SVG /
+    // fragment / nested wrapper will keep its own tint when disabled.
     "text-body-xs-regular text-secondary transition-colors",
     "cursor-pointer not-has-[[data-disabled]]:hover:bg-layer-transparent-hover",
     "has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:text-disabled has-[[data-disabled]]:[&>span[aria-hidden]]:text-disabled",
@@ -53,13 +52,9 @@ export const checkboxLabelVariants = cva(
         fill: "w-full",
       },
     },
-    defaultVariants: checkboxLabelDefaultVariants,
   },
 );
 
 type CheckboxLabelVariantConfig = VariantProps<typeof checkboxLabelVariants>;
 export type CheckboxLabelSizing = NonNullable<CheckboxLabelVariantConfig["sizing"]>;
-export type CheckboxLabelVariantProps = StrictVariantProps<
-  typeof checkboxLabelVariants,
-  keyof typeof checkboxLabelDefaultVariants
->;
+export type CheckboxLabelVariantProps = StrictVariantProps<typeof checkboxLabelVariants>;
