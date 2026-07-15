@@ -54,7 +54,7 @@ export function LinearProgress({
         <BaseProgress.Indicator render={<LinearProgressIndicator tone={tone} />} />
       </BaseProgress.Track>
       {showValue ? (
-        <BaseProgress.Value render={<LinearProgressValue />}>
+        <BaseProgress.Value render={<LinearProgressValue tone={tone} />}>
           {(_, currentValue) => (currentValue == null ? "" : `${Math.round(currentValue)}%`)}
         </BaseProgress.Value>
       ) : null}

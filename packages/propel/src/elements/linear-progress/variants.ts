@@ -33,13 +33,25 @@ export const linearProgressIndicatorVariants = cva(
 
 export const linearProgressLabelVariants = cva("text-13 font-medium text-secondary");
 
-// The percentage is a neutral readout (matching the label), not a toned signal — the semantic color
-// lives on the fill bar. Neutral also avoids low-contrast amber/green readouts on a neutral surface.
-export const linearProgressValueVariants = cva("text-12 font-medium text-secondary tabular-nums");
+// The percentage readout is tinted to match the fill `tone` (per Figma) — the semantic color reads
+// on both the bar and the number.
+export const linearProgressValueVariants = cva("text-12 font-medium tabular-nums", {
+  variants: {
+    tone: {
+      brand: "text-accent-primary",
+      success: "text-success-primary",
+      warning: "text-warning-primary",
+      danger: "text-danger-primary",
+    },
+  },
+});
 
 export type LinearProgressTrackVariantProps = StrictVariantProps<
   typeof linearProgressTrackVariants
 >;
 export type LinearProgressIndicatorVariantProps = StrictVariantProps<
   typeof linearProgressIndicatorVariants
+>;
+export type LinearProgressValueVariantProps = StrictVariantProps<
+  typeof linearProgressValueVariants
 >;

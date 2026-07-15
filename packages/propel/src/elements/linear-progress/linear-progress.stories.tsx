@@ -73,7 +73,7 @@ export const Default: Story = {
             render={<div style={fillStyle(60)} />}
           />
         </LinearProgressTrack>
-        <LinearProgressValue>60%</LinearProgressValue>
+        <LinearProgressValue tone="brand">60%</LinearProgressValue>
       </LinearProgress>
     </div>
   ),
@@ -101,7 +101,7 @@ export const Tones: Story = {
               render={<div style={fillStyle(60)} />}
             />
           </LinearProgressTrack>
-          <LinearProgressValue>60%</LinearProgressValue>
+          <LinearProgressValue tone={tone}>60%</LinearProgressValue>
         </LinearProgress>
       ))}
     </div>
@@ -130,7 +130,7 @@ export const Magnitudes: Story = {
               render={<div style={fillStyle(60)} />}
             />
           </LinearProgressTrack>
-          <LinearProgressValue>60%</LinearProgressValue>
+          <LinearProgressValue tone="brand">60%</LinearProgressValue>
         </LinearProgress>
       ))}
     </div>
@@ -165,7 +165,7 @@ export const Values: Story = {
                 render={<div style={fillStyle(value)} />}
               />
             </LinearProgressTrack>
-            <LinearProgressValue>{value}%</LinearProgressValue>
+            <LinearProgressValue tone="brand">{value}%</LinearProgressValue>
           </LinearProgress>
         );
       })}
