@@ -1,0 +1,65 @@
+---
+import type { PropItemType } from "react-docgen-typescript";
+
+import { getComponentDoc } from "~/lib/props-schema";
+
+type Part = {
+  source: string;
+  component: string;
+};
+
+type Props = {
+  parts: Part[];
+};
+
+const { parts } = Astro.props;
+
+// `shouldExtractLiteralValuesFromEnum` (props-schema.ts) puts a string-literal union's members in
+// `type.value` (each `{ value: '"primary"' }`) while `type.name` stays the generic `"enum"` — join
+// them back into the `"primary" | "secondary" | …` form so the table shows the real union, not the
+// bare word "enum".
+function formatType(type: PropItemType): string {
+  if (type.name === "enum" && Array.isArray(type.value)) {
+    return type.value.map((entry: { value: string }) => entry.value).join(" | ");
+  }
+  return type.name;
+}
+---
+
+<div class="flex flex-col gap-8">
+  {
+    parts.map(({ source, component }) => {
+      const doc = getComponentDoc(source, component);
+      const props = doc ? Object.values(doc.props) : [];
+      return (
+        <div>
+          <h3 class="mb-3 font-mono text-sm font-medium text-primary">{component}</h3>
+          <div class="overflow-x-auto rounded-lg border border-subtle">
+            <table class="w-full border-collapse text-sm">
+              <thead>
+                <tr class="border-b border-subtle bg-surface-1 text-left">
+                  <th class="px-4 py-2 font-medium text-secondary">Prop</th>
+                  <th class="px-4 py-2 font-medium text-secondary">Type</th>
+                  <th class="px-4 py-2 font-medium text-secondary">Required</th>
+                  <th class="px-4 py-2 font-medium text-secondary">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {props.map((prop) => (
+                  <tr class="border-b border-subtle last:border-0">
+                    <td class="px-4 py-2 font-mono text-primary">{prop.name}</td>
+                    <td class="max-w-xs px-4 py-2 font-mono text-xs text-secondary">
+                      {formatType(prop.type)}
+                    </td>
+                    <td class="px-4 py-2 text-secondary">{prop.required ? "Yes" : "No"}</td>
+                    <td class="px-4 py-2 text-secondary">{prop.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    })
+  }
+</div>

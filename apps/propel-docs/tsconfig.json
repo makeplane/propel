@@ -5,7 +5,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      // Mirrors astro.config.mjs's dev-mode Vite alias, but for `astro check`'s standalone
+      // TypeScript program: that check never runs through Vite, so without this it can only
+      // resolve `@makeplane/propel/components/*` via the package's `exports` map, which points
+      // at `dist/**` — nonexistent until propel is built. Pointing type-checking at the same
+      // live source the Vite alias uses keeps `astro check` green without a build step, for this
+      // and every later component-page task's demos.
+      "@makeplane/propel/components/*": ["../../packages/propel/src/components/*/index.tsx"]
     }
   }
 }

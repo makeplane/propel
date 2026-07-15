@@ -1,0 +1,34 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Button
+description: Triggers an action or event, such as submitting a form or opening a dialog.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/button/basic.tsx";
+import basicSource from "~/demos/button/basic.tsx?raw";
+import WithIconDemo from "~/demos/button/with-icon.tsx";
+import withIconSource from "~/demos/button/with-icon.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## With an icon
+
+<ComponentExample code={withIconSource}>
+  <WithIconDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Button } from "@makeplane/propel/components/button";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/button/button.tsx", component: "Button" }]} />
