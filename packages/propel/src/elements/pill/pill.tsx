@@ -10,7 +10,7 @@ export type PillButtonProps = Omit<useRender.ComponentProps<"button">, "classNam
 
 /**
  * The pill-shaped button container: a styled `<button>` with no baked content. Compose a
- * `PillLabel` and optional leading/trailing `PillIcon` (or `PillSpinner`) inside it.
+ * `PillLabel` and optional leading/trailing `Icon` (or `Spinner` while busy) inside it.
  * Base-UI-agnostic — graft the Base UI `Button` behavior in `components` via `<BaseButton
  * render={<PillButton/>} />`.
  */

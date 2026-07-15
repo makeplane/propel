@@ -107,6 +107,4 @@ export type IconPillVariantProps = StrictVariantProps<typeof iconPillVariants>;
 // keeps it on one line per the Figma spec.
 export const pillLabelVariants = cva("min-w-0 truncate");
 
-export type PillMagnitude = NonNullable<
-  NonNullable<Parameters<typeof pillButtonVariants>[0]>["magnitude"]
->;
+export type PillMagnitude = NonNullable<PillButtonVariantConfig["magnitude"]>;

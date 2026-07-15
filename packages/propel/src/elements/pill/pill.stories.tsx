@@ -12,11 +12,11 @@ const MAGNITUDES: PillMagnitude[] = ["sm", "md", "lg"];
 // (PillButton / PillSwitch / IconPill) and inline parts (PillLabel, internal Icon/Spinner slots)
 // render DIRECTLY — no Base UI grafts — with every visual axis (`magnitude` / `emphasis`) shown and every
 // visual state pinned statically via the attributes the cvas key off: `disabled` is the native
-// attribute, busy pins the `aria-busy` (+ `aria-disabled`) the ready-made pills set while
-// `loading`, and the switch's selected look pins the `data-pressed=""`/`aria-pressed` Base UI's
-// `Toggle` would set. Hover / active / focus-visible are CSS pseudo-classes, forced by the
-// pseudo-states addon. Grafting, keyboard, and aria behavior are demonstrated AND tested in the
-// ready-made pills (Components/Pill), which compose these parts.
+// attribute; busy pins `aria-busy` (what drives the loading look) and may also set `aria-disabled`
+// to mirror ready-made a11y, though styles do not key off it; and the switch's selected look pins
+// the `data-pressed=""`/`aria-pressed` Base UI's `Toggle` would set. Hover / active / focus-visible
+// are CSS pseudo-classes, forced by the pseudo-states addon. Grafting, keyboard, and aria behavior
+// are demonstrated AND tested in the ready-made pills (Components/Pill), which compose these parts.
 const meta = {
   title: "Elements/Pill",
   component: PillButton,
@@ -86,58 +86,97 @@ export const Emphases: Story = {
 };
 
 /**
- * Every visual state of `PillButton`, pinned statically. Hover / active / focus-visible are CSS
- * pseudo-classes forced by the pseudo-states addon; `disabled` is the native attribute the
- * `disabled:` palette keys off; busy pins the `aria-busy` (+ `aria-disabled`) the ready-made pill
- * sets while `loading` — spinner sits after the label (Figma) and keeps the button focusable.
+ * Every visual state of `PillButton` for both emphases, pinned statically. Hover / active /
+ * focus-visible via the pseudo-states addon; `disabled` native; busy pins `aria-busy` (loading
+ * styles) plus `aria-disabled` for ready-made a11y parity, with spinner after the label (Figma).
  */
 export const States: Story = {
   parameters: {
     controls: { disable: true },
     pseudo: {
-      hover: ["#pill-button-hover"],
-      active: ["#pill-button-active"],
-      focusVisible: ["#pill-button-focus"],
+      hover: ["#pill-button-outline-hover", "#pill-button-soft-hover"],
+      active: ["#pill-button-outline-active", "#pill-button-soft-active"],
+      focusVisible: ["#pill-button-outline-focus", "#pill-button-soft-focus"],
     },
   },
   render: () => (
-    <div className="flex items-center gap-3">
-      <PillButton magnitude="md" emphasis="outline">
-        <Icon>
-          <Tag />
-        </Icon>
-        <PillLabel>Default</PillLabel>
-      </PillButton>
-      <PillButton id="pill-button-hover" magnitude="md" emphasis="outline">
-        <Icon>
-          <Tag />
-        </Icon>
-        <PillLabel>Hover</PillLabel>
-      </PillButton>
-      <PillButton id="pill-button-active" magnitude="md" emphasis="outline">
-        <Icon>
-          <Tag />
-        </Icon>
-        <PillLabel>Active</PillLabel>
-      </PillButton>
-      <PillButton id="pill-button-focus" magnitude="md" emphasis="outline">
-        <Icon>
-          <Tag />
-        </Icon>
-        <PillLabel>Focus</PillLabel>
-      </PillButton>
-      <PillButton magnitude="md" emphasis="outline" disabled>
-        <Icon>
-          <Tag />
-        </Icon>
-        <PillLabel>Disabled</PillLabel>
-      </PillButton>
-      <PillButton magnitude="md" emphasis="outline" aria-busy aria-disabled>
-        <PillLabel>Busy</PillLabel>
-        <Spinner>
-          <LoaderCircle />
-        </Spinner>
-      </PillButton>
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-3">
+        <PillButton magnitude="md" emphasis="outline">
+          <Icon>
+            <Tag />
+          </Icon>
+          <PillLabel>outline</PillLabel>
+        </PillButton>
+        <PillButton id="pill-button-outline-hover" magnitude="md" emphasis="outline">
+          <Icon>
+            <Tag />
+          </Icon>
+          <PillLabel>outline hover</PillLabel>
+        </PillButton>
+        <PillButton id="pill-button-outline-active" magnitude="md" emphasis="outline">
+          <Icon>
+            <Tag />
+          </Icon>
+          <PillLabel>outline active</PillLabel>
+        </PillButton>
+        <PillButton id="pill-button-outline-focus" magnitude="md" emphasis="outline">
+          <Icon>
+            <Tag />
+          </Icon>
+          <PillLabel>outline focus</PillLabel>
+        </PillButton>
+        <PillButton magnitude="md" emphasis="outline" disabled>
+          <Icon>
+            <Tag />
+          </Icon>
+          <PillLabel>outline disabled</PillLabel>
+        </PillButton>
+        <PillButton magnitude="md" emphasis="outline" aria-busy aria-disabled>
+          <PillLabel>outline busy</PillLabel>
+          <Spinner>
+            <LoaderCircle />
+          </Spinner>
+        </PillButton>
+      </div>
+      <div className="flex items-center gap-3">
+        <PillButton magnitude="md" emphasis="soft">
+          <Icon>
+            <Tag />
+          </Icon>
+          <PillLabel>soft</PillLabel>
+        </PillButton>
+        <PillButton id="pill-button-soft-hover" magnitude="md" emphasis="soft">
+          <Icon>
+            <Tag />
+          </Icon>
+          <PillLabel>soft hover</PillLabel>
+        </PillButton>
+        <PillButton id="pill-button-soft-active" magnitude="md" emphasis="soft">
+          <Icon>
+            <Tag />
+          </Icon>
+          <PillLabel>soft active</PillLabel>
+        </PillButton>
+        <PillButton id="pill-button-soft-focus" magnitude="md" emphasis="soft">
+          <Icon>
+            <Tag />
+          </Icon>
+          <PillLabel>soft focus</PillLabel>
+        </PillButton>
+        <PillButton magnitude="md" emphasis="soft" disabled>
+          <Icon>
+            <Tag />
+          </Icon>
+          <PillLabel>soft disabled</PillLabel>
+        </PillButton>
+        <PillButton magnitude="md" emphasis="soft" aria-busy aria-disabled>
+          <PillLabel>soft busy</PillLabel>
+          <Spinner>
+            <LoaderCircle />
+          </Spinner>
+        </PillButton>
+      </div>
     </div>
   ),
 };
@@ -185,8 +224,9 @@ export const Switch: Story = {
 
 /**
  * Icon-only `IconPill` containers. Require an `aria-label`. Second row pins the states: hover /
- * active / focus-visible via the pseudo-states addon, native `disabled`, and busy (`aria-busy` +
- * `aria-disabled` with the internal `Spinner` slot replacing the icon).
+ * active / focus-visible via the pseudo-states addon, native `disabled`, and busy (`aria-busy`
+ * drives loading styles; `aria-disabled` mirrors ready-made a11y; internal `Spinner` replaces the
+ * icon).
  */
 export const Icons: Story = {
   parameters: {

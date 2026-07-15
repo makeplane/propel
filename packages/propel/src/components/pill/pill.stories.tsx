@@ -10,6 +10,7 @@ const MAGNITUDES = ["sm", "md", "lg"] as const;
 // Module-scope spies so the `play` function can assert against the same references the
 // `render` wires to the buttons.
 const clickSpies = { onClick: fn(), onLoadingClick: fn() };
+const iconPillLoadingSpy = fn();
 
 const meta = {
   title: "Components/Pill",
@@ -50,22 +51,75 @@ export const Magnitudes: Story = {
 };
 
 /**
- * `PillButton` states. Default / hover / active darken the chip's fill + border (hover and active
- * forced via the pseudo-states addon); `disabled` and `loading` drop to a transparent fill with a
- * dimmed label, and `loading` shows a spinner after the label (Figma).
+ * `PillButton` states for both emphases. Hover / active forced via the pseudo-states addon;
+ * `disabled` and `loading` drop to a transparent fill with a dimmed label; `loading` shows a
+ * spinner after the label (Figma).
  */
 export const States: Story = {
   parameters: {
     controls: { disable: true },
-    pseudo: { hover: ["#pill-hover"], active: ["#pill-active"] },
+    pseudo: {
+      hover: ["#pill-outline-hover", "#pill-soft-hover"],
+      active: ["#pill-outline-active", "#pill-soft-active"],
+    },
   },
   render: () => (
-    <div className="flex items-center gap-3">
-      <PillButton magnitude="md" startIcon={<Icon icon={Tag} />} label="Default" />
-      <PillButton id="pill-hover" magnitude="md" startIcon={<Icon icon={Tag} />} label="Hover" />
-      <PillButton id="pill-active" magnitude="md" startIcon={<Icon icon={Tag} />} label="Active" />
-      <PillButton magnitude="md" startIcon={<Icon icon={Tag} />} disabled label="Disabled" />
-      <PillButton magnitude="md" loading label="Loading" />
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-3">
+        <PillButton
+          magnitude="md"
+          emphasis="outline"
+          startIcon={<Icon icon={Tag} />}
+          label="outline"
+        />
+        <PillButton
+          id="pill-outline-hover"
+          magnitude="md"
+          emphasis="outline"
+          startIcon={<Icon icon={Tag} />}
+          label="outline hover"
+        />
+        <PillButton
+          id="pill-outline-active"
+          magnitude="md"
+          emphasis="outline"
+          startIcon={<Icon icon={Tag} />}
+          label="outline active"
+        />
+        <PillButton
+          magnitude="md"
+          emphasis="outline"
+          startIcon={<Icon icon={Tag} />}
+          disabled
+          label="outline disabled"
+        />
+        <PillButton magnitude="md" emphasis="outline" loading label="outline loading" />
+      </div>
+      <div className="flex items-center gap-3">
+        <PillButton magnitude="md" emphasis="soft" startIcon={<Icon icon={Tag} />} label="soft" />
+        <PillButton
+          id="pill-soft-hover"
+          magnitude="md"
+          emphasis="soft"
+          startIcon={<Icon icon={Tag} />}
+          label="soft hover"
+        />
+        <PillButton
+          id="pill-soft-active"
+          magnitude="md"
+          emphasis="soft"
+          startIcon={<Icon icon={Tag} />}
+          label="soft active"
+        />
+        <PillButton
+          magnitude="md"
+          emphasis="soft"
+          startIcon={<Icon icon={Tag} />}
+          disabled
+          label="soft disabled"
+        />
+        <PillButton magnitude="md" emphasis="soft" loading label="soft loading" />
+      </div>
     </div>
   ),
 };
@@ -91,11 +145,21 @@ export const Emphases: Story = {
  * choices (e.g. display properties in a settings menu).
  */
 export const Switch: Story = {
-  parameters: { controls: { disable: true } },
+  parameters: {
+    controls: { disable: true },
+    pseudo: { hover: ["#pill-switch-hover"] },
+  },
   render: () => (
     <div className="flex items-center gap-3">
       <PillSwitch magnitude="md" startIcon={<Icon icon={Tag} />} label="Off" />
       <PillSwitch magnitude="md" startIcon={<Icon icon={Check} />} defaultPressed label="On" />
+      <PillSwitch
+        id="pill-switch-hover"
+        magnitude="md"
+        startIcon={<Icon icon={Tag} />}
+        label="Hover"
+      />
+      <PillSwitch magnitude="md" startIcon={<Icon icon={Tag} />} disabled label="Disabled" />
     </div>
   ),
 };
@@ -155,8 +219,10 @@ export const TruncatedLabel: Story = {
 };
 
 /**
- * Clicking a `PillButton` fires its handler, and a `loading` pill blocks the click while staying
- * focusable (`aria-busy`). Tagged out of the sidebar/docs/manifest but still run under `test`.
+ * Clicking a `PillButton` fires its handler. A `loading` pill is `aria-busy` + `aria-disabled` and
+ * blocks clicks, but stays focusable (NOT natively `disabled`) so assistive tech can announce busy.
+ * Spinner sits after the label (Figma). Tagged out of sidebar/docs/manifest; still run under
+ * `test`.
  */
 export const ButtonClicks: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
@@ -177,6 +243,12 @@ export const ButtonClicks: Story = {
 
     const busy = canvas.getByRole("button", { name: "Busy" });
     await expect(busy).toHaveAttribute("aria-busy", "true");
+    await expect(busy).toHaveAttribute("aria-disabled", "true");
+    // Soft-disabled: remains in the tab order and focusable.
+    await expect(busy).not.toBeDisabled();
+    busy.focus();
+    await expect(busy).toHaveFocus();
+
     await userEvent.click(busy);
     await expect(onLoadingClick).not.toHaveBeenCalled();
 
@@ -205,5 +277,38 @@ export const SwitchToggles: Story = {
     await expect(toggle).toHaveAttribute("aria-pressed", "true");
     await userEvent.click(toggle);
     await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  },
+};
+
+/**
+ * A `loading` `IconPill` is `aria-busy` + `aria-disabled` and blocks activation, but stays
+ * focusable (NOT natively `disabled`). Tagged out of sidebar/docs/manifest; still run under
+ * `test`.
+ */
+export const IconLoadingBlocks: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  render: () => (
+    <IconPill
+      magnitude="md"
+      aria-label="Add item"
+      loading
+      onClick={iconPillLoadingSpy}
+      icon={<Icon icon={Plus} />}
+    />
+  ),
+  play: async ({ canvas }) => {
+    iconPillLoadingSpy.mockClear();
+
+    const button = canvas.getByRole("button", { name: "Add item" });
+    await expect(button).toHaveAttribute("aria-busy", "true");
+    await expect(button).toHaveAttribute("aria-disabled", "true");
+    await expect(button).not.toBeDisabled();
+
+    button.focus();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("[Space]");
+    await userEvent.click(button);
+    await expect(iconPillLoadingSpy).not.toHaveBeenCalled();
   },
 };
