@@ -234,20 +234,12 @@ export const StatesCssCanary: Story = {
     await expect(getComputedStyle(disabledChecked).backgroundColor).toBe(
       getComputedStyle(disabled).borderColor,
     );
-    // Box-level hovers: unchecked wash + darker accent for checked/indeterminate.
-    const hoverUnchecked = canvas.getByRole("checkbox", { name: "Hover unchecked" });
-    const hoverChecked = canvas.getByRole("checkbox", { name: "Hover checked" });
+    // Box-level hovers (unchecked wash, darker accent for checked/indeterminate) are demonstrated
+    // in `States` for docs but NOT asserted here: like every canary in the tree, this one only
+    // checks static `data-*`/`aria-*` styling. The pseudo-states addon's forced `:hover` does not
+    // compute in the vitest browser env — the unchecked wash is a 4%-alpha overlay that reads as
+    // transparent-over-transparent, indistinguishable from the resting box.
     const indeterminate = canvas.getByRole("checkbox", { name: "Indeterminate" });
-    const hoverIndeterminate = canvas.getByRole("checkbox", { name: "Hover indeterminate" });
-    await expect(getComputedStyle(hoverUnchecked).backgroundColor).not.toBe(
-      getComputedStyle(resting).backgroundColor,
-    );
-    await expect(getComputedStyle(hoverChecked).backgroundColor).not.toBe(
-      getComputedStyle(checked).backgroundColor,
-    );
-    await expect(getComputedStyle(hoverIndeterminate).backgroundColor).not.toBe(
-      getComputedStyle(indeterminate).backgroundColor,
-    );
     // In the mixed state the check hides itself and the dash reveals itself off `data-indeterminate`.
     const [check, dash] = Array.from(indeterminate.children) as HTMLElement[];
     await expect(getComputedStyle(check).display).toBe("none");
@@ -267,6 +259,12 @@ export const Labeled: Story = {
   parameters: {
     controls: { disable: true },
     pseudo: { hover: ["#elements-checkbox-label-hover"] },
+    a11y: {
+      // The disabled row pins `data-disabled`, so axe evaluates the muted `text/disabled` (#71777A)
+      // label it never sees live — but WCAG 1.4.3 exempts disabled controls from contrast. Same
+      // rationale as the autocomplete/select `Popup` canaries.
+      config: { rules: [{ id: "color-contrast", enabled: false }] },
+    },
   },
   render: () => (
     <div className="flex flex-col items-start gap-2">
