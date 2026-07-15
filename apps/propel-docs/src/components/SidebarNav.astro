@@ -1,0 +1,31 @@
+---
+import { COMPONENTS } from "~/lib/components-registry";
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
+---
+
+<nav class="w-56 shrink-0">
+  <p class="mb-3 text-xs font-medium tracking-wide text-tertiary uppercase">Components</p>
+  <ul class="flex flex-col gap-1">
+    {
+      COMPONENTS.map((entry) => {
+        const href = `/components/${entry.slug}`;
+        const isActive = currentPath === href;
+        return (
+          <li>
+            <a
+              href={href}
+              class={`block rounded-md px-3 py-1.5 text-sm ${
+                isActive
+                  ? "bg-surface-2 text-primary"
+                  : "text-secondary hover:bg-surface-1 hover:text-primary"
+              }`}
+            >
+              {entry.title}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
