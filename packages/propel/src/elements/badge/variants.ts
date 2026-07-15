@@ -29,14 +29,14 @@ export const badgeVariants = cva(
         // Large: 24px tall, 8px x-padding, text/14, 16px nodes.
         lg: "h-6 px-2 text-14 [--node-size:1rem]",
       },
-      // Figma Color/sentiment axis — exactly the 11 tones the spec's Color property lists
-      // (`danger` = Figma's "Error"; no `info`, the spec defines none). Label-hue tones map to
-      // `bg-label-*`/`text-label-*` utilities; semantic tones (brand/success/warning/danger) map
-      // to the matching subtle background + primary text tokens — no arbitrary hex.
+      // Figma Color/sentiment axis (`danger` = Figma's "Error"). Label-hue tones map to
+      // `bg-label-*`/`text-label-*` utilities; semantic tones (brand/info/success/warning/danger)
+      // map to the matching subtle background + primary text tokens — no arbitrary hex.
       tone: {
         neutral: "bg-layer-3 text-label-grey-text",
         grey: "bg-label-grey-bg text-label-grey-text",
         brand: "bg-accent-subtle text-accent-primary",
+        info: "bg-info-subtle text-info-primary",
         indigo: "bg-label-indigo-bg text-label-indigo-text",
         success: "bg-success-subtle text-success-primary",
         emerald: "bg-label-emerald-bg text-label-emerald-text",

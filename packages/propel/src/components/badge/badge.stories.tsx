@@ -10,6 +10,7 @@ const TONES: BadgeTone[] = [
   "neutral",
   "grey",
   "brand",
+  "info",
   "indigo",
   "success",
   "emerald",

@@ -6,18 +6,21 @@ import {
   BadgeLabel,
 } from "../../elements/badge";
 
-export type BadgeProps = Omit<BadgeElementProps, "children"> & {
-  /**
-   * The badge label text. Omit for an icon-only badge (a compact status indicator) — the icon
-   * itself is decorative (`aria-hidden`), and a plain `<span>` carries no accessible name, so the
-   * pill gets `role="img"` in that case; pass an `aria-label` too, or it's still unlabeled.
-   */
-  label?: string;
+type BadgeOwnProps = Omit<BadgeElementProps, "children" | "aria-label"> & {
   /** Element rendered before the label (inline-start), e.g. `<Icon icon={Check} />`. */
   startIcon?: React.ReactNode;
   /** Element rendered after the label (inline-end), e.g. `<Icon icon={Sparkles} />`. */
   endIcon?: React.ReactNode;
 };
+
+/**
+ * Either a text badge or an icon-only one — and the accessible name is required either way. A
+ * labeled badge is named by its visible text (`aria-label` optional); an icon-only badge (no
+ * `label`) renders a `role="img"` pill whose name MUST come from `aria-label`, so the union makes
+ * omitting both a type error rather than a silently unnamed badge.
+ */
+export type BadgeProps = BadgeOwnProps &
+  ({ label: string; "aria-label"?: string } | { label?: undefined; "aria-label": string });
 
 /**
  * The ready-made badge: composes the atomic `Badge` pill with the `BadgeLabel` and optional leading
