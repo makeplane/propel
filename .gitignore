@@ -30,6 +30,9 @@ dist-ssr
 # Storybook build output
 storybook-static
 
+# Astro build cache
+.astro
+
 # Test coverage
 coverage
 
