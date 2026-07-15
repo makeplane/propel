@@ -1,4 +1,4 @@
-import { cva, cx } from "class-variance-authority";
+import { cva, cx, type VariantProps } from "class-variance-authority";
 
 import { type StrictVariantProps } from "../../internal/variant-props";
 
@@ -12,9 +12,9 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 // - Leading/trailing node position (inline-start / inline-end), sized per size step
 //
 // "Depends (adjustable)" → props: label (children), leading/trailing node, magnitude,
-// selected/unselected (PillSwitch pressed state), disabled, and which interactive part
-// (PillButton vs PillSwitch vs IconPill). magnitude has no sensible default, so it is a
-// required prop on every container part — no cva `defaultVariants`.
+// emphasis (PillButton outline|soft), selected/unselected (PillSwitch pressed state), disabled,
+// and which interactive part (PillButton vs PillSwitch vs IconPill). magnitude/emphasis have no
+// sensible default on elements, so they are required — no cva `defaultVariants`.
 
 // Shared structural base baked into every pill container cva below.
 const pillBase =
@@ -32,22 +32,35 @@ const labelPillMagnitude = {
 
 // ─── Containers (one styled element each) ────────────────────────────────────
 
-export const pillButtonVariants = cva(
-  [
-    labelPillBase,
-    "cursor-pointer border-subtle-1 bg-layer-2 text-secondary",
-    "hover:border-strong hover:bg-layer-2-hover",
-    "active:border-strong active:bg-layer-2-active active:text-primary",
-    "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
-    "aria-busy:cursor-default aria-busy:border-subtle-1 aria-busy:bg-layer-transparent aria-busy:text-disabled",
-  ],
-  {
-    variants: { magnitude: labelPillMagnitude },
+export const pillButtonVariants = cva([labelPillBase, "cursor-pointer text-secondary"], {
+  variants: {
+    magnitude: labelPillMagnitude,
+    // Figma PillButton mirrors Button prominence chrome (control-chrome):
+    // `outline` ≈ secondary (bordered + layer-2), `soft` ≈ tertiary (borderless + layer-3).
+    // Disabled/loading stay transparent per the pill Figma (not button's layer-disabled fill).
+    emphasis: {
+      outline: [
+        "border-subtle-1 bg-layer-2",
+        "hover:border-strong hover:bg-layer-2-hover",
+        "active:border-strong active:bg-layer-2-active active:text-primary",
+        "disabled:cursor-not-allowed disabled:border-subtle-1 disabled:bg-layer-transparent disabled:text-disabled",
+        "aria-busy:cursor-default aria-busy:border-subtle-1 aria-busy:bg-layer-transparent aria-busy:text-disabled",
+      ],
+      soft: [
+        "border-transparent bg-layer-3",
+        "hover:bg-layer-3-hover",
+        "active:bg-layer-3-active active:text-primary",
+        "disabled:cursor-not-allowed disabled:bg-layer-transparent disabled:text-disabled",
+        "aria-busy:cursor-default aria-busy:bg-layer-transparent aria-busy:text-disabled",
+      ],
+    },
   },
-);
+});
 
 // No `defaultVariants` today, so every axis is required.
 export type PillButtonVariantProps = StrictVariantProps<typeof pillButtonVariants>;
+type PillButtonVariantConfig = VariantProps<typeof pillButtonVariants>;
+export type PillButtonEmphasis = NonNullable<PillButtonVariantConfig["emphasis"]>;
 
 export const pillSwitchVariants = cva(
   [

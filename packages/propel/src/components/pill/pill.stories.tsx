@@ -52,7 +52,7 @@ export const Magnitudes: Story = {
 /**
  * `PillButton` states. Default / hover / active darken the chip's fill + border (hover and active
  * forced via the pseudo-states addon); `disabled` and `loading` drop to a transparent fill with a
- * dimmed label, and `loading` swaps the inline-start node for a spinner.
+ * dimmed label, and `loading` shows a spinner after the label (Figma).
  */
 export const States: Story = {
   parameters: {
@@ -66,6 +66,22 @@ export const States: Story = {
       <PillButton id="pill-active" magnitude="md" startIcon={<Icon icon={Tag} />} label="Active" />
       <PillButton magnitude="md" startIcon={<Icon icon={Tag} />} disabled label="Disabled" />
       <PillButton magnitude="md" loading label="Loading" />
+    </div>
+  ),
+};
+
+/** Both fill treatments: `outline` (≈ secondary) and `soft` (≈ tertiary). */
+export const Emphases: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex items-center gap-3">
+      <PillButton
+        magnitude="md"
+        emphasis="outline"
+        startIcon={<Icon icon={Tag} />}
+        label="outline"
+      />
+      <PillButton magnitude="md" emphasis="soft" startIcon={<Icon icon={Tag} />} label="soft" />
     </div>
   ),
 };
@@ -102,206 +118,6 @@ export const Icons: Story = {
       ))}
       <IconPill magnitude="md" aria-label="Add (disabled)" disabled icon={<Icon icon={Plus} />} />
       <IconPill magnitude="md" aria-label="Add (loading)" loading icon={<Icon icon={Plus} />} />
-    </div>
-  ),
-};
-
-const plusIcon = () => <Icon icon={Plus} />;
-
-/**
- * TEMP debug matrix (Figma PillSwitch): columns = magnitude, rows = Off / Hover / Pressed. Delete
- * when visual QA done.
- */
-export const DebugPillSwitch: Story = {
-  tags: ["!autodocs", "!manifest"],
-  parameters: {
-    controls: { disable: true },
-    pseudo: {
-      hover: MAGNITUDES.map((magnitude) => `#debug-switch-hover-${magnitude}`),
-    },
-  },
-  render: () => (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <PillSwitch
-            key={magnitude}
-            magnitude={magnitude}
-            startIcon={plusIcon()}
-            endIcon={plusIcon()}
-            label="Pill"
-          />
-        ))}
-      </div>
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <PillSwitch
-            key={magnitude}
-            id={`debug-switch-hover-${magnitude}`}
-            magnitude={magnitude}
-            startIcon={plusIcon()}
-            endIcon={plusIcon()}
-            label="Pill"
-          />
-        ))}
-      </div>
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <PillSwitch
-            key={magnitude}
-            magnitude={magnitude}
-            startIcon={plusIcon()}
-            endIcon={plusIcon()}
-            label="Pill"
-            defaultPressed
-          />
-        ))}
-      </div>
-    </div>
-  ),
-};
-
-/**
- * TEMP debug matrix (Figma PillButton): columns = magnitude, rows = Default / Hover / Active /
- * Disabled / Loading. Figma also shows a second outline/ghost look group — not in the current API
- * (one chrome only). Delete when visual QA done.
- */
-export const DebugPillButton: Story = {
-  tags: ["!autodocs", "!manifest"],
-  parameters: {
-    controls: { disable: true },
-    pseudo: {
-      hover: MAGNITUDES.map((magnitude) => `#debug-button-hover-${magnitude}`),
-      active: MAGNITUDES.map((magnitude) => `#debug-button-active-${magnitude}`),
-    },
-  },
-  render: () => (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <PillButton
-            key={magnitude}
-            magnitude={magnitude}
-            startIcon={plusIcon()}
-            endIcon={plusIcon()}
-            label="Pill"
-          />
-        ))}
-      </div>
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <PillButton
-            key={magnitude}
-            id={`debug-button-hover-${magnitude}`}
-            magnitude={magnitude}
-            startIcon={plusIcon()}
-            endIcon={plusIcon()}
-            label="Pill"
-          />
-        ))}
-      </div>
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <PillButton
-            key={magnitude}
-            id={`debug-button-active-${magnitude}`}
-            magnitude={magnitude}
-            startIcon={plusIcon()}
-            endIcon={plusIcon()}
-            label="Pill"
-          />
-        ))}
-      </div>
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <PillButton
-            key={magnitude}
-            magnitude={magnitude}
-            startIcon={plusIcon()}
-            endIcon={plusIcon()}
-            label="Pill"
-            disabled
-          />
-        ))}
-      </div>
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <PillButton key={magnitude} magnitude={magnitude} label="Pill" loading />
-        ))}
-      </div>
-    </div>
-  ),
-};
-
-/**
- * TEMP debug matrix (Figma IconPill): columns = magnitude, rows = Default / Hover / Active /
- * Disabled / Loading. Delete when visual QA done.
- */
-export const DebugIconPill: Story = {
-  tags: ["!autodocs", "!manifest"],
-  parameters: {
-    controls: { disable: true },
-    pseudo: {
-      hover: MAGNITUDES.map((magnitude) => `#debug-icon-hover-${magnitude}`),
-      active: MAGNITUDES.map((magnitude) => `#debug-icon-active-${magnitude}`),
-    },
-  },
-  render: () => (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <IconPill
-            key={magnitude}
-            magnitude={magnitude}
-            aria-label={`Add ${magnitude}`}
-            icon={plusIcon()}
-          />
-        ))}
-      </div>
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <IconPill
-            key={magnitude}
-            id={`debug-icon-hover-${magnitude}`}
-            magnitude={magnitude}
-            aria-label={`Add hover ${magnitude}`}
-            icon={plusIcon()}
-          />
-        ))}
-      </div>
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <IconPill
-            key={magnitude}
-            id={`debug-icon-active-${magnitude}`}
-            magnitude={magnitude}
-            aria-label={`Add active ${magnitude}`}
-            icon={plusIcon()}
-          />
-        ))}
-      </div>
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <IconPill
-            key={magnitude}
-            magnitude={magnitude}
-            aria-label={`Add disabled ${magnitude}`}
-            disabled
-            icon={plusIcon()}
-          />
-        ))}
-      </div>
-      <div className="flex items-center gap-3">
-        {MAGNITUDES.map((magnitude) => (
-          <IconPill
-            key={magnitude}
-            magnitude={magnitude}
-            aria-label={`Add loading ${magnitude}`}
-            loading
-            icon={plusIcon()}
-          />
-        ))}
-      </div>
     </div>
   ),
 };
@@ -363,6 +179,15 @@ export const ButtonClicks: Story = {
     await expect(busy).toHaveAttribute("aria-busy", "true");
     await userEvent.click(busy);
     await expect(onLoadingClick).not.toHaveBeenCalled();
+
+    // Loading spinner sits after the label (Figma).
+    const label = busy.querySelector("span[title='Busy']");
+    const spinner = busy.querySelector("svg");
+    await expect(label).not.toBeNull();
+    await expect(spinner).not.toBeNull();
+    await expect(
+      label!.compareDocumentPosition(spinner!) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
   },
 };
 

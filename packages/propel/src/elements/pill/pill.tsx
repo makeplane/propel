@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { pillButtonVariants, type PillButtonVariantProps } from "./variants";
 
-export type { PillMagnitude } from "./variants";
+export type { PillButtonEmphasis, PillMagnitude } from "./variants";
 
 export type PillButtonProps = Omit<useRender.ComponentProps<"button">, "className" | "style"> &
   PillButtonVariantProps;
@@ -14,9 +14,9 @@ export type PillButtonProps = Omit<useRender.ComponentProps<"button">, "classNam
  * Base-UI-agnostic — graft the Base UI `Button` behavior in `components` via `<BaseButton
  * render={<PillButton/>} />`.
  */
-export function PillButton({ magnitude, render, ...props }: PillButtonProps) {
+export function PillButton({ magnitude, emphasis, render, ...props }: PillButtonProps) {
   const defaultProps: useRender.ElementProps<"button"> = {
-    className: pillButtonVariants({ magnitude }),
+    className: pillButtonVariants({ magnitude, emphasis }),
     type: "button",
   };
   return useRender({ defaultTagName: "button", render, props: mergeProps(defaultProps, props) });

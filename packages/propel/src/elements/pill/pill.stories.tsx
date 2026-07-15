@@ -10,7 +10,7 @@ const MAGNITUDES: PillMagnitude[] = ["sm", "md", "lg"];
 
 // elements-tier story (rule 2b): a pure UI-configuration showcase. The styled pill containers
 // (PillButton / PillSwitch / IconPill) and inline parts (PillLabel, internal Icon/Spinner slots)
-// render DIRECTLY — no Base UI grafts — with every visual axis (`magnitude`) shown and every
+// render DIRECTLY — no Base UI grafts — with every visual axis (`magnitude` / `emphasis`) shown and every
 // visual state pinned statically via the attributes the cvas key off: `disabled` is the native
 // attribute, busy pins the `aria-busy` (+ `aria-disabled`) the ready-made pills set while
 // `loading`, and the switch's selected look pins the `data-pressed=""`/`aria-pressed` Base UI's
@@ -21,7 +21,7 @@ const meta = {
   title: "Elements/Pill",
   component: PillButton,
   subcomponents: { PillSwitch, IconPill, PillLabel },
-  args: { magnitude: "md", children: "Add label" },
+  args: { magnitude: "md", emphasis: "outline", children: "Add label" },
   render: ({ children, ...props }) => (
     <PillButton {...props}>
       <Icon>
@@ -53,7 +53,7 @@ export const Magnitudes: Story = {
   render: () => (
     <div className="flex items-center gap-3">
       {MAGNITUDES.map((magnitude) => (
-        <PillButton key={magnitude} magnitude={magnitude}>
+        <PillButton key={magnitude} magnitude={magnitude} emphasis="outline">
           <Icon>
             <Tag />
           </Icon>
@@ -64,12 +64,32 @@ export const Magnitudes: Story = {
   ),
 };
 
+/** Both fill treatments: `outline` (≈ Button secondary) and `soft` (≈ Button tertiary). */
+export const Emphases: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex items-center gap-3">
+      <PillButton magnitude="md" emphasis="outline">
+        <Icon>
+          <Tag />
+        </Icon>
+        <PillLabel>outline</PillLabel>
+      </PillButton>
+      <PillButton magnitude="md" emphasis="soft">
+        <Icon>
+          <Tag />
+        </Icon>
+        <PillLabel>soft</PillLabel>
+      </PillButton>
+    </div>
+  ),
+};
+
 /**
  * Every visual state of `PillButton`, pinned statically. Hover / active / focus-visible are CSS
  * pseudo-classes forced by the pseudo-states addon; `disabled` is the native attribute the
  * `disabled:` palette keys off; busy pins the `aria-busy` (+ `aria-disabled`) the ready-made pill
- * sets while `loading` — it swaps the leading node for the internal `Spinner` slot and keeps the
- * button focusable instead of natively disabling it.
+ * sets while `loading` — spinner sits after the label (Figma) and keeps the button focusable.
  */
 export const States: Story = {
   parameters: {
@@ -82,41 +102,41 @@ export const States: Story = {
   },
   render: () => (
     <div className="flex items-center gap-3">
-      <PillButton magnitude="md">
+      <PillButton magnitude="md" emphasis="outline">
         <Icon>
           <Tag />
         </Icon>
         <PillLabel>Default</PillLabel>
       </PillButton>
-      <PillButton id="pill-button-hover" magnitude="md">
+      <PillButton id="pill-button-hover" magnitude="md" emphasis="outline">
         <Icon>
           <Tag />
         </Icon>
         <PillLabel>Hover</PillLabel>
       </PillButton>
-      <PillButton id="pill-button-active" magnitude="md">
+      <PillButton id="pill-button-active" magnitude="md" emphasis="outline">
         <Icon>
           <Tag />
         </Icon>
         <PillLabel>Active</PillLabel>
       </PillButton>
-      <PillButton id="pill-button-focus" magnitude="md">
+      <PillButton id="pill-button-focus" magnitude="md" emphasis="outline">
         <Icon>
           <Tag />
         </Icon>
         <PillLabel>Focus</PillLabel>
       </PillButton>
-      <PillButton magnitude="md" disabled>
+      <PillButton magnitude="md" emphasis="outline" disabled>
         <Icon>
           <Tag />
         </Icon>
         <PillLabel>Disabled</PillLabel>
       </PillButton>
-      <PillButton magnitude="md" aria-busy aria-disabled>
+      <PillButton magnitude="md" emphasis="outline" aria-busy aria-disabled>
+        <PillLabel>Busy</PillLabel>
         <Spinner>
           <LoaderCircle />
         </Spinner>
-        <PillLabel>Busy</PillLabel>
       </PillButton>
     </div>
   ),
@@ -227,7 +247,11 @@ export const TruncatedLabel: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-3">
-      <PillButton magnitude="md" aria-label="View Engineering Infrastructure Team">
+      <PillButton
+        magnitude="md"
+        emphasis="outline"
+        aria-label="View Engineering Infrastructure Team"
+      >
         <Icon>
           <Tag />
         </Icon>
