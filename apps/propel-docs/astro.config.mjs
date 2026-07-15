@@ -1,6 +1,7 @@
+import { resolve } from "node:path";
 // @ts-check
 import { fileURLToPath } from "node:url";
-import { resolve } from "node:path";
+
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";

@@ -1,5 +1,3 @@
-import { X } from "lucide-react";
-
 import { Button } from "@makeplane/propel/components/button";
 import {
   Dialog,
@@ -15,6 +13,7 @@ import {
 } from "@makeplane/propel/components/dialog";
 import { Icon } from "@makeplane/propel/components/icon";
 import { IconButton } from "@makeplane/propel/components/icon-button";
+import { X } from "lucide-react";
 
 export default function BasicDemo() {
   return (
