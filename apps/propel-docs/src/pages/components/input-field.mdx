@@ -1,0 +1,28 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Input Field
+description: A labeled single-line text field with optional hint and error messaging.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/input-field/basic.tsx";
+import basicSource from "~/demos/input-field/basic.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { InputField } from "@makeplane/propel/components/input-field";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/input-field/input-field.tsx", component: "InputField" }]}
+/>
