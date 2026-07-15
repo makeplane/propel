@@ -488,10 +488,13 @@ export const StatesCanary: Story = {
     const selectedToday = canvas.getByRole("button", { name: "Day 5, selected today" });
     await expect(getComputedStyle(cellOf(selectedToday), "::after").width).toBe("6px");
 
-    // `disabled` makes the day button non-interactive and visibly recessed.
+    // `disabled` makes the day button non-interactive and visibly recessed — the disabled text
+    // tone alone (full opacity, matching every other disabled control), so it reads muted against
+    // an enabled day rather than lighter than Figma.
     const disabled = canvas.getByRole("button", { name: "Day 6, disabled" });
     await expect(getComputedStyle(disabled).pointerEvents).toBe("none");
-    await expect(getComputedStyle(disabled).opacity).toBe("0.6");
+    await expect(getComputedStyle(disabled).opacity).toBe("1");
+    await expect(getComputedStyle(disabled).color).not.toBe(getComputedStyle(resting).color);
 
     // `range-middle` paints the soft in-range fill on the CELL, and its button reset beats
     // `selected`'s accent fill (the cell carries both classes) so the button stays transparent.

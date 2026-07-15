@@ -68,9 +68,9 @@ export const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"
   // every state, marking the current date even inside a selected pill.
   today:
     "[&:not([aria-selected])>button]:text-accent-primary [&>button]:font-semibold after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:size-1.5 after:rounded-full after:bg-(--txt-icon-accent-subtle)",
-  // Disabled days read as muted, non-interactive text — `opacity-60` on top of the disabled
-  // tone (the propel disabled convention) so they clearly recede from enabled days.
-  disabled: "[&>button]:text-disabled [&>button]:opacity-60 [&>button]:pointer-events-none",
+  // Disabled days read as muted, non-interactive text via the disabled tone alone (matching every
+  // other disabled control — no extra opacity), so they recede without going lighter than Figma.
+  disabled: "[&>button]:text-disabled [&>button]:pointer-events-none",
   // Days from the adjacent month: dimmed.
   outside: "[&>button]:text-tertiary",
   hidden: "invisible",

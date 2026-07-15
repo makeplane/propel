@@ -42,11 +42,12 @@ const renderChevron: NonNullable<DayPickerProps["components"]>["Chevron"] = ({
  * screen-reader-accessible (react-day-picker owns the grid semantics). Pass `selected`/`onSelect`
  * to control the selection. The chevron icons carry no className — react-day-picker passes
  * `classNames.chevron` (16px, RTL-mirrored) through to them; a caller's own `components.Chevron`
- * still wins.
+ * still wins. Weeks start Monday (`weekStartsOn={1}`, per spec); pass `weekStartsOn` to override.
  */
 export function Calendar(props: CalendarProps) {
   return (
     <DayPicker
+      weekStartsOn={1}
       classNames={calendarClassNames}
       {...props}
       components={{
