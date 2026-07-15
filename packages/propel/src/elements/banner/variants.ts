@@ -38,14 +38,14 @@ export const bannerVariants = cva("flex items-center overflow-clip", {
   ],
 });
 
-// The leading icon slot at the banner's inline-start. Sizes its single child to 16px via
-// the shared node-slot class (page adds 2px y padding, hugging the slot to 16×20 per
-// Figma), and tints it with the tone's `icon/*` token.
+// The leading icon slot at the banner's inline-start. Sizes its single child via the shared
+// node-slot class — 20px on `page`, 16px on `inline` (per Figma) — and tints it with the tone's
+// `icon/*` token.
 export const bannerIconVariants = cva(nodeSlotClass, {
   variants: {
     placement: {
-      // Figma: 16×16 icon, 2px top/bottom padding on the slot (hugs to 16×20).
-      page: "py-0.5 [--node-size:1rem]",
+      // Figma: 20×20 page glyph, 16×16 inline glyph.
+      page: "[--node-size:1.25rem]",
       inline: "[--node-size:1rem]",
     },
     tone: {

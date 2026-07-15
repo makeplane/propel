@@ -53,7 +53,7 @@ export const Tones: Story = {
         <div key={placement} className="flex flex-col gap-3">
           <p className="text-12 text-tertiary capitalize">{placement}</p>
           {TONES.map((tone) => (
-            <Banner key={tone} {...args} placement={placement} tone={tone} />
+            <Banner key={tone} {...args} placement={placement} tone={tone} onDismiss={fn()} />
           ))}
         </div>
       ))}
