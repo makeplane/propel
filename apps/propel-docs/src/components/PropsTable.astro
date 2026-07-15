@@ -30,6 +30,11 @@ function formatType(type: PropItemType): string {
   {
     parts.map(({ source, component }) => {
       const doc = getComponentDoc(source, component);
+      if (!doc || Object.keys(doc.props).length === 0) {
+        console.warn(
+          `[PropsTable] No component doc found for "${component}" at source "${source}" — the props table will be empty. Check the source path (relative to packages/propel/src) and the exported component name.`,
+        );
+      }
       const props = doc ? Object.values(doc.props) : [];
       return (
         <div>
