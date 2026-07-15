@@ -26,10 +26,19 @@ export const checkboxBoxVariants = cva(
     "transition-colors duration-100 outline-none",
     "focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1",
     "data-invalid:not-data-checked:not-data-indeterminate:border-danger-strong",
+    // Box-level hovers (Figma States: unchecked wash, checked/indeterminate darker accent). Scoped
+    // behind `not-data-disabled` so disabled boxes keep their muted fill with no interaction wash.
+    "not-data-disabled:hover:bg-layer-transparent-hover",
     "data-checked:border-transparent data-checked:bg-accent-primary data-checked:text-icon-on-color",
+    "data-checked:not-data-disabled:hover:bg-accent-primary-hover",
     "data-indeterminate:border-transparent data-indeterminate:bg-accent-primary data-indeterminate:text-icon-on-color",
-    "data-disabled:cursor-not-allowed data-disabled:border-disabled data-disabled:bg-transparent",
-    "data-disabled:data-checked:border-transparent data-disabled:data-checked:bg-layer-disabled data-disabled:data-checked:text-icon-disabled",
-    "data-disabled:data-indeterminate:border-transparent data-disabled:data-indeterminate:bg-layer-disabled data-disabled:data-indeterminate:text-icon-disabled",
+    "data-indeterminate:not-data-disabled:hover:bg-accent-primary-hover",
+    // Disabled: Figma paints border + filled states `#71777A` (their icon/disabled swatch). That hex
+    // is already `--txt-disabled` here — use it directly rather than remapping `--txt-icon-disabled`
+    // or inventing border/bg aliases. Check/dash stay `icon/on-color` (white). Avoid
+    // `border-disabled` / `bg-layer-disabled` (soft canvas-tinted surface tokens).
+    "data-disabled:cursor-not-allowed data-disabled:border-(--txt-disabled) data-disabled:bg-transparent",
+    "data-disabled:data-checked:border-transparent data-disabled:data-checked:bg-(--txt-disabled) data-disabled:data-checked:text-icon-on-color",
+    "data-disabled:data-indeterminate:border-transparent data-disabled:data-indeterminate:bg-(--txt-disabled) data-disabled:data-indeterminate:text-icon-on-color",
   ),
 );

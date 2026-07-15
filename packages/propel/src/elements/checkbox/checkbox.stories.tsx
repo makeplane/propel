@@ -52,21 +52,50 @@ export const Default: Story = {
 /**
  * Every visual state, pinned statically. Resting is the bare box (Base UI mounts no indicator while
  * unchecked); `data-checked` fills the accent and shows the check; `data-indeterminate` hides the
- * check and reveals the dash; focus-visible (forced via pseudo-states) draws the accent ring;
- * `data-disabled` dims the border, fill, and glyph; `data-invalid` is the error look — a STATE, not
- * a prop: inside an invalid `Field.Root` Base UI sets it on the box (any host can set it directly,
- * as here) to recolor the resting border to danger. Once checked, the invalid box keeps the same
- * accent fill as every other checked state.
+ * check and reveals the dash; hover (forced via pseudo-states) paints the box-level treatments —
+ * `transparent-hover` wash while unchecked, darker `accent-primary-hover` while checked or
+ * indeterminate; focus-visible (also forced) draws the accent ring; `data-disabled` dims the
+ * border, fill, and glyph; `data-invalid` is the error look — a STATE, not a prop: inside an
+ * invalid `Field.Root` Base UI sets it on the box (any host can set it directly, as here) to
+ * recolor the resting border to danger. Once checked, the invalid box keeps the same accent fill as
+ * every other checked state.
  */
 export const States: Story = {
   parameters: {
     controls: { disable: true },
-    pseudo: { focusVisible: ["#elements-checkbox-focus-visible"] },
+    pseudo: {
+      hover: [
+        "#elements-checkbox-hover-unchecked",
+        "#elements-checkbox-hover-checked",
+        "#elements-checkbox-hover-indeterminate",
+      ],
+      focusVisible: ["#elements-checkbox-focus-visible"],
+    },
   },
   render: () => (
     <div className="flex items-center gap-4">
       <Checkbox role="checkbox" aria-checked="false" aria-label="Unchecked" />
+      <Checkbox
+        id="elements-checkbox-hover-unchecked"
+        role="checkbox"
+        aria-checked="false"
+        aria-label="Hover unchecked"
+      />
       <Checkbox role="checkbox" aria-checked="true" aria-label="Checked" data-checked="">
+        <CheckboxIndicator data-checked="">
+          <Check aria-hidden />
+        </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator data-checked="">
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
+      </Checkbox>
+      <Checkbox
+        id="elements-checkbox-hover-checked"
+        role="checkbox"
+        aria-checked="true"
+        aria-label="Hover checked"
+        data-checked=""
+      >
         <CheckboxIndicator data-checked="">
           <Check aria-hidden />
         </CheckboxIndicator>
@@ -78,6 +107,20 @@ export const States: Story = {
         role="checkbox"
         aria-checked="mixed"
         aria-label="Indeterminate"
+        data-indeterminate=""
+      >
+        <CheckboxIndicator data-indeterminate="">
+          <Check aria-hidden />
+        </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator data-indeterminate="">
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
+      </Checkbox>
+      <Checkbox
+        id="elements-checkbox-hover-indeterminate"
+        role="checkbox"
+        aria-checked="mixed"
+        aria-label="Hover indeterminate"
         data-indeterminate=""
       >
         <CheckboxIndicator data-indeterminate="">
@@ -152,8 +195,9 @@ export const States: Story = {
 /**
  * Hidden CSS canary: asserts the pinned `data-*` states compile to real styling — the
  * `data-invalid` border and `data-checked` fill differ from resting, the invalid+checked box keeps
- * the same accent fill as the plain checked box, and inside the indeterminate box the check
- * computes `display: none` while the dash computes `inline-flex`. Tagged out of the
+ * the same accent fill as the plain checked box, the three box-level hovers (forced via
+ * pseudo-states) shift fill away from their resting counterparts, and inside the indeterminate box
+ * the check computes `display: none` while the dash computes `inline-flex`. Tagged out of the
  * sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const StatesCssCanary: Story = {
@@ -176,8 +220,21 @@ export const StatesCssCanary: Story = {
     await expect(getComputedStyle(invalidChecked).backgroundColor).toBe(
       getComputedStyle(checked).backgroundColor,
     );
-    // In the mixed state the check hides itself and the dash reveals itself off `data-indeterminate`.
+    // Box-level hovers: unchecked wash + darker accent for checked/indeterminate.
+    const hoverUnchecked = canvas.getByRole("checkbox", { name: "Hover unchecked" });
+    const hoverChecked = canvas.getByRole("checkbox", { name: "Hover checked" });
     const indeterminate = canvas.getByRole("checkbox", { name: "Indeterminate" });
+    const hoverIndeterminate = canvas.getByRole("checkbox", { name: "Hover indeterminate" });
+    await expect(getComputedStyle(hoverUnchecked).backgroundColor).not.toBe(
+      getComputedStyle(resting).backgroundColor,
+    );
+    await expect(getComputedStyle(hoverChecked).backgroundColor).not.toBe(
+      getComputedStyle(checked).backgroundColor,
+    );
+    await expect(getComputedStyle(hoverIndeterminate).backgroundColor).not.toBe(
+      getComputedStyle(indeterminate).backgroundColor,
+    );
+    // In the mixed state the check hides itself and the dash reveals itself off `data-indeterminate`.
     const [check, dash] = Array.from(indeterminate.children) as HTMLElement[];
     await expect(getComputedStyle(check).display).toBe("none");
     await expect(getComputedStyle(dash).display).not.toBe("none");

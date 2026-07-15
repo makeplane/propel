@@ -357,6 +357,41 @@ export const BoxDoesNotShiftOnToggle: Story = {
 };
 
 /**
+ * Same baseline-shift trap as `BoxDoesNotShiftOnToggle`, but on the labeled row: the
+ * `CheckboxLabel` is itself `inline-flex`, so without `align-top` its baseline moves when the
+ * nested box mounts the check — nudging the whole chip (box + optional icon + text) ~2px. Assert
+ * the label row's geometry is identical across unchecked / checked.
+ */
+export const LabeledRowDoesNotShiftOnToggle: Story = {
+  ...Interaction,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Checkbox
+      icon={<Icon icon={Repeat} tint="secondary" magnitude="sm" />}
+      label="Sync automatically"
+    />
+  ),
+  play: async ({ canvas }) => {
+    const box = canvas.getByRole("checkbox");
+    const row = box.closest("label");
+    if (!row) throw new Error("expected the labeled checkbox's label row");
+
+    await expect(box).toHaveAttribute("aria-checked", "false");
+    const unchecked = row.getBoundingClientRect();
+
+    await userEvent.click(box);
+    await expect(box).toHaveAttribute("aria-checked", "true");
+    const checked = row.getBoundingClientRect();
+
+    await expect(checked.x).toBe(unchecked.x);
+    await expect(checked.y).toBe(unchecked.y);
+    await expect(checked.width).toBe(unchecked.width);
+    await expect(checked.height).toBe(unchecked.height);
+  },
+};
+
+/**
  * Pure interaction test: a disabled checkbox does not toggle when clicked. Tagged
  * `!dev`/`!autodocs`/`!manifest` so it stays out of the sidebar, docs, and the AI/MCP manifest, but
  * still runs under the default `test` tag.
