@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "propel-docs",
+  // TODO: set account_id and a real routes/zone entry before deploying.
+  "compatibility_date": "2026-07-15",
+  "assets": {
+    "directory": "./dist",
+  },
+  "observability": {
+    "enabled": true,
+  },
+}
