@@ -1,0 +1,32 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Table
+description: Displays rows of data in columns, with optional sortable and pinned headers.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/table/basic.tsx";
+import basicSource from "~/demos/table/basic.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@makeplane/propel/components/table";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/table/table.tsx", component: "Table" },
+    { source: "components/table/table-head.tsx", component: "TableHead" },
+    { source: "components/table/table-cell.tsx", component: "TableCell" },
+  ]}
+/>
