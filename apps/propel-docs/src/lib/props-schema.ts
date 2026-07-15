@@ -1,10 +1,15 @@
-import { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
+import { dirname, resolve } from "node:path";
 
 import { withCustomConfig, type ComponentDoc } from "react-docgen-typescript";
 
-const __dirname = fileURLToPath(new URL(".", import.meta.url));
-const propelRoot = resolve(__dirname, "../../../../packages/propel");
+// Locate propel's package root via its own `exports` entry (`"./package.json"`),
+// not a path relative to this file: at `astro build` time Vite bundles this module
+// into dist/.prerender/chunks/, so an `import.meta.url`-relative path no longer
+// points at packages/propel. Module resolution through the workspace symlink is
+// stable regardless of where the bundler places this code.
+const require = createRequire(import.meta.url);
+const propelRoot = dirname(require.resolve("@makeplane/propel/package.json"));
 const propelTsconfig = resolve(propelRoot, "tsconfig.json");
 
 // Mirrors packages/propel/.storybook/main.ts's `reactDocgenTypescriptOptions` exactly — that
