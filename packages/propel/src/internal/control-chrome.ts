@@ -46,11 +46,13 @@ export const controlChromeVariants = cva(
         className: cx(
           "border border-strong bg-layer-2 text-secondary",
           "hover:bg-layer-2-hover active:bg-layer-2-active",
-          // Figma: outlined pill stays. Use `border-subtle` (not `border-disabled`) — disabled
-          // token is the same as `--bg-canvas`, so the stroke vanishes on the Storybook/page canvas.
-          "disabled:border-subtle disabled:bg-layer-2 disabled:text-disabled disabled:shadow-none",
-          "aria-disabled:border-subtle aria-disabled:bg-layer-2 aria-disabled:text-disabled aria-disabled:shadow-none",
-          "aria-busy:border-subtle aria-busy:bg-layer-2 aria-busy:text-disabled aria-busy:shadow-none",
+          // Figma: outlined pill stays but the fill drops to transparent when disabled (a leftover
+          // `bg-layer-2` reads as a filled chip on non-canvas surfaces). Use `border-subtle` (not
+          // `border-disabled`) — disabled token equals `--bg-canvas`, so the stroke would vanish on
+          // the Storybook/page canvas.
+          "disabled:border-subtle disabled:bg-transparent disabled:text-disabled disabled:shadow-none",
+          "aria-disabled:border-subtle aria-disabled:bg-transparent aria-disabled:text-disabled aria-disabled:shadow-none",
+          "aria-busy:border-subtle aria-busy:bg-transparent aria-busy:text-disabled aria-busy:shadow-none",
         ),
       },
       {
@@ -69,10 +71,11 @@ export const controlChromeVariants = cva(
         prominence: "ghost",
         tone: "neutral",
         className: cx(
-          // Figma: transparent rest; hover/active use the same solid light-grey ramp as tertiary
-          // (not `layer-transparent-hover` — 4%/6% black alpha reads as “no fill” on white).
+          // Figma: transparent rest; hover/active use the transparent-alpha overlays so the fill
+          // stays surface-agnostic (black alpha on light, white alpha on dark) instead of a solid
+          // grey that only reads correctly on a light canvas.
           "bg-layer-transparent text-secondary",
-          "hover:bg-layer-3 active:bg-layer-3-hover",
+          "hover:bg-layer-transparent-hover active:bg-layer-transparent-active",
           "disabled:bg-transparent disabled:text-disabled",
           "aria-disabled:bg-transparent aria-disabled:text-disabled",
           "aria-busy:bg-transparent aria-busy:text-disabled",
