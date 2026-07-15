@@ -106,6 +106,206 @@ export const Icons: Story = {
   ),
 };
 
+const plusIcon = () => <Icon icon={Plus} />;
+
+/**
+ * TEMP debug matrix (Figma PillSwitch): columns = magnitude, rows = Off / Hover / Pressed. Delete
+ * when visual QA done.
+ */
+export const DebugPillSwitch: Story = {
+  tags: ["!autodocs", "!manifest"],
+  parameters: {
+    controls: { disable: true },
+    pseudo: {
+      hover: MAGNITUDES.map((magnitude) => `#debug-switch-hover-${magnitude}`),
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <PillSwitch
+            key={magnitude}
+            magnitude={magnitude}
+            startIcon={plusIcon()}
+            endIcon={plusIcon()}
+            label="Pill"
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <PillSwitch
+            key={magnitude}
+            id={`debug-switch-hover-${magnitude}`}
+            magnitude={magnitude}
+            startIcon={plusIcon()}
+            endIcon={plusIcon()}
+            label="Pill"
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <PillSwitch
+            key={magnitude}
+            magnitude={magnitude}
+            startIcon={plusIcon()}
+            endIcon={plusIcon()}
+            label="Pill"
+            defaultPressed
+          />
+        ))}
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * TEMP debug matrix (Figma PillButton): columns = magnitude, rows = Default / Hover / Active /
+ * Disabled / Loading. Figma also shows a second outline/ghost look group — not in the current API
+ * (one chrome only). Delete when visual QA done.
+ */
+export const DebugPillButton: Story = {
+  tags: ["!autodocs", "!manifest"],
+  parameters: {
+    controls: { disable: true },
+    pseudo: {
+      hover: MAGNITUDES.map((magnitude) => `#debug-button-hover-${magnitude}`),
+      active: MAGNITUDES.map((magnitude) => `#debug-button-active-${magnitude}`),
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <PillButton
+            key={magnitude}
+            magnitude={magnitude}
+            startIcon={plusIcon()}
+            endIcon={plusIcon()}
+            label="Pill"
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <PillButton
+            key={magnitude}
+            id={`debug-button-hover-${magnitude}`}
+            magnitude={magnitude}
+            startIcon={plusIcon()}
+            endIcon={plusIcon()}
+            label="Pill"
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <PillButton
+            key={magnitude}
+            id={`debug-button-active-${magnitude}`}
+            magnitude={magnitude}
+            startIcon={plusIcon()}
+            endIcon={plusIcon()}
+            label="Pill"
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <PillButton
+            key={magnitude}
+            magnitude={magnitude}
+            startIcon={plusIcon()}
+            endIcon={plusIcon()}
+            label="Pill"
+            disabled
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <PillButton key={magnitude} magnitude={magnitude} label="Pill" loading />
+        ))}
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * TEMP debug matrix (Figma IconPill): columns = magnitude, rows = Default / Hover / Active /
+ * Disabled / Loading. Delete when visual QA done.
+ */
+export const DebugIconPill: Story = {
+  tags: ["!autodocs", "!manifest"],
+  parameters: {
+    controls: { disable: true },
+    pseudo: {
+      hover: MAGNITUDES.map((magnitude) => `#debug-icon-hover-${magnitude}`),
+      active: MAGNITUDES.map((magnitude) => `#debug-icon-active-${magnitude}`),
+    },
+  },
+  render: () => (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <IconPill
+            key={magnitude}
+            magnitude={magnitude}
+            aria-label={`Add ${magnitude}`}
+            icon={plusIcon()}
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <IconPill
+            key={magnitude}
+            id={`debug-icon-hover-${magnitude}`}
+            magnitude={magnitude}
+            aria-label={`Add hover ${magnitude}`}
+            icon={plusIcon()}
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <IconPill
+            key={magnitude}
+            id={`debug-icon-active-${magnitude}`}
+            magnitude={magnitude}
+            aria-label={`Add active ${magnitude}`}
+            icon={plusIcon()}
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <IconPill
+            key={magnitude}
+            magnitude={magnitude}
+            aria-label={`Add disabled ${magnitude}`}
+            disabled
+            icon={plusIcon()}
+          />
+        ))}
+      </div>
+      <div className="flex items-center gap-3">
+        {MAGNITUDES.map((magnitude) => (
+          <IconPill
+            key={magnitude}
+            magnitude={magnitude}
+            aria-label={`Add loading ${magnitude}`}
+            loading
+            icon={plusIcon()}
+          />
+        ))}
+      </div>
+    </div>
+  ),
+};
+
 /**
  * Labels past the 120px cap truncate with an ellipsis. `PillLabel` sets a native `title` from the
  * string label so hover recovers the full text.
@@ -117,12 +317,12 @@ export const TruncatedLabel: Story = {
       <PillButton
         magnitude="md"
         startIcon={<Icon icon={Tag} />}
-        label="Engineering Infrastructure Team - View"
+        label="Engineering Infrastructure Team"
       />
       <PillSwitch
         magnitude="md"
         startIcon={<Icon icon={Tag} />}
-        label="Engineering Infrastructure Team - Toggle"
+        label="Engineering Infrastructure Team"
       />
     </div>
   ),
