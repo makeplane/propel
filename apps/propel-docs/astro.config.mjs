@@ -1,5 +1,6 @@
-import { resolve } from "node:path";
 // @ts-check
+
+import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import mdx from "@astrojs/mdx";
