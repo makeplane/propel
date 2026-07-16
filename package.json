@@ -4,12 +4,33 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "vp config"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "lint": "oxlint -c .oxlintrc.json .",
+    "lint:fix": "oxlint -c .oxlintrc.json --fix .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
+    "check": "oxfmt --check . && oxlint -c .oxlintrc.json . && turbo run typecheck",
+    "prepare": "simple-git-hooks"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
-    "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "@oxlint/plugins": "catalog:",
+    "@typescript/native-preview": "catalog:",
+    "lint-staged": "^17",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "simple-git-hooks": "^2.13.1",
+    "turbo": "^2"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,json,jsonc,md,mdx,css,astro,yaml,yml}": "oxfmt --write"
   },
   "engines": {
     "node": ">=22.12.0"

@@ -12,12 +12,12 @@ Run these from the repo root:
   mode, `astro.config.mjs` aliases `@makeplane/propel/components/*` and
   `@makeplane/propel/styles` directly to propel's `src`, so editing a propel
   component hot-reloads this site instantly — no propel build needed.
-- `pnpm --filter @makeplane/propel-docs build` — production build. This first
-  runs `vp pack` on `@makeplane/propel` (to produce its `dist`), then runs
-  `astro build`, so the site resolves propel through its real, published
-  `dist` exports — the same way a consumer of the package would.
-- `pnpm --filter @makeplane/propel-docs typecheck` — runs `astro check` (this
-  also packs propel first, for the same reason as `build`).
+- `pnpm exec turbo run build --filter @makeplane/propel-docs` — production build.
+  Turbo's `^build` builds `@makeplane/propel`'s `dist` first, then this app runs
+  `astro build`, so the site resolves propel through its real, published `dist`
+  exports — the same way a consumer of the package would.
+- `pnpm exec turbo run typecheck --filter @makeplane/propel-docs` — runs
+  `astro check` (Turbo builds propel first, same as `build`).
 - `pnpm --filter @makeplane/propel-docs preview` — serves the built `dist`
   output locally for a final check before deploying.
 
@@ -25,11 +25,11 @@ Run these from the repo root:
 
 The production build resolves `@makeplane/propel` through its built `dist`,
 and `packages/propel/dist` is gitignored — it is not committed. Any CI or
-Cloudflare build **must build propel before the site**. Use this package's
-`build` script (`pnpm --filter @makeplane/propel-docs build`, which packs
-propel first) rather than invoking `astro build` directly. A bare
-`astro build` on a fresh checkout will fail to resolve
-`@makeplane/propel/components/*`, since no `dist` exists yet.
+Cloudflare build **must build propel before the site**. Running the build through
+Turbo (`turbo run build`) handles this: the `^build` dependency in `turbo.json`
+builds propel's `dist` before this app's `astro build`. A bare `astro build` on a
+fresh checkout will fail to resolve `@makeplane/propel/components/*`, since no
+`dist` exists yet.
 
 ## Deployment placeholders
 

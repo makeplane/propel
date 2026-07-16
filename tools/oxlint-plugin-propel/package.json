@@ -23,7 +23,9 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "dev": "vp pack --watch"
+    "dev": "tsdown --watch",
+    "build": "tsdown",
+    "test": "vitest run"
   },
   "dependencies": {
     "@oxlint/plugins": "catalog:"
@@ -33,8 +35,8 @@
     "@typescript/native-preview": "catalog:",
     "bumpp": "^11.1.0",
     "oxlint": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "^6.0.3",
-    "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "vitest": "catalog:"
   }
 }

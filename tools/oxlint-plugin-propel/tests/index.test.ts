@@ -1,5 +1,5 @@
 import { RuleTester } from "oxlint/plugins-dev";
-import { describe, it } from "vite-plus/test";
+import { describe, it } from "vitest";
 
 import { preferTailwindV4ShorthandRule, RULE_NAME } from "../src/index.ts";
 

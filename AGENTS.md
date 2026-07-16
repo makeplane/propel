@@ -1,16 +1,18 @@
-<!--VITE PLUS START-->
+# Toolchain: pnpm + Turborepo
 
-# Using Vite+, the Unified Toolchain for the Web
-
-This project is using Vite+, a unified toolchain built on top of Vite, Rolldown, Vitest, tsdown, Oxlint, Oxfmt, and Vite Task. Vite+ wraps runtime management, package management, and frontend tooling in a single global CLI called `vp`. Vite+ is distinct from Vite, and it invokes Vite through `vp dev` and `vp build`. Run `vp help` to print a list of commands and `vp <command> --help` for information about a specific command.
-
-Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.dev/guide/.
+This monorepo uses [pnpm](https://pnpm.io) (workspaces + catalog) for package
+management and [Turborepo](https://turborepo.com) to orchestrate tasks. The
+underlying tools run standalone: [tsdown](https://tsdown.dev) for library builds,
+[Vitest](https://vitest.dev) for tests, and [Oxlint](https://oxc.rs) + [Oxfmt](https://oxc.rs)
+for linting and formatting. Config lives in `turbo.json`, `.oxlintrc.json`,
+`.oxfmtrc.json`, and per-package `tsdown.config.ts` / `vitest.config.ts`.
 
 ## Review Checklist
 
-- [ ] Run `vp install` after pulling remote changes and before getting started.
-- [ ] Run `vp check` and `vp test` to format, lint, type check and test changes.
-- [ ] Check if there are `vite.config.ts` tasks or `package.json` scripts necessary for validation, run via `vp run <script>`.
-- [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
-
-<!--VITE PLUS END-->
+- [ ] Run `pnpm install` after pulling remote changes and before getting started.
+- [ ] Run `pnpm check` (Oxfmt format check + Oxlint + Turbo typecheck) and `pnpm test`
+      before pushing.
+- [ ] Builds, tests, and type-checks are Turbo tasks (`turbo.json`); run one package
+      with `pnpm exec turbo run <task> --filter=<package>`.
+- [ ] A pre-commit hook (simple-git-hooks + lint-staged) auto-formats staged files with
+      Oxfmt. Skip it for a commit with `SKIP_SIMPLE_GIT_HOOKS=1`.

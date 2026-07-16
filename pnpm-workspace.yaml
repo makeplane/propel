@@ -8,12 +8,11 @@ catalogMode: prefer
 catalog:
   "@types/node": ^24
   typescript: ^5
-  # Pin the Vite+ toolchain to an exact version (was `@latest`). `@latest` re-resolved to a
-  # different `@voidzero-dev/vite-plus-core` on every install, so the bundled `oxfmt` drifted
-  # between local and CI and formatted the same file differently — keep it deterministic.
-  vite: npm:@voidzero-dev/vite-plus-core@0.2.2
+  # Upstream Vite (was the `@voidzero-dev/vite-plus-core` fork under Vite+, which was vite-8
+  # based). ^8 is required by astro@7 (`vite: ^8.0.13`) and satisfied by everything else in
+  # the workspace: Vitest 4.x (`^6 || ^7 || ^8`), Storybook 10, and @tailwindcss/vite.
+  vite: ^8
   vitest: 4.1.9
-  vite-plus: 0.2.2
   "@vitest/browser-playwright": 4.1.9
   "@vitest/coverage-v8": 4.1.9
   "@tailwindcss/vite": ^4.3.2
@@ -22,10 +21,20 @@ catalog:
   tailwindcss: ^4.3.2
   "@base-ui/react": ^1.6.0
   lucide-react: ^1.23.0
+  # Build/lint/format tools, unbundled from the old Vite+ toolchain and run standalone.
+  # oxfmt is pre-1.0 and its output can shift between minors, so pin it EXACTLY — a range
+  # would silently reformat the whole tree on a floating upgrade.
   oxlint: 1.72.0
   "@oxlint/plugins": 1.72.0
+  oxlint-tsgolint: ^0.24.0
+  oxfmt: 0.57.0
+  tsdown: ^0.22.9
+  publint: ^0.3.21
+  "@arethetypeswrong/core": ^0.18.5
 
 overrides:
+  # Keep a single Vite instance across storybook + vitest + the tailwind plugin (duplicate
+  # vite copies break vite plugins).
   vite: "catalog:"
   vitest: "catalog:"
   # @valibot/to-json-schema@1.7.1 (via @storybook/addon-mcp's tmcp deps) needs valibot ^1.4.0,
@@ -47,24 +56,24 @@ overrides:
   "storybook>esbuild": 0.28.1
   "@storybook/csf-plugin>esbuild": 0.28.1
   "vite>esbuild": 0.28.1
-  "@voidzero-dev/vite-plus-core>esbuild": 0.28.1
   "wrangler>esbuild": 0.28.1
 
 peerDependencyRules:
-  # storybook@10.4.6 still declares its vite-plus peer as ^0.1.15, but its only use of vite-plus
-  # (the optional `vite-plus/versions` subpath) is API-compatible with the 0.2.x we run. Accept it
-  # the same way as the vite/vitest forks. (Removable once storybookjs/storybook#35221 ships and
-  # the published peer range widens to `^0.1.15 || ^0.2.0`.)
-  allowAny:
-    - vite
+  # storybook@10.4.6 declares an optional `vite-plus` peer (used only for the optional
+  # `vite-plus/versions` subpath). Vite+ is no longer installed, so silence the missing-peer
+  # warning — storybook runs on plain vite.
+  ignoreMissing:
     - vite-plus
-    - vitest
+  # Storybook's addon-vitest peer range may lag the exact vitest we pin.
   allowedVersions:
-    vite: "*"
-    vite-plus: "*"
     vitest: "*"
 
 allowBuilds:
   esbuild: true
   sharp: true
+  # Its git-hook install runs via the root `prepare` script, so its own postinstall isn't needed.
+  simple-git-hooks: false
   workerd: true
+
+minimumReleaseAgeExclude:
+  - tsdown@0.22.9

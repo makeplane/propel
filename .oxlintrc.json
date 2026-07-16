@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "jsPlugins": ["./tools/oxlint-plugin-propel/src/index.ts"],
+  "ignorePatterns": [
+    "**/.claude/**",
+    "**/.agents/**",
+    "**/.storybook/**",
+    "**/storybook-static/**",
+    "**/vite.config.ts",
+    "**/vitest.config.ts",
+    "**/tsdown.config.ts"
+  ],
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  },
+  "rules": {
+    "propel/prefer-tailwind-v4-shorthand": "error",
+    "typescript/consistent-type-definitions": ["error", "type"]
+  }
+}

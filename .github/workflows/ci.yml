@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+
 jobs:
   check:
     name: Check & Test & Build
@@ -13,42 +16,32 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      # setup-vp installs the Vite+ CLI, Node, the package manager, and caches
-      # the dep store. Run install explicitly before restoring the Vite Task
-      # cache, matching https://viteplus.dev/guide/github-actions-cache.
-      - uses: voidzero-dev/setup-vp@v1
+      # pnpm (version pinned by package.json's `packageManager`) + Node, with the
+      # pnpm content store cached by setup-node.
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: true
-          run-install: false
+          cache: pnpm
 
-      - run: vp install
+      - run: pnpm install --frozen-lockfile
 
-      - name: Restore Vite Task cache
-        id: vite-task-cache
-        uses: actions/cache/restore@v6
+      # Turborepo local cache: build/typecheck/test outputs are content-hashed and
+      # restored across runs (keyed by commit, falling back to the latest prior run).
+      - name: Restore Turbo cache
+        uses: actions/cache@v6
         with:
-          path: node_modules/.vite/task-cache
-          key: vite-task-${{ runner.os }}-${{ runner.arch }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .turbo
+          key: turbo-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
-            vite-task-${{ runner.os }}-${{ runner.arch }}-
+            turbo-${{ runner.os }}-
 
-      # apps/propel-docs type-checks its demos against @makeplane/propel's built
-      # dist (its published `exports`), and dist is gitignored — so pack propel
-      # before the workspace check, or those imports can't resolve (TS2307).
-      - run: vp run @makeplane/propel#build
-
-      - run: vp run -w check
-      # Storybook stories run as browser tests (Vitest + Playwright), so CI needs
-      # the Chromium binary + its system deps. `pnpm` isn't on PATH under
-      # setup-vp, so run the package binary via `vp exec` (see viteplus.dev/guide/ci).
-      - run: vp exec --filter @makeplane/propel playwright install --with-deps chromium
-      - run: vp run -r test
-      - run: vp run -r build
-
-      - name: Save Vite Task cache
-        if: success()
-        uses: actions/cache/save@v6
-        with:
-          path: node_modules/.vite/task-cache
-          key: ${{ steps.vite-task-cache.outputs.cache-primary-key }}
+      - run: pnpm run lint
+      - run: pnpm run format:check
+      # `^build` builds @makeplane/propel's dist before propel-docs' typecheck/build.
+      - run: pnpm exec turbo run build typecheck
+      # Storybook stories run as browser tests (Vitest + Playwright), so CI needs the
+      # Chromium binary + its system deps. Run tests in a separate step (after build) so
+      # the headless browser doesn't contend with the CPU-heavy library builds.
+      - run: pnpm --filter @makeplane/propel exec playwright install --with-deps chromium
+      - run: pnpm exec turbo run test
