@@ -2,6 +2,7 @@
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "jsPlugins": ["./tools/oxlint-plugin-propel/src/index.ts"],
   "ignorePatterns": [
+    "**/dist/**",
     "**/.claude/**",
     "**/.agents/**",
     "**/.storybook/**",
