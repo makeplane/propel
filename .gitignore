@@ -30,8 +30,13 @@ dist-ssr
 # Storybook build output
 storybook-static
 
+# Astro build cache
+.astro
+
 # Test coverage
 coverage
 
 # Playwright MCP output
 .playwright-mcp
+
+docs/superpowers/*

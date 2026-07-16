@@ -1,0 +1,39 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Select
+description: Lets a user choose one option from a list in a popup.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/select/basic.tsx";
+import basicSource from "~/demos/select/basic.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectList,
+  SelectTrigger,
+} from "@makeplane/propel/components/select";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/select/select.tsx", component: "Select" },
+    { source: "components/select/select-trigger.tsx", component: "SelectTrigger" },
+    { source: "components/select/select-item.tsx", component: "SelectItem" },
+  ]}
+/>

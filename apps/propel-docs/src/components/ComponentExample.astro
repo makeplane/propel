@@ -1,0 +1,22 @@
+---
+import CodeBlock from "~/components/CodeBlock.astro";
+
+type Props = {
+  code: string;
+};
+
+const { code } = Astro.props;
+---
+
+<div class="overflow-hidden rounded-lg border border-subtle">
+  <div class="flex items-center justify-center border-b border-subtle bg-surface-1 p-8">
+    <slot />
+  </div>
+  <details class="group">
+    <summary class="cursor-pointer list-none px-4 py-2 text-sm text-secondary select-none">
+      <span class="group-open:hidden">Show code</span>
+      <span class="hidden group-open:inline">Hide code</span>
+    </summary>
+    <CodeBlock code={code} />
+  </details>
+</div>

@@ -1,0 +1,34 @@
+---
+import SidebarNav from "~/components/SidebarNav.astro";
+import BaseLayout from "~/layouts/BaseLayout.astro";
+
+type Props = {
+  frontmatter: {
+    title: string;
+    description?: string;
+  };
+};
+
+// Astro/MDX pages that set `layout:` in frontmatter pass all frontmatter
+// fields to the layout nested under `Astro.props.frontmatter` (see
+// @astrojs/mdx's rehype-apply-frontmatter-export.js), not spread flat onto
+// Astro.props.
+const {
+  frontmatter: { title, description },
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="mx-auto flex max-w-6xl gap-10 px-6 py-10">
+    <SidebarNav />
+    <main class="min-w-0 flex-1">
+      <header class="mb-8 border-b border-subtle pb-6">
+        <h1 class="text-2xl font-semibold text-primary">{title}</h1>
+        {description ? <p class="mt-2 text-secondary">{description}</p> : null}
+      </header>
+      <div class="flex flex-col gap-10">
+        <slot />
+      </div>
+    </main>
+  </div>
+</BaseLayout>

@@ -1,0 +1,13 @@
+---
+import { Code } from "astro:components";
+import type { CodeLanguage } from "astro";
+
+type Props = {
+  code: string;
+  lang?: CodeLanguage;
+};
+
+const { code, lang = "tsx" } = Astro.props;
+---
+
+<Code code={code.trimEnd()} lang={lang} theme="github-dark" />

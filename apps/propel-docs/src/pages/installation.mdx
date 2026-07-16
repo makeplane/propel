@@ -1,0 +1,36 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Installation
+description: Install @makeplane/propel and wire up its styles.
+---
+
+## Install
+
+```bash
+pnpm add @makeplane/propel
+```
+
+### Peer dependencies
+
+```bash
+pnpm add react react-dom tailwindcss
+```
+
+## Import styles
+
+`@makeplane/propel` ships a Tailwind v4 source file, not pre-built CSS — import it from your own
+Tailwind entry so its tokens and utilities compile alongside your app's:
+
+```css
+@import "tailwindcss";
+@import "@makeplane/propel/styles";
+```
+
+## Import components
+
+There's no root barrel — each component is imported from its own subpath, so you only pull in
+(and tree-shake to) what you use:
+
+```tsx
+import { Button } from "@makeplane/propel/components/button";
+```
