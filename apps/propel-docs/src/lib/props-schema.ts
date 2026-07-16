@@ -22,6 +22,11 @@ const parser = withCustomConfig(propelTsconfig, {
     prop.name === "children" || !prop.parent || !prop.parent.fileName.includes("node_modules"),
 });
 
+// `parser.parse` rebuilds TypeScript program state and is expensive; several pages
+// (and multiple parts on one page) resolve components from the same source file, so
+// cache the parse result per file. Output is identical — only repeated work is skipped.
+const docsByFile = new Map<string, ComponentDoc[]>();
+
 /**
  * @param relativeSourcePath - Path relative to packages/propel/src, e.g.
  *   "components/button/button.tsx"
@@ -32,6 +37,10 @@ export function getComponentDoc(
   componentName: string,
 ): ComponentDoc | undefined {
   const filePath = resolve(propelRoot, "src", relativeSourcePath);
-  const docs = parser.parse(filePath);
+  let docs = docsByFile.get(filePath);
+  if (!docs) {
+    docs = parser.parse(filePath);
+    docsByFile.set(filePath, docs);
+  }
   return docs.find((doc) => doc.displayName === componentName);
 }

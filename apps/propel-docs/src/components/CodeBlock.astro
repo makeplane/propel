@@ -4,10 +4,10 @@ import type { CodeLanguage } from "astro";
 
 type Props = {
   code: string;
-  lang?: string;
+  lang?: CodeLanguage;
 };
 
 const { code, lang = "tsx" } = Astro.props;
 ---
 
-<Code code={code.trimEnd()} lang={lang as CodeLanguage} theme="github-dark" />
+<Code code={code.trimEnd()} lang={lang} theme="github-dark" />
