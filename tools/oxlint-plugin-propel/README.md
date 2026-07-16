@@ -2,7 +2,7 @@
 
 Project-specific Oxlint rules for Propel.
 
-This package is private to the workspace and is loaded by the root `vite.config.ts` through Oxlint's local `jsPlugins` support.
+This package is private to the workspace and is loaded by the root `.oxlintrc.json` through Oxlint's local `jsPlugins` support.
 
 ## Rules
 
@@ -59,22 +59,22 @@ The rule intentionally does not rewrite valued arbitrary data selectors such as 
 Run the package tests:
 
 ```bash
-vp run --filter oxlint-plugin-propel test
+pnpm --filter oxlint-plugin-propel test
 ```
 
 Run workspace validation:
 
 ```bash
-vp check
-vp test
+pnpm check
+pnpm test
 ```
 
-The root config enables the rule as an error:
+The root `.oxlintrc.json` enables the rule as an error:
 
-```ts
-lint: {
-  jsPlugins: ["./tools/oxlint-plugin-propel/src/index.ts"],
-  rules: {
+```jsonc
+{
+  "jsPlugins": ["./tools/oxlint-plugin-propel/src/index.ts"],
+  "rules": {
     "propel/prefer-tailwind-v4-shorthand": "error",
   },
 }

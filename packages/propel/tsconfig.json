@@ -15,6 +15,6 @@
     "allowImportingTsExtensions": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*", "vite.config.ts"],
+  "include": ["src/**/*", "vitest.config.ts", "tsdown.config.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx"]
 }

@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+
 jobs:
   release:
     name: Release
@@ -15,23 +18,24 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: voidzero-dev/setup-vp@v1
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: true
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
 
       - name: Build packages
-        run: vp run -r build
+        run: pnpm exec turbo run build
 
       # Opens/updates a "Version Packages" PR when changesets are present, and
       # publishes to npm when that PR is merged (i.e. when no changesets remain).
       - name: Create release PR or publish
         uses: changesets/action@v1
         with:
-          # changesets/action@v1 splits these strings on whitespace before exec,
-          # so keep each command to a single Vite+ binary invocation.
-          version: vp exec -w changeset version
-          publish: vp exec -w changeset publish
+          version: pnpm exec changeset version
+          publish: pnpm exec changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"

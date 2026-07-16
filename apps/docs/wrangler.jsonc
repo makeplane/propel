@@ -7,6 +7,9 @@
   // Cloudflare account, so no `account_id` belongs in this file.
   // https://developers.cloudflare.com/workers/static-assets/
   // https://developers.cloudflare.com/workers/ci-cd/builds/
+  // Worker name mirrors the `propel-storybook` sibling (packages/propel/wrangler.jsonc);
+  // Cloudflare Worker names are account-global, so keep the `propel-` prefix even though
+  // the workspace package is just `docs`.
   "name": "propel-docs",
   "compatibility_date": "2026-07-15",
   // Serve on the account's workers.dev subdomain and enable per-version preview URLs, so

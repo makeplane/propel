@@ -344,4 +344,4 @@ govern this: `variant` is too vague (6c), and native HTML/CSS attribute names ar
 - [ ] No borrowing of another component's `Props`/cva/variant types; shared styling lives in `internal/`.
 - [ ] No `defaultVariants` (every axis required) unless a real default is intentionally introduced.
 - [ ] Context (if any) defined + provided + consumed in `components`; `elements` is prop-driven.
-- [ ] Run a **full** `vp check --fix` (not scoped, not `--no-fmt`) and `vp test` — both green — before pushing.
+- [ ] Run `pnpm check` (Oxfmt format check + Oxlint + typecheck) and `pnpm test` — both green — before pushing (`pnpm format && pnpm lint:fix` to auto-fix first).

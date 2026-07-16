@@ -33,6 +33,9 @@ storybook-static
 # Astro build cache
 .astro
 
+# Turborepo cache
+.turbo
+
 # Test coverage
 coverage
 

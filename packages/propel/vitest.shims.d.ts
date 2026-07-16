@@ -1,1 +1,1 @@
-/// <reference types="vite-plus/test/browser-playwright" />
+/// <reference types="@vitest/browser-playwright/context" />
