@@ -1,10 +1,30 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
+  // The docs site is deployed as a static site on Cloudflare Workers (Static Assets).
+  // No Worker script is needed — `assets.directory` alone serves the built output.
+  // Deployment is driven by Cloudflare's Git integration (Workers Builds connected to the
+  // GitHub repo), which builds on push and reads this config; the account is the connected
+  // Cloudflare account, so no `account_id` belongs in this file.
+  // https://developers.cloudflare.com/workers/static-assets/
+  // https://developers.cloudflare.com/workers/ci-cd/builds/
   "name": "propel-docs",
-  // TODO: set account_id and a real routes/zone entry before deploying.
   "compatibility_date": "2026-07-15",
+  // Serve on the account's workers.dev subdomain and enable per-version preview URLs, so
+  // Workers Builds gives every non-production branch/PR build its own preview URL.
+  "workers_dev": true,
+  "preview_urls": true,
+  // TODO: once a production domain is assigned, add a custom-domain route here and set
+  // `site` in astro.config.mjs to match (so the sitemap emits absolute URLs). Mirror
+  // packages/propel/wrangler.jsonc's storybook route, e.g.:
+  //   "routes": [{ "pattern": "propel.plane.so", "custom_domain": true }]
+  // Keep `workers_dev`/`preview_urls` enabled even then: the PR preview URLs live on the
+  // workers.dev subdomain, so disabling them would break previews.
   "assets": {
     "directory": "./dist",
+    // Multi-page static site: serve the generated 404.html (built from src/pages/404.astro)
+    // for unmatched paths. Do NOT use "single-page-application" here — that returns
+    // index.html with a 200 for every bad path, which is wrong for a multi-page site.
+    "not_found_handling": "404-page",
   },
   "observability": {
     "enabled": true,
