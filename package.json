@@ -4,12 +4,27 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "vp config"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "build-storybook": "turbo run build-storybook",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rm -rf .turbo node_modules",
+    "check": "turbo run check",
+    "check:lint": "turbo run check:lint",
+    "check:format": "turbo run check:format",
+    "check:types": "turbo run check:types",
+    "fix": "turbo run fix",
+    "fix:lint": "turbo run fix:lint",
+    "fix:format": "turbo run fix:format"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
-    "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "@oxlint/plugins": "catalog:",
+    "@typescript/native-preview": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "turbo": "^2"
   },
   "engines": {
     "node": ">=22.12.0"

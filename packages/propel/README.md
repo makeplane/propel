@@ -78,14 +78,14 @@ Safari 16.2). Below those floors the Tailwind-generated CSS doesn't apply correc
 
 ## Development
 
-This package is built with [`vp pack`](https://viteplus.dev/guide/pack) (tsdown).
+This package is built with [tsdown](https://tsdown.dev) (`tsdown.config.ts`).
 
 ```bash
-vp install          # install workspace dependencies
-vp run build        # build the library (JS + .d.ts + CSS) into dist/
-vp run dev          # rebuild on change (watch mode)
-vp check            # format, lint, type-check
-vp test             # run tests
+pnpm install                            # install workspace dependencies
+pnpm --filter @makeplane/propel build   # build the library (JS + .d.ts + CSS) into dist/
+pnpm --filter @makeplane/propel dev     # rebuild on change (watch mode)
+pnpm --filter @makeplane/propel test    # run tests
+pnpm check                              # format, lint, type-check (repo-wide)
 ```
 
 - **No root barrel.** Each component lives in `src/components/<name>/index.ts`
@@ -104,7 +104,7 @@ vp test             # run tests
   `*-styles.ts`, `*-shared.tsx`, or a real `*-context.tsx` when React context is
   involved. Do not create public child files that only re-export from a
   monolithic parent file.
-- `vp pack` needs at least one component or hook to build (a component library
+- `tsdown` needs at least one component or hook to build (a component library
   with zero entries has nothing to compile).
 - Compose classes with [`clsx`](https://github.com/lukeed/clsx) only — **do not
   add `tailwind-merge`**. Component variants should be expressed with stable,

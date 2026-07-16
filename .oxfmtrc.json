@@ -1,0 +1,10 @@
+{
+  "ignorePatterns": ["**/dist/**", "**/.claude/**", "**/.agents/**"],
+  "sortTailwindcss": {
+    "functions": ["cva", "cx"],
+    "stylesheet": "packages/propel/tailwind.css"
+  },
+  "sortImports": true,
+  "sortPackageJson": true,
+  "jsdoc": true
+}

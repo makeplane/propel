@@ -1,6 +1,6 @@
 # propel
 
-A [Vite+](https://viteplus.dev) monorepo.
+A [Turborepo](https://turborepo.com) + [pnpm](https://pnpm.io) monorepo.
 
 ## Docs
 
@@ -14,34 +14,35 @@ A [Vite+](https://viteplus.dev) monorepo.
 
 ## Prerequisites
 
-Install the `vp` CLI globally:
-
-```bash
-# macOS / Linux
-curl -fsSL https://vite.plus | bash
-
-# Windows (PowerShell)
-irm https://vite.plus/ps1 | iex
-```
+- [Node](https://nodejs.org) — the version in [`.node-version`](./.node-version).
+- [pnpm](https://pnpm.io) — the version is pinned by `packageManager` in
+  `package.json`; enable it with `corepack enable`.
 
 ## Workspace layout
 
 ```
 propel/
-├── apps/       # applications (scaffold with `vp create vite:application`)
-├── packages/   # shared libraries (scaffold with `vp create vite:library`)
-└── tools/      # generators (scaffold with `vp create vite:generator`)
+├── apps/       # applications (e.g. docs, the Astro docs site)
+├── packages/   # shared libraries (e.g. @makeplane/propel)
+└── tools/      # internal tooling (e.g. the Oxlint plugin)
 ```
 
 ## Common commands
 
 ```bash
-vp install            # install dependencies
-vp dev                # run dev servers
-vp check              # format + lint + type-check
-vp test               # run tests via Vitest
-vp build              # production build via Rolldown
-vp run -r <task>      # run task across all workspace packages
+pnpm install          # install dependencies
+pnpm dev              # run dev servers                 (turbo run dev)
+pnpm build            # build all packages              (turbo run build)
+pnpm test             # run tests                       (turbo run test)
+pnpm check            # check:format + check:lint + check:types
+pnpm check:lint       # lint with Oxlint
+pnpm check:format     # verify formatting with Oxfmt
+pnpm check:types      # type-check
+pnpm fix              # auto-fix: fix:format + fix:lint
 ```
 
-Run `vp help` for the full command list.
+Tasks are orchestrated by [Turborepo](https://turborepo.com) (`turbo.json`). The
+underlying tools are [tsdown](https://tsdown.dev) (library builds),
+[Vitest](https://vitest.dev) (tests), and [Oxlint](https://oxc.rs) /
+[Oxfmt](https://oxc.rs) (lint / format). Run a single package's task with
+`pnpm exec turbo run <task> --filter=<package>`.
