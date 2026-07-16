@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "pnpm --filter @makeplane/propel exec vp pack && astro build",
+    "build": "vp run @makeplane/propel#build && astro build",
     "preview": "astro preview",
-    "typecheck": "pnpm --filter @makeplane/propel exec vp pack && astro check"
+    "typecheck": "vp run @makeplane/propel#build && astro check"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.3",

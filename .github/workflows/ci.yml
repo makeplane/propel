@@ -33,6 +33,11 @@ jobs:
           restore-keys: |
             vite-task-${{ runner.os }}-${{ runner.arch }}-
 
+      # apps/propel-docs type-checks its demos against @makeplane/propel's built
+      # dist (its published `exports`), and dist is gitignored — so pack propel
+      # before the workspace check, or those imports can't resolve (TS2307).
+      - run: vp run @makeplane/propel#build
+
       - run: vp run -w check
       # Storybook stories run as browser tests (Vitest + Playwright), so CI needs
       # the Chromium binary + its system deps. `pnpm` isn't on PATH under
