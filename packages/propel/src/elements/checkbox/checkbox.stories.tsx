@@ -194,11 +194,11 @@ export const States: Story = {
 
 /**
  * Hidden CSS canary: asserts the pinned `data-*` states compile to real styling — the
- * `data-invalid` border and `data-checked` fill differ from resting, the invalid+checked box keeps
- * the same accent fill as the plain checked box, disabled unchecked/checked use `--txt-disabled`
- * for border and fill (same computed color), the three box-level hovers (forced via pseudo-states)
- * shift fill away from their resting counterparts, and inside the indeterminate box the check
- * computes `display: none` while the dash computes `inline-flex`. Tagged out of the
+ * `data-invalid` inset stroke and `data-checked` fill differ from resting, the invalid+checked box
+ * keeps the same accent fill as the plain checked box, disabled unchecked/checked use
+ * `--txt-disabled` for the inset stroke and fill, the three box-level hovers (forced via
+ * pseudo-states) shift fill away from their resting counterparts, and inside the indeterminate box
+ * the check computes `display: none` while the dash computes `inline-flex`. Tagged out of the
  * sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const StatesCssCanary: Story = {
@@ -208,32 +208,33 @@ export const StatesCssCanary: Story = {
     const resting = canvas.getByRole("checkbox", { name: "Unchecked" });
     const checked = canvas.getByRole("checkbox", { name: "Checked" });
     const invalid = canvas.getByRole("checkbox", { name: "Invalid" });
-    // `data-invalid` recolors the resting border to danger.
-    await expect(getComputedStyle(invalid).borderColor).not.toBe(
-      getComputedStyle(resting).borderColor,
-    );
-    // `data-checked` swaps the bordered box for the accent fill.
+    // Stroke lives on `box-shadow` (transparent CSS border reserves the 1px Figma gutter).
+    // `data-invalid` recolors the resting inset stroke to danger.
+    await expect(getComputedStyle(invalid).boxShadow).not.toBe(getComputedStyle(resting).boxShadow);
+    await expect(getComputedStyle(resting).boxShadow.includes("1px inset")).toBe(true);
+    // `data-checked` swaps the stroked box for the accent fill and clears the inset stroke.
+    // (Ring tokens may leave transparent 0px shadow layers, so assert no `1px inset` stroke.)
     await expect(getComputedStyle(checked).backgroundColor).not.toBe(
       getComputedStyle(resting).backgroundColor,
     );
+    await expect(getComputedStyle(checked).boxShadow.includes("1px inset")).toBe(false);
     // Once checked, the invalid box keeps the same accent fill as the plain checked box.
     const invalidChecked = canvas.getByRole("checkbox", { name: "Invalid checked" });
     await expect(getComputedStyle(invalidChecked).backgroundColor).toBe(
       getComputedStyle(checked).backgroundColor,
     );
-    // Disabled: Figma `#71777A` via `--txt-disabled` — border (unchecked) and fill (checked) match,
-    // and both differ from their enabled counterparts.
+    // Disabled: Figma `#71777A` via `--txt-disabled` — inset stroke (unchecked) and fill (checked)
+    // both differ from their enabled counterparts; checked clears the stroke.
     const disabled = canvas.getByRole("checkbox", { name: "Disabled" });
     const disabledChecked = canvas.getByRole("checkbox", { name: "Disabled checked" });
-    await expect(getComputedStyle(disabled).borderColor).not.toBe(
-      getComputedStyle(resting).borderColor,
+    await expect(getComputedStyle(disabled).boxShadow).not.toBe(
+      getComputedStyle(resting).boxShadow,
     );
+    await expect(getComputedStyle(disabled).boxShadow.includes("1px inset")).toBe(true);
     await expect(getComputedStyle(disabledChecked).backgroundColor).not.toBe(
       getComputedStyle(checked).backgroundColor,
     );
-    await expect(getComputedStyle(disabledChecked).backgroundColor).toBe(
-      getComputedStyle(disabled).borderColor,
-    );
+    await expect(getComputedStyle(disabledChecked).boxShadow.includes("1px inset")).toBe(false);
     // Box-level hovers (unchecked wash, darker accent for checked/indeterminate) are demonstrated
     // in `States` for docs but NOT asserted here: like every canary in the tree, this one only
     // checks static `data-*`/`aria-*` styling. The pseudo-states addon's forced `:hover` does not

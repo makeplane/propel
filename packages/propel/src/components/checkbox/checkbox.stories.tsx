@@ -186,10 +186,10 @@ export const Invalid: Story = {
 };
 
 /**
- * Interaction test: the invalid `Field` propagates `data-invalid` and the danger border on the
- * RESTING box only — once checked, the danger border clears back to transparent (the accent fill
- * alone communicates the value; a required-and-now-satisfied checkbox shouldn't still ring red).
- * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ * Interaction test: the invalid `Field` propagates `data-invalid` and the danger inset stroke on
+ * the RESTING box only — once checked, the stroke clears (`shadow-none`) so the accent fill alone
+ * communicates the value; a required-and-now-satisfied checkbox shouldn't still ring red. Tagged
+ * out of the sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const InvalidInteraction: Story = {
   ...Invalid,
@@ -201,9 +201,9 @@ export const InvalidInteraction: Story = {
     // The invalid `Field` propagates `data-invalid` onto the box (Base UI Field -> Checkbox.Root).
     await expect(unchecked).toHaveAttribute("data-invalid");
     await expect(unchecked).toHaveAttribute("aria-checked", "false");
-    // ...and the danger border actually renders: its border color differs from the resting box.
-    await expect(getComputedStyle(unchecked).borderColor).not.toBe(
-      getComputedStyle(resting).borderColor,
+    // ...and the danger inset stroke actually renders: its box-shadow differs from the resting box.
+    await expect(getComputedStyle(unchecked).boxShadow).not.toBe(
+      getComputedStyle(resting).boxShadow,
     );
     // Checked invalid box: accent-blue fill, like every other state...
     await expect(checked).toHaveAttribute("aria-checked", "true");
@@ -211,12 +211,10 @@ export const InvalidInteraction: Story = {
     await expect(getComputedStyle(checked).backgroundColor).not.toBe(
       getComputedStyle(resting).backgroundColor,
     );
-    // ...and, despite still being `data-invalid`, the danger border does NOT persist through the
-    // checked fill: `data-checked:border-transparent` takes over, same as a checked box anywhere
-    // else — it must NOT still show the unchecked invalid box's red border.
-    await expect(getComputedStyle(checked).borderColor).not.toBe(
-      getComputedStyle(unchecked).borderColor,
-    );
+    // ...and, despite still being `data-invalid`, the danger stroke does NOT persist through the
+    // checked fill: `data-checked:shadow-none` takes over — it must NOT still show the unchecked
+    // invalid box's red inset stroke. (Ring tokens may leave transparent 0px layers.)
+    await expect(getComputedStyle(checked).boxShadow.includes("1px inset")).toBe(false);
   },
 };
 
