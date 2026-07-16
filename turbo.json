@@ -1,24 +1,55 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
-  "globalDependencies": ["tsconfig.json", "pnpm-workspace.yaml"],
+  "globalDependencies": ["tsconfig.json", "pnpm-workspace.yaml", ".oxlintrc.json", ".oxfmtrc.json"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "check:types"],
       "outputs": ["dist/**"]
     },
     "build-storybook": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "check:types"],
       "outputs": ["storybook-static/**"]
     },
-    "test": {
-      "dependsOn": ["^build"]
+    "check": {
+      "dependsOn": ["check:format", "check:lint", "check:types"]
     },
-    "typecheck": {
-      "dependsOn": ["^build"]
+    "check:format": {
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": []
+    },
+    "check:lint": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "!**/*.md"],
+      "outputs": []
+    },
+    "check:types": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "!**/*.md"],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
     },
     "dev": {
-      "persistent": true,
+      "cache": false,
+      "dependsOn": ["^build"],
+      "persistent": true
+    },
+    "fix": {
+      "cache": false,
+      "dependsOn": ["fix:format", "fix:lint"]
+    },
+    "fix:format": {
       "cache": false
+    },
+    "fix:lint": {
+      "cache": false,
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "!**/*.md"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": []
     }
   }
 }

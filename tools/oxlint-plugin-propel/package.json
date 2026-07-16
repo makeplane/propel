@@ -25,6 +25,12 @@
   "scripts": {
     "dev": "tsdown --watch",
     "build": "tsdown",
+    "check:lint": "oxlint --type-aware -c ../../.oxlintrc.json .",
+    "check:format": "oxfmt . --check",
+    "check:types": "tsc --noEmit",
+    "fix:lint": "oxlint --type-aware --fix -c ../../.oxlintrc.json .",
+    "fix:format": "oxfmt . --write",
+    "clean": "rm -rf .turbo node_modules dist",
     "test": "vitest run"
   },
   "dependencies": {

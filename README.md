@@ -22,7 +22,7 @@ A [Turborepo](https://turborepo.com) + [pnpm](https://pnpm.io) monorepo.
 
 ```
 propel/
-├── apps/       # applications (e.g. propel-docs, the Astro docs site)
+├── apps/       # applications (e.g. docs, the Astro docs site)
 ├── packages/   # shared libraries (e.g. @makeplane/propel)
 └── tools/      # internal tooling (e.g. the Oxlint plugin)
 ```
@@ -31,13 +31,14 @@ propel/
 
 ```bash
 pnpm install          # install dependencies
-pnpm dev              # run dev servers          (turbo run dev)
-pnpm build            # build all packages        (turbo run build)
-pnpm test             # run tests                 (turbo run test)
-pnpm typecheck        # type-check all packages   (turbo run typecheck)
-pnpm lint             # lint with Oxlint
-pnpm format           # format with Oxfmt         (format:check to verify)
-pnpm check            # format check + lint + typecheck
+pnpm dev              # run dev servers                 (turbo run dev)
+pnpm build            # build all packages              (turbo run build)
+pnpm test             # run tests                       (turbo run test)
+pnpm check            # check:format + check:lint + check:types
+pnpm check:lint       # lint with Oxlint
+pnpm check:format     # verify formatting with Oxfmt
+pnpm check:types      # type-check
+pnpm fix              # auto-fix: fix:format + fix:lint
 ```
 
 Tasks are orchestrated by [Turborepo](https://turborepo.com) (`turbo.json`). The

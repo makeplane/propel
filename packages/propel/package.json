@@ -59,8 +59,14 @@
     "build": "tsdown",
     "build-storybook": "storybook build",
     "storybook": "storybook dev -p 6006",
-    "test": "vitest run",
-    "typecheck": "tsc --noEmit --declaration false --declarationMap false"
+    "check:lint": "oxlint --type-aware -c ../../.oxlintrc.json .",
+    "check:format": "oxfmt . --check",
+    "check:types": "tsc --noEmit --declaration false --declarationMap false",
+    "fix:lint": "oxlint --type-aware --fix -c ../../.oxlintrc.json .",
+    "fix:format": "oxfmt . --write",
+    "clean": "rm -rf .turbo node_modules dist storybook-static",
+    "pretest": "if [ \"$CI\" = \"true\" ]; then playwright install --with-deps chromium; else playwright install chromium; fi",
+    "test": "vitest run --project=storybook"
   },
   "dependencies": {
     "@base-ui/react": "catalog:",

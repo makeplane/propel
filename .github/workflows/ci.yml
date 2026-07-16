@@ -36,12 +36,14 @@ jobs:
           restore-keys: |
             turbo-${{ runner.os }}-
 
-      - run: pnpm run lint
-      - run: pnpm run format:check
-      # `^build` builds @makeplane/propel's dist before propel-docs' typecheck/build.
-      - run: pnpm exec turbo run build typecheck
-      # Storybook stories run as browser tests (Vitest + Playwright), so CI needs the
-      # Chromium binary + its system deps. Run tests in a separate step (after build) so
-      # the headless browser doesn't contend with the CPU-heavy library builds.
-      - run: pnpm --filter @makeplane/propel exec playwright install --with-deps chromium
-      - run: pnpm exec turbo run test
+      # Format + lint + type-check (turbo `check` = check:format + check:lint +
+      # check:types). check:lint/check:types build each package's workspace
+      # dependencies first via `^build` (e.g. docs type-checks against
+      # @makeplane/propel's built dist), so no separate pre-build step is needed.
+      - run: pnpm check
+
+      # Storybook stories run as browser tests (Vitest + Playwright). The propel
+      # package's `pretest` hook installs the Chromium binary + system deps
+      # (`playwright install --with-deps chromium` when CI=true) before the run.
+      - run: pnpm test
+      - run: pnpm build

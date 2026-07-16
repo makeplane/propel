@@ -1,5 +1,5 @@
 {
-  "name": "@makeplane/propel-docs",
+  "name": "docs",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -7,7 +7,12 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "typecheck": "astro check"
+    "check:lint": "oxlint -c ../../.oxlintrc.json .",
+    "check:format": "oxfmt . --check",
+    "check:types": "astro check",
+    "fix:lint": "oxlint --fix -c ../../.oxlintrc.json .",
+    "fix:format": "oxfmt . --write",
+    "clean": "rm -rf .turbo .astro node_modules dist"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.3",

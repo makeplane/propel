@@ -6,13 +6,16 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
+    "build-storybook": "turbo run build-storybook",
     "test": "turbo run test",
-    "typecheck": "turbo run typecheck",
-    "lint": "oxlint -c .oxlintrc.json .",
-    "lint:fix": "oxlint -c .oxlintrc.json --fix .",
-    "format": "oxfmt .",
-    "format:check": "oxfmt --check .",
-    "check": "oxfmt --check . && oxlint -c .oxlintrc.json . && turbo run typecheck",
+    "clean": "turbo run clean && rm -rf .turbo node_modules",
+    "check": "turbo run check",
+    "check:lint": "turbo run check:lint",
+    "check:format": "turbo run check:format",
+    "check:types": "turbo run check:types",
+    "fix": "turbo run fix",
+    "fix:lint": "turbo run fix:lint",
+    "fix:format": "turbo run fix:format",
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {

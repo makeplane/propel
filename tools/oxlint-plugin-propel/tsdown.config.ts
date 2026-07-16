@@ -6,4 +6,7 @@ import { defineConfig } from "tsdown";
 export default defineConfig({
   dts: { tsgo: true },
   exports: true,
+  // Keep the `.mjs` extension the published `exports` map points at, so
+  // `exports: true` regenerates the same value (rather than rewriting to `.js`).
+  fixedExtension: true,
 });

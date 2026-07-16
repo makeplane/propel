@@ -20,7 +20,7 @@ const propelSrc = resolve(__dirname, "../../packages/propel/src");
 
 export default defineConfig({
   // TODO: replace with the real deployed domain once one is assigned.
-  site: "https://propel-docs.example.com",
+  site: "https://docs.example.com",
   integrations: [mdx(), react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
