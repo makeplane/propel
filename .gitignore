@@ -38,3 +38,5 @@ coverage
 
 # Playwright MCP output
 .playwright-mcp
+
+docs/superpowers/*
