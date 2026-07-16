@@ -26,11 +26,14 @@ const parser = withCustomConfig(propelTsconfig, {
 // (and multiple parts on one page) resolve components from the same source file, so
 // cache the parse result per file. Output is identical — only repeated work is skipped.
 //
-// Production only: during `astro dev` this module persists across requests, so a
+// Production builds only: during `astro dev` this module persists across requests, so a
 // permanent cache would keep showing a stale props table after a propel component's
-// types are edited. In dev we skip the cache and always re-parse for fresh output;
-// in a build nothing changes mid-run, so caching is a pure win.
-const parseCache = import.meta.env.PROD ? new Map<string, ComponentDoc[]>() : null;
+// types are edited. In dev we skip the cache and always re-parse for fresh output; in a
+// build nothing changes mid-run, so caching is a pure win. `NODE_ENV` (set to
+// "production" by `astro build`, "development" by `astro dev`) is used instead of
+// `import.meta.env` so this `.ts` file type-checks under the workspace lint without
+// Astro's client type augmentation.
+const parseCache = process.env.NODE_ENV === "production" ? new Map<string, ComponentDoc[]>() : null;
 
 /**
  * @param relativeSourcePath - Path relative to packages/propel/src, e.g.
