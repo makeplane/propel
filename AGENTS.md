@@ -16,5 +16,3 @@ for linting and formatting. Config lives in `turbo.json`, `.oxlintrc.json`,
       `check:types`; `fix:lint`, `fix:format`), each a Turbo task defined in `turbo.json`
       and per-package `package.json`. Run one package with
       `pnpm exec turbo run <task> --filter=<package>`.
-- [ ] A pre-commit hook (simple-git-hooks + lint-staged) auto-formats staged files with
-      Oxfmt. Skip it for a commit with `SKIP_SIMPLE_GIT_HOOKS=1`.
