@@ -25,7 +25,12 @@ const parser = withCustomConfig(propelTsconfig, {
 // `parser.parse` rebuilds TypeScript program state and is expensive; several pages
 // (and multiple parts on one page) resolve components from the same source file, so
 // cache the parse result per file. Output is identical — only repeated work is skipped.
-const docsByFile = new Map<string, ComponentDoc[]>();
+//
+// Production only: during `astro dev` this module persists across requests, so a
+// permanent cache would keep showing a stale props table after a propel component's
+// types are edited. In dev we skip the cache and always re-parse for fresh output;
+// in a build nothing changes mid-run, so caching is a pure win.
+const parseCache = import.meta.env.PROD ? new Map<string, ComponentDoc[]>() : null;
 
 /**
  * @param relativeSourcePath - Path relative to packages/propel/src, e.g.
@@ -37,10 +42,10 @@ export function getComponentDoc(
   componentName: string,
 ): ComponentDoc | undefined {
   const filePath = resolve(propelRoot, "src", relativeSourcePath);
-  let docs = docsByFile.get(filePath);
+  let docs = parseCache?.get(filePath);
   if (!docs) {
     docs = parser.parse(filePath);
-    docsByFile.set(filePath, docs);
+    parseCache?.set(filePath, docs);
   }
   return docs.find((doc) => doc.displayName === componentName);
 }
