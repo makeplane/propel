@@ -29,6 +29,7 @@
 ### Task 1: Scaffold the Astro app skeleton
 
 **Files:**
+
 - Create: `apps/propel-docs/package.json`
 - Create: `apps/propel-docs/tsconfig.json`
 - Create: `apps/propel-docs/astro.config.mjs`
@@ -37,6 +38,7 @@
 - Create: `apps/propel-docs/src/pages/index.astro`
 
 **Interfaces:**
+
 - Produces: a working `astro dev` / `astro build` / `astro check` toolchain at `apps/propel-docs`, the `~/*` → `./src/*` path alias (used by every later task's imports), and the dev-mode `@makeplane/propel` → `packages/propel/src` Vite alias (used by every component page task).
 
 - [ ] **Step 1: Create `apps/propel-docs/package.json`**
@@ -204,11 +206,13 @@ git commit -m "Scaffold apps/propel-docs Astro app"
 ### Task 2: Wire Tailwind v4 + propel's design tokens, build the real landing page
 
 **Files:**
+
 - Create: `apps/propel-docs/src/styles/global.css`
 - Create: `apps/propel-docs/src/layouts/BaseLayout.astro`
 - Modify: `apps/propel-docs/src/pages/index.astro`
 
 **Interfaces:**
+
 - Consumes: the dev-mode alias from Task 1 (`@makeplane/propel/styles` → propel's source CSS).
 - Produces: `BaseLayout.astro` with props `{ title: string; description?: string }`, imported by every later layout and page.
 
@@ -278,6 +282,7 @@ Run: `pnpm --filter @makeplane/propel-docs dev`
 Expected: no errors resolving `@makeplane/propel/styles`.
 
 Open the dev URL in a browser. Confirm:
+
 - The page background is propel's canvas color (a light gray, not pure white) and body text is propel's dark text color — this proves `@theme inline` tokens from `packages/propel/src/styles/variables.css` are loaded, not default Tailwind black-on-white.
 - The "Get started" link has a solid blue-ish accent background with white text (`bg-accent-primary` / `text-on-color`).
 
@@ -297,6 +302,7 @@ git commit -m "Wire Tailwind v4 + propel design tokens into propel-docs"
 ### Task 3: Layouts, sidebar nav, and the installation page
 
 **Files:**
+
 - Create: `apps/propel-docs/src/lib/components-registry.ts`
 - Create: `apps/propel-docs/src/components/SidebarNav.astro`
 - Create: `apps/propel-docs/src/layouts/ComponentLayout.astro`
@@ -304,6 +310,7 @@ git commit -m "Wire Tailwind v4 + propel design tokens into propel-docs"
 - Create: `apps/propel-docs/src/pages/installation.mdx`
 
 **Interfaces:**
+
 - Consumes: `BaseLayout` from Task 2 (`{ title, description }` props).
 - Produces: `COMPONENTS: ComponentEntry[]` (`{ slug: string; title: string; description: string }`) from `~/lib/components-registry`, consumed by `SidebarNav.astro`, `index.astro`, and every component page task (5-9) via the `layout: ~/layouts/ComponentLayout.astro` MDX frontmatter field, which accepts `{ title: string; description?: string }`.
 
@@ -465,7 +472,7 @@ import { COMPONENTS } from "~/lib/components-registry";
 
 - [ ] **Step 5: Create `apps/propel-docs/src/pages/installation.mdx`**
 
-```mdx
+````mdx
 ---
 layout: ~/layouts/ComponentLayout.astro
 title: Installation
@@ -477,6 +484,7 @@ description: Install @makeplane/propel and wire up its styles.
 ```bash
 pnpm add @makeplane/propel
 ```
+````
 
 ### Peer dependencies
 
@@ -502,7 +510,8 @@ There's no root barrel — each component is imported from its own subpath, so y
 ```tsx
 import { Button } from "@makeplane/propel/components/button";
 ```
-```
+
+````
 
 - [ ] **Step 6: Verify navigation and the installation page**
 
@@ -520,13 +529,14 @@ Stop the dev server once confirmed.
 ```bash
 git add apps/propel-docs
 git commit -m "Add layouts, sidebar nav, and installation page to propel-docs"
-```
+````
 
 ---
 
 ### Task 4: Props-table/demo plumbing + the Button page
 
 **Files:**
+
 - Create: `apps/propel-docs/src/lib/props-schema.ts`
 - Create: `apps/propel-docs/src/components/CodeBlock.astro`
 - Create: `apps/propel-docs/src/components/ComponentExample.astro`
@@ -536,6 +546,7 @@ git commit -m "Add layouts, sidebar nav, and installation page to propel-docs"
 - Create: `apps/propel-docs/src/pages/components/button.mdx`
 
 **Interfaces:**
+
 - Consumes: `ComponentLayout` from Task 3.
 - Produces: `getComponentDoc(relativeSourcePath: string, componentName: string): import("react-docgen-typescript").ComponentDoc | undefined` from `~/lib/props-schema`, and the `CodeBlock`/`ComponentExample`/`PropsTable` Astro components, all reused unchanged by every later component-page task (5-9).
 
@@ -681,9 +692,7 @@ const { parts } = Astro.props;
 import { Button } from "@makeplane/propel/components/button";
 
 export default function BasicDemo() {
-  return (
-    <Button label="Button" prominence="primary" tone="neutral" magnitude="md" sizing="hug" />
-  );
+  return <Button label="Button" prominence="primary" tone="neutral" magnitude="md" sizing="hug" />;
 }
 ```
 
@@ -710,7 +719,7 @@ export default function WithIconDemo() {
 
 - [ ] **Step 7: Create `apps/propel-docs/src/pages/components/button.mdx`**
 
-```mdx
+````mdx
 ---
 layout: ~/layouts/ComponentLayout.astro
 title: Button
@@ -741,11 +750,13 @@ import withIconSource from "~/demos/button/with-icon.tsx?raw";
 ```tsx
 import { Button } from "@makeplane/propel/components/button";
 ```
+````
 
 ## Props
 
 <PropsTable parts={[{ source: "components/button/button.tsx", component: "Button" }]} />
-```
+
+````
 
 - [ ] **Step 8: Verify the Button page end-to-end**
 
@@ -774,17 +785,19 @@ Stop the dev server once confirmed.
 ```bash
 git add apps/propel-docs
 git commit -m "Add props-table/demo plumbing and the Button doc page"
-```
+````
 
 ---
 
 ### Task 5: Input Field page
 
 **Files:**
+
 - Create: `apps/propel-docs/src/demos/input-field/basic.tsx`
 - Create: `apps/propel-docs/src/pages/components/input-field.mdx`
 
 **Interfaces:**
+
 - Consumes: `ComponentLayout`, `ComponentExample`, `PropsTable` (Tasks 3-4) — unchanged.
 
 - [ ] **Step 1: Create `apps/propel-docs/src/demos/input-field/basic.tsx`**
@@ -808,7 +821,7 @@ export default function BasicDemo() {
 
 - [ ] **Step 2: Create `apps/propel-docs/src/pages/components/input-field.mdx`**
 
-```mdx
+````mdx
 ---
 layout: ~/layouts/ComponentLayout.astro
 title: Input Field
@@ -831,13 +844,15 @@ import basicSource from "~/demos/input-field/basic.tsx?raw";
 ```tsx
 import { InputField } from "@makeplane/propel/components/input-field";
 ```
+````
 
 ## Props
 
 <PropsTable
-  parts={[{ source: "components/input-field/input-field.tsx", component: "InputField" }]}
+parts={[{ source: "components/input-field/input-field.tsx", component: "InputField" }]}
 />
-```
+
+````
 
 - [ ] **Step 3: Verify**
 
@@ -854,17 +869,19 @@ Run: `pnpm --filter @makeplane/propel-docs typecheck` — expect 0 errors.
 ```bash
 git add apps/propel-docs
 git commit -m "Add Input Field doc page"
-```
+````
 
 ---
 
 ### Task 6: Select page
 
 **Files:**
+
 - Create: `apps/propel-docs/src/demos/select/basic.tsx`
 - Create: `apps/propel-docs/src/pages/components/select.mdx`
 
 **Interfaces:**
+
 - Consumes: `ComponentLayout`, `ComponentExample`, `PropsTable` (Tasks 3-4) — unchanged.
 
 - [ ] **Step 1: Create `apps/propel-docs/src/demos/select/basic.tsx`**
@@ -907,7 +924,7 @@ export default function BasicDemo() {
 
 - [ ] **Step 2: Create `apps/propel-docs/src/pages/components/select.mdx`**
 
-```mdx
+````mdx
 ---
 layout: ~/layouts/ComponentLayout.astro
 title: Select
@@ -928,19 +945,28 @@ import basicSource from "~/demos/select/basic.tsx?raw";
 ## Installation
 
 ```tsx
-import { Select, SelectContent, SelectItem, SelectLabel, SelectList, SelectTrigger } from "@makeplane/propel/components/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectList,
+  SelectTrigger,
+} from "@makeplane/propel/components/select";
 ```
+````
 
 ## Props
 
 <PropsTable
-  parts={[
-    { source: "components/select/select.tsx", component: "Select" },
-    { source: "components/select/select-trigger.tsx", component: "SelectTrigger" },
-    { source: "components/select/select-item.tsx", component: "SelectItem" },
-  ]}
+parts={[
+{ source: "components/select/select.tsx", component: "Select" },
+{ source: "components/select/select-trigger.tsx", component: "SelectTrigger" },
+{ source: "components/select/select-item.tsx", component: "SelectItem" },
+]}
 />
-```
+
+````
 
 - [ ] **Step 3: Verify**
 
@@ -963,17 +989,19 @@ mismatch using the compiler's exact error before re-running.
 ```bash
 git add apps/propel-docs
 git commit -m "Add Select doc page"
-```
+````
 
 ---
 
 ### Task 7: Dialog page
 
 **Files:**
+
 - Create: `apps/propel-docs/src/demos/dialog/basic.tsx`
 - Create: `apps/propel-docs/src/pages/components/dialog.mdx`
 
 **Interfaces:**
+
 - Consumes: `ComponentLayout`, `ComponentExample`, `PropsTable` (Tasks 3-4) — unchanged.
 
 - [ ] **Step 1: Create `apps/propel-docs/src/demos/dialog/basic.tsx`**
@@ -1054,7 +1082,7 @@ export default function BasicDemo() {
 
 - [ ] **Step 2: Create `apps/propel-docs/src/pages/components/dialog.mdx`**
 
-```mdx
+````mdx
 ---
 layout: ~/layouts/ComponentLayout.astro
 title: Dialog
@@ -1077,16 +1105,18 @@ import basicSource from "~/demos/dialog/basic.tsx?raw";
 ```tsx
 import { Dialog, DialogTrigger, DialogContent } from "@makeplane/propel/components/dialog";
 ```
+````
 
 ## Props
 
 <PropsTable
-  parts={[
-    { source: "components/dialog/dialog.tsx", component: "Dialog" },
-    { source: "components/dialog/dialog-content.tsx", component: "DialogContent" },
-  ]}
+parts={[
+{ source: "components/dialog/dialog.tsx", component: "Dialog" },
+{ source: "components/dialog/dialog-content.tsx", component: "DialogContent" },
+]}
 />
-```
+
+````
 
 - [ ] **Step 3: Verify**
 
@@ -1103,17 +1133,19 @@ Run: `pnpm --filter @makeplane/propel-docs typecheck` — expect 0 errors.
 ```bash
 git add apps/propel-docs
 git commit -m "Add Dialog doc page"
-```
+````
 
 ---
 
 ### Task 8: Table page
 
 **Files:**
+
 - Create: `apps/propel-docs/src/demos/table/basic.tsx`
 - Create: `apps/propel-docs/src/pages/components/table.mdx`
 
 **Interfaces:**
+
 - Consumes: `ComponentLayout`, `ComponentExample`, `PropsTable` (Tasks 3-4) — unchanged.
 
 - [ ] **Step 1: Create `apps/propel-docs/src/demos/table/basic.tsx`**
@@ -1168,7 +1200,7 @@ export default function BasicDemo() {
 
 - [ ] **Step 2: Create `apps/propel-docs/src/pages/components/table.mdx`**
 
-```mdx
+````mdx
 ---
 layout: ~/layouts/ComponentLayout.astro
 title: Table
@@ -1189,19 +1221,28 @@ import basicSource from "~/demos/table/basic.tsx?raw";
 ## Installation
 
 ```tsx
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@makeplane/propel/components/table";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@makeplane/propel/components/table";
 ```
+````
 
 ## Props
 
 <PropsTable
-  parts={[
-    { source: "components/table/table.tsx", component: "Table" },
-    { source: "components/table/table-head.tsx", component: "TableHead" },
-    { source: "components/table/table-cell.tsx", component: "TableCell" },
-  ]}
+parts={[
+{ source: "components/table/table.tsx", component: "Table" },
+{ source: "components/table/table-head.tsx", component: "TableHead" },
+{ source: "components/table/table-cell.tsx", component: "TableCell" },
+]}
 />
-```
+
+````
 
 - [ ] **Step 3: Verify**
 
@@ -1223,17 +1264,19 @@ mismatch and re-run before committing.
 ```bash
 git add apps/propel-docs
 git commit -m "Add Table doc page"
-```
+````
 
 ---
 
 ### Task 9: Accordion page
 
 **Files:**
+
 - Create: `apps/propel-docs/src/demos/accordion/basic.tsx`
 - Create: `apps/propel-docs/src/pages/components/accordion.mdx`
 
 **Interfaces:**
+
 - Consumes: `ComponentLayout`, `ComponentExample`, `PropsTable` (Tasks 3-4) — unchanged.
 
 - [ ] **Step 1: Create `apps/propel-docs/src/demos/accordion/basic.tsx`**
@@ -1278,7 +1321,7 @@ export default function BasicDemo() {
 
 - [ ] **Step 2: Create `apps/propel-docs/src/pages/components/accordion.mdx`**
 
-```mdx
+````mdx
 ---
 layout: ~/layouts/ComponentLayout.astro
 title: Accordion
@@ -1299,18 +1342,26 @@ import basicSource from "~/demos/accordion/basic.tsx?raw";
 ## Installation
 
 ```tsx
-import { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionPanel } from "@makeplane/propel/components/accordion";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionTrigger,
+  AccordionPanel,
+} from "@makeplane/propel/components/accordion";
 ```
+````
 
 ## Props
 
 <PropsTable
-  parts={[
-    { source: "components/accordion/accordion.tsx", component: "Accordion" },
-    { source: "components/accordion/accordion-trigger.tsx", component: "AccordionTrigger" },
-  ]}
+parts={[
+{ source: "components/accordion/accordion.tsx", component: "Accordion" },
+{ source: "components/accordion/accordion-trigger.tsx", component: "AccordionTrigger" },
+]}
 />
-```
+
+````
 
 - [ ] **Step 3: Verify**
 
@@ -1327,16 +1378,18 @@ Run: `pnpm --filter @makeplane/propel-docs typecheck` — expect 0 errors.
 ```bash
 git add apps/propel-docs
 git commit -m "Add Accordion doc page"
-```
+````
 
 ---
 
 ### Task 10: Full workspace verification and deployment config review
 
 **Files:**
+
 - No new files — this task only verifies the whole app and the workspace build/lint pipeline together.
 
 **Interfaces:**
+
 - Consumes: every file from Tasks 1-9.
 
 - [ ] **Step 1: Build `@makeplane/propel` so its `dist/` exists for the production resolution path**

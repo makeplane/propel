@@ -61,8 +61,7 @@ simplifies two of them:
 
 ## Architecture
 
-**Stack:** Astro 7 (per explicit instruction — kumo itself is still on Astro
-5) + `@astrojs/react` 6 + `@astrojs/mdx` 7 + Tailwind v4 via
+**Stack:** Astro 7 (per explicit instruction — kumo itself is still on Astro 5) + `@astrojs/react` 6 + `@astrojs/mdx` 7 + Tailwind v4 via
 `@tailwindcss/vite` (propel's existing catalog versions) + `@astrojs/sitemap`.
 Static output; no SSR adapter. Icons via `lucide-react` (propel's icon set,
 not kumo's `@phosphor-icons/react`).
@@ -171,7 +170,7 @@ Cloudflare account this gets deployed under and aren't invented here.
 
 - Package name: `@makeplane/propel-docs`, private (not published)
 - Scripts mirror kumo's docs package: `dev` (`astro dev`), `build` (`astro
-  build`), `preview` (`astro preview`), `typecheck` (`astro check`) — runnable
+build`), `preview` (`astro preview`), `typecheck` (`astro check`) — runnable
   through the existing `vp run -r <script>` convention
 - Depends on `@makeplane/propel` via `workspace:*`
 - `apps/*` is already declared in `pnpm-workspace.yaml`; no workspace config
@@ -187,14 +186,14 @@ Cloudflare account this gets deployed under and aren't invented here.
 
 ## Initial pages (6, spanning distinct patterns)
 
-| Component | Why it's in the first batch |
-|---|---|
-| `button` | Simple atom, few variants |
-| `input-field` | Form-field composition (label + input + error) |
-| `select` | Complex interactive (popover + list + keyboard nav) |
-| `dialog` | Overlay/portal composition |
-| `table` | Data-heavy layout |
-| `accordion` | Disclosure pattern |
+| Component     | Why it's in the first batch                         |
+| ------------- | --------------------------------------------------- |
+| `button`      | Simple atom, few variants                           |
+| `input-field` | Form-field composition (label + input + error)      |
+| `select`      | Complex interactive (popover + list + keyboard nav) |
+| `dialog`      | Overlay/portal composition                          |
+| `table`       | Data-heavy layout                                   |
+| `accordion`   | Disclosure pattern                                  |
 
 Each page: live demo(s) → install (barrel + granular) → usage example →
 props table.
