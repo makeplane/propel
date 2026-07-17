@@ -3,6 +3,12 @@ import type { DayPickerProps } from "react-day-picker";
 
 import { surfaceVariants } from "../../internal/surface";
 
+// The two nav buttons are identical 28px transparent icon buttons that tint on hover (Figma "Icon
+// buttons"). react-day-picker sets `aria-disabled` (not native `disabled`) at the month bounds, so
+// the disabled dim keys off that; `opacity-60` matches the system-wide disabled convention.
+const navButton =
+  "inline-flex size-7 items-center justify-center rounded-md text-icon-tertiary hover:bg-layer-transparent-hover aria-disabled:opacity-60";
+
 // Propel-token class map for react-day-picker's UI parts. We never import its
 // default stylesheet — every visual decision below comes from a propel utility
 // (Figma node 1272-11630): 40px round day cells, accent endpoints, soft in-range
@@ -18,11 +24,8 @@ export const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"
   month_caption: "flex items-center h-7",
   caption_label: "text-20 font-semibold text-primary",
   nav: "absolute inset-e-4 top-4 flex items-center gap-1",
-  // 28px transparent icon buttons that tint on hover (Figma "Icon buttons").
-  button_previous:
-    "inline-flex size-7 items-center justify-center rounded-md text-icon-tertiary hover:bg-layer-transparent-hover aria-disabled:opacity-50",
-  button_next:
-    "inline-flex size-7 items-center justify-center rounded-md text-icon-tertiary hover:bg-layer-transparent-hover aria-disabled:opacity-50",
+  button_previous: navButton,
+  button_next: navButton,
   // The nav chevron: 16px, mirrored in RTL. react-day-picker passes this class to its `Chevron`
   // component (default or a custom one), so the icon needs no className of its own.
   chevron: "size-4 rtl:-scale-x-100",
@@ -60,9 +63,13 @@ export const calendarClassNames: Partial<NonNullable<DayPickerProps["classNames"
   range_middle:
     "range-middle [&>button]:bg-transparent [&>button]:text-primary [&>button:hover]:bg-transparent",
   // Today (when not selected): accent text so the current date stands out. When
-  // the cell is also selected, the solid accent button (above) wins.
-  today: "[&:not([aria-selected])>button]:text-accent-primary [&>button]:font-semibold",
-  // Disabled days read as muted, non-interactive text.
+  // the cell is also selected, the solid accent button (above) wins. A 6px dot
+  // (icon/accent/subtle) sits centered 4px above the cell's bottom edge in
+  // every state, marking the current date even inside a selected pill.
+  today:
+    "[&:not([aria-selected])>button]:text-accent-primary [&>button]:font-semibold after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:size-1.5 after:rounded-full after:bg-(--txt-icon-accent-subtle)",
+  // Disabled days read as muted, non-interactive text via the disabled tone alone (matching every
+  // other disabled control — no extra opacity), so they recede without going lighter than Figma.
   disabled: "[&>button]:text-disabled [&>button]:pointer-events-none",
   // Days from the adjacent month: dimmed.
   outside: "[&>button]:text-tertiary",

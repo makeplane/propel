@@ -243,7 +243,7 @@ export const States: Story = {
         <nav className={calendarClassNames.nav}>
           <button
             type="button"
-            disabled
+            aria-disabled
             aria-label="Go to the Previous Month"
             className={calendarClassNames.button_previous}
           >
@@ -477,13 +477,24 @@ export const StatesCanary: Story = {
       getComputedStyle(resting).backgroundColor,
     );
 
-    // `today` recolors the (unselected) day's text to the accent tone.
+    // `today` recolors the (unselected) day's text to the accent tone and paints the 6px
+    // current-date dot 4px above the CELL's bottom edge — including on a selected today.
     const today = canvas.getByRole("button", { name: "Day 3, today" });
     await expect(getComputedStyle(today).color).not.toBe(getComputedStyle(resting).color);
+    const todayDot = getComputedStyle(cellOf(today), "::after");
+    await expect(todayDot.width).toBe("6px");
+    await expect(todayDot.height).toBe("6px");
+    await expect(todayDot.bottom).toBe("4px");
+    const selectedToday = canvas.getByRole("button", { name: "Day 5, selected today" });
+    await expect(getComputedStyle(cellOf(selectedToday), "::after").width).toBe("6px");
 
-    // `disabled` makes the day button non-interactive.
+    // `disabled` makes the day button non-interactive and visibly recessed — the disabled text
+    // tone alone (full opacity, matching every other disabled control), so it reads muted against
+    // an enabled day rather than lighter than Figma.
     const disabled = canvas.getByRole("button", { name: "Day 6, disabled" });
     await expect(getComputedStyle(disabled).pointerEvents).toBe("none");
+    await expect(getComputedStyle(disabled).opacity).toBe("1");
+    await expect(getComputedStyle(disabled).color).not.toBe(getComputedStyle(resting).color);
 
     // `range-middle` paints the soft in-range fill on the CELL, and its button reset beats
     // `selected`'s accent fill (the cell carries both classes) so the button stays transparent.
@@ -497,5 +508,10 @@ export const StatesCanary: Story = {
     const hidden = canvasElement.querySelector("#elements-calendar-hidden-day");
     if (!(hidden instanceof HTMLElement)) throw new Error("missing pinned hidden cell");
     await expect(getComputedStyle(hidden).visibility).toBe("hidden");
+
+    // nav `aria-disabled` (the attribute react-day-picker sets, not native `disabled`) dims the
+    // chevron button to 60% opacity (the system disabled convention).
+    const navDisabled = canvas.getByRole("button", { name: "Go to the Previous Month" });
+    await expect(getComputedStyle(navDisabled).opacity).toBe("0.6");
   },
 };
