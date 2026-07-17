@@ -416,4 +416,9 @@ export const GETTING_STARTED: DocEntry[] = [
     title: "Installation",
     description: "Install @makeplane/propel and wire up its styles.",
   },
+  {
+    href: "/components",
+    title: "Components",
+    description: "Every component in the library, grouped by family.",
+  },
 ];

@@ -2,7 +2,7 @@
 import MobileNav from "~/components/react/MobileNav.tsx";
 import SearchCommand from "~/components/react/SearchCommand.tsx";
 import ThemeToggle from "~/components/react/ThemeToggle.tsx";
-import { COMPONENT_GROUPS, COMPONENTS, GETTING_STARTED } from "~/lib/components-registry";
+import { COMPONENT_GROUPS, GETTING_STARTED } from "~/lib/components-registry";
 
 // Plain-JSON nav model for the mobile drawer island.
 const navGroups = [
@@ -40,7 +40,7 @@ const navLink =
     </a>
     <nav aria-label="Main" class="hidden items-center gap-1 sm:flex">
       <a href="/introduction" class={navLink}>Docs</a>
-      <a href={`/components/${COMPONENTS[0].slug}`} class={navLink}>Components</a>
+      <a href="/components" class={navLink}>Components</a>
     </nav>
     <div class="ml-auto flex items-center gap-1.5">
       <SearchCommand client:load />
