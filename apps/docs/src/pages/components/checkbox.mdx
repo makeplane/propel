@@ -1,0 +1,56 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Checkbox
+description: Lets a user toggle a single option on or off.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/checkbox/basic.tsx";
+import basicSource from "~/demos/checkbox/basic.tsx?raw";
+import StatesDemo from "~/demos/checkbox/states.tsx";
+import statesSource from "~/demos/checkbox/states.tsx?raw";
+import WithIconDemo from "~/demos/checkbox/with-icon.tsx";
+import withIconSource from "~/demos/checkbox/with-icon.tsx?raw";
+import InvalidDemo from "~/demos/checkbox/invalid.tsx";
+import invalidSource from "~/demos/checkbox/invalid.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## States
+
+The resting, checked, mixed (`indeterminate`), and `disabled` boxes.
+
+<ComponentExample code={statesSource}>
+  <StatesDemo client:visible />
+</ComponentExample>
+
+## With icon
+
+Pass an `icon` to render a glyph between the box and the label.
+
+<ComponentExample code={withIconSource}>
+  <WithIconDemo client:visible />
+</ComponentExample>
+
+## Invalid
+
+The danger look is a state, not a prop: inside an invalid `Field` the unchecked box recolors its border red, while a checked box keeps the accent fill.
+
+<ComponentExample code={invalidSource}>
+  <InvalidDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Checkbox } from "@makeplane/propel/components/checkbox";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/checkbox/checkbox.tsx", component: "Checkbox" }]} />

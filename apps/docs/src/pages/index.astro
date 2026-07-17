@@ -1,41 +1,91 @@
 ---
 import BaseLayout from "~/layouts/BaseLayout.astro";
-import { COMPONENTS } from "~/lib/components-registry";
+import { COMPONENT_GROUPS, COMPONENTS } from "~/lib/components-registry";
+
+const primaryCta =
+  "rounded-md bg-accent-primary px-4 py-2 text-body-sm-medium text-on-color hover:bg-accent-primary-hover active:bg-accent-primary-active focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1 focus-visible:outline-none";
+const secondaryCta =
+  "rounded-md border border-subtle px-4 py-2 text-body-sm-medium text-primary hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1 focus-visible:outline-none";
 ---
 
 <BaseLayout title="Propel" description="Documentation for @makeplane/propel's React components.">
-  <main class="mx-auto flex max-w-3xl flex-col gap-10 px-6 py-16">
-    <div>
-      <h1 class="text-3xl font-semibold text-primary">Propel</h1>
-      <p class="mt-3 text-lg text-secondary">
-        Plane's React component library, built on Base UI and Tailwind CSS v4.
-      </p>
-    </div>
-    <div class="flex gap-3">
-      <a href="/installation" class="rounded-md bg-accent-primary px-4 py-2 text-sm font-medium text-on-color">
-        Get started
-      </a>
-      <a
-        href={`/components/${COMPONENTS[0].slug}`}
-        class="rounded-md border border-subtle px-4 py-2 text-sm font-medium text-primary"
-      >
-        Browse components
-      </a>
-    </div>
-    <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3">
-      {
-        COMPONENTS.map((entry) => (
-          <li>
-            <a
-              href={`/components/${entry.slug}`}
-              class="block rounded-lg border border-subtle p-4 hover:bg-surface-1"
+  <main class="mx-auto w-full max-w-7xl px-4 sm:px-6">
+    <section class="flex flex-col gap-6 border-b border-subtle py-16 lg:py-20">
+      <div class="flex flex-col gap-3">
+        <h1 class="text-h1-semibold text-primary">Propel</h1>
+        <p class="max-w-[65ch] text-body-md-regular text-secondary">
+          Plane's React component library — accessible behavior from Base UI, styled with a
+          Tailwind CSS v4 token system, documented here as live components beside their exact
+          source.
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="/introduction" class={primaryCta}>Get started</a>
+        <a href={`/components/${COMPONENTS[0].slug}`} class={secondaryCta}>Browse components</a>
+        <div
+          class="flex items-center gap-2 rounded-md border border-subtle bg-surface-1 py-1.5 pr-1.5 pl-3"
+          data-code-frame
+        >
+          <code class="font-code text-13 text-secondary">pnpm add @makeplane/propel</code>
+          <button
+            type="button"
+            data-copy-button
+            data-copy-text="pnpm add @makeplane/propel"
+            aria-label="Copy install command"
+            class="rounded p-1 text-tertiary hover:bg-layer-transparent-hover hover:text-primary focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:outline-none"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="copy-idle size-3.5"
             >
-              <p class="font-medium text-primary">{entry.title}</p>
-              <p class="mt-1 text-sm text-secondary">{entry.description}</p>
-            </a>
-          </li>
+              <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+              <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+            </svg>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="copy-done hidden size-3.5"
+            >
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+    <div class="flex flex-col gap-10 py-12 lg:py-16">
+      {
+        COMPONENT_GROUPS.map((group) => (
+          <section>
+            <h2 class="mb-3 text-caption-md-medium tracking-wide text-tertiary uppercase">
+              {group.label}
+            </h2>
+            <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {group.items.map((entry) => (
+                <li>
+                  <a
+                    href={`/components/${entry.slug}`}
+                    class="block h-full rounded-lg border border-subtle p-4 hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1 focus-visible:outline-none"
+                  >
+                    <p class="text-body-sm-medium text-primary">{entry.title}</p>
+                    <p class="mt-1 text-body-sm-regular text-secondary">{entry.description}</p>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
         ))
       }
-    </ul>
+    </div>
   </main>
 </BaseLayout>

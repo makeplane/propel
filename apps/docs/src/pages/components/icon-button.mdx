@@ -1,0 +1,67 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Icon Button
+description: An icon-only button for compact, labeled actions like adding, editing, or closing.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/icon-button/basic.tsx";
+import basicSource from "~/demos/icon-button/basic.tsx?raw";
+import ProminencesDemo from "~/demos/icon-button/prominences.tsx";
+import prominencesSource from "~/demos/icon-button/prominences.tsx?raw";
+import TonesDemo from "~/demos/icon-button/tones.tsx";
+import tonesSource from "~/demos/icon-button/tones.tsx?raw";
+import MagnitudesDemo from "~/demos/icon-button/magnitudes.tsx";
+import magnitudesSource from "~/demos/icon-button/magnitudes.tsx?raw";
+import LoadingDemo from "~/demos/icon-button/loading.tsx";
+import loadingSource from "~/demos/icon-button/loading.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Prominences
+
+Prominence sets the visual weight: `primary`, `secondary`, `tertiary`, and `ghost`.
+
+<ComponentExample code={prominencesSource}>
+  <ProminencesDemo client:visible />
+</ComponentExample>
+
+## Tones
+
+Tone selects the palette. `danger` renders as a solid fill on `primary` and a bordered outline on `secondary`.
+
+<ComponentExample code={tonesSource}>
+  <TonesDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Loading
+
+The loading state shows a spinner, sets `aria-busy`, and blocks interaction.
+
+<ComponentExample code={loadingSource}>
+  <LoadingDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Icon } from "@makeplane/propel/components/icon";
+import { IconButton } from "@makeplane/propel/components/icon-button";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/icon-button/icon-button.tsx", component: "IconButton" }]}
+/>

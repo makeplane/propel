@@ -1,0 +1,70 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Radio
+description: Lets a user pick one option from a set of mutually exclusive choices.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/radio/basic.tsx";
+import basicSource from "~/demos/radio/basic.tsx?raw";
+import FieldCompositionDemo from "~/demos/radio/field-composition.tsx";
+import fieldCompositionSource from "~/demos/radio/field-composition.tsx?raw";
+import DensityDemo from "~/demos/radio/density.tsx";
+import densitySource from "~/demos/radio/density.tsx?raw";
+import WithDescriptionDemo from "~/demos/radio/with-description.tsx";
+import withDescriptionSource from "~/demos/radio/with-description.tsx?raw";
+import ControlledDemo from "~/demos/radio/controlled.tsx";
+import controlledSource from "~/demos/radio/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Field composition
+
+The ready-made `RadioGroupField` owns the legend, options, and helper text, so the group serializes under its `name` with no extra wiring.
+
+<ComponentExample code={fieldCompositionSource}>
+  <FieldCompositionDemo client:visible />
+</ComponentExample>
+
+## Density
+
+`density` sets the row spacing: `comfortable` (8px gap) or `compact` (flush rows, e.g. a settings panel where options read like menu items).
+
+<ComponentExample code={densitySource}>
+  <DensityDemo client:visible />
+</ComponentExample>
+
+## With description
+
+Each option can carry supporting text, announced as the radio's description.
+
+<ComponentExample code={withDescriptionSource}>
+  <WithDescriptionDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { RadioGroup } from "@makeplane/propel/components/radio";
+import { RadioGroupFieldOption } from "@makeplane/propel/components/radio-group-field";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/radio/radio.tsx", component: "Radio" },
+    { source: "components/radio/radio-group.tsx", component: "RadioGroup" },
+  ]}
+/>

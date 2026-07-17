@@ -38,22 +38,22 @@ function formatType(type: PropItemType): string {
       const props = doc ? Object.values(doc.props) : [];
       return (
         <div>
-          <h3 class="mb-3 font-mono text-sm font-medium text-primary">{component}</h3>
-          <div class="overflow-x-auto rounded-lg border border-subtle">
-            <table class="w-full border-collapse text-sm">
+          <h3 class="mb-3 font-code text-body-sm-medium text-primary">{component}</h3>
+          <div class="scrollbar-sm overflow-x-auto rounded-lg border border-subtle">
+            <table class="w-full border-collapse text-body-sm-regular">
               <thead>
-                <tr class="border-b border-subtle bg-surface-1 text-left">
-                  <th class="px-4 py-2 font-medium text-secondary">Prop</th>
-                  <th class="px-4 py-2 font-medium text-secondary">Type</th>
-                  <th class="px-4 py-2 font-medium text-secondary">Required</th>
-                  <th class="px-4 py-2 font-medium text-secondary">Description</th>
+                <tr class="border-b border-subtle text-left">
+                  <th class="px-4 py-2 text-body-sm-medium text-secondary">Prop</th>
+                  <th class="px-4 py-2 text-body-sm-medium text-secondary">Type</th>
+                  <th class="px-4 py-2 text-body-sm-medium text-secondary">Required</th>
+                  <th class="px-4 py-2 text-body-sm-medium text-secondary">Description</th>
                 </tr>
               </thead>
               <tbody>
                 {props.map((prop) => (
                   <tr class="border-b border-subtle last:border-0">
-                    <td class="px-4 py-2 font-mono text-primary">{prop.name}</td>
-                    <td class="max-w-xs px-4 py-2 font-mono text-xs text-secondary">
+                    <td class="px-4 py-2 font-code text-13 text-primary">{prop.name}</td>
+                    <td class="max-w-xs px-4 py-2 font-code text-13 text-secondary">
                       {formatType(prop.type)}
                     </td>
                     <td class="px-4 py-2 text-secondary">{prop.required ? "Yes" : "No"}</td>

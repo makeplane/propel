@@ -1,0 +1,62 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Scroll Area
+description: A scroll container with propel's overlay scrollbar that reveals on hover or scroll, built on Base UI ScrollArea.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/scroll-area/basic.tsx";
+import basicSource from "~/demos/scroll-area/basic.tsx?raw";
+import HorizontalDemo from "~/demos/scroll-area/horizontal.tsx";
+import horizontalSource from "~/demos/scroll-area/horizontal.tsx?raw";
+import BothAxesDemo from "~/demos/scroll-area/both-axes.tsx";
+import bothAxesSource from "~/demos/scroll-area/both-axes.tsx?raw";
+import AlwaysVisibleDemo from "~/demos/scroll-area/always-visible.tsx";
+import alwaysVisibleSource from "~/demos/scroll-area/always-visible.tsx?raw";
+import MagnitudesDemo from "~/demos/scroll-area/magnitudes.tsx";
+import magnitudesSource from "~/demos/scroll-area/magnitudes.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Horizontal
+
+<ComponentExample code={horizontalSource}>
+  <HorizontalDemo client:visible />
+</ComponentExample>
+
+## Both axes
+
+<ComponentExample code={bothAxesSource}>
+  <BothAxesDemo client:visible />
+</ComponentExample>
+
+## Always visible
+
+<ComponentExample code={alwaysVisibleSource}>
+  <AlwaysVisibleDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+The `magnitude` prop sets the scrollbar gutter: `thin` (12 px) for dense UI, `standard` (16 px) for roomier panels.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { ScrollArea } from "@makeplane/propel/components/scroll-area";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/scroll-area/scroll-area.tsx", component: "ScrollArea" }]}
+/>

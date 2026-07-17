@@ -8,11 +8,45 @@ import ComponentExample from "~/components/ComponentExample.astro";
 import PropsTable from "~/components/PropsTable.astro";
 import BasicDemo from "~/demos/input-field/basic.tsx";
 import basicSource from "~/demos/input-field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/input-field/magnitudes.tsx";
+import magnitudesSource from "~/demos/input-field/magnitudes.tsx?raw";
+import HorizontalDemo from "~/demos/input-field/horizontal.tsx";
+import horizontalSource from "~/demos/input-field/horizontal.tsx?raw";
+import WithIconsDemo from "~/demos/input-field/with-icons.tsx";
+import withIconsSource from "~/demos/input-field/with-icons.tsx?raw";
+import InvalidDemo from "~/demos/input-field/invalid.tsx";
+import invalidSource from "~/demos/input-field/invalid.tsx?raw";
 
 ## Basic
 
 <ComponentExample code={basicSource}>
   <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Horizontal
+
+The `horizontal` orientation places the label beside the control instead of above it.
+
+<ComponentExample code={horizontalSource}>
+  <HorizontalDemo client:visible />
+</ComponentExample>
+
+## With icons
+
+<ComponentExample code={withIconsSource}>
+  <WithIconsDemo client:visible />
+</ComponentExample>
+
+## Invalid
+
+<ComponentExample code={invalidSource}>
+  <InvalidDemo client:visible />
 </ComponentExample>
 
 ## Installation

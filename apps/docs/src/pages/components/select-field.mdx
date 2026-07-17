@@ -1,0 +1,64 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Select Field
+description: A labeled select with description, popup options, and helper or error text.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/select-field/basic.tsx";
+import basicSource from "~/demos/select-field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/select-field/magnitudes.tsx";
+import magnitudesSource from "~/demos/select-field/magnitudes.tsx?raw";
+import DisabledDemo from "~/demos/select-field/disabled.tsx";
+import disabledSource from "~/demos/select-field/disabled.tsx?raw";
+import InvalidDemo from "~/demos/select-field/invalid.tsx";
+import invalidSource from "~/demos/select-field/invalid.tsx?raw";
+import ControlledDemo from "~/demos/select-field/controlled.tsx";
+import controlledSource from "~/demos/select-field/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+Magnitude steps the label and helper-text size; the trigger scale follows, with `xl` mapping onto the largest trigger.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Disabled
+
+<ComponentExample code={disabledSource}>
+  <DisabledDemo client:visible />
+</ComponentExample>
+
+## Invalid
+
+Passing `error` marks the field invalid and replaces the helper text with the error message.
+
+<ComponentExample code={invalidSource}>
+  <InvalidDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { SelectField } from "@makeplane/propel/components/select-field";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/select-field/select-field.tsx", component: "SelectField" }]}
+/>

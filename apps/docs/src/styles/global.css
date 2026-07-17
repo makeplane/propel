@@ -1,2 +1,81 @@
+/* Fonts: propel's tokens name "Inter Variable" + "IBM Plex Mono" but load nothing —
+ * the site self-hosts both via fontsource (no CDN). */
+@import "@fontsource-variable/inter";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
 @import "tailwindcss";
 @import "@makeplane/propel/styles";
+
+/* Prose layout for MDX doc pages; propel's own `prose` @utility recolors the
+ * --tw-prose-* vars to its tokens, this plugin supplies the layout rules. */
+@plugin "@tailwindcss/typography";
+
+/*
+ * Shiki dual theme. astro:components Code with themes={{light, dark}} inlines the
+ * light theme and carries the dark one in --shiki-dark* vars; this flips them
+ * whenever propel's dark theme is active on <html>.
+ */
+[data-theme*="dark"] .astro-code,
+[data-theme*="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/* Code block chrome (astro:components Code emits <pre class="astro-code">). */
+.astro-code {
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: var(--font-code);
+  font-size: var(--text-13);
+  line-height: 1.54;
+}
+
+/* TOC / anchor jumps land below the sticky header. */
+h2[id],
+h3[id] {
+  scroll-margin-top: calc(var(--height-header) + 1.5rem);
+}
+
+/* Text selection in the brand's own subtle tint. */
+::selection {
+  background-color: var(--background-color-accent-subtle);
+}
+
+/* Native UI (scrollbars, form controls, autofill) follows the active theme. */
+:root[data-theme*="light"] {
+  color-scheme: light;
+}
+
+/*
+ * Docs-site preference: a pure white page in light mode instead of propel's
+ * default grey canvas (neutral-300). Dark mode is untouched. Chrome tints that
+ * relied on white-on-grey contrast use the alpha-based bg-layer-transparent-*
+ * tokens instead, which read on any surface.
+ */
+:root[data-theme*="light"] {
+  --bg-canvas: var(--neutral-white);
+}
+
+:root[data-theme*="dark"] {
+  color-scheme: dark;
+}
+
+/*
+ * Site-wide reduced-motion guard (DESIGN.md mandate). propel's animations.css has
+ * no reduce handling, so the docs neutralize all motion here — including propel's
+ * own infinite loops — for users who ask for it.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

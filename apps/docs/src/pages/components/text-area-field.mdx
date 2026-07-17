@@ -1,0 +1,56 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Text Area Field
+description: A labeled multi-line text field with optional description, hint, and error messaging.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/text-area-field/basic.tsx";
+import basicSource from "~/demos/text-area-field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/text-area-field/magnitudes.tsx";
+import magnitudesSource from "~/demos/text-area-field/magnitudes.tsx?raw";
+import InvalidDemo from "~/demos/text-area-field/invalid.tsx";
+import invalidSource from "~/demos/text-area-field/invalid.tsx?raw";
+import ControlledDemo from "~/demos/text-area-field/controlled.tsx";
+import controlledSource from "~/demos/text-area-field/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+`magnitude` steps the value font-size and the field min-height; padding and radius stay fixed.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Invalid
+
+Setting `error` overrides `hint`, marks the field invalid (`aria-invalid`), and recolors the border to danger.
+
+<ComponentExample code={invalidSource}>
+  <InvalidDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { TextAreaField } from "@makeplane/propel/components/text-area-field";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/text-area-field/text-area-field.tsx", component: "TextAreaField" }]}
+/>

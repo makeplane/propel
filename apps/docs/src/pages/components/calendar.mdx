@@ -1,0 +1,42 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Calendar
+description: A keyboard- and screen-reader-accessible date picker for single-date and range selection.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/calendar/basic.tsx";
+import basicSource from "~/demos/calendar/basic.tsx?raw";
+import RangeDemo from "~/demos/calendar/range.tsx";
+import rangeSource from "~/demos/calendar/range.tsx?raw";
+import DisabledDaysDemo from "~/demos/calendar/disabled-days.tsx";
+import disabledDaysSource from "~/demos/calendar/disabled-days.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Range
+
+<ComponentExample code={rangeSource}>
+  <RangeDemo client:visible />
+</ComponentExample>
+
+## Disabled days
+
+<ComponentExample code={disabledDaysSource}>
+  <DisabledDaysDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Calendar } from "@makeplane/propel/components/calendar";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/calendar/calendar.tsx", component: "Calendar" }]} />

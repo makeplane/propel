@@ -1,0 +1,44 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Collapsible
+description: A single show/hide disclosure that expands and collapses a panel of content.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/collapsible/basic.tsx";
+import basicSource from "~/demos/collapsible/basic.tsx?raw";
+import DefaultOpenDemo from "~/demos/collapsible/default-open.tsx";
+import defaultOpenSource from "~/demos/collapsible/default-open.tsx?raw";
+import WithoutIndicatorDemo from "~/demos/collapsible/without-indicator.tsx";
+import withoutIndicatorSource from "~/demos/collapsible/without-indicator.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Default open
+
+<ComponentExample code={defaultOpenSource}>
+  <DefaultOpenDemo client:visible />
+</ComponentExample>
+
+## Without indicator
+
+<ComponentExample code={withoutIndicatorSource}>
+  <WithoutIndicatorDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Collapsible } from "@makeplane/propel/components/collapsible";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/collapsible/collapsible.tsx", component: "Collapsible" }]}
+/>

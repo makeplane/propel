@@ -1,0 +1,81 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Toolbar
+description: A row of grouped controls with a toolbar role and roving keyboard focus.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/toolbar/basic.tsx";
+import basicSource from "~/demos/toolbar/basic.tsx?raw";
+import ElevationsDemo from "~/demos/toolbar/elevations.tsx";
+import elevationsSource from "~/demos/toolbar/elevations.tsx?raw";
+import DensitiesDemo from "~/demos/toolbar/densities.tsx";
+import densitiesSource from "~/demos/toolbar/densities.tsx?raw";
+import WithFilterDemo from "~/demos/toolbar/with-filter.tsx";
+import withFilterSource from "~/demos/toolbar/with-filter.tsx?raw";
+import WithTooltipsDemo from "~/demos/toolbar/with-tooltips.tsx";
+import withTooltipsSource from "~/demos/toolbar/with-tooltips.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Elevations
+
+`raised` draws its own card (border and shadow) so the toolbar can float over content; `flat` draws no surface and sits flush inside an existing bar.
+
+<ComponentExample code={elevationsSource}>
+  <ElevationsDemo client:visible />
+</ComponentExample>
+
+## Densities
+
+`density` sets the control hit targets: `compact` packs them to 24px, `comfortable` gives them 28px.
+
+<ComponentExample code={densitiesSource}>
+  <DensitiesDemo client:visible />
+</ComponentExample>
+
+## With filter
+
+`ToolbarInput` is an inline filter box that joins the roving tab order, its height tracking the toolbar's density like every other item.
+
+<ComponentExample code={withFilterSource}>
+  <WithFilterDemo client:visible />
+</ComponentExample>
+
+## With tooltips
+
+Toolbar controls are icon-only, so pair each with a `Tooltip` naming it (plus a dimmed shortcut hint). A shared `TooltipProvider` keeps open and close timing consistent across the bar.
+
+<ComponentExample code={withTooltipsSource}>
+  <WithTooltipsDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  Toolbar,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarMenuTrigger,
+  ToolbarSeparator,
+  ToolbarToggle,
+  ToolbarToggleGroup,
+} from "@makeplane/propel/components/toolbar";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/toolbar/toolbar.tsx", component: "Toolbar" },
+    { source: "components/toolbar/toolbar-button.tsx", component: "ToolbarButton" },
+    { source: "components/toolbar/toolbar-toggle.tsx", component: "ToolbarToggle" },
+    { source: "components/toolbar/toolbar-menu-trigger.tsx", component: "ToolbarMenuTrigger" },
+  ]}
+/>

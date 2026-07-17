@@ -1,0 +1,33 @@
+import {
+  Select,
+  SelectContent,
+  SelectField,
+  SelectItem,
+  SelectLabel,
+  SelectList,
+  SelectTrigger,
+} from "@makeplane/propel/components/select";
+
+const SERVER_TYPES = [
+  { label: "General purpose", value: "general" },
+  { label: "Compute optimized", value: "compute" },
+  { label: "Memory optimized", value: "memory" },
+];
+
+export default function MultipleDemo() {
+  return (
+    <Select multiple items={SERVER_TYPES} defaultValue={["general", "compute"]}>
+      <SelectField>
+        <SelectLabel>Server types</SelectLabel>
+        <SelectTrigger magnitude="md" />
+      </SelectField>
+      <SelectContent>
+        <SelectList>
+          {SERVER_TYPES.map(({ label, value }) => (
+            <SelectItem key={value} value={value} magnitude="md" label={label} />
+          ))}
+        </SelectList>
+      </SelectContent>
+    </Select>
+  );
+}

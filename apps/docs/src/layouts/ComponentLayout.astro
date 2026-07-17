@@ -1,34 +1,64 @@
 ---
-import SidebarNav from "~/components/SidebarNav.astro";
+import type { TocHeading } from "~/components/Toc.astro";
 import BaseLayout from "~/layouts/BaseLayout.astro";
+import DocsShell from "~/layouts/DocsShell.astro";
+import { COMPONENTS } from "~/lib/components-registry";
 
 type Props = {
   frontmatter: {
     title: string;
     description?: string;
   };
+  headings?: TocHeading[];
 };
 
 // Astro/MDX pages that set `layout:` in frontmatter pass all frontmatter
 // fields to the layout nested under `Astro.props.frontmatter` (see
 // @astrojs/mdx's rehype-apply-frontmatter-export.js), not spread flat onto
-// Astro.props.
+// Astro.props. `headings` rides alongside it at the top level.
 const {
   frontmatter: { title, description },
+  headings = [],
 } = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/$/, "");
+const slug = path.startsWith("/components/") ? path.slice("/components/".length) : null;
+const index = slug ? COMPONENTS.findIndex((entry) => entry.slug === slug) : -1;
+const prev = index > 0 ? COMPONENTS[index - 1] : null;
+const next = index >= 0 && index < COMPONENTS.length - 1 ? COMPONENTS[index + 1] : null;
+
+const pagerCard =
+  "group flex flex-col gap-1 rounded-lg border border-subtle p-4 hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1 focus-visible:outline-none";
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="mx-auto flex max-w-6xl gap-10 px-6 py-10">
-    <SidebarNav />
-    <main class="min-w-0 flex-1">
-      <header class="mb-8 border-b border-subtle pb-6">
-        <h1 class="text-2xl font-semibold text-primary">{title}</h1>
-        {description ? <p class="mt-2 text-secondary">{description}</p> : null}
-      </header>
-      <div class="flex flex-col gap-10">
-        <slot />
-      </div>
-    </main>
-  </div>
+  <DocsShell headings={headings}>
+    <header class="mb-8 border-b border-subtle pb-6">
+      <h1 class="text-h3-semibold text-primary">{title}</h1>
+      {description ? <p class="mt-2 text-body-md-regular text-secondary">{description}</p> : null}
+    </header>
+    <div class="flex flex-col gap-10">
+      <slot />
+    </div>
+    {
+      prev || next ? (
+        <nav aria-label="Pagination" class="mt-12 grid gap-3 border-t border-subtle pt-6 sm:grid-cols-2">
+          {prev ? (
+            <a href={`/components/${prev.slug}`} rel="prev" class={pagerCard}>
+              <span class="text-caption-md-medium text-tertiary">Previous</span>
+              <span class="text-body-sm-medium text-primary">{prev.title}</span>
+            </a>
+          ) : (
+            <span aria-hidden="true" />
+          )}
+          {next ? (
+            <a href={`/components/${next.slug}`} rel="next" class={`${pagerCard} text-right sm:col-start-2`}>
+              <span class="text-caption-md-medium text-tertiary">Next</span>
+              <span class="text-body-sm-medium text-primary">{next.title}</span>
+            </a>
+          ) : null}
+        </nav>
+      ) : null
+    }
+  </DocsShell>
 </BaseLayout>

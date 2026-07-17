@@ -1,0 +1,54 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Avatar
+description: Shows a person's photo, falling back to initials or an anonymous person icon.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/avatar/basic.tsx";
+import basicSource from "~/demos/avatar/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/avatar/magnitudes.tsx";
+import magnitudesSource from "~/demos/avatar/magnitudes.tsx?raw";
+import TonesDemo from "~/demos/avatar/tones.tsx";
+import tonesSource from "~/demos/avatar/tones.tsx?raw";
+import StatesDemo from "~/demos/avatar/states.tsx";
+import statesSource from "~/demos/avatar/states.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Tones
+
+The initials background follows `tone`. When `tone` is omitted it is derived from `alt`, so every member gets a stable color automatically.
+
+<ComponentExample code={tonesSource}>
+  <TonesDemo client:visible />
+</ComponentExample>
+
+## States
+
+The three fallback states side by side: photo, initials, and the anonymous person icon.
+
+<ComponentExample code={statesSource}>
+  <StatesDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Avatar } from "@makeplane/propel/components/avatar";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/avatar/avatar.tsx", component: "Avatar" }]} />

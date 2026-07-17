@@ -1,0 +1,56 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Checkbox Field
+description: A single checkbox laid out as a field row with label, description, and hint or error text.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/checkbox-field/basic.tsx";
+import basicSource from "~/demos/checkbox-field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/checkbox-field/magnitudes.tsx";
+import magnitudesSource from "~/demos/checkbox-field/magnitudes.tsx?raw";
+import InvalidDemo from "~/demos/checkbox-field/invalid.tsx";
+import invalidSource from "~/demos/checkbox-field/invalid.tsx?raw";
+import ControlledDemo from "~/demos/checkbox-field/controlled.tsx";
+import controlledSource from "~/demos/checkbox-field/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+`magnitude` scales the label, description, and helper text; the checkbox box keeps one size.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Invalid
+
+Setting `error` marks the field invalid, recoloring the box border to `danger` and showing the error text in place of the hint.
+
+<ComponentExample code={invalidSource}>
+  <InvalidDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { CheckboxField } from "@makeplane/propel/components/checkbox-field";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/checkbox-field/checkbox-field.tsx", component: "CheckboxField" }]}
+/>

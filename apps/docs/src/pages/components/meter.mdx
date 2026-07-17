@@ -1,0 +1,64 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Meter
+description: A static gauge that graphs a numeric value within a known range.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/meter/basic.tsx";
+import basicSource from "~/demos/meter/basic.tsx?raw";
+import LevelsDemo from "~/demos/meter/levels.tsx";
+import levelsSource from "~/demos/meter/levels.tsx?raw";
+import FormattedDemo from "~/demos/meter/formatted.tsx";
+import formattedSource from "~/demos/meter/formatted.tsx?raw";
+import ThresholdsDemo from "~/demos/meter/thresholds.tsx";
+import thresholdsSource from "~/demos/meter/thresholds.tsx?raw";
+import NoValueDemo from "~/demos/meter/no-value.tsx";
+import noValueSource from "~/demos/meter/no-value.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Levels
+
+<ComponentExample code={levelsSource}>
+  <LevelsDemo client:visible />
+</ComponentExample>
+
+## Formatted value
+
+The `format` prop takes `Intl.NumberFormatOptions`; here the readout is shown as a percentage.
+
+<ComponentExample code={formattedSource}>
+  <FormattedDemo client:visible />
+</ComponentExample>
+
+## Thresholds
+
+`low`, `high`, and `optimum` set the color breakpoints, so the fill reflects which segment the value falls in.
+
+<ComponentExample code={thresholdsSource}>
+  <ThresholdsDemo client:visible />
+</ComponentExample>
+
+## Without value
+
+`showValue={false}` hides the readout text; the gauge still announces its value to assistive tech.
+
+<ComponentExample code={noValueSource}>
+  <NoValueDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Meter } from "@makeplane/propel/components/meter";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/meter/meter.tsx", component: "Meter" }]} />

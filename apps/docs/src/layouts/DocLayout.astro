@@ -1,0 +1,30 @@
+---
+import type { TocHeading } from "~/components/Toc.astro";
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import DocsShell from "~/layouts/DocsShell.astro";
+
+type Props = {
+  frontmatter: {
+    title: string;
+    description?: string;
+  };
+  headings?: TocHeading[];
+};
+
+const {
+  frontmatter: { title, description },
+  headings = [],
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <DocsShell headings={headings}>
+    <header class="mb-8 border-b border-subtle pb-6">
+      <h1 class="text-h3-semibold text-primary">{title}</h1>
+      {description ? <p class="mt-2 text-body-md-regular text-secondary">{description}</p> : null}
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </DocsShell>
+</BaseLayout>

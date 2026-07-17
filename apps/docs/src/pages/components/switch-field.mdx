@@ -1,0 +1,64 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Switch Field
+description: A switch laid out as a field row with label, description, and hint or error text.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/switch-field/basic.tsx";
+import basicSource from "~/demos/switch-field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/switch-field/magnitudes.tsx";
+import magnitudesSource from "~/demos/switch-field/magnitudes.tsx?raw";
+import DisabledDemo from "~/demos/switch-field/disabled.tsx";
+import disabledSource from "~/demos/switch-field/disabled.tsx?raw";
+import ErrorDemo from "~/demos/switch-field/error.tsx";
+import errorSource from "~/demos/switch-field/error.tsx?raw";
+import ControlledDemo from "~/demos/switch-field/controlled.tsx";
+import controlledSource from "~/demos/switch-field/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+The `magnitude` axis (`sm`, `md`, `lg`) sizes the switch and scales the label and helper text with it.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Disabled
+
+<ComponentExample code={disabledSource}>
+  <DisabledDemo client:visible />
+</ComponentExample>
+
+## Error
+
+Passing `error` marks the field invalid and replaces the hint with the error text.
+
+<ComponentExample code={errorSource}>
+  <ErrorDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { SwitchField } from "@makeplane/propel/components/switch-field";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/switch-field/switch-field.tsx", component: "SwitchField" }]}
+/>

@@ -1,0 +1,52 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Text Area
+description: A multi-line text field framed by a bordered group, with configurable text size, surface, and resize behavior.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/text-area/basic.tsx";
+import basicSource from "~/demos/text-area/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/text-area/magnitudes.tsx";
+import magnitudesSource from "~/demos/text-area/magnitudes.tsx?raw";
+import ResizeDemo from "~/demos/text-area/resize.tsx";
+import resizeSource from "~/demos/text-area/resize.tsx?raw";
+import WithDescriptionDemo from "~/demos/text-area/with-description.tsx";
+import withDescriptionSource from "~/demos/text-area/with-description.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Resize
+
+The `resize` prop controls the native drag handle: `none` locks the size, `vertical` allows height changes, and `both` frees both axes.
+
+<ComponentExample code={resizeSource}>
+  <ResizeDemo client:visible />
+</ComponentExample>
+
+## With description
+
+<ComponentExample code={withDescriptionSource}>
+  <WithDescriptionDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { TextArea, TextAreaGroup } from "@makeplane/propel/components/text-area";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/text-area/text-area.tsx", component: "TextArea" }]} />

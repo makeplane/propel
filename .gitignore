@@ -43,3 +43,12 @@ coverage
 .playwright-mcp
 
 docs/superpowers/*
+# Impeccable design skill (local tooling — installed per-machine, not committed):
+# skill copies in every harness dir, its hook wiring, and its state/cache dirs
+**/skills/impeccable/
+.cursor/hooks.json
+.github/hooks/impeccable.json
+.impeccable/
+
+# Claude Code personal-local settings
+.claude/settings.local.json

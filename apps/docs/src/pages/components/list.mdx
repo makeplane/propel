@@ -1,0 +1,62 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: List
+description: A vertical roving-focus list of navigation and action rows, the primitive sidebars compose.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/list/basic.tsx";
+import basicSource from "~/demos/list/basic.tsx?raw";
+import SectionDemo from "~/demos/list/section.tsx";
+import sectionSource from "~/demos/list/section.tsx?raw";
+import SectionHeadingDemo from "~/demos/list/section-heading.tsx";
+import sectionHeadingSource from "~/demos/list/section-heading.tsx?raw";
+import ControlledDemo from "~/demos/list/controlled.tsx";
+import controlledSource from "~/demos/list/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Section
+
+Wrap a `List` in `ListSection` to get a muted heading that collapses its body. The disclosure chevron rotates as the section opens and closes.
+
+<ComponentExample code={sectionSource}>
+  <SectionDemo client:visible />
+</ComponentExample>
+
+## Section heading
+
+For settings-style sidebars whose groups never collapse, `ListSectionHeading` titles a `List` with a static, non-interactive label.
+
+<ComponentExample code={sectionHeadingSource}>
+  <SectionHeadingDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+Drive a section's open state yourself with `open` and `onOpenChange`.
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { List, ListItem, ListItemButton, ListItemLink } from "@makeplane/propel/components/list";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/list/list.tsx", component: "List" },
+    { source: "components/list/list-item-link.tsx", component: "ListItemLink" },
+    { source: "components/list/list-item-button.tsx", component: "ListItemButton" },
+  ]}
+/>

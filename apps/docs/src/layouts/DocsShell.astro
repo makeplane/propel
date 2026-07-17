@@ -1,0 +1,27 @@
+---
+import SidebarNav from "~/components/SidebarNav.astro";
+import Toc, { type TocHeading } from "~/components/Toc.astro";
+
+type Props = {
+  headings?: TocHeading[];
+};
+
+const { headings = [] } = Astro.props;
+const hasToc = headings.some((h) => h.depth === 2 || h.depth === 3);
+---
+
+<div class="mx-auto flex w-full max-w-7xl gap-10 px-4 py-8 sm:px-6 lg:py-10">
+  <SidebarNav />
+  <main class="min-w-0 flex-1">
+    <slot />
+  </main>
+  {
+    hasToc ? (
+      <aside class="hidden w-56 shrink-0 xl:block">
+        <div class="sticky top-[calc(var(--height-header)+2.5rem)]">
+          <Toc headings={headings} />
+        </div>
+      </aside>
+    ) : null
+  }
+</div>

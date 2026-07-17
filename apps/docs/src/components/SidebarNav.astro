@@ -1,32 +1,58 @@
 ---
-import { COMPONENTS } from "~/lib/components-registry";
+import { COMPONENT_GROUPS, GETTING_STARTED } from "~/lib/components-registry";
 
 const currentPath = Astro.url.pathname.replace(/\/$/, "");
+
+const groups = [
+  {
+    label: "Getting started",
+    items: GETTING_STARTED.map(({ href, title }) => ({ href, title })),
+  },
+  ...COMPONENT_GROUPS.map((group) => ({
+    label: group.label,
+    items: group.items.map((entry) => ({
+      href: `/components/${entry.slug}`,
+      title: entry.title,
+    })),
+  })),
+];
+
+const itemClass =
+  "block rounded-md px-3 py-1.5 text-body-sm-regular focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-inset focus-visible:outline-none";
 ---
 
-<nav class="w-56 shrink-0">
-  <p class="mb-3 text-xs font-medium tracking-wide text-tertiary uppercase">Components</p>
-  <ul class="flex flex-col gap-1">
+<nav aria-label="Documentation" class="hidden w-56 shrink-0 lg:block">
+  <div
+    class="scrollbar-sm sticky top-[calc(var(--height-header)+2.5rem)] flex max-h-[calc(100vh-var(--height-header)-5rem)] flex-col gap-6 overflow-y-auto pb-6"
+  >
     {
-      COMPONENTS.map((entry) => {
-        const href = `/components/${entry.slug}`;
-        const isActive = currentPath === href;
-        return (
-          <li>
-            <a
-              href={href}
-              aria-current={isActive ? "page" : undefined}
-              class={`block rounded-md px-3 py-1.5 text-sm ${
-                isActive
-                  ? "bg-surface-2 text-primary"
-                  : "text-secondary hover:bg-surface-1 hover:text-primary"
-              }`}
-            >
-              {entry.title}
-            </a>
-          </li>
-        );
-      })
+      groups.map((group) => (
+        <div>
+          <p class="mb-2 text-caption-md-medium tracking-wide text-tertiary uppercase">
+            {group.label}
+          </p>
+          <ul class="flex flex-col gap-0.5">
+            {group.items.map((item) => {
+              const isActive = currentPath === item.href;
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={isActive ? "page" : undefined}
+                    class={`${itemClass} ${
+                      isActive
+                        ? "bg-layer-transparent-selected text-primary"
+                        : "text-secondary hover:bg-layer-transparent-hover hover:text-primary"
+                    }`}
+                  >
+                    {item.title}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))
     }
-  </ul>
+  </div>
 </nav>

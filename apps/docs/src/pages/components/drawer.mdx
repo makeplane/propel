@@ -1,0 +1,69 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Drawer
+description: An edge-anchored overlay panel that slides in for details, navigation, and side tasks.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/drawer/basic.tsx";
+import basicSource from "~/demos/drawer/basic.tsx?raw";
+import StartSideDemo from "~/demos/drawer/start-side.tsx";
+import startSideSource from "~/demos/drawer/start-side.tsx?raw";
+import NestedDemo from "~/demos/drawer/nested.tsx";
+import nestedSource from "~/demos/drawer/nested.tsx?raw";
+import DetachedTriggersDemo from "~/demos/drawer/detached-triggers.tsx";
+import detachedTriggersSource from "~/demos/drawer/detached-triggers.tsx?raw";
+import ControlledDemo from "~/demos/drawer/controlled.tsx";
+import controlledSource from "~/demos/drawer/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Side
+
+The `side` prop anchors the panel to the inline-start or inline-end edge; the panel slides in from that edge.
+
+<ComponentExample code={startSideSource}>
+  <StartSideDemo client:visible />
+</ComponentExample>
+
+## Nested
+
+<ComponentExample code={nestedSource}>
+  <NestedDemo client:visible />
+</ComponentExample>
+
+## Detached triggers
+
+`createDrawerHandle()` links triggers to a `Drawer` defined elsewhere in the tree; each trigger passes a `payload` the drawer renders through function-as-children.
+
+<ComponentExample code={detachedTriggersSource}>
+  <DetachedTriggersDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+A controlled `Drawer` can intercept its own dismissal — here a draft raises a confirmation via `eventDetails.cancel()` before the panel closes.
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Drawer, DrawerTrigger, DrawerPanel } from "@makeplane/propel/components/drawer";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/drawer/drawer.tsx", component: "Drawer" },
+    { source: "components/drawer/drawer-panel.tsx", component: "DrawerPanel" },
+  ]}
+/>

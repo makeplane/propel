@@ -1,0 +1,56 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Form
+description: A native form that consolidates server-style field errors and lays out its field and action regions with consistent rhythm.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/form/basic.tsx";
+import basicSource from "~/demos/form/basic.tsx?raw";
+import AsyncValidationDemo from "~/demos/form/async-validation.tsx";
+import asyncValidationSource from "~/demos/form/async-validation.tsx?raw";
+import ServerFunctionDemo from "~/demos/form/server-function.tsx";
+import serverFunctionSource from "~/demos/form/server-function.tsx?raw";
+import SchemaValidationDemo from "~/demos/form/schema-validation.tsx";
+import schemaValidationSource from "~/demos/form/schema-validation.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Async validation
+
+The submit button holds its pending state while a server-style check resolves, then surfaces any returned error on the matching field.
+
+<ComponentExample code={asyncValidationSource}>
+  <AsyncValidationDemo client:visible />
+</ComponentExample>
+
+## Server function
+
+Submitting through the form `action` with `React.useActionState` maps the action's returned errors back onto the field by `name`.
+
+<ComponentExample code={serverFunctionSource}>
+  <ServerFunctionDemo client:visible />
+</ComponentExample>
+
+## Schema validation
+
+One schema-style parse consolidates per-field errors and applies them across every field at once.
+
+<ComponentExample code={schemaValidationSource}>
+  <SchemaValidationDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Form, FormActions, FormBody } from "@makeplane/propel/components/form";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/form/form.tsx", component: "Form" }]} />

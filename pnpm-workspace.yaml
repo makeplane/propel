@@ -21,6 +21,12 @@ catalog:
   tailwindcss: ^4.3.2
   "@base-ui/react": ^1.6.0
   lucide-react: ^1.23.0
+  # Docs-site typography: self-hosted files for the "Inter Variable" / "IBM Plex Mono"
+  # families propel's tokens name, plus the typography plugin that gives `prose` its
+  # layout (propel's own `prose` @utility only recolors it).
+  "@fontsource-variable/inter": ^5.2.8
+  "@fontsource/ibm-plex-mono": ^5.2.7
+  "@tailwindcss/typography": ^0.5.20
   # Build/lint/format tools, unbundled from the old Vite+ toolchain and run standalone.
   # oxfmt is pre-1.0 and its output can shift between minors, so pin it EXACTLY — a range
   # would silently reformat the whole tree on a floating upgrade.

@@ -1,0 +1,75 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Radio Group Field
+description: A labeled fieldset of radio options with description and helper or error text.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/radio-group-field/basic.tsx";
+import basicSource from "~/demos/radio-group-field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/radio-group-field/magnitudes.tsx";
+import magnitudesSource from "~/demos/radio-group-field/magnitudes.tsx?raw";
+import DensitiesDemo from "~/demos/radio-group-field/densities.tsx";
+import densitiesSource from "~/demos/radio-group-field/densities.tsx?raw";
+import ErrorDemo from "~/demos/radio-group-field/error.tsx";
+import errorSource from "~/demos/radio-group-field/error.tsx?raw";
+import ControlledDemo from "~/demos/radio-group-field/controlled.tsx";
+import controlledSource from "~/demos/radio-group-field/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+Legend, description, and option text scale together across `md`, `lg`, and `xl`.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Densities
+
+`density` sets the row spacing between options: `comfortable` keeps a gap, `compact` stacks them flush.
+
+<ComponentExample code={densitiesSource}>
+  <DensitiesDemo client:visible />
+</ComponentExample>
+
+## Error
+
+Setting `error` marks the fieldset invalid and replaces the helper text with the error message.
+
+<ComponentExample code={errorSource}>
+  <ErrorDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  RadioGroupField,
+  RadioGroupFieldOption,
+} from "@makeplane/propel/components/radio-group-field";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/radio-group-field/radio-group-field.tsx", component: "RadioGroupField" },
+    {
+      source: "components/radio-group-field/radio-group-field-option.tsx",
+      component: "RadioGroupFieldOption",
+    },
+  ]}
+/>

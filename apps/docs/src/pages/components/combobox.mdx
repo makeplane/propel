@@ -1,0 +1,67 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Combobox
+description: A filterable input that selects one or more options from a list in a popup.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/combobox/basic.tsx";
+import basicSource from "~/demos/combobox/basic.tsx?raw";
+import MultipleDemo from "~/demos/combobox/multiple.tsx";
+import multipleSource from "~/demos/combobox/multiple.tsx?raw";
+import GroupedDemo from "~/demos/combobox/grouped.tsx";
+import groupedSource from "~/demos/combobox/grouped.tsx?raw";
+import AsyncSearchDemo from "~/demos/combobox/async-search.tsx";
+import asyncSearchSource from "~/demos/combobox/async-search.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Multiple
+
+`multiple` swaps the input frame for `ComboboxChips`: each selected value becomes a removable chip ahead of the inline input.
+
+<ComponentExample code={multipleSource}>
+  <MultipleDemo client:visible />
+</ComponentExample>
+
+## Grouped
+
+<ComponentExample code={groupedSource}>
+  <GroupedDemo client:visible />
+</ComponentExample>
+
+## Async search
+
+`filter={null}` turns off built-in filtering so `onInputValueChange` can drive a remote search, with `ComboboxStatus` carrying the polite loading and empty-query hints.
+
+<ComponentExample code={asyncSearchSource}>
+  <AsyncSearchDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInputGroup,
+  ComboboxItem,
+  ComboboxList,
+} from "@makeplane/propel/components/combobox";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/combobox/combobox.tsx", component: "Combobox" },
+    { source: "components/combobox/combobox-input-group.tsx", component: "ComboboxInputGroup" },
+    { source: "components/combobox/combobox-item.tsx", component: "ComboboxItem" },
+  ]}
+/>

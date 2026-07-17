@@ -1,0 +1,71 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Toast
+description: A portaled, auto-dismissing notification queued through a manager hook.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/toast/basic.tsx";
+import basicSource from "~/demos/toast/basic.tsx?raw";
+import TonesDemo from "~/demos/toast/tones.tsx";
+import tonesSource from "~/demos/toast/tones.tsx?raw";
+import WithActionsDemo from "~/demos/toast/with-actions.tsx";
+import withActionsSource from "~/demos/toast/with-actions.tsx?raw";
+import WithProgressDemo from "~/demos/toast/with-progress.tsx";
+import withProgressSource from "~/demos/toast/with-progress.tsx?raw";
+import PromiseDemo from "~/demos/toast/promise.tsx";
+import promiseSource from "~/demos/toast/promise.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Tones
+
+The required `tone` in a toast's `data` selects its status icon and color: `success`, `danger`, `info`, `warning`, or `neutral`.
+
+<ComponentExample code={tonesSource}>
+  <TonesDemo client:visible />
+</ComponentExample>
+
+## With actions
+
+Pass `actions` for a left-aligned cluster of up to two buttons, and `primaryAction` for a right-aligned button.
+
+<ComponentExample code={withActionsSource}>
+  <WithActionsDemo client:visible />
+</ComponentExample>
+
+## With progress
+
+Set `progress` (0–100) to report a long-running task; a thin bar renders between the description and the action row.
+
+<ComponentExample code={withProgressSource}>
+  <WithProgressDemo client:visible />
+</ComponentExample>
+
+## Promise
+
+`useToast().promise(promise, { loading, success, error })` queues a loading toast, then updates it in place when the promise settles.
+
+<ComponentExample code={promiseSource}>
+  <PromiseDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { ToastProvider, useToast } from "@makeplane/propel/components/toast";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/toast/toast-provider.tsx", component: "ToastProvider" },
+    { source: "components/toast/toast.tsx", component: "Toast" },
+  ]}
+/>

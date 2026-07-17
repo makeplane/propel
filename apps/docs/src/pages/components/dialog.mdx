@@ -8,11 +8,51 @@ import ComponentExample from "~/components/ComponentExample.astro";
 import PropsTable from "~/components/PropsTable.astro";
 import BasicDemo from "~/demos/dialog/basic.tsx";
 import basicSource from "~/demos/dialog/basic.tsx?raw";
+import NonDismissableDemo from "~/demos/dialog/non-dismissable.tsx";
+import nonDismissableSource from "~/demos/dialog/non-dismissable.tsx?raw";
+import NestedDialogsDemo from "~/demos/dialog/nested-dialogs.tsx";
+import nestedDialogsSource from "~/demos/dialog/nested-dialogs.tsx?raw";
+import OpenFromMenuDemo from "~/demos/dialog/open-from-menu.tsx";
+import openFromMenuSource from "~/demos/dialog/open-from-menu.tsx?raw";
+import DetachedTriggersDemo from "~/demos/dialog/detached-triggers.tsx";
+import detachedTriggersSource from "~/demos/dialog/detached-triggers.tsx?raw";
 
 ## Basic
 
 <ComponentExample code={basicSource}>
   <BasicDemo client:visible />
+</ComponentExample>
+
+## Non-dismissable
+
+With `disablePointerDismissal` on the root, a backdrop click no longer closes the dialog — it dismisses only via an explicit `DialogClose` or Escape.
+
+<ComponentExample code={nonDismissableSource}>
+  <NonDismissableDemo client:visible />
+</ComponentExample>
+
+## Nested dialogs
+
+A `DialogTrigger` inside a dialog stacks a second dialog above it. Escape unwinds one level at a time.
+
+<ComponentExample code={nestedDialogsSource}>
+  <NestedDialogsDemo client:visible />
+</ComponentExample>
+
+## Open from a menu
+
+Choosing a menu item closes the menu, so the dialog lives outside it and is opened imperatively via controlled `open` / `onOpenChange`.
+
+<ComponentExample code={openFromMenuSource}>
+  <OpenFromMenuDemo client:visible />
+</ComponentExample>
+
+## Detached triggers
+
+`createDialogHandle()` links triggers to a `Dialog` defined elsewhere in the tree, so several launch points share one dialog without lifting state.
+
+<ComponentExample code={detachedTriggersSource}>
+  <DetachedTriggersDemo client:visible />
 </ComponentExample>
 
 ## Installation

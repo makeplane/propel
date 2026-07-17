@@ -1,0 +1,56 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Toggle
+description: A two-state icon button that stays pressed or unpressed when clicked.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/toggle/basic.tsx";
+import basicSource from "~/demos/toggle/basic.tsx?raw";
+import SizesDemo from "~/demos/toggle/sizes.tsx";
+import sizesSource from "~/demos/toggle/sizes.tsx?raw";
+import StatesDemo from "~/demos/toggle/states.tsx";
+import statesSource from "~/demos/toggle/states.tsx?raw";
+import ControlledDemo from "~/demos/toggle/controlled.tsx";
+import controlledSource from "~/demos/toggle/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Sizes
+
+The `magnitude` axis (`sm`, `md`, `lg`) scales both the button and its glyph.
+
+<ComponentExample code={sizesSource}>
+  <SizesDemo client:visible />
+</ComponentExample>
+
+## States
+
+A toggle can start pressed via `defaultPressed`, and a `disabled` toggle does not respond to clicks.
+
+<ComponentExample code={statesSource}>
+  <StatesDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+Own the state with `pressed` and `onPressedChange` to derive the glyph from it.
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Toggle } from "@makeplane/propel/components/toggle";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/toggle/toggle.tsx", component: "Toggle" }]} />

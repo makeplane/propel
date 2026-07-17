@@ -1,0 +1,65 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Pill
+description: A pill-shaped button that holds a label with optional inline-start and inline-end icons.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/pill/basic.tsx";
+import basicSource from "~/demos/pill/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/pill/magnitudes.tsx";
+import magnitudesSource from "~/demos/pill/magnitudes.tsx?raw";
+import StatesDemo from "~/demos/pill/states.tsx";
+import statesSource from "~/demos/pill/states.tsx?raw";
+import SwitchDemo from "~/demos/pill/switch.tsx";
+import switchSource from "~/demos/pill/switch.tsx?raw";
+import IconOnlyDemo from "~/demos/pill/icon-only.tsx";
+import iconOnlySource from "~/demos/pill/icon-only.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## States
+
+`disabled` and `loading` both drop the pill to a transparent fill with a dimmed label; `loading` also swaps the inline-start node for a spinner and blocks clicks while staying focusable.
+
+<ComponentExample code={statesSource}>
+  <StatesDemo client:visible />
+</ComponentExample>
+
+## Switch
+
+`PillSwitch` is a toggle whose selected look is its pressed state — use it for segmented on/off choices.
+
+<ComponentExample code={switchSource}>
+  <SwitchDemo client:visible />
+</ComponentExample>
+
+## Icon only
+
+`IconPill` is a square, icon-only pill and requires an `aria-label` for its accessible name.
+
+<ComponentExample code={iconOnlySource}>
+  <IconOnlyDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Icon } from "@makeplane/propel/components/icon";
+import { PillButton } from "@makeplane/propel/components/pill";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/pill/pill.tsx", component: "PillButton" }]} />

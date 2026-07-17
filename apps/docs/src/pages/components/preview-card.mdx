@@ -1,0 +1,65 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Preview Card
+description: A non-modal rich preview that opens on hover or focus of an inline link.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/preview-card/basic.tsx";
+import basicSource from "~/demos/preview-card/basic.tsx?raw";
+import WithImageDemo from "~/demos/preview-card/with-image.tsx";
+import withImageSource from "~/demos/preview-card/with-image.tsx?raw";
+import WithPropertiesDemo from "~/demos/preview-card/with-properties.tsx";
+import withPropertiesSource from "~/demos/preview-card/with-properties.tsx?raw";
+import ControlledDemo from "~/demos/preview-card/controlled.tsx";
+import controlledSource from "~/demos/preview-card/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## With image
+
+<ComponentExample code={withImageSource}>
+  <WithImageDemo client:visible />
+</ComponentExample>
+
+## With properties
+
+<ComponentExample code={withPropertiesSource}>
+  <WithPropertiesDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+A controlled card owns its own visibility through `open` / `onOpenChange`, and `triggerId` selects which trigger it anchors to — letting application code open the card programmatically.
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  PreviewCard,
+  PreviewCardTrigger,
+  PreviewCardContent,
+  PreviewCardBody,
+  PreviewCardTitle,
+  PreviewCardDescription,
+  PreviewCardArrow,
+} from "@makeplane/propel/components/preview-card";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/preview-card/preview-card.tsx", component: "PreviewCard" },
+    { source: "components/preview-card/preview-card-content.tsx", component: "PreviewCardContent" },
+  ]}
+/>
