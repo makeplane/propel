@@ -14,7 +14,7 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 //
 // "Depends (adjustable)" — exposed as required cva variants:
 //   - magnitude: S / Base / Large (height, horizontal padding, text size, node size)
-//   - tone: color/sentiment (neutral, grey, brand, info, …)
+//   - tone: color/sentiment (neutral, grey, brand, …)
 export const badgeVariants = cva(
   "inline-flex w-fit shrink-0 items-center justify-center gap-1 rounded-sm leading-none font-medium whitespace-nowrap",
   {
@@ -29,9 +29,9 @@ export const badgeVariants = cva(
         // Large: 24px tall, 8px x-padding, text/14, 16px nodes.
         lg: "h-6 px-2 text-14 [--node-size:1rem]",
       },
-      // Figma Color/sentiment axis. Label-hue tones map to `bg-label-*`/`text-label-*`
-      // utilities; semantic tones (brand/info/success/warning/danger) map to the matching
-      // subtle background + primary text tokens — no arbitrary hex.
+      // Figma Color/sentiment axis (`danger` = Figma's "Error"). Label-hue tones map to
+      // `bg-label-*`/`text-label-*` utilities; semantic tones (brand/info/success/warning/danger)
+      // map to the matching subtle background + primary text tokens — no arbitrary hex.
       tone: {
         neutral: "bg-layer-3 text-label-grey-text",
         grey: "bg-label-grey-bg text-label-grey-text",
@@ -50,10 +50,6 @@ export const badgeVariants = cva(
   },
 );
 
-// The decorative leading icon at the badge's inline-start (the Figma badge icon). Sizes
-// its single child to the badge's `--node-size` (shared node-slot class) and inherits
-// the tone's text color so the icon tints to match — per the spec, "icon follows the
-// badge's size and color".
 type BadgeVariantConfig = VariantProps<typeof badgeVariants>;
 export type BadgeMagnitude = NonNullable<BadgeVariantConfig["magnitude"]>;
 export type BadgeTone = NonNullable<BadgeVariantConfig["tone"]>;

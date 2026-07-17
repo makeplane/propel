@@ -59,6 +59,17 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// A single-row swatch layout, shared by every story below that just lines Badges up side by side
+// (`Magnitudes`, `WithIcon`, `IconOnly`). `Tones` needs `flex-wrap` and `PlanBadges` needs a
+// two-row layout, so those keep their own wrapper instead of this decorator.
+const rowLayout: Story["decorators"] = [
+  (Story) => (
+    <div className="flex items-center gap-3">
+      <Story />
+    </div>
+  ),
+];
+
 export const Default: Story = {};
 
 /** Every color/intent the badge supports, side by side. */
@@ -81,14 +92,15 @@ export const Tones: Story = {
 export const Magnitudes: Story = {
   // Iterates `magnitude` (and labels with it); `tone` stays live.
   argTypes: { magnitude: { control: false } },
+  decorators: rowLayout,
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       {MAGNITUDES.map((magnitude) => (
         <Badge key={magnitude} {...args} magnitude={magnitude}>
           <BadgeLabel>{magnitude}</BadgeLabel>
         </Badge>
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -98,8 +110,9 @@ export const Magnitudes: Story = {
  */
 export const WithIcon: Story = {
   parameters: { controls: { disable: true } },
+  decorators: rowLayout,
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       {MAGNITUDES.map((magnitude) => (
         <Badge key={magnitude} {...args} tone="success" magnitude={magnitude}>
           <Icon>
@@ -108,7 +121,37 @@ export const WithIcon: Story = {
           <BadgeLabel>Done</BadgeLabel>
         </Badge>
       ))}
-    </div>
+    </>
+  ),
+};
+
+/**
+ * Icon-only (no `BadgeLabel`) — the Figma anatomy's "compact status indicator / when space is
+ * limited" case: the pill holds just the `Icon` slot, centered with symmetric padding. The icon is
+ * decorative (`aria-hidden`) and a bare `<span>`'s `generic` role doesn't support naming, so this
+ * state needs both `role="img"` and an `aria-label` — otherwise it has no accessible name at all
+ * (the ready-made `Components/Badge` applies `role="img"` for you when `label` is omitted).
+ */
+export const IconOnly: Story = {
+  parameters: { controls: { disable: true } },
+  decorators: rowLayout,
+  render: (args) => (
+    <>
+      {MAGNITUDES.map((magnitude) => (
+        <Badge
+          key={magnitude}
+          {...args}
+          tone="success"
+          magnitude={magnitude}
+          role="img"
+          aria-label="Completed"
+        >
+          <Icon>
+            <Check />
+          </Icon>
+        </Badge>
+      ))}
+    </>
   ),
 };
 
