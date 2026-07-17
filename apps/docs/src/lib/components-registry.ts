@@ -407,6 +407,11 @@ export type DocEntry = {
 // component groups in the sidebar, mobile drawer, and search palette.
 export const GETTING_STARTED: DocEntry[] = [
   {
+    href: "/",
+    title: "Home",
+    description: "Propel — Plane's React component library.",
+  },
+  {
     href: "/introduction",
     title: "Introduction",
     description: "What Propel is and how the library is put together.",

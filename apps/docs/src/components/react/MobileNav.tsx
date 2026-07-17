@@ -25,7 +25,7 @@ type Props = {
 // Navigation drawer for < lg viewports. Links are full page loads, so the drawer
 // unmounts (and therefore closes) on navigation without extra wiring.
 export default function MobileNav({ groups, currentPath }: Props) {
-  const normalized = currentPath.replace(/\/$/, "");
+  const normalized = currentPath.replace(/\/$/, "") || "/";
   return (
     <Drawer>
       <DrawerTrigger

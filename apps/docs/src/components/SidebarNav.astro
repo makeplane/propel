@@ -1,7 +1,7 @@
 ---
 import { COMPONENT_GROUPS, GETTING_STARTED } from "~/lib/components-registry";
 
-const currentPath = Astro.url.pathname.replace(/\/$/, "");
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
 const groups = [
   {

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "~/layouts/BaseLayout.astro";
-import { COMPONENT_GROUPS } from "~/lib/components-registry";
+import DocsShell from "~/layouts/DocsShell.astro";
 
 const primaryCta =
   "rounded-md bg-accent-primary px-4 py-2 text-body-sm-medium text-on-color hover:bg-accent-primary-hover active:bg-accent-primary-active focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1 focus-visible:outline-none";
@@ -9,10 +9,10 @@ const secondaryCta =
 ---
 
 <BaseLayout title="Propel" description="Documentation for @makeplane/propel's React components.">
-  <main class="mx-auto w-full max-w-7xl px-4 sm:px-6">
-    <section class="flex flex-col gap-6 border-b border-subtle py-16 lg:py-20">
+  <DocsShell>
+    <section class="flex flex-col gap-6 pt-2">
       <div class="flex flex-col gap-3">
-        <h1 class="text-h1-semibold text-primary">Propel</h1>
+        <h1 class="text-h2-semibold text-primary">Propel</h1>
         <p class="max-w-[65ch] text-body-md-regular text-secondary">
           Plane's React component library — accessible behavior from Base UI, styled with a
           Tailwind CSS v4 token system, documented here as live components beside their exact
@@ -63,29 +63,5 @@ const secondaryCta =
         </div>
       </div>
     </section>
-    <div class="flex flex-col gap-10 py-12 lg:py-16">
-      {
-        COMPONENT_GROUPS.map((group) => (
-          <section>
-            <h2 class="mb-3 text-caption-md-medium tracking-wide text-tertiary uppercase">
-              {group.label}
-            </h2>
-            <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {group.items.map((entry) => (
-                <li>
-                  <a
-                    href={`/components/${entry.slug}`}
-                    class="block h-full rounded-lg border border-subtle p-4 hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1 focus-visible:outline-none"
-                  >
-                    <p class="text-body-sm-medium text-primary">{entry.title}</p>
-                    <p class="mt-1 text-body-sm-regular text-secondary">{entry.description}</p>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))
-      }
-    </div>
-  </main>
+  </DocsShell>
 </BaseLayout>
