@@ -1,5 +1,5 @@
 ---
-layout: ~/layouts/ComponentLayout.astro
+layout: ~/layouts/DocLayout.astro
 title: Installation
 description: Install @makeplane/propel and wire up its styles.
 ---
@@ -24,6 +24,35 @@ Tailwind entry so its tokens and utilities compile alongside your app's:
 ```css
 @import "tailwindcss";
 @import "@makeplane/propel/styles";
+```
+
+## Set a theme
+
+Propel's color tokens are scoped to a `data-theme` attribute — set one on `<html>` or the app
+root, or every semantic color resolves to nothing. Valid values are `light`, `dark`,
+`light-contrast`, and `dark-contrast`:
+
+```html
+<html data-theme="light"></html>
+```
+
+Propel ships no theme-switching JavaScript; toggling is your app's concern — swap the attribute
+and every token follows.
+
+## Load the fonts
+
+The tokens name **Inter Variable** (headings and body) and **IBM Plex Mono** (code) as their first
+choices but don't bundle the files. Self-host them with Fontsource — or skip this and the stacks
+fall back to the system fonts:
+
+```bash
+pnpm add @fontsource-variable/inter @fontsource/ibm-plex-mono
+```
+
+```css
+@import "@fontsource-variable/inter";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
 ```
 
 ## Import components

@@ -8,11 +8,45 @@ import ComponentExample from "~/components/ComponentExample.astro";
 import PropsTable from "~/components/PropsTable.astro";
 import BasicDemo from "~/demos/select/basic.tsx";
 import basicSource from "~/demos/select/basic.tsx?raw";
+import PlaceholderDemo from "~/demos/select/placeholder.tsx";
+import placeholderSource from "~/demos/select/placeholder.tsx?raw";
+import MultipleDemo from "~/demos/select/multiple.tsx";
+import multipleSource from "~/demos/select/multiple.tsx?raw";
+import GroupedDemo from "~/demos/select/grouped.tsx";
+import groupedSource from "~/demos/select/grouped.tsx?raw";
+import MagnitudesDemo from "~/demos/select/magnitudes.tsx";
+import magnitudesSource from "~/demos/select/magnitudes.tsx?raw";
 
 ## Basic
 
 <ComponentExample code={basicSource}>
   <BasicDemo client:visible />
+</ComponentExample>
+
+## Placeholder
+
+Without a `defaultValue`, the trigger shows its `placeholder` until an option is picked.
+
+<ComponentExample code={placeholderSource}>
+  <PlaceholderDemo client:visible />
+</ComponentExample>
+
+## Multiple
+
+<ComponentExample code={multipleSource}>
+  <MultipleDemo client:visible />
+</ComponentExample>
+
+## Grouped
+
+<ComponentExample code={groupedSource}>
+  <GroupedDemo client:visible />
+</ComponentExample>
+
+## Sizes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
 </ComponentExample>
 
 ## Installation

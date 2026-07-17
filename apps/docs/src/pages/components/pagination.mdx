@@ -1,0 +1,56 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Pagination
+description: Navigation for a paginated list or table with page numbers and prev/next controls.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/pagination/basic.tsx";
+import basicSource from "~/demos/pagination/basic.tsx?raw";
+import WithSelectorAndRangeDemo from "~/demos/pagination/with-selector-and-range.tsx";
+import withSelectorAndRangeSource from "~/demos/pagination/with-selector-and-range.tsx?raw";
+import TruncationDemo from "~/demos/pagination/truncation.tsx";
+import truncationSource from "~/demos/pagination/truncation.tsx?raw";
+import LoadingDemo from "~/demos/pagination/loading.tsx";
+import loadingSource from "~/demos/pagination/loading.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## With selector and range
+
+Pass `pageSize` to add the per-page selector and `range` to show the `1-50 of 250` label before the controls; both are optional.
+
+<ComponentExample code={withSelectorAndRangeSource}>
+  <WithSelectorAndRangeDemo client:visible />
+</ComponentExample>
+
+## Truncation
+
+The visible page window is derived from where the current page sits within `pageCount` — first and last are always anchored, and runs of two or more skipped pages collapse to an ellipsis.
+
+<ComponentExample code={truncationSource}>
+  <TruncationDemo client:visible />
+</ComponentExample>
+
+## Loading
+
+Set `loading` to render the current page as a spinner while navigating to it is in flight.
+
+<ComponentExample code={loadingSource}>
+  <LoadingDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Pagination } from "@makeplane/propel/components/pagination";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/pagination/pagination.tsx", component: "Pagination" }]} />

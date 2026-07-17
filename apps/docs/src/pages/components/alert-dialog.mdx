@@ -1,0 +1,72 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Alert Dialog
+description: A modal confirmation that requires an explicit user response before a destructive action.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/alert-dialog/basic.tsx";
+import basicSource from "~/demos/alert-dialog/basic.tsx?raw";
+import TonesDemo from "~/demos/alert-dialog/tones.tsx";
+import tonesSource from "~/demos/alert-dialog/tones.tsx?raw";
+import OpenFromMenuDemo from "~/demos/alert-dialog/open-from-menu.tsx";
+import openFromMenuSource from "~/demos/alert-dialog/open-from-menu.tsx?raw";
+import MultipleTriggersDemo from "~/demos/alert-dialog/multiple-triggers.tsx";
+import multipleTriggersSource from "~/demos/alert-dialog/multiple-triggers.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Tones
+
+The leading `AlertDialogIcon` sets the confirmation's intent through its required `tone` — `danger`, `warning`, `info`, or `success`.
+
+<ComponentExample code={tonesSource}>
+  <TonesDemo client:visible />
+</ComponentExample>
+
+## Open from menu
+
+An alert dialog opened by a menu item is controlled through `open` / `onOpenChange` rather than an `AlertDialogTrigger`.
+
+<ComponentExample code={openFromMenuSource}>
+  <OpenFromMenuDemo client:visible />
+</ComponentExample>
+
+## Multiple triggers
+
+`createAlertDialogHandle` connects many detached triggers to one shared confirmation, each passing the project it acts on as its `payload`.
+
+<ComponentExample code={multipleTriggersSource}>
+  <MultipleTriggersDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogIcon,
+  AlertDialogIntro,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogActions,
+  AlertDialogClose,
+} from "@makeplane/propel/components/alert-dialog";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/alert-dialog/alert-dialog.tsx", component: "AlertDialog" },
+    { source: "components/alert-dialog/alert-dialog-content.tsx", component: "AlertDialogContent" },
+  ]}
+/>

@@ -1,0 +1,52 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Badge
+description: A small rounded pill of inline text for statuses, labels, and counts.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/badge/basic.tsx";
+import basicSource from "~/demos/badge/basic.tsx?raw";
+import TonesDemo from "~/demos/badge/tones.tsx";
+import tonesSource from "~/demos/badge/tones.tsx?raw";
+import MagnitudesDemo from "~/demos/badge/magnitudes.tsx";
+import magnitudesSource from "~/demos/badge/magnitudes.tsx?raw";
+import WithIconDemo from "~/demos/badge/with-icon.tsx";
+import withIconSource from "~/demos/badge/with-icon.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Tones
+
+The `tone` axis carries both semantic color (`success`, `warning`, `danger`) and decorative hues.
+
+<ComponentExample code={tonesSource}>
+  <TonesDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## With icon
+
+<ComponentExample code={withIconSource}>
+  <WithIconDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Badge } from "@makeplane/propel/components/badge";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/badge/badge.tsx", component: "Badge" }]} />

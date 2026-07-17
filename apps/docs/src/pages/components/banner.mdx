@@ -1,0 +1,52 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Banner
+description: A prominent message strip that surfaces status or announcements with an optional icon and trailing actions.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/banner/basic.tsx";
+import basicSource from "~/demos/banner/basic.tsx?raw";
+import TonesDemo from "~/demos/banner/tones.tsx";
+import tonesSource from "~/demos/banner/tones.tsx?raw";
+import PlacementsDemo from "~/demos/banner/placements.tsx";
+import placementsSource from "~/demos/banner/placements.tsx?raw";
+import DismissibleDemo from "~/demos/banner/dismissible.tsx";
+import dismissibleSource from "~/demos/banner/dismissible.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Tones
+
+<ComponentExample code={tonesSource}>
+  <TonesDemo client:visible />
+</ComponentExample>
+
+## Placements
+
+<ComponentExample code={placementsSource}>
+  <PlacementsDemo client:visible />
+</ComponentExample>
+
+## Dismissible
+
+A dismiss control is just an action: render a ghost `IconButton` in `actions`.
+
+<ComponentExample code={dismissibleSource}>
+  <DismissibleDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Banner } from "@makeplane/propel/components/banner";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/banner/banner.tsx", component: "Banner" }]} />

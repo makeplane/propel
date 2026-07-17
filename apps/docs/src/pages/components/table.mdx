@@ -8,11 +8,41 @@ import ComponentExample from "~/components/ComponentExample.astro";
 import PropsTable from "~/components/PropsTable.astro";
 import BasicDemo from "~/demos/table/basic.tsx";
 import basicSource from "~/demos/table/basic.tsx?raw";
+import SpreadsheetDemo from "~/demos/table/spreadsheet.tsx";
+import spreadsheetSource from "~/demos/table/spreadsheet.tsx?raw";
+import SortableDemo from "~/demos/table/sortable.tsx";
+import sortableSource from "~/demos/table/sortable.tsx?raw";
+import RichRowsDemo from "~/demos/table/rich-rows.tsx";
+import richRowsSource from "~/demos/table/rich-rows.tsx?raw";
 
 ## Basic
 
 <ComponentExample code={basicSource}>
   <BasicDemo client:visible />
+</ComponentExample>
+
+## Spreadsheet
+
+`mode="spreadsheet"` fully borders every cell into a grid, in contrast to the default `mode="table"` which keeps row dividers only.
+
+<ComponentExample code={spreadsheetSource}>
+  <SpreadsheetDemo client:visible />
+</ComponentExample>
+
+## Sortable
+
+A `sortable` header renders its label as a button with a sort chevron and reflects the order through `aria-sort`. Clicking cycles none → asc → desc.
+
+<ComponentExample code={sortableSource}>
+  <SortableDemo client:visible />
+</ComponentExample>
+
+## Rich rows
+
+Cells can carry a leading `Avatar`, an inline `TableEditableCell` that opens a menu to change its value, and a trailing icon-only `TableActionCell` for row actions.
+
+<ComponentExample code={richRowsSource}>
+  <RichRowsDemo client:visible />
 </ComponentExample>
 
 ## Installation

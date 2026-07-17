@@ -1,0 +1,70 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Linear Progress
+description: A horizontal progress bar driven by a value, with an optional trailing percentage and an indeterminate state.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/linear-progress/basic.tsx";
+import basicSource from "~/demos/linear-progress/basic.tsx?raw";
+import TonesDemo from "~/demos/linear-progress/tones.tsx";
+import tonesSource from "~/demos/linear-progress/tones.tsx?raw";
+import MagnitudesDemo from "~/demos/linear-progress/magnitudes.tsx";
+import magnitudesSource from "~/demos/linear-progress/magnitudes.tsx?raw";
+import IndeterminateDemo from "~/demos/linear-progress/indeterminate.tsx";
+import indeterminateSource from "~/demos/linear-progress/indeterminate.tsx?raw";
+import WithLabelDemo from "~/demos/linear-progress/with-label.tsx";
+import withLabelSource from "~/demos/linear-progress/with-label.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Tones
+
+`tone` encodes signal: `brand` for accent, `success`/`warning`/`danger` for outcome.
+
+<ComponentExample code={tonesSource}>
+  <TonesDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+Track thickness: `sm` is 5px, `md` is 8px.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Indeterminate
+
+`value={null}` renders an animated fill with no `aria-valuenow`, for operations of unknown duration.
+
+<ComponentExample code={indeterminateSource}>
+  <IndeterminateDemo client:visible />
+</ComponentExample>
+
+## With label
+
+A visible `label` sits before the track and also names the bar for assistive tech.
+
+<ComponentExample code={withLabelSource}>
+  <WithLabelDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { LinearProgress } from "@makeplane/propel/components/linear-progress";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/linear-progress/linear-progress.tsx", component: "LinearProgress" },
+  ]}
+/>

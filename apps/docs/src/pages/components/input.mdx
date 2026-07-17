@@ -1,0 +1,52 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Input
+description: A single-line text field framed by a bordered group with room for inline icon slots.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/input/basic.tsx";
+import basicSource from "~/demos/input/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/input/magnitudes.tsx";
+import magnitudesSource from "~/demos/input/magnitudes.tsx?raw";
+import WithIconsDemo from "~/demos/input/with-icons.tsx";
+import withIconsSource from "~/demos/input/with-icons.tsx?raw";
+import InAFieldDemo from "~/demos/input/in-a-field.tsx";
+import inAFieldSource from "~/demos/input/in-a-field.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+The `magnitude` axis scales the control's height and text size; keep it in sync on the `InputGroup` and its `Input`.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## With icons
+
+<ComponentExample code={withIconsSource}>
+  <WithIconsDemo client:visible />
+</ComponentExample>
+
+## In a field
+
+<ComponentExample code={inAFieldSource}>
+  <InAFieldDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Input, InputGroup } from "@makeplane/propel/components/input";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/input/input.tsx", component: "Input" }]} />

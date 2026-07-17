@@ -1,0 +1,61 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Popover
+description: A floating panel anchored to a trigger for arbitrary controls and content.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/popover/basic.tsx";
+import basicSource from "~/demos/popover/basic.tsx?raw";
+import OpenOnHoverDemo from "~/demos/popover/open-on-hover.tsx";
+import openOnHoverSource from "~/demos/popover/open-on-hover.tsx?raw";
+import ControlledDemo from "~/demos/popover/controlled.tsx";
+import controlledSource from "~/demos/popover/controlled.tsx?raw";
+import DetachedTriggerDemo from "~/demos/popover/detached-trigger.tsx";
+import detachedTriggerSource from "~/demos/popover/detached-trigger.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Open on hover
+
+`PopoverTrigger`'s `openOnHover` (with a tuned `delay`) opens the panel on hover for glanceable, read-mostly surfaces. Clicking the trigger still toggles the panel, so keyboard and touch users are not locked out.
+
+<ComponentExample code={openOnHoverSource}>
+  <OpenOnHoverDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+External state drives the popover via `open` and `onOpenChange`, so any control can open or close the panel.
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Detached trigger
+
+`createPopoverHandle()` links a trigger that lives outside the `Popover` to it via the `handle` prop, so a button can open a panel declared elsewhere in the tree. The panel still anchors to the trigger that opened it.
+
+<ComponentExample code={detachedTriggerSource}>
+  <DetachedTriggerDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Popover, PopoverTrigger, PopoverContent } from "@makeplane/propel/components/popover";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/popover/popover.tsx", component: "Popover" },
+    { source: "components/popover/popover-content.tsx", component: "PopoverContent" },
+  ]}
+/>

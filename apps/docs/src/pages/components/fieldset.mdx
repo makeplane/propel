@@ -1,0 +1,46 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Fieldset
+description: Groups related fields under one accessible legend for the 90% case.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/fieldset/basic.tsx";
+import basicSource from "~/demos/fieldset/basic.tsx?raw";
+import BorderedDemo from "~/demos/fieldset/bordered.tsx";
+import borderedSource from "~/demos/fieldset/bordered.tsx?raw";
+import LegendSizesDemo from "~/demos/fieldset/legend-sizes.tsx";
+import legendSizesSource from "~/demos/fieldset/legend-sizes.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Bordered
+
+A bordered fieldset draws a visible boundary around the group, useful when it sits among other content. Pair it with a `description` for supporting text below the legend.
+
+<ComponentExample code={borderedSource}>
+  <BorderedDemo client:visible />
+</ComponentExample>
+
+## Legend sizes
+
+`legendMagnitude` controls the size of the legend text: `md`, `lg`, or `xl`.
+
+<ComponentExample code={legendSizesSource}>
+  <LegendSizesDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Fieldset } from "@makeplane/propel/components/fieldset";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/fieldset/fieldset.tsx", component: "Fieldset" }]} />

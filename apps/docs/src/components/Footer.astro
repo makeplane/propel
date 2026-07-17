@@ -1,0 +1,21 @@
+---
+const footerLink =
+  "rounded-md text-secondary hover:text-primary focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1 focus-visible:outline-none";
+---
+
+<footer class="border-t border-subtle">
+  <div
+    class="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+  >
+    <p class="text-body-sm-regular text-secondary">
+      Built by <a href="https://plane.so" class={`${footerLink} text-primary`}>Plane</a>. The source
+      code is available on <a href="https://github.com/makeplane/propel" class={footerLink}
+        >GitHub</a
+      >.
+    </p>
+    <nav aria-label="Footer" class="flex items-center gap-4 text-body-sm-regular">
+      <a href="https://github.com/makeplane/propel" class={footerLink}>GitHub</a>
+      <a href="https://www.npmjs.com/package/@makeplane/propel" class={footerLink}>npm</a>
+    </nav>
+  </div>
+</footer>

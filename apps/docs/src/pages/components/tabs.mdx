@@ -1,0 +1,49 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Tabs
+description: A set of layered sections that show one panel at a time.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/tabs/basic.tsx";
+import basicSource from "~/demos/tabs/basic.tsx?raw";
+import UnderlineDemo from "~/demos/tabs/underline.tsx";
+import underlineSource from "~/demos/tabs/underline.tsx?raw";
+import DisabledDemo from "~/demos/tabs/disabled.tsx";
+import disabledSource from "~/demos/tabs/disabled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Underline
+
+The `underline` appearance keeps the tabs flat and slides a bar under the active one, in contrast to the raised `contained` pill.
+
+<ComponentExample code={underlineSource}>
+  <UnderlineDemo client:visible />
+</ComponentExample>
+
+## Disabled
+
+<ComponentExample code={disabledSource}>
+  <DisabledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Tabs, TabsList, Tab, TabsPanel } from "@makeplane/propel/components/tabs";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/tabs/tabs.tsx", component: "Tabs" },
+    { source: "components/tabs/tab.tsx", component: "Tab" },
+  ]}
+/>

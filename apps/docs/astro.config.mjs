@@ -21,6 +21,15 @@ const propelSrc = resolve(__dirname, "../../packages/propel/src");
 export default defineConfig({
   // TODO: replace with the real deployed domain once one is assigned.
   site: "https://docs.example.com",
+  markdown: {
+    // Dual-theme Shiki for fenced MDX code blocks, matching CodeBlock.astro's
+    // <Code> setup: light inline, dark via --shiki-dark vars flipped by
+    // global.css when propel's dark theme is active.
+    shikiConfig: {
+      themes: { light: "github-light", dark: "github-dark" },
+      defaultColor: "light",
+    },
+  },
   integrations: [mdx(), react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

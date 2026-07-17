@@ -1,0 +1,61 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Autocomplete Field
+description: A labeled autocomplete input with a filtered suggestion popup and helper or error text.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/autocomplete-field/basic.tsx";
+import basicSource from "~/demos/autocomplete-field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/autocomplete-field/magnitudes.tsx";
+import magnitudesSource from "~/demos/autocomplete-field/magnitudes.tsx?raw";
+import InvalidDemo from "~/demos/autocomplete-field/invalid.tsx";
+import invalidSource from "~/demos/autocomplete-field/invalid.tsx?raw";
+import DisabledDemo from "~/demos/autocomplete-field/disabled.tsx";
+import disabledSource from "~/demos/autocomplete-field/disabled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+`magnitude` steps the label, description, and helper-text size; the input group keeps its own fixed scale.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Invalid
+
+Setting `error` marks the field invalid, recolors the input group border, and replaces the description with the error text.
+
+<ComponentExample code={invalidSource}>
+  <InvalidDemo client:visible />
+</ComponentExample>
+
+## Disabled
+
+<ComponentExample code={disabledSource}>
+  <DisabledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { AutocompleteField } from "@makeplane/propel/components/autocomplete-field";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    {
+      source: "components/autocomplete-field/autocomplete-field.tsx",
+      component: "AutocompleteField",
+    },
+  ]}
+/>

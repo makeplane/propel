@@ -1,41 +1,138 @@
 ---
+import ShowcaseTile from "~/components/ShowcaseTile.astro";
+import CommentComposerDemo from "~/demos/home/comment-composer";
+import InviteFormDemo from "~/demos/home/invite-form";
+import MembersTableDemo from "~/demos/home/members-table";
+import ProjectComboboxDemo from "~/demos/home/project-combobox";
+import ScheduleCalendarDemo from "~/demos/home/schedule-calendar";
+import SettingsPanelDemo from "~/demos/home/settings-panel";
 import BaseLayout from "~/layouts/BaseLayout.astro";
-import { COMPONENTS } from "~/lib/components-registry";
+import DocsShell from "~/layouts/DocsShell.astro";
+
+const primaryCta =
+  "rounded-md bg-accent-primary px-4 py-2 text-body-sm-medium text-on-color hover:bg-accent-primary-hover active:bg-accent-primary-active focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1 focus-visible:outline-none";
+const secondaryCta =
+  "rounded-md border border-subtle px-4 py-2 text-body-sm-medium text-primary hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1 focus-visible:outline-none";
 ---
 
-<BaseLayout title="Propel" description="Documentation for @makeplane/propel's React components.">
-  <main class="mx-auto flex max-w-3xl flex-col gap-10 px-6 py-16">
-    <div>
-      <h1 class="text-3xl font-semibold text-primary">Propel</h1>
-      <p class="mt-3 text-lg text-secondary">
-        Plane's React component library, built on Base UI and Tailwind CSS v4.
-      </p>
-    </div>
-    <div class="flex gap-3">
-      <a href="/installation" class="rounded-md bg-accent-primary px-4 py-2 text-sm font-medium text-on-color">
-        Get started
-      </a>
-      <a
-        href={`/components/${COMPONENTS[0].slug}`}
-        class="rounded-md border border-subtle px-4 py-2 text-sm font-medium text-primary"
-      >
-        Browse components
-      </a>
-    </div>
-    <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3">
-      {
-        COMPONENTS.map((entry) => (
-          <li>
-            <a
-              href={`/components/${entry.slug}`}
-              class="block rounded-lg border border-subtle p-4 hover:bg-surface-1"
+<BaseLayout
+  title="Propel"
+  description="Plane's React component library — live, interactive components beside their exact source, built on Base UI and Tailwind CSS v4."
+>
+  <DocsShell>
+    <section class="relative">
+      <div class="hero-dots absolute inset-0" aria-hidden="true"></div>
+      <div class="relative flex flex-col gap-6 pt-8 pb-12 sm:pt-14">
+        <div class="flex flex-col gap-4">
+          <h1 class="max-w-[24ch] text-h1-semibold text-balance text-primary sm:text-40">
+            The React component library behind Plane
+          </h1>
+          <p class="max-w-[58ch] text-body-md-regular text-secondary">
+            Accessible behavior from Base UI, styled with a Tailwind CSS v4 token system,
+            documented here as live components beside their exact source.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <a href="/introduction" class={primaryCta}>Get started</a>
+          <a href="/components" class={secondaryCta}>Browse components</a>
+          <div
+            class="flex items-center gap-2 rounded-md border border-subtle bg-surface-1 py-1.5 pr-1.5 pl-3"
+            data-code-frame
+          >
+            <code class="font-code text-13 text-secondary">pnpm add @makeplane/propel</code>
+            <button
+              type="button"
+              data-copy-button
+              data-copy-text="pnpm add @makeplane/propel"
+              aria-label="Copy install command"
+              class="rounded p-1 text-tertiary hover:bg-layer-transparent-hover hover:text-primary focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:outline-none"
             >
-              <p class="font-medium text-primary">{entry.title}</p>
-              <p class="mt-1 text-sm text-secondary">{entry.description}</p>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </main>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="copy-idle size-3.5"
+              >
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="copy-done hidden size-3.5"
+              >
+                <path d="M20 6 9 17l-5-5"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Component showcase" class="pb-8">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <ShowcaseTile
+          title="Invite your team"
+          caption="Fields, validation, and actions"
+          href="/components/input-field"
+        >
+          <InviteFormDemo client:visible />
+        </ShowcaseTile>
+        <ShowcaseTile
+          title="Members table"
+          caption="Rows with avatars, inline edit, and row menus"
+          href="/components/table"
+        >
+          <MembersTableDemo client:visible />
+        </ShowcaseTile>
+        <ShowcaseTile
+          title="Project picker"
+          caption="Filterable, grouped selection"
+          href="/components/combobox"
+        >
+          <ProjectComboboxDemo client:visible />
+        </ShowcaseTile>
+        <ShowcaseTile
+          title="Comment composer"
+          caption="A recipe from Toolbar, TextArea, and Button"
+          href="/components/toolbar"
+        >
+          <CommentComposerDemo client:visible />
+        </ShowcaseTile>
+        <ShowcaseTile
+          title="Date range"
+          caption="Calendar with range selection"
+          href="/components/calendar"
+        >
+          <ScheduleCalendarDemo client:visible />
+        </ShowcaseTile>
+        <ShowcaseTile
+          title="Preferences"
+          caption="Tabs, switches, and a slider in one panel"
+          href="/components/tabs"
+        >
+          <SettingsPanelDemo client:visible />
+        </ShowcaseTile>
+      </div>
+    </section>
+  </DocsShell>
 </BaseLayout>
+
+<style>
+  /* A static dot grid behind the hero, drawn in the theme's own divider color so
+     it resolves across light / dark / contrast, fading out toward the edges. */
+  .hero-dots {
+    background-image: radial-gradient(var(--border-subtle) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: radial-gradient(ellipse 75% 90% at 30% 35%, black 35%, transparent 80%);
+  }
+</style>

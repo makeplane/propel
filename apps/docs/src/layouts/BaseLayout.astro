@@ -1,24 +1,112 @@
 ---
 import "../styles/global.css";
 
+import Footer from "~/components/Footer.astro";
+import Header from "~/components/Header.astro";
+
 type Props = {
   title: string;
   description?: string;
 };
 
 const { title, description } = Astro.props;
+
+// astro.config's `site` is still the docs.example.com placeholder; these become
+// real URLs the moment a domain is assigned there.
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : null;
+const ogImage = Astro.site ? new URL("/og.png", Astro.site) : null;
 ---
 
 <!doctype html>
 <html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
+    <script is:inline>
+      // Pre-paint theme resolution: explicit light/dark from storage, otherwise the
+      // OS scheme; prefers-contrast upgrades to propel's -contrast theme variants.
+      (() => {
+        let stored = null;
+        try {
+          stored = localStorage.getItem("propel-docs-theme");
+        } catch {}
+        const explicit = stored === "light" || stored === "dark" ? stored : null;
+        const dark = explicit
+          ? explicit === "dark"
+          : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const contrast = window.matchMedia("(prefers-contrast: more)").matches;
+        document.documentElement.dataset.theme =
+          (dark ? "dark" : "light") + (contrast ? "-contrast" : "");
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0e0f10" />
+    <meta name="generator" content={Astro.generator} />
     <title>{title} · Propel</title>
     {description ? <meta name="description" content={description} /> : null}
+    {canonical ? <link rel="canonical" href={canonical} /> : null}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Propel" />
+    <meta property="og:title" content={`${title} · Propel`} />
+    {description ? <meta property="og:description" content={description} /> : null}
+    {canonical ? <meta property="og:url" content={canonical} /> : null}
+    {ogImage ? <meta property="og:image" content={ogImage} /> : null}
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
-  <body class="bg-canvas text-primary">
-    <slot />
+  <body
+    class="flex min-h-screen flex-col bg-canvas font-body text-body-md-regular text-primary antialiased"
+  >
+    <Header />
+    <div class="flex flex-1 flex-col">
+      <slot />
+    </div>
+    <Footer />
+    <script is:inline>
+      // Keep the two <meta name="theme-color"> tags (media-scoped, no-JS fallback)
+      // in sync with the APPLIED theme so browser chrome matches even when the user
+      // forces the opposite of their OS scheme. The MutationObserver picks up every
+      // data-theme change (ThemeToggle click, system-preference change) with no
+      // island changes required.
+      (() => {
+        const sync = () => {
+          const dark = (document.documentElement.dataset.theme || "").includes("dark");
+          const color = dark ? "#0e0f10" : "#ffffff";
+          document
+            .querySelectorAll('meta[name="theme-color"]')
+            .forEach((m) => m.setAttribute("content", color));
+        };
+        sync();
+        new MutationObserver(sync).observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ["data-theme"],
+        });
+      })();
+    </script>
+    <script>
+      // Site-wide delegated copy-to-clipboard for [data-copy-button] (code blocks,
+      // the homepage install chip). Reads the sibling .astro-code text unless the
+      // button carries an explicit data-copy-text.
+      document.addEventListener("click", async (event) => {
+        const button = (event.target as HTMLElement).closest<HTMLElement>("[data-copy-button]");
+        if (!button) return;
+        const frame = button.closest<HTMLElement>("[data-code-frame]");
+        const text = button.dataset.copyText ?? frame?.querySelector(".astro-code")?.textContent;
+        if (!text) return;
+        try {
+          await navigator.clipboard.writeText(text.trimEnd());
+        } catch {
+          return;
+        }
+        button.querySelector(".copy-idle")?.classList.add("hidden");
+        button.querySelector(".copy-done")?.classList.remove("hidden");
+        setTimeout(() => {
+          button.querySelector(".copy-idle")?.classList.remove("hidden");
+          button.querySelector(".copy-done")?.classList.add("hidden");
+        }, 2000);
+      });
+    </script>
   </body>
 </html>

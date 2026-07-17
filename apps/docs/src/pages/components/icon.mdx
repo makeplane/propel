@@ -1,0 +1,44 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Icon
+description: A decorative glyph slot that renders an SVG icon, sized and tinted from its container.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/icon/basic.tsx";
+import basicSource from "~/demos/icon/basic.tsx?raw";
+import TintsDemo from "~/demos/icon/tints.tsx";
+import tintsSource from "~/demos/icon/tints.tsx?raw";
+import MagnitudesDemo from "~/demos/icon/magnitudes.tsx";
+import magnitudesSource from "~/demos/icon/magnitudes.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Tints
+
+The `tint` axis colors the glyph. `inherit` (the default) takes `currentColor` from the container; the semantic tints override it.
+
+<ComponentExample code={tintsSource}>
+  <TintsDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Icon } from "@makeplane/propel/components/icon";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/icon/index.tsx", component: "Icon" }]} />

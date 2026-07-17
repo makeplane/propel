@@ -9,14 +9,30 @@ const { code } = Astro.props;
 ---
 
 <div class="overflow-hidden rounded-lg border border-subtle">
-  <div class="flex items-center justify-center border-b border-subtle bg-surface-1 p-8">
+  <div class="flex items-center justify-center border-b border-subtle bg-surface-1 p-4 sm:p-8">
     <slot />
   </div>
   <details class="group">
-    <summary class="cursor-pointer list-none px-4 py-2 text-sm text-secondary select-none">
+    <summary
+      class="flex cursor-pointer list-none items-center gap-1.5 px-4 py-2 text-body-sm-medium text-secondary select-none hover:bg-layer-transparent-hover hover:text-primary focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-inset focus-visible:outline-none [&::-webkit-details-marker]:hidden"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        class="size-3.5 transition-transform group-open:rotate-90"
+      >
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
       <span class="group-open:hidden">Show code</span>
       <span class="hidden group-open:inline">Hide code</span>
     </summary>
-    <CodeBlock code={code} />
+    <div class="scrollbar-sm max-h-96 overflow-y-auto border-t border-subtle">
+      <CodeBlock code={code} />
+    </div>
   </details>
 </div>

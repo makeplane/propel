@@ -1,0 +1,60 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Field
+description: The shared labeling and validation shell for composing a custom form control with a label, description, and error text.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/field/basic.tsx";
+import basicSource from "~/demos/field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/field/magnitudes.tsx";
+import magnitudesSource from "~/demos/field/magnitudes.tsx?raw";
+import InvalidDemo from "~/demos/field/invalid.tsx";
+import invalidSource from "~/demos/field/invalid.tsx?raw";
+import RequiredValidationDemo from "~/demos/field/required-validation.tsx";
+import requiredValidationSource from "~/demos/field/required-validation.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+Pass the same `magnitude` to every part of a field so the label, control, and description scale together.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Invalid
+
+<ComponentExample code={invalidSource}>
+  <InvalidDemo client:visible />
+</ComponentExample>
+
+## Required validation
+
+Native constraint validity drives `FieldError` through `match`; with `validationMode="onBlur"` the message appears when the user leaves the field empty and clears once a value is committed.
+
+<ComponentExample code={requiredValidationSource}>
+  <RequiredValidationDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Field, FieldDescription, FieldLabel } from "@makeplane/propel/components/field";
+import { Input } from "@makeplane/propel/components/input";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/field/field.tsx", component: "Field" },
+    { source: "components/field/field-label.tsx", component: "FieldLabel" },
+  ]}
+/>

@@ -1,0 +1,46 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Menubar
+description: An application menu bar hosting a horizontal row of menus with keyboard navigation.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/menubar/basic.tsx";
+import basicSource from "~/demos/menubar/basic.tsx?raw";
+import SubmenuDemo from "~/demos/menubar/submenu.tsx";
+import submenuSource from "~/demos/menubar/submenu.tsx?raw";
+import DisabledDemo from "~/demos/menubar/disabled.tsx";
+import disabledSource from "~/demos/menubar/disabled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Submenu
+
+A menubar menu can nest submenus with `MenuSubmenu` — each row opens a nested `MenuSubmenuContent` of options.
+
+<ComponentExample code={submenuSource}>
+  <SubmenuDemo client:visible />
+</ComponentExample>
+
+## Disabled
+
+Setting `disabled` on a `Menu` root grays out its trigger and blocks it from opening, while sibling menus keep working.
+
+<ComponentExample code={disabledSource}>
+  <DisabledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Menubar, MenubarTrigger, MenubarTriggerLabel } from "@makeplane/propel/components/menubar";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/menubar/menubar.tsx", component: "Menubar" }]} />

@@ -1,0 +1,52 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Switch
+description: Toggles a single setting on or off.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/switch/basic.tsx";
+import basicSource from "~/demos/switch/basic.tsx?raw";
+import SizesDemo from "~/demos/switch/sizes.tsx";
+import sizesSource from "~/demos/switch/sizes.tsx?raw";
+import StatesDemo from "~/demos/switch/states.tsx";
+import statesSource from "~/demos/switch/states.tsx?raw";
+import WithDescriptionDemo from "~/demos/switch/with-description.tsx";
+import withDescriptionSource from "~/demos/switch/with-description.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Sizes
+
+<ComponentExample code={sizesSource}>
+  <SizesDemo client:visible />
+</ComponentExample>
+
+## States
+
+Switches read as off, on, disabled, or read-only. Disabled and read-only both dim the control; only disabled blocks the pointer.
+
+<ComponentExample code={statesSource}>
+  <StatesDemo client:visible />
+</ComponentExample>
+
+## With description
+
+<ComponentExample code={withDescriptionSource}>
+  <WithDescriptionDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Switch } from "@makeplane/propel/components/switch";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/switch/switch.tsx", component: "Switch" }]} />

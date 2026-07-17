@@ -10,6 +10,14 @@ import BasicDemo from "~/demos/button/basic.tsx";
 import basicSource from "~/demos/button/basic.tsx?raw";
 import WithIconDemo from "~/demos/button/with-icon.tsx";
 import withIconSource from "~/demos/button/with-icon.tsx?raw";
+import ProminencesDemo from "~/demos/button/prominences.tsx";
+import prominencesSource from "~/demos/button/prominences.tsx?raw";
+import TonesDemo from "~/demos/button/tones.tsx";
+import tonesSource from "~/demos/button/tones.tsx?raw";
+import MagnitudesDemo from "~/demos/button/magnitudes.tsx";
+import magnitudesSource from "~/demos/button/magnitudes.tsx?raw";
+import LoadingDemo from "~/demos/button/loading.tsx";
+import loadingSource from "~/demos/button/loading.tsx?raw";
 
 ## Basic
 
@@ -21,6 +29,34 @@ import withIconSource from "~/demos/button/with-icon.tsx?raw";
 
 <ComponentExample code={withIconSource}>
   <WithIconDemo client:visible />
+</ComponentExample>
+
+## Prominences
+
+<ComponentExample code={prominencesSource}>
+  <ProminencesDemo client:visible />
+</ComponentExample>
+
+## Tones
+
+Tone selects the palette: `neutral` (the default) or `danger` for destructive actions.
+
+<ComponentExample code={tonesSource}>
+  <TonesDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Loading
+
+The `loading` state shows a spinner, sets `aria-busy`, and blocks interaction while staying focusable.
+
+<ComponentExample code={loadingSource}>
+  <LoadingDemo client:visible />
 </ComponentExample>
 
 ## Installation

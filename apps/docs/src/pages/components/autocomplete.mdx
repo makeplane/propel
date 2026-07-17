@@ -1,0 +1,80 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Autocomplete
+description: A searchable text input that suggests and filters matching options as you type.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/autocomplete/basic.tsx";
+import basicSource from "~/demos/autocomplete/basic.tsx?raw";
+import SearchDemo from "~/demos/autocomplete/search.tsx";
+import searchSource from "~/demos/autocomplete/search.tsx?raw";
+import GroupedDemo from "~/demos/autocomplete/grouped.tsx";
+import groupedSource from "~/demos/autocomplete/grouped.tsx?raw";
+import AsyncSearchDemo from "~/demos/autocomplete/async-search.tsx";
+import asyncSearchSource from "~/demos/autocomplete/async-search.tsx?raw";
+import FuzzyMatchingDemo from "~/demos/autocomplete/fuzzy-matching.tsx";
+import fuzzyMatchingSource from "~/demos/autocomplete/fuzzy-matching.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Search
+
+<ComponentExample code={searchSource}>
+  <SearchDemo client:visible />
+</ComponentExample>
+
+## Grouped
+
+Grouped suggestions render each group under a label; filtering drops empty groups and their headings automatically.
+
+<ComponentExample code={groupedSource}>
+  <GroupedDemo client:visible />
+</ComponentExample>
+
+## Async
+
+Hand filtering to the consumer with `filter={null}`, drive the lookup from `value`/`onValueChange`, and announce progress with `AutocompleteStatus`.
+
+<ComponentExample code={asyncSearchSource}>
+  <AsyncSearchDemo client:visible />
+</ComponentExample>
+
+## Fuzzy matching
+
+A custom `filter` replaces the built-in contains match, so skipped-letter queries (e.g. `ngx`) still find their item.
+
+<ComponentExample code={fuzzyMatchingSource}>
+  <FuzzyMatchingDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  Autocomplete,
+  AutocompleteInputGroup,
+  AutocompleteContent,
+  AutocompleteEmpty,
+  AutocompleteList,
+  AutocompleteItem,
+} from "@makeplane/propel/components/autocomplete";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/autocomplete/autocomplete.tsx", component: "Autocomplete" },
+    {
+      source: "components/autocomplete/autocomplete-input-group.tsx",
+      component: "AutocompleteInputGroup",
+    },
+    { source: "components/autocomplete/autocomplete-item.tsx", component: "AutocompleteItem" },
+  ]}
+/>

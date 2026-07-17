@@ -4,18 +4,18 @@ import BaseLayout from "~/layouts/BaseLayout.astro";
 
 <BaseLayout title="Page not found" description="The page you're looking for doesn't exist.">
   <main
-    class="mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center gap-6 px-6 py-16 text-center"
+    class="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-6 px-6 py-16 text-center"
   >
     <div>
-      <p class="text-sm font-medium text-secondary">404</p>
-      <h1 class="mt-2 text-3xl font-semibold text-primary">Page not found</h1>
-      <p class="mt-3 text-lg text-secondary">
+      <p class="text-body-sm-medium text-secondary">404</p>
+      <h1 class="mt-2 text-h1-semibold text-primary">Page not found</h1>
+      <p class="mt-3 text-body-md-regular text-secondary">
         The page you're looking for doesn't exist or has moved.
       </p>
     </div>
     <a
       href="/"
-      class="rounded-md bg-accent-primary px-4 py-2 text-sm font-medium text-on-color"
+      class="rounded-md bg-accent-primary px-4 py-2 text-body-sm-medium text-on-color hover:bg-accent-primary-hover active:bg-accent-primary-active focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1 focus-visible:outline-none"
     >
       Back to home
     </a>

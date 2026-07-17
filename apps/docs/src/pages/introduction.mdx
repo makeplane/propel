@@ -1,0 +1,48 @@
+---
+layout: ~/layouts/DocLayout.astro
+title: Introduction
+description: What Propel is and how the library is put together.
+---
+
+Propel is Plane's React component library: accessible behavior from
+[Base UI](https://base-ui.com), styled with a Tailwind CSS v4 token system, published as
+`@makeplane/propel`. It is the set of primitives Plane itself is built from — this site documents
+each one as a live, working instance beside its exact source.
+
+## How it's put together
+
+Every interactive component grafts a Base UI primitive onto a styled element, so keyboard
+behavior, focus management, and ARIA semantics come from Base UI while the look comes from
+Propel's design tokens. The tokens are OKLCH throughout, semantic first (`bg-canvas`,
+`text-primary`, `border-subtle`), and carry four themes — `light`, `dark`, `light-contrast`, and
+`dark-contrast` — from a single `data-theme` attribute.
+
+## Explicit by design
+
+Propel defines no default variants. Every styling axis is a required prop, spelled out at the
+call site:
+
+```tsx
+<Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg" label="Save" />
+```
+
+The axis vocabulary is shared across the library — `prominence` for visual weight, `tone` for
+color intent, `magnitude` for size, `sizing` for hug-versus-fill — so knowing one component means
+knowing all of them. What a component renders is never implicit, and impossible combinations
+aren't representable.
+
+## Subpath imports
+
+There's no root barrel. Each component lives at its own subpath, so a bundle only ever contains
+what a page actually imports:
+
+```tsx
+import { Dialog, DialogContent } from "@makeplane/propel/components/dialog";
+import { Tooltip } from "@makeplane/propel/components/tooltip";
+```
+
+## Where to go next
+
+Head to [Installation](/installation) to wire Propel into your app, or jump straight into the
+components — [Button](/components/button) is a good first read for the axis vocabulary in
+practice.

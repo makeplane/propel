@@ -1,0 +1,65 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Context Menu
+description: A menu of actions that opens at the pointer on right click or long press.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/context-menu/basic.tsx";
+import basicSource from "~/demos/context-menu/basic.tsx?raw";
+import SubmenuDemo from "~/demos/context-menu/submenu.tsx";
+import submenuSource from "~/demos/context-menu/submenu.tsx?raw";
+import LinkItemsDemo from "~/demos/context-menu/link-items.tsx";
+import linkItemsSource from "~/demos/context-menu/link-items.tsx?raw";
+import SelectionRowsDemo from "~/demos/context-menu/selection-rows.tsx";
+import selectionRowsSource from "~/demos/context-menu/selection-rows.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Submenu
+
+Nest a `ContextMenuSubmenu` to reveal more destinations beside the parent menu.
+
+<ComponentExample code={submenuSource}>
+  <SubmenuDemo client:visible />
+</ComponentExample>
+
+## Link items
+
+`ContextMenuLinkItem` renders a real anchor, so a row can navigate while keeping menu-item behavior.
+
+<ComponentExample code={linkItemsSource}>
+  <LinkItemsDemo client:visible />
+</ComponentExample>
+
+## Selection rows
+
+<ComponentExample code={selectionRowsSource}>
+  <SelectionRowsDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from "@makeplane/propel/components/context-menu";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/context-menu/context-menu.tsx", component: "ContextMenu" },
+    { source: "components/context-menu/context-menu-item.tsx", component: "ContextMenuItem" },
+  ]}
+/>

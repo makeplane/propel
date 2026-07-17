@@ -1,0 +1,37 @@
+---
+type Props = {
+  title: string;
+  caption: string;
+  href: string;
+};
+
+const { title, caption, href } = Astro.props;
+---
+
+<article class="flex h-full flex-col overflow-hidden rounded-lg border border-subtle">
+  <div class="flex min-h-72 flex-1 items-center justify-center overflow-hidden bg-surface-1 p-6">
+    <slot />
+  </div>
+  <a
+    href={href}
+    class="group flex items-center justify-between gap-3 border-t border-subtle px-4 py-3 hover:bg-layer-transparent-hover focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-inset focus-visible:outline-none"
+  >
+    <span class="flex flex-col gap-0.5">
+      <span class="text-body-sm-medium text-primary">{title}</span>
+      <span class="text-caption-md-medium text-tertiary">{caption}</span>
+    </span>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      class="size-3.5 shrink-0 text-tertiary transition-transform group-hover:translate-x-0.5"
+    >
+      <path d="M5 12h14"></path>
+      <path d="m12 5 7 7-7 7"></path>
+    </svg>
+  </a>
+</article>

@@ -1,0 +1,66 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Navigation Menu
+description: A horizontal row of triggers and links that open portaled content panels for site navigation.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/navigation-menu/basic.tsx";
+import basicSource from "~/demos/navigation-menu/basic.tsx?raw";
+import PresentationsDemo from "~/demos/navigation-menu/presentations.tsx";
+import presentationsSource from "~/demos/navigation-menu/presentations.tsx?raw";
+import LargeContentDemo from "~/demos/navigation-menu/large-content.tsx";
+import largeContentSource from "~/demos/navigation-menu/large-content.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Presentations
+
+A link's `presentation` sets its shape: `item` is a top-level pill beside the triggers, while `card` stacks a title over an optional description inside a content panel.
+
+<ComponentExample code={presentationsSource}>
+  <PresentationsDemo client:visible />
+</ComponentExample>
+
+## Large content
+
+Cap the content region's height and wrap the link list in a `ScrollArea` so the panel keeps a stable size while long menus scroll.
+
+<ComponentExample code={largeContentSource}>
+  <LargeContentDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuContentList,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuLinkDescription,
+  NavigationMenuLinkTitle,
+  NavigationMenuList,
+  NavigationMenuPanel,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from "@makeplane/propel/components/navigation-menu";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/navigation-menu/navigation-menu.tsx", component: "NavigationMenu" },
+    {
+      source: "components/navigation-menu/navigation-menu-trigger.tsx",
+      component: "NavigationMenuTrigger",
+    },
+  ]}
+/>

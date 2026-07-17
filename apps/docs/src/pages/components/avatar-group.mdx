@@ -1,0 +1,62 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Avatar Group
+description: An overlapping stack of avatars that share one size and show a "+N" overflow count.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/avatar-group/basic.tsx";
+import basicSource from "~/demos/avatar-group/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/avatar-group/magnitudes.tsx";
+import magnitudesSource from "~/demos/avatar-group/magnitudes.tsx?raw";
+import FallbacksDemo from "~/demos/avatar-group/fallbacks.tsx";
+import fallbacksSource from "~/demos/avatar-group/fallbacks.tsx?raw";
+import TonesDemo from "~/demos/avatar-group/tones.tsx";
+import tonesSource from "~/demos/avatar-group/tones.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+`magnitude` on the group sizes every avatar at once — the children don't set it. Groups support the three Figma sizes: `2xs`, `xs`, and `sm`.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Fallbacks
+
+An avatar shows its photo when a `src` is available, falls back to initials when it isn't, and finally to an anonymous person icon when no initials are given either.
+
+<ComponentExample code={fallbacksSource}>
+  <FallbacksDemo client:visible />
+</ComponentExample>
+
+## Tones
+
+Initials avatars take a `tone` for their background color; when omitted, a stable color is derived from the member's name.
+
+<ComponentExample code={tonesSource}>
+  <TonesDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Avatar } from "@makeplane/propel/components/avatar";
+import { AvatarGroup } from "@makeplane/propel/components/avatar-group";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/avatar-group/avatar-group.tsx", component: "AvatarGroup" },
+    { source: "components/avatar/avatar.tsx", component: "Avatar" },
+  ]}
+/>

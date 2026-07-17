@@ -1,0 +1,71 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Toggle Group
+description: A set of toggle buttons that share selection state, with single or multi-select.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/toggle-group/basic.tsx";
+import basicSource from "~/demos/toggle-group/basic.tsx?raw";
+import MultipleDemo from "~/demos/toggle-group/multiple.tsx";
+import multipleSource from "~/demos/toggle-group/multiple.tsx?raw";
+import MagnitudesDemo from "~/demos/toggle-group/magnitudes.tsx";
+import magnitudesSource from "~/demos/toggle-group/magnitudes.tsx?raw";
+import DisabledDemo from "~/demos/toggle-group/disabled.tsx";
+import disabledSource from "~/demos/toggle-group/disabled.tsx?raw";
+import VerticalDemo from "~/demos/toggle-group/vertical.tsx";
+import verticalSource from "~/demos/toggle-group/vertical.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Multiple
+
+Pass `multiple` to let more than one toggle stay pressed at once.
+
+<ComponentExample code={multipleSource}>
+  <MultipleDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+The group's `magnitude` sizes every `Toggle` inside it.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Disabled
+
+<ComponentExample code={disabledSource}>
+  <DisabledDemo client:visible />
+</ComponentExample>
+
+## Vertical
+
+Set `orientation="vertical"` to stack the toggles.
+
+<ComponentExample code={verticalSource}>
+  <VerticalDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Icon } from "@makeplane/propel/components/icon";
+import { Toggle } from "@makeplane/propel/components/toggle";
+import { ToggleGroup } from "@makeplane/propel/components/toggle-group";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/toggle-group/toggle-group.tsx", component: "ToggleGroup" },
+    { source: "components/toggle/toggle.tsx", component: "Toggle" },
+  ]}
+/>

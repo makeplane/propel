@@ -1,0 +1,52 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Shortcut
+description: Displays a keyboard shortcut hint, such as "⌘ K", as a decorative visual cue.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/shortcut/basic.tsx";
+import basicSource from "~/demos/shortcut/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/shortcut/magnitudes.tsx";
+import magnitudesSource from "~/demos/shortcut/magnitudes.tsx?raw";
+import KeyCombinationsDemo from "~/demos/shortcut/key-combinations.tsx";
+import keyCombinationsSource from "~/demos/shortcut/key-combinations.tsx?raw";
+import InAButtonDemo from "~/demos/shortcut/in-a-button.tsx";
+import inAButtonSource from "~/demos/shortcut/in-a-button.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Key combinations
+
+The `keys` prop is free-form text, so any combination of symbols or key names renders as-is.
+
+<ComponentExample code={keyCombinationsSource}>
+  <KeyCombinationsDemo client:visible />
+</ComponentExample>
+
+## In a button
+
+<ComponentExample code={inAButtonSource}>
+  <InAButtonDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Shortcut } from "@makeplane/propel/components/shortcut";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/shortcut/index.tsx", component: "Shortcut" }]} />

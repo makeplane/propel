@@ -1,0 +1,71 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Breadcrumb
+description: Shows the path to the current page as a trail of navigable crumbs.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/breadcrumb/basic.tsx";
+import basicSource from "~/demos/breadcrumb/basic.tsx?raw";
+import CollapsedCrumbsDemo from "~/demos/breadcrumb/collapsed-crumbs.tsx";
+import collapsedCrumbsSource from "~/demos/breadcrumb/collapsed-crumbs.tsx?raw";
+import MenuCrumbDemo from "~/demos/breadcrumb/menu-crumb.tsx";
+import menuCrumbSource from "~/demos/breadcrumb/menu-crumb.tsx?raw";
+import ViewSwitcherDemo from "~/demos/breadcrumb/view-switcher.tsx";
+import viewSwitcherSource from "~/demos/breadcrumb/view-switcher.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Collapsed crumbs
+
+When the trail grows too long, collapse the middle crumbs behind an ellipsis menu that opens the hidden crumbs.
+
+<ComponentExample code={collapsedCrumbsSource}>
+  <CollapsedCrumbsDemo client:visible />
+</ComponentExample>
+
+## Menu crumb
+
+A crumb whose label opens a menu to switch the current step between sibling contexts without leaving the trail. Its own chevron is the breadcrumb chevron, so no separator follows it.
+
+<ComponentExample code={menuCrumbSource}>
+  <MenuCrumbDemo client:visible />
+</ComponentExample>
+
+## View switcher
+
+The menu crumb composes propel's `Menu` rows, so it supports a single-select list — the active view carries `selected` and shows the trailing check.
+
+<ComponentExample code={viewSwitcherSource}>
+  <ViewSwitcherDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@makeplane/propel/components/breadcrumb";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "elements/breadcrumb/breadcrumb.tsx", component: "Breadcrumb" },
+    {
+      source: "components/breadcrumb/breadcrumb-menu-trigger.tsx",
+      component: "BreadcrumbMenuTrigger",
+    },
+  ]}
+/>

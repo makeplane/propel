@@ -1,0 +1,62 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Tooltip
+description: A small popup that describes the element it is attached to, shown on hover or focus.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/tooltip/basic.tsx";
+import basicSource from "~/demos/tooltip/basic.tsx?raw";
+import PlacementDemo from "~/demos/tooltip/placement.tsx";
+import placementSource from "~/demos/tooltip/placement.tsx?raw";
+import WithShortcutDemo from "~/demos/tooltip/with-shortcut.tsx";
+import withShortcutSource from "~/demos/tooltip/with-shortcut.tsx?raw";
+import GroupedDemo from "~/demos/tooltip/grouped.tsx";
+import groupedSource from "~/demos/tooltip/grouped.tsx?raw";
+import ControlledDemo from "~/demos/tooltip/controlled.tsx";
+import controlledSource from "~/demos/tooltip/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Placement
+
+The `side` prop chooses which edge the popup attaches to. It may flip automatically to stay in view.
+
+<ComponentExample code={placementSource}>
+  <PlacementDemo client:visible />
+</ComponentExample>
+
+## With shortcut
+
+<ComponentExample code={withShortcutSource}>
+  <WithShortcutDemo client:visible />
+</ComponentExample>
+
+## Grouped
+
+Wrapping triggers in a `TooltipProvider` shares open/close timing, so moving between adjacent triggers shows the next tooltip immediately instead of restarting the hover delay.
+
+<ComponentExample code={groupedSource}>
+  <GroupedDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Tooltip } from "@makeplane/propel/components/tooltip";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/tooltip/tooltip.tsx", component: "Tooltip" }]} />

@@ -1,6 +1,6 @@
 ---
-import { Code } from "astro:components";
 import type { CodeLanguage } from "astro";
+import { Code } from "astro:components";
 
 type Props = {
   code: string;
@@ -10,4 +10,43 @@ type Props = {
 const { code, lang = "tsx" } = Astro.props;
 ---
 
-<Code code={code.trimEnd()} lang={lang} theme="github-dark" />
+<div class="group/code relative" data-code-frame>
+  <button
+    type="button"
+    data-copy-button
+    aria-label="Copy code"
+    class="absolute top-2 right-2 z-10 rounded-md p-1.5 text-tertiary opacity-0 transition-opacity group-hover/code:opacity-100 hover:bg-layer-transparent-hover hover:text-primary focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:outline-none"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      class="copy-idle size-4"
+    >
+      <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+    </svg>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      class="copy-done hidden size-4"
+    >
+      <path d="M20 6 9 17l-5-5"></path>
+    </svg>
+  </button>
+  <Code
+    code={code.trimEnd()}
+    lang={lang}
+    themes={{ light: "github-light", dark: "github-dark" }}
+    defaultColor="light"
+  />
+</div>

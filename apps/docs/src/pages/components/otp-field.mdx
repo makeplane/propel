@@ -1,0 +1,66 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: OTP Field
+description: A one-time-password field — a row of character slots that owns focus movement, paste, and completion.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/otp-field/basic.tsx";
+import basicSource from "~/demos/otp-field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/otp-field/magnitudes.tsx";
+import magnitudesSource from "~/demos/otp-field/magnitudes.tsx?raw";
+import GroupedDemo from "~/demos/otp-field/grouped.tsx";
+import groupedSource from "~/demos/otp-field/grouped.tsx?raw";
+import InvalidDemo from "~/demos/otp-field/invalid.tsx";
+import invalidSource from "~/demos/otp-field/invalid.tsx?raw";
+import ControlledDemo from "~/demos/otp-field/controlled.tsx";
+import controlledSource from "~/demos/otp-field/controlled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+`magnitude` sets the box size of every slot — `md`, `lg`, and `xl`.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Grouped
+
+`groups` splits the run with separators — `[3, 3]` renders the 123-456 shape. The counts must sum to `length`.
+
+<ComponentExample code={groupedSource}>
+  <GroupedDemo client:visible />
+</ComponentExample>
+
+## Invalid
+
+Passing `error` shows the message and flips every slot to the danger state.
+
+<ComponentExample code={invalidSource}>
+  <InvalidDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+`normalizeValue` rewrites accepted characters while rejected ones surface through `onValueInvalid`, fed back as an `error` until the next valid keystroke clears it.
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { OTPField } from "@makeplane/propel/components/otp-field";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/otp-field/otp-field.tsx", component: "OTPField" }]} />

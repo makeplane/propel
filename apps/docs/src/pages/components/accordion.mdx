@@ -8,11 +8,51 @@ import ComponentExample from "~/components/ComponentExample.astro";
 import PropsTable from "~/components/PropsTable.astro";
 import BasicDemo from "~/demos/accordion/basic.tsx";
 import basicSource from "~/demos/accordion/basic.tsx?raw";
+import WithIconDemo from "~/demos/accordion/with-icon.tsx";
+import withIconSource from "~/demos/accordion/with-icon.tsx?raw";
+import MultipleDemo from "~/demos/accordion/multiple.tsx";
+import multipleSource from "~/demos/accordion/multiple.tsx?raw";
+import DisabledDemo from "~/demos/accordion/disabled.tsx";
+import disabledSource from "~/demos/accordion/disabled.tsx?raw";
+import ControlledDemo from "~/demos/accordion/controlled.tsx";
+import controlledSource from "~/demos/accordion/controlled.tsx?raw";
 
 ## Basic
 
 <ComponentExample code={basicSource}>
   <BasicDemo client:visible />
+</ComponentExample>
+
+## With icon
+
+Each trigger can carry an `icon` beside its label, matching the header icon in the design.
+
+<ComponentExample code={withIconSource}>
+  <WithIconDemo client:visible />
+</ComponentExample>
+
+## Multiple
+
+With `multiple`, several panels can stay open at the same time instead of collapsing one another.
+
+<ComponentExample code={multipleSource}>
+  <MultipleDemo client:visible />
+</ComponentExample>
+
+## Disabled
+
+A single item can opt out with `disabled`; its trigger dims and ignores pointer and keyboard toggling while siblings stay interactive.
+
+<ComponentExample code={disabledSource}>
+  <DisabledDemo client:visible />
+</ComponentExample>
+
+## Controlled
+
+Pass `value` + `onValueChange` to own the open set. External controls mutate that state directly, and trigger clicks flow back through `onValueChange`.
+
+<ComponentExample code={controlledSource}>
+  <ControlledDemo client:visible />
 </ComponentExample>
 
 ## Installation

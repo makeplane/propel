@@ -1,0 +1,56 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Number Field
+description: A bounded numeric input with decrement and increment stepper buttons.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/number-field/basic.tsx";
+import basicSource from "~/demos/number-field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/number-field/magnitudes.tsx";
+import magnitudesSource from "~/demos/number-field/magnitudes.tsx?raw";
+import DisabledDemo from "~/demos/number-field/disabled.tsx";
+import disabledSource from "~/demos/number-field/disabled.tsx?raw";
+import FormattedDemo from "~/demos/number-field/formatted.tsx";
+import formattedSource from "~/demos/number-field/formatted.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+The `magnitude` axis sets the input height, and each stepper `IconButton` carries the same `magnitude` so the group stays flush.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Disabled
+
+<ComponentExample code={disabledSource}>
+  <DisabledDemo client:visible />
+</ComponentExample>
+
+## Formatted
+
+Pass `format` (an `Intl.NumberFormatOptions`) to format the displayed value — here as a currency amount stepped by 50.
+
+<ComponentExample code={formattedSource}>
+  <FormattedDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { NumberField } from "@makeplane/propel/components/number-field";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/number-field/number-field.tsx", component: "NumberField" }]}
+/>

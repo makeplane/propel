@@ -1,0 +1,56 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Workspace Avatar
+description: Shows a workspace's logo in a rounded square, falling back to its colored initials.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/workspace-avatar/basic.tsx";
+import basicSource from "~/demos/workspace-avatar/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/workspace-avatar/magnitudes.tsx";
+import magnitudesSource from "~/demos/workspace-avatar/magnitudes.tsx?raw";
+import TonesDemo from "~/demos/workspace-avatar/tones.tsx";
+import tonesSource from "~/demos/workspace-avatar/tones.tsx?raw";
+import StatesDemo from "~/demos/workspace-avatar/states.tsx";
+import statesSource from "~/demos/workspace-avatar/states.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Tones
+
+The initials fall back to a tone palette shared with `Avatar`. When `tone` is omitted it is derived stably from `alt`.
+
+<ComponentExample code={tonesSource}>
+  <TonesDemo client:visible />
+</ComponentExample>
+
+## States
+
+<ComponentExample code={statesSource}>
+  <StatesDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { WorkspaceAvatar } from "@makeplane/propel/components/workspace-avatar";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/workspace-avatar/workspace-avatar.tsx", component: "WorkspaceAvatar" },
+  ]}
+/>

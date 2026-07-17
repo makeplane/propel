@@ -1,0 +1,59 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Checkbox Group
+description: Coordinates a set of checkboxes as one shared selected-values group.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/checkbox-group/basic.tsx";
+import basicSource from "~/demos/checkbox-group/basic.tsx?raw";
+import SelectAllDemo from "~/demos/checkbox-group/select-all.tsx";
+import selectAllSource from "~/demos/checkbox-group/select-all.tsx?raw";
+import NestedDemo from "~/demos/checkbox-group/nested.tsx";
+import nestedSource from "~/demos/checkbox-group/nested.tsx?raw";
+import DensityDemo from "~/demos/checkbox-group/density.tsx";
+import densitySource from "~/demos/checkbox-group/density.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Select all
+
+Give the group an `allValues` list and mark one row `parent`. The parent derives its state from the rows — checked when all are on, indeterminate when only some are — and toggling it selects or clears every row at once.
+
+<ComponentExample code={selectAllSource}>
+  <SelectAllDemo client:visible />
+</ComponentExample>
+
+## Nested
+
+Each category is its own `CheckboxGroup` whose `allValues` are exactly that category's children, so its `parent` rolls up only its own rows and never the sibling category.
+
+<ComponentExample code={nestedSource}>
+  <NestedDemo client:visible />
+</ComponentExample>
+
+## Density
+
+`density` controls the spacing between rows: `comfortable` (default) or `compact`.
+
+<ComponentExample code={densitySource}>
+  <DensityDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Checkbox } from "@makeplane/propel/components/checkbox";
+import { CheckboxGroup } from "@makeplane/propel/components/checkbox-group";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/checkbox-group/checkbox-group.tsx", component: "CheckboxGroup" }]}
+/>

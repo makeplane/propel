@@ -1,0 +1,66 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Slider
+description: A single-thumb control for picking a number within a range.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/slider/basic.tsx";
+import basicSource from "~/demos/slider/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/slider/magnitudes.tsx";
+import magnitudesSource from "~/demos/slider/magnitudes.tsx?raw";
+import FormattedValueDemo from "~/demos/slider/formatted-value.tsx";
+import formattedValueSource from "~/demos/slider/formatted-value.tsx?raw";
+import EdgeAlignedThumbDemo from "~/demos/slider/edge-aligned-thumb.tsx";
+import edgeAlignedThumbSource from "~/demos/slider/edge-aligned-thumb.tsx?raw";
+import InAFormDemo from "~/demos/slider/in-a-form.tsx";
+import inAFormSource from "~/demos/slider/in-a-form.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+The `magnitude` axis sets the thumb and hit-area size; the track bar height stays the same.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Formatted value
+
+Pass `format` (an `Intl.NumberFormatOptions`) to control the readout — here a percentage.
+
+<ComponentExample code={formattedValueSource}>
+  <FormattedValueDemo client:visible />
+</ComponentExample>
+
+## Edge-aligned thumb
+
+With `thumbAlignment="edge"` the thumb stays fully inside the track at the extremes instead of overhanging it.
+
+<ComponentExample code={edgeAlignedThumbSource}>
+  <EdgeAlignedThumbDemo client:visible />
+</ComponentExample>
+
+## In a form
+
+Wrap the slider in a `Field` with a `name` and its value serializes with the surrounding `Form`.
+
+<ComponentExample code={inAFormSource}>
+  <InAFormDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Slider } from "@makeplane/propel/components/slider";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/slider/slider.tsx", component: "Slider" }]} />

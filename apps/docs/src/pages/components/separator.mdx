@@ -1,0 +1,46 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Separator
+description: A thin rule that visually divides content along a horizontal or vertical axis.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/separator/basic.tsx";
+import basicSource from "~/demos/separator/basic.tsx?raw";
+import VerticalDemo from "~/demos/separator/vertical.tsx";
+import verticalSource from "~/demos/separator/vertical.tsx?raw";
+import DecorativeDemo from "~/demos/separator/decorative.tsx";
+import decorativeSource from "~/demos/separator/decorative.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Vertical
+
+Set `orientation="vertical"` to divide inline content; Base UI reflects the axis as `aria-orientation`.
+
+<ComponentExample code={verticalSource}>
+  <VerticalDemo client:visible />
+</ComponentExample>
+
+## Decorative
+
+A decorative separator is visual-only and hidden from assistive technology — use it for layout rhythm, not a meaningful content boundary.
+
+<ComponentExample code={decorativeSource}>
+  <DecorativeDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { Separator } from "@makeplane/propel/components/separator";
+```
+
+## Props
+
+<PropsTable parts={[{ source: "components/separator/separator.tsx", component: "Separator" }]} />

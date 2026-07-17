@@ -1,0 +1,64 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Anchor Button
+description: An action that reads as an inline text link, with the same conventions as Button.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/anchor-button/basic.tsx";
+import basicSource from "~/demos/anchor-button/basic.tsx?raw";
+import ProminencesDemo from "~/demos/anchor-button/prominences.tsx";
+import prominencesSource from "~/demos/anchor-button/prominences.tsx?raw";
+import MagnitudesDemo from "~/demos/anchor-button/magnitudes.tsx";
+import magnitudesSource from "~/demos/anchor-button/magnitudes.tsx?raw";
+import WithIconsDemo from "~/demos/anchor-button/with-icons.tsx";
+import withIconsSource from "~/demos/anchor-button/with-icons.tsx?raw";
+import LoadingDemo from "~/demos/anchor-button/loading.tsx";
+import loadingSource from "~/demos/anchor-button/loading.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Prominences
+
+`primary` is the blue link; `secondary` the muted gray inline link.
+
+<ComponentExample code={prominencesSource}>
+  <ProminencesDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## With icons
+
+<ComponentExample code={withIconsSource}>
+  <WithIconsDemo client:visible />
+</ComponentExample>
+
+## Loading
+
+The `loading` spinner replaces the leading icon, dims the label, and makes the control non-interactive.
+
+<ComponentExample code={loadingSource}>
+  <LoadingDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { AnchorButton } from "@makeplane/propel/components/anchor-button";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/anchor-button/anchor-button.tsx", component: "AnchorButton" }]}
+/>

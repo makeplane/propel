@@ -1,0 +1,78 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Menu
+description: A popup list of actions or options opened from a trigger.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/menu/basic.tsx";
+import basicSource from "~/demos/menu/basic.tsx?raw";
+import CheckboxItemsDemo from "~/demos/menu/checkbox-items.tsx";
+import checkboxItemsSource from "~/demos/menu/checkbox-items.tsx?raw";
+import RadioGroupDemo from "~/demos/menu/radio-group.tsx";
+import radioGroupSource from "~/demos/menu/radio-group.tsx?raw";
+import WithDescriptionDemo from "~/demos/menu/with-description.tsx";
+import withDescriptionSource from "~/demos/menu/with-description.tsx?raw";
+import SubmenuDemo from "~/demos/menu/submenu.tsx";
+import submenuSource from "~/demos/menu/submenu.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Checkbox items
+
+Multi-select rows built from `MenuCheckboxItem`. Each row keeps its own checked state and the menu stays open on click.
+
+<ComponentExample code={checkboxItemsSource}>
+  <CheckboxItemsDemo client:visible />
+</ComponentExample>
+
+## Radio group
+
+Single-select rows wrapped in a `MenuRadioGroup` sharing one `value`.
+
+<ComponentExample code={radioGroupSource}>
+  <RadioGroupDemo client:visible />
+</ComponentExample>
+
+## With description
+
+A `description` gives each row a muted second line; passing it switches the row to a taller, top-aligned layout.
+
+<ComponentExample code={withDescriptionSource}>
+  <WithDescriptionDemo client:visible />
+</ComponentExample>
+
+## Submenu
+
+`MenuSubmenu` nests a `MenuSubmenuContent` behind a `MenuSubmenuTrigger` row.
+
+<ComponentExample code={submenuSource}>
+  <SubmenuDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  Menu,
+  MenuContent,
+  MenuItem,
+  MenuSeparator,
+  MenuTrigger,
+} from "@makeplane/propel/components/menu";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    { source: "components/menu/menu.tsx", component: "Menu" },
+    { source: "components/menu/menu-content.tsx", component: "MenuContent" },
+    { source: "components/menu/menu-item.tsx", component: "MenuItem" },
+  ]}
+/>

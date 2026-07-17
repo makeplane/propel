@@ -1,0 +1,70 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Checkbox Group Field
+description: A labeled fieldset of checkbox options with description and helper or error text.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/checkbox-group-field/basic.tsx";
+import basicSource from "~/demos/checkbox-group-field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/checkbox-group-field/magnitudes.tsx";
+import magnitudesSource from "~/demos/checkbox-group-field/magnitudes.tsx?raw";
+import DensitiesDemo from "~/demos/checkbox-group-field/densities.tsx";
+import densitiesSource from "~/demos/checkbox-group-field/densities.tsx?raw";
+import InvalidDemo from "~/demos/checkbox-group-field/invalid.tsx";
+import invalidSource from "~/demos/checkbox-group-field/invalid.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+The legend, description, and option text scale together across `md`, `lg`, and `xl`.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Densities
+
+`density` controls the spacing between option rows: `comfortable` keeps a gap, `compact` stacks them flush.
+
+<ComponentExample code={densitiesSource}>
+  <DensitiesDemo client:visible />
+</ComponentExample>
+
+## Invalid
+
+Setting `error` marks the whole group invalid and recolors every unchecked option's border to `danger`.
+
+<ComponentExample code={invalidSource}>
+  <InvalidDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import {
+  CheckboxGroupField,
+  CheckboxGroupFieldOption,
+} from "@makeplane/propel/components/checkbox-group-field";
+```
+
+## Props
+
+<PropsTable
+  parts={[
+    {
+      source: "components/checkbox-group-field/checkbox-group-field.tsx",
+      component: "CheckboxGroupField",
+    },
+    {
+      source: "components/checkbox-group-field/checkbox-group-field-option.tsx",
+      component: "CheckboxGroupFieldOption",
+    },
+  ]}
+/>

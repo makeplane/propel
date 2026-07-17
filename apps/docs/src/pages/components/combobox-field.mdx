@@ -1,0 +1,56 @@
+---
+layout: ~/layouts/ComponentLayout.astro
+title: Combobox Field
+description: A labeled combobox input with a filtered popup of selectable items and helper or error text.
+---
+
+import ComponentExample from "~/components/ComponentExample.astro";
+import PropsTable from "~/components/PropsTable.astro";
+import BasicDemo from "~/demos/combobox-field/basic.tsx";
+import basicSource from "~/demos/combobox-field/basic.tsx?raw";
+import MagnitudesDemo from "~/demos/combobox-field/magnitudes.tsx";
+import magnitudesSource from "~/demos/combobox-field/magnitudes.tsx?raw";
+import InvalidDemo from "~/demos/combobox-field/invalid.tsx";
+import invalidSource from "~/demos/combobox-field/invalid.tsx?raw";
+import DisabledDemo from "~/demos/combobox-field/disabled.tsx";
+import disabledSource from "~/demos/combobox-field/disabled.tsx?raw";
+
+## Basic
+
+<ComponentExample code={basicSource}>
+  <BasicDemo client:visible />
+</ComponentExample>
+
+## Magnitudes
+
+Magnitude steps the label, description, and helper-text sizes; the input group itself stays fixed.
+
+<ComponentExample code={magnitudesSource}>
+  <MagnitudesDemo client:visible />
+</ComponentExample>
+
+## Invalid
+
+Setting `error` marks the field invalid, recoloring the input group border and replacing the description with the error text.
+
+<ComponentExample code={invalidSource}>
+  <InvalidDemo client:visible />
+</ComponentExample>
+
+## Disabled
+
+<ComponentExample code={disabledSource}>
+  <DisabledDemo client:visible />
+</ComponentExample>
+
+## Installation
+
+```tsx
+import { ComboboxField } from "@makeplane/propel/components/combobox-field";
+```
+
+## Props
+
+<PropsTable
+  parts={[{ source: "components/combobox-field/combobox-field.tsx", component: "ComboboxField" }]}
+/>
