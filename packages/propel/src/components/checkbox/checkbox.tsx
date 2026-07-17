@@ -17,11 +17,15 @@ export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" 
    * or `aria-labelledby`.
    */
   label?: string;
-  /** Width of the clickable label row when `label` is present. */
+  /**
+   * Width of the clickable label row when `label` is present. Defaults to `"hug"` (ready-made
+   * concern — the elements `CheckboxLabel` requires `sizing` explicitly).
+   */
   sizing?: CheckboxLabelSizing;
   /**
    * Element shown between the box and the label (inline-start), e.g. `<Icon icon={User}
-   * tint="secondary" magnitude="sm" />`. Only rendered when `label` is present.
+   * tint="secondary" magnitude="sm" />`. Only rendered when `label` is present. Prefer the shared
+   * `Icon` (a direct `aria-hidden` span) so the label's disabled tint override can recolor it.
    */
   icon?: React.ReactNode;
 };
@@ -31,7 +35,7 @@ export type CheckboxProps = Omit<BaseCheckbox.Root.Props, "className" | "style" 
  * check and indeterminate indicators, and optionally wraps the row in a clickable `CheckboxLabel`
  * with an icon slot.
  */
-export function Checkbox({ label, sizing, icon, id, ...props }: CheckboxProps) {
+export function Checkbox({ label, sizing = "hug", icon, id, ...props }: CheckboxProps) {
   // Generate a stable id so an explicit `label` can be associated with the box.
   const generatedId = React.useId();
   const checkboxId = id ?? generatedId;

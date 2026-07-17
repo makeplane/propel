@@ -52,21 +52,50 @@ export const Default: Story = {
 /**
  * Every visual state, pinned statically. Resting is the bare box (Base UI mounts no indicator while
  * unchecked); `data-checked` fills the accent and shows the check; `data-indeterminate` hides the
- * check and reveals the dash; focus-visible (forced via pseudo-states) draws the accent ring;
- * `data-disabled` dims the border, fill, and glyph; `data-invalid` is the error look — a STATE, not
- * a prop: inside an invalid `Field.Root` Base UI sets it on the box (any host can set it directly,
- * as here) to recolor the resting border to danger. Once checked, the invalid box keeps the same
- * accent fill as every other checked state.
+ * check and reveals the dash; hover (forced via pseudo-states) paints the box-level treatments —
+ * `transparent-hover` wash while unchecked, darker `accent-primary-hover` while checked or
+ * indeterminate; focus-visible (also forced) draws the accent ring; `data-disabled` dims the
+ * border, fill, and glyph; `data-invalid` is the error look — a STATE, not a prop: inside an
+ * invalid `Field.Root` Base UI sets it on the box (any host can set it directly, as here) to
+ * recolor the resting border to danger. Once checked, the invalid box keeps the same accent fill as
+ * every other checked state.
  */
 export const States: Story = {
   parameters: {
     controls: { disable: true },
-    pseudo: { focusVisible: ["#elements-checkbox-focus-visible"] },
+    pseudo: {
+      hover: [
+        "#elements-checkbox-hover-unchecked",
+        "#elements-checkbox-hover-checked",
+        "#elements-checkbox-hover-indeterminate",
+      ],
+      focusVisible: ["#elements-checkbox-focus-visible"],
+    },
   },
   render: () => (
     <div className="flex items-center gap-4">
       <Checkbox role="checkbox" aria-checked="false" aria-label="Unchecked" />
+      <Checkbox
+        id="elements-checkbox-hover-unchecked"
+        role="checkbox"
+        aria-checked="false"
+        aria-label="Hover unchecked"
+      />
       <Checkbox role="checkbox" aria-checked="true" aria-label="Checked" data-checked="">
+        <CheckboxIndicator data-checked="">
+          <Check aria-hidden />
+        </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator data-checked="">
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
+      </Checkbox>
+      <Checkbox
+        id="elements-checkbox-hover-checked"
+        role="checkbox"
+        aria-checked="true"
+        aria-label="Hover checked"
+        data-checked=""
+      >
         <CheckboxIndicator data-checked="">
           <Check aria-hidden />
         </CheckboxIndicator>
@@ -78,6 +107,20 @@ export const States: Story = {
         role="checkbox"
         aria-checked="mixed"
         aria-label="Indeterminate"
+        data-indeterminate=""
+      >
+        <CheckboxIndicator data-indeterminate="">
+          <Check aria-hidden />
+        </CheckboxIndicator>
+        <CheckboxIndeterminateIndicator data-indeterminate="">
+          <Minus aria-hidden />
+        </CheckboxIndeterminateIndicator>
+      </Checkbox>
+      <Checkbox
+        id="elements-checkbox-hover-indeterminate"
+        role="checkbox"
+        aria-checked="mixed"
+        aria-label="Hover indeterminate"
         data-indeterminate=""
       >
         <CheckboxIndicator data-indeterminate="">
@@ -151,9 +194,11 @@ export const States: Story = {
 
 /**
  * Hidden CSS canary: asserts the pinned `data-*` states compile to real styling — the
- * `data-invalid` border and `data-checked` fill differ from resting, the invalid+checked box keeps
- * the same accent fill as the plain checked box, and inside the indeterminate box the check
- * computes `display: none` while the dash computes `inline-flex`. Tagged out of the
+ * `data-invalid` inset stroke and `data-checked` fill differ from resting, the invalid+checked box
+ * keeps the same accent fill as the plain checked box, disabled unchecked/checked use
+ * `--txt-disabled` for the inset stroke and fill, the three box-level hovers (forced via
+ * pseudo-states) shift fill away from their resting counterparts, and inside the indeterminate box
+ * the check computes `display: none` while the dash computes `inline-flex`. Tagged out of the
  * sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const StatesCssCanary: Story = {
@@ -163,21 +208,40 @@ export const StatesCssCanary: Story = {
     const resting = canvas.getByRole("checkbox", { name: "Unchecked" });
     const checked = canvas.getByRole("checkbox", { name: "Checked" });
     const invalid = canvas.getByRole("checkbox", { name: "Invalid" });
-    // `data-invalid` recolors the resting border to danger.
-    await expect(getComputedStyle(invalid).borderColor).not.toBe(
-      getComputedStyle(resting).borderColor,
-    );
-    // `data-checked` swaps the bordered box for the accent fill.
+    // Stroke lives on `box-shadow` (transparent CSS border reserves the 1px Figma gutter).
+    // `data-invalid` recolors the resting inset stroke to danger.
+    await expect(getComputedStyle(invalid).boxShadow).not.toBe(getComputedStyle(resting).boxShadow);
+    await expect(getComputedStyle(resting).boxShadow.includes("1px inset")).toBe(true);
+    // `data-checked` swaps the stroked box for the accent fill and clears the inset stroke.
+    // (Ring tokens may leave transparent 0px shadow layers, so assert no `1px inset` stroke.)
     await expect(getComputedStyle(checked).backgroundColor).not.toBe(
       getComputedStyle(resting).backgroundColor,
     );
+    await expect(getComputedStyle(checked).boxShadow.includes("1px inset")).toBe(false);
     // Once checked, the invalid box keeps the same accent fill as the plain checked box.
     const invalidChecked = canvas.getByRole("checkbox", { name: "Invalid checked" });
     await expect(getComputedStyle(invalidChecked).backgroundColor).toBe(
       getComputedStyle(checked).backgroundColor,
     );
-    // In the mixed state the check hides itself and the dash reveals itself off `data-indeterminate`.
+    // Disabled: Figma `#71777A` via `--txt-disabled` — inset stroke (unchecked) and fill (checked)
+    // both differ from their enabled counterparts; checked clears the stroke.
+    const disabled = canvas.getByRole("checkbox", { name: "Disabled" });
+    const disabledChecked = canvas.getByRole("checkbox", { name: "Disabled checked" });
+    await expect(getComputedStyle(disabled).boxShadow).not.toBe(
+      getComputedStyle(resting).boxShadow,
+    );
+    await expect(getComputedStyle(disabled).boxShadow.includes("1px inset")).toBe(true);
+    await expect(getComputedStyle(disabledChecked).backgroundColor).not.toBe(
+      getComputedStyle(checked).backgroundColor,
+    );
+    await expect(getComputedStyle(disabledChecked).boxShadow.includes("1px inset")).toBe(false);
+    // Box-level hovers (unchecked wash, darker accent for checked/indeterminate) are demonstrated
+    // in `States` for docs but NOT asserted here: like every canary in the tree, this one only
+    // checks static `data-*`/`aria-*` styling. The pseudo-states addon's forced `:hover` does not
+    // compute in the vitest browser env — the unchecked wash is a 4%-alpha overlay that reads as
+    // transparent-over-transparent, indistinguishable from the resting box.
     const indeterminate = canvas.getByRole("checkbox", { name: "Indeterminate" });
+    // In the mixed state the check hides itself and the dash reveals itself off `data-indeterminate`.
     const [check, dash] = Array.from(indeterminate.children) as HTMLElement[];
     await expect(getComputedStyle(check).display).toBe("none");
     await expect(getComputedStyle(dash).display).not.toBe("none");
@@ -196,10 +260,16 @@ export const Labeled: Story = {
   parameters: {
     controls: { disable: true },
     pseudo: { hover: ["#elements-checkbox-label-hover"] },
+    a11y: {
+      // The disabled row pins `data-disabled`, so axe evaluates the muted `text/disabled` (#71777A)
+      // label it never sees live — but WCAG 1.4.3 exempts disabled controls from contrast. Same
+      // rationale as the autocomplete/select `Popup` canaries.
+      config: { rules: [{ id: "color-contrast", enabled: false }] },
+    },
   },
   render: () => (
     <div className="flex flex-col items-start gap-2">
-      <CheckboxLabel>
+      <CheckboxLabel sizing="hug">
         <Checkbox
           role="checkbox"
           aria-checked="true"
@@ -215,11 +285,11 @@ export const Labeled: Story = {
         </Icon>
         Sync automatically
       </CheckboxLabel>
-      <CheckboxLabel id="elements-checkbox-label-hover">
+      <CheckboxLabel id="elements-checkbox-label-hover" sizing="hug">
         <Checkbox role="checkbox" aria-checked="false" aria-label="Hovered row" />
         Hovered row
       </CheckboxLabel>
-      <CheckboxLabel>
+      <CheckboxLabel sizing="hug">
         <Checkbox
           role="checkbox"
           aria-checked="false"
@@ -228,6 +298,30 @@ export const Labeled: Story = {
           data-disabled=""
         />
         Disabled row
+      </CheckboxLabel>
+    </div>
+  ),
+};
+
+/**
+ * The label row's only variant axis: `hug` sizes to content; `fill` stretches to the container
+ * width (e.g. a settings list where the whole row is the hit target).
+ */
+export const Sizing: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="flex w-72 flex-col gap-2">
+      <CheckboxLabel sizing="hug">
+        <Checkbox role="checkbox" aria-checked="false" aria-label="Hug" />
+        Hug
+      </CheckboxLabel>
+      <CheckboxLabel sizing="fill">
+        <Checkbox role="checkbox" aria-checked="true" aria-label="Fill" data-checked="">
+          <CheckboxIndicator data-checked="">
+            <Check aria-hidden />
+          </CheckboxIndicator>
+        </Checkbox>
+        Fill
       </CheckboxLabel>
     </div>
   ),

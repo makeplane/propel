@@ -101,16 +101,18 @@ export const InvalidInteraction: Story = {
   ...Invalid,
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
-    const dangerBorder = getComputedStyle(document.documentElement)
+    const dangerStroke = getComputedStyle(document.documentElement)
       .getPropertyValue("--border-danger-strong")
       .trim();
     for (const box of canvas.getAllByRole("checkbox")) {
       await expect(box).toHaveAttribute("data-invalid");
-      const borderColor = getComputedStyle(box).borderColor;
+      // The danger stroke is an inset box-shadow, not a border-color (the border is a transparent
+      // gutter). Checked boxes drop the stroke (`data-checked:shadow-none`); unchecked keep it.
+      const boxShadow = getComputedStyle(box).boxShadow;
       if (box.getAttribute("aria-checked") === "true") {
-        await expect(borderColor).not.toBe(dangerBorder);
+        await expect(boxShadow).not.toContain(dangerStroke);
       } else {
-        await expect(borderColor).toBe(dangerBorder);
+        await expect(boxShadow).toContain(dangerStroke);
       }
     }
   },

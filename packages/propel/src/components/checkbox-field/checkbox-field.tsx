@@ -2,19 +2,16 @@ import type * as React from "react";
 
 import { FieldItemControlGroup } from "../../elements/field/field-item-control-group";
 import type { FieldMagnitude } from "../../elements/field/variants";
-import {
-  CheckboxFieldControl,
-  type CheckboxFieldControlProps,
-} from "../../internal/checkbox-field-control";
+import { Checkbox, type CheckboxProps } from "../checkbox";
 import { Field, FieldItem, FieldItemContent } from "../field";
 import { FieldHelperText } from "../field/field-helper-text";
 
 export type { FieldMagnitude } from "../../elements/field/variants";
 
-export type CheckboxFieldProps = Omit<
-  CheckboxFieldControlProps,
-  "aria-label" | "label" | "icon"
-> & {
+/** Bare checkbox control props for a field row — no chip `label` / `icon` (Field owns labeling). */
+type CheckboxFieldControlProps = Omit<CheckboxProps, "children" | "label" | "icon">;
+
+export type CheckboxFieldProps = Omit<CheckboxFieldControlProps, "aria-label"> & {
   /** Helper text shown below the control. Replaced by `error` when an error is set. */
   hint?: React.ReactNode;
   /** Error text shown below the control. */
@@ -42,7 +39,7 @@ export function CheckboxField({
     <Field name={name} disabled={disabled} invalid={error != null || undefined}>
       <FieldItem disabled={disabled}>
         <FieldItemControlGroup>
-          <CheckboxFieldControl disabled={disabled} {...controlProps} />
+          <Checkbox disabled={disabled} {...controlProps} />
         </FieldItemControlGroup>
         <FieldItemContent magnitude={magnitude} description={description}>
           {label}

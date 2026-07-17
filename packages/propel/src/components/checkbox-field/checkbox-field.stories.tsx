@@ -5,7 +5,7 @@ import { CheckboxField, type FieldMagnitude } from "./index";
 
 const MAGNITUDES: FieldMagnitude[] = ["md", "lg", "xl"];
 
-// A single checkbox laid out as a field row (Field + CheckboxFieldControl + label/helper).
+// A single checkbox laid out as a field row (Field + bare Checkbox + label/helper).
 const meta = {
   title: "Components/CheckboxField",
   component: CheckboxField,
@@ -97,10 +97,10 @@ export const InvalidInteraction: Story = {
     await expect(resting).not.toHaveAttribute("data-invalid");
     // The invalid field propagates `data-invalid` onto the box (Base UI Field -> Checkbox.Root).
     await expect(invalid).toHaveAttribute("data-invalid");
-    // ...and the danger border actually renders: its color differs from the resting box's border.
-    await expect(getComputedStyle(invalid).borderColor).not.toBe(
-      getComputedStyle(resting).borderColor,
-    );
+    // ...and the danger stroke actually renders: the invalid box's inset box-shadow (danger stroke)
+    // differs from the resting box's (tertiary stroke). The stroke is a box-shadow, not a
+    // border-color — the border is a transparent 1px gutter.
+    await expect(getComputedStyle(invalid).boxShadow).not.toBe(getComputedStyle(resting).boxShadow);
   },
 };
 

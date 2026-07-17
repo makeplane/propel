@@ -79,6 +79,7 @@ export const States: Story = {
       <Checkbox label="Indeterminate" indeterminate />
       <Checkbox label="Disabled" disabled />
       <Checkbox label="Disabled checked" disabled defaultChecked />
+      <Checkbox label="Disabled indeterminate" disabled indeterminate />
     </div>
   ),
 };
@@ -112,6 +113,22 @@ export const WithoutLabel: Story = {
 export const WithLabel: Story = {
   parameters: { controls: { disable: true } },
   render: () => <Checkbox label="Send me product updates" defaultChecked />,
+};
+
+/**
+ * Interaction test: clicking the label text (not the box) toggles via the ready-made's
+ * `htmlFor`/`id` association. Tagged out of the sidebar/docs/manifest while still running under the
+ * default `test` tag.
+ */
+export const LabelClickToggles: Story = {
+  ...WithLabel,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const box = canvas.getByRole("checkbox");
+    await expect(box).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(canvas.getByText("Send me product updates"));
+    await expect(box).toHaveAttribute("aria-checked", "false");
+  },
 };
 
 /**
@@ -169,10 +186,10 @@ export const Invalid: Story = {
 };
 
 /**
- * Interaction test: the invalid `Field` propagates `data-invalid` and the danger border on the
- * RESTING box only — once checked, the danger border clears back to transparent (the accent fill
- * alone communicates the value; a required-and-now-satisfied checkbox shouldn't still ring red).
- * Tagged out of the sidebar/docs/manifest while still running under the default `test` tag.
+ * Interaction test: the invalid `Field` propagates `data-invalid` and the danger inset stroke on
+ * the RESTING box only — once checked, the stroke clears (`shadow-none`) so the accent fill alone
+ * communicates the value; a required-and-now-satisfied checkbox shouldn't still ring red. Tagged
+ * out of the sidebar/docs/manifest while still running under the default `test` tag.
  */
 export const InvalidInteraction: Story = {
   ...Invalid,
@@ -184,9 +201,9 @@ export const InvalidInteraction: Story = {
     // The invalid `Field` propagates `data-invalid` onto the box (Base UI Field -> Checkbox.Root).
     await expect(unchecked).toHaveAttribute("data-invalid");
     await expect(unchecked).toHaveAttribute("aria-checked", "false");
-    // ...and the danger border actually renders: its border color differs from the resting box.
-    await expect(getComputedStyle(unchecked).borderColor).not.toBe(
-      getComputedStyle(resting).borderColor,
+    // ...and the danger inset stroke actually renders: its box-shadow differs from the resting box.
+    await expect(getComputedStyle(unchecked).boxShadow).not.toBe(
+      getComputedStyle(resting).boxShadow,
     );
     // Checked invalid box: accent-blue fill, like every other state...
     await expect(checked).toHaveAttribute("aria-checked", "true");
@@ -194,12 +211,10 @@ export const InvalidInteraction: Story = {
     await expect(getComputedStyle(checked).backgroundColor).not.toBe(
       getComputedStyle(resting).backgroundColor,
     );
-    // ...and, despite still being `data-invalid`, the danger border does NOT persist through the
-    // checked fill: `data-checked:border-transparent` takes over, same as a checked box anywhere
-    // else — it must NOT still show the unchecked invalid box's red border.
-    await expect(getComputedStyle(checked).borderColor).not.toBe(
-      getComputedStyle(unchecked).borderColor,
-    );
+    // ...and, despite still being `data-invalid`, the danger stroke does NOT persist through the
+    // checked fill: `data-checked:shadow-none` takes over — it must NOT still show the unchecked
+    // invalid box's red inset stroke. (Ring tokens may leave transparent 0px layers.)
+    await expect(getComputedStyle(checked).boxShadow.includes("1px inset")).toBe(false);
   },
 };
 
@@ -353,6 +368,41 @@ export const BoxDoesNotShiftOnToggle: Story = {
       await expect(rect.width).toBe(unchecked.width);
       await expect(rect.height).toBe(unchecked.height);
     }
+  },
+};
+
+/**
+ * Same baseline-shift trap as `BoxDoesNotShiftOnToggle`, but on the labeled row: the
+ * `CheckboxLabel` is itself `inline-flex`, so without `align-top` its baseline moves when the
+ * nested box mounts the check — nudging the whole chip (box + optional icon + text) ~2px. Assert
+ * the label row's geometry is identical across unchecked / checked.
+ */
+export const LabeledRowDoesNotShiftOnToggle: Story = {
+  ...Interaction,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Checkbox
+      icon={<Icon icon={Repeat} tint="secondary" magnitude="sm" />}
+      label="Sync automatically"
+    />
+  ),
+  play: async ({ canvas }) => {
+    const box = canvas.getByRole("checkbox");
+    const row = box.closest("label");
+    if (!row) throw new Error("expected the labeled checkbox's label row");
+
+    await expect(box).toHaveAttribute("aria-checked", "false");
+    const unchecked = row.getBoundingClientRect();
+
+    await userEvent.click(box);
+    await expect(box).toHaveAttribute("aria-checked", "true");
+    const checked = row.getBoundingClientRect();
+
+    await expect(checked.x).toBe(unchecked.x);
+    await expect(checked.y).toBe(unchecked.y);
+    await expect(checked.width).toBe(unchecked.width);
+    await expect(checked.height).toBe(unchecked.height);
   },
 };
 
