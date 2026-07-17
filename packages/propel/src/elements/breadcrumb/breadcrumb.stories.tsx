@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDown, ChevronRight, Ellipsis, Layers } from "lucide-react";
+import { expect } from "storybook/test";
 
-import { DisclosureIndicator } from "../../internal/disclosure-indicator";
 import { Icon } from "../../internal/icon";
 import {
   Breadcrumb,
@@ -11,6 +11,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbTrigger,
+  BreadcrumbTriggerIndicator,
 } from "./index";
 
 // elements-tier story (rule 2b): a pure UI-configuration showcase of the atomic breadcrumb parts
@@ -79,35 +80,36 @@ export const Default: Story = {
 
 /**
  * The menu-crumb chrome assembled from atoms: `BreadcrumbTrigger` (`group` adds the `group/trigger`
- * marker) holding an internal `Icon`, the label, and a `DisclosureIndicator` chevron. In the app,
- * Base UI's `Menu.Trigger` grafts onto it and sets `data-popup-open` while its menu is open — here
- * that attribute is pinned statically, which both shifts the pill to the open palette and rotates
- * the chevron down. The icon-only form (no `group`, no indicator) is the collapsed-crumbs ellipsis
- * crumb; being icon-only it requires an `aria-label`.
+ * marker) holding an internal `Icon`, the label, and a `BreadcrumbTriggerIndicator` chevron. In the
+ * app, Base UI's `Menu.Trigger` grafts onto it and sets `data-popup-open` while its menu is open —
+ * here that attribute is pinned statically, which shifts the pill to the open palette, rotates the
+ * chevron down, and shifts the chevron from `icon-secondary` to `icon-primary` (the active crumb).
+ * The icon-only form (no `group`, no indicator) is the collapsed-crumbs ellipsis crumb; being
+ * icon-only it requires an `aria-label`.
  */
 export const Trigger: Story = {
   render: () => (
     <div className="flex items-center gap-3">
       <BreadcrumbTrigger group>
-        <Icon tint="tertiary" magnitude="md">
+        <Icon tint="secondary">
           <Layers />
         </Icon>
         Plane Design
-        <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+        <BreadcrumbTriggerIndicator>
           <ChevronDown />
-        </DisclosureIndicator>
+        </BreadcrumbTriggerIndicator>
       </BreadcrumbTrigger>
       <BreadcrumbTrigger group data-popup-open="">
-        <Icon tint="tertiary" magnitude="md">
+        <Icon tint="secondary">
           <Layers />
         </Icon>
         Plane Design
-        <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+        <BreadcrumbTriggerIndicator>
           <ChevronDown />
-        </DisclosureIndicator>
+        </BreadcrumbTriggerIndicator>
       </BreadcrumbTrigger>
       <BreadcrumbTrigger aria-label="Show more breadcrumbs">
-        <Icon tint="tertiary" magnitude="md">
+        <Icon tint="tertiary">
           <Ellipsis />
         </Icon>
       </BreadcrumbTrigger>
@@ -144,23 +146,79 @@ export const States: Story = {
       <div className="flex items-center gap-3">
         <BreadcrumbTrigger group>
           Trigger
-          <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+          <BreadcrumbTriggerIndicator>
             <ChevronDown />
-          </DisclosureIndicator>
+          </BreadcrumbTriggerIndicator>
         </BreadcrumbTrigger>
         <BreadcrumbTrigger id="breadcrumb-trigger-hover" group>
           Trigger hover
-          <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+          <BreadcrumbTriggerIndicator>
             <ChevronDown />
-          </DisclosureIndicator>
+          </BreadcrumbTriggerIndicator>
         </BreadcrumbTrigger>
         <BreadcrumbTrigger group data-popup-open="">
           Trigger open
-          <DisclosureIndicator motion="disclose" tint="tertiary" magnitude="sm">
+          <BreadcrumbTriggerIndicator>
             <ChevronDown />
-          </DisclosureIndicator>
+          </BreadcrumbTriggerIndicator>
         </BreadcrumbTrigger>
       </div>
     </div>
   ),
+};
+
+/**
+ * CSS canary (rule 2b): asserts the breadcrumb's RTL-mirrored selectors compiled. The separator
+ * chevron mirrors under `dir="rtl"` (`rtl:[&>svg]:-scale-x-100`) and the menu-crumb caret rotates
+ * the opposite way (`rtl:rotate-90` vs LTR's `-rotate-90`). Rendered LTR + RTL side by side and
+ * compared. Tagged out of the sidebar/docs/manifest while still running under the default `test`
+ * tag.
+ */
+export const RTLCanary: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <>
+      {(["ltr", "rtl"] as const).map((dir) => (
+        <div key={dir} dir={dir}>
+          <Breadcrumb aria-label={`Breadcrumb ${dir}`}>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbTrigger group>
+                  {dir.toUpperCase()} trigger
+                  <BreadcrumbTriggerIndicator>
+                    <ChevronDown />
+                  </BreadcrumbTriggerIndicator>
+                </BreadcrumbTrigger>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>
+                <ChevronRight />
+              </BreadcrumbSeparator>
+              <BreadcrumbItem>
+                <BreadcrumbPage>{dir.toUpperCase()} page</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      ))}
+    </>
+  ),
+  play: async ({ canvas, canvasElement }) => {
+    // The compiled `rtl:rotate-90` selector mirrors the closed caret away from LTR's `-rotate-90`.
+    const caretRotate = (name: string) => {
+      const caret = canvas.getByRole("button", { name }).querySelector("[aria-hidden]");
+      if (!(caret instanceof HTMLElement)) throw new Error(`missing caret in "${name}" trigger`);
+      return getComputedStyle(caret).rotate;
+    };
+    await expect(caretRotate("RTL trigger")).not.toBe(caretRotate("LTR trigger"));
+
+    // The compiled `rtl:[&>svg]:-scale-x-100` selector mirrors the separator chevron under RTL.
+    const separatorMirror = (dir: string) => {
+      const svg = canvasElement.querySelector(`[dir="${dir}"] li[aria-hidden="true"] svg`);
+      if (!(svg instanceof SVGElement)) throw new Error(`missing ${dir} separator glyph`);
+      const cs = getComputedStyle(svg);
+      return `${cs.transform}|${cs.scale}`;
+    };
+    await expect(separatorMirror("rtl")).not.toBe(separatorMirror("ltr"));
+  },
 };

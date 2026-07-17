@@ -3,13 +3,11 @@ export {
   type BreadcrumbProps,
   BreadcrumbItem,
   type BreadcrumbItemProps,
-  BreadcrumbLink,
-  type BreadcrumbLinkProps,
   BreadcrumbList,
   type BreadcrumbListProps,
-  BreadcrumbPage,
-  type BreadcrumbPageProps,
 } from "../../elements/breadcrumb";
 export * from "./breadcrumb-ellipsis-trigger";
+export * from "./breadcrumb-link";
 export * from "./breadcrumb-menu-trigger";
+export * from "./breadcrumb-page";
 export * from "./breadcrumb-separator";
