@@ -1,11 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Info, X } from "lucide-react";
+import { Info } from "lucide-react";
 import { expect, fn } from "storybook/test";
 
 import { iconControl } from "../../storybook/icon-control";
 import { Button } from "../button/index";
 import { Icon } from "../icon";
-import { IconButton } from "../icon-button/index";
 import { Banner, type BannerTone } from "./index";
 
 const TONES: BannerTone[] = ["neutral", "info", "accent", "warning", "danger"];
@@ -27,6 +26,13 @@ const meta = {
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1838-14322",
     },
   },
+  decorators: [
+    (Story) => (
+      <div className="flex w-180 flex-col gap-3">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Banner>;
 
 export default meta;
@@ -34,15 +40,24 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** Every intent (`tone`) side by side — the soft surface + foreground color per meaning. */
+/**
+ * Every intent (`tone`) side by side — the soft surface + foreground color per meaning — in both
+ * placements: the rounded `inline` card and the full-width `page` strip (their neutral surfaces
+ * differ, so each is shown).
+ */
 export const Tones: Story = {
   argTypes: { tone: { control: false }, placement: { control: false } },
   render: (args) => (
-    <div className="flex w-160 flex-col gap-3">
-      {TONES.map((tone) => (
-        <Banner key={tone} {...args} placement="inline" tone={tone} />
+    <>
+      {(["inline", "page"] as const).map((placement) => (
+        <div key={placement} className="flex flex-col gap-3">
+          <p className="text-12 text-tertiary capitalize">{placement}</p>
+          {TONES.map((tone) => (
+            <Banner key={tone} {...args} placement={placement} tone={tone} onDismiss={fn()} />
+          ))}
+        </div>
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -50,22 +65,24 @@ export const Tones: Story = {
 export const Placements: Story = {
   argTypes: { placement: { control: false }, tone: { control: false } },
   render: (args) => (
-    <div className="flex w-160 flex-col gap-4">
+    <>
       <Banner {...args} placement="page" tone="info" />
       <Banner {...args} placement="inline" tone="info" />
-    </div>
+    </>
   ),
 };
 
 /**
- * The full page banner from Figma: a message with trailing `actions`. A dismiss is just one of
- * those actions — a ghost `IconButton` — so it lives in `actions` alongside the `Button`s.
+ * The full page banner from Figma: a message with trailing CTA `actions` plus the dedicated
+ * `onDismiss` control. The dismiss is its own slot (Figma's always-last "Close" node), rendered
+ * automatically after the CTAs — not appended to `actions`.
  */
 export const WithActions: Story = {
   parameters: { controls: { disable: true } },
   args: {
     placement: "page",
     tone: "neutral",
+    onDismiss: fn(),
     actions: (
       <>
         <Button
@@ -89,40 +106,23 @@ export const WithActions: Story = {
           magnitude="sm"
           label="Update now"
         />
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="md"
-          aria-label="Dismiss"
-          onClick={fn()}
-          icon={<Icon icon={X} />}
-        />
       </>
     ),
   },
 };
 
-/** A dismissible inline banner — the dismiss is just an `IconButton` rendered in `actions`. */
+/** A dismissible inline banner — the dismiss control comes from the dedicated `onDismiss` slot. */
 export const Dismissible: Story = {
   args: {
     placement: "inline",
     tone: "info",
-    actions: (
-      <IconButton
-        prominence="ghost"
-        tone="neutral"
-        magnitude="md"
-        aria-label="Dismiss"
-        onClick={fn()}
-        icon={<Icon icon={X} />}
-      />
-    ),
+    onDismiss: fn(),
   },
 };
 
 /**
- * Hidden interaction twin of `Dismissible`: clicking the dismiss `IconButton` rendered in `actions`
- * invokes its handler. Tagged out of the sidebar/docs/manifest but still run under the default
+ * Hidden interaction twin of `Dismissible`: clicking the dedicated dismiss control invokes the
+ * `onDismiss` handler. Tagged out of the sidebar/docs/manifest but still run under the default
  * `test` tag.
  */
 export const DismissibleInteraction: Story = {
@@ -130,16 +130,7 @@ export const DismissibleInteraction: Story = {
   args: {
     placement: "inline",
     tone: "info",
-    actions: (
-      <IconButton
-        prominence="ghost"
-        tone="neutral"
-        magnitude="md"
-        aria-label="Dismiss"
-        onClick={dismissSpy}
-        icon={<Icon icon={X} />}
-      />
-    ),
+    onDismiss: dismissSpy,
   },
   play: async ({ canvas, userEvent }) => {
     dismissSpy.mockClear();
@@ -155,7 +146,7 @@ export const DismissibleInteraction: Story = {
 export const OptionalContentSemantics: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <div className="flex w-160 flex-col gap-3">
+    <>
       <Banner
         placement="inline"
         tone="warning"
@@ -168,7 +159,7 @@ export const OptionalContentSemantics: Story = {
         title="Custom icon"
         icon={<Icon icon={<Info data-testid="custom-banner-icon" />} />}
       />
-    </div>
+    </>
   ),
   play: async ({ canvas }) => {
     const warning = canvas.getByRole("alert");

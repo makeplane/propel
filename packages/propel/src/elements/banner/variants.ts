@@ -38,12 +38,13 @@ export const bannerVariants = cva("flex items-center overflow-clip", {
   ],
 });
 
-// The leading icon slot at the banner's inline-start. Sizes its single child to the
-// placement's node size (page 20px, inline 16px per Figma typography) via the shared
-// node-slot class, and tints it with the tone's `icon/*` token.
+// The leading icon slot at the banner's inline-start. Sizes its single child via the shared
+// node-slot class — 20px on `page`, 16px on `inline` (per Figma) — and tints it with the tone's
+// `icon/*` token.
 export const bannerIconVariants = cva(nodeSlotClass, {
   variants: {
     placement: {
+      // Figma: 20×20 page glyph, 16×16 inline glyph.
       page: "[--node-size:1.25rem]",
       inline: "[--node-size:1rem]",
     },
@@ -82,10 +83,22 @@ export const bannerBodyVariants = cva(
   },
 );
 
-// The banner's headline block, stacked above the description inside the body column.
-export const bannerTitleVariants = cva("");
+// The banner's headline block, stacked above the description inside the body column. Weight
+// follows the same per-placement rule as the body (page medium, inline regular, per Figma) —
+// carried on its own composite text utility rather than inherited font-weight.
+export const bannerTitleVariants = cva("", {
+  variants: {
+    placement: {
+      page: "text-body-sm-medium",
+      inline: "text-body-sm-regular",
+    },
+  },
+});
 
-// The banner's supporting message block, below the title inside the body column.
+// The banner's supporting message block, below the title inside the body column. No Figma design
+// uses a description today, so it deliberately carries no styling of its own: it inherits size,
+// line-height, weight and tone color from `bannerBodyVariants`. Kept as a named part (with its own
+// cva) so the anatomy stays complete and description styling has a home when a design needs one.
 export const bannerDescriptionVariants = cva("");
 
 // Trailing actions wrapper: always the same layout regardless of placement/tone.
@@ -96,3 +109,4 @@ export type BannerTone = NonNullable<VariantProps<typeof bannerVariants>["tone"]
 export type BannerVariantProps = StrictVariantProps<typeof bannerVariants>;
 export type BannerBodyVariantProps = StrictVariantProps<typeof bannerBodyVariants>;
 export type BannerIconVariantProps = StrictVariantProps<typeof bannerIconVariants>;
+export type BannerTitleVariantProps = StrictVariantProps<typeof bannerTitleVariants>;

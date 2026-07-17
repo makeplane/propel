@@ -38,6 +38,13 @@ const meta = {
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=1838-14322",
     },
   },
+  decorators: [
+    (Story) => (
+      <div className="flex w-180 flex-col gap-3">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Banner>;
 
 export default meta;
@@ -52,7 +59,9 @@ export const Default: Story = {
         <Info />
       </BannerIcon>
       <BannerBody placement={args.placement} tone={args.tone}>
-        <BannerTitle>There is something that needs your attention</BannerTitle>
+        <BannerTitle placement={args.placement}>
+          There is something that needs your attention
+        </BannerTitle>
       </BannerBody>
     </Banner>
   ),
@@ -63,18 +72,20 @@ export const Tones: Story = {
   args: { placement: "inline", tone: "neutral" },
   argTypes: { tone: { control: false }, placement: { control: false } },
   render: () => (
-    <div className="flex w-160 flex-col gap-3">
+    <>
       {TONES.map((tone) => (
         <Banner key={tone} placement="inline" tone={tone}>
           <BannerIcon placement="inline" tone={tone}>
             <Info />
           </BannerIcon>
           <BannerBody placement="inline" tone={tone}>
-            <BannerTitle>There is something that needs your attention</BannerTitle>
+            <BannerTitle placement="inline">
+              There is something that needs your attention
+            </BannerTitle>
           </BannerBody>
         </Banner>
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -83,18 +94,20 @@ export const Placements: Story = {
   args: { placement: "page", tone: "info" },
   argTypes: { placement: { control: false }, tone: { control: false } },
   render: () => (
-    <div className="flex w-160 flex-col gap-4">
+    <>
       {(["page", "inline"] as const).map((placement) => (
         <Banner key={placement} placement={placement} tone="info">
           <BannerIcon placement={placement} tone="info">
             <Info />
           </BannerIcon>
           <BannerBody placement={placement} tone="info">
-            <BannerTitle>There is something that needs your attention</BannerTitle>
+            <BannerTitle placement={placement}>
+              There is something that needs your attention
+            </BannerTitle>
           </BannerBody>
         </Banner>
       ))}
-    </div>
+    </>
   ),
 };
 
@@ -113,7 +126,9 @@ export const Anatomy: Story = {
         <Info />
       </BannerIcon>
       <BannerBody placement={args.placement} tone={args.tone}>
-        <BannerTitle>There is something that needs your attention</BannerTitle>
+        <BannerTitle placement={args.placement}>
+          There is something that needs your attention
+        </BannerTitle>
         <BannerDescription>Review the details and pick an action to continue.</BannerDescription>
       </BannerBody>
       <BannerActions>
@@ -126,7 +141,7 @@ export const Anatomy: Story = {
         <Button sizing="hug" prominence="primary" tone="neutral" magnitude="sm">
           <ButtonLabel>Update now</ButtonLabel>
         </Button>
-        <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Dismiss">
+        <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Dismiss">
           <Icon>
             <X />
           </Icon>
