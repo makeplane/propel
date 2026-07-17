@@ -7,6 +7,7 @@ import {
   ButtonLabel,
   type ButtonProps as ButtonElementProps,
 } from "../../elements/button";
+import { controlChromePair, type ControlChromePair } from "../../internal/control-chrome";
 import { Spinner } from "../../internal/spinner";
 
 export type ButtonProps = Omit<ButtonElementProps, "children"> & {
@@ -27,8 +28,8 @@ export type ButtonProps = Omit<ButtonElementProps, "children"> & {
 
 /**
  * The ready-made `Button`: grafts Base UI's `Button` behavior onto the styled `Button` element and
- * lays out an optional `startIcon`/`endIcon` beside the label plus a `loading` spinner. Content —
- * the label, inline nodes, and `loading` state — is not a variant.
+ * lays out an optional `startIcon`/`endIcon` beside the label, swapping them for a trailing
+ * `loading` spinner. Content — the label, inline nodes, and `loading` state — is not a variant.
  */
 export function Button({
   prominence,
@@ -53,8 +54,7 @@ export function Button({
       nativeButton={nativeButton}
       render={
         <ButtonElement
-          prominence={prominence}
-          tone={tone}
+          {...controlChromePair({ prominence, tone } as ControlChromePair)}
           magnitude={magnitude}
           sizing={sizing}
           // The consumer's render swaps the underlying element; the styled part stays the
@@ -66,15 +66,15 @@ export function Button({
       focusableWhenDisabled={loading ? true : undefined}
       aria-busy={loading ? true : undefined}
     >
+      {!loading ? startIcon : null}
+      <ButtonLabel>{label}</ButtonLabel>
       {loading ? (
         <Spinner>
           <LoaderCircle />
         </Spinner>
       ) : (
-        startIcon
+        endIcon
       )}
-      <ButtonLabel>{label}</ButtonLabel>
-      {!loading ? endIcon : null}
     </BaseButton>
   );
 }

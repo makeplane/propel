@@ -1,6 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { LoaderCircle } from "lucide-react";
 
-import { AnchorButton, type AnchorButtonMagnitude, type AnchorButtonProminence } from "./index";
+import { Spinner } from "../../internal/spinner";
+import {
+  AnchorButton,
+  AnchorButtonLabel,
+  type AnchorButtonMagnitude,
+  type AnchorButtonProminence,
+} from "./index";
 
 const PROMINENCES: AnchorButtonProminence[] = ["primary", "secondary"];
 const MAGNITUDES: AnchorButtonMagnitude[] = ["sm", "md", "lg", "xl"];
@@ -9,12 +16,17 @@ const MAGNITUDES: AnchorButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 // the inline-link look, rendered directly. Its interaction states are CSS (`hover:`/
 // `focus-visible:`) plus the `disabled`/`aria-disabled` attributes Base UI's `Button` sets, so
 // `States` pins them statically (pseudo-states addon + the attributes). The Base UI `Button` graft
-// (clicks, `disabled`, keyboard) is demonstrated and tested in Components/AnchorButton. For a nav
-// `<a>` styled as a button see `AnchorButton`; for a real inline link, `Anchor`.
+// (clicks, `disabled`, keyboard) is demonstrated and tested in Components/AnchorButton. For real
+// navigation with this look, use the ready-made with `nativeButton={false}` + `render={<a />}`.
+// For a nav link wearing *button* chrome, use `Button` with the same `render` mechanics.
 const meta = {
   title: "Elements/AnchorButton",
   component: AnchorButton,
-  args: { children: "Show more", prominence: "primary", magnitude: "md" },
+  args: {
+    children: <AnchorButtonLabel>Show more</AnchorButtonLabel>,
+    prominence: "primary",
+    magnitude: "md",
+  },
 } satisfies Meta<typeof AnchorButton>;
 
 export default meta;
@@ -29,7 +41,7 @@ export const Prominences: Story = {
     <div className="flex items-center gap-4">
       {PROMINENCES.map((prominence) => (
         <AnchorButton key={prominence} {...args} prominence={prominence}>
-          {prominence} action
+          <AnchorButtonLabel>{prominence} action</AnchorButtonLabel>
         </AnchorButton>
       ))}
     </div>
@@ -43,7 +55,7 @@ export const Magnitudes: Story = {
     <div className="flex items-center gap-4">
       {MAGNITUDES.map((magnitude) => (
         <AnchorButton key={magnitude} {...args} magnitude={magnitude}>
-          {magnitude}
+          <AnchorButtonLabel>{magnitude}</AnchorButtonLabel>
         </AnchorButton>
       ))}
     </div>
@@ -54,8 +66,9 @@ export const Magnitudes: Story = {
  * Every visual state of the link chrome, per prominence, pinned statically: hover recolors the text
  * (forced via the pseudo-states addon), focus-visible draws the accent ring (also forced), native
  * `disabled` — what Base UI's `Button` sets by default — and `aria-disabled="true"` — the
- * soft-disabled state it sets under `focusableWhenDisabled` — both drop the underline and dim to
- * the disabled text color with `cursor-not-allowed`.
+ * soft-disabled state it sets under `focusableWhenDisabled` — both keep the underline and mute to
+ * the disabled text color with `cursor-not-allowed`. Busy pins the `aria-busy`/`aria-disabled` the
+ * ready-made sets while `loading` (trailing spinner; label and spinner share muted weight).
  */
 export const States: Story = {
   parameters: {
@@ -70,27 +83,33 @@ export const States: Story = {
       {PROMINENCES.map((prominence) => (
         <div key={prominence} className="flex items-center gap-4">
           <AnchorButton prominence={prominence} magnitude="md">
-            Default
+            <AnchorButtonLabel>Default</AnchorButtonLabel>
           </AnchorButton>
           <AnchorButton
             id={`button-anchor-${prominence}-hover`}
             prominence={prominence}
             magnitude="md"
           >
-            Hover
+            <AnchorButtonLabel>Hover</AnchorButtonLabel>
           </AnchorButton>
           <AnchorButton
             id={`button-anchor-${prominence}-focus`}
             prominence={prominence}
             magnitude="md"
           >
-            Focus visible
+            <AnchorButtonLabel>Focus visible</AnchorButtonLabel>
           </AnchorButton>
           <AnchorButton prominence={prominence} magnitude="md" disabled>
-            Disabled
+            <AnchorButtonLabel>Disabled</AnchorButtonLabel>
           </AnchorButton>
           <AnchorButton prominence={prominence} magnitude="md" aria-disabled="true">
-            Soft-disabled
+            <AnchorButtonLabel>Soft-disabled</AnchorButtonLabel>
+          </AnchorButton>
+          <AnchorButton prominence={prominence} magnitude="md" aria-busy aria-disabled>
+            <AnchorButtonLabel>Busy</AnchorButtonLabel>
+            <Spinner>
+              <LoaderCircle />
+            </Spinner>
           </AnchorButton>
         </div>
       ))}

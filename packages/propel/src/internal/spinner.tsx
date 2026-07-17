@@ -9,6 +9,12 @@ import { nodeSlotClass } from "./node-slot";
  * child (pass a `LoaderCircle`) to the inherited `--node-size`. Replaces the byte-identical
  * Button/IconButton/Pill spinner parts.
  *
+ * Glyph choice — decided with the designers (2026-07): the loading glyph is lucide's circular
+ * `LoaderCircle`, NOT the radial ("spokes") spinner shown in Figma. Figma's radial spinner is not a
+ * lucide icon, and we only ship lucide glyphs here, so we intentionally diverge from the design and
+ * use the circular one. Do not hand-roll a custom radial SVG to match Figma — keep passing
+ * `LoaderCircle`.
+ *
  * Two animations run on mount: the `--animate-spinner-reveal` one-shot grows the slot from zero
  * width and fades it in (so a control entering its loading state widens smoothly instead of
  * snapping), while the perpetual `spin` rotates the glyph. They live on separate elements because

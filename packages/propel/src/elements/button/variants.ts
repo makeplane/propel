@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { buttonGeometryVariants } from "../../internal/button-geometry";
 import { composeVariants } from "../../internal/compose-variants";
-import { controlChromeVariants } from "../../internal/control-chrome";
+import { type ControlChromePair, controlChromeVariants } from "../../internal/control-chrome";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 /** The full Button className: the shared control chrome composed with the label-button geometry. */
@@ -14,11 +14,10 @@ export type ButtonTone = NonNullable<ButtonVariantConfig["tone"]>;
 export type ButtonMagnitude = NonNullable<ButtonVariantConfig["magnitude"]>;
 export type ButtonSizing = NonNullable<ButtonVariantConfig["sizing"]>;
 
-// No `defaultVariants` today, so every axis is required.
-export type ButtonVariantProps = StrictVariantProps<typeof buttonVariants>;
+// Geometry axes stay required (no defaults); prominence × tone is the closed chrome pair set.
+export type ButtonVariantProps = ControlChromePair &
+  Pick<StrictVariantProps<typeof buttonVariants>, "magnitude" | "sizing">;
 
-// The text label inside a Button. When the parent button is `aria-busy` (loading) it dims via the
-// `group-aria-busy:` sibling of the `group` class on the root.
-export const buttonLabelVariants = cva(
-  "transition-opacity duration-200 ease-out group-aria-busy:opacity-50",
-);
+// Anatomy shell only — no label-specific classes today (loading mute lives on the root chrome).
+// Keep the cva so a future label token has a home without reshaping the part.
+export const buttonLabelVariants = cva("");

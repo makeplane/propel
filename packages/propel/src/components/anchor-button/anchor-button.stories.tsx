@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ArrowUpRight, Plus } from "lucide-react";
-import { expect, fn } from "storybook/test";
+import * as React from "react";
+import { expect, fn, userEvent as baseUserEvent, waitFor } from "storybook/test";
 
 import { Icon } from "../icon";
 import { AnchorButton, type AnchorButtonMagnitude, type AnchorButtonProminence } from "./index";
@@ -115,8 +116,146 @@ export const WithIcons: Story = {
   ),
 };
 
-/** The `loading` spinner replaces the leading icon and dims the label. */
+/** The `loading` spinner trails the label and mutes via the link chrome. */
 export const Loading: Story = {
   args: { prominence: "primary", magnitude: "md", loading: true },
   render: (args) => <AnchorButton {...args} label="Saving…" />,
+};
+
+/**
+ * An action that enters `loading` after click: spinner + `aria-busy`, blocks re-fires, keeps
+ * keyboard focus while soft-disabled, then settles once the work resolves.
+ */
+export const AsyncSubmit: Story = {
+  parameters: { controls: { disable: true } },
+  render: function Render(args) {
+    const [submitting, setSubmitting] = React.useState(false);
+    return (
+      <AnchorButton
+        {...args}
+        loading={submitting}
+        label={submitting ? "Submitting" : "Submit"}
+        onClick={() => {
+          setSubmitting(true);
+          window.setTimeout(() => setSubmitting(false), 1500);
+        }}
+      />
+    );
+  },
+};
+
+/**
+ * Tab moves focus onto the control, then **Enter** activates it (fires `onClick`). Native
+ * `<button>` semantics — guards that the Base UI graft keeps them.
+ */
+export const EnterActivates: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn() },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Show more" });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await expect(args.onClick).toHaveBeenCalledOnce();
+  },
+};
+
+/** With the control focused, **Space** activates it (fires `onClick`). */
+export const SpaceActivates: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn() },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Show more" });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("[Space]");
+    await expect(args.onClick).toHaveBeenCalledOnce();
+  },
+};
+
+/** A `disabled` AnchorButton does not fire `onClick`. */
+export const DisabledBlocksClick: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn(), disabled: true },
+  play: async ({ args, canvas }) => {
+    const button = canvas.getByRole("button", { name: "Show more" });
+    await expect(button).toBeDisabled();
+    const user = baseUserEvent.setup({ pointerEventsCheck: 0 });
+    await user.click(button);
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+/**
+ * A `disabled` AnchorButton is removed from the tab order: Tab does not land on it and keyboard
+ * activation (Enter/Space) never fires `onClick`.
+ */
+export const DisabledNotKeyboardActivatable: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn(), disabled: true },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Show more" });
+    await userEvent.tab();
+    await expect(button).not.toHaveFocus();
+    button.focus();
+    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("[Space]");
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+/** A `loading` AnchorButton stays focusable but keyboard activation does not fire `onClick`. */
+export const LoadingNotKeyboardActivatable: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn(), loading: true },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Show more" });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("[Space]");
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+/**
+ * A `loading` AnchorButton shows the spinner, is `aria-busy` + `aria-disabled`, and blocks clicks —
+ * but stays focusable (not natively `disabled`) so assistive tech can announce the busy state.
+ */
+export const LoadingBlocksClick: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { onClick: fn(), loading: true },
+  play: async ({ args, canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Show more" });
+    await expect(button).toHaveAttribute("aria-busy", "true");
+    await expect(button).toHaveAttribute("aria-disabled", "true");
+    await expect(button).not.toBeDisabled();
+    await expect(button.querySelector("svg")).not.toBeNull();
+    button.focus();
+    await expect(button).toHaveFocus();
+    await userEvent.click(button);
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+/**
+ * The async-submit cycle keeps focus: activating flips into `loading` without dropping focus, and
+ * once the work settles the control is interactive again with focus still in place.
+ */
+export const AsyncSubmitKeepsFocus: Story = {
+  ...AsyncSubmit,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Submit" });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await expect(button).toHaveAttribute("aria-busy", "true");
+    await expect(button).toHaveAccessibleName("Submitting");
+    await expect(button).toHaveFocus();
+    await waitFor(() => expect(button).not.toHaveAttribute("aria-busy"), { timeout: 3000 });
+    await expect(button).not.toBeDisabled();
+    await expect(button).toHaveAccessibleName("Submit");
+    await expect(button).toHaveFocus();
+  },
 };

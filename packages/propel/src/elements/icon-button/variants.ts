@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { composeVariants } from "../../internal/compose-variants";
-import { controlChromeVariants } from "../../internal/control-chrome";
+import { type ControlChromePair, controlChromeVariants } from "../../internal/control-chrome";
 import { type StrictVariantProps } from "../../internal/variant-props";
 
 // IconButton's local styling: the square geometry only. The chrome (behavior base + neutral/danger
@@ -30,5 +30,6 @@ export type IconButtonProminence = NonNullable<IconButtonVariantConfig["prominen
 export type IconButtonTone = NonNullable<IconButtonVariantConfig["tone"]>;
 export type IconButtonMagnitude = NonNullable<IconButtonVariantConfig["magnitude"]>;
 
-// No `defaultVariants` today, so every axis is required.
-export type IconButtonVariantProps = StrictVariantProps<typeof iconButtonVariants>;
+// Magnitude stays required (no defaults); prominence × tone is the closed chrome pair set.
+export type IconButtonVariantProps = ControlChromePair &
+  Pick<StrictVariantProps<typeof iconButtonVariants>, "magnitude">;

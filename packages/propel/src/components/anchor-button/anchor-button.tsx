@@ -68,15 +68,15 @@ export function AnchorButton({
       focusableWhenDisabled={loading ? true : undefined}
       aria-busy={loading ? true : undefined}
     >
+      {!loading ? startIcon : null}
+      <AnchorButtonLabel>{label}</AnchorButtonLabel>
       {loading ? (
         <Spinner>
           <LoaderCircle />
         </Spinner>
       ) : (
-        startIcon
+        endIcon
       )}
-      <AnchorButtonLabel>{label}</AnchorButtonLabel>
-      {!loading ? endIcon : null}
     </BaseButton>
   );
 }

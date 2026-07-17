@@ -10,8 +10,9 @@ export type IconButtonProps = Omit<useRender.ComponentProps<"button">, "classNam
  * The square button box of the icon-only button: a styled `<button>` with no baked content. It owns
  * its chrome (`prominence`/`tone`) and geometry (`magnitude`'s square `size-N` box and
  * `--node-size` glyph scale) through `iconButtonVariants`. Base-UI-agnostic — graft the `Button`
- * behavior in `components` via `<BaseButton render={<IconButton/>} />`. There is no `link` icon
- * button. Compose an `IconButtonIcon` (or `IconButtonSpinner`) inside it.
+ * behavior in `components` via `<BaseButton render={<IconButton/>} />`. There is no separate
+ * link-variant family; the ready-made can still render as `<a>` via `render` +
+ * `nativeButton={false}`. Compose an icon or spinner slot inside it.
  */
 export function IconButton({ prominence, tone, magnitude, render, ...props }: IconButtonProps) {
   const defaultProps: useRender.ElementProps<"button"> = {

@@ -6,6 +6,7 @@ import {
   IconButton as IconButtonElement,
   type IconButtonProps as IconButtonElementProps,
 } from "../../elements/icon-button";
+import { controlChromePair, type ControlChromePair } from "../../internal/control-chrome";
 import { Spinner } from "../../internal/spinner";
 
 export type IconButtonProps = Omit<IconButtonElementProps, "children"> & {
@@ -28,8 +29,8 @@ export type IconButtonProps = Omit<IconButtonElementProps, "children"> & {
 /**
  * The ready-made icon-only button: grafts Base UI's `Button` behavior onto the square `IconButton`
  * box, filling it with the provided icon element and swapping in a spinner while `loading`. It
- * shares Button's design tokens (`prominence`/`tone`/`magnitude`) but is its own component/export.
- * There is no `link` icon button. An `aria-label` is REQUIRED for the accessible name.
+ * There is no separate link-variant family; render as an `<a>` via `nativeButton={false}` +
+ * `render={<a href=… />}` when needed. An `aria-label` is REQUIRED for the accessible name.
  */
 export function IconButton({
   render,
@@ -50,8 +51,7 @@ export function IconButton({
       nativeButton={nativeButton}
       render={
         <IconButtonElement
-          prominence={prominence}
-          tone={tone}
+          {...controlChromePair({ prominence, tone } as ControlChromePair)}
           magnitude={magnitude}
           // The consumer's render swaps the underlying element; the styled part stays the
           // className owner (behavior part outer, styled part as the render target, rule 1a).

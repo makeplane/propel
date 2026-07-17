@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { LoaderCircle, Plus } from "lucide-react";
 
+import type { ControlChromePair } from "../../internal/control-chrome";
 import { Icon } from "../../internal/icon";
 import { Spinner } from "../../internal/spinner";
 import { iconControl } from "../../storybook/icon-control";
@@ -14,16 +15,18 @@ import {
 const PROMINENCES: IconButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
 const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
 
-// The prominence×tone pairings the control chrome defines a palette for (danger skips
-// tertiary/ghost).
-const PALETTES: { prominence: IconButtonProminence; tone: IconButtonTone }[] = [
+// Storybook ArgTypes flatten discriminant unions into independent controls — re-pair for the API.
+const chrome = (prominence: IconButtonProminence, tone: IconButtonTone): ControlChromePair =>
+  ({ prominence, tone }) as ControlChromePair;
+
+const PALETTES = [
   { prominence: "primary", tone: "neutral" },
   { prominence: "secondary", tone: "neutral" },
   { prominence: "tertiary", tone: "neutral" },
   { prominence: "ghost", tone: "neutral" },
   { prominence: "primary", tone: "danger" },
   { prominence: "secondary", tone: "danger" },
-];
+] as const satisfies readonly ControlChromePair[];
 
 // elements-tier story (rule 2b): a pure UI-configuration showcase. `IconButton` is a Base-UI-agnostic
 // styled square `<button>` rendered DIRECTLY — no Base UI graft — wrapping the shared internal `Icon`
@@ -50,8 +53,8 @@ const meta = {
     children: <Plus />,
     "aria-label": "Add item",
   },
-  render: ({ children, ...props }) => (
-    <IconButton {...props}>
+  render: ({ children, prominence, tone, magnitude, ...rest }) => (
+    <IconButton {...chrome(prominence, tone)} magnitude={magnitude} {...rest}>
       <Icon>{children}</Icon>
     </IconButton>
   ),
@@ -69,13 +72,12 @@ export const Default: Story = {};
  */
 export const Prominences: Story = {
   argTypes: { prominence: { control: false }, "aria-label": { control: false } },
-  render: ({ children, tone, magnitude }) => (
+  render: ({ children, magnitude }) => (
     <div className="flex items-center gap-3">
       {PROMINENCES.map((prominence) => (
         <IconButton
           key={prominence}
-          prominence={prominence}
-          tone={tone}
+          {...chrome(prominence, "neutral")}
           magnitude={magnitude}
           aria-label={`${prominence} action`}
         >
@@ -120,8 +122,7 @@ export const Magnitudes: Story = {
       {MAGNITUDES.map((magnitude) => (
         <IconButton
           key={magnitude}
-          prominence={prominence}
-          tone={tone}
+          {...chrome(prominence, tone)}
           magnitude={magnitude}
           aria-label={`${magnitude} add`}
         >
@@ -152,57 +153,51 @@ export const States: Story = {
   },
   render: ({ children, magnitude }) => (
     <div className="flex flex-col gap-3">
-      {PALETTES.map(({ prominence, tone }) => (
-        <div key={`${prominence}-${tone}`} className="flex items-center gap-3">
+      {PALETTES.map((palette) => (
+        <div key={`${palette.prominence}-${palette.tone}`} className="flex items-center gap-3">
           <IconButton
-            prominence={prominence}
-            tone={tone}
+            {...palette}
             magnitude={magnitude}
-            aria-label={`${prominence} ${tone} default`}
+            aria-label={`${palette.prominence} ${palette.tone} default`}
           >
             <Icon>{children}</Icon>
           </IconButton>
           <IconButton
-            id={`icon-button-${prominence}-${tone}-hover`}
-            prominence={prominence}
-            tone={tone}
+            id={`icon-button-${palette.prominence}-${palette.tone}-hover`}
+            {...palette}
             magnitude={magnitude}
-            aria-label={`${prominence} ${tone} hover`}
+            aria-label={`${palette.prominence} ${palette.tone} hover`}
           >
             <Icon>{children}</Icon>
           </IconButton>
           <IconButton
-            id={`icon-button-${prominence}-${tone}-active`}
-            prominence={prominence}
-            tone={tone}
+            id={`icon-button-${palette.prominence}-${palette.tone}-active`}
+            {...palette}
             magnitude={magnitude}
-            aria-label={`${prominence} ${tone} active`}
+            aria-label={`${palette.prominence} ${palette.tone} active`}
           >
             <Icon>{children}</Icon>
           </IconButton>
           <IconButton
-            id={`icon-button-${prominence}-${tone}-focus`}
-            prominence={prominence}
-            tone={tone}
+            id={`icon-button-${palette.prominence}-${palette.tone}-focus`}
+            {...palette}
             magnitude={magnitude}
-            aria-label={`${prominence} ${tone} focus`}
+            aria-label={`${palette.prominence} ${palette.tone} focus`}
           >
             <Icon>{children}</Icon>
           </IconButton>
           <IconButton
-            prominence={prominence}
-            tone={tone}
+            {...palette}
             magnitude={magnitude}
-            aria-label={`${prominence} ${tone} disabled`}
+            aria-label={`${palette.prominence} ${palette.tone} disabled`}
             disabled
           >
             <Icon>{children}</Icon>
           </IconButton>
           <IconButton
-            prominence={prominence}
-            tone={tone}
+            {...palette}
             magnitude={magnitude}
-            aria-label={`${prominence} ${tone} busy`}
+            aria-label={`${palette.prominence} ${palette.tone} busy`}
             aria-busy
             aria-disabled
           >
@@ -227,12 +222,11 @@ export const Anatomy: Story = {
   parameters: { controls: { disable: true } },
   render: ({ children, prominence, tone, magnitude }) => (
     <div className="flex items-center gap-3">
-      <IconButton prominence={prominence} tone={tone} magnitude={magnitude} aria-label="Add item">
+      <IconButton {...chrome(prominence, tone)} magnitude={magnitude} aria-label="Add item">
         <Icon>{children}</Icon>
       </IconButton>
       <IconButton
-        prominence={prominence}
-        tone={tone}
+        {...chrome(prominence, tone)}
         magnitude={magnitude}
         aria-label="Saving"
         aria-busy
