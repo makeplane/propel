@@ -10,8 +10,8 @@ import { type StrictVariantProps } from "./variant-props";
  * child to the inherited `--node-size`. Before this, seventeen families each kept a byte-identical
  * `<Family>Icon` part differing only in tint or a local node size — those are gone; `components`
  * ready-mades and stories compose this one. A family keeps its OWN icon part only when its styling
- * is genuinely distinct (toast/banner/alert-dialog tones, avatar's magnitude scale, the
- * autocomplete/combobox focus-brightening, navigation-menu's Base-UI-named rotating `Icon`).
+ * is genuinely distinct (toast/banner/alert-dialog tones, navigation-menu's Base-UI-named rotating
+ * `Icon`).
  *
  * Both axes carry a real default (`inherit` — rule 12's sanctioned mechanism): an icon slot's size
  * and color normally come from its container's `--node-size` and `currentColor`.
@@ -26,8 +26,13 @@ export const iconVariants = cva(nodeSlotClass, {
     tint: {
       inherit: "",
       danger: "text-danger-primary",
+      // `placeholder` is the input-adornment tint: muted at rest, brightening when the enclosing
+      // `/control` group is focused (autocomplete/combobox search icons). `muted` is the plain
+      // static form — same resting color, no focus behavior — for non-interactive slots like an
+      // avatar's anonymous glyph.
       placeholder:
         "text-icon-placeholder transition-colors group-focus-within/control:text-icon-secondary",
+      muted: "text-icon-placeholder",
       secondary: "text-icon-secondary",
       tertiary: "text-icon-tertiary",
     },

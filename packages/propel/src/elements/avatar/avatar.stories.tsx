@@ -2,14 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { User } from "lucide-react";
 import { expect } from "storybook/test";
 
-import {
-  Avatar,
-  AVATAR_TONES,
-  AvatarFallback,
-  AvatarIcon,
-  AvatarImage,
-  type AvatarMagnitude,
-} from "./index";
+import { Icon } from "../../internal/icon";
+import { Avatar, AVATAR_TONES, AvatarFallback, AvatarImage, type AvatarMagnitude } from "./index";
 
 const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
@@ -26,7 +20,16 @@ const PHOTO_SRC = `data:image/svg+xml,${encodeURIComponent(
 const meta = {
   title: "Elements/Avatar",
   component: AvatarImage,
-  subcomponents: { Avatar, AvatarFallback, AvatarIcon },
+  subcomponents: { Avatar, AvatarFallback },
+  // Every story is one or more avatars in a row; a single avatar just centers trivially inside it,
+  // so one decorator covers every story in this file instead of each `render` repeating the div.
+  decorators: [
+    (Story) => (
+      <div className="flex items-center gap-3">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof AvatarImage>;
 
 export default meta;
@@ -44,51 +47,52 @@ export const Default: Story = {
 /** Every avatar size (Figma 2xs 16px → 3xl 64px). */
 export const Magnitudes: Story = {
   render: () => (
-    <div className="flex items-center gap-3">
+    <>
       {MAGNITUDES.map((magnitude) => (
         <Avatar key={magnitude} magnitude={magnitude} role="img" aria-label={magnitude}>
           <AvatarFallback tone="indigo">AL</AvatarFallback>
         </Avatar>
       ))}
-    </div>
+    </>
   ),
 };
 
 /** The fallback's `tone` colors the initials surface — one swatch per Figma avatar tone. */
 export const Tones: Story = {
   render: () => (
-    <div className="flex items-center gap-3">
+    <>
       {AVATAR_TONES.map((tone) => (
         <Avatar key={tone} magnitude="lg" role="img" aria-label={tone}>
           <AvatarFallback tone={tone}>{tone[0]?.toUpperCase()}</AvatarFallback>
         </Avatar>
       ))}
-    </div>
+    </>
   ),
 };
 
 /**
- * `AvatarIcon` sizes the anonymous person glyph per magnitude — Figma's explicit icon px values,
- * not a fixed fraction of the avatar.
+ * The anonymous person glyph is the shared `Icon` (`tint="muted"`), sized per magnitude by the
+ * `--node-size` the `Avatar` root sets — Figma's explicit icon px values, not a fixed fraction of
+ * the avatar. No avatar-specific icon part: the glyph just inherits the root's node size.
  */
 export const IconMagnitudes: Story = {
   render: () => (
-    <div className="flex items-center gap-3">
+    <>
       {MAGNITUDES.map((magnitude) => (
         <Avatar key={magnitude} magnitude={magnitude} role="img" aria-label={magnitude}>
-          <AvatarIcon magnitude={magnitude}>
+          <Icon tint="muted">
             <User />
-          </AvatarIcon>
+          </Icon>
         </Avatar>
       ))}
-    </div>
+    </>
   ),
 };
 
 /** The three content states: image, initials, and the anonymous person icon (the icon slot). */
 export const States: Story = {
   render: () => (
-    <div className="flex items-center gap-3">
+    <>
       <Avatar magnitude="lg" role="img" aria-label="Image">
         <AvatarImage src={PHOTO_SRC} alt="" />
       </Avatar>
@@ -96,11 +100,11 @@ export const States: Story = {
         <AvatarFallback tone="emerald">GH</AvatarFallback>
       </Avatar>
       <Avatar magnitude="lg" role="img" aria-label="Anonymous">
-        <AvatarIcon magnitude="lg">
+        <Icon tint="muted">
           <User />
-        </AvatarIcon>
+        </Icon>
       </Avatar>
-    </div>
+    </>
   ),
 };
 

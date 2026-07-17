@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import * as React from "react";
 import { expect, waitFor } from "storybook/test";
 
-import { AVATAR_TONES, type AvatarMagnitude, Avatar } from "./index";
+import { type AvatarMagnitude, Avatar } from "./index";
 
 const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
 
@@ -10,6 +10,11 @@ const MAGNITUDES: AvatarMagnitude[] = ["2xs", "xs", "sm", "md", "lg", "xl", "2xl
 const PHOTO_SRC = `data:image/svg+xml,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#7dd3fc"/><circle cx="44" cy="18" r="8" fill="#fde047"/><path d="M0 64 24 34l14 16 10-10 16 24Z" fill="#16a34a"/></svg>',
 )}`;
+
+// A `src` that is present but undecodable — the browser still attempts to load it and fires a
+// genuine `error` event, unlike an absent `src` (which Base UI never attempts to load at all).
+// Malformed inline data needs no network, so the failure is deterministic in any environment.
+const BROKEN_SRC = "data:image/png;base64,not-a-real-image";
 
 const meta = {
   title: "Components/Avatar",
@@ -25,6 +30,15 @@ const meta = {
       url: "https://www.figma.com/design/ioN74zM1xMGbcPemsxs4J1/Global-components?node-id=40-46",
     },
   },
+  // Every story is one or more avatars in a row; a single avatar just centers trivially inside it,
+  // so one decorator covers every story in this file instead of each `render` repeating the div.
+  decorators: [
+    (Story) => (
+      <div className="flex items-center gap-3">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Avatar>;
 
 export default meta;
@@ -37,41 +51,66 @@ export const Magnitudes: Story = {
   // update every avatar at once.
   argTypes: { magnitude: { control: false } },
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       {MAGNITUDES.map((magnitude) => (
         <Avatar key={magnitude} {...args} magnitude={magnitude} />
       ))}
-    </div>
+    </>
+  ),
+};
+
+// Initials-only avatars with NO `alt`, each with different initials. Every one seeds its tone from
+// its own initials, so they spread across the palette instead of collapsing onto one color — the
+// bug when the seed was `alt ?? ""` (empty string → always the first tone). Same initials would
+// still yield the same color: the assignment stays stable, it's just no longer name-dependent.
+const NO_ALT_INITIALS = ["NN", "AD", "MK", "AR", "JD", "AB"];
+
+/**
+ * With no `alt`, tone is derived from each avatar's initials — so a row of unnamed avatars still
+ * gets a varied palette rather than all sharing one color.
+ */
+export const NoAltDistinctTones: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <>
+      {NO_ALT_INITIALS.map((initials) => (
+        <Avatar key={initials} magnitude="lg" fallback={initials} />
+      ))}
+    </>
   ),
 };
 
 /**
- * The initials background follows `tone`. When `tone` is omitted it's derived from `alt`, so every
- * person gets a stable color automatically.
+ * Behavior twin of `NoAltDistinctTones`: none of the avatars has an `alt`, yet their initials
+ * surfaces resolve to more than one color. Before the fix every seedless avatar hashed `""` to the
+ * same tone, so this set would have collapsed to size 1. Tagged out of the sidebar/docs/manifest
+ * while still running under the default `test` tag.
  */
-export const Tones: Story = {
-  args: { src: undefined },
-  // Iterates `tone` and derives each label (`fallback`) from the tone name, so
-  // disable those two controls; the rest stay live and update every avatar at once.
-  argTypes: { tone: { control: false }, fallback: { control: false } },
-  render: (args) => (
-    <div className="flex items-center gap-3">
-      {AVATAR_TONES.map((tone) => (
-        <Avatar key={tone} {...args} tone={tone} magnitude="lg" fallback={tone[0]?.toUpperCase()} />
-      ))}
-    </div>
-  ),
+export const NoAltDistinctTonesInteraction: Story = {
+  ...NoAltDistinctTones,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas }) => {
+    const colors = NO_ALT_INITIALS.map(
+      (initials) => getComputedStyle(canvas.getByText(initials)).backgroundColor,
+    );
+    // Every color is a real compiled tone (not transparent)…
+    for (const color of colors) {
+      await expect(color).not.toBe("rgba(0, 0, 0, 0)");
+    }
+    // …and they are not all the same — the seedless-collapse regression is gone.
+    await expect(new Set(colors).size).toBeGreaterThan(1);
+  },
 };
 
 /** The three states side by side: image, initials, and the anonymous person icon. */
 export const States: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
-    <div className="flex items-center gap-3">
+    <>
       <Avatar {...args} magnitude="lg" src="https://i.pravatar.cc/128?img=47" />
       <Avatar {...args} magnitude="lg" src={undefined} />
       <Avatar {...args} magnitude="lg" src={undefined} fallback={undefined} />
-    </div>
+    </>
   ),
 };
 
@@ -111,6 +150,29 @@ export const DelayedFallbackInteraction: Story = {
     // (`alt=""`, the root owns the accessible name), so query the element directly.
     await waitFor(() => expect(canvasElement.querySelector("img")).toBeInTheDocument());
     await expect(canvas.queryByText("AL")).not.toBeInTheDocument();
+  },
+};
+
+/**
+ * A `src` that fails to load — distinct from an absent `src` (the `States`/`Tones` stories above),
+ * which never attempts to load an image at all. The initials fallback takes over once the load
+ * errors.
+ */
+export const BrokenImage: Story = {
+  args: { src: BROKEN_SRC },
+};
+
+/**
+ * Behavior twin of `BrokenImage`: the failed load never leaves an `<img>` in the DOM, and the
+ * initials fallback renders in its place. Tagged out of the sidebar/docs/manifest while still
+ * running under the default `test` tag.
+ */
+export const BrokenImageInteraction: Story = {
+  ...BrokenImage,
+  tags: ["!dev", "!autodocs", "!manifest"],
+  play: async ({ canvas, canvasElement }) => {
+    await waitFor(() => expect(canvas.getByText("AL")).toBeInTheDocument());
+    await waitFor(() => expect(canvasElement.querySelector("img")).not.toBeInTheDocument());
   },
 };
 
