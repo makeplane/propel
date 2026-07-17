@@ -3,7 +3,6 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type CircularProgressVariantProps, circularProgressVariants } from "./variants";
 
-/** Props for {@link CircularProgress}. */
 export type CircularProgressProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
   CircularProgressVariantProps;
 

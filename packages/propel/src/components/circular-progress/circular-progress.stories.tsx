@@ -66,6 +66,20 @@ export const HasProgressbarRole: Story = {
   },
 };
 
+/**
+ * Out-of-range `value` is clamped to `[0, max]` before the arc and `aria-valuenow` are derived, so
+ * the two never disagree. Tagged out of the sidebar/docs/manifest while still running under
+ * `test`.
+ */
+export const ClampsOutOfRange: Story = {
+  tags: ["!dev", "!autodocs", "!manifest"],
+  args: { value: 150, "aria-label": "Overshoot" },
+  play: async ({ canvas }) => {
+    const ring = canvas.getByRole("progressbar", { name: "Overshoot" });
+    await expect(ring).toHaveAttribute("aria-valuenow", "100");
+  },
+};
+
 /** `value={null}` is indeterminate: a fixed quarter arc spins with no `aria-valuenow`. */
 export const Indeterminate: Story = {
   args: { value: null, magnitude: "md", tone: "brand", "aria-label": "Syncing" },

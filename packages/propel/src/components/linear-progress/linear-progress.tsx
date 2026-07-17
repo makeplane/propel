@@ -13,7 +13,10 @@ import {
 export type LinearProgressMagnitude = NonNullable<LinearProgressTrackProps["magnitude"]>;
 export type LinearProgressTone = NonNullable<LinearProgressIndicatorProps["tone"]>;
 
-export type LinearProgressProps = Omit<BaseProgress.Root.Props, "className" | "style" | "value"> & {
+type LinearProgressOwnProps = Omit<
+  BaseProgress.Root.Props,
+  "className" | "style" | "value" | "render" | "aria-label"
+> & {
   /**
    * Completion from 0 to `max` (default 100). `null` = indeterminate (animated fill,
    * `aria-valuenow` unset).
@@ -25,11 +28,27 @@ export type LinearProgressProps = Omit<BaseProgress.Root.Props, "className" | "s
   tone: LinearProgressTone;
   /** Show the trailing percentage label. @default true */
   showValue?: boolean;
-  /** Visible text label before the track — Base UI's `Progress.Label` (also names the bar). */
-  label?: string;
-  /** Accessible name (required — the visible % is not a substitute). */
-  "aria-label": string;
 };
+
+/**
+ * The bar always has an accessible name: pass a visible `label` (names it via Base UI's
+ * `Progress.Label`) or an `aria-label` — the union makes omitting both a type error rather than a
+ * silently unnamed progressbar.
+ */
+export type LinearProgressProps = LinearProgressOwnProps &
+  (
+    | {
+        /** Visible text label before the track — Base UI's `Progress.Label` (also names the bar). */
+        label: string;
+        /** Accessible name. Optional when `label` is set — the visible label already names the bar. */
+        "aria-label"?: string;
+      }
+    | {
+        label?: undefined;
+        /** Accessible name (required when there is no visible `label`). */
+        "aria-label": string;
+      }
+  );
 
 /**
  * A horizontal determinate/indeterminate progress bar with an optional trailing `%` label. Drive it
@@ -45,8 +64,13 @@ export function LinearProgress({
   label,
   ...props
 }: LinearProgressProps) {
+  const max = props.max ?? 100;
+  const min = props.min ?? 0;
+  // Clamp out-of-range input to `[min, max]` before Base UI derives the fill, `aria-valuenow`, and
+  // the `%` label, so they never disagree (e.g. `value={150}` reads 100%, not a 150% overflow).
+  const clampedValue = value == null ? null : Math.min(Math.max(value, min), max);
   return (
-    <BaseProgress.Root value={value} {...props} render={<LinearProgressElement />}>
+    <BaseProgress.Root value={clampedValue} {...props} render={<LinearProgressElement />}>
       {label != null ? (
         <BaseProgress.Label render={<LinearProgressLabel />}>{label}</BaseProgress.Label>
       ) : null}

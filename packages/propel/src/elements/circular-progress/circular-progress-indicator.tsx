@@ -6,7 +6,6 @@ import {
   circularProgressIndicatorVariants,
 } from "./variants";
 
-/** Props for {@link CircularProgressIndicator}. */
 export type CircularProgressIndicatorProps = Omit<
   useRender.ComponentProps<"circle">,
   "className" | "style"

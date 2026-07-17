@@ -34,7 +34,8 @@ export const linearProgressIndicatorVariants = cva(
 export const linearProgressLabelVariants = cva("text-13 font-medium text-secondary");
 
 // The percentage is a neutral readout (matching the label), not a toned signal — the semantic color
-// lives on the fill bar. Neutral also avoids low-contrast amber/green readouts on a neutral surface.
+// lives on the fill bar. Neutral also keeps the small 12px number AA-legible: the warning amber
+// text token lands at 4.49:1 on the neutral surface (below WCAG AA), so tinting the % is not viable.
 export const linearProgressValueVariants = cva("text-12 font-medium text-secondary tabular-nums");
 
 export type LinearProgressTrackVariantProps = StrictVariantProps<

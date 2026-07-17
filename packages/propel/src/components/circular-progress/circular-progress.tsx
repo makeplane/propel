@@ -22,7 +22,7 @@ const RING_STROKE = 2;
 
 export type CircularProgressProps = Omit<
   BaseProgress.Root.Props,
-  "className" | "style" | "value"
+  "className" | "style" | "value" | "render"
 > & {
   /**
    * Completion from 0 to `max` (default 100). `null` = indeterminate: a fixed quarter arc spins
@@ -47,17 +47,20 @@ export function CircularProgress({ value, magnitude, tone, ...props }: CircularP
   const { box, radius } = RING_GEOMETRY[magnitude];
   const circumference = 2 * Math.PI * radius;
   const max = props.max ?? 100;
-  // Clamp once so the arc and `aria-valuenow` never disagree for out-of-range input. While
-  // indeterminate a fixed quarter arc shows; the svg part spins it off `data-indeterminate`.
-  const clampedValue = value == null ? null : Math.min(Math.max(value, 0), max);
-  const fraction = clampedValue == null ? 0.25 : max > 0 ? clampedValue / max : 0;
+  const min = props.min ?? 0;
+  const span = max - min;
+  // Clamp once so the arc and `aria-valuenow` never disagree for out-of-range input, and derive the
+  // fraction from both bounds so a non-zero `min` maps correctly. While indeterminate a fixed
+  // quarter arc shows; the svg part spins it off `data-indeterminate`.
+  const clampedValue = value == null ? null : Math.min(Math.max(value, min), max);
+  const fraction = clampedValue == null ? 0.25 : span > 0 ? (clampedValue - min) / span : 0;
   const dashOffset = circumference * (1 - fraction);
   const center = box / 2;
   return (
     <BaseProgress.Root
       value={clampedValue}
-      render={<CircularProgressElement magnitude={magnitude} />}
       {...props}
+      render={<CircularProgressElement magnitude={magnitude} />}
     >
       <CircularProgressSvg viewBox={`0 0 ${box} ${box}`}>
         <CircularProgressTrack cx={center} cy={center} r={radius} strokeWidth={RING_STROKE} />
