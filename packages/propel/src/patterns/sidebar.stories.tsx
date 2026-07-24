@@ -58,16 +58,14 @@ export const WorkspaceSidebar: Story = {
         <span className="text-15 font-semibold text-primary">Projects</span>
         <div className="flex items-center gap-0.5">
           <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="sm"
+            variant="ghost"
+            size="sm"
             aria-label="Filter"
             icon={<Icon icon={PreferencesIcon} />}
           />
           <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="sm"
+            variant="ghost"
+            size="sm"
             aria-label="Toggle sidebar"
             icon={<Icon icon={SidePeekIcon} />}
           />
@@ -75,11 +73,10 @@ export const WorkspaceSidebar: Story = {
       </div>
 
       <Button
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
-        sizing="fill"
-        startIcon={<Icon icon={AddWorkItemIcon} />}
+        variant="secondary"
+        size="xl"
+        fillType="fill"
+        icon={<Icon icon={AddWorkItemIcon} />}
         label="New work item"
       />
 

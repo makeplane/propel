@@ -29,7 +29,7 @@ import statesSource from "~/demos/avatar/states.tsx?raw";
 
 ## Tones
 
-The initials background follows `tone`. When `tone` is omitted it is derived from `alt`, so every member gets a stable color automatically.
+The initials background tone is derived stably from `alt` (falling back to the initials themselves), so every member gets a consistent color automatically — it is not a consumer prop.
 
 <ComponentExample code={tonesSource}>
   <TonesDemo client:visible />

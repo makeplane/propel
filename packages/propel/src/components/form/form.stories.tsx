@@ -168,14 +168,7 @@ export const Default: Story = {
           />
         </FormBody>
         <FormActions layout="inline">
-          <Button
-            sizing="hug"
-            type="submit"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="md"
-            label="Submit"
-          />
+          <Button fillType="hug" type="submit" variant="secondary" size="md" label="Submit" />
         </FormActions>
       </Form>
     );
@@ -231,14 +224,7 @@ export const ConstraintValidationInteraction: Story = {
         />
       </FormBody>
       <FormActions layout="inline">
-        <Button
-          sizing="hug"
-          type="submit"
-          prominence="primary"
-          tone="neutral"
-          magnitude="md"
-          label="Submit"
-        />
+        <Button fillType="hug" type="submit" variant="primary" size="md" label="Submit" />
       </FormActions>
     </Form>
   ),
@@ -283,11 +269,10 @@ export const AsyncValidation: Story = {
         </FormBody>
         <FormActions layout="inline">
           <Button
-            sizing="hug"
+            fillType="hug"
             type="submit"
-            prominence="primary"
-            tone="neutral"
-            magnitude="md"
+            variant="primary"
+            size="md"
             loading={pending}
             label="Create account"
           />
@@ -341,11 +326,10 @@ export const ServerFunction: Story = {
         </FormBody>
         <FormActions layout="inline">
           <Button
-            sizing="hug"
+            fillType="hug"
             type="submit"
-            prominence="primary"
-            tone="neutral"
-            magnitude="md"
+            variant="primary"
+            size="md"
             loading={pending}
             label="Reserve username"
           />
@@ -414,14 +398,7 @@ export const SchemaValidation: Story = {
           />
         </FormBody>
         <FormActions layout="inline">
-          <Button
-            sizing="hug"
-            type="submit"
-            prominence="primary"
-            tone="neutral"
-            magnitude="md"
-            label="Submit"
-          />
+          <Button fillType="hug" type="submit" variant="primary" size="md" label="Submit" />
         </FormActions>
       </Form>
     );

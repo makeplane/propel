@@ -10,10 +10,9 @@ export default function OpenOnHoverDemo() {
   return (
     <Popover>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<PopoverTrigger openOnHover delay={100} />}
         label="Filters"
       />

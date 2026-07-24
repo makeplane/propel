@@ -20,13 +20,7 @@ const TONES: ToastTone[] = ["success", "danger", "info", "warning", "neutral"];
 
 // A shared close control passed to each ToastProvider — carries its own (localizable) aria-label.
 const closeButton = (
-  <IconButton
-    prominence="ghost"
-    tone="neutral"
-    magnitude="sm"
-    aria-label="Dismiss"
-    icon={<Icon icon={X} />}
-  />
+  <IconButton variant="ghost" size="sm" aria-label="Dismiss" icon={<Icon icon={X} />} />
 );
 
 // Stable spies shared between the ActionsInteraction story's render and play fn so the

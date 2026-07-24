@@ -238,14 +238,7 @@ export const FormIntegration: Story = {
             <CheckboxField name="stayLoggedIn" label="Stay logged in for 7 days" magnitude="md" />
           </FormBody>
           <FormActions layout="inline">
-            <Button
-              sizing="hug"
-              type="submit"
-              prominence="primary"
-              tone="neutral"
-              magnitude="md"
-              label="Save"
-            />
+            <Button fillType="hug" type="submit" variant="primary" size="md" label="Save" />
           </FormActions>
         </Form>
         <output className="text-13 text-secondary">

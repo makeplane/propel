@@ -8,12 +8,10 @@ import ComponentExample from "~/components/ComponentExample.astro";
 import PropsTable from "~/components/PropsTable.astro";
 import BasicDemo from "~/demos/icon-button/basic.tsx";
 import basicSource from "~/demos/icon-button/basic.tsx?raw";
-import ProminencesDemo from "~/demos/icon-button/prominences.tsx";
-import prominencesSource from "~/demos/icon-button/prominences.tsx?raw";
-import TonesDemo from "~/demos/icon-button/tones.tsx";
-import tonesSource from "~/demos/icon-button/tones.tsx?raw";
-import MagnitudesDemo from "~/demos/icon-button/magnitudes.tsx";
-import magnitudesSource from "~/demos/icon-button/magnitudes.tsx?raw";
+import VariantsDemo from "~/demos/icon-button/variants.tsx";
+import variantsSource from "~/demos/icon-button/variants.tsx?raw";
+import SizesDemo from "~/demos/icon-button/sizes.tsx";
+import sizesSource from "~/demos/icon-button/sizes.tsx?raw";
 import LoadingDemo from "~/demos/icon-button/loading.tsx";
 import loadingSource from "~/demos/icon-button/loading.tsx?raw";
 
@@ -23,26 +21,19 @@ import loadingSource from "~/demos/icon-button/loading.tsx?raw";
   <BasicDemo client:visible />
 </ComponentExample>
 
-## Prominences
+## Variants
 
-Prominence sets the visual weight: `primary`, `secondary`, `tertiary`, and `ghost`.
+Variant sets the visual weight and palette: `primary`, `secondary`, `tertiary`, and `ghost`, plus
+`danger` (solid fill) and `danger-outline` (bordered outline) for destructive actions.
 
-<ComponentExample code={prominencesSource}>
-  <ProminencesDemo client:visible />
+<ComponentExample code={variantsSource}>
+  <VariantsDemo client:visible />
 </ComponentExample>
 
-## Tones
+## Sizes
 
-Tone selects the palette. `danger` renders as a solid fill on `primary` and a bordered outline on `secondary`.
-
-<ComponentExample code={tonesSource}>
-  <TonesDemo client:visible />
-</ComponentExample>
-
-## Magnitudes
-
-<ComponentExample code={magnitudesSource}>
-  <MagnitudesDemo client:visible />
+<ComponentExample code={sizesSource}>
+  <SizesDemo client:visible />
 </ComponentExample>
 
 ## Loading

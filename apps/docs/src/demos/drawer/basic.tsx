@@ -19,15 +19,7 @@ export default function BasicDemo() {
   return (
     <Drawer>
       <DrawerTrigger
-        render={
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            label="Open details"
-          />
-        }
+        render={<Button fillType="hug" variant="secondary" size="xl" label="Open details" />}
       />
       <DrawerPanel side="end">
         <DrawerHeader>
@@ -37,30 +29,16 @@ export default function BasicDemo() {
           </DrawerHeaderContent>
           <DrawerClose
             render={
-              <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
-                aria-label="Close"
-                icon={<Icon icon={X} />}
-              />
+              <IconButton variant="ghost" size="lg" aria-label="Close" icon={<Icon icon={X} />} />
             }
           />
         </DrawerHeader>
         <DrawerBody>Panel body content goes here.</DrawerBody>
         <DrawerFooter>
           <DrawerClose
-            render={
-              <Button
-                sizing="hug"
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
-                label="Cancel"
-              />
-            }
+            render={<Button fillType="hug" variant="ghost" size="lg" label="Cancel" />}
           />
-          <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg" label="Save" />
+          <Button fillType="hug" variant="primary" size="lg" label="Save" />
         </DrawerFooter>
       </DrawerPanel>
     </Drawer>

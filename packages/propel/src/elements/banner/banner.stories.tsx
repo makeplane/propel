@@ -132,16 +132,16 @@ export const Anatomy: Story = {
         <BannerDescription>Review the details and pick an action to continue.</BannerDescription>
       </BannerBody>
       <BannerActions>
-        <Button sizing="hug" prominence="ghost" tone="neutral" magnitude="sm">
+        <Button fillType="hug" variant="ghost" size="sm">
           <ButtonLabel>Remind me later</ButtonLabel>
         </Button>
-        <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="sm">
+        <Button fillType="hug" variant="secondary" size="sm">
           <ButtonLabel>Learn more</ButtonLabel>
         </Button>
-        <Button sizing="hug" prominence="primary" tone="neutral" magnitude="sm">
+        <Button fillType="hug" variant="primary" size="sm">
           <ButtonLabel>Update now</ButtonLabel>
         </Button>
-        <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Dismiss">
+        <IconButton variant="ghost" size="sm" aria-label="Dismiss">
           <Icon>
             <X />
           </Icon>

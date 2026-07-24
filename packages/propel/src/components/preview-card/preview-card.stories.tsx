@@ -345,10 +345,9 @@ export const Controlled: Story = {
           }}
         </PreviewCard>
         <Button
-          prominence="secondary"
-          tone="neutral"
-          magnitude="lg"
-          sizing="hug"
+          variant="secondary"
+          size="lg"
+          fillType="hug"
           onClick={() => {
             setTriggerId("modules-trigger");
             setOpen(true);

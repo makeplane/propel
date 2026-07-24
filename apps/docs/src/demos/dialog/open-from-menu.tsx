@@ -28,10 +28,9 @@ export default function OpenFromMenuDemo() {
     <>
       <Menu>
         <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="secondary"
+          size="xl"
           render={<MenuTrigger />}
           label="Project options"
         />
@@ -54,9 +53,8 @@ export default function OpenFromMenuDemo() {
               <DialogTitle>Delete project</DialogTitle>
             </DialogHeading>
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="lg"
+              variant="ghost"
+              size="lg"
               aria-label="Close"
               render={<DialogClose />}
               icon={<Icon icon={X} />}
@@ -70,18 +68,16 @@ export default function OpenFromMenuDemo() {
           </DialogBody>
           <DialogActions>
             <Button
-              sizing="hug"
-              prominence="secondary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="secondary"
+              size="xl"
               render={<DialogClose />}
               label="Cancel"
             />
             <Button
-              sizing="hug"
-              prominence="primary"
-              tone="danger"
-              magnitude="xl"
+              fillType="hug"
+              variant="danger"
+              size="xl"
               render={<DialogClose />}
               label="Delete"
             />

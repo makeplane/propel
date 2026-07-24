@@ -4,17 +4,17 @@ import * as React from "react";
 import { expect, fn, userEvent as baseUserEvent, waitFor } from "storybook/test";
 
 import { Icon } from "../icon";
-import { AnchorButton, type AnchorButtonMagnitude, type AnchorButtonProminence } from "./index";
+import { AnchorButton, type AnchorButtonSize, type AnchorButtonVariant } from "./index";
 
-const PROMINENCES: AnchorButtonProminence[] = ["primary", "secondary"];
-const MAGNITUDES: AnchorButtonMagnitude[] = ["sm", "md", "lg", "xl"];
+const VARIANTS: AnchorButtonVariant[] = ["primary", "secondary"];
+const SIZES: AnchorButtonSize[] = ["sm", "md", "lg", "xl"];
 
 // A <button> (action) that reads as an inline link — the "action that looks like a link" (e.g.
 // "Show more"); render it as an <a> (nativeButton={false} + render) for a real navigation link.
 const meta = {
   title: "Components/AnchorButton",
   component: AnchorButton,
-  args: { label: "Show more", prominence: "primary", magnitude: "md" },
+  args: { label: "Show more", variant: "primary", size: "md" },
 } satisfies Meta<typeof AnchorButton>;
 
 export default meta;
@@ -22,30 +22,25 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** `prominence`: `primary` is the blue link; `secondary` the muted gray inline link. */
-export const Prominences: Story = {
-  argTypes: { prominence: { control: false }, label: { control: false } },
+/** `variant`: `primary` is the blue link; `secondary` the muted gray inline link. */
+export const Variants: Story = {
+  argTypes: { variant: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-4">
-      {PROMINENCES.map((prominence) => (
-        <AnchorButton
-          key={prominence}
-          {...args}
-          prominence={prominence}
-          label={`${prominence} action`}
-        />
+      {VARIANTS.map((variant) => (
+        <AnchorButton key={variant} {...args} variant={variant} label={`${variant} action`} />
       ))}
     </div>
   ),
 };
 
 /** Text sizes (Figma S/Base/L/XL map to sm/md/lg/xl). */
-export const Magnitudes: Story = {
-  argTypes: { magnitude: { control: false }, label: { control: false } },
+export const Sizes: Story = {
+  argTypes: { size: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-4">
-      {MAGNITUDES.map((magnitude) => (
-        <AnchorButton key={magnitude} {...args} magnitude={magnitude} label={magnitude} />
+      {SIZES.map((size) => (
+        <AnchorButton key={size} {...args} size={size} label={size} />
       ))}
     </div>
   ),
@@ -68,7 +63,7 @@ export const ActsNotNavigates: Story = {
  * navigation (Enter follows the href, open-in-new-tab works).
  */
 export const AsLink: Story = {
-  args: { prominence: "primary", magnitude: "md" },
+  args: { variant: "primary", size: "md" },
   render: (args) => (
     <AnchorButton
       {...args}
@@ -95,30 +90,29 @@ export const AsLinkInteraction: Story = {
   },
 };
 
-/** Leading and trailing icons beside the label, sized to the link's `--node-size`. */
+/** The icon sits inline-start by default; `iconPosition="end"` moves it after the label. */
 export const WithIcons: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="flex items-center gap-6">
+      <AnchorButton variant="primary" size="md" icon={<Icon icon={Plus} />} label="Add condition" />
       <AnchorButton
-        prominence="primary"
-        magnitude="md"
-        startIcon={<Icon icon={Plus} />}
-        label="Add condition"
-      />
-      <AnchorButton
-        prominence="secondary"
-        magnitude="md"
-        endIcon={<Icon icon={ArrowUpRight} />}
+        variant="secondary"
+        size="md"
+        icon={<Icon icon={ArrowUpRight} />}
+        iconPosition="end"
         label="View docs"
       />
     </div>
   ),
 };
 
-/** The `loading` spinner trails the label and mutes via the link chrome. */
+/**
+ * The `loading` spinner takes the icon slot (inline-start by default) and mutes via the link
+ * chrome.
+ */
 export const Loading: Story = {
-  args: { prominence: "primary", magnitude: "md", loading: true },
+  args: { variant: "primary", size: "md", loading: true },
   render: (args) => <AnchorButton {...args} label="Saving…" />,
 };
 

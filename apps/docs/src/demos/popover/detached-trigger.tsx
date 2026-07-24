@@ -18,10 +18,9 @@ export default function DetachedTriggerDemo() {
     <div className="flex flex-wrap items-center gap-3">
       {/* The trigger lives outside the Popover, linked through the shared handle. */}
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<PopoverTrigger handle={displayPopoverHandle} />}
         label="Display"
       />

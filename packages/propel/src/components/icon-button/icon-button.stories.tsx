@@ -5,10 +5,17 @@ import { expect, fireEvent, fn } from "storybook/test";
 import { IconButton as IconButtonElement } from "../../elements/icon-button";
 import { iconControl } from "../../storybook/icon-control";
 import { Icon } from "../icon";
-import { IconButton, type IconButtonMagnitude, type IconButtonProminence } from "./index";
+import { IconButton, type IconButtonSize, type IconButtonVariant } from "./index";
 
-const PROMINENCES: IconButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
-const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
+const VARIANTS: IconButtonVariant[] = [
+  "primary",
+  "secondary",
+  "tertiary",
+  "ghost",
+  "danger",
+  "danger-outline",
+];
+const SIZES: IconButtonSize[] = ["sm", "md", "lg", "xl"];
 
 const meta = {
   title: "Components/IconButton",
@@ -31,9 +38,8 @@ const meta = {
     },
   },
   args: {
-    prominence: "primary",
-    tone: "neutral",
-    magnitude: "md",
+    variant: "primary",
+    size: "md",
     icon: <Icon icon={Plus} />,
     "aria-label": "Add item",
   },
@@ -45,67 +51,41 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 /**
- * Every Figma "Type" side by side. The neutral fills are `primary`/`secondary`/`tertiary`/`ghost`;
- * the two Error types are the `danger` tone of `primary` (Error fill) and `secondary` (Error
- * outline) — see {@link Tones}.
+ * Every variant side by side: the four neutral Figma "Types" (`primary`/`secondary`/`tertiary`/
+ * `ghost`) plus the two Error palettes — the filled `danger` (Error fill) and the bordered
+ * `danger-outline` (Error outline).
  */
-export const Prominences: Story = {
-  argTypes: { prominence: { control: false }, "aria-label": { control: false } },
+export const Variants: Story = {
+  argTypes: { variant: { control: false }, "aria-label": { control: false } },
   render: (args) => (
     <>
-      {PROMINENCES.map((prominence) => (
-        <IconButton
-          key={prominence}
-          {...args}
-          prominence={prominence}
-          tone="neutral"
-          aria-label={`${prominence} action`}
-        />
+      {VARIANTS.map((variant) => (
+        <IconButton key={variant} {...args} variant={variant} aria-label={`${variant} action`} />
       ))}
-    </>
-  ),
-};
-
-/**
- * Tone selects the palette: `neutral` (default) or `danger` (Figma "Error"). Danger shows as a
- * solid fill (Error fill) and a bordered outline (Error outline).
- */
-export const Tones: Story = {
-  parameters: { controls: { disable: true } },
-  render: (args) => (
-    <>
-      <IconButton {...args} tone="neutral" prominence="primary" aria-label="Neutral" />
-      <IconButton {...args} tone="danger" prominence="primary" aria-label="Danger fill" />
-      <IconButton {...args} tone="danger" prominence="secondary" aria-label="Danger outline" />
     </>
   ),
 };
 
 /** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl). */
-export const Magnitudes: Story = {
-  argTypes: { magnitude: { control: false }, "aria-label": { control: false } },
+export const Sizes: Story = {
+  argTypes: { size: { control: false }, "aria-label": { control: false } },
   render: (args) => (
     <>
-      {MAGNITUDES.map((magnitude) => (
-        <IconButton
-          key={magnitude}
-          {...args}
-          magnitude={magnitude}
-          aria-label={`${magnitude} add`}
-        />
+      {SIZES.map((size) => (
+        <IconButton key={size} {...args} size={size} aria-label={`${size} add`} />
       ))}
     </>
   ),
 };
 
-/** The loading state shows a spinner, sets `aria-busy`, and blocks interaction. */
+/** The loading state shows a spinner in place of the icon, sets `aria-busy`, and blocks interaction. */
 export const Loading: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <>
-      <IconButton {...args} prominence="primary" aria-label="Saving" loading />
-      <IconButton {...args} prominence="secondary" aria-label="Loading" loading />
-      <IconButton {...args} prominence="tertiary" aria-label="Refreshing" loading />
+      <IconButton {...args} variant="primary" aria-label="Saving" loading />
+      <IconButton {...args} variant="secondary" aria-label="Loading" loading />
+      <IconButton {...args} variant="tertiary" aria-label="Refreshing" loading />
     </>
   ),
 };
@@ -115,13 +95,12 @@ export const Disabled: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <>
-      {PROMINENCES.map((prominence) => (
+      {VARIANTS.map((variant) => (
         <IconButton
-          key={prominence}
+          key={variant}
           {...args}
-          prominence={prominence}
-          tone="neutral"
-          aria-label={`${prominence} disabled`}
+          variant={variant}
+          aria-label={`${variant} disabled`}
           disabled
         />
       ))}
@@ -136,13 +115,7 @@ export const Disabled: Story = {
 export const HasAccessibleName: Story = {
   tags: ["!dev", "!autodocs", "!manifest"],
   render: () => (
-    <IconButton
-      prominence="primary"
-      tone="neutral"
-      magnitude="md"
-      aria-label="Add item"
-      icon={<Icon icon={Plus} />}
-    />
+    <IconButton variant="primary" size="md" aria-label="Add item" icon={<Icon icon={Plus} />} />
   ),
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("button", { name: "Add item" })).toBeInTheDocument();
@@ -222,9 +195,8 @@ export const LoadingBlocksInteraction: Story = {
  */
 export const AsLink: Story = {
   args: {
-    prominence: "secondary",
-    tone: "neutral",
-    magnitude: "md",
+    variant: "secondary",
+    size: "md",
     "aria-label": "Open reports",
   },
   render: (args) => <IconButton {...args} nativeButton={false} render={<a href="#reports" />} />,

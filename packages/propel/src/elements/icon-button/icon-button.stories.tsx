@@ -1,32 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { LoaderCircle, Plus } from "lucide-react";
 
-import type { ControlChromePair } from "../../internal/control-chrome";
 import { Icon } from "../../internal/icon";
 import { Spinner } from "../../internal/spinner";
 import { iconControl } from "../../storybook/icon-control";
-import {
-  IconButton,
-  type IconButtonMagnitude,
-  type IconButtonProminence,
-  type IconButtonTone,
-} from "./index";
+import { IconButton, type IconButtonSize, type IconButtonVariant } from "./index";
 
-const PROMINENCES: IconButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
-const MAGNITUDES: IconButtonMagnitude[] = ["sm", "md", "lg", "xl"];
-
-// Storybook ArgTypes flatten discriminant unions into independent controls — re-pair for the API.
-const chrome = (prominence: IconButtonProminence, tone: IconButtonTone): ControlChromePair =>
-  ({ prominence, tone }) as ControlChromePair;
-
-const PALETTES = [
-  { prominence: "primary", tone: "neutral" },
-  { prominence: "secondary", tone: "neutral" },
-  { prominence: "tertiary", tone: "neutral" },
-  { prominence: "ghost", tone: "neutral" },
-  { prominence: "primary", tone: "danger" },
-  { prominence: "secondary", tone: "danger" },
-] as const satisfies readonly ControlChromePair[];
+// Every variant (danger only exists as the filled `danger` and the bordered `danger-outline`).
+const VARIANTS: IconButtonVariant[] = [
+  "primary",
+  "secondary",
+  "tertiary",
+  "ghost",
+  "danger",
+  "danger-outline",
+];
+const SIZES: IconButtonSize[] = ["sm", "md", "lg", "xl"];
 
 // elements-tier story (rule 2b): a pure UI-configuration showcase. `IconButton` is a Base-UI-agnostic
 // styled square `<button>` rendered DIRECTLY — no Base UI graft — wrapping the shared internal `Icon`
@@ -47,14 +36,13 @@ const meta = {
     },
   },
   args: {
-    prominence: "primary",
-    tone: "neutral",
-    magnitude: "md",
+    variant: "primary",
+    size: "md",
     children: <Plus />,
     "aria-label": "Add item",
   },
-  render: ({ children, prominence, tone, magnitude, ...rest }) => (
-    <IconButton {...chrome(prominence, tone)} magnitude={magnitude} {...rest}>
+  render: ({ children, variant, size, ...rest }) => (
+    <IconButton variant={variant} size={size} {...rest}>
       <Icon>{children}</Icon>
     </IconButton>
   ),
@@ -66,66 +54,30 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 /**
- * Every Figma "Type" side by side. The neutral fills are `primary`/`secondary`/ `tertiary`/`ghost`;
- * the two Error types are the `danger` tone of `primary` (Error fill) and `secondary` (Error
- * outline) — see {@link Tones}.
+ * Every variant side by side: the four neutral Figma "Types" (`primary`/`secondary`/`tertiary`/
+ * `ghost`) plus the two Error palettes — the filled `danger` (Error fill) and the bordered
+ * `danger-outline` (Error outline).
  */
-export const Prominences: Story = {
-  argTypes: { prominence: { control: false }, "aria-label": { control: false } },
-  render: ({ children, magnitude }) => (
+export const Variants: Story = {
+  argTypes: { variant: { control: false }, "aria-label": { control: false } },
+  render: ({ children, size }) => (
     <div className="flex items-center gap-3">
-      {PROMINENCES.map((prominence) => (
-        <IconButton
-          key={prominence}
-          {...chrome(prominence, "neutral")}
-          magnitude={magnitude}
-          aria-label={`${prominence} action`}
-        >
+      {VARIANTS.map((variant) => (
+        <IconButton key={variant} variant={variant} size={size} aria-label={`${variant} action`}>
           <Icon>{children}</Icon>
         </IconButton>
       ))}
-    </div>
-  ),
-};
-
-/**
- * Tone selects the palette: `neutral` (default) or `danger` (Figma "Error"). Danger shows as a
- * solid fill (Error fill) and a bordered outline (Error outline).
- */
-export const Tones: Story = {
-  parameters: { controls: { disable: true } },
-  render: ({ children, magnitude }) => (
-    <div className="flex items-center gap-3">
-      <IconButton prominence="primary" tone="neutral" magnitude={magnitude} aria-label="Neutral">
-        <Icon>{children}</Icon>
-      </IconButton>
-      <IconButton prominence="primary" tone="danger" magnitude={magnitude} aria-label="Danger fill">
-        <Icon>{children}</Icon>
-      </IconButton>
-      <IconButton
-        prominence="secondary"
-        tone="danger"
-        magnitude={magnitude}
-        aria-label="Danger outline"
-      >
-        <Icon>{children}</Icon>
-      </IconButton>
     </div>
   ),
 };
 
 /** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl). */
-export const Magnitudes: Story = {
-  argTypes: { magnitude: { control: false }, "aria-label": { control: false } },
-  render: ({ children, prominence, tone }) => (
+export const Sizes: Story = {
+  argTypes: { size: { control: false }, "aria-label": { control: false } },
+  render: ({ children, variant }) => (
     <div className="flex items-center gap-3">
-      {MAGNITUDES.map((magnitude) => (
-        <IconButton
-          key={magnitude}
-          {...chrome(prominence, tone)}
-          magnitude={magnitude}
-          aria-label={`${magnitude} add`}
-        >
+      {SIZES.map((size) => (
+        <IconButton key={size} variant={variant} size={size} aria-label={`${size} add`}>
           <Icon>{children}</Icon>
         </IconButton>
       ))}
@@ -134,70 +86,59 @@ export const Magnitudes: Story = {
 };
 
 /**
- * Every visual state of every palette, pinned statically — one row per prominence×tone pairing the
- * chrome defines. Hover / active / focus-visible are CSS pseudo-classes, forced by the
- * pseudo-states addon; `disabled` is the native attribute the `disabled:` palette keys off; busy
- * pins the `aria-busy`/`aria-disabled` the ready-made IconButton sets while `loading` (the shared
- * `Spinner` swaps in for the glyph slot).
+ * Every visual state of every variant, pinned statically — one row per variant the chrome defines.
+ * Hover / active / focus-visible are CSS pseudo-classes, forced by the pseudo-states addon;
+ * `disabled` is the native attribute the `disabled:` palette keys off; busy pins the
+ * `aria-busy`/`aria-disabled` the ready-made IconButton sets while `loading` (the shared `Spinner`
+ * swaps in for the glyph slot).
  */
 export const States: Story = {
   parameters: {
     controls: { disable: true },
     pseudo: {
-      hover: PALETTES.map(({ prominence, tone }) => `#icon-button-${prominence}-${tone}-hover`),
-      active: PALETTES.map(({ prominence, tone }) => `#icon-button-${prominence}-${tone}-active`),
-      focusVisible: PALETTES.map(
-        ({ prominence, tone }) => `#icon-button-${prominence}-${tone}-focus`,
-      ),
+      hover: VARIANTS.map((variant) => `#icon-button-${variant}-hover`),
+      active: VARIANTS.map((variant) => `#icon-button-${variant}-active`),
+      focusVisible: VARIANTS.map((variant) => `#icon-button-${variant}-focus`),
     },
   },
-  render: ({ children, magnitude }) => (
+  render: ({ children, size }) => (
     <div className="flex flex-col gap-3">
-      {PALETTES.map((palette) => (
-        <div key={`${palette.prominence}-${palette.tone}`} className="flex items-center gap-3">
+      {VARIANTS.map((variant) => (
+        <div key={variant} className="flex items-center gap-3">
+          <IconButton variant={variant} size={size} aria-label={`${variant} default`}>
+            <Icon>{children}</Icon>
+          </IconButton>
           <IconButton
-            {...palette}
-            magnitude={magnitude}
-            aria-label={`${palette.prominence} ${palette.tone} default`}
+            id={`icon-button-${variant}-hover`}
+            variant={variant}
+            size={size}
+            aria-label={`${variant} hover`}
           >
             <Icon>{children}</Icon>
           </IconButton>
           <IconButton
-            id={`icon-button-${palette.prominence}-${palette.tone}-hover`}
-            {...palette}
-            magnitude={magnitude}
-            aria-label={`${palette.prominence} ${palette.tone} hover`}
+            id={`icon-button-${variant}-active`}
+            variant={variant}
+            size={size}
+            aria-label={`${variant} active`}
           >
             <Icon>{children}</Icon>
           </IconButton>
           <IconButton
-            id={`icon-button-${palette.prominence}-${palette.tone}-active`}
-            {...palette}
-            magnitude={magnitude}
-            aria-label={`${palette.prominence} ${palette.tone} active`}
+            id={`icon-button-${variant}-focus`}
+            variant={variant}
+            size={size}
+            aria-label={`${variant} focus`}
           >
             <Icon>{children}</Icon>
           </IconButton>
-          <IconButton
-            id={`icon-button-${palette.prominence}-${palette.tone}-focus`}
-            {...palette}
-            magnitude={magnitude}
-            aria-label={`${palette.prominence} ${palette.tone} focus`}
-          >
+          <IconButton variant={variant} size={size} aria-label={`${variant} disabled`} disabled>
             <Icon>{children}</Icon>
           </IconButton>
           <IconButton
-            {...palette}
-            magnitude={magnitude}
-            aria-label={`${palette.prominence} ${palette.tone} disabled`}
-            disabled
-          >
-            <Icon>{children}</Icon>
-          </IconButton>
-          <IconButton
-            {...palette}
-            magnitude={magnitude}
-            aria-label={`${palette.prominence} ${palette.tone} busy`}
+            variant={variant}
+            size={size}
+            aria-label={`${variant} busy`}
             aria-busy
             aria-disabled
           >
@@ -220,18 +161,12 @@ export const States: Story = {
  */
 export const Anatomy: Story = {
   parameters: { controls: { disable: true } },
-  render: ({ children, prominence, tone, magnitude }) => (
+  render: ({ children, variant, size }) => (
     <div className="flex items-center gap-3">
-      <IconButton {...chrome(prominence, tone)} magnitude={magnitude} aria-label="Add item">
+      <IconButton variant={variant} size={size} aria-label="Add item">
         <Icon>{children}</Icon>
       </IconButton>
-      <IconButton
-        {...chrome(prominence, tone)}
-        magnitude={magnitude}
-        aria-label="Saving"
-        aria-busy
-        aria-disabled
-      >
+      <IconButton variant={variant} size={size} aria-label="Saving" aria-busy aria-disabled>
         <Spinner>
           <LoaderCircle />
         </Spinner>

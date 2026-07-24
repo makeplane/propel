@@ -4,8 +4,7 @@ export * from "./button";
 export {
   ButtonLabel,
   type ButtonLabelProps,
-  type ButtonMagnitude,
-  type ButtonSizing,
-  type ButtonTone,
-  type ButtonProminence,
+  type ButtonFillType,
+  type ButtonSize,
+  type ButtonVariant,
 } from "../../elements/button";

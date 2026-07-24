@@ -18,7 +18,7 @@ export const buttonGroupVariants = cva(
 // A ButtonGroupButton is one segment of a ButtonGroup: a transparent, borderless action button
 // (Figma's grouped "Buttons" — NOT the standalone secondary `Button`: it has no border/shadow/
 // radius of its own, tighter padding, and no `xl` step). The focus ring is inset so it isn't
-// clipped by the container's `overflow-hidden`. Each magnitude sets `--node-size` so icon slots
+// clipped by the container's `overflow-hidden`. Each size sets `--node-size` so icon slots
 // size their glyph to match.
 export const buttonGroupButtonVariants = cva(
   cx(
@@ -31,7 +31,7 @@ export const buttonGroupButtonVariants = cva(
   ),
   {
     variants: {
-      magnitude: {
+      size: {
         sm: "h-5 px-1.5 text-12 leading-none [--node-size:0.875rem]",
         md: "h-6 px-1.5 text-13 leading-none [--node-size:0.875rem]",
         lg: "h-7 px-2 text-13 leading-none [--node-size:1rem]",
@@ -41,7 +41,7 @@ export const buttonGroupButtonVariants = cva(
 );
 
 type ButtonGroupButtonVariantConfig = VariantProps<typeof buttonGroupButtonVariants>;
-export type ButtonGroupButtonMagnitude = NonNullable<ButtonGroupButtonVariantConfig["magnitude"]>;
+export type ButtonGroupButtonSize = NonNullable<ButtonGroupButtonVariantConfig["size"]>;
 
 // No `defaultVariants` today, so every axis is required.
 export type ButtonGroupButtonVariantProps = StrictVariantProps<typeof buttonGroupButtonVariants>;

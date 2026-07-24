@@ -6,10 +6,9 @@ export default function WithShortcutDemo() {
     <Tooltip label="Open command menu" shortcut="⌘ K">
       <Button
         label="Command menu"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="md"
-        sizing="hug"
+        variant="secondary"
+        size="md"
+        fillType="hug"
         aria-keyshortcuts="Meta+K"
       />
     </Tooltip>

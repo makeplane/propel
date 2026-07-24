@@ -21,18 +21,16 @@ export default function MagnitudesDemo() {
           empty="No regions found"
           clear={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="md"
+              variant="ghost"
+              size="md"
               aria-label="Clear region"
               icon={<Icon icon={X} />}
             />
           }
           trigger={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="md"
+              variant="ghost"
+              size="md"
               aria-label="Open region"
               icon={<Icon icon={ChevronsUpDown} />}
             />

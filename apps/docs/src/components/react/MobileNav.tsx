@@ -31,9 +31,8 @@ export default function MobileNav({ groups, currentPath }: Props) {
       <DrawerTrigger
         render={
           <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
+            variant="ghost"
+            size="lg"
             aria-label="Open navigation"
             icon={<Icon icon={Menu} />}
           />
@@ -47,9 +46,8 @@ export default function MobileNav({ groups, currentPath }: Props) {
           <DrawerClose
             render={
               <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
+                variant="ghost"
+                size="lg"
                 aria-label="Close navigation"
                 icon={<Icon icon={X} />}
               />

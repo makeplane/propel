@@ -8,8 +8,8 @@ export type ButtonGroupProps = Omit<useRender.ComponentProps<"div">, "className"
 /**
  * The styled connected container around `ButtonGroupButton`s — raised white surface, shared outer
  * border, dividers between items, and clipped corners. Base-UI-agnostic (there is no Base UI
- * button-group primitive); the `components` ready-made adds the `group` role and shares one
- * `magnitude` with every item via context.
+ * button-group primitive); the `components` ready-made adds the `group` role and shares one `size`
+ * with every item via context.
  */
 export function ButtonGroup({ render, ...props }: ButtonGroupProps) {
   const defaultProps: useRender.ElementProps<"div"> = { className: buttonGroupVariants() };

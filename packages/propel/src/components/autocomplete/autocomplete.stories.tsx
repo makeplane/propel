@@ -59,18 +59,16 @@ export const Default: Story = {
           placeholder="e.g. docker.io/library/node:latest"
           clear={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="md"
+              variant="ghost"
+              size="md"
               aria-label="Clear container image"
               icon={<Icon icon={X} />}
             />
           }
           trigger={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="md"
+              variant="ghost"
+              size="md"
               aria-label="Open container image"
               icon={<Icon icon={ChevronsUpDown} />}
             />
@@ -166,9 +164,8 @@ export const Search: Story = {
         aria-label="Search images"
         clear={
           <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="md"
+            variant="ghost"
+            size="md"
             aria-label="Clear search"
             icon={<Icon icon={X} />}
           />
@@ -437,9 +434,8 @@ export const LimitResults: Story = {
           aria-label="Filter labels"
           trigger={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="md"
+              variant="ghost"
+              size="md"
               aria-label="Show all labels"
               icon={<Icon icon={ChevronsUpDown} />}
             />
@@ -544,10 +540,9 @@ export const CommandPalette: Story = {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="secondary"
+          size="xl"
           render={<DialogTrigger />}
           label="Open command palette"
         />

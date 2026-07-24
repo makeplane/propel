@@ -81,10 +81,10 @@ export const Default: Story = {
             </DrawerHeader>
             <DrawerBody>Panel body content goes here.</DrawerBody>
             <DrawerFooter>
-              <Button sizing="hug" prominence="ghost" tone="neutral" magnitude="lg">
+              <Button fillType="hug" variant="ghost" size="lg">
                 Cancel
               </Button>
-              <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg">
+              <Button fillType="hug" variant="primary" size="lg">
                 Save
               </Button>
             </DrawerFooter>

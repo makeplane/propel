@@ -44,15 +44,7 @@ export default function ControlledDemo() {
         }}
       >
         <DrawerTrigger
-          render={
-            <Button
-              sizing="hug"
-              prominence="secondary"
-              tone="neutral"
-              magnitude="xl"
-              label="Add comment"
-            />
-          }
+          render={<Button fillType="hug" variant="secondary" size="xl" label="Add comment" />}
         />
         <DrawerPanel side="end">
           <DrawerHeader>
@@ -62,13 +54,7 @@ export default function ControlledDemo() {
             </DrawerHeaderContent>
             <DrawerClose
               render={
-                <IconButton
-                  prominence="ghost"
-                  tone="neutral"
-                  magnitude="lg"
-                  aria-label="Close"
-                  icon={<Icon icon={X} />}
-                />
+                <IconButton variant="ghost" size="lg" aria-label="Close" icon={<Icon icon={X} />} />
               }
             />
           </DrawerHeader>
@@ -97,18 +83,16 @@ export default function ControlledDemo() {
           </AlertDialogHeader>
           <AlertDialogActions>
             <Button
-              sizing="hug"
-              prominence="ghost"
-              tone="neutral"
-              magnitude="lg"
+              fillType="hug"
+              variant="ghost"
+              size="lg"
               onClick={() => setConfirmOpen(false)}
               label="Keep editing"
             />
             <Button
-              sizing="hug"
-              prominence="primary"
-              tone="danger"
-              magnitude="lg"
+              fillType="hug"
+              variant="danger"
+              size="lg"
               onClick={() => {
                 setConfirmOpen(false);
                 setOpen(false);

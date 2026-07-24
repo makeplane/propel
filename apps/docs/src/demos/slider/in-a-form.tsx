@@ -15,14 +15,7 @@ export default function InAFormDemo() {
           </Field>
         </FormBody>
         <FormActions layout="inline">
-          <Button
-            sizing="hug"
-            type="submit"
-            prominence="primary"
-            tone="neutral"
-            magnitude="md"
-            label="Save"
-          />
+          <Button fillType="hug" type="submit" variant="primary" size="md" label="Save" />
         </FormActions>
       </Form>
       <output className="text-13 text-secondary">

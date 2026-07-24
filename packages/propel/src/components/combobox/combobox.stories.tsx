@@ -82,18 +82,16 @@ export const Default: Story = {
           placeholder="e.g. eu-central-1"
           clear={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="md"
+              variant="ghost"
+              size="md"
               aria-label="Clear region"
               icon={<Icon icon={X} />}
             />
           }
           trigger={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="md"
+              variant="ghost"
+              size="md"
               aria-label="Open region"
               icon={<Icon icon={ChevronsUpDown} />}
             />
@@ -198,9 +196,8 @@ export const Multiple: Story = {
               label={region}
               remove={
                 <IconButton
-                  prominence="ghost"
-                  tone="neutral"
-                  magnitude="sm"
+                  variant="ghost"
+                  size="sm"
                   aria-label={`Remove ${region}`}
                   icon={<Icon icon={X} />}
                 />
@@ -274,9 +271,8 @@ export const MultipleOverflow: Story = {
               startContent={<Icon icon={MapPin} />}
               remove={
                 <IconButton
-                  prominence="ghost"
-                  tone="neutral"
-                  magnitude="sm"
+                  variant="ghost"
+                  size="sm"
                   aria-label={`Remove ${region}`}
                   icon={<Icon icon={X} />}
                 />
@@ -431,18 +427,16 @@ export const AsyncSearch: Story = {
             placeholder="e.g. Priya"
             clear={
               <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="md"
+                variant="ghost"
+                size="md"
                 aria-label="Clear reviewer"
                 icon={<Icon icon={X} />}
               />
             }
             trigger={
               <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="md"
+                variant="ghost"
+                size="md"
                 aria-label="Open reviewer"
                 icon={<Icon icon={ChevronsUpDown} />}
               />
@@ -573,9 +567,8 @@ export const Creatable: Story = {
                   label={label.value}
                   remove={
                     <IconButton
-                      prominence="ghost"
-                      tone="neutral"
-                      magnitude="sm"
+                      variant="ghost"
+                      size="sm"
                       aria-label={`Remove ${label.value}`}
                       icon={<Icon icon={X} />}
                     />
@@ -608,9 +601,8 @@ export const Creatable: Story = {
                 <DialogTitle>Create new label</DialogTitle>
               </DialogHeading>
               <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
+                variant="ghost"
+                size="lg"
                 aria-label="Close"
                 render={<DialogClose />}
                 icon={<Icon icon={X} />}
@@ -629,18 +621,16 @@ export const Creatable: Story = {
             </DialogBody>
             <DialogActions>
               <Button
-                sizing="hug"
-                prominence="secondary"
-                tone="neutral"
-                magnitude="xl"
+                fillType="hug"
+                variant="secondary"
+                size="xl"
                 render={<DialogClose />}
                 label="Cancel"
               />
               <Button
-                sizing="hug"
-                prominence="primary"
-                tone="neutral"
-                magnitude="xl"
+                fillType="hug"
+                variant="primary"
+                size="xl"
                 onClick={createLabel}
                 label="Create"
               />

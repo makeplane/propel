@@ -8,10 +8,9 @@ function ActionTrigger() {
   const { add } = useToast();
   return (
     <Button
-      sizing="hug"
-      prominence="secondary"
-      tone="neutral"
-      magnitude="md"
+      fillType="hug"
+      variant="secondary"
+      size="md"
       label="Mark as done"
       onClick={() =>
         add({
@@ -31,15 +30,7 @@ function ActionTrigger() {
 export default function WithActionsDemo() {
   return (
     <ToastProvider
-      close={
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="sm"
-          aria-label="Dismiss"
-          icon={<Icon icon={X} />}
-        />
-      }
+      close={<IconButton variant="ghost" size="sm" aria-label="Dismiss" icon={<Icon icon={X} />} />}
     >
       <ActionTrigger />
     </ToastProvider>

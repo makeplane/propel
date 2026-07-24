@@ -11,10 +11,9 @@ export default function ControlledDemo() {
     <div className="flex flex-wrap items-center gap-3">
       <Popover open={open} onOpenChange={(next) => setOpen(next)}>
         <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="secondary"
+          size="xl"
           render={<PopoverTrigger />}
           label="Display"
         />
@@ -28,10 +27,9 @@ export default function ControlledDemo() {
         </PopoverContent>
       </Popover>
       <Button
-        sizing="hug"
-        prominence="tertiary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="tertiary"
+        size="xl"
         onClick={() => setOpen((prev) => !prev)}
         label={open ? "Close panel" : "Open panel"}
       />

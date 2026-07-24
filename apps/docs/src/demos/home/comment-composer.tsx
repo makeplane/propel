@@ -50,14 +50,7 @@ export default function CommentComposerDemo() {
               <ToolbarToggle aria-label="Underline" icon={<Icon icon={Underline} />} />
             </ToolbarGroup>
           </Toolbar>
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="md"
-            disabled={isEmpty}
-            label="Comment"
-          />
+          <Button fillType="hug" variant="secondary" size="md" disabled={isEmpty} label="Comment" />
         </div>
       </div>
     </Field>

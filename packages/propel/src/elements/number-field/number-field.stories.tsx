@@ -36,29 +36,19 @@ type Story = StoryObj<typeof meta>;
  * The anatomy assembled statically: the `NumberField` frame stacking the `NumberFieldGroup`
  * bordered group, which holds a decrement `IconButton`, the fixed-width centered
  * `NumberFieldInput`, and an increment `IconButton`. The input's `magnitude` matches the stepper
- * buttons' square (`xl` = 32px) so the group container stays flush.
+ * buttons' `size` (`xl` = 32px) so the group container stays flush.
  */
 export const Default: Story = {
   render: () => (
     <NumberField>
       <NumberFieldGroup>
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="xl"
-          aria-label="Decrease instances"
-        >
+        <IconButton variant="ghost" size="xl" aria-label="Decrease instances">
           <Icon>
             <Minus />
           </Icon>
         </IconButton>
         <NumberFieldInput magnitude="xl" defaultValue="2" aria-label="Number of instances" />
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="xl"
-          aria-label="Increase instances"
-        >
+        <IconButton variant="ghost" size="xl" aria-label="Increase instances">
           <Icon>
             <Plus />
           </Icon>
@@ -70,8 +60,8 @@ export const Default: Story = {
 
 /**
  * All input sizes (sm/md/lg/xl → 20/24/28/32px input heights) side by side. Each step matches the
- * stepper `IconButton` square of the same `magnitude`, which is what keeps the group container
- * flush — so the two props always change together.
+ * stepper `IconButton`'s `size`, which is what keeps the group container flush — so the two props
+ * always change together.
  */
 export const Magnitudes: Story = {
   render: () => (
@@ -79,12 +69,7 @@ export const Magnitudes: Story = {
       {MAGNITUDES.map((magnitude) => (
         <NumberField key={magnitude}>
           <NumberFieldGroup>
-            <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude={magnitude}
-              aria-label={`Decrease (${magnitude})`}
-            >
+            <IconButton variant="ghost" size={magnitude} aria-label={`Decrease (${magnitude})`}>
               <Icon>
                 <Minus />
               </Icon>
@@ -94,12 +79,7 @@ export const Magnitudes: Story = {
               defaultValue="2"
               aria-label={`Number of instances (${magnitude})`}
             />
-            <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude={magnitude}
-              aria-label={`Increase (${magnitude})`}
-            >
+            <IconButton variant="ghost" size={magnitude} aria-label={`Increase (${magnitude})`}>
               <Icon>
                 <Plus />
               </Icon>
@@ -143,23 +123,13 @@ export const States: Story = {
       ).map(({ label, id }) => (
         <NumberField key={id}>
           <NumberFieldGroup id={id}>
-            <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="md"
-              aria-label={`Decrease (${label})`}
-            >
+            <IconButton variant="ghost" size="md" aria-label={`Decrease (${label})`}>
               <Icon>
                 <Minus />
               </Icon>
             </IconButton>
             <NumberFieldInput magnitude="md" defaultValue="2" aria-label={label} />
-            <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="md"
-              aria-label={`Increase (${label})`}
-            >
+            <IconButton variant="ghost" size="md" aria-label={`Increase (${label})`}>
               <Icon>
                 <Plus />
               </Icon>
@@ -169,12 +139,7 @@ export const States: Story = {
       ))}
       <NumberField>
         <NumberFieldGroup id="number-field-group-invalid">
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="md"
-            aria-label="Decrease (Invalid)"
-          >
+          <IconButton variant="ghost" size="md" aria-label="Decrease (Invalid)">
             <Icon>
               <Minus />
             </Icon>
@@ -186,12 +151,7 @@ export const States: Story = {
             aria-invalid
             data-invalid=""
           />
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="md"
-            aria-label="Increase (Invalid)"
-          >
+          <IconButton variant="ghost" size="md" aria-label="Increase (Invalid)">
             <Icon>
               <Plus />
             </Icon>
@@ -200,25 +160,13 @@ export const States: Story = {
       </NumberField>
       <NumberField>
         <NumberFieldGroup data-disabled="">
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="md"
-            aria-label="Decrease (Disabled)"
-            disabled
-          >
+          <IconButton variant="ghost" size="md" aria-label="Decrease (Disabled)" disabled>
             <Icon>
               <Minus />
             </Icon>
           </IconButton>
           <NumberFieldInput magnitude="md" defaultValue="2" aria-label="Disabled" disabled />
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="md"
-            aria-label="Increase (Disabled)"
-            disabled
-          >
+          <IconButton variant="ghost" size="md" aria-label="Increase (Disabled)" disabled>
             <Icon>
               <Plus />
             </Icon>

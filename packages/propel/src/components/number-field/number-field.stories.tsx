@@ -17,22 +17,10 @@ const meta = {
   args: {
     "aria-label": "Number of instances",
     decrement: (
-      <IconButton
-        prominence="ghost"
-        tone="neutral"
-        magnitude="xl"
-        aria-label="Decrease"
-        icon={<Icon icon={Minus} />}
-      />
+      <IconButton variant="ghost" size="xl" aria-label="Decrease" icon={<Icon icon={Minus} />} />
     ),
     increment: (
-      <IconButton
-        prominence="ghost"
-        tone="neutral"
-        magnitude="xl"
-        aria-label="Increase"
-        icon={<Icon icon={Plus} />}
-      />
+      <IconButton variant="ghost" size="xl" aria-label="Increase" icon={<Icon icon={Plus} />} />
     ),
   },
 } satisfies Meta<typeof NumberField>;
@@ -47,8 +35,8 @@ export const Default: Story = {
 
 /**
  * All sizes (sm/md/lg/xl) side by side. The input height matches the stepper button square, so each
- * field's decrement/increment `IconButton`s carry the same `magnitude` as the field — that is what
- * keeps the group container flush.
+ * field's decrement/increment `IconButton`s carry the matching `size` for the field's `magnitude` —
+ * that is what keeps the group container flush.
  */
 export const Magnitudes: Story = {
   // Iterates `magnitude`, building magnitude-matched steppers and a distinct accessible name per
@@ -70,18 +58,16 @@ export const Magnitudes: Story = {
           aria-label={`Number of instances (${magnitude})`}
           decrement={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude={magnitude}
+              variant="ghost"
+              size={magnitude}
               aria-label={`Decrease (${magnitude})`}
               icon={<Icon icon={Minus} />}
             />
           }
           increment={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude={magnitude}
+              variant="ghost"
+              size={magnitude}
               aria-label={`Increase (${magnitude})`}
               icon={<Icon icon={Plus} />}
             />

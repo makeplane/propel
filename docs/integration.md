@@ -85,12 +85,12 @@ outer element** and pass the dialog/menu part through its `render`:
 
 ```tsx
 // ✅ correct — Button's look wins, AlertDialogClose supplies the close behavior
-<Button variant="primary" tone="danger" magnitude="xl" render={<AlertDialogClose />}>
+<Button variant="danger" size="xl" fillType="hug" render={<AlertDialogClose />}>
   Delete
 </Button>
 
 // ✅ corner close — IconButton for the icon-only ✕
-<IconButton variant="ghost" tone="neutral" magnitude="lg" aria-label="Close" render={<DialogClose />}>
+<IconButton variant="ghost" size="lg" aria-label="Close" render={<DialogClose />}>
   <X />
 </IconButton>
 ```
@@ -99,7 +99,7 @@ Not the reverse:
 
 ```tsx
 // ❌ wrong — renders a bare/ghost element, NOT a styled button
-<AlertDialogClose render={<Button variant="secondary" tone="neutral" magnitude="xl" />}>
+<AlertDialogClose render={<Button variant="secondary" size="xl" fillType="hug" />}>
   Cancel
 </AlertDialogClose>
 ```

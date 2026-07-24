@@ -40,11 +40,10 @@ export default function ServerFunctionDemo() {
       </FormBody>
       <FormActions layout="inline">
         <Button
-          sizing="hug"
+          fillType="hug"
           type="submit"
-          prominence="primary"
-          tone="neutral"
-          magnitude="md"
+          variant="primary"
+          size="md"
           loading={pending}
           label="Reserve username"
         />

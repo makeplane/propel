@@ -59,14 +59,7 @@ export default function SchemaValidationDemo() {
         />
       </FormBody>
       <FormActions layout="inline">
-        <Button
-          sizing="hug"
-          type="submit"
-          prominence="primary"
-          tone="neutral"
-          magnitude="md"
-          label="Submit"
-        />
+        <Button fillType="hug" type="submit" variant="primary" size="md" label="Submit" />
       </FormActions>
     </Form>
   );

@@ -8,10 +8,10 @@ import ComponentExample from "~/components/ComponentExample.astro";
 import PropsTable from "~/components/PropsTable.astro";
 import BasicDemo from "~/demos/anchor-button/basic.tsx";
 import basicSource from "~/demos/anchor-button/basic.tsx?raw";
-import ProminencesDemo from "~/demos/anchor-button/prominences.tsx";
-import prominencesSource from "~/demos/anchor-button/prominences.tsx?raw";
-import MagnitudesDemo from "~/demos/anchor-button/magnitudes.tsx";
-import magnitudesSource from "~/demos/anchor-button/magnitudes.tsx?raw";
+import VariantsDemo from "~/demos/anchor-button/variants.tsx";
+import variantsSource from "~/demos/anchor-button/variants.tsx?raw";
+import SizesDemo from "~/demos/anchor-button/sizes.tsx";
+import sizesSource from "~/demos/anchor-button/sizes.tsx?raw";
 import WithIconsDemo from "~/demos/anchor-button/with-icons.tsx";
 import withIconsSource from "~/demos/anchor-button/with-icons.tsx?raw";
 import LoadingDemo from "~/demos/anchor-button/loading.tsx";
@@ -23,21 +23,23 @@ import loadingSource from "~/demos/anchor-button/loading.tsx?raw";
   <BasicDemo client:visible />
 </ComponentExample>
 
-## Prominences
+## Variants
 
 `primary` is the blue link; `secondary` the muted gray inline link.
 
-<ComponentExample code={prominencesSource}>
-  <ProminencesDemo client:visible />
+<ComponentExample code={variantsSource}>
+  <VariantsDemo client:visible />
 </ComponentExample>
 
-## Magnitudes
+## Sizes
 
-<ComponentExample code={magnitudesSource}>
-  <MagnitudesDemo client:visible />
+<ComponentExample code={sizesSource}>
+  <SizesDemo client:visible />
 </ComponentExample>
 
 ## With icons
+
+Pass `icon` and pick its side with `iconPosition` (`start` by default).
 
 <ComponentExample code={withIconsSource}>
   <WithIconsDemo client:visible />

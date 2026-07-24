@@ -4,12 +4,6 @@ import { Plus } from "lucide-react";
 
 export default function BasicDemo() {
   return (
-    <IconButton
-      prominence="primary"
-      tone="neutral"
-      magnitude="md"
-      aria-label="Add item"
-      icon={<Icon icon={Plus} />}
-    />
+    <IconButton variant="primary" size="md" aria-label="Add item" icon={<Icon icon={Plus} />} />
   );
 }

@@ -15,10 +15,14 @@ export type SplitButtonProps = Omit<SplitButtonElementProps, "children"> & {
   label: string;
   /** Click handler of the main action segment. */
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  /** Element rendered before the main label (inline-start), e.g. `<Icon icon={Plus} />`. */
-  startIcon?: React.ReactNode;
-  /** Element rendered after the main label (inline-end), e.g. `<Icon icon={ArrowRight} />`. */
-  endIcon?: React.ReactNode;
+  /** Icon rendered beside the main label (inline-start by default), e.g. `<Icon icon={Plus} />`. */
+  icon?: React.ReactNode;
+  /**
+   * Which side of the main label the icon sits on. The `loading` spinner takes the same slot.
+   *
+   * @default "start"
+   */
+  iconPosition?: "start" | "end";
   /**
    * Shows a spinner on the main segment and makes both segments non-interactive (the main segment
    * stays focusable, Button's soft-disabled loading state).
@@ -26,6 +30,12 @@ export type SplitButtonProps = Omit<SplitButtonElementProps, "children"> & {
   loading?: boolean;
   /** Disables both segments. */
   disabled?: boolean;
+  /**
+   * The main segment's form behavior.
+   *
+   * @default "button"
+   */
+  type?: "submit" | "reset" | "button";
   /**
    * Accessible name of the menu-opening segment (it is icon-only, so it must be labeled).
    *
@@ -37,13 +47,13 @@ export type SplitButtonProps = Omit<SplitButtonElementProps, "children"> & {
 /**
  * The ready-made split button: a main action `Button` plus a chevron `IconButton` grafted as the
  * surrounding menu's `MenuTrigger`, laid out by the styled `SplitButton` frame (separate pills when
- * primary, connected outline when secondary). Neutral only — there is no danger/error split button;
- * both segments are wired with `tone="neutral"`. It ships no menu of its own — render it as a
- * `Menu`'s child, with the surface as a sibling `MenuContent`:
+ * primary, connected outline when secondary). Neutral only — there is no danger/error split button.
+ * It ships no menu of its own — render it as a `Menu`'s child, with the surface as a sibling
+ * `MenuContent`:
  *
  * ```tsx
  * <Menu>
- *   <SplitButton prominence="primary" magnitude="lg" label="Save" onClick={save} />
+ *   <SplitButton variant="primary" size="lg" label="Save" onClick={save} />
  *   <MenuContent>
  *     <MenuItem label="Save as draft" />
  *   </MenuContent>
@@ -51,38 +61,38 @@ export type SplitButtonProps = Omit<SplitButtonElementProps, "children"> & {
  * ```
  */
 export function SplitButton({
-  prominence,
-  magnitude,
+  variant,
+  size,
   label,
   onClick,
-  startIcon,
-  endIcon,
+  icon,
+  iconPosition,
   loading = false,
   disabled,
+  type = "button",
   menuLabel = "More options",
   ...props
 }: SplitButtonProps) {
   return (
-    <SplitButtonElement prominence={prominence} magnitude={magnitude} {...props}>
+    <SplitButtonElement variant={variant} size={size} {...props}>
       <Button
-        prominence={prominence}
-        tone="neutral"
-        magnitude={magnitude}
-        sizing="hug"
+        variant={variant}
+        size={size}
+        fillType="hug"
         label={label}
         onClick={onClick}
-        startIcon={startIcon}
-        endIcon={endIcon}
+        icon={icon}
+        iconPosition={iconPosition}
         loading={loading}
         disabled={disabled}
+        type={type}
       />
       <MenuTrigger
         disabled={disabled || loading}
         render={
           <IconButton
-            prominence={prominence}
-            tone="neutral"
-            magnitude={magnitude}
+            variant={variant}
+            size={size}
             icon={<Icon icon={ChevronDown} />}
             aria-label={menuLabel}
           />

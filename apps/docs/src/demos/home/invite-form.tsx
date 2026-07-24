@@ -25,14 +25,7 @@ export default function InviteFormDemo() {
         description="They can be removed from a project later."
         defaultChecked
       />
-      <Button
-        type="submit"
-        label="Send invite"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="md"
-        sizing="fill"
-      />
+      <Button type="submit" label="Send invite" variant="secondary" size="md" fillType="fill" />
     </form>
   );
 }

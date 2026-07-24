@@ -17,10 +17,9 @@ export default function BasicDemo() {
   return (
     <AlertDialog>
       <Button
-        sizing="hug"
-        prominence="primary"
-        tone="danger"
-        magnitude="xl"
+        fillType="hug"
+        variant="danger"
+        size="xl"
         render={<AlertDialogTrigger />}
         label="Delete project"
       />
@@ -39,18 +38,16 @@ export default function BasicDemo() {
         </AlertDialogHeader>
         <AlertDialogActions>
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<AlertDialogClose />}
             label="Cancel"
           />
           <Button
-            sizing="hug"
-            prominence="primary"
-            tone="danger"
-            magnitude="xl"
+            fillType="hug"
+            variant="danger"
+            size="xl"
             render={<AlertDialogClose />}
             label="Delete"
           />

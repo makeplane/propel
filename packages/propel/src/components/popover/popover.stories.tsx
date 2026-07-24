@@ -93,10 +93,9 @@ export const Default: Story = {
   render: () => (
     <Popover>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<PopoverTrigger />}
         label="Options"
       />
@@ -159,10 +158,9 @@ export const DisplayProperties: Story = {
     return (
       <Popover>
         <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="secondary"
+          size="xl"
           render={<PopoverTrigger />}
           label="Display"
         />
@@ -237,10 +235,9 @@ export const DisplayAccordion: Story = {
     return (
       <Popover>
         <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="secondary"
+          size="xl"
           render={<PopoverTrigger />}
           label="Display options"
         />
@@ -325,10 +322,9 @@ export const OpenOnHover: Story = {
   render: () => (
     <Popover>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<PopoverTrigger openOnHover delay={100} />}
         label="Filters"
       />
@@ -385,10 +381,9 @@ export const DetachedTrigger: Story = {
         <span className="text-13 font-medium text-primary">Work items</span>
         {/* The trigger: outside the `Popover`, linked through the shared handle. */}
         <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="secondary"
+          size="xl"
           render={<PopoverTrigger handle={displayPopoverHandle} />}
           label="Display"
         />
@@ -454,10 +449,9 @@ export const MultipleTriggers: Story = {
               {members.map((member) => (
                 <Button
                   key={member.name}
-                  sizing="hug"
-                  prominence="secondary"
-                  tone="neutral"
-                  magnitude="xl"
+                  fillType="hug"
+                  variant="secondary"
+                  size="xl"
                   render={<PopoverTrigger payload={member} />}
                   label={member.name}
                 />
@@ -534,18 +528,16 @@ export const Controlled: Story = {
           }}
         >
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<PopoverTrigger id="view-sort-trigger" />}
             label="Sort"
           />
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<PopoverTrigger id="view-filter-trigger" />}
             label="Filter"
           />
@@ -571,10 +563,9 @@ export const Controlled: Story = {
             sets `triggerId` to the Filter trigger, the panel anchors to (opens under) THAT trigger,
             not this button — clicking here reopens the Filter panel where the Filter button is. */}
         <Button
-          sizing="hug"
-          prominence="tertiary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="tertiary"
+          size="xl"
           onClick={() => {
             setTriggerId("view-filter-trigger");
             setOpen(true);
@@ -656,10 +647,9 @@ export const RTL: Story = {
       <DirectionProvider direction="rtl">
         <Popover>
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<PopoverTrigger />}
             label="خيارات"
           />

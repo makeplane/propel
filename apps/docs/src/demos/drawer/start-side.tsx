@@ -17,15 +17,7 @@ export default function StartSideDemo() {
   return (
     <Drawer>
       <DrawerTrigger
-        render={
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            label="Open navigation"
-          />
-        }
+        render={<Button fillType="hug" variant="secondary" size="xl" label="Open navigation" />}
       />
       <DrawerPanel side="start">
         <DrawerHeader>
@@ -34,13 +26,7 @@ export default function StartSideDemo() {
           </DrawerHeaderContent>
           <DrawerClose
             render={
-              <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
-                aria-label="Close"
-                icon={<Icon icon={X} />}
-              />
+              <IconButton variant="ghost" size="lg" aria-label="Close" icon={<Icon icon={X} />} />
             }
           />
         </DrawerHeader>

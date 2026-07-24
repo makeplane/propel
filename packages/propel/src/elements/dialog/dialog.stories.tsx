@@ -63,7 +63,7 @@ export const Default: Story = {
             <DialogHeading>
               <OverlayTitle magnitude="lg">Delete project</OverlayTitle>
             </DialogHeading>
-            <IconButton prominence="ghost" tone="neutral" magnitude="lg" aria-label="Close">
+            <IconButton variant="ghost" size="lg" aria-label="Close">
               <Icon>
                 <X />
               </Icon>
@@ -75,10 +75,10 @@ export const Default: Story = {
             </OverlayDescription>
           </DialogBody>
           <DialogActions>
-            <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
+            <Button fillType="hug" variant="secondary" size="xl">
               <ButtonLabel>Cancel</ButtonLabel>
             </Button>
-            <Button sizing="hug" prominence="primary" tone="danger" magnitude="xl">
+            <Button fillType="hug" variant="danger" size="xl">
               <ButtonLabel>Delete</ButtonLabel>
             </Button>
           </DialogActions>
@@ -105,7 +105,7 @@ export const Magnitudes: Story = {
                 {magnitude} — {MAGNITUDE_WIDTHS[magnitude]}
               </OverlayTitle>
             </DialogHeading>
-            <IconButton prominence="ghost" tone="neutral" magnitude="lg" aria-label="Close">
+            <IconButton variant="ghost" size="lg" aria-label="Close">
               <Icon>
                 <X />
               </Icon>
@@ -117,7 +117,7 @@ export const Magnitudes: Story = {
             </OverlayDescription>
           </DialogBody>
           <DialogActions>
-            <Button sizing="hug" prominence="primary" tone="neutral" magnitude="xl">
+            <Button fillType="hug" variant="primary" size="xl">
               <ButtonLabel>Confirm</ButtonLabel>
             </Button>
           </DialogActions>
@@ -151,7 +151,7 @@ export const States: Story = {
             <OverlayDescription magnitude="lg">The open pose.</OverlayDescription>
           </DialogBody>
           <DialogActions>
-            <Button sizing="hug" prominence="primary" tone="neutral" magnitude="xl">
+            <Button fillType="hug" variant="primary" size="xl">
               <ButtonLabel>Confirm</ButtonLabel>
             </Button>
           </DialogActions>
@@ -169,7 +169,7 @@ export const States: Story = {
             <OverlayDescription magnitude="lg">Pinned at opacity-0 scale-95.</OverlayDescription>
           </DialogBody>
           <DialogActions>
-            <Button sizing="hug" prominence="primary" tone="neutral" magnitude="xl">
+            <Button fillType="hug" variant="primary" size="xl">
               <ButtonLabel>Confirm</ButtonLabel>
             </Button>
           </DialogActions>
@@ -187,7 +187,7 @@ export const States: Story = {
             <OverlayDescription magnitude="lg">Pinned at opacity-0 scale-95.</OverlayDescription>
           </DialogBody>
           <DialogActions>
-            <Button sizing="hug" prominence="primary" tone="neutral" magnitude="xl">
+            <Button fillType="hug" variant="primary" size="xl">
               <ButtonLabel>Confirm</ButtonLabel>
             </Button>
           </DialogActions>

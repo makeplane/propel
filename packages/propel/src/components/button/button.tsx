@@ -7,7 +7,6 @@ import {
   ButtonLabel,
   type ButtonProps as ButtonElementProps,
 } from "../../elements/button";
-import { controlChromePair, type ControlChromePair } from "../../internal/control-chrome";
 import { Spinner } from "../../internal/spinner";
 
 export type ButtonProps = Omit<ButtonElementProps, "children"> & {
@@ -16,47 +15,68 @@ export type ButtonProps = Omit<ButtonElementProps, "children"> & {
    * `<a>`): Base UI then adds `role="button"`, tab focus, and Enter/Space activation.
    */
   nativeButton?: boolean;
-  /** Element rendered before the label (inline-start), e.g. `<Icon icon={Plus} />`. */
-  startIcon?: React.ReactNode;
-  /** Element rendered after the label (inline-end), e.g. `<Icon icon={ArrowRight} />`. */
-  endIcon?: React.ReactNode;
+  /** Icon rendered beside the label (inline-start by default), e.g. `<Icon icon={Plus} />`. */
+  icon?: React.ReactNode;
+  /**
+   * Which side of the label the icon sits on. The `loading` spinner takes the same slot.
+   *
+   * @default "start"
+   */
+  iconPosition?: "start" | "end";
   /** Visible button label. */
   label: string;
-  /** Shows a spinner, sets `aria-busy`, and makes the button non-interactive. */
+  /** Shows a spinner in the icon slot, sets `aria-busy`, and makes the button non-interactive. */
   loading?: boolean;
+  /** Hard, non-focusable native disabled state (`loading` stays focusable instead). */
+  disabled?: boolean;
+  /**
+   * The button's form behavior.
+   *
+   * @default "button"
+   */
+  type?: "submit" | "reset" | "button";
 };
 
 /**
  * The ready-made `Button`: grafts Base UI's `Button` behavior onto the styled `Button` element and
- * lays out an optional `startIcon`/`endIcon` beside the label, swapping them for a trailing
- * `loading` spinner. Content — the label, inline nodes, and `loading` state — is not a variant.
+ * lays out an optional `icon` beside the label (`iconPosition`), swapping it for the `loading`
+ * spinner in the same slot. Content — the label, icon, and `loading` state — is not a variant.
  */
-export function Button({
-  prominence,
-  tone,
-  magnitude,
-  sizing,
-  startIcon,
-  endIcon,
-  loading = false,
-  disabled,
-  label,
-  render,
-  nativeButton,
-  ...props
-}: ButtonProps) {
+export function Button(props: ButtonProps) {
+  const {
+    variant,
+    size,
+    fillType,
+    icon,
+    iconPosition = "start",
+    loading = false,
+    disabled,
+    type = "button",
+    label,
+    render,
+    nativeButton,
+    ...extraProps
+  } = props;
   // `loading` is a soft-disabled state: Base UI keeps it focusable via
   // `focusableWhenDisabled` while suppressing activation from pointer and keyboard.
   // A plain `disabled` prop remains the hard, non-focusable native disabled state.
+  const iconSlot = loading ? (
+    <Spinner>
+      <LoaderCircle />
+    </Spinner>
+  ) : (
+    icon
+  );
   return (
     <BaseButton
-      {...props}
+      {...extraProps}
+      type={type}
       nativeButton={nativeButton}
       render={
         <ButtonElement
-          {...controlChromePair({ prominence, tone } as ControlChromePair)}
-          magnitude={magnitude}
-          sizing={sizing}
+          variant={variant}
+          size={size}
+          fillType={fillType}
           // The consumer's render swaps the underlying element; the styled part stays the
           // className owner (behavior part outer, styled part as the render target, rule 1a).
           render={render}
@@ -66,15 +86,9 @@ export function Button({
       focusableWhenDisabled={loading ? true : undefined}
       aria-busy={loading ? true : undefined}
     >
-      {!loading ? startIcon : null}
+      {iconPosition === "start" ? iconSlot : null}
       <ButtonLabel>{label}</ButtonLabel>
-      {loading ? (
-        <Spinner>
-          <LoaderCircle />
-        </Spinner>
-      ) : (
-        endIcon
-      )}
+      {iconPosition === "end" ? iconSlot : null}
     </BaseButton>
   );
 }

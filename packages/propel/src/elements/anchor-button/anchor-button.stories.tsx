@@ -5,12 +5,12 @@ import { Spinner } from "../../internal/spinner";
 import {
   AnchorButton,
   AnchorButtonLabel,
-  type AnchorButtonMagnitude,
-  type AnchorButtonProminence,
+  type AnchorButtonSize,
+  type AnchorButtonVariant,
 } from "./index";
 
-const PROMINENCES: AnchorButtonProminence[] = ["primary", "secondary"];
-const MAGNITUDES: AnchorButtonMagnitude[] = ["sm", "md", "lg", "xl"];
+const VARIANTS: AnchorButtonVariant[] = ["primary", "secondary"];
+const SIZES: AnchorButtonSize[] = ["sm", "md", "lg", "xl"];
 
 // elements-tier story (rule 2b): a pure UI-configuration showcase of the styled `<button>` wearing
 // the inline-link look, rendered directly. Its interaction states are CSS (`hover:`/
@@ -24,8 +24,8 @@ const meta = {
   component: AnchorButton,
   args: {
     children: <AnchorButtonLabel>Show more</AnchorButtonLabel>,
-    prominence: "primary",
-    magnitude: "md",
+    variant: "primary",
+    size: "md",
   },
 } satisfies Meta<typeof AnchorButton>;
 
@@ -34,14 +34,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** `prominence`: `primary` is the blue link; `secondary` is the muted gray inline link. */
-export const Prominences: Story = {
-  argTypes: { prominence: { control: false }, children: { control: false } },
+/** `variant`: `primary` is the blue link; `secondary` is the muted gray inline link. */
+export const Variants: Story = {
+  argTypes: { variant: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-4">
-      {PROMINENCES.map((prominence) => (
-        <AnchorButton key={prominence} {...args} prominence={prominence}>
-          <AnchorButtonLabel>{prominence} action</AnchorButtonLabel>
+      {VARIANTS.map((variant) => (
+        <AnchorButton key={variant} {...args} variant={variant}>
+          <AnchorButtonLabel>{variant} action</AnchorButtonLabel>
         </AnchorButton>
       ))}
     </div>
@@ -49,13 +49,13 @@ export const Prominences: Story = {
 };
 
 /** Text sizes (Figma S/Base/L/XL map to sm/md/lg/xl). */
-export const Magnitudes: Story = {
-  argTypes: { magnitude: { control: false }, children: { control: false } },
+export const Sizes: Story = {
+  argTypes: { size: { control: false }, children: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-4">
-      {MAGNITUDES.map((magnitude) => (
-        <AnchorButton key={magnitude} {...args} magnitude={magnitude}>
-          <AnchorButtonLabel>{magnitude}</AnchorButtonLabel>
+      {SIZES.map((size) => (
+        <AnchorButton key={size} {...args} size={size}>
+          <AnchorButtonLabel>{size}</AnchorButtonLabel>
         </AnchorButton>
       ))}
     </div>
@@ -63,53 +63,46 @@ export const Magnitudes: Story = {
 };
 
 /**
- * Every visual state of the link chrome, per prominence, pinned statically: hover recolors the text
+ * Every visual state of the link chrome, per variant, pinned statically: hover recolors the text
  * (forced via the pseudo-states addon), focus-visible draws the accent ring (also forced), native
  * `disabled` — what Base UI's `Button` sets by default — and `aria-disabled="true"` — the
  * soft-disabled state it sets under `focusableWhenDisabled` — both keep the underline and mute to
  * the disabled text color with `cursor-not-allowed`. Busy pins the `aria-busy`/`aria-disabled` the
- * ready-made sets while `loading` (trailing spinner; label and spinner share muted weight).
+ * ready-made sets while `loading` (spinner in the icon slot — leading by default; label and spinner
+ * share muted weight).
  */
 export const States: Story = {
   parameters: {
     controls: { disable: true },
     pseudo: {
-      hover: PROMINENCES.map((prominence) => `#button-anchor-${prominence}-hover`),
-      focusVisible: PROMINENCES.map((prominence) => `#button-anchor-${prominence}-focus`),
+      hover: VARIANTS.map((variant) => `#button-anchor-${variant}-hover`),
+      focusVisible: VARIANTS.map((variant) => `#button-anchor-${variant}-focus`),
     },
   },
   render: () => (
     <div className="flex flex-col gap-4">
-      {PROMINENCES.map((prominence) => (
-        <div key={prominence} className="flex items-center gap-4">
-          <AnchorButton prominence={prominence} magnitude="md">
+      {VARIANTS.map((variant) => (
+        <div key={variant} className="flex items-center gap-4">
+          <AnchorButton variant={variant} size="md">
             <AnchorButtonLabel>Default</AnchorButtonLabel>
           </AnchorButton>
-          <AnchorButton
-            id={`button-anchor-${prominence}-hover`}
-            prominence={prominence}
-            magnitude="md"
-          >
+          <AnchorButton id={`button-anchor-${variant}-hover`} variant={variant} size="md">
             <AnchorButtonLabel>Hover</AnchorButtonLabel>
           </AnchorButton>
-          <AnchorButton
-            id={`button-anchor-${prominence}-focus`}
-            prominence={prominence}
-            magnitude="md"
-          >
+          <AnchorButton id={`button-anchor-${variant}-focus`} variant={variant} size="md">
             <AnchorButtonLabel>Focus visible</AnchorButtonLabel>
           </AnchorButton>
-          <AnchorButton prominence={prominence} magnitude="md" disabled>
+          <AnchorButton variant={variant} size="md" disabled>
             <AnchorButtonLabel>Disabled</AnchorButtonLabel>
           </AnchorButton>
-          <AnchorButton prominence={prominence} magnitude="md" aria-disabled="true">
+          <AnchorButton variant={variant} size="md" aria-disabled="true">
             <AnchorButtonLabel>Soft-disabled</AnchorButtonLabel>
           </AnchorButton>
-          <AnchorButton prominence={prominence} magnitude="md" aria-busy aria-disabled>
-            <AnchorButtonLabel>Busy</AnchorButtonLabel>
+          <AnchorButton variant={variant} size="md" aria-busy aria-disabled>
             <Spinner>
               <LoaderCircle />
             </Spinner>
+            <AnchorButtonLabel>Busy</AnchorButtonLabel>
           </AnchorButton>
         </div>
       ))}

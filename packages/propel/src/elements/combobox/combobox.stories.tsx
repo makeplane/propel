@@ -85,12 +85,12 @@ export const Default: Story = {
     <div className="flex w-72 flex-col gap-1.5 [--anchor-width:18rem] [--available-height:18rem]">
       <ComboboxInputGroup magnitude={magnitude}>
         <ComboboxInput aria-label="Region" placeholder="e.g. eu-central-1" />
-        <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Clear region">
+        <IconButton variant="ghost" size="md" aria-label="Clear region">
           <Icon>
             <X />
           </Icon>
         </IconButton>
-        <IconButton prominence="ghost" tone="neutral" magnitude="md" aria-label="Open region">
+        <IconButton variant="ghost" size="md" aria-label="Open region">
           <Icon>
             <ChevronsUpDown />
           </Icon>
@@ -158,12 +158,7 @@ export const Magnitudes: Story = {
           <ComboboxChips magnitude={magnitude} layout="wrap">
             <ComboboxChip>
               us-east-1
-              <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="sm"
-                aria-label={`Remove us-east-1 (${magnitude})`}
-              >
+              <IconButton variant="ghost" size="sm" aria-label={`Remove us-east-1 (${magnitude})`}>
                 <Icon>
                   <X />
                 </Icon>
@@ -273,12 +268,7 @@ export const Chips: Story = {
       <ComboboxChips magnitude="md" layout="wrap">
         <ComboboxChip>
           us-east-1
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="sm"
-            aria-label="Remove us-east-1"
-          >
+          <IconButton variant="ghost" size="sm" aria-label="Remove us-east-1">
             <Icon>
               <X />
             </Icon>
@@ -286,12 +276,7 @@ export const Chips: Story = {
         </ComboboxChip>
         <ComboboxChip>
           eu-central-1
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="sm"
-            aria-label="Remove eu-central-1"
-          >
+          <IconButton variant="ghost" size="sm" aria-label="Remove eu-central-1">
             <Icon>
               <X />
             </Icon>
@@ -299,13 +284,7 @@ export const Chips: Story = {
         </ComboboxChip>
         <ComboboxChip data-disabled="">
           ap-west-1
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="sm"
-            aria-label="Remove ap-west-1"
-            disabled
-          >
+          <IconButton variant="ghost" size="sm" aria-label="Remove ap-west-1" disabled>
             <Icon>
               <X />
             </Icon>
@@ -333,12 +312,7 @@ export const Collapsed: Story = {
             <Check />
           </Icon>
           Priya Nair
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="sm"
-            aria-label="Remove Priya Nair"
-          >
+          <IconButton variant="ghost" size="sm" aria-label="Remove Priya Nair">
             <Icon>
               <X />
             </Icon>
@@ -349,12 +323,7 @@ export const Collapsed: Story = {
             <Check />
           </Icon>
           Marcus Chen
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="sm"
-            aria-label="Remove Marcus Chen"
-          >
+          <IconButton variant="ghost" size="sm" aria-label="Remove Marcus Chen">
             <Icon>
               <X />
             </Icon>

@@ -5,11 +5,11 @@ export default function InAButtonDemo() {
   return (
     <Button
       label="Search"
-      prominence="secondary"
-      tone="neutral"
-      magnitude="md"
-      sizing="hug"
-      endIcon={<Shortcut keys="⌘ K" magnitude="sm" />}
+      variant="secondary"
+      size="md"
+      fillType="hug"
+      icon={<Shortcut keys="⌘ K" magnitude="sm" />}
+      iconPosition="end"
     />
   );
 }
