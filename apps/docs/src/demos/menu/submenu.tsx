@@ -25,10 +25,9 @@ export default function SubmenuDemo() {
   return (
     <Menu>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="md"
+        fillType="hug"
+        variant="secondary"
+        size="md"
         render={<MenuTrigger />}
         label="Filter by"
       />

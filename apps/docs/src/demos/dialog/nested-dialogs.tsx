@@ -19,10 +19,9 @@ export default function NestedDialogsDemo() {
   return (
     <Dialog>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<DialogTrigger />}
         label="Invite teammates"
       />
@@ -32,9 +31,8 @@ export default function NestedDialogsDemo() {
             <DialogTitle>Invite teammates</DialogTitle>
           </DialogHeading>
           <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
+            variant="ghost"
+            size="lg"
             aria-label="Close"
             render={<DialogClose />}
             icon={<Icon icon={X} />}
@@ -49,10 +47,9 @@ export default function NestedDialogsDemo() {
         <DialogActions>
           <Dialog>
             <Button
-              sizing="hug"
-              prominence="secondary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="secondary"
+              size="xl"
               render={<DialogTrigger />}
               label="Create custom role"
             />
@@ -69,10 +66,9 @@ export default function NestedDialogsDemo() {
               </DialogBody>
               <DialogActions>
                 <Button
-                  sizing="hug"
-                  prominence="secondary"
-                  tone="neutral"
-                  magnitude="xl"
+                  fillType="hug"
+                  variant="secondary"
+                  size="xl"
                   render={<DialogClose />}
                   label="Back"
                 />
@@ -80,10 +76,9 @@ export default function NestedDialogsDemo() {
             </DialogContent>
           </Dialog>
           <Button
-            sizing="hug"
-            prominence="primary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="primary"
+            size="xl"
             render={<DialogClose />}
             label="Send invites"
           />

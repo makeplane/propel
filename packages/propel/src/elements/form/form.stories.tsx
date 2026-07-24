@@ -53,10 +53,10 @@ export const Default: Story = {
           </Field>
         </FormBody>
         <FormActions layout="inline">
-          <Button type="button" sizing="hug" prominence="ghost" tone="neutral" magnitude="md">
+          <Button type="button" fillType="hug" variant="ghost" size="md">
             <ButtonLabel>Cancel</ButtonLabel>
           </Button>
-          <Button type="button" sizing="hug" prominence="primary" tone="neutral" magnitude="md">
+          <Button type="button" fillType="hug" variant="primary" size="md">
             <ButtonLabel>Submit</ButtonLabel>
           </Button>
         </FormActions>
@@ -105,7 +105,7 @@ export const MultiColumnBody: Story = {
           </Field>
         </FormBody>
         <FormActions layout="inline">
-          <Button type="button" sizing="hug" prominence="primary" tone="neutral" magnitude="md">
+          <Button type="button" fillType="hug" variant="primary" size="md">
             <ButtonLabel>Submit</ButtonLabel>
           </Button>
         </FormActions>
@@ -135,10 +135,10 @@ export const StretchActions: Story = {
           </Field>
         </FormBody>
         <FormActions layout="stretch">
-          <Button type="button" sizing="fill" prominence="primary" tone="neutral" magnitude="md">
+          <Button type="button" fillType="fill" variant="primary" size="md">
             <ButtonLabel>Create account</ButtonLabel>
           </Button>
-          <Button type="button" sizing="fill" prominence="secondary" tone="neutral" magnitude="md">
+          <Button type="button" fillType="fill" variant="secondary" size="md">
             <ButtonLabel>Cancel</ButtonLabel>
           </Button>
         </FormActions>

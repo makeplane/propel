@@ -22,9 +22,8 @@ export default function SearchDemo() {
         aria-label="Search images"
         clear={
           <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="md"
+            variant="ghost"
+            size="md"
             aria-label="Clear search"
             icon={<Icon icon={X} />}
           />

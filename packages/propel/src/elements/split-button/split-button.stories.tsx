@@ -5,10 +5,10 @@ import { expect } from "storybook/test";
 import { Icon } from "../../internal/icon";
 import { Button, ButtonLabel } from "../button/index";
 import { IconButton } from "../icon-button/index";
-import { SplitButton, type SplitButtonMagnitude, type SplitButtonProminence } from "./index";
+import { SplitButton, type SplitButtonSize, type SplitButtonVariant } from "./index";
 
-const MAGNITUDES: SplitButtonMagnitude[] = ["sm", "md", "lg", "xl"];
-const PROMINENCES: SplitButtonProminence[] = ["primary", "secondary"];
+const SIZES: SplitButtonSize[] = ["sm", "md", "lg", "xl"];
+const VARIANTS: SplitButtonVariant[] = ["primary", "secondary"];
 
 // elements-tier story (rule 2b): a pure UI-configuration showcase. The styled `SplitButton` frame
 // renders DIRECTLY around the styled `Button` and `IconButton` elements — no Base UI grafts — with
@@ -18,10 +18,10 @@ const meta = {
   title: "Elements/SplitButton",
   component: SplitButton,
   argTypes: {
-    prominence: { control: "radio", options: ["primary", "secondary"] },
-    magnitude: { control: "radio", options: ["sm", "md", "lg", "xl"] },
+    variant: { control: "radio", options: ["primary", "secondary"] },
+    size: { control: "radio", options: ["sm", "md", "lg", "xl"] },
   },
-  args: { prominence: "primary", magnitude: "lg" },
+  args: { variant: "primary", size: "lg" },
 } satisfies Meta<typeof SplitButton>;
 
 export default meta;
@@ -34,14 +34,14 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {
   render: () => (
-    <SplitButton prominence="primary" magnitude="lg">
-      <Button prominence="primary" tone="neutral" magnitude="lg" sizing="hug">
+    <SplitButton variant="primary" size="lg">
+      <Button variant="primary" size="lg" fillType="hug">
         <Icon>
           <Plus />
         </Icon>
         <ButtonLabel>Button</ButtonLabel>
       </Button>
-      <IconButton prominence="primary" tone="neutral" magnitude="lg" aria-label="More options">
+      <IconButton variant="primary" size="lg" aria-label="More options">
         <Icon>
           <ChevronDown />
         </Icon>
@@ -51,32 +51,27 @@ export const Default: Story = {
 };
 
 /**
- * Every prominence (Figma ships primary and secondary only — no tertiary/ghost, no danger tone).
+ * Every variant (Figma ships primary and secondary only — no tertiary/ghost, no danger palette).
  * Primary lays segments out as separate pills with a gap; secondary connects them — the leading
  * segment's own end border IS the divider.
  */
-export const Prominences: Story = {
+export const Variants: Story = {
   render: () => (
     <div className="flex items-center gap-6">
-      {PROMINENCES.map((prominence) => (
+      {VARIANTS.map((variant) => (
         <SplitButton
-          key={prominence}
-          prominence={prominence}
-          magnitude="lg"
-          aria-label={`${prominence} split button`}
+          key={variant}
+          variant={variant}
+          size="lg"
+          aria-label={`${variant} split button`}
         >
-          <Button prominence={prominence} tone="neutral" magnitude="lg" sizing="hug">
+          <Button variant={variant} size="lg" fillType="hug">
             <Icon>
               <Plus />
             </Icon>
             <ButtonLabel>Button</ButtonLabel>
           </Button>
-          <IconButton
-            prominence={prominence}
-            tone="neutral"
-            magnitude="lg"
-            aria-label={`More options (${prominence})`}
-          >
+          <IconButton variant={variant} size="lg" aria-label={`More options (${variant})`}>
             <Icon>
               <ChevronDown />
             </Icon>
@@ -88,13 +83,13 @@ export const Prominences: Story = {
 };
 
 /**
- * CSS canary (rule 2b): asserts the frame's prominence-specific child selectors compiled — primary
+ * CSS canary (rule 2b): asserts the frame's variant-specific child selectors compiled — primary
  * keeps outer `rounded-md` but soft-squares the facing edges to 2px; secondary flattens the shared
  * edge (`rounded-e-none` / `rounded-s-none`) and collapses the trailing start border. Tagged out of
  * the sidebar/docs/manifest while still running under the default `test` tag.
  */
-export const ProminencesCanary: Story = {
-  ...Prominences,
+export const VariantsCanary: Story = {
+  ...Variants,
   tags: ["!dev", "!autodocs", "!manifest"],
   play: async ({ canvas }) => {
     const [primaryMain, secondaryMain] = canvas.getAllByRole("button", { name: "Button" });
@@ -116,24 +111,19 @@ export const ProminencesCanary: Story = {
   },
 };
 
-/** The four size steps — both segments of a split button always share one `magnitude`. */
-export const Magnitudes: Story = {
+/** The four size steps — both segments of a split button always share one `size`. */
+export const Sizes: Story = {
   render: () => (
     <div className="flex flex-col items-start gap-6">
-      {MAGNITUDES.map((magnitude) => (
-        <SplitButton key={magnitude} prominence="primary" magnitude={magnitude}>
-          <Button prominence="primary" tone="neutral" magnitude={magnitude} sizing="hug">
+      {SIZES.map((size) => (
+        <SplitButton key={size} variant="primary" size={size}>
+          <Button variant="primary" size={size} fillType="hug">
             <Icon>
               <Plus />
             </Icon>
             <ButtonLabel>Button</ButtonLabel>
           </Button>
-          <IconButton
-            prominence="primary"
-            tone="neutral"
-            magnitude={magnitude}
-            aria-label={`More options (${magnitude})`}
-          >
+          <IconButton variant="primary" size={size} aria-label={`More options (${size})`}>
             <Icon>
               <ChevronDown />
             </Icon>
@@ -150,20 +140,14 @@ export const Magnitudes: Story = {
  */
 export const Disabled: Story = {
   render: () => (
-    <SplitButton prominence="primary" magnitude="lg">
-      <Button prominence="primary" tone="neutral" magnitude="lg" sizing="hug" disabled>
+    <SplitButton variant="primary" size="lg">
+      <Button variant="primary" size="lg" fillType="hug" disabled>
         <Icon>
           <Plus />
         </Icon>
         <ButtonLabel>Button</ButtonLabel>
       </Button>
-      <IconButton
-        prominence="primary"
-        tone="neutral"
-        magnitude="lg"
-        aria-label="More options"
-        disabled
-      >
+      <IconButton variant="primary" size="lg" aria-label="More options" disabled>
         <Icon>
           <ChevronDown />
         </Icon>

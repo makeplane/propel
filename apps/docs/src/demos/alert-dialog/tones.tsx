@@ -18,10 +18,9 @@ export default function TonesDemo() {
     <div className="flex flex-wrap items-center gap-3">
       <AlertDialog>
         <Button
-          sizing="hug"
-          prominence="primary"
-          tone="danger"
-          magnitude="xl"
+          fillType="hug"
+          variant="danger"
+          size="xl"
           render={<AlertDialogTrigger />}
           label="Delete project"
         />
@@ -40,18 +39,16 @@ export default function TonesDemo() {
           </AlertDialogHeader>
           <AlertDialogActions>
             <Button
-              sizing="hug"
-              prominence="secondary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="secondary"
+              size="xl"
               render={<AlertDialogClose />}
               label="Cancel"
             />
             <Button
-              sizing="hug"
-              prominence="primary"
-              tone="danger"
-              magnitude="xl"
+              fillType="hug"
+              variant="danger"
+              size="xl"
               render={<AlertDialogClose />}
               label="Delete"
             />
@@ -61,10 +58,9 @@ export default function TonesDemo() {
 
       <AlertDialog>
         <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="secondary"
+          size="xl"
           render={<AlertDialogTrigger />}
           label="Archive project"
         />
@@ -83,18 +79,16 @@ export default function TonesDemo() {
           </AlertDialogHeader>
           <AlertDialogActions>
             <Button
-              sizing="hug"
-              prominence="secondary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="secondary"
+              size="xl"
               render={<AlertDialogClose />}
               label="Cancel"
             />
             <Button
-              sizing="hug"
-              prominence="primary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="primary"
+              size="xl"
               render={<AlertDialogClose />}
               label="Archive"
             />
@@ -104,10 +98,9 @@ export default function TonesDemo() {
 
       <AlertDialog>
         <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="secondary"
+          size="xl"
           render={<AlertDialogTrigger />}
           label="Transfer ownership"
         />
@@ -126,18 +119,16 @@ export default function TonesDemo() {
           </AlertDialogHeader>
           <AlertDialogActions>
             <Button
-              sizing="hug"
-              prominence="secondary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="secondary"
+              size="xl"
               render={<AlertDialogClose />}
               label="Cancel"
             />
             <Button
-              sizing="hug"
-              prominence="primary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="primary"
+              size="xl"
               render={<AlertDialogClose />}
               label="Transfer"
             />
@@ -147,10 +138,9 @@ export default function TonesDemo() {
 
       <AlertDialog>
         <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="secondary"
+          size="xl"
           render={<AlertDialogTrigger />}
           label="Restore project"
         />
@@ -168,18 +158,16 @@ export default function TonesDemo() {
           </AlertDialogHeader>
           <AlertDialogActions>
             <Button
-              sizing="hug"
-              prominence="secondary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="secondary"
+              size="xl"
               render={<AlertDialogClose />}
               label="Cancel"
             />
             <Button
-              sizing="hug"
-              prominence="primary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="primary"
+              size="xl"
               render={<AlertDialogClose />}
               label="Restore"
             />

@@ -14,7 +14,7 @@ const propelTsconfig = resolve(propelRoot, "tsconfig.json");
 
 // Mirrors packages/propel/.storybook/main.ts's `reactDocgenTypescriptOptions` exactly — that
 // exact config is already proven to resolve propel's `StrictVariantProps`-derived union types
-// (e.g. the tone/magnitude axes) into real literal unions in Storybook's own Docs prop table.
+// (e.g. the variant/size axes) into real literal unions in Storybook's own Docs prop table.
 const parser = withCustomConfig(propelTsconfig, {
   shouldExtractLiteralValuesFromEnum: true,
   shouldRemoveUndefinedFromOptional: true,

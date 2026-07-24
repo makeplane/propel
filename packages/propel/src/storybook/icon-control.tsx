@@ -44,9 +44,9 @@ export const STORY_ICONS: Record<string, React.ReactNode> = {
 };
 
 /**
- * Reusable Storybook argType for any icon-shaped prop (`icon`, `startIcon`, `endIcon`, `trailing`).
- * Icon props are `ReactNode`, which Storybook can't render as a control, so a story spreads this
- * into its `argTypes` to turn the prop into a searchable select of `STORY_ICONS`:
+ * Reusable Storybook argType for any icon-shaped prop (`icon`, `trailing`). Icon props are
+ * `ReactNode`, which Storybook can't render as a control, so a story spreads this into its
+ * `argTypes` to turn the prop into a searchable select of `STORY_ICONS`:
  *
  * `argTypes: { icon: iconControl }`
  *

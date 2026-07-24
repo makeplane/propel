@@ -19,10 +19,9 @@ export default function BasicDemo() {
   return (
     <Dialog>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<DialogTrigger />}
         label="Delete project"
       />
@@ -32,9 +31,8 @@ export default function BasicDemo() {
             <DialogTitle>Delete project</DialogTitle>
           </DialogHeading>
           <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
+            variant="ghost"
+            size="lg"
             aria-label="Close"
             render={<DialogClose />}
             icon={<Icon icon={X} />}
@@ -48,18 +46,16 @@ export default function BasicDemo() {
         </DialogBody>
         <DialogActions>
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<DialogClose />}
             label="Cancel"
           />
           <Button
-            sizing="hug"
-            prominence="primary"
-            tone="danger"
-            magnitude="xl"
+            fillType="hug"
+            variant="danger"
+            size="xl"
             render={<DialogClose />}
             label="Delete"
           />

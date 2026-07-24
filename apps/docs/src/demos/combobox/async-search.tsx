@@ -62,18 +62,16 @@ export default function AsyncSearchDemo() {
           placeholder="e.g. Priya"
           clear={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="md"
+              variant="ghost"
+              size="md"
               aria-label="Clear reviewer"
               icon={<Icon icon={X} />}
             />
           }
           trigger={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="md"
+              variant="ghost"
+              size="md"
               aria-label="Open reviewer"
               icon={<Icon icon={ChevronsUpDown} />}
             />

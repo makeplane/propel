@@ -32,18 +32,16 @@ export default function ControlledDemo() {
     <div className="flex flex-col gap-3">
       <div className="flex flex-wrap items-center gap-2">
         <Button
-          prominence="secondary"
-          tone="neutral"
-          magnitude="sm"
-          sizing="hug"
+          variant="secondary"
+          size="sm"
+          fillType="hug"
           label="Expand all"
           onClick={() => setValue(ITEMS.map((item) => item.value))}
         />
         <Button
-          prominence="secondary"
-          tone="neutral"
-          magnitude="sm"
-          sizing="hug"
+          variant="secondary"
+          size="sm"
+          fillType="hug"
           label="Collapse all"
           onClick={() => setValue([])}
         />

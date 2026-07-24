@@ -16,10 +16,9 @@ export default function NonDismissableDemo() {
   return (
     <Dialog disablePointerDismissal>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<DialogTrigger />}
         label="Open locked dialog"
       />
@@ -36,10 +35,9 @@ export default function NonDismissableDemo() {
         </DialogBody>
         <DialogActions>
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<DialogClose />}
             label="Discard"
           />

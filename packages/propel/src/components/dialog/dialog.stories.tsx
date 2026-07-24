@@ -63,10 +63,9 @@ export const Default: Story = {
   render: () => (
     <Dialog>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<DialogTrigger />}
         label="Delete project"
       />
@@ -76,9 +75,8 @@ export const Default: Story = {
             <DialogTitle>Delete project</DialogTitle>
           </DialogHeading>
           <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
+            variant="ghost"
+            size="lg"
             aria-label="Close"
             render={<DialogClose />}
             icon={<Icon icon={X} />}
@@ -92,18 +90,16 @@ export const Default: Story = {
         </DialogBody>
         <DialogActions>
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<DialogClose />}
             label="Cancel"
           />
           <Button
-            sizing="hug"
-            prominence="primary"
-            tone="danger"
-            magnitude="xl"
+            fillType="hug"
+            variant="danger"
+            size="xl"
             render={<DialogClose />}
             label="Delete"
           />
@@ -146,10 +142,9 @@ export const EscapeCloses: Story = {
   render: () => (
     <Dialog>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<DialogTrigger />}
         label="Open settings"
       />
@@ -185,10 +180,9 @@ export const NonDismissable: Story = {
   render: () => (
     <Dialog disablePointerDismissal>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<DialogTrigger />}
         label="Open locked dialog"
       />
@@ -205,10 +199,9 @@ export const NonDismissable: Story = {
         </DialogBody>
         <DialogActions>
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<DialogClose />}
             label="Discard"
           />
@@ -263,10 +256,9 @@ export const ScrollableBody: Story = {
   render: () => (
     <Dialog>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<DialogTrigger />}
         label="What's new"
       />
@@ -276,9 +268,8 @@ export const ScrollableBody: Story = {
             <DialogTitle>What&apos;s new</DialogTitle>
           </DialogHeading>
           <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
+            variant="ghost"
+            size="lg"
             aria-label="Close"
             render={<DialogClose />}
             icon={<Icon icon={X} />}
@@ -300,10 +291,9 @@ export const ScrollableBody: Story = {
         </DialogBody>
         <DialogActions>
           <Button
-            sizing="hug"
-            prominence="primary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="primary"
+            size="xl"
             render={<DialogClose />}
             label="Got it"
           />
@@ -354,10 +344,9 @@ export const OpenFromMenu: Story = {
       <>
         <Menu>
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<MenuTrigger />}
             label="Project options"
           />
@@ -380,9 +369,8 @@ export const OpenFromMenu: Story = {
                 <DialogTitle>Delete project</DialogTitle>
               </DialogHeading>
               <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
+                variant="ghost"
+                size="lg"
                 aria-label="Close"
                 render={<DialogClose />}
                 icon={<Icon icon={X} />}
@@ -396,18 +384,16 @@ export const OpenFromMenu: Story = {
             </DialogBody>
             <DialogActions>
               <Button
-                sizing="hug"
-                prominence="secondary"
-                tone="neutral"
-                magnitude="xl"
+                fillType="hug"
+                variant="secondary"
+                size="xl"
                 render={<DialogClose />}
                 label="Cancel"
               />
               <Button
-                sizing="hug"
-                prominence="primary"
-                tone="danger"
-                magnitude="xl"
+                fillType="hug"
+                variant="danger"
+                size="xl"
                 render={<DialogClose />}
                 label="Delete"
               />
@@ -457,10 +443,9 @@ export const NestedDialogs: Story = {
   render: () => (
     <Dialog>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<DialogTrigger />}
         label="Invite teammates"
       />
@@ -470,9 +455,8 @@ export const NestedDialogs: Story = {
             <DialogTitle>Invite teammates</DialogTitle>
           </DialogHeading>
           <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="lg"
+            variant="ghost"
+            size="lg"
             aria-label="Close"
             render={<DialogClose />}
             icon={<Icon icon={X} />}
@@ -487,10 +471,9 @@ export const NestedDialogs: Story = {
         <DialogActions>
           <Dialog>
             <Button
-              sizing="hug"
-              prominence="secondary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="secondary"
+              size="xl"
               render={<DialogTrigger />}
               label="Create custom role"
             />
@@ -507,10 +490,9 @@ export const NestedDialogs: Story = {
               </DialogBody>
               <DialogActions>
                 <Button
-                  sizing="hug"
-                  prominence="secondary"
-                  tone="neutral"
-                  magnitude="xl"
+                  fillType="hug"
+                  variant="secondary"
+                  size="xl"
                   render={<DialogClose />}
                   label="Back"
                 />
@@ -518,10 +500,9 @@ export const NestedDialogs: Story = {
             </DialogContent>
           </Dialog>
           <Button
-            sizing="hug"
-            prominence="primary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="primary"
+            size="xl"
             render={<DialogClose />}
             label="Send invites"
           />
@@ -590,10 +571,9 @@ export const CloseConfirmation: Story = {
           }}
         >
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<DialogTrigger />}
             label="Add comment"
           />
@@ -603,9 +583,8 @@ export const CloseConfirmation: Story = {
                 <DialogTitle>Add comment</DialogTitle>
               </DialogHeading>
               <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
+                variant="ghost"
+                size="lg"
                 aria-label="Close"
                 render={<DialogClose />}
                 icon={<Icon icon={X} />}
@@ -623,10 +602,9 @@ export const CloseConfirmation: Story = {
             </DialogBody>
             <DialogActions>
               <Button
-                sizing="hug"
-                prominence="primary"
-                tone="neutral"
-                magnitude="xl"
+                fillType="hug"
+                variant="primary"
+                size="xl"
                 onClick={() => {
                   setDialogOpen(false);
                   setComment("");
@@ -651,18 +629,16 @@ export const CloseConfirmation: Story = {
             </AlertDialogHeader>
             <AlertDialogActions>
               <Button
-                sizing="hug"
-                prominence="secondary"
-                tone="neutral"
-                magnitude="xl"
+                fillType="hug"
+                variant="secondary"
+                size="xl"
                 render={<AlertDialogClose />}
                 label="Go back"
               />
               <Button
-                sizing="hug"
-                prominence="primary"
-                tone="danger"
-                magnitude="xl"
+                fillType="hug"
+                variant="danger"
+                size="xl"
                 onClick={() => {
                   setConfirmOpen(false);
                   setDialogOpen(false);
@@ -741,18 +717,16 @@ export const DetachedTriggers: Story = {
   render: () => (
     <div className="flex items-center gap-2">
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<DialogTrigger handle={shortcutsDialog} />}
         label="Keyboard shortcuts"
       />
       <Button
-        sizing="hug"
-        prominence="ghost"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="ghost"
+        size="xl"
         render={<DialogTrigger handle={shortcutsDialog} />}
         label="Help"
       />
@@ -763,9 +737,8 @@ export const DetachedTriggers: Story = {
               <DialogTitle>Keyboard shortcuts</DialogTitle>
             </DialogHeading>
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="lg"
+              variant="ghost"
+              size="lg"
               aria-label="Close"
               render={<DialogClose />}
               icon={<Icon icon={X} />}
@@ -779,10 +752,9 @@ export const DetachedTriggers: Story = {
           </DialogBody>
           <DialogActions>
             <Button
-              sizing="hug"
-              prominence="primary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="primary"
+              size="xl"
               render={<DialogClose />}
               label="Done"
             />

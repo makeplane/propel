@@ -61,22 +61,12 @@ export const Default: Story = {
           aria-label="Container image"
           placeholder="e.g. docker.io/library/node:latest"
         />
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="md"
-          aria-label="Clear container image"
-        >
+        <IconButton variant="ghost" size="md" aria-label="Clear container image">
           <Icon>
             <X />
           </Icon>
         </IconButton>
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="md"
-          aria-label="Open container image"
-        >
+        <IconButton variant="ghost" size="md" aria-label="Open container image">
           <Icon>
             <ChevronsUpDown />
           </Icon>

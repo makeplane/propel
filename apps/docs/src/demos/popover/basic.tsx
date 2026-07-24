@@ -10,10 +10,9 @@ export default function BasicDemo() {
   return (
     <Popover>
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<PopoverTrigger />}
         label="Options"
       />

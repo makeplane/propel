@@ -24,18 +24,16 @@ export default function DetachedTriggersDemo() {
   return (
     <div className="flex items-center gap-2">
       <Button
-        sizing="hug"
-        prominence="secondary"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="secondary"
+        size="xl"
         render={<DialogTrigger handle={shortcutsDialog} />}
         label="Keyboard shortcuts"
       />
       <Button
-        sizing="hug"
-        prominence="ghost"
-        tone="neutral"
-        magnitude="xl"
+        fillType="hug"
+        variant="ghost"
+        size="xl"
         render={<DialogTrigger handle={shortcutsDialog} />}
         label="Help"
       />
@@ -46,9 +44,8 @@ export default function DetachedTriggersDemo() {
               <DialogTitle>Keyboard shortcuts</DialogTitle>
             </DialogHeading>
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude="lg"
+              variant="ghost"
+              size="lg"
               aria-label="Close"
               render={<DialogClose />}
               icon={<Icon icon={X} />}
@@ -62,10 +59,9 @@ export default function DetachedTriggersDemo() {
           </DialogBody>
           <DialogActions>
             <Button
-              sizing="hug"
-              prominence="primary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="primary"
+              size="xl"
               render={<DialogClose />}
               label="Done"
             />

@@ -23,13 +23,13 @@ Propel defines no default variants. Every styling axis is a required prop, spell
 call site:
 
 ```tsx
-<Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg" label="Save" />
+<Button fillType="hug" variant="primary" size="lg" label="Save" />
 ```
 
-The axis vocabulary is shared across the library — `prominence` for visual weight, `tone` for
-color intent, `magnitude` for size, `sizing` for hug-versus-fill — so knowing one component means
-knowing all of them. What a component renders is never implicit, and impossible combinations
-aren't representable.
+The axis vocabulary is shared across the library — `variant` for visual form, `tone` for
+color intent, `size` for how big it is, `fillType` for hug-versus-fill — so knowing one
+component means knowing all of them. What a component renders is never implicit, and impossible
+combinations aren't representable.
 
 ## Subpath imports
 

@@ -7,20 +7,13 @@ export default function ControlledDemo() {
   return (
     <div className="flex flex-wrap items-center gap-3">
       <Tooltip label="Copies the invite link" open={open} onOpenChange={setOpen}>
-        <Button
-          label="Copy link"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="md"
-          sizing="hug"
-        />
+        <Button label="Copy link" variant="secondary" size="md" fillType="hug" />
       </Tooltip>
       <Button
         label="Show hint"
-        prominence="primary"
-        tone="neutral"
-        magnitude="md"
-        sizing="hug"
+        variant="primary"
+        size="md"
+        fillType="hug"
         onClick={() => setOpen(true)}
       />
     </div>

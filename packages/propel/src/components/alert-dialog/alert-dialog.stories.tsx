@@ -61,10 +61,9 @@ export const Default: Story = {
   render: () => (
     <AlertDialog>
       <Button
-        sizing="hug"
-        prominence="primary"
-        tone="danger"
-        magnitude="xl"
+        fillType="hug"
+        variant="danger"
+        size="xl"
         render={<AlertDialogTrigger />}
         label="Delete project"
       />
@@ -83,18 +82,16 @@ export const Default: Story = {
         </AlertDialogHeader>
         <AlertDialogActions>
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<AlertDialogClose />}
             label="Cancel"
           />
           <Button
-            sizing="hug"
-            prominence="primary"
-            tone="danger"
-            magnitude="xl"
+            fillType="hug"
+            variant="danger"
+            size="xl"
             render={<AlertDialogClose />}
             label="Delete"
           />
@@ -144,10 +141,9 @@ export const OpenFromMenu: Story = {
       <>
         <Menu>
           <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<MenuTrigger />}
             label="Project options"
           />
@@ -173,18 +169,16 @@ export const OpenFromMenu: Story = {
             </AlertDialogHeader>
             <AlertDialogActions>
               <Button
-                sizing="hug"
-                prominence="secondary"
-                tone="neutral"
-                magnitude="xl"
+                fillType="hug"
+                variant="secondary"
+                size="xl"
                 render={<AlertDialogClose />}
                 label="Cancel"
               />
               <Button
-                sizing="hug"
-                prominence="primary"
-                tone="danger"
-                magnitude="xl"
+                fillType="hug"
+                variant="danger"
+                size="xl"
                 render={<AlertDialogClose />}
                 label="Delete"
               />
@@ -248,10 +242,9 @@ export const CloseConfirmation: Story = {
         }}
       >
         <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="secondary"
+          size="xl"
           render={<DialogTrigger />}
           label="Write a comment"
         />
@@ -277,10 +270,9 @@ export const CloseConfirmation: Story = {
           </DialogBody>
           <DialogActions>
             <Button
-              sizing="hug"
-              prominence="secondary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="secondary"
+              size="xl"
               render={<DialogClose />}
               label="Close"
             />
@@ -300,18 +292,16 @@ export const CloseConfirmation: Story = {
               </AlertDialogHeader>
               <AlertDialogActions>
                 <Button
-                  sizing="hug"
-                  prominence="secondary"
-                  tone="neutral"
-                  magnitude="xl"
+                  fillType="hug"
+                  variant="secondary"
+                  size="xl"
                   render={<AlertDialogClose />}
                   label="Keep writing"
                 />
                 <Button
-                  sizing="hug"
-                  prominence="primary"
-                  tone="danger"
-                  magnitude="xl"
+                  fillType="hug"
+                  variant="danger"
+                  size="xl"
                   onClick={() => {
                     setConfirmOpen(false);
                     setComposerOpen(false);
@@ -396,10 +386,9 @@ export const MultipleTriggers: Story = {
         {["Mobile app", "Design system"].map((project) => (
           <Button
             key={project}
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<AlertDialogTrigger handle={deleteProjectHandle} payload={project} />}
             label={`Delete ${project}`}
           />
@@ -424,18 +413,16 @@ export const MultipleTriggers: Story = {
             </AlertDialogHeader>
             <AlertDialogActions>
               <Button
-                sizing="hug"
-                prominence="secondary"
-                tone="neutral"
-                magnitude="xl"
+                fillType="hug"
+                variant="secondary"
+                size="xl"
                 render={<AlertDialogClose />}
                 label="Cancel"
               />
               <Button
-                sizing="hug"
-                prominence="primary"
-                tone="danger"
-                magnitude="xl"
+                fillType="hug"
+                variant="danger"
+                size="xl"
                 render={<AlertDialogClose />}
                 label="Delete"
               />

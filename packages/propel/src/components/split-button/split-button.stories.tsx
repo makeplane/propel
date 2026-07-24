@@ -6,8 +6,8 @@ import { Icon } from "../icon";
 import { Menu, MenuContent, MenuItem } from "../menu";
 import { SplitButton } from "./index";
 
-const MAGNITUDES = ["sm", "md", "lg", "xl"] as const;
-const PROMINENCES = ["primary", "secondary"] as const;
+const SIZES = ["sm", "md", "lg", "xl"] as const;
+const VARIANTS = ["primary", "secondary"] as const;
 
 // Components-tier story: the ready-made `SplitButton` — a main action `Button` plus a chevron
 // `IconButton` grafted as the surrounding `Menu`'s trigger, connected by the styled frame. The
@@ -18,10 +18,10 @@ const meta = {
   component: SplitButton,
   // Docgen loses the literal unions through the useRender/`Omit` chain — pin radios like IconButton.
   argTypes: {
-    prominence: { control: "radio", options: ["primary", "secondary"] },
-    magnitude: { control: "radio", options: ["sm", "md", "lg", "xl"] },
+    variant: { control: "radio", options: ["primary", "secondary"] },
+    size: { control: "radio", options: ["sm", "md", "lg", "xl"] },
   },
-  args: { prominence: "primary", magnitude: "lg" },
+  args: { variant: "primary", size: "lg" },
 } satisfies Meta<typeof SplitButton>;
 
 export default meta;
@@ -38,7 +38,7 @@ export const Default: Story = {
   args: { label: "Create work item", onClick: fn() },
   render: (args) => (
     <Menu>
-      <SplitButton {...args} startIcon={<Icon icon={Plus} />} />
+      <SplitButton {...args} icon={<Icon icon={Plus} />} />
       <MenuContent align="end">
         <MenuItem label="Create from template" />
         <MenuItem label="Import work items" />
@@ -79,21 +79,21 @@ export const DefaultInteraction: Story = {
 };
 
 /**
- * Every prominence (primary and secondary only — there is no tertiary/ghost, and no tone axis).
+ * Every variant (primary and secondary only — there is no tertiary/ghost or danger split button).
  * Primary lays segments out as separate pills; secondary connects them with a divider.
  */
-export const Prominences: Story = {
-  argTypes: { prominence: { control: false } },
+export const Variants: Story = {
+  argTypes: { variant: { control: false } },
   args: { label: "Button" },
   render: (args) => (
     <div className="flex items-center gap-6">
-      {PROMINENCES.map((prominence) => (
-        <Menu key={prominence}>
+      {VARIANTS.map((variant) => (
+        <Menu key={variant}>
           <SplitButton
             {...args}
-            prominence={prominence}
-            startIcon={<Icon icon={Plus} />}
-            menuLabel={`More options (${prominence})`}
+            variant={variant}
+            icon={<Icon icon={Plus} />}
+            menuLabel={`More options (${variant})`}
           />
           <MenuContent align="end">
             <MenuItem label="Secondary action" />
@@ -104,19 +104,19 @@ export const Prominences: Story = {
   ),
 };
 
-/** Every size step — the frame passes one shared `magnitude` to both segments. */
-export const Magnitudes: Story = {
-  argTypes: { magnitude: { control: false } },
+/** Every size step — the frame passes one shared `size` to both segments. */
+export const Sizes: Story = {
+  argTypes: { size: { control: false } },
   args: { label: "Button" },
   render: (args) => (
     <div className="flex flex-col items-start gap-6">
-      {MAGNITUDES.map((magnitude) => (
-        <Menu key={magnitude}>
+      {SIZES.map((size) => (
+        <Menu key={size}>
           <SplitButton
             {...args}
-            magnitude={magnitude}
-            startIcon={<Icon icon={Plus} />}
-            menuLabel={`More options (${magnitude})`}
+            size={size}
+            icon={<Icon icon={Plus} />}
+            menuLabel={`More options (${size})`}
           />
           <MenuContent align="end">
             <MenuItem label="Secondary action" />
@@ -132,7 +132,7 @@ export const Disabled: Story = {
   args: { label: "Create work item", disabled: true },
   render: (args) => (
     <Menu>
-      <SplitButton {...args} startIcon={<Icon icon={Plus} />} />
+      <SplitButton {...args} icon={<Icon icon={Plus} />} />
       <MenuContent align="end">
         <MenuItem label="Create from template" />
       </MenuContent>
@@ -167,7 +167,7 @@ export const Loading: Story = {
   args: { label: "Create work item", loading: true },
   render: (args) => (
     <Menu>
-      <SplitButton {...args} startIcon={<Icon icon={Plus} />} />
+      <SplitButton {...args} icon={<Icon icon={Plus} />} />
       <MenuContent align="end">
         <MenuItem label="Create from template" />
       </MenuContent>

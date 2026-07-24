@@ -6,7 +6,6 @@ import {
   IconButton as IconButtonElement,
   type IconButtonProps as IconButtonElementProps,
 } from "../../elements/icon-button";
-import { controlChromePair, type ControlChromePair } from "../../internal/control-chrome";
 import { Spinner } from "../../internal/spinner";
 
 export type IconButtonProps = Omit<IconButtonElementProps, "children"> & {
@@ -22,15 +21,23 @@ export type IconButtonProps = Omit<IconButtonElementProps, "children"> & {
   icon: React.ReactNode;
   /** Required: icon-only buttons have no visible text, so they must be labeled. */
   "aria-label": string;
-  /** Shows a spinner, sets `aria-busy`, and makes the button non-interactive. */
+  /** Shows a spinner in place of the icon, sets `aria-busy`, and makes the button non-interactive. */
   loading?: boolean;
+  /** Hard, non-focusable native disabled state (`loading` stays focusable instead). */
+  disabled?: boolean;
+  /**
+   * The button's form behavior.
+   *
+   * @default "button"
+   */
+  type?: "submit" | "reset" | "button";
 };
 
 /**
  * The ready-made icon-only button: grafts Base UI's `Button` behavior onto the square `IconButton`
- * box, filling it with the provided icon element and swapping in a spinner while `loading`. It
- * There is no separate link-variant family; render as an `<a>` via `nativeButton={false}` +
- * `render={<a href=… />}` when needed. An `aria-label` is REQUIRED for the accessible name.
+ * box, filling it with the provided icon element and swapping in a spinner while `loading`. It can
+ * render as `<a>` via `nativeButton={false}` + `render={<a href=… />}` when needed. An `aria-label`
+ * is REQUIRED for the accessible name.
  */
 export function IconButton({
   render,
@@ -38,9 +45,9 @@ export function IconButton({
   icon,
   loading = false,
   disabled,
-  prominence,
-  tone,
-  magnitude,
+  type = "button",
+  variant,
+  size,
   ...props
 }: IconButtonProps) {
   // `loading` mirrors Button: Base UI suppresses activation while keeping the button focusable
@@ -48,11 +55,12 @@ export function IconButton({
   return (
     <BaseButton
       {...props}
+      type={type}
       nativeButton={nativeButton}
       render={
         <IconButtonElement
-          {...controlChromePair({ prominence, tone } as ControlChromePair)}
-          magnitude={magnitude}
+          variant={variant}
+          size={size}
           // The consumer's render swaps the underlying element; the styled part stays the
           // className owner (behavior part outer, styled part as the render target, rule 1a).
           render={render}

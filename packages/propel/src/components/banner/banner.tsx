@@ -91,9 +91,8 @@ export function Banner({
           {actions}
           {onDismiss ? (
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude={placement === "page" ? "md" : "sm"}
+              variant="ghost"
+              size={placement === "page" ? "md" : "sm"}
               aria-label="Dismiss"
               onClick={onDismiss}
               icon={<Icon icon={X} />}

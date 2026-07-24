@@ -9,8 +9,8 @@ import { type StrictVariantProps } from "../../internal/variant-props";
 export const anchorButtonVariants = linkChromeVariants;
 
 type AnchorButtonVariantConfig = VariantProps<typeof anchorButtonVariants>;
-export type AnchorButtonProminence = NonNullable<AnchorButtonVariantConfig["prominence"]>;
-export type AnchorButtonMagnitude = NonNullable<AnchorButtonVariantConfig["magnitude"]>;
+export type AnchorButtonVariant = NonNullable<AnchorButtonVariantConfig["variant"]>;
+export type AnchorButtonSize = NonNullable<AnchorButtonVariantConfig["size"]>;
 
 export type AnchorButtonVariantProps = StrictVariantProps<typeof anchorButtonVariants>;
 

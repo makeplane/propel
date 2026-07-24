@@ -13,27 +13,9 @@ export default function BasicDemo() {
       description="Reload to get the latest features and fixes for your projects."
       actions={
         <>
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="sm"
-            label="Learn more"
-          />
-          <Button
-            sizing="hug"
-            prominence="primary"
-            tone="neutral"
-            magnitude="sm"
-            label="Update now"
-          />
-          <IconButton
-            prominence="ghost"
-            tone="neutral"
-            magnitude="md"
-            aria-label="Dismiss"
-            icon={<Icon icon={X} />}
-          />
+          <Button fillType="hug" variant="secondary" size="sm" label="Learn more" />
+          <Button fillType="hug" variant="primary" size="sm" label="Update now" />
+          <IconButton variant="ghost" size="md" aria-label="Dismiss" icon={<Icon icon={X} />} />
         </>
       }
     />

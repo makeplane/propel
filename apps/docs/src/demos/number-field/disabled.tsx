@@ -13,22 +13,10 @@ export default function DisabledDemo() {
       max={64}
       disabled
       decrement={
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="xl"
-          aria-label="Decrease"
-          icon={<Icon icon={Minus} />}
-        />
+        <IconButton variant="ghost" size="xl" aria-label="Decrease" icon={<Icon icon={Minus} />} />
       }
       increment={
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="xl"
-          aria-label="Increase"
-          icon={<Icon icon={Plus} />}
-        />
+        <IconButton variant="ghost" size="xl" aria-label="Increase" icon={<Icon icon={Plus} />} />
       }
     />
   );

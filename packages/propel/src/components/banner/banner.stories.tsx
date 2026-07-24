@@ -85,27 +85,9 @@ export const WithActions: Story = {
     onDismiss: fn(),
     actions: (
       <>
-        <Button
-          sizing="hug"
-          prominence="ghost"
-          tone="neutral"
-          magnitude="sm"
-          label="Remind me later"
-        />
-        <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="sm"
-          label="Learn more"
-        />
-        <Button
-          sizing="hug"
-          prominence="primary"
-          tone="neutral"
-          magnitude="sm"
-          label="Update now"
-        />
+        <Button fillType="hug" variant="ghost" size="sm" label="Remind me later" />
+        <Button fillType="hug" variant="secondary" size="sm" label="Learn more" />
+        <Button fillType="hug" variant="primary" size="sm" label="Update now" />
       </>
     ),
   },

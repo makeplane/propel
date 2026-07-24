@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 
 import { type SplitButtonVariantProps, splitButtonVariants } from "./variants";
 
-export type { SplitButtonMagnitude, SplitButtonProminence } from "./variants";
+export type { SplitButtonSize, SplitButtonVariant } from "./variants";
 
 export type SplitButtonProps = Omit<useRender.ComponentProps<"div">, "className" | "style"> &
   SplitButtonVariantProps;
@@ -16,9 +16,9 @@ export type SplitButtonProps = Omit<useRender.ComponentProps<"div">, "className"
  * own control chrome. Base-UI-agnostic (there is no Base UI split-button primitive); the
  * `components` ready-made composes `Button` + `MenuTrigger`-grafted `IconButton` inside it.
  */
-export function SplitButton({ prominence, magnitude, render, ...props }: SplitButtonProps) {
+export function SplitButton({ variant, size, render, ...props }: SplitButtonProps) {
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: splitButtonVariants({ prominence, magnitude }),
+    className: splitButtonVariants({ variant, size }),
   };
   return useRender({ defaultTagName: "div", render, props: mergeProps(defaultProps, props) });
 }

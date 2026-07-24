@@ -5,18 +5,25 @@ import { expect, fireEvent, fn, userEvent as baseUserEvent, waitFor } from "stor
 
 import { iconControl } from "../../storybook/icon-control";
 import { Icon } from "../icon";
-import { Button, ButtonLabel, type ButtonMagnitude, type ButtonProminence } from "./index";
+import { Button, ButtonLabel, type ButtonSize, type ButtonVariant } from "./index";
 
-const PROMINENCES: ButtonProminence[] = ["primary", "secondary", "tertiary", "ghost"];
-const MAGNITUDES: ButtonMagnitude[] = ["sm", "md", "lg", "xl"];
+const VARIANTS: ButtonVariant[] = [
+  "primary",
+  "secondary",
+  "tertiary",
+  "ghost",
+  "danger",
+  "danger-outline",
+];
+const SIZES: ButtonSize[] = ["sm", "md", "lg", "xl"];
 
 const meta = {
   title: "Components/Button",
   component: Button,
   // Anatomy parts the ready-made Button composes (UI tier).
   subcomponents: { ButtonLabel },
-  // Icon picker controls for the two icon slots.
-  argTypes: { startIcon: iconControl, endIcon: iconControl },
+  // Icon picker control for the icon slot.
+  argTypes: { icon: iconControl },
   parameters: {
     design: {
       type: "figma",
@@ -25,10 +32,9 @@ const meta = {
   },
   args: {
     label: "Button",
-    prominence: "primary",
-    tone: "neutral",
-    magnitude: "md",
-    sizing: "hug",
+    variant: "primary",
+    size: "md",
+    fillType: "hug",
   },
 } satisfies Meta<typeof Button>;
 
@@ -37,86 +43,70 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** Every prominence (Figma "Type") side by side at the default magnitude. */
-export const Prominences: Story = {
-  // Iterates `prominence` and labels each button, so disable just those two controls;
+/** Every variant — the four Figma Types plus the two danger palettes — at the default size. */
+export const Variants: Story = {
+  // Iterates `variant` and labels each button, so disable just those two controls;
   // the rest stay live and update every button at once.
-  argTypes: { prominence: { control: false }, label: { control: false } },
+  argTypes: { variant: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      {PROMINENCES.map((prominence) => (
-        <Button
-          key={prominence}
-          {...args}
-          prominence={prominence}
-          tone="neutral"
-          label={prominence}
-        />
+      {VARIANTS.map((variant) => (
+        <Button key={variant} {...args} variant={variant} label={variant} />
       ))}
-    </div>
-  ),
-};
-
-/**
- * Tone selects the palette: `neutral` (default) or `danger` (Figma "Error"). Danger is shown as a
- * solid fill and a bordered outline.
- */
-export const Tones: Story = {
-  parameters: { controls: { disable: true } },
-  render: (args) => (
-    <div className="flex items-center gap-3">
-      <Button {...args} tone="neutral" prominence="primary" label="Neutral" />
-      <Button {...args} tone="danger" prominence="primary" label="Danger fill" />
-      <Button {...args} tone="danger" prominence="secondary" label="Danger outline" />
     </div>
   ),
 };
 
 /** All sizes (Figma S/Base/L/XL map to sm/md/lg/xl). */
-export const Magnitudes: Story = {
-  // Iterates `magnitude` and labels each button with the magnitude name, so disable
+export const Sizes: Story = {
+  // Iterates `size` and labels each button with the size name, so disable
   // just those two controls; the rest stay live and update every button at once.
-  argTypes: { magnitude: { control: false }, label: { control: false } },
+  argTypes: { size: { control: false }, label: { control: false } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      {MAGNITUDES.map((magnitude) => (
-        <Button key={magnitude} {...args} magnitude={magnitude} label={magnitude} />
+      {SIZES.map((size) => (
+        <Button key={size} {...args} size={size} label={size} />
       ))}
     </div>
   ),
 };
 
-/** Inline-start and inline-end nodes sit beside the label and are decorative. */
+/** The icon sits inline-start by default; `iconPosition="end"` moves it after the label. */
 export const WithIcons: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <Button {...args} startIcon={<Icon icon={Plus} />} label="New" />
+      <Button {...args} icon={<Icon icon={Plus} />} label="New" />
       <Button
         {...args}
-        prominence="secondary"
-        endIcon={<Icon icon={Settings} />}
+        variant="secondary"
+        icon={<Icon icon={Settings} />}
+        iconPosition="end"
         label="Settings"
       />
-      <Button
-        {...args}
-        prominence="tertiary"
-        startIcon={<Icon icon={Search} />}
-        endIcon={<Icon icon={Plus} />}
-        label="Search"
-      />
+      <Button {...args} variant="tertiary" icon={<Icon icon={Search} />} label="Search" />
     </div>
   ),
 };
 
-/** The loading state shows a trailing spinner, sets `aria-busy`, and blocks interaction. */
+/**
+ * The loading state swaps the icon slot for a spinner (at `iconPosition`, inline-start by default),
+ * sets `aria-busy`, and blocks interaction.
+ */
 export const Loading: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex items-center gap-3">
       <Button {...args} loading label="Saving" />
-      <Button {...args} prominence="secondary" loading label="Loading" />
-      <Button {...args} prominence="tertiary" loading label="Please wait" />
+      <Button
+        {...args}
+        variant="secondary"
+        loading
+        icon={<Icon icon={Plus} />}
+        iconPosition="end"
+        label="Loading"
+      />
+      <Button {...args} variant="tertiary" loading label="Please wait" />
     </div>
   ),
 };
@@ -146,13 +136,13 @@ export const AsyncSubmit: Story = {
   },
 };
 
-/** `sizing="fill"` fills the container (e.g. a form row or mobile CTA). */
+/** `fillType="fill"` fills the container (e.g. a form row or mobile CTA). */
 export const Stretch: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
     <div className="flex w-64 flex-col gap-2">
-      <Button {...args} sizing="fill" label="Full-width" />
-      <Button {...args} prominence="secondary" sizing="fill" label="Full-width outline" />
+      <Button {...args} fillType="fill" label="Full-width" />
+      <Button {...args} variant="secondary" fillType="fill" label="Full-width outline" />
     </div>
   ),
 };
@@ -307,10 +297,9 @@ export const AsyncSubmitKeepsFocus: Story = {
  */
 export const CustomTag: Story = {
   args: {
-    prominence: "secondary",
-    tone: "neutral",
-    magnitude: "md",
-    sizing: "hug",
+    variant: "secondary",
+    size: "md",
+    fillType: "hug",
   },
   render: (args) => (
     <Button {...args} nativeButton={false} render={<div />} label="Add to favorites" />
@@ -358,10 +347,9 @@ export const CustomTagInteraction: Story = {
  */
 export const AsLink: Story = {
   args: {
-    prominence: "secondary",
-    tone: "neutral",
-    magnitude: "md",
-    sizing: "hug",
+    variant: "secondary",
+    size: "md",
+    fillType: "hug",
   },
   render: (args) => (
     <Button {...args} nativeButton={false} render={<a href="#reports" />} label="Open reports" />

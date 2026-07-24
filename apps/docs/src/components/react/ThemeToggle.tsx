@@ -44,9 +44,8 @@ export default function ThemeToggle() {
 
   return (
     <IconButton
-      prominence="ghost"
-      tone="neutral"
-      magnitude="lg"
+      variant="ghost"
+      size="lg"
       aria-label={`Theme: ${mode ?? "light"}. Switch to ${next}`}
       icon={<Icon icon={glyph} />}
       onClick={() => {

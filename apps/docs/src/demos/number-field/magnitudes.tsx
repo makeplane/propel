@@ -18,18 +18,16 @@ export default function MagnitudesDemo() {
           max={64}
           decrement={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude={magnitude}
+              variant="ghost"
+              size={magnitude}
               aria-label={`Decrease (${magnitude})`}
               icon={<Icon icon={Minus} />}
             />
           }
           increment={
             <IconButton
-              prominence="ghost"
-              tone="neutral"
-              magnitude={magnitude}
+              variant="ghost"
+              size={magnitude}
               aria-label={`Increase (${magnitude})`}
               icon={<Icon icon={Plus} />}
             />

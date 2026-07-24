@@ -2,35 +2,31 @@ import { Icon } from "@makeplane/propel/components/icon";
 import { IconButton } from "@makeplane/propel/components/icon-button";
 import { Plus } from "lucide-react";
 
-export default function ProminencesDemo() {
+export default function SizesDemo() {
   return (
     <div className="flex flex-wrap items-center gap-3">
       <IconButton
-        prominence="primary"
-        tone="neutral"
-        magnitude="md"
-        aria-label="Add member"
+        variant="secondary"
+        size="sm"
+        aria-label="Add label"
         icon={<Icon icon={Plus} />}
       />
       <IconButton
-        prominence="secondary"
-        tone="neutral"
-        magnitude="md"
-        aria-label="Add member"
+        variant="secondary"
+        size="md"
+        aria-label="Add label"
         icon={<Icon icon={Plus} />}
       />
       <IconButton
-        prominence="tertiary"
-        tone="neutral"
-        magnitude="md"
-        aria-label="Add member"
+        variant="secondary"
+        size="lg"
+        aria-label="Add label"
         icon={<Icon icon={Plus} />}
       />
       <IconButton
-        prominence="ghost"
-        tone="neutral"
-        magnitude="md"
-        aria-label="Add member"
+        variant="secondary"
+        size="xl"
+        aria-label="Add label"
         icon={<Icon icon={Plus} />}
       />
     </div>

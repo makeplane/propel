@@ -11,13 +11,7 @@ export default function DismissibleDemo() {
       title="Invite your teammates to this project"
       description="They will get access to every cycle and work item once they join."
       actions={
-        <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="md"
-          aria-label="Dismiss"
-          icon={<Icon icon={X} />}
-        />
+        <IconButton variant="ghost" size="md" aria-label="Dismiss" icon={<Icon icon={X} />} />
       }
     />
   );

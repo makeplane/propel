@@ -20,28 +20,12 @@ export default function DetachedTriggersDemo() {
       <DrawerTrigger
         handle={detailsDrawer}
         payload="WEB-101"
-        render={
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            label="WEB-101"
-          />
-        }
+        render={<Button fillType="hug" variant="secondary" size="xl" label="WEB-101" />}
       />
       <DrawerTrigger
         handle={detailsDrawer}
         payload="WEB-202"
-        render={
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            label="WEB-202"
-          />
-        }
+        render={<Button fillType="hug" variant="secondary" size="xl" label="WEB-202" />}
       />
       <Drawer handle={detailsDrawer}>
         {({ payload }) => (

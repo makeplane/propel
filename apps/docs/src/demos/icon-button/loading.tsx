@@ -6,25 +6,22 @@ export default function LoadingDemo() {
   return (
     <div className="flex flex-wrap items-center gap-3">
       <IconButton
-        prominence="primary"
-        tone="neutral"
-        magnitude="md"
+        variant="primary"
+        size="md"
         aria-label="Syncing workspace"
         loading
         icon={<Icon icon={RefreshCw} />}
       />
       <IconButton
-        prominence="secondary"
-        tone="neutral"
-        magnitude="md"
+        variant="secondary"
+        size="md"
         aria-label="Syncing workspace"
         loading
         icon={<Icon icon={RefreshCw} />}
       />
       <IconButton
-        prominence="tertiary"
-        tone="neutral"
-        magnitude="md"
+        variant="tertiary"
+        size="md"
         aria-label="Syncing workspace"
         loading
         icon={<Icon icon={RefreshCw} />}

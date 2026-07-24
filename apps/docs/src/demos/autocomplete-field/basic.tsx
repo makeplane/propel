@@ -17,18 +17,16 @@ export default function BasicDemo() {
       empty="No images found"
       clear={
         <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="md"
+          variant="ghost"
+          size="md"
           aria-label="Clear container image"
           icon={<Icon icon={X} />}
         />
       }
       trigger={
         <IconButton
-          prominence="ghost"
-          tone="neutral"
-          magnitude="md"
+          variant="ghost"
+          size="md"
           aria-label="Open container image"
           icon={<Icon icon={ChevronsUpDown} />}
         />

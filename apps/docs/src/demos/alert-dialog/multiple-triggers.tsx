@@ -25,10 +25,9 @@ export default function MultipleTriggersDemo() {
         {["Mobile app", "Design system"].map((project) => (
           <Button
             key={project}
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
+            fillType="hug"
+            variant="secondary"
+            size="xl"
             render={<AlertDialogTrigger handle={deleteProjectHandle} payload={project} />}
             label={`Delete ${project}`}
           />
@@ -53,18 +52,16 @@ export default function MultipleTriggersDemo() {
             </AlertDialogHeader>
             <AlertDialogActions>
               <Button
-                sizing="hug"
-                prominence="secondary"
-                tone="neutral"
-                magnitude="xl"
+                fillType="hug"
+                variant="secondary"
+                size="xl"
                 render={<AlertDialogClose />}
                 label="Cancel"
               />
               <Button
-                sizing="hug"
-                prominence="primary"
-                tone="danger"
-                magnitude="xl"
+                fillType="hug"
+                variant="danger"
+                size="xl"
                 render={<AlertDialogClose />}
                 label="Delete"
               />

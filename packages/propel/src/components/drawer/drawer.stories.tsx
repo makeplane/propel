@@ -64,15 +64,7 @@ export const Default: Story = {
   render: () => (
     <Drawer>
       <DrawerTrigger
-        render={
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            label="Open details"
-          />
-        }
+        render={<Button fillType="hug" variant="secondary" size="xl" label="Open details" />}
       />
       <DrawerPanel side="end">
         <DrawerHeader>
@@ -82,30 +74,16 @@ export const Default: Story = {
           </DrawerHeaderContent>
           <DrawerClose
             render={
-              <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
-                aria-label="Close"
-                icon={<Icon icon={X} />}
-              />
+              <IconButton variant="ghost" size="lg" aria-label="Close" icon={<Icon icon={X} />} />
             }
           />
         </DrawerHeader>
         <DrawerBody>Panel body content goes here.</DrawerBody>
         <DrawerFooter>
           <DrawerClose
-            render={
-              <Button
-                sizing="hug"
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
-                label="Cancel"
-              />
-            }
+            render={<Button fillType="hug" variant="ghost" size="lg" label="Cancel" />}
           />
-          <Button sizing="hug" prominence="primary" tone="neutral" magnitude="lg" label="Save" />
+          <Button fillType="hug" variant="primary" size="lg" label="Save" />
         </DrawerFooter>
       </DrawerPanel>
     </Drawer>
@@ -141,15 +119,7 @@ export const StartSide: Story = {
   render: () => (
     <Drawer>
       <DrawerTrigger
-        render={
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            label="Open navigation"
-          />
-        }
+        render={<Button fillType="hug" variant="secondary" size="xl" label="Open navigation" />}
       />
       <DrawerPanel side="start">
         <DrawerHeader>
@@ -158,13 +128,7 @@ export const StartSide: Story = {
           </DrawerHeaderContent>
           <DrawerClose
             render={
-              <IconButton
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
-                aria-label="Close"
-                icon={<Icon icon={X} />}
-              />
+              <IconButton variant="ghost" size="lg" aria-label="Close" icon={<Icon icon={X} />} />
             }
           />
         </DrawerHeader>
@@ -207,15 +171,7 @@ export const EscapeCloses: Story = {
   render: () => (
     <Drawer>
       <DrawerTrigger
-        render={
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            label="Open filters"
-          />
-        }
+        render={<Button fillType="hug" variant="secondary" size="xl" label="Open filters" />}
       />
       <DrawerPanel side="end">
         <DrawerHeader>
@@ -244,15 +200,7 @@ export const Nested: Story = {
   render: () => (
     <Drawer>
       <DrawerTrigger
-        render={
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            label="Open settings"
-          />
-        }
+        render={<Button fillType="hug" variant="secondary" size="xl" label="Open settings" />}
       />
       <DrawerPanel side="end">
         <DrawerHeader>
@@ -265,13 +213,7 @@ export const Nested: Story = {
           <Drawer>
             <DrawerTrigger
               render={
-                <Button
-                  sizing="hug"
-                  prominence="secondary"
-                  tone="neutral"
-                  magnitude="lg"
-                  label="Advanced options"
-                />
+                <Button fillType="hug" variant="secondary" size="lg" label="Advanced options" />
               }
             />
             <DrawerPanel side="end">
@@ -332,28 +274,12 @@ export const DetachedTriggers: Story = {
       <DrawerTrigger
         handle={detailsDrawer}
         payload="WEB-101"
-        render={
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            label="WEB-101"
-          />
-        }
+        render={<Button fillType="hug" variant="secondary" size="xl" label="WEB-101" />}
       />
       <DrawerTrigger
         handle={detailsDrawer}
         payload="WEB-202"
-        render={
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            label="WEB-202"
-          />
-        }
+        render={<Button fillType="hug" variant="secondary" size="xl" label="WEB-202" />}
       />
       <Drawer handle={detailsDrawer}>
         {({ payload }) => (
@@ -418,15 +344,7 @@ export const CloseConfirmation: Story = {
           }}
         >
           <DrawerTrigger
-            render={
-              <Button
-                sizing="hug"
-                prominence="secondary"
-                tone="neutral"
-                magnitude="xl"
-                label="Add comment"
-              />
-            }
+            render={<Button fillType="hug" variant="secondary" size="xl" label="Add comment" />}
           />
           <DrawerPanel side="end">
             <DrawerHeader>
@@ -437,9 +355,8 @@ export const CloseConfirmation: Story = {
               <DrawerClose
                 render={
                   <IconButton
-                    prominence="ghost"
-                    tone="neutral"
-                    magnitude="lg"
+                    variant="ghost"
+                    size="lg"
                     aria-label="Close"
                     icon={<Icon icon={X} />}
                   />
@@ -471,18 +388,16 @@ export const CloseConfirmation: Story = {
             </AlertDialogHeader>
             <AlertDialogActions>
               <Button
-                sizing="hug"
-                prominence="ghost"
-                tone="neutral"
-                magnitude="lg"
+                fillType="hug"
+                variant="ghost"
+                size="lg"
                 onClick={() => setConfirmOpen(false)}
                 label="Keep editing"
               />
               <Button
-                sizing="hug"
-                prominence="primary"
-                tone="danger"
-                magnitude="lg"
+                fillType="hug"
+                variant="danger"
+                size="lg"
                 onClick={() => {
                   setConfirmOpen(false);
                   setOpen(false);

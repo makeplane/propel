@@ -4,9 +4,14 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
  * The control chrome shared by the button-look surfaces built on Figma's button tokens — `Button`
  * and `IconButton` (both default to `<button>`; either can render as `<a>` via `render` +
  * `nativeButton={false}`). It owns the shared behavior base (focus ring, disabled affordance,
- * shape, transition) and the neutral/danger fill + border + text palette per `prominence`. Each
+ * shape, transition) and the neutral/danger fill + border + text palette per `variant`. Each
  * surface's geometry (label padding vs square box) is its own local concern. Compose this with a
  * surface's local cva via `composeVariants`.
+ *
+ * `variant` folds Figma's Type (primary·secondary·tertiary·ghost) and the Error tone into one axis:
+ * `danger` is the filled danger button (Figma primary Error), `danger-outline` the bordered one
+ * (Figma secondary Error). Figma defines no danger palette for tertiary/ghost, so those pairs don't
+ * exist here.
  *
  * Disabled / loading (Figma): filled primary (and filled danger) swap to the solid `layer-disabled`
  * pill; secondary / outline keep their surface and only mute border+text; tertiary / ghost drop the
@@ -25,25 +30,16 @@ export const controlChromeVariants = cva(
   ),
   {
     variants: {
-      prominence: { primary: "", secondary: "shadow-raised-100", tertiary: "", ghost: "" },
-      tone: { neutral: "", danger: "" },
-    },
-    compoundVariants: [
-      {
-        prominence: "primary",
-        tone: "neutral",
-        className: cx(
+      variant: {
+        primary: cx(
           "bg-accent-primary text-inverse",
           "hover:bg-accent-primary-hover active:bg-accent-primary-active",
           "disabled:bg-layer-disabled disabled:text-on-color-disabled",
           "aria-disabled:bg-layer-disabled aria-disabled:text-on-color-disabled",
           "aria-busy:bg-layer-disabled aria-busy:text-on-color-disabled",
         ),
-      },
-      {
-        prominence: "secondary",
-        tone: "neutral",
-        className: cx(
+        secondary: cx(
+          "shadow-raised-100",
           "border border-strong bg-layer-2 text-secondary",
           "hover:bg-layer-2-hover active:bg-layer-2-active",
           // Figma: outlined pill stays but the fill drops to transparent when disabled (a leftover
@@ -54,11 +50,7 @@ export const controlChromeVariants = cva(
           "aria-disabled:border-subtle aria-disabled:bg-transparent aria-disabled:text-disabled aria-disabled:shadow-none",
           "aria-busy:border-subtle aria-busy:bg-transparent aria-busy:text-disabled aria-busy:shadow-none",
         ),
-      },
-      {
-        prominence: "tertiary",
-        tone: "neutral",
-        className: cx(
+        tertiary: cx(
           "bg-layer-3 text-secondary",
           "hover:bg-layer-3-hover active:bg-layer-3-active",
           // Figma: disabled/loading drop the fill entirely — transparent + muted text.
@@ -66,11 +58,7 @@ export const controlChromeVariants = cva(
           "aria-disabled:bg-transparent aria-disabled:text-disabled",
           "aria-busy:bg-transparent aria-busy:text-disabled",
         ),
-      },
-      {
-        prominence: "ghost",
-        tone: "neutral",
-        className: cx(
+        ghost: cx(
           // Figma: transparent rest; hover/active use the transparent-alpha overlays so the fill
           // stays surface-agnostic (black alpha on light, white alpha on dark) instead of a solid
           // grey that only reads correctly on a light canvas.
@@ -80,22 +68,15 @@ export const controlChromeVariants = cva(
           "aria-disabled:bg-transparent aria-disabled:text-disabled",
           "aria-busy:bg-transparent aria-busy:text-disabled",
         ),
-      },
-      {
-        prominence: "primary",
-        tone: "danger",
-        className: cx(
+        danger: cx(
           "bg-danger-primary text-on-color",
           "hover:bg-danger-primary-hover active:bg-danger-primary-active",
           "disabled:bg-layer-disabled disabled:text-on-color-disabled",
           "aria-disabled:bg-layer-disabled aria-disabled:text-on-color-disabled",
           "aria-busy:bg-layer-disabled aria-busy:text-on-color-disabled",
         ),
-      },
-      {
-        prominence: "secondary",
-        tone: "danger",
-        className: cx(
+        "danger-outline": cx(
+          "shadow-raised-100",
           // Figma outline error: transparent rest, soft fill on hover/active; border stays danger.
           "border border-danger-strong bg-transparent text-danger-secondary",
           "hover:bg-danger-subtle active:bg-danger-subtle-active",
@@ -105,28 +86,15 @@ export const controlChromeVariants = cva(
           "aria-busy:border-subtle aria-busy:bg-transparent aria-busy:text-disabled aria-busy:shadow-none",
         ),
       },
-    ],
+    },
   },
 );
 
-/**
- * Valid prominence × tone pairs for control chrome. Figma only defines danger on primary (fill) and
- * secondary (outline); tertiary/ghost have no danger palette — those combos would render unstyled
- * base chrome, so they are unrepresentable here.
- */
-export type ControlChromePair =
-  | { prominence: "primary" | "secondary"; tone: "neutral" | "danger" }
-  | { prominence: "tertiary" | "ghost"; tone: "neutral" };
-
-/**
- * Re-pair `prominence`/`tone` after destructuring a `ControlChromePair` union (TS widens the fields
- * independently). Pass the result into elements that take `ControlChromePair`.
- */
-export function controlChromePair(props: ControlChromePair): ControlChromePair {
-  if (props.prominence === "tertiary" || props.prominence === "ghost") {
-    return { prominence: props.prominence, tone: "neutral" };
-  }
-  return { prominence: props.prominence, tone: props.tone };
-}
-
 export type ControlChromeVariantProps = VariantProps<typeof controlChromeVariants>;
+
+/**
+ * The closed control-chrome variant set. Figma only defines danger on primary (fill) and secondary
+ * (outline); tertiary/ghost have no danger palette — those combos would render unstyled base
+ * chrome, so they are unrepresentable here.
+ */
+export type ControlChromeVariant = NonNullable<ControlChromeVariantProps["variant"]>;

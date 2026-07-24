@@ -14,15 +14,7 @@ export default function NestedDemo() {
   return (
     <Drawer>
       <DrawerTrigger
-        render={
-          <Button
-            sizing="hug"
-            prominence="secondary"
-            tone="neutral"
-            magnitude="xl"
-            label="Open settings"
-          />
-        }
+        render={<Button fillType="hug" variant="secondary" size="xl" label="Open settings" />}
       />
       <DrawerPanel side="end">
         <DrawerHeader>
@@ -35,13 +27,7 @@ export default function NestedDemo() {
           <Drawer>
             <DrawerTrigger
               render={
-                <Button
-                  sizing="hug"
-                  prominence="secondary"
-                  tone="neutral"
-                  magnitude="lg"
-                  label="Advanced options"
-                />
+                <Button fillType="hug" variant="secondary" size="lg" label="Advanced options" />
               }
             />
             <DrawerPanel side="end">

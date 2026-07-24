@@ -78,10 +78,10 @@ export const Default: Story = {
             </AlertDialogIntro>
           </AlertDialogHeader>
           <AlertDialogActions>
-            <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
+            <Button fillType="hug" variant="secondary" size="xl">
               Cancel
             </Button>
-            <Button sizing="hug" prominence="primary" tone="danger" magnitude="xl">
+            <Button fillType="hug" variant="danger" size="xl">
               Delete
             </Button>
           </AlertDialogActions>
@@ -149,10 +149,10 @@ export const States: Story = {
             </AlertDialogIntro>
           </AlertDialogHeader>
           <AlertDialogActions>
-            <Button sizing="hug" prominence="secondary" tone="neutral" magnitude="xl">
+            <Button fillType="hug" variant="secondary" size="xl">
               Cancel
             </Button>
-            <Button sizing="hug" prominence="primary" tone="danger" magnitude="xl">
+            <Button fillType="hug" variant="danger" size="xl">
               Delete
             </Button>
           </AlertDialogActions>

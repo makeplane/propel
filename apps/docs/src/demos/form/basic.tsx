@@ -99,14 +99,7 @@ export default function BasicDemo() {
         />
       </FormBody>
       <FormActions layout="inline">
-        <Button
-          sizing="hug"
-          type="submit"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="md"
-          label="Submit"
-        />
+        <Button fillType="hug" type="submit" variant="secondary" size="md" label="Submit" />
       </FormActions>
     </Form>
   );

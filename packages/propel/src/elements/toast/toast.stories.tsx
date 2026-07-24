@@ -88,7 +88,7 @@ export const Default: Story = {
             </ToastActions>
           </ToastContent>
           <ToastCloseGroup>
-            <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Dismiss">
+            <IconButton variant="ghost" size="sm" aria-label="Dismiss">
               <Icon>
                 <X />
               </Icon>
@@ -106,7 +106,7 @@ export const Default: Story = {
             </ToastTextGroup>
           </ToastContent>
           <ToastCloseGroup>
-            <IconButton prominence="ghost" tone="neutral" magnitude="sm" aria-label="Dismiss">
+            <IconButton variant="ghost" size="sm" aria-label="Dismiss">
               <Icon>
                 <X />
               </Icon>

@@ -20,10 +20,9 @@ export default function OpenFromMenuDemo() {
     <>
       <Menu>
         <Button
-          sizing="hug"
-          prominence="secondary"
-          tone="neutral"
-          magnitude="xl"
+          fillType="hug"
+          variant="secondary"
+          size="xl"
           render={<MenuTrigger />}
           label="Project options"
         />
@@ -49,18 +48,16 @@ export default function OpenFromMenuDemo() {
           </AlertDialogHeader>
           <AlertDialogActions>
             <Button
-              sizing="hug"
-              prominence="secondary"
-              tone="neutral"
-              magnitude="xl"
+              fillType="hug"
+              variant="secondary"
+              size="xl"
               render={<AlertDialogClose />}
               label="Cancel"
             />
             <Button
-              sizing="hug"
-              prominence="primary"
-              tone="danger"
-              magnitude="xl"
+              fillType="hug"
+              variant="danger"
+              size="xl"
               render={<AlertDialogClose />}
               label="Delete"
             />

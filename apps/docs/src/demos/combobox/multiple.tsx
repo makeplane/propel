@@ -28,9 +28,8 @@ export default function MultipleDemo() {
               label={region}
               remove={
                 <IconButton
-                  prominence="ghost"
-                  tone="neutral"
-                  magnitude="sm"
+                  variant="ghost"
+                  size="sm"
                   aria-label={`Remove ${region}`}
                   icon={<Icon icon={X} />}
                 />
