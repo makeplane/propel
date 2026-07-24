@@ -14,9 +14,7 @@ export default function CollapsedCrumbsDemo() {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Plane
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -30,13 +28,11 @@ export default function CollapsedCrumbsDemo() {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Components
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Components" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+          <BreadcrumbPage label="Breadcrumb" />
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

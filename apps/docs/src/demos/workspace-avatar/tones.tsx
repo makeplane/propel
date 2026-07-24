@@ -1,16 +1,19 @@
-import { AVATAR_TONES, WorkspaceAvatar } from "@makeplane/propel/components/workspace-avatar";
+import { WorkspaceAvatar } from "@makeplane/propel/components/workspace-avatar";
+
+const WORKSPACES = [
+  { alt: "Plane", fallback: "P" },
+  { alt: "Acme Corp", fallback: "A" },
+  { alt: "Globex", fallback: "G" },
+  { alt: "Initech", fallback: "I" },
+  { alt: "Umbrella", fallback: "U" },
+  { alt: "Hooli", fallback: "H" },
+];
 
 export default function TonesDemo() {
   return (
     <div className="flex flex-wrap items-center gap-3">
-      {AVATAR_TONES.map((tone) => (
-        <WorkspaceAvatar
-          key={tone}
-          magnitude="lg"
-          tone={tone}
-          alt="Plane workspace"
-          fallback={tone[0]?.toUpperCase()}
-        />
+      {WORKSPACES.map(({ alt, fallback }) => (
+        <WorkspaceAvatar key={alt} magnitude="lg" alt={alt} fallback={fallback} />
       ))}
     </div>
   );

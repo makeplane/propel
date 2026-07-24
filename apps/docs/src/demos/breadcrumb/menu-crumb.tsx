@@ -16,9 +16,7 @@ export default function MenuCrumbDemo() {
     <Breadcrumb aria-label="Breadcrumb">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()}>
-            Plane
-          </BreadcrumbLink>
+          <BreadcrumbLink href="#" onClick={(event) => event.preventDefault()} label="Plane" />
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -35,7 +33,7 @@ export default function MenuCrumbDemo() {
           </Menu>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <BreadcrumbPage>Components</BreadcrumbPage>
+          <BreadcrumbPage label="Components" />
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
