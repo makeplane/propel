@@ -24,8 +24,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# AI agent worktrees
+# Claude Code — local settings & session artifacts (committed skills live in .claude/skills/)
 .claude/worktrees/
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
 
 # Storybook build output
 storybook-static
